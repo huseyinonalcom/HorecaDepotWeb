@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import CartDrawer from "../cart/cartDrawer";
 import Follow from "../common/follow";
+import { useRouter } from "next/router";
 
 type Props = {
   children: React.ReactNode;
@@ -16,6 +17,8 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   const { t, lang } = useTranslation("common");
+  const router = useRouter();
+  console.log(router.pathname);
   return (
     <>
       <ClientProvider>
@@ -29,7 +32,7 @@ const Layout = ({ children }: Props) => {
               <Link
                 target="_blank"
                 className="fixed bottom-10 right-10 z-40 print:hidden"
-                href={`https://api.whatsapp.com/send?phone=32499738373&text=${window.location.href}`}
+                href={`https://api.whatsapp.com/send?phone=32499738373&text=https://horecadepot.meubelweb.com${router.asPath}`}
               >
                 <Image
                   alt="WhatsApp"
