@@ -29,7 +29,7 @@ const Layout = ({ children }: Props) => {
               <Link
                 target="_blank"
                 className="fixed bottom-10 right-10 z-40 print:hidden"
-                href=`https://api.whatsapp.com/send?phone=32499738373&text=${window.location.href}`
+                href={`https://api.whatsapp.com/send?phone=32499738373&text=${window.location.href}`}
               >
                 <Image
                   alt="WhatsApp"
