@@ -1,0 +1,21 @@
+import React from "react";
+import Head from "next/head";
+import useTranslation from "next-translate/useTranslation";
+import Layout from "../components/public/layout";
+import ClientLogin from "../components/client/clientLogin";
+
+export default function Login() {
+  const { t, lang } = useTranslation("common");
+
+  return (
+    <Layout>
+      <Head>
+        <title>Login</title>
+        <meta name="language" content={lang} />
+      </Head>
+      <div className="flex justify-center items-center h-[50vh]">
+        <ClientLogin />
+      </div>
+    </Layout>
+  );
+}

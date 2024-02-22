@@ -1,0 +1,87 @@
+import useTranslation from "next-translate/useTranslation";
+import { Product } from "../../api/interfaces/product";
+import { Heart, Minus, Plus, ShoppingCart } from "react-feather";
+import { CartContext } from "../../api/providers/cartProvider";
+import { useContext, useEffect, useState } from "react";
+import { CartProduct } from "../../api/interfaces/cartProduct";
+import { WishlistContext } from "../../api/providers/wishlistProvider";
+import { WishlistProduct } from "../../api/interfaces/wishlistProduct";
+
+type Props = {
+  product: Product;
+  amount: number;
+  onChange: (amount: number) => void;
+};
+
+function convertToCartProduct(product: Product, amount: number): CartProduct {
+  return {
+    ...product,
+    amount: amount,
+  };
+}
+
+function convertToWishlistProduct(product: Product): WishlistProduct {
+  return {
+    ...product,
+  };
+}
+
+const ProductButtons = ({ product, amount, onChange }: Props) => {
+  const { addToCart } = useContext(CartContext);
+  const { addToWishlist } = useContext(WishlistContext);
+  const { t, lang } = useTranslation("common");
+  const [cartAmount, setCartAmount] = useState(amount);
+
+  useEffect(() => {
+    if (cartAmount > 0) {
+      onChange(cartAmount);
+    } else {
+      setCartAmount(1);
+    }
+  }, [cartAmount, onChange]);
+
+  return (
+    <div className="flex flex-row">
+      <div className="flex flex-col justify-center items-center duration-300 bg-white border-black p-2 mr-2 border-2">
+        <Plus onClick={() => setCartAmount((a) => ++a)} />
+        <input
+          type="text"
+          value={cartAmount}
+          onChange={(e) => {
+            if (Number(e.target.value) > 0) {
+              setCartAmount(Number(e.target.value));
+            } else setCartAmount(1);
+          }}
+          className="text-center bg-transparent w-[36px]"
+          min="1"
+        />
+        <Minus onClick={() => setCartAmount((a) => a - 1)} />
+      </div>
+      <div
+        className={`flex flex-col items-center justify-center gap-2 text-black`}
+      >
+        <button
+          className="duration-300 bg-white hover:text-green-500 border-black hover:border-green-500 p-2 border-2"
+          onClick={() => addToCart(convertToCartProduct(product, cartAmount))}
+        >
+          <div className="flex flex-row justify-center gap-2 w-full h-full items-center px-1">
+            <ShoppingCart />
+            <p className="font-bold text-lg">{t("Ajouter au panier")}</p>
+          </div>
+        </button>
+
+        <button
+          className="duration-300 bg-white border-black hover:text-red-500 hover:border-red-500 p-2 border-2"
+          onClick={() => addToWishlist(convertToWishlistProduct(product))}
+        >
+          <div className="flex flex-row justify-center gap-2 w-full h-full items-center">
+            <Heart />{" "}
+            <p className="font-bold text-lg">{t("Ajouter au wishlist")}</p>
+          </div>
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default ProductButtons;

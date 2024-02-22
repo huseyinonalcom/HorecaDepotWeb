@@ -1,0 +1,417 @@
+import Head from "next/head";
+import useTranslation from "next-translate/useTranslation";
+import Layout from "../../components/public/layout";
+import { useEffect, useState } from "react";
+import LoadingIndicator from "../../components/common/loadingIndicator";
+import { useRouter } from "next/router";
+import CustomTheme from "../../components/componentThemes";
+import formatDateAPIToBe from "../../api/utils/formatdateapibe";
+import componentThemes from "../../components/componentThemes";
+import Image from "next/image";
+import TypeWriter from "../../components/common/typewriter";
+import MyAccountPagesNav from "../../components/client/myAccountPagesNav";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import PDFInvoice from "../../components/pdf/pdfinvoice";
+
+export default function Order() {
+  const { t, lang } = useTranslation("common");
+  const router = useRouter();
+  const [currentOrder, setCurrentOrder] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [verificationRunning, setVerificationRunning] = useState(false);
+  const [verificationMessage, setVerificationMessage] = useState(null);
+
+  useEffect(() => {
+    if (router.isReady && router.query.id) {
+      const idParam = router.query.id;
+      let orderID = Number(idParam);
+      if (!Number.isInteger(orderID) || orderID <= 0) {
+        orderID = null;
+      }
+
+      const fetchOrder = async (orderID: number) => {
+        const request = await fetch(
+          `/api/checkout/client/orderdetails?order=${orderID}`
+        );
+        const response = await request.json();
+        if (request.ok) {
+          return response;
+        } else {
+          throw "Failed to fetch order";
+        }
+      };
+
+      if (orderID) {
+        fetchOrder(orderID)
+          .then((order) => {
+            setCurrentOrder(order);
+          })
+          .catch((_) => {})
+          .finally(() => setIsLoading(false));
+      } else {
+        setIsLoading(false);
+      }
+    }
+  }, [router.isReady, router.query.id]);
+
+  if (isLoading) {
+    return (
+      <>
+        <Layout>
+          <Head>
+            <title>horecadepot</title>
+            <meta name="description" content="horecadepot" />
+            <meta name="language" content={lang} />
+          </Head>
+          <div className="w-[95vw] flex flex-row justify-start items-start mx-auto">
+            <MyAccountPagesNav />
+            <div className=" mx-auto py-2">
+              <LoadingIndicator />
+            </div>
+          </div>
+        </Layout>
+      </>
+    );
+  } else if (!currentOrder) {
+    return (
+      <>
+        <Layout>
+          <Head>
+            <title>horecadepot</title>
+            <meta name="description" content="horecadepot" />
+            <meta name="language" content={lang} />
+          </Head>
+          <div className="w-[95vw] flex flex-row justify-start items-start mx-auto">
+            <MyAccountPagesNav />
+            <div className="mx-auto py-2">
+              {t("Une erreur s'est produite.")}
+            </div>
+          </div>
+        </Layout>
+      </>
+    );
+  } else {
+    let totalSubTotal = currentOrder.document_products.reduce(
+      (accumulator, currentItem) => {
+        return accumulator + currentItem.subTotal;
+      },
+      0
+    );
+
+    let totalPayments = currentOrder.payments
+      .filter((pay) => pay.verified && !pay.deleted)
+      .reduce((accumulator, currentItem) => {
+        return accumulator + currentItem.value;
+      }, 0);
+
+    let balance = totalSubTotal - totalPayments;
+
+    const submitPayment = async () => {
+      const request = await fetch(`/api/payment/createpaymentlink?test=false`, {
+        method: "POST",
+        body: JSON.stringify(currentOrder),
+      });
+      if (request.ok) {
+        const response = await request.json();
+        if (response.url != 0) {
+          window.location.href = response.url;
+        } else {
+        }
+      } else {
+        throw "Failed to create payment link";
+      }
+    };
+
+    const submitCheckPayment = async () => {
+      setVerificationRunning(true);
+      setVerificationMessage(null);
+      let anyPaymentSucceeded = false;
+      for (let i = 0; i < currentOrder.payments.length; i++) {
+        const paymentID = currentOrder.payments[i].id;
+        if (Number.isInteger(Number(currentOrder.payments[i].origin))) {
+          const hostedCheckoutId = currentOrder.payments[i].origin;
+          const verifyPaymentRequest = await fetch(
+            `/api/payment/verifypayment?paymentid=${paymentID}&ogoneid=${hostedCheckoutId}&test=false`,
+            {
+              method: "POST",
+              body: JSON.stringify(currentOrder),
+            }
+          );
+          if (verifyPaymentRequest.ok) {
+            anyPaymentSucceeded = true;
+
+            const requestNotif = await fetch(
+              "/api/documents/client/sendordernotifications?orderid=" +
+                currentOrder.id,
+              {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  Accept: "application/json",
+                  Authorization: `Bearer ${process.env.API_KEY}`,
+                },
+              }
+            );
+
+            const notif = await requestNotif.json();
+          }
+        }
+
+        if (i == currentOrder.payments.length - 1) {
+          if (anyPaymentSucceeded) {
+            // console.log("check complete");
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          } else {
+            // console.log("check complete");
+            setTimeout(() => {
+              setVerificationRunning(false);
+              setVerificationMessage(
+                <p className="text-red-500 whitespace-nowrap">
+                  {t("No_payment_part1")}
+                  <br />
+                  {t("No_payment_part2")}
+                </p>
+              );
+            }, 2000);
+          }
+        }
+      }
+    };
+
+    return (
+      <>
+        <Layout>
+          <Head>
+            <title>horecadepot</title>
+          </Head>
+          <div className="w-[95vw] flex flex-row justify-start items-start mx-auto">
+            <MyAccountPagesNav />
+            <div className="shadow-lg ml-4 p-4 print:shadow-none w-full bg-white">
+              <div className="flex flex-row justify-between">
+                <div
+                  className={`hidden print:block relative w-[358px] h-[64px] mt-2`}
+                >
+                  <Image
+                    src={"/assets/header/logo.png"}
+                    style={{ objectFit: "contain" }}
+                    fill
+                    alt="HorecaDepot Logo"
+                  />
+                </div>
+                <div className="hidden print:flex flex-col pt-1">
+                  <h4 className="font-bold">Horeca Depot</h4>
+                  <p className="">Rue de Ribaucourt 154</p>
+                  <p className="">1080 Bruxelles, Belgique</p>
+                </div>
+                <div className="flex flex-col print:items-end">
+                  <h1 className="text-2xl font-bold">{currentOrder.type}</h1>
+                  <h2 className="text-xl font-bold">
+                    {currentOrder.prefix + currentOrder.number}
+                  </h2>
+                  <h3 className="text-lg font-bold">
+                    {formatDateAPIToBe(currentOrder.date)}
+                  </h3>
+                </div>
+                <div className="flex flex-row items-center gap-2 flex-shrink-0 print:hidden">
+                  {balance > 0 && (
+                    <>
+                      {verificationMessage && verificationMessage}
+
+                      {verificationRunning ? (
+                        <button
+                          className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
+                        >
+                          <div className="w-[100px] flex flex-row justify-center">
+                            <TypeWriter textTypeWriter={["...."]} />
+                          </div>
+                        </button>
+                      ) : (
+                        <button
+                          className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
+                          onClick={submitCheckPayment}
+                        >
+                          {t("Verifier payment")}
+                        </button>
+                      )}
+                      <button
+                        className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
+                        onClick={submitPayment}
+                      >
+                        {t("Proceder au payment")}
+                      </button>
+                    </>
+                  )}
+                  {currentOrder && (
+                    <PDFDownloadLink
+                      fileName={currentOrder.prefix + currentOrder.number}
+                      document={<PDFInvoice invoiceDocument={currentOrder} />}
+                      className={`${componentThemes.greenSubmitButton} flex flex-row text-xl items-center whitespace-nowrap`}
+                    >
+                      📄 <p className="ml-1">{t("Télécharger PDF")}</p>
+                    </PDFDownloadLink>
+                  )}
+                  <button
+                    onClick={() => {
+                      print();
+                    }}
+                    className={`${componentThemes.greenSubmitButton} flex flex-row text-xl items-center whitespace-nowrap`}
+                  >
+                    🖨️
+                    <p className="ml-1">{t("Imprimer")}</p>
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-row gap-6 pt-2 print:justify-between">
+                <div className="flex flex-col">
+                  {currentOrder.client.category == "Entreprise" ? (
+                    <>
+                      <h4 className=" font-bold">Facturé à:</h4>
+                      <p className="">{currentOrder.client.company}</p>
+                      <p className="">{currentOrder.client.taxID}</p>
+                      <p className="">{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
+                      <p className="">{currentOrder.client.phone}</p>
+                    </>
+                  ) : (
+                    <>
+                      <h4 className=" font-bold">Facturé à:</h4>
+                      <p className="">{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
+                      <p className="">{currentOrder.client.phone}</p>
+                    </>
+                  )}
+                </div>
+                <div className="flex flex-col">
+                  <h4 className=" font-bold">Addresse Facture:</h4>
+                  <p className="">{`${currentOrder.docAddress.street} ${currentOrder.docAddress.doorNumber}`}</p>
+                  <p className="">{`${currentOrder.docAddress.zipCode} ${currentOrder.docAddress.city}`}</p>
+                  <p className="">{`${currentOrder.docAddress.province ?? ""} ${
+                    currentOrder.docAddress.country
+                  }`}</p>
+                  {currentOrder.docAddress.floor ? (
+                    <p className="">Étage: {currentOrder.docAddress.floor}</p>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+                <div className="flex flex-col">
+                  <h4 className=" font-bold">Livraison:</h4>
+                  <p className="">{`${currentOrder.delAddress.street} ${currentOrder.delAddress.doorNumber}`}</p>
+                  <p className="">{`${currentOrder.delAddress.zipCode} ${currentOrder.delAddress.city}`}</p>
+                  <p className="">{`${currentOrder.delAddress.province ?? ""} ${
+                    currentOrder.delAddress.country
+                  }`}</p>
+                  {currentOrder.delAddress.floor ? (
+                    <p className="">Étage: {currentOrder.delAddress.floor}</p>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              </div>
+              <table className="rounded overflow-x-auto shadow-lg bg-gray-100 p-2 mt-3 print:shadow-none print:border-2 print:border-black print:bg-transparent">
+                <thead className="border-b-2 border-black">
+                  <tr>
+                    <th>{t("Nom")}</th>
+                    <th>{t("Quantite")}</th>
+                    <th>{t("Prix")}</th>
+                    <th>{t("Remise")}</th>
+                    <th>{t("Subtotal")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentOrder.document_products.map(
+                    (documentProduct, index) => (
+                      <tr
+                        key={index}
+                        className={`${
+                          index % 2 === 0
+                            ? "bg-slate-300 print:bg-transparent"
+                            : ""
+                        }`}
+                      >
+                        <td>{documentProduct.name}</td>
+                        <td align="center">{documentProduct.amount}</td>
+                        <td align="right">
+                          €{" "}
+                          {documentProduct.value
+                            .toFixed(2)
+                            .replaceAll(".", ",")}
+                        </td>
+                        <td align="right">
+                          €{" "}
+                          {documentProduct.discount
+                            .toFixed(2)
+                            .replaceAll(".", ",")}
+                        </td>
+                        <td align="right">
+                          €{" "}
+                          {documentProduct.subTotal
+                            .toFixed(2)
+                            .replaceAll(".", ",")}
+                        </td>
+                      </tr>
+                    )
+                  )}
+                  <tr>
+                    <td></td>
+                    <td>
+                      <b>{t("Total")}</b>
+                    </td>
+                    <td align="right">
+                      <b>
+                        €{" "}
+                        {currentOrder.document_products
+                          .reduce((accumulator, currentItem) => {
+                            return accumulator + currentItem.subTotal;
+                          }, 0)
+                          .toFixed(2)
+                          .replaceAll(".", ",")}
+                      </b>
+                    </td>
+                    <td>
+                      <b>{t("A payer")}</b>
+                    </td>
+                    <td align="right">
+                      <b>
+                        €{" "}
+                        {(
+                          currentOrder.document_products.reduce(
+                            (accumulator, currentItem) => {
+                              return accumulator + currentItem.subTotal;
+                            },
+                            0
+                          ) -
+                          currentOrder.payments.reduce(
+                            (accumulator, currentItem) => {
+                              return accumulator + currentItem.value;
+                            },
+                            0
+                          )
+                        )
+                          .toFixed(2)
+                          .replaceAll(".", ",")}
+                      </b>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              {balance > 0 && (
+                <div className="flex flex-row print:hidden">
+                  <div className="ml-auto">
+                    <button
+                      className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
+                      onClick={submitPayment}
+                    >
+                      {t("Proceder au payment")}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </Layout>
+      </>
+    );
+  }
+}
