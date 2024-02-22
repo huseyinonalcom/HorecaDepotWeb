@@ -18,7 +18,6 @@ type Props = {
 const Layout = ({ children }: Props) => {
   const { t, lang } = useTranslation("common");
   const router = useRouter();
-  console.log(router.pathname);
   return (
     <>
       <ClientProvider>
