@@ -142,7 +142,7 @@ const ProductPage = ({ product, relatedProducts }: Props) => {
                 ))
               ) : (
                 <Image
-                  key={0}
+                  key={1}
                   src={`/assets/img/placeholder.png`}
                   fill
                   style={{ objectFit: "cover" }}
@@ -170,22 +170,26 @@ const ProductPage = ({ product, relatedProducts }: Props) => {
           </div>
           <div className="flex flex-col pl-2 items-center sm:items-start gap-2">
             <div className="flex flex-row gap-1 font-bold text-sm">
-              <Link href={"/"}>{t("Page d'acceuil")}</Link>
-              {">"}
-              <Link href={"/products"}>{t("Shop")}</Link>
+              <Link key={1} href={"/"}>
+                {t("Page d'acceuil")}
+              </Link>
+
+              <Link key={2} href={"/products"}>
+                {"> "}
+                {t("Shop")}
+              </Link>
               {breadCrumbs &&
-                breadCrumbs.map((crumb) => {
+                breadCrumbs.map((crumb, index) => {
                   return (
-                    <>
-                      {">"}
-                      <Link
-                        href={`/products?category=${
-                          allCategories.find((cat) => cat.Name == crumb).id
-                        }`}
-                      >
-                        {t(crumb)}
-                      </Link>
-                    </>
+                    <Link
+                      key={index + 2}
+                      href={`/products?category=${
+                        allCategories.find((cat) => cat.Name == crumb).id
+                      }`}
+                    >
+                      {"> "}
+                      {t(crumb)}
+                    </Link>
                   );
                 })}
             </div>
