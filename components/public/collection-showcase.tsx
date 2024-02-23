@@ -1,179 +1,88 @@
-import Link from "next/link";
-import Image from "next/image";
-import useTranslation from "next-translate/useTranslation";
-import { ArrowLeft } from "react-feather";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { AutoTextSize } from "auto-text-size";
-import componentThemes from "../componentThemes";
+    import { useState } from "react";
+    import { ArrowLeft } from "react-feather";
+    import Image from "next/image";
+    import ProductPreview from "../products/product-preview";
 
-type Props = {
-  collection;
-};
-
-const CollectionShowcase = ({ collection }: Props) => {
-  const { t } = useTranslation("common");
-  const router = useRouter();
-
-  const [currentImage, setCurrentImage] = useState(0);
-  const [featured, setFeatured] = useState(collection.featured);
-
-  const imageBase =
-    "absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000";
-  const imageVisible = "opacity-100 z-40";
-  const imageInvisible = "opacity-0";
-
-  useEffect(() => {
-    setCurrentImage(0);
-  }, [collection]);
-
-  const collectionImages = [];
-
-  for (let i = 0; i < collection.products.length; i++) {
-    if (
-      collection.products[i].images &&
-      collection.products[i].images.length > 0
-    ) {
-      collectionImages.push(collection.products[i].images[0]);
-    }
-  }
-
-  const slideNext = () => {
-    setCurrentImage((prevImage) => (prevImage + 1) % collectionImages.length);
-  };
-
-  const slidePrevious = () => {
-    setCurrentImage((prevImage) => {
-      if (prevImage === 0) {
-        return collectionImages.length - 1;
-      } else {
-        return prevImage - 1;
-      }
-    });
-  };
-
-  const toggleCollectionFeatured = () => {
-    const toggleFeatured = async () => {
-      try {
-        const request = await fetch(
-          `/api/collections/admin/togglefeatured?id=` + collection.id,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ featured: !featured }),
-          }
-        );
-        const answer = await request.json();
-        if (!request.ok) {
-        } else {
-          setFeatured(answer);
-        }
-      } catch {}
+    type Props = {
+      collection;
+      bgColor?: string;
     };
 
-    toggleFeatured();
-  };
+    const CollectionShowcase = ({ collection, bgColor }: Props) => {
+      const [currentSlide, setCurrentSlide] = useState(0);
 
-  return (
-    <div
-      key={collection.id}
-      className="flex flex-row shadow-lg gap-2 bg-white p-2 rounded min-h-[200px]"
-    >
-      <div className="flex flex-col">
-        <p className="text-xl font-bold">{collection.name}</p>
-        <div className="relative h-[150px] aspect-[24/9]">
-          <Image
-            fill
-            style={{ objectFit: "contain" }}
-            src={
-              collection.images != null
-                ? "https://hdapi.huseyinonalalpha.com" +
-                  collection.images.at(0).url
-                : "/assets/img/placeholder.png"
-            }
-            alt=""
-          />
-        </div>
-      </div>
-      <div className="flex flex-col">
-        <p className="">{collection.description}</p>
-        <div className="flex flex-row">
-          <div className="relative h-[130px] w-[130px]">
-            {collectionImages.length > 0 ? (
-              collectionImages.map((img, index) => (
-                <Image
-                  key={index}
-                  src={`https://hdapi.huseyinonalalpha.com${img.url}`}
-                  fill
-                  style={{ objectFit: "contain" }}
-                  alt={""}
-                  className={`${imageBase} ${
-                    currentImage === index ? imageVisible : imageInvisible
-                  }`}
-                />
-              ))
-            ) : (
-              <Image
-                key={1}
-                src={`/assets/img/placeholder.png`}
-                width={200}
-                height={200}
-                alt={""}
-                className={`${imageBase}`}
-              />
-            )}
-            {collectionImages.length > 1 ? (
-              <div
-                className="absolute z-40 left-0 h-full opacity-40 bg-slate-100 flex flex-col justify-center"
-                onClick={slidePrevious}
-              >
-                <ArrowLeft />
-              </div>
-            ) : (
-              <div></div>
-            )}
-            {collectionImages.length > 1 ? (
-              <div
-                className="absolute z-40 right-0 h-full opacity-40 bg-slate-100 flex flex-col justify-center"
-                onClick={slideNext}
-              >
-                <ArrowLeft className="rotate-180" />
-              </div>
-            ) : (
-              <div></div>
-            )}
+      const slideNext = () => {
+        setCurrentSlide(
+          (prevSlide) => (prevSlide + 1) % collection.products.length
+        );
+      };
+
+      const slidePrevious = () => {
+        setCurrentSlide((prevSlide) =>
+          prevSlide === 0 ? collection.products.length - 1 : prevSlide - 1
+        );
+      };
+
+      return (
+        <div className={`flex flex-row h-full w-full`}>
+          <div className="relative h-full w-1/2">
+            <Image
+              fill
+              style={{ objectFit: "cover", zIndex: 30 }}
+              src={
+                collection.images != null
+                  ? "https://hdapi.huseyinonalalpha.com" +
+                    collection.images.at(0).url
+                  : "/assets/img/placeholder.png"
+              }
+              alt=""
+            />
+            <div className="absolute top-2 left-2 flex flex-col z-40">
+              <p className="text-2xl font-bold">{collection.name}</p>
+            </div>
+            
+            <p className="w-full mt-2 font-semibold text-lg text-center">
+              {collection.description}
+            </p>
           </div>
-          <div className="flex flex-col items-center w-full">
-            <div className="flex flex-row">
-              {featured == true ? (
-                <div
-                  className={`bg-green-300 cursor-pointer rounded border-1 border-black items-center py-1 px-2 justify-center flex flex-col`}
-                  onClick={toggleCollectionFeatured}
-                >
-                  {t("Actif")}
+
+          <div
+            className={`flex flex-col w-1/2  h-full`}
+          >
+            <div className="flex flex-row w-full py-2 h-full relative overflow-hidden">
+              <div
+                className="w-full h-full items-center gap-2 flex"
+                style={{
+                  transform: `translateX(-${currentSlide * 250}px)`,
+                  transition: "transform 0.5s ease",
+                }}
+              >
+                {collection.products.map((prod) => (
+                  <div
+                    key={prod.id}
+                    className="w-[250px] bg-white rounded shadow-lg p-1 flex-shrink-0"
+                  >
+                    <ProductPreview width={"full"} product={prod} />
+                  </div>
+                ))}
+              </div>
+              {collection.products.length > 3 && (
+                <div className="absolute left-1 top-0 z-20 h-full flex items-center">
+                  <ArrowLeft className="cursor-pointer bg-white p-0.5 rounded-full" onClick={slidePrevious} />
                 </div>
-              ) : (
-                <div
-                  className={`bg-red-300 cursor-pointer rounded border-1 border-black items-center py-1 px-2 justify-center flex flex-col`}
-                  onClick={toggleCollectionFeatured}
-                >
-                  {t("Inactif")}
+              )}
+              {collection.products.length > 3 && (
+                <div className="absolute right-1 top-0 z-20 h-full flex items-center">
+                  <ArrowLeft
+                    className="cursor-pointer rotate-180 bg-white p-0.5 rounded-full"
+                    onClick={slideNext}
+                  />
                 </div>
               )}
             </div>
-            <Link
-              className={componentThemes.greenSubmitButton}
-              href={"/admin/website/collection?id=" + collection.id}
-            >
-              {t("Modifier")}
-            </Link>
           </div>
         </div>
-      </div>
-    </div>
-  );
-};
+      );
+    };
 
-export default CollectionShowcase;
+    export default CollectionShowcase;

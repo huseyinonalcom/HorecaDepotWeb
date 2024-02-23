@@ -1,28 +1,15 @@
 import Head from "next/head";
 import Image from "next/image";
-
 import useTranslation from "next-translate/useTranslation";
-
 import Layout from "../components/public/layout";
 import Meta from "../components/public/meta";
-
 import Link from "next/link";
-import { Product } from "../api/interfaces/product";
-import { getProducts } from "../api/calls/productCalls";
-import ProductPreview from "../components/products/product-preview";
 import { useEffect, useState } from "react";
 import { CFile } from "../api/interfaces/cfile";
-import { ArrowLeft } from "react-feather";
 import { useRouter } from "next/router";
-import Collection from "../components/products/collection";
 import CollectionShowcase from "../components/public/collection-showcase";
 
-// props
-type Props = {
-  newProducts: Product[];
-};
-
-export default function Index({ newProducts }: Props) {
+export default function Index() {
   const { t, lang } = useTranslation("common");
   const router = useRouter();
 
@@ -150,6 +137,19 @@ export default function Index({ newProducts }: Props) {
             </div>
           )}
         </div>
+        <div className="flex flex-col justify-start items-center mt-2 w-full">
+          {collections &&
+            collections.map((collection) => (
+              <div
+                key={collection.id}
+                style={{ backgroundColor: `#${collection.bgColor}` }}
+                className={`w-full aspect-[38/9]`}
+              >
+                <CollectionShowcase collection={collection} />
+              </div>
+            ))}
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 mt-4 w-[95%] sm:w-full gap-4">
           <div className={homepageSpecialBox + " bg-yellow-500"}>
             <Image
@@ -216,45 +216,7 @@ export default function Index({ newProducts }: Props) {
             </div>
           </div>
         </div>
-        <h3 className="font-bold text-2xl mt-4">{t("Nos Recommendations")}</h3>
-        <div className="flex flex-col justify-start items-center mt-2 w-full">
-          {collections &&
-            collections.map((collection) => {
-              <CollectionShowcase key={collection.id} collection={collection} />;
-            })}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 w-full">
-            {newProducts.map((product) => (
-              <div key={product.id} className="w-full mt-2 mb-2">
-                <ProductPreview product={product} width={"full"} />
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </Layout>
   );
 }
-
-export const getStaticProps = async () => {
-  const result = await getProducts({ page: 1, count: 12 });
-
-  const uniqueNames = new Set();
-  const newProducts: Product[] = [];
-
-  for (const product of result[0]) {
-    if (!uniqueNames.has(product.name)) {
-      uniqueNames.add(product.name);
-      newProducts.push(product);
-      if (newProducts.length === 6) {
-        break; // Stop once we have 6 unique products
-      }
-    }
-  }
-
-  return {
-    props: {
-      newProducts,
-    },
-    revalidate: 10,
-  };
-};
