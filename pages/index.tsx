@@ -14,6 +14,8 @@ import { useEffect, useState } from "react";
 import { CFile } from "../api/interfaces/cfile";
 import { ArrowLeft } from "react-feather";
 import { useRouter } from "next/router";
+import Collection from "../components/products/collection";
+import CollectionShowcase from "../components/public/collection-showcase";
 
 // props
 type Props = {
@@ -216,6 +218,10 @@ export default function Index({ newProducts }: Props) {
         </div>
         <h3 className="font-bold text-2xl mt-4">{t("Nos Recommendations")}</h3>
         <div className="flex flex-col justify-start items-center mt-2 w-full">
+          {collections &&
+            collections.map((collection) => {
+              <CollectionShowcase key={collection.id} collection={collection} />;
+            })}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 w-full">
             {newProducts.map((product) => (
               <div key={product.id} className="w-full mt-2 mb-2">

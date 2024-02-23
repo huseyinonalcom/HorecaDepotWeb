@@ -79,7 +79,7 @@ const CollectionShowcase = ({ collection }: Props) => {
   return (
     <div
       key={collection.id}
-      className="flex flex-row shadow-lg gap-2 bg-white p-2 rounded"
+      className="flex flex-row shadow-lg gap-2 bg-white p-2 rounded min-h-[200px]"
     >
       <div className="flex flex-col">
         <p className="text-xl font-bold">{collection.name}</p>
