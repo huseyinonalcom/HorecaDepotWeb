@@ -30,6 +30,23 @@ export default function Index({ newProducts }: Props) {
 
   const [imageUrls, setImageUrls] = useState(null);
 
+  const [collections, setCollections] = useState(null);
+
+  const fetchCollections = async () => {
+    const fetchCollectionsRequest = await fetch(
+      "/api/collections/public/getcollections",
+      {
+        method: "GET",
+      }
+    );
+    if (fetchCollectionsRequest.ok) {
+      const fetchCollectionsAnswer = await fetchCollectionsRequest.json();
+      return fetchCollectionsAnswer;
+    } else {
+      return null;
+    }
+  };
+
   const fetchImages = async () => {
     const fetchImagesRequest = await fetch(
       "/api/website/public/getindexsliderimages",
@@ -52,6 +69,12 @@ export default function Index({ newProducts }: Props) {
         setImages(await fetchImages());
       };
       fetchAndSetImages();
+    }
+    if (!collections) {
+      const fetchAndSetCollections = async () => {
+        setCollections(await fetchCollections());
+      };
+      fetchAndSetCollections();
     }
   }, []);
 
