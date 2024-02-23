@@ -137,7 +137,7 @@ export default function Index() {
             </div>
           )}
         </div>
-        <div className="flex flex-col justify-start min-h-[341px] items-center mt-2 w-full">
+        <div className="flex flex-col justify-start aspect-[38/9] items-center mt-2 w-full">
           {collections &&
             collections.map((collection) => (
               <div
