@@ -6,7 +6,7 @@ export default async function getCollections(req, res) {
   }
   let collectionID = "";
   if (req.query.id && Number.isSafeInteger(Number(req.query.id))) {
-    collectionID = req.query.id;
+    collectionID = `/${req.query.id}`;
   }
   try {
     const fetchCollectionsUrl = `${process.env.API_URL}/api/product-collections${collectionID}?populate[products][fields][0]=name&populate[products][fields][1]=supplierCode&populate[products][fields][2]=internalCode&populate[products][fields][3]=color&populate[products][fields][4]=material&populate[products][fields][5]=priceBeforeDiscount&populate[products][fields][6]=value&populate[images][fields][0]=url&populate[products][populate][images][fields][0]=url`;

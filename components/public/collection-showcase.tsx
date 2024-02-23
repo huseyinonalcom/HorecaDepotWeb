@@ -41,7 +41,7 @@
               <p className="text-2xl font-bold">{collection.name}</p>
             </div>
             
-            <p className="w-full mt-2 font-semibold text-lg text-center">
+            <p className="w-full mt-2 font-semibold text-lg absolute bottom-2 left-2 flex flex-col z-40">
               {collection.description}
             </p>
           </div>
