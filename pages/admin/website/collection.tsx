@@ -34,7 +34,7 @@ export default function Order() {
   const [inputCategory, setInputCategory] = useState<string>("");
   const [inputRight, setInputRight] = useState<boolean>(false);
   const [inputBgColor, setInputBgColor] = useState<string>("");
-  const [inputImages, setInputImages] = useState(null);
+  const [inputImage, setInputImage] = useState(null);
   const [inputTags, setInputTags] = useState<string>("");
   const [inputName, setInputName] = useState<string>("");
 
@@ -91,7 +91,7 @@ export default function Order() {
       setInputFeatured(currentCollection.featured ?? "");
       setInputCategory(currentCollection.category ?? "");
       setInputDescription(currentCollection.description ?? "");
-      setInputImages(currentCollection.images);
+      setInputImage(currentCollection.images);
       setIsLoading(false);
     }
   }, [currentCollection]);
@@ -166,7 +166,13 @@ export default function Order() {
         `/api/collections/admin/submitcollection?id=${currentCollection.id}`,
         {
           method: "PUT",
-          body: JSON.stringify({ name: inputName }),
+          body: JSON.stringify({
+            name: inputName,
+            category: inputCategory,
+            bgColor: inputBgColor,
+            description: inputDescription,
+            image: inputImage.id,
+          }),
         }
       );
       if (request.ok) {
@@ -198,7 +204,7 @@ export default function Order() {
 
         if (request.status == 201) {
           const result = await request.json();
-          setInputImages(await result);
+          setInputImage(await result);
         } else {
         }
       } catch (e) {}
@@ -251,7 +257,7 @@ export default function Order() {
               onChange={(e) => setInputTags(e.target.value)}
               placeholder={t("Tags")}
             />
-            {!inputImages || inputImages.length < 1 ? (
+            {!inputImage || inputImage.length < 1 ? (
               <>
                 <label htmlFor="uploadimg" className={buttonClass}>
                   <div className={navIconDivClass}>
@@ -272,12 +278,12 @@ export default function Order() {
             ) : (
               <Image
                 alt=""
-                src={`https://hdapi.huseyinonalalpha.com${inputImages.url}`}
+                src={`https://hdapi.huseyinonalalpha.com${inputImage.url}`}
                 width={400}
                 height={400}
               />
             )}
-            <div>Product selection something or the other</div>
+            <div></div>
             <input
               className="w-full p-2 rounded border border-gray-300"
               type="text"

@@ -61,7 +61,11 @@ export default function Index() {
     }
     if (!collections) {
       const fetchAndSetCollections = async () => {
-        setCollections(await fetchCollections());
+        const collections = await fetchCollections();
+        const randomizedCollections = collections.sort(
+          () => Math.random() - 0.5
+        );
+        setCollections(randomizedCollections);
       };
       fetchAndSetCollections();
     }

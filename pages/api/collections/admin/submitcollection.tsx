@@ -6,9 +6,14 @@ export default async function handler(req, res) {
   }
   const authToken = req.cookies.j;
 
+  if (!req.body) {
+    return res.status(400).json("Missing body");
+  }
+
+  const body = await JSON.parse(req.body);
+
   if (req.method == "POST") {
     const fetchUrl = `${process.env.API_URL}/api/product-collections?fields[0]=id`;
-    const body = await JSON.parse(req.body);
     console.log(body);
     const postRequest = await fetch(fetchUrl, {
       headers: {
@@ -33,7 +38,7 @@ export default async function handler(req, res) {
       return res.status(400).json("Missing ID");
     }
     try {
-      const fetchUrl = `${process.env.API_URL}/api/product-collections/${req.query.id}?fields[0]=id&fields[1]=featured`;
+      const fetchUrl = `${process.env.API_URL}/api/product-collections/${req.query.id}?fields[0]=id`;
       const response = await fetch(fetchUrl, {
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +46,7 @@ export default async function handler(req, res) {
           Authorization: `Bearer ${authToken}`,
         },
         method: "PUT",
-        body: JSON.stringify({ data: { featured: req.body.featured } }),
+        body: JSON.stringify({ data: body }),
       });
       const answer = await response.json();
 
@@ -49,7 +54,7 @@ export default async function handler(req, res) {
 
       return res.status(200).json(data.featured);
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return res.status(500).json({ error: error });
     }
   } else {
     return res.status(405).json(statusText[405]);

@@ -30,9 +30,9 @@
               fill
               style={{ objectFit: "cover", zIndex: 30 }}
               src={
-                collection.images != null
+                collection.image != null
                   ? "https://hdapi.huseyinonalalpha.com" +
-                    collection.images.at(0).url
+                    collection.image.url
                   : "/assets/img/placeholder.png"
               }
               alt=""

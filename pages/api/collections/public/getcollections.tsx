@@ -9,7 +9,7 @@ export default async function getCollections(req, res) {
     collectionID = `/${req.query.id}`;
   }
   try {
-    const fetchCollectionsUrl = `${process.env.API_URL}/api/product-collections${collectionID}?populate[products][fields][0]=name&populate[products][fields][1]=supplierCode&populate[products][fields][2]=internalCode&populate[products][fields][3]=color&populate[products][fields][4]=material&populate[products][fields][5]=priceBeforeDiscount&populate[products][fields][6]=value&populate[images][fields][0]=url&populate[products][populate][images][fields][0]=url`;
+    const fetchCollectionsUrl = `${process.env.API_URL}/api/product-collections${collectionID}?populate[products][fields][0]=name&populate[products][fields][1]=supplierCode&populate[products][fields][2]=internalCode&populate[products][fields][3]=color&populate[products][fields][4]=material&populate[products][fields][5]=priceBeforeDiscount&populate[products][fields][6]=value&populate[image][fields][0]=url&populate[products][populate][images][fields][0]=url`;
 
     const fetchCollectionsRequest = await fetch(fetchCollectionsUrl, {
       method: "GET",

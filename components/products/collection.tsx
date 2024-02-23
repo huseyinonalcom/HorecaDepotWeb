@@ -88,9 +88,9 @@ const Collection = ({ collection }: Props) => {
             fill
             style={{ objectFit: "contain" }}
             src={
-              collection.images != null
+              collection.image != null
                 ? "https://hdapi.huseyinonalalpha.com" +
-                  collection.images.at(0).url
+                  collection.image.url
                 : "/assets/img/placeholder.png"
             }
             alt=""
