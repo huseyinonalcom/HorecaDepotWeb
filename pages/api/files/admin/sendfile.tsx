@@ -59,7 +59,7 @@ export default async function handler(
         });
         if (response.status == 200) {
           const answer = await response.json();
-          return res.status(201).json(await answer[0]["id"]);
+          return res.status(201).json(answer[0]);
         } else {
           return res.status(400).send("Bad request.");
         }

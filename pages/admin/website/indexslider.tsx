@@ -25,17 +25,16 @@ export default function IndexSlider() {
     formData.append("file", file);
 
     try {
-      const request = await fetch("/ap/files/admin/sendfile", {
+      const request = await fetch("/api/files/admin/sendfile", {
         method: "POST",
         body: formData,
       });
-
 
       if (request.status == 201) {
         const result = await request.json();
 
         const imgIDs: number[] = [];
-        imgIDs.push(result);
+        imgIDs.push(result.id);
         if (images != null) {
           images.forEach((img) => {
             imgIDs.push(img.id);

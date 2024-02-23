@@ -23,6 +23,8 @@ export default async function getCollections(req, res) {
       const fetchCollectionsAnswer = await fetchCollectionsRequest.json();
       return res.status(200).json(fetchCollectionsAnswer.data);
     } else {
+      const fetchCollectionsAnswer = await fetchCollectionsRequest.json();
+      console.log(fetchCollectionsAnswer);
       return res.status(404).json(statusText[404]);
     }
   } catch (_) {

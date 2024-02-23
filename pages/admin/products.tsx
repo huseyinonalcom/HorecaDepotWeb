@@ -337,7 +337,7 @@ export default function Products() {
         const result = await request.json();
 
         const imgIDs: number[] = [];
-        imgIDs.push(result);
+        imgIDs.push(result.id);
         if (currentProduct.images != null) {
           currentProduct.images.forEach((img) => {
             imgIDs.push(img.id);
@@ -1055,7 +1055,7 @@ export default function Products() {
                       value={currentProduct?.id ?? ""}
                       placeholder={t("No")}
                       className={inputClass}
-                      onChange={()=>{}}
+                      onChange={() => {}}
                     />
                   </div>
                   <div className={inputDivClass}>
