@@ -60,26 +60,36 @@ const CollectionShowcase = ({ collection }: Props) => {
 
   const [textColor, setTextColor] = useState("");
   const [description, setDescription] = useState(<p></p>);
+  const [title, setTitle] = useState(<p></p>);
 
   useEffect(() => {
-    setTextColor(`text-[#${collection.textColor}]`);
+    setTextColor(collection.textColor);
   }, [collection]);
 
-  let title = (
-    <p
-      style={{ color: textColor }}
-      className={`text-2xl font-bold ${textColor}`}
-    >
-      {textColor}{" "}
-      {collection.name}
-    </p>
-  );
-
   useEffect(() => {
+    setTitle(
+      <p
+        style={{
+          color: `#${textColor.substring(0, 2)}${textColor.substring(
+            2,
+            4
+          )}${textColor.substring(4, 6)}`,
+        }}
+        className={`text-2xl font-bold ${textColor}`}
+      >
+        {collection.name}
+      </p>
+    );
+
     setDescription(
       <p
-        style={{ color: textColor }}
-        className={`w-full mt-2 font-semibold text-lg absolute bottom-2 left-2 flex flex-col z-40 ${textColor}`}
+        style={{
+          color: `#${textColor.substring(0, 2)}${textColor.substring(
+            2,
+            4
+          )}${textColor.substring(4, 6)}`,
+        }}
+        className={`w-full mt-2 font-semibold text-lg absolute bottom-2 left-2 flex flex-col z-40`}
       >
         {collection.description}
       </p>
