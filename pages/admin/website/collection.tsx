@@ -35,9 +35,12 @@ export default function Order() {
   const [inputCategory, setInputCategory] = useState<string>("");
   const [inputRight, setInputRight] = useState<boolean>(false);
   const [inputBgColor, setInputBgColor] = useState<string>("");
-  const [inputImage, setInputImage] = useState(null);
   const [inputTags, setInputTags] = useState<string>("");
   const [inputName, setInputName] = useState<string>("");
+  const [inputImage, setInputImage] = useState(null);
+
+  const [products, setProducts] = useState(null);
+  const [chosenProducts, setChosenProducts] = useState(null);
 
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -122,7 +125,6 @@ export default function Order() {
       });
       const answer = await request.json();
       if (request.ok) {
-        console.log(answer.id);
         router.push(`/admin/website/collection?id=${answer.id}`);
       } else {
         setSubmitError(t("collection_submit_error"));
@@ -214,6 +216,24 @@ export default function Order() {
       } catch (e) {}
     };
 
+    const fetchProducts = async () => {
+      const request = await fetch(
+        `/api/products/public/getproducts?count=19000`,
+        {
+          method: "GET",
+        }
+      );
+      const response = await request.json();
+      if (request.ok) {
+        return response.sortedData;
+      } else {
+        setIsLoading(false);
+        return;
+      }
+    };
+
+    setProducts(fetchProducts());
+
     return (
       <AdminLayout>
         <Head>
@@ -287,24 +307,27 @@ export default function Order() {
                 height={400}
               />
             )}
-            <input
-              className="w-full p-2 rounded border border-gray-300"
-              type="text"
-              id="background"
-              required
-              value={inputBgColor}
-              onChange={(e) => setInputBgColor(e.target.value)}
-              placeholder={t("Background (hex code)")}
-            />
-            <input
-              className="w-full p-2 rounded border border-gray-300"
-              type="text"
-              id="text"
-              required
-              value={inputTextColor}
-              onChange={(e) => setInputTextColor(e.target.value)}
-              placeholder={t("Text Color (hex code)")}
-            />
+            <div>{}</div>
+            <div className="flex flex-row">
+              <input
+                className="w-full p-2 rounded border border-gray-300"
+                type="text"
+                id="background"
+                required
+                value={inputBgColor}
+                onChange={(e) => setInputBgColor(e.target.value)}
+                placeholder={t("Background (hex code)")}
+              />
+              <input
+                className="w-full p-2 rounded border border-gray-300"
+                type="text"
+                id="text"
+                required
+                value={inputTextColor}
+                onChange={(e) => setInputTextColor(e.target.value)}
+                placeholder={t("Text Color (hex code)")}
+              />
+            </div>
             {inputRight ? (
               <div
                 className={`bg-slate-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}

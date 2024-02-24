@@ -48,7 +48,7 @@ export default function Collections() {
       <div className="flex flex-col w-[95%] items-center mx-auto p-2">
         <div className="flex flex-row"><Link className={componentThemes.greenSubmitButton} href={'/admin/website/collection'}>New Collection</Link></div>
         {collections && (
-          <div className="grid grid-cols-1 lg:grid-cols-2">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
             {collections.map((collection) => (
               <CollectionPreview key={collection.id} collection={collection} />
             ))}
