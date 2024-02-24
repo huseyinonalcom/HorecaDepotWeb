@@ -59,6 +59,7 @@ const CollectionShowcase = ({ collection }: Props) => {
   const [currentX, setCurrentX] = useState(0);
 
   const [textColor, setTextColor] = useState("");
+  const [description, setDescription] = useState(<p></p>);
 
   useEffect(() => {
     setTextColor(`text-[#${collection.textColor}]`);
@@ -73,10 +74,8 @@ const CollectionShowcase = ({ collection }: Props) => {
     </p>
   );
 
-  let description = <p></p>;
-
   useEffect(() => {
-    description = (
+    setDescription(
       <p
         style={{ color: textColor }}
         className={`w-full mt-2 font-semibold text-lg absolute bottom-2 left-2 flex flex-col z-40 ${textColor}`}
