@@ -74,14 +74,20 @@ const CollectionShowcase = ({ collection }: Props) => {
           alt=""
         />
         <div className="absolute top-2 left-2 flex flex-col z-40">
-          <p className={`text-2xl font-bold ${textColor}`}>{collection.name}</p>
+          {textColor && (
+            <p className={`text-2xl font-bold ${textColor}`}>
+              {collection.name}
+            </p>
+          )}
         </div>
 
-        <p
-          className={`w-full mt-2 font-semibold text-lg absolute bottom-2 left-2 flex flex-col z-40 ${textColor}`}
-        >
-          {collection.description}
-        </p>
+        {textColor && (
+          <p
+            className={`w-full mt-2 font-semibold text-lg absolute bottom-2 left-2 flex flex-col z-40 ${textColor}`}
+          >
+            {collection.description}
+          </p>
+        )}
       </div>
 
       <div
