@@ -40,7 +40,7 @@ export default function Order() {
   const [inputImage, setInputImage] = useState(null);
 
   const [products, setProducts] = useState(null);
-  const [chosenProducts, setChosenProducts] = useState(null);
+  const [chosenProducts, setChosenProducts] = useState([]);
 
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -88,16 +88,17 @@ export default function Order() {
 
   useEffect(() => {
     if (currentCollection) {
+      setIsLoading(false);
       setInputName(currentCollection.name);
       setInputRight(currentCollection.right);
+      setInputImage(currentCollection.image);
       setInputTags(currentCollection.tags ?? "");
       setInputBgColor(currentCollection.bgColor ?? "");
-      setInputTextColor(currentCollection.textColor ?? "");
       setInputFeatured(currentCollection.featured ?? "");
       setInputCategory(currentCollection.category ?? "");
+      setChosenProducts(currentCollection.products ?? []);
+      setInputTextColor(currentCollection.textColor ?? "");
       setInputDescription(currentCollection.description ?? "");
-      setInputImage(currentCollection.image);
-      setIsLoading(false);
     }
   }, [currentCollection]);
 
