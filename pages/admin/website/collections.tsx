@@ -7,6 +7,7 @@ import { ArrowLeft, Upload } from "react-feather";
 import Image from "next/image";
 import { CFile } from "../../../api/interfaces/cfile";
 import CollectionPreview from "../../../components/admin/collection-preview";
+import Link from "next/link";
 
 export default function Collections() {
   const { t, lang } = useTranslation("common");
@@ -45,6 +46,7 @@ export default function Collections() {
         <meta name="language" content={lang} />
       </Head>
       <div className="flex flex-col w-[95%] items-center mx-auto p-2">
+        <div className="flex flex-row"><Link className={componentThemes.greenSubmitButton} href={'/admin/website/collection'}>New Collection</Link></div>
         {collections && (
           <div className="grid grid-cols-1 lg:grid-cols-2">
             {collections.map((collection) => (
