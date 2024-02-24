@@ -58,7 +58,11 @@ const CollectionShowcase = ({ collection }: Props) => {
 
   const [currentX, setCurrentX] = useState(0);
 
-  const [textColor, setTextColor] = useState(`text-[#${collection.textColor}]`);
+  const [textColor, setTextColor] = useState("");
+
+  useEffect(() => {
+    setTextColor(`text-[#${collection.textColor}]`);
+  }, [collection]);
 
   return (
     <div className={`flex flex-col md:flex-row h-full w-full md:aspect-[38/9]`}>
