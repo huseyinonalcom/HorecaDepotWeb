@@ -70,6 +70,7 @@ const CollectionShowcase = ({ collection }: Props) => {
       style={{ color: textColor }}
       className={`text-2xl font-bold ${textColor}`}
     >
+      {textColor}{" "}
       {collection.name}
     </p>
   );
