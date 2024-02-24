@@ -1,88 +1,128 @@
-    import { useState } from "react";
-    import { ArrowLeft } from "react-feather";
-    import Image from "next/image";
-    import ProductPreview from "../products/product-preview";
+import { useEffect, useState } from "react";
+import { ArrowLeft } from "react-feather";
+import Image from "next/image";
+import ProductPreview from "../products/product-preview";
 
-    type Props = {
-      collection;
-      bgColor?: string;
-    };
+type Props = {
+  collection;
+};
 
-    const CollectionShowcase = ({ collection, bgColor }: Props) => {
-      const [currentSlide, setCurrentSlide] = useState(0);
+const CollectionShowcase = ({ collection }: Props) => {
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-      const slideNext = () => {
-        setCurrentSlide(
-          (prevSlide) => (prevSlide + 1) % collection.products.length
-        );
-      };
+  const [xAtTouchStart, setXAtTouchStart] = useState(0);
+  const [xWhereTouchStarted, setXWhereTouchStarted] = useState(0);
 
-      const slidePrevious = () => {
-        setCurrentSlide((prevSlide) =>
-          prevSlide === 0 ? collection.products.length - 1 : prevSlide - 1
-        );
-      };
+  const handleTouchStart = (e) => {
+    setXAtTouchStart(currentX);
+    setXWhereTouchStarted(e.targetTouches[0].clientX);
+  };
 
-      return (
-        <div className={`flex flex-row h-full w-full`}>
-          <div className="relative h-full w-1/2">
-            <Image
-              fill
-              style={{ objectFit: "cover", zIndex: 30 }}
-              src={
-                collection.image != null
-                  ? "https://hdapi.huseyinonalalpha.com" +
-                    collection.image.url
-                  : "/assets/img/placeholder.png"
-              }
-              alt=""
-            />
-            <div className="absolute top-2 left-2 flex flex-col z-40">
-              <p className="text-2xl font-bold">{collection.name}</p>
-            </div>
-            
-            <p className="w-full mt-2 font-semibold text-lg absolute bottom-2 left-2 flex flex-col z-40">
-              {collection.description}
-            </p>
-          </div>
-
-          <div
-            className={`flex flex-col w-1/2  h-full`}
-          >
-            <div className="flex flex-row w-full py-2 h-full relative overflow-hidden">
-              <div
-                className="w-full h-full items-center gap-2 flex"
-                style={{
-                  transform: `translateX(-${currentSlide * 250}px)`,
-                  transition: "transform 0.5s ease",
-                }}
-              >
-                {collection.products.map((prod) => (
-                  <div
-                    key={prod.id}
-                    className="w-[250px] bg-white rounded shadow-lg p-1 flex-shrink-0"
-                  >
-                    <ProductPreview width={"full"} product={prod} />
-                  </div>
-                ))}
-              </div>
-              {collection.products.length > 3 && (
-                <div className="absolute left-1 top-0 z-20 h-full flex items-center">
-                  <ArrowLeft className="cursor-pointer bg-white p-0.5 rounded-full" onClick={slidePrevious} />
-                </div>
-              )}
-              {collection.products.length > 3 && (
-                <div className="absolute right-1 top-0 z-20 h-full flex items-center">
-                  <ArrowLeft
-                    className="cursor-pointer rotate-180 bg-white p-0.5 rounded-full"
-                    onClick={slideNext}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+  const handleTouchMove = (e) => {
+    if (
+      xAtTouchStart - (xWhereTouchStarted - e.targetTouches[0].clientX) >
+      10
+    ) {
+      setCurrentX(10);
+    } else if (
+      xAtTouchStart - (xWhereTouchStarted - e.targetTouches[0].clientX) <
+      -((collection.products.length - 1) * 208) + 5
+    ) {
+      setCurrentX(-((collection.products.length - 1) * 208) + 5);
+    } else {
+      setCurrentX(
+        xAtTouchStart - (xWhereTouchStarted - e.targetTouches[0].clientX)
       );
-    };
+    }
+  };
 
-    export default CollectionShowcase;
+  const handleTouchEnd = (e) => {
+    setCurrentSlide(-Number((currentX / 208).toFixed(0)));
+  };
+
+  const slideNext = () => {
+    setCurrentSlide(
+      (prevSlide) => (prevSlide + 1) % collection.products.length
+    );
+  };
+
+  const slidePrevious = () => {
+    setCurrentSlide((prevSlide) =>
+      prevSlide === 0 ? collection.products.length - 1 : prevSlide - 1
+    );
+  };
+
+  useEffect(() => {
+    setCurrentX(-currentSlide * 208 + 5);
+  }, [currentSlide]);
+
+  const [currentX, setCurrentX] = useState(0);
+
+  return (
+    <div className={`flex flex-col md:flex-row h-full w-full md:aspect-[38/9]`}>
+      <div className="relative h-[250px] md:h-full w-full md:w-1/2">
+        <Image
+          fill
+          style={{ objectFit: "cover", zIndex: 30 }}
+          src={
+            collection.image != null
+              ? "https://hdapi.huseyinonalalpha.com" + collection.image.url
+              : "/assets/img/placeholder.png"
+          }
+          alt=""
+        />
+        <div className="absolute top-2 left-2 flex flex-col z-40">
+          <p className="text-2xl font-bold">{collection.name}</p>
+        </div>
+
+        <p className="w-full mt-2 font-semibold text-lg absolute bottom-2 left-2 flex flex-col z-40">
+          {collection.description}
+        </p>
+      </div>
+
+      <div
+        className={`flex flex-col w-full md:w-1/2 h-full`}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div className="flex flex-row w-full py-2 h-full relative overflow-hidden">
+          <div
+            className="w-full h-full items-center gap-2 flex"
+            style={{
+              transform: `translateX(${currentX}px)`,
+              transition: "transform 0.5s ease",
+            }}
+          >
+            {collection.products.map((prod) => (
+              <div
+                key={prod.id}
+                className="w-[200px] bg-white rounded shadow-lg p-1 flex-shrink-0"
+              >
+                <ProductPreview width={"full"} product={prod} />
+              </div>
+            ))}
+          </div>
+          {collection.products.length > 3 && (
+            <div
+              className="absolute left-1 top-0 z-20 h-full flex items-center"
+              onClick={slidePrevious}
+            >
+              <ArrowLeft className="cursor-pointer bg-white p-0.5 rounded-full" />
+            </div>
+          )}
+          {collection.products.length > 3 && (
+            <div
+              className="absolute right-1 top-0 z-20 h-full flex items-center"
+              onClick={slideNext}
+            >
+              <ArrowLeft className="cursor-pointer rotate-180 bg-white p-0.5 rounded-full" />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CollectionShowcase;

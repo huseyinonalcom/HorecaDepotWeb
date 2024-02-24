@@ -141,13 +141,13 @@ export default function Index() {
             </div>
           )}
         </div>
-        <div className="flex flex-col justify-start aspect-[38/9] items-center mt-2 w-full">
+        <div className="flex flex-col justify-start items-center mt-2 w-full gap-3">
           {collections &&
             collections.map((collection) => (
               <div
                 key={collection.id}
                 style={{ backgroundColor: `#${collection.bgColor}` }}
-                className={`w-full aspect-[38/9]`}
+                className={`w-full`}
               >
                 <CollectionShowcase collection={collection} />
               </div>
