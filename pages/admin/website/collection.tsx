@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { CFile } from "../../../api/interfaces/cfile";
 import componentThemes from "../../../components/componentThemes";
-import { Upload } from "react-feather";
+import { Search, Upload } from "react-feather";
 import Image from "next/image";
 
 // collection creation/modificaton
@@ -40,7 +40,9 @@ export default function Order() {
   const [inputImage, setInputImage] = useState(null);
 
   const [products, setProducts] = useState(null);
+  const [allProducts, setAllProducts] = useState(null);
   const [chosenProducts, setChosenProducts] = useState([]);
+  const [productSearch, setProductSearch] = useState<string>("");
 
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -74,8 +76,26 @@ export default function Order() {
 
       if (collectionID) {
         fetchCollection(collectionID)
-          .then((coll) => {
+          .then(async (coll) => {
             setCurrentCollection(coll);
+            const fetchProducts = async () => {
+              const request = await fetch(
+                `/api/products/public/getproducts?count=19000`,
+                {
+                  method: "GET",
+                }
+              );
+              const response = await request.json();
+              if (request.ok) {
+                setAllProducts(response.sortedData);
+                return response.sortedData;
+              } else {
+                setIsLoading(false);
+                return;
+              }
+            };
+
+            setProducts(await fetchProducts());
           })
           .catch((_) => {
             setIsLoading(false);
@@ -217,24 +237,6 @@ export default function Order() {
       } catch (e) {}
     };
 
-    const fetchProducts = async () => {
-      const request = await fetch(
-        `/api/products/public/getproducts?count=19000`,
-        {
-          method: "GET",
-        }
-      );
-      const response = await request.json();
-      if (request.ok) {
-        return response.sortedData;
-      } else {
-        setIsLoading(false);
-        return;
-      }
-    };
-
-    setProducts(fetchProducts());
-
     return (
       <AdminLayout>
         <Head>
@@ -308,7 +310,42 @@ export default function Order() {
                 height={400}
               />
             )}
-            <div>{}</div>
+            <div>
+              {products && (
+                <div className="flex flex-col max-h-[350px] p-2 gap-1 overflow-y-scroll">
+                  <div className="flex flex-row border-b-2 border-black">
+                    <textarea
+                      value={productSearch}
+                      onChange={(e) => {
+                        setProductSearch(e.target.value.trim());
+                      }}
+                      onSubmit={null}
+                      placeholder={t("Internal Code")}
+                    />
+                    <Search
+                      onClick={() => {
+                        setProducts(
+                          allProducts.filter(
+                            (prod) =>
+                              prod.internalCode
+                                .toLowerCase()
+                                .includes(productSearch.toLowerCase()) ||
+                              prod.name
+                                .toLowerCase()
+                                .includes(productSearch.toLowerCase())
+                          )
+                        );
+                      }}
+                    />
+                  </div>
+                  {products.map((prod) => (
+                    <div key={prod.id} className="flex flex-row">
+                      {prod.internalCode} - {prod.name}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
             <div className="flex flex-row">
               <input
                 className="w-full p-2 rounded border border-gray-300"
