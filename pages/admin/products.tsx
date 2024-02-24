@@ -423,10 +423,6 @@ export default function Products() {
         return 29;
       case "ETKINLIK":
         return 17;
-      case "PIEDS":
-        return 29;
-      case "TABLET":
-        return 17;
       default:
         return 0;
     }
