@@ -80,6 +80,7 @@ const CollectionShowcase = ({ collection }: Props) => {
         <p
           className={`w-full mt-2 font-semibold text-lg absolute bottom-2 left-2 flex flex-col z-40 text-[#${collection.textColor}]`}
         >
+          {collection.textColor}{" "}
           {collection.description}
         </p>
       </div>
