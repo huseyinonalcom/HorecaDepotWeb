@@ -253,7 +253,7 @@ export default function Products() {
       `/api/categories/public/getallcategoriesflattened`
     );
     const data = await answer.json();
-    setAllCategories(data);
+    setAllCategories(data.filter((cat) => cat.subCategories.length == 0));
   };
 
   useEffect(() => {
