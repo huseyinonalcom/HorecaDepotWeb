@@ -72,10 +72,14 @@ const CollectionShowcase = ({ collection }: Props) => {
           alt=""
         />
         <div className="absolute top-2 left-2 flex flex-col z-40">
-          <p className="text-2xl font-bold">{collection.name}</p>
+          <p className={`text-2xl font-bold text-[#${collection.textColor}]`}>
+            {collection.name}
+          </p>
         </div>
 
-        <p className="w-full mt-2 font-semibold text-lg absolute bottom-2 left-2 flex flex-col z-40">
+        <p
+          className={`w-full mt-2 font-semibold text-lg absolute bottom-2 left-2 flex flex-col z-40 text-[#${collection.textColor}]`}
+        >
           {collection.description}
         </p>
       </div>

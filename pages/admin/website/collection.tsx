@@ -336,7 +336,7 @@ export default function Order() {
               </div>
             )}
             <button className={componentThemes.greenSubmitButton}>
-              {t("collection_create")}
+              {t("collection_modify")}
             </button>
             {submitError && (
               <p className="text-red-600 font-medium text-center">
