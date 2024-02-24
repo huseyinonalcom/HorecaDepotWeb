@@ -23,7 +23,7 @@ export default function Index() {
 
   const fetchCollections = async () => {
     const fetchCollectionsRequest = await fetch(
-      "/api/collections/public/getcollections",
+      "/api/collections/public/getcollections?featured=true",
       {
         method: "GET",
       }

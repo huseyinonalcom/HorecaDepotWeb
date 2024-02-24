@@ -31,6 +31,7 @@ export default function Order() {
 
   const [inputDescription, setInputDescription] = useState<string>("");
   const [inputFeatured, setInputFeatured] = useState<boolean>(false);
+  const [inputTextColor, setInputTextColor] = useState<string>("");
   const [inputCategory, setInputCategory] = useState<string>("");
   const [inputRight, setInputRight] = useState<boolean>(false);
   const [inputBgColor, setInputBgColor] = useState<string>("");
@@ -88,6 +89,7 @@ export default function Order() {
       setInputRight(currentCollection.right);
       setInputTags(currentCollection.tags ?? "");
       setInputBgColor(currentCollection.bgColor ?? "");
+      setInputTextColor(currentCollection.textColor ?? "");
       setInputFeatured(currentCollection.featured ?? "");
       setInputCategory(currentCollection.category ?? "");
       setInputDescription(currentCollection.description ?? "");
@@ -172,6 +174,8 @@ export default function Order() {
             bgColor: inputBgColor,
             description: inputDescription,
             image: inputImage.id,
+            tags: inputTags,
+            textColor: inputTextColor,
           }),
         }
       );
@@ -283,7 +287,6 @@ export default function Order() {
                 height={400}
               />
             )}
-            <div></div>
             <input
               className="w-full p-2 rounded border border-gray-300"
               type="text"
@@ -292,6 +295,15 @@ export default function Order() {
               value={inputBgColor}
               onChange={(e) => setInputBgColor(e.target.value)}
               placeholder={t("Background (hex code)")}
+            />
+            <input
+              className="w-full p-2 rounded border border-gray-300"
+              type="text"
+              id="text"
+              required
+              value={inputTextColor}
+              onChange={(e) => setInputTextColor(e.target.value)}
+              placeholder={t("Text Color (hex code)")}
             />
             {inputRight ? (
               <div
