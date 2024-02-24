@@ -93,7 +93,7 @@ export default function Order() {
       setInputFeatured(currentCollection.featured ?? "");
       setInputCategory(currentCollection.category ?? "");
       setInputDescription(currentCollection.description ?? "");
-      setInputImage(currentCollection.images);
+      setInputImage(currentCollection.image);
       setIsLoading(false);
     }
   }, [currentCollection]);
