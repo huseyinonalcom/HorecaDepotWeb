@@ -64,10 +64,6 @@ const CollectionShowcase = ({ collection }: Props) => {
     setTextColor(`text-[#${collection.textColor}]`);
   }, [collection]);
 
-  useEffect(() => {
-    console.log(textColor);
-  }, [textColor]);
-
   let title = (
     <p
       style={{ color: textColor }}
@@ -77,14 +73,18 @@ const CollectionShowcase = ({ collection }: Props) => {
     </p>
   );
 
-  let description = (
-    <p
-      style={{ color: textColor }}
-      className={`w-full mt-2 font-semibold text-lg absolute bottom-2 left-2 flex flex-col z-40 ${textColor}`}
-    >
-      {collection.description}
-    </p>
-  );
+  let description = <p></p>;
+
+  useEffect(() => {
+    description = (
+      <p
+        style={{ color: textColor }}
+        className={`w-full mt-2 font-semibold text-lg absolute bottom-2 left-2 flex flex-col z-40 ${textColor}`}
+      >
+        {collection.description}
+      </p>
+    );
+  }, [textColor]);
 
   return (
     <div className={`flex flex-col md:flex-row h-full w-full md:aspect-[38/9]`}>
