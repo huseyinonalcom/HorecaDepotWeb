@@ -4,7 +4,7 @@ const API_URL = process.env.API_URL + "/api/";
 const API_KEY = process.env.API_KEY;
 
 export async function getCategories(): Promise<Category[]> {
-  const fetchUrl = `${API_URL}categories?populate[headCategory][fields][0]=name&populate[subCategories][fields][0]=name&fields[0]=name`;
+  const fetchUrl = `${API_URL}categories?populate[headCategory][fields][0]=name&populate[subCategories][fields][0]=name&fields[0]=name&pagination[pageSize]=100`;
 
   const response = await fetch(fetchUrl, {
     headers: {
@@ -39,7 +39,7 @@ export async function getCategories(): Promise<Category[]> {
 }
 
 export async function getAllCategories(): Promise<Category[]> {
-  const fetchUrl = `${API_URL}categories?populate[headCategory][fields][0]=name&populate[subCategories][fields][0]=name&fields[0]=name`;
+  const fetchUrl = `${API_URL}categories?populate[headCategory][fields][0]=name&populate[subCategories][fields][0]=name&fields[0]=name&pagination[pageSize]=100`;
 
   const response = await fetch(fetchUrl, {
     headers: {

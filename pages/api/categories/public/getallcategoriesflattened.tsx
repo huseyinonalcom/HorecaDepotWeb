@@ -1,6 +1,6 @@
 import statusText from "../../../../api/statustexts";
 
-const fetchUrl = `${process.env.API_URL}/api/categories?populate[headCategory][fields][0]=name&populate[subCategories][fields][0]=name&fields[0]=name&populate[image][fields][0]=url&sort=priority`;
+const fetchUrl = `${process.env.API_URL}/api/categories?populate[headCategory][fields][0]=name&populate[subCategories][fields][0]=name&fields[0]=name&populate[image][fields][0]=url&sort=priority&pagination[pageSize]=100`;
 
 export default async function handler(req, res) {
   try {
@@ -15,7 +15,6 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json();
-
     res.status(200).json(data.data);
   } catch (error) {
     res.status(500).json(statusText[500]);

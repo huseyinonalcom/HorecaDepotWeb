@@ -6,7 +6,7 @@ let cache = {
 };
 
 const CACHE_DURATION = 15 * 60 * 1000;
-const fetchUrl = `${process.env.API_URL}/api/categories?populate[headCategory][fields][0]=name&populate[subCategories][fields][0]=name&fields[0]=name&populate[image][fields][0]=url&sort=priority`;
+const fetchUrl = `${process.env.API_URL}/api/categories?populate[headCategory][fields][0]=name&populate[subCategories][fields][0]=name&fields[0]=name&populate[image][fields][0]=url&sort=priority&pagination[pageSize]=100`;
 
 export default async function handler(req, res) {
   if (cache.data && Date.now() - cache.timestamp < CACHE_DURATION) {
@@ -25,7 +25,9 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    const allCategories: Category[] = data["data"].map(CategoryConversion.fromJson);
+    const allCategories: Category[] = data["data"].map(
+      CategoryConversion.fromJson
+    );
 
     const categoryMap = new Map(allCategories.map((cat) => [cat.id, cat]));
 
@@ -51,7 +53,6 @@ export default async function handler(req, res) {
       data: answer,
       timestamp: Date.now(),
     };
-
     return res.status(200).json(answer);
   } catch (error) {
     return res.status(500).json({ error: error.message });
