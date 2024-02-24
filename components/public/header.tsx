@@ -152,22 +152,21 @@ const Header = () => {
             />
           </div>
           <div className="hidden lg:flex flex-row items-center justify-center text-white pl-4 h-full duration-300 text-sm">
-            {router.pathname != "/products" && (
-              <div className="group relative h-full">
-                <Link
-                  href="/products?page=1"
-                  className="flex flex-row items-center mr-1 font-bold text-black h-full bg-orange-400 pl-3 pr-2"
-                >
-                  {t("SHOP")}
-                  <ChevronUp className="ml-1 w-4 h-4 transform group-hover:rotate-180 duration-300" />
-                </Link>
-                <div className="absolute top-8 mt-4 py-2 -left-5 z-50 text-gray-500 w-[240px] invisible group-hover:visible opacity-0 group-hover:opacity-100 duration-300 bg-white shadow-lg">
-                  {allCategories.map((category) => (
-                    <CategoryItem key={category.id} category={category} />
-                  ))}
-                </div>
+            <div className="group relative h-full">
+              <Link
+                href="/products?page=1"
+                className="flex flex-row items-center mr-1 font-bold text-black h-full bg-orange-400 pl-3 pr-2"
+              >
+                {t("SHOP")}
+                <ChevronUp className="ml-1 w-4 h-4 transform group-hover:rotate-180 duration-300" />
+              </Link>
+              <div className="absolute top-8 mt-4 py-2 -left-5 z-50 text-gray-500 w-[240px] invisible group-hover:visible opacity-0 group-hover:opacity-100 duration-300 bg-white shadow-lg">
+                {allCategories.map((category) => (
+                  <CategoryItem key={category.id} category={category} />
+                ))}
               </div>
-            )}
+            </div>
+
             <div className="flex flex-row">
               <Link className={navLinkClass} href="/projects">
                 {t("PROJETS")}
