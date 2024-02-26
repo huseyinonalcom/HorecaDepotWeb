@@ -47,6 +47,8 @@ const ProductButtons = ({ product, amount, onChange }: Props) => {
         <input
           type="text"
           value={cartAmount}
+          name="Amount to put in cart"
+          aria-label="Amount to put in cart"
           onChange={(e) => {
             if (Number(e.target.value) > 0) {
               setCartAmount(Number(e.target.value));

@@ -201,14 +201,14 @@ const ProductPage = ({ product, relatedProducts }: Props) => {
             <div className="flex flex-row gap-2 items-center">
               {product.priceBeforeDiscount <= product.value ? null : (
                 <>
-                  <div className="font-bold text-white bg-green-500 rounded p-1">
+                  <div className="font-bold text-white bg-green-700 rounded p-1">
                     {(
                       ((product.value - product.priceBeforeDiscount) /
                         product.priceBeforeDiscount) *
                       100
                     ).toFixed(0) + "%"}
                   </div>
-                  <h3 className="font-bold text-red-500 line-through">
+                  <h3 className="font-bold line-through text-gray-800">
                     {"€ " +
                       (cartAmount * product.priceBeforeDiscount)
                         .toFixed(2)
@@ -287,12 +287,14 @@ const ProductPage = ({ product, relatedProducts }: Props) => {
               <b>{t("Partager")}:</b>
               <Link
                 target="_blank"
+                aria-label="Share via Facebook"
                 href={`https://www.facebook.com/sharer/sharer.php?u=https://horecadepot.meubelweb.com/products/${product.id}`}
               >
                 <Facebook />
               </Link>
               <Link
                 target="_blank"
+                aria-label="Share via Whatsapp"
                 href={`https://api.whatsapp.com/send?text=https://horecadepot.meubelweb.com/products/${product.id}`}
               >
                 <Image
