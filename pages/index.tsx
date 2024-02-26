@@ -1,19 +1,18 @@
-import Head from "next/head";
-import Image from "next/image";
+import { getIndexSliderImages } from "./api/website/public/getindexsliderimages";
+import CollectionShowcase from "../components/public/collection-showcase";
+import { getCollections } from "./api/collections/public/getcollections";
 import useTranslation from "next-translate/useTranslation";
 import Layout from "../components/public/layout";
 import Meta from "../components/public/meta";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import CollectionShowcase from "../components/public/collection-showcase";
-import { getCollections } from "./api/collections/public/getcollections";
-import { getIndexSliderImages } from "./api/website/public/getindexsliderimages";
+import Image from "next/image";
+import Head from "next/head";
+import Link from "next/link";
 
 export default function Index({ collections, images, imageUrls }) {
-  const { t, lang } = useTranslation("common");
   const router = useRouter();
-
+  const { t, lang } = useTranslation("common");
   const [currentImage, setCurrentImage] = useState(0);
 
   const imageBase =

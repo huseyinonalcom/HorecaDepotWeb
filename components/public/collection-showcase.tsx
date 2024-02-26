@@ -79,13 +79,14 @@ const CollectionShowcase = ({ collection }: Props) => {
       <div className={`flex relative flex-col w-full md:w-1/2 px-2 h-full`}>
         <div
           className="flex flex-row py-2 h-full overflow-x-scroll no-scrollbar"
-          ref={containerRef}  style={{ scrollBehavior: 'smooth' }}
+          ref={containerRef}
+          style={{ scrollBehavior: "smooth" }}
         >
           <div className="w-full h-full items-center gap-2 flex">
             {collection.products.map((prod) => (
               <div
                 key={prod.id}
-                className="w-[200px] bg-white rounded shadow-lg p-1 flex-shrink-0 last:mr-4"
+                className="flex w-[200px] md:w-[12vw] md:aspect-[10/16] flex-shrink-0 bg-white rounded shadow-lg p-1 items-center last:mr-4"
               >
                 <ProductPreview width={"full"} product={prod} />
               </div>
@@ -95,7 +96,7 @@ const CollectionShowcase = ({ collection }: Props) => {
         {collection.products.length > 3 && (
           <div
             className="absolute left-1 top-0 z-20 h-full flex items-center"
-            onClick={() => handleScroll(-208)}
+            onClick={() => handleScroll(-250)}
           >
             <ArrowLeft className="cursor-pointer bg-white p-0.5 rounded-full" />
           </div>
@@ -103,7 +104,7 @@ const CollectionShowcase = ({ collection }: Props) => {
         {collection.products.length > 3 && (
           <div
             className="absolute right-1 top-0 z-20 h-full flex items-center"
-            onClick={() => handleScroll(208)}
+            onClick={() => handleScroll(250)}
           >
             <ArrowLeft className="cursor-pointer rotate-180 bg-white p-0.5 rounded-full" />
           </div>

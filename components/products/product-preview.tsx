@@ -131,8 +131,8 @@ const ProductPreview = ({ product, width }: Props) => {
         >
           {t("+ Voir details")}
         </Link>
-        <div className="flex flex-row items-end justify-center">
-          <p className="mr-1 text-gray-700 text-sm line-through mb-0.5">
+        <div className="w-full flex flex-row items-end justify-center">
+          <p className="mr-1 text-gray-700 text-sm line-through justify-end mb-0.5">
             {product.priceBeforeDiscount > product.value
               ? "€ " +
                 product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")
