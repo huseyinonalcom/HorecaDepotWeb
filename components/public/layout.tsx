@@ -10,6 +10,7 @@ import Link from "next/link";
 import CartDrawer from "../cart/cartDrawer";
 import Follow from "../common/follow";
 import { useRouter } from "next/router";
+import HeaderDrawer from "../header/headerDrawer";
 
 type Props = {
   children: React.ReactNode;

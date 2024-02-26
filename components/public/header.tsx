@@ -20,6 +20,7 @@ import { CategoryContext } from "../../api/providers/categoryProvider";
 import { CartContext } from "../../api/providers/cartProvider";
 import { ClientContext } from "../../api/providers/clientProvider";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
+import HeaderDrawer from "../header/headerDrawer";
 
 /// TODO: make popups dismiss when click outside of popups happens (maybe an overlay)
 
@@ -134,11 +135,20 @@ const Header = () => {
   }, [showSearch]);
 
   const [showMenu, setShowMenu] = useState(false);
+  const [isHeaderDrawerOpen, setIsHeaderDrawerOpen] = useState(false);
   const [showLanguages, setShowLanguages] = useState(false);
+
+  function onClickOutsideDrawer() {
+    setIsHeaderDrawerOpen(false);
+  }
 
   return (
     <div className="print:hidden bg-black z-50 sticky top-0 flex flex-col items-start justify-center h-[70px] duration-300 shadow-lg text-white px-4 sm:px-8 mb-1">
       <div className="flex flex-row w-full justify-between items-center">
+        <HeaderDrawer
+          isOpen={isHeaderDrawerOpen}
+          onClickOutside={onClickOutsideDrawer}
+        />
         <div className="flex flex-row h-full">
           <div className="w-[130px] md:w-[300px]">
             <Image
@@ -394,7 +404,7 @@ const Header = () => {
             <button
               name="Mobile Navigation Menu"
               aria-label="Mobile Navigation Menu"
-              onClick={() => setShowMenu(!showMenu)}
+              onClick={() => setIsHeaderDrawerOpen(!isHeaderDrawerOpen)}
             >
               <Menu />
             </button>
