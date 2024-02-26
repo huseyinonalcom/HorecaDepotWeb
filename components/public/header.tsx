@@ -183,16 +183,7 @@ const Header = () => {
               <User />
             </Link>
           )}
-          <Link
-            aria-label="Link to Wishlist"
-            className={navButtonsClass}
-            href="/wishlist"
-          >
-            <Heart />
-            <span className="absolute top-3 right-3 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-orange-400 rounded-full">
-              {wishlist.length}
-            </span>
-          </Link>
+     
           <button
             name="Shopping cart"
             className={navButtonsClass}
@@ -275,6 +266,16 @@ const Header = () => {
         </div>
 
         {/* 
+     <Link
+            aria-label="Link to Wishlist"
+            className={navButtonsClass}
+            href="/wishlist"
+          >
+            <Heart />
+            <span className="absolute top-3 right-3 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-orange-400 rounded-full">
+              {wishlist.length}
+            </span>
+          </Link>
           <div className="flex mr-2 sm:hidden flex-row items-center"></div>
           <div className="relative hidden lg:flex flex-row items-center flex-shrink-0 justify-center text-white pl-2 mr-2 h-full duration-300 text-sm">
             <button onClick={() => setShowLanguages(!showLanguages)}>
