@@ -1,6 +1,22 @@
 import statusText from "../../../../api/statustexts";
 
+const cache = {
+  data: null,
+  lastFetch: 0,
+};
+
+const CATEGORY_CACHE_TTL = 1000 * 60 * 30;
+
 export default async function getCollections(req, res) {
+  const now = Date.now();
+  const cacheCheck = () => {
+    if (cache.data && now - cache.lastFetch < CATEGORY_CACHE_TTL) {
+      return res.status(200).json(cache.data);
+    }
+  };
+
+  cacheCheck();
+
   if (req.method != "GET") {
     return res.status(405).json(statusText[405]);
   }
@@ -33,8 +49,6 @@ export default async function getCollections(req, res) {
       const fetchCollectionsAnswer = await fetchCollectionsRequest.json();
       return res.status(200).json(fetchCollectionsAnswer.data);
     } else {
-      const fetchCollectionsAnswer = await fetchCollectionsRequest.json();
-      console.log(fetchCollectionsAnswer);
       return res.status(404).json(statusText[404]);
     }
   } catch (_) {

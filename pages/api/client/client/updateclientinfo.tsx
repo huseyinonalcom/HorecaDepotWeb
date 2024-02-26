@@ -3,7 +3,7 @@ import statusText from "../../../../api/statustexts";
 
 const fetchUrl = `${process.env.API_URL}/api/users/me?populate[client_info][populate][0]=addresses&populate=role`;
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function putClientInfo(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     const cookies = req.cookies;
     const authToken = cookies.cj;

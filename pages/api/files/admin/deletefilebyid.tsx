@@ -3,7 +3,7 @@ import statusText from "../../../../api/statustexts";
 
 const fetchUrl = `${process.env.API_URL}/api/upload/files/`;
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function deleteFileByID(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "DELETE") {
     const cookies = req.cookies;
     const authToken = cookies.j;

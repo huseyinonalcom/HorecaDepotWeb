@@ -1,6 +1,6 @@
 import statusText from "../../../../api/statustexts";
 
-export default async function verifyPayment(req, res) {
+export default async function sendOrderNotifications(req, res) {
   try {
     var orderID;
     var order;

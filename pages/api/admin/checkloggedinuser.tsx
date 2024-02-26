@@ -5,7 +5,7 @@ const fetchUrl = `${process.env.API_URL}/api/users/me?populate[role][fields][0]=
 
 const validRoles = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function checkLoggedInUserAdmin(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     const cookies = req.cookies;
     const authToken = cookies.j;

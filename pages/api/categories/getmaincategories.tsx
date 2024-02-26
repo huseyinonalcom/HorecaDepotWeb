@@ -6,7 +6,7 @@ let cache = {
 const CACHE_DURATION = 15 * 60 * 1000;
 const fetchUrl = `${process.env.API_URL}/api/categories?filters[headCategory][id][$null]=true&fields[0]=Name&populate[image][fields][0]=url&sort=priority&pagination[pageSize]=100`;
 
-export default async function handler(req, res) {
+export default async function getMainCategory(req, res) {
   if (cache.data && Date.now() - cache.timestamp < CACHE_DURATION) {
     return res.status(200).json(cache.data);
   }

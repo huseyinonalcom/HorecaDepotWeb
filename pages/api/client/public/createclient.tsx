@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import statusText from "../../../../api/statustexts";
 
-export default async function handler(
+export default async function postClient(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

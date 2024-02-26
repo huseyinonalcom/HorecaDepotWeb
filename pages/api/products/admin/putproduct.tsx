@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Product } from "../../../../api/interfaces/product";
 import statusText from "../../../../api/statustexts";
 
-export default async function handler(
+export default async function putProduct(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

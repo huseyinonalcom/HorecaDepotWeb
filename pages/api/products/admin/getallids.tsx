@@ -3,7 +3,7 @@ import statusText from "../../../../api/statustexts";
 
 const fetchUrl = `${process.env.API_URL}/api/products?fields[0]=id&fields[1]=supplierCode&populate[product_extra][fields][0]=id&pagination[pageSize]=20000`;
 
-export default async function handler(
+export default async function getAllProductIDs(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

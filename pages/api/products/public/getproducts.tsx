@@ -45,7 +45,7 @@ function checkValues(minValue, maxValue) {
   return isMinValueValid && isMaxValueValid && isMinLessThanMax;
 }
 
-export default async function handler(req, res) {
+export default async function getProducts(req, res) {
   const pageParam = req.query.page ?? 1;
   const categoryParam = req.query.category ?? null;
   const minValueParam = Number(req.query.minprice) ?? null;

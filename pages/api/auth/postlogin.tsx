@@ -7,7 +7,7 @@ const fetchUrl3 = `${process.env.API_URL}/api/users/me?populate[0]=client_info&p
 
 const validRoles = ["Client"];
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function logInClient(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     const { identifier, password } = req.body;
 

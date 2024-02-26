@@ -27,7 +27,7 @@ function streamToBlob(stream, mimeType) {
   });
 }
 
-export default async function handler(
+export default async function postFile(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

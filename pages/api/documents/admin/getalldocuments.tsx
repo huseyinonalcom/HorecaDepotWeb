@@ -3,7 +3,7 @@ import statusText from "../../../../api/statustexts";
 
 const fetchUrl = `${process.env.API_URL}/api/documents?populate=*`;
 
-export default async function handler(
+export default async function getAllDocuments(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

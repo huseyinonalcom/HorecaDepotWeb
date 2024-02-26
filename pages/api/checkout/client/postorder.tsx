@@ -49,7 +49,7 @@ const calculateTotalWithPromo = (promoDetails, cart) => {
   return cartAfterPromo;
 };
 
-export default async function handler(
+export default async function postOrder(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

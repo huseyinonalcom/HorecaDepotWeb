@@ -6,7 +6,7 @@ const fetchUrl2 = `${process.env.API_URL}/api/users/me?populate=role`;
 
 const validRoles = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function logInAdmin(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     const { identifier, password } = req.body;
 

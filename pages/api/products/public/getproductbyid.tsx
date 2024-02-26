@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+export default async function getProductByID(req, res) {
   const productId = req.query.id;
 
   try {

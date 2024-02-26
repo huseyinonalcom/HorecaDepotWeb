@@ -147,7 +147,7 @@ export default function Index() {
               <div
                 key={collection.id}
                 style={{ backgroundColor: `#${collection.bgColor}` }}
-                className={`w-full`}
+                className={`w-full md:aspect-[38/9]`}
               >
                 <CollectionShowcase collection={collection} />
               </div>

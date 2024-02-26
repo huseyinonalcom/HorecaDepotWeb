@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+export default async function toggleActive(req, res) {
   const productId = req.query.id;
   try {
     const cookies = req.cookies;

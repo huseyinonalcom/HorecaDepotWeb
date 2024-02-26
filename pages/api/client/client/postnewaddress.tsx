@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import statusText from "../../../../api/statustexts";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function postNewAddress(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     const cookies = req.cookies;
     const authToken = cookies.cj;

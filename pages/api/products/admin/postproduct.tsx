@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { Product } from "../../../../api/interfaces/product";
 
-export default async function handler(
+export default async function postProduct(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

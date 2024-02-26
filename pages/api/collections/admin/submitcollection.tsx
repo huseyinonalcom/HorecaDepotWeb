@@ -1,6 +1,6 @@
 import statusText from "../../../../api/statustexts";
 
-export default async function handler(req, res) {
+export default async function submitCollection(req, res) {
   if (!req.cookies.j) {
     return res.status(401).json(statusText[401]);
   }
