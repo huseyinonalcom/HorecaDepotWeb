@@ -446,6 +446,8 @@ export default function Products() {
                       className="p-2 border rounded hover:bg-gray-200"
                       onClick={() => setCurrentPage(currentPage - 1)}
                       disabled={currentPage === 1}
+                      name="Previous page"
+                      aria-label="Previous page"
                     >
                       <ChevronLeft />
                     </button>
@@ -470,6 +472,8 @@ export default function Products() {
                       className="p-2 border rounded hover:bg-gray-200"
                       onClick={() => setCurrentPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
+                      name="Next page"
+                      aria-label="Next page"
                     >
                       <ChevronRight />
                     </button>
