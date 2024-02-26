@@ -15,15 +15,12 @@ export async function getCategories(): Promise<Category[]> {
   const data = await response.json();
 
   const allCategories = data["data"].map(CategoryConversion.fromJson);
-  // Create a map for quick access to categories by ID
   const categoryMap = new Map(allCategories.map((cat) => [cat.id, cat]));
 
   allCategories.forEach((cat) => {
-    // Reset subcategories to avoid duplicates
     cat.subCategories = [];
   });
   allCategories.forEach((cat) => {
-    // If the category has a headCategory, find the parent and add this category to its subCategories
     if (cat.headCategory) {
       const parent: Category = categoryMap.get(cat.headCategory.id);
       if (parent) {
@@ -32,7 +29,6 @@ export async function getCategories(): Promise<Category[]> {
     }
   });
 
-  // Filter out main categories (those without a headCategory)
   const mainCategories = allCategories.filter((cat) => !cat.headCategory);
 
   return mainCategories;

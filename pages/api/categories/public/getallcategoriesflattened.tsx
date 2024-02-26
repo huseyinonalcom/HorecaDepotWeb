@@ -2,7 +2,22 @@ import statusText from "../../../../api/statustexts";
 
 const fetchUrl = `${process.env.API_URL}/api/categories?populate[headCategory][fields][0]=name&populate[subCategories][fields][0]=name&fields[0]=name&populate[image][fields][0]=url&sort=priority&pagination[pageSize]=100`;
 
-export default async function getAllCategoriesFlattened(req, res) {
+// export async function getAllCategoriesFlattened() {
+
+//   const response = await fetch(fetchUrl, {
+//     headers: {
+//       Authorization: `Bearer ${API_KEY}`,
+//     },
+//   });
+
+//   const data = await response.json();
+
+//   const allCategories = data["data"].map(CategoryConversion.fromJson);
+
+//   return allCategories;
+// }
+
+export default async function handler(req, res) {
   try {
     const response = await fetch(fetchUrl, {
       headers: {

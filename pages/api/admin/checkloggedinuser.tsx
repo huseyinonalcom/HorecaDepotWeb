@@ -1,11 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../api/statustexts";
 
-const fetchUrl = `${process.env.API_URL}/api/users/me?populate[role][fields][0]=description&fields=id`;
+const fetchUrl = `${process.env.API_URL}/api/users/me?populate[role][fields][0]=name&fields=id`;
 
 const validRoles = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export default async function checkLoggedInUserAdmin(req: NextApiRequest, res: NextApiResponse) {
+export default async function checkLoggedInUserAdmin(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === "GET") {
     const cookies = req.cookies;
     const authToken = cookies.j;
@@ -26,8 +29,10 @@ export default async function checkLoggedInUserAdmin(req: NextApiRequest, res: N
       }
 
       const answer = await request.json();
-      
-      if (!validRoles.includes(Number(answer.role.description))) {
+
+      if (
+        !validRoles.includes(Number(answer.role.name.replaceAll("Tier ", "")))
+      ) {
         return res.status(404).json(statusText[404]);
       }
 
