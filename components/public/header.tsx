@@ -122,7 +122,7 @@ const Header = () => {
   };
 
   const navLinkClass =
-    "px-4 py-3 duration-300 font-bold underline-animation-white";
+    "px-4 py-3 duration-300 font-bold underline-animation-white whitespace-nowrap";
   const [showSearch, setShowSearch] = useState(false);
   const searchInputRef = useRef(null);
 
@@ -142,26 +142,78 @@ const Header = () => {
     setIsHeaderDrawerOpen(false);
   }
 
+  const navButtonsClass =
+    "relative flex flex-col justify-center items-center p-1 bg-white duration-300 font-bold text-sm text-black hover:bg-orange-400 aspect-[1/1]";
+
   return (
-    <div className="print:hidden bg-black z-50 sticky top-0 flex flex-col items-start justify-center h-[70px] duration-300 shadow-lg text-white px-4 sm:px-8 mb-1">
-      <div className="flex flex-row w-full justify-between items-center">
-        <HeaderDrawer
-          isOpen={isHeaderDrawerOpen}
-          onClickOutside={onClickOutsideDrawer}
-        />
-        <div className="flex flex-row h-full">
-          <div className="w-[130px] md:w-[300px]">
-            <Image
-              width={300}
-              height={150}
-              className="bg-transparent"
-              src="/assets/header/logo.png"
-              alt="Horeca Depot Logo"
-              style={{ objectFit: "contain", cursor: "pointer" }}
-              onClick={() => router.push(`/`)}
-            />
-          </div>
-          <div className="hidden lg:flex flex-row items-center justify-center text-white pl-4 h-full duration-300 text-sm">
+    <div className="print:hidden bg-black z-50 sticky top-0 flex flex-col w-full justify-between items-center gap-2 p-3 duration-300 shadow-lg text-white">
+      <HeaderDrawer
+        isOpen={isHeaderDrawerOpen}
+        onClickOutside={onClickOutsideDrawer}
+      />
+      <div className="flex flex-row w-full items-center justify-between">
+        <Link
+          href={"/"}
+          style={{
+            WebkitTapHighlightColor: "transparent",
+          }}
+        >
+          <Image
+            width={200}
+            height={45}
+            src="/assets/header/logo.png"
+            alt="Horeca Depot Logo"
+          />
+        </Link>
+        <div className="flex flex-row gap-2 h-[45px]">
+          {client ? (
+            <Link
+              aria-label="Link to User Account Dashboard"
+              className={navButtonsClass}
+              href="/account/myorders"
+            >
+              <User />
+            </Link>
+          ) : (
+            <Link
+              aria-label="Link to User Login"
+              className={navButtonsClass}
+              href="/login"
+            >
+              <User />
+            </Link>
+          )}
+          <Link
+            aria-label="Link to Wishlist"
+            className={navButtonsClass}
+            href="/wishlist"
+          >
+            <Heart />
+            <span className="absolute top-3 right-3 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-orange-400 rounded-full">
+              {wishlist.length}
+            </span>
+          </Link>
+          <button
+            name="Shopping cart"
+            className={navButtonsClass}
+            onClick={openDrawer}
+          >
+            <ShoppingBag />
+            <span className="absolute top-3 right-3 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-orange-400 rounded-full">
+              {cartItems}
+            </span>
+          </button>
+          <button
+            name="Mobile Navigation Menu"
+            className="relative flex flex-col justify-center items-center p-1 duration-300 font-bold text-sm text-white focus:outline-transparent hover:text-orange-400 aspect-[1/1]"
+            style={{ WebkitTapHighlightColor: "transparent" }}
+            aria-label="Mobile Navigation Menu"
+            onClick={() => setIsHeaderDrawerOpen(!isHeaderDrawerOpen)}
+          >
+            <Menu />
+          </button>
+        </div>
+        {/* <div className="hidden lg:flex flex-row items-center justify-center text-white pl-4 h-full duration-300 text-sm">
             <div className="group relative h-full">
               <Link
                 href="/products?page=1"
@@ -191,51 +243,40 @@ const Header = () => {
                 {t("À PROPOS DE NOUS")}
               </Link>
             </div>
-          </div>
-        </div>
-        <div className="flex flex-row">
-          <div className="flex mr-2 sm:hidden flex-row items-center">
-            {client ? (
-              <Link
-                aria-label="Link to User Account Dashboard"
-                className="duration-300 underline-animation-white font-bold text-sm ml-2"
-                href="/account/myorders"
+          </div> */}
+      </div>
+      <div className="flex flex-row w-full">
+        <div className="relative w-full">
+          <form
+            name="Search"
+            aria-label="Search"
+            className="w-full duration-300"
+            onSubmit={handleSearchSubmit}
+          >
+            <input
+              name="Search bar input"
+              aria-label="Search bar input"
+              ref={searchInputRef}
+              type="text"
+              onChange={handleSearchChange}
+              className="w-full pl-4 pr-4 py-2 border-2 text-black outline-none focus:border-orange-400"
+              placeholder={t("Cherchez des produits")}
+            />
+            <div className="absolute inset-y-0 right-0 flex">
+              <div
+                aria-label="Search bar submit button"
+                onClick={handleSearchSubmit}
+                className="bg-orange-400 h-full w-[45px] cursor-pointer"
               >
-                <User />
-              </Link>
-            ) : (
-              <Link
-                aria-label="Link to User Login"
-                className="duration-300 underline-animation-white font-bold text-sm ml-2"
-                href="/login"
-              >
-                <User />
-              </Link>
-            )}
-            <Link
-              aria-label="Link to Wishlist"
-              className="hover:text-gray-300 duration-300 relative ml-2 hover:text-red-500"
-              href="/wishlist"
-            >
-              <Heart />
-              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-orange-400 rounded-full">
-                {wishlist.length}
-              </span>
-            </Link>
-            <button
-              name="Shopping cart"
-              onClick={openDrawer}
-              className="flex items-center flex-row hover:text-green-500 duration-300 ml-4"
-            >
-              <div className="relative">
-                <ShoppingBag />
-                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-orange-400 rounded-full">
-                  {cartItems}
-                </span>
+                <Search className="h-6 w-6 mx-auto pr-1 mt-2.5" />
               </div>
-            </button>
-          </div>
-          <div className="relative hidden lg:flex flex-row items-center justify-center text-white pl-2 mr-2 h-full duration-300 text-sm">
+            </div>
+          </form>
+        </div>
+
+        {/* 
+          <div className="flex mr-2 sm:hidden flex-row items-center"></div>
+          <div className="relative hidden lg:flex flex-row items-center flex-shrink-0 justify-center text-white pl-2 mr-2 h-full duration-300 text-sm">
             <button onClick={() => setShowLanguages(!showLanguages)}>
               <Image
                 src={`/assets/header/${lang.toUpperCase()}.svg`}
@@ -320,44 +361,7 @@ const Header = () => {
               </button>
             </div>
           </div>
-          {router.pathname != "/products" && (
-            <div className="group relative">
-              <div
-                className="cursor-pointer"
-                onClick={() => setShowSearch(!showSearch)}
-              >
-                <Search className="h-6 w-6" />
-              </div>
-
-              <form
-                name="Search"
-                aria-label="Search"
-                className={`absolute top-full -left-48 mt-2 w-[250px] overflow-hidden duration-300 ${
-                  showSearch ? `visible opacity-100` : `invisible opacity-0`
-                }`}
-                onSubmit={handleSearchSubmit}
-              >
-                <input
-                  name="Search bar input"
-                  aria-label="Search bar input"
-                  ref={searchInputRef}
-                  type="text"
-                  onChange={handleSearchChange}
-                  className="w-full pl-4 pr-4 py-2 border-2 rounded-full text-black outline-none focus:border-orange-400"
-                  placeholder={t("Cherchez des produits")}
-                />
-                <div className="absolute inset-y-0 right-0 flex">
-                  <div
-                    aria-label="Search bar submit button"
-                    onClick={handleSearchSubmit}
-                    className="bg-orange-400 h-full rounded-r-full w-[45px] cursor-pointer"
-                  >
-                    <Search className="h-6 w-6 mx-auto pr-1 mt-2.5" />
-                  </div>
-                </div>
-              </form>
-            </div>
-          )}
+          
           <div className="hidden sm:flex flex-row items-center">
             {client ? (
               <Link
@@ -401,14 +405,6 @@ const Header = () => {
             </button>
           </div>
           <div className="relative flex lg:hidden flex-row items-center justify-center text-white pl-2 h-full duration-300 text-sm">
-            <button
-              name="Mobile Navigation Menu"
-              aria-label="Mobile Navigation Menu"
-              onClick={() => setIsHeaderDrawerOpen(!isHeaderDrawerOpen)}
-            >
-              <Menu />
-            </button>
-
             <div
               className={`absolute top-full -right-2 mt-2 flex flex-col bg-black duration-300 shadow-md ${
                 showMenu ? `visible opacity-100` : `invisible opacity-0`
@@ -567,8 +563,7 @@ const Header = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </div> */}
       </div>
     </div>
   );
