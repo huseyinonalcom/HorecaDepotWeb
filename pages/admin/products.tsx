@@ -698,31 +698,6 @@ export default function Products() {
     setCurrentSearch(tempSearch);
   };
 
-  var EAN = {
-    "6097501691626": "",
-    "6097532414461": "",
-    "6097503672616": "",
-    "6097501984940": "",
-  };
-
-  const EANSCAN = async () => {
-    const allIDsReq = await fetch("/api/products/admin/getallids");
-    const allIDsAns = await allIDsReq.json();
-    let allCodes = allIDsAns.data;
-    console.log(allCodes);
-
-    // Loop through allCodes array
-    allCodes.forEach((item) => {
-      // Check if the supplier code exists in the EAN object
-      if (EAN.hasOwnProperty(item.supplierCode)) {
-        // Update the value of the corresponding property in EAN
-        EAN[item.supplierCode] = item.id;
-      }
-    });
-
-    console.log(EAN); // Now EAN object is updated with IDs
-  };
-
   if (isLoading) {
     return <LoadingIndicator />;
   } else
