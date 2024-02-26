@@ -4,23 +4,15 @@ import useTranslation from "next-translate/useTranslation";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { CFile } from "../../../api/interfaces/cfile";
 import componentThemes from "../../../components/componentThemes";
-import { Search, Upload } from "react-feather";
+import { Check, Search, Upload, X } from "react-feather";
 import Image from "next/image";
-
-// collection creation/modificaton
-// creation: empty collection => post with name => get ID => switch to modification layout
-// modification: existing collection with at least name and ID => add products, image, bgColor, tags, right/left, description => if products, image, bgcolor, right/left are set allow featured to be set to true
 
 const buttonClass =
   "flex flex-row items-center justify-start py-2 rounded shadow-lg hover:bg-orange-400 overflow-hidden duration-500 cursor-pointer";
 const navIconDivClass = "flex flex-row justify-center flex-shrink-0 w-[35px]";
 const iconClass = "flex-shrink-0";
 const textClass = "mx-2 font-bold mtext-left";
-const inputDivClass =
-  "flex flex-col items-center shadow-lg gap-2 bg-white p-1 rounded h-min";
-const inputClass = "border rounded w-full";
 
 export default function Order() {
   const router = useRouter();
@@ -122,6 +114,10 @@ export default function Order() {
     }
   }, [currentCollection]);
 
+  useEffect(() => {
+    console.log(chosenProducts);
+  }, [chosenProducts]);
+
   if (isLoading) {
     return (
       <AdminLayout>
@@ -187,6 +183,7 @@ export default function Order() {
   } else {
     const putCollection = async (e) => {
       e.preventDefault();
+      console.log(chosenProducts.map((pro) => pro.id));
       const request = await fetch(
         `/api/collections/admin/submitcollection?id=${currentCollection.id}`,
         {
@@ -197,8 +194,10 @@ export default function Order() {
             bgColor: inputBgColor,
             description: inputDescription,
             image: inputImage.id,
+            right: inputRight,
             tags: inputTags,
             textColor: inputTextColor,
+            products: chosenProducts.map((pro) => pro.id),
           }),
         }
       );
@@ -318,9 +317,29 @@ export default function Order() {
                       value={productSearch}
                       onChange={(e) => {
                         setProductSearch(e.target.value.trim());
+                        if (e.target.value.trim() == "") {
+                          setProducts(allProducts);
+                        }
                       }}
-                      onSubmit={null}
-                      placeholder={t("Internal Code")}
+                      onKeyDown={(e) => {
+                        if (e.key.toLowerCase() == "enter") {
+                          setProducts(
+                            allProducts.filter(
+                              (prod) =>
+                                prod.internalCode
+                                  .toLowerCase()
+                                  .includes(productSearch.toLowerCase()) ||
+                                prod.name
+                                  .toLowerCase()
+                                  .includes(productSearch.toLowerCase()) ||
+                                prod.color
+                                  .toLowerCase()
+                                  .includes(productSearch.toLowerCase())
+                            )
+                          );
+                        }
+                      }}
+                      placeholder={t("Internal Code / Nom / Couleur")}
                     />
                     <Search
                       onClick={() => {
@@ -332,6 +351,9 @@ export default function Order() {
                                 .includes(productSearch.toLowerCase()) ||
                               prod.name
                                 .toLowerCase()
+                                .includes(productSearch.toLowerCase()) ||
+                              prod.color
+                                .toLowerCase()
                                 .includes(productSearch.toLowerCase())
                           )
                         );
@@ -339,8 +361,25 @@ export default function Order() {
                     />
                   </div>
                   {products.map((prod) => (
-                    <div key={prod.id} className="flex flex-row">
-                      {prod.internalCode} - {prod.name}
+                    <div
+                      key={prod.id}
+                      className="flex flex-row cursor-pointer odd:bg-gray-300 hover:bg-orange-400"
+                      onClick={() => {
+                        if (chosenProducts.some((p) => p.id === prod.id)) {
+                          setChosenProducts(
+                            chosenProducts.filter((p) => p.id !== prod.id)
+                          );
+                        } else {
+                          setChosenProducts([...chosenProducts, prod]);
+                        }
+                      }}
+                    >
+                      {chosenProducts.some((p) => p.id === prod.id) ? (
+                        <Check color="green" />
+                      ) : (
+                        <X />
+                      )}
+                      {prod.internalCode} - {prod.name} - {prod.color}
                     </div>
                   ))}
                 </div>

@@ -97,7 +97,7 @@ const CollectionShowcase = ({ collection }: Props) => {
   }, [textColor]);
 
   return (
-    <div className={`flex flex-col md:flex-row h-full w-full md:aspect-[38/9]`}>
+    <div className={`flex flex-col ${collection.right ? "md:flex-row-reverse" : "md:flex-row"} h-full w-full md:aspect-[38/9]`}>
       <div className="relative h-[250px] md:h-full w-full md:w-1/2">
         <Image
           fill
