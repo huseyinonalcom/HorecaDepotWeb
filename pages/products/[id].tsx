@@ -133,6 +133,7 @@ const ProductPage = ({ product, relatedProducts }: Props) => {
                     key={img.id}
                     src={`https://hdapi.huseyinonalalpha.com${img.url}`}
                     fill
+                    priority  loading="eager"
                     style={{ objectFit: "cover" }}
                     alt={product.name}
                     className={`${imageBase} ${
