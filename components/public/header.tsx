@@ -143,7 +143,7 @@ const Header = () => {
   }
 
   const navButtonsClass =
-    "relative flex flex-col justify-center items-center p-1 bg-white duration-300 font-bold text-sm text-black hover:bg-orange-400 aspect-[1/1] flex-shrink-0";
+    "relative flex flex-col justify-center items-center p-1 bg-white duration-300 font-bold text-sm text-black hover:bg-orange-400 aspect-[1/1]";
 
   return (
     <div className="print:hidden bg-black z-50 sticky top-0 flex flex-col w-full justify-between items-center gap-2 p-3 duration-300 shadow-lg text-white">
@@ -196,7 +196,7 @@ const Header = () => {
           </button>
           <button
             name="Mobile Navigation Menu"
-            className="relative flex flex-col justify-center items-center p-1 duration-300 font-bold text-sm text-white focus:outline-transparent hover:text-orange-400 aspect-[1/1]"
+            className="relative flex flex-col justify-center items-center p-1 duration-300 font-bold text-sm text-white focus:outline-transparent hover:text-orange-400"
             style={{ WebkitTapHighlightColor: "transparent" }}
             aria-label="Mobile Navigation Menu"
             onClick={() => setIsHeaderDrawerOpen(!isHeaderDrawerOpen)}
