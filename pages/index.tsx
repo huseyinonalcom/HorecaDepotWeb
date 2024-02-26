@@ -181,6 +181,6 @@ export const getStaticProps = async () => {
       images,
       imageUrls,
     },
-    revalidate: 100,
+    revalidate: 1800,
   };
 };
