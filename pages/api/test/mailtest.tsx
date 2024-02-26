@@ -1,4 +1,4 @@
-export default async function Mailtest(req, res) {
+export default async function mailTest(req, res) {
   const nodemailer = require("nodemailer");
 
   // Create a transporter object using the custom SMTP transport
@@ -12,7 +12,7 @@ export default async function Mailtest(req, res) {
     },
   });
 
-  // Setup email data for Client
+  // Setup email data for Clients
   let mailOptionsClient = {
     from: `"${process.env.MAIL_SENDER}" <${process.env.MAIL_USER}>`, // Sender address
     to: "huseyin-_-onal@hotmail.com", // List of recipients

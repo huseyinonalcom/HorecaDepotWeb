@@ -7,15 +7,14 @@ const cache = {
 
 const CATEGORY_CACHE_TTL = 1000 * 60 * 30;
 
-export default async function getIndexSliderImages(req, res) {
+// Function to fetch index slider images data from the API
+export async function getIndexSliderImages() {
   const now = Date.now();
-  const cacheCheck = () => {
-    if (cache.data && now - cache.lastFetch < CATEGORY_CACHE_TTL) {
-      return res.status(200).json(cache.data);
-    }
-  };
 
-  cacheCheck();
+  // Check if cached data is still valid
+  if (cache.data && now - cache.lastFetch < CATEGORY_CACHE_TTL) {
+    return cache.data;
+  }
 
   try {
     const fetchImagesUrl = `${process.env.API_URL}/api/websites/1?fields[0]=id&fields[1]=indexSliderImagesUrls&populate[indexSliderImages][fields][0]=url`;
@@ -28,16 +27,27 @@ export default async function getIndexSliderImages(req, res) {
         Authorization: `Bearer ${process.env.API_KEY}`,
       },
     });
+
     if (fetchImagesRequest.ok) {
       const fetchImagesAnswer = await fetchImagesRequest.json();
-
       cache.lastFetch = now;
       cache.data = fetchImagesAnswer.data;
-      return res.status(200).json(fetchImagesAnswer.data);
+      return fetchImagesAnswer.data;
     } else {
-      return res.status(404).json(statusText[404]);
+      throw new Error("Failed to fetch index slider images data");
     }
-  } catch (_) {
+  } catch (error) {
+    console.error("Error fetching index slider images data:", error);
+    throw error;
+  }
+}
+
+// API route handler for fetching index slider images
+export default async function handler(req, res) {
+  try {
+    const indexSliderImagesData = await getIndexSliderImages();
+    return res.status(200).json(indexSliderImagesData);
+  } catch (error) {
     return res.status(500).json(statusText[500]);
   }
 }

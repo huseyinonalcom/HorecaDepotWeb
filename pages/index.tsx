@@ -5,71 +5,14 @@ import Layout from "../components/public/layout";
 import Meta from "../components/public/meta";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { CFile } from "../api/interfaces/cfile";
 import { useRouter } from "next/router";
 import CollectionShowcase from "../components/public/collection-showcase";
+import { getCollections } from "./api/collections/public/getcollections";
+import { getIndexSliderImages } from "./api/website/public/getindexsliderimages";
 
-export default function Index() {
+export default function Index({ collections, images, imageUrls }) {
   const { t, lang } = useTranslation("common");
   const router = useRouter();
-
-  const homepageSpecialBox = "relative h-52 text-white pl-4";
-
-  const [images, setImages] = useState<CFile[] | null>(null);
-
-  const [imageUrls, setImageUrls] = useState(null);
-
-  const [collections, setCollections] = useState(null);
-
-  const fetchCollections = async () => {
-    const fetchCollectionsRequest = await fetch(
-      "/api/collections/public/getcollections?featured=true",
-      {
-        method: "GET",
-      }
-    );
-    if (fetchCollectionsRequest.ok) {
-      const fetchCollectionsAnswer = await fetchCollectionsRequest.json();
-      return fetchCollectionsAnswer;
-    } else {
-      return null;
-    }
-  };
-
-  const fetchImages = async () => {
-    const fetchImagesRequest = await fetch(
-      "/api/website/public/getindexsliderimages",
-      {
-        method: "GET",
-      }
-    );
-    if (fetchImagesRequest.ok) {
-      const fetchImagesAnswer = await fetchImagesRequest.json();
-      setImageUrls(fetchImagesAnswer.indexSliderImagesUrls);
-      return fetchImagesAnswer.indexSliderImages;
-    } else {
-      return null;
-    }
-  };
-
-  useEffect(() => {
-    if (!images) {
-      const fetchAndSetImages = async () => {
-        setImages(await fetchImages());
-      };
-      fetchAndSetImages();
-    }
-    if (!collections) {
-      const fetchAndSetCollections = async () => {
-        const collections = await fetchCollections();
-        const randomizedCollections = collections.sort(
-          () => Math.random() - 0.5
-        );
-        setCollections(randomizedCollections);
-      };
-      fetchAndSetCollections();
-    }
-  }, []);
 
   const [currentImage, setCurrentImage] = useState(0);
 
@@ -77,6 +20,7 @@ export default function Index() {
     "absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000";
   const imageVisible = "opacity-100 z-40";
   const imageInvisible = "opacity-0";
+  const homepageSpecialBox = "relative h-52 text-white pl-4";
 
   useEffect(() => {
     setCurrentImage(0);
@@ -224,3 +168,19 @@ export default function Index() {
     </Layout>
   );
 }
+
+export const getStaticProps = async () => {
+  let collections = await getCollections();
+  collections = collections.sort(() => Math.random() - 0.5);
+  const imageStuff = await getIndexSliderImages();
+  const images = imageStuff.indexSliderImages;
+  const imageUrls = imageStuff.indexSliderImagesUrls;
+  return {
+    props: {
+      collections,
+      images,
+      imageUrls,
+    },
+    revalidate: 100,
+  };
+};
