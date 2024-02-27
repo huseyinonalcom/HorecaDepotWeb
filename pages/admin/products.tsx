@@ -522,7 +522,7 @@ export default function Products() {
           if (!request.ok) {
             throw new Error(`Put failed: ${request.status}`);
           }
-          fetchProducts();
+          window.location.reload();
         } catch (error) {}
       } else {
         try {
@@ -583,6 +583,7 @@ export default function Products() {
           } else {
             fetchProducts();
             setSelectedRows(new Set());
+            window.location.reload();
           }
         } catch {
           setSubmitError(
@@ -996,7 +997,7 @@ export default function Products() {
                           : ""}
                       </td>
                       <td>
-                        {product.product_extra.surface_area != "0"
+                        {product.product_extra.surface_area != null
                           ? product.product_extra.surface_area
                           : ""}
                       </td>
