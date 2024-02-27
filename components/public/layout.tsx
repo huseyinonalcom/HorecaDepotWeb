@@ -1,4 +1,4 @@
-import Header from "./header";
+import Header from "../header/header";
 import Meta from "./meta";
 import useTranslation from "next-translate/useTranslation";
 import { CartProvider } from "../../api/providers/cartProvider";
