@@ -1,10 +1,8 @@
-// react and next imports
 import { useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 
-// translation imports
 import useTranslation from "next-translate/useTranslation";
 import setLanguage from "next-translate/setLanguage";
 
@@ -25,7 +23,7 @@ import HeaderDrawer from "./headerDrawer";
 /// TODO: make popups dismiss when click outside of popups happens (maybe an overlay)
 
 const CategoryItem = ({ category }) => {
-  const { t, lang } = useTranslation("common");
+  const { t } = useTranslation("common");
   const [isHovered, setisHovered] = useState(false);
   const router = useRouter();
   const hasSubCategories =
@@ -77,7 +75,6 @@ const CategoryItem = ({ category }) => {
 };
 
 const Header = () => {
-  const [cartAmount, setCartAmount] = useState(0);
   const [cartItems, setCartItems] = useState(0);
   const { categories } = useContext(CategoryContext);
   const { client } = useContext(ClientContext);
@@ -92,7 +89,6 @@ const Header = () => {
   }, [categories]);
 
   useEffect(() => {
-    setCartAmount(calculateTotal().totalAfterDiscount);
     setCartItems(calculateTotal().amount);
   }, [cart]);
 
@@ -125,18 +121,8 @@ const Header = () => {
     "px-4 py-1 duration-300 font-bold underline-animation-white whitespace-nowrap";
   const navLinkClass =
     "duration-300 font-bold underline-animation-white whitespace-nowrap";
-  const [showSearch, setShowSearch] = useState(false);
   const searchInputRef = useRef(null);
 
-  useEffect(() => {
-    if (showSearch) {
-      setTimeout(() => {
-        searchInputRef.current.focus();
-      }, 300);
-    }
-  }, [showSearch]);
-
-  const [showMenu, setShowMenu] = useState(false);
   const [isHeaderDrawerOpen, setIsHeaderDrawerOpen] = useState(false);
   const [showLanguages, setShowLanguages] = useState(false);
 
@@ -310,7 +296,10 @@ const Header = () => {
           </div>
 
           <div className="relative hidden lg:flex flex-row items-center flex-shrink-0 justify-center text-white h-full duration-300 text-sm pr-3">
-            <button onClick={() => setShowLanguages(!showLanguages)}>
+            <button
+              onMouseEnter={() => setShowLanguages(true)}
+              onClick={() => setShowLanguages(!showLanguages)}
+            >
               <Image
                 src={`/assets/header/${lang.toUpperCase()}.svg`}
                 alt={t("locale")}
