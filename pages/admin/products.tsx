@@ -423,6 +423,14 @@ export default function Products() {
         return 29;
       case "ETKINLIK":
         return 17;
+      case "PIEDS INTERIEUR":
+        return 9;
+      case "PIEDS EXTERIEUR":
+        return 8;
+      case "TABLET INTERIEUR":
+        return 21;
+      case "TABLET EXTERIEUR":
+        return 20;
       default:
         return 0;
     }
@@ -949,7 +957,7 @@ export default function Products() {
                               .replaceAll(".", ",") + " kg"
                           : ""}
                       </td>
-                      <td>{product.product_extra.packaged_dimension}</td>
+                      <td>{product.product_extra.packaged_dimensions}</td>
                       <td>
                         {product.product_extra.per_box != 0
                           ? product.product_extra.per_box
@@ -1266,7 +1274,7 @@ export default function Products() {
                     <input
                       type="text"
                       value={
-                        currentProduct?.product_extra?.packaged_dimension ?? ""
+                        currentProduct?.product_extra?.packaged_dimensions ?? ""
                       }
                       onChange={(e) =>
                         handleChange("packaged_dimension", e.target.value, true)

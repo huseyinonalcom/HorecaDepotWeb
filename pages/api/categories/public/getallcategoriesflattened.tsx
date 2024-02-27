@@ -12,9 +12,10 @@ export async function getAllCategoriesFlattened() {
 
   try {
     const data = await response.json();
-    const allCategories = data["data"].map(CategoryConversion.fromJson);
+    const allCategories = data.data.map(CategoryConversion.fromJson);
     return allCategories;
   } catch (e) {
+    // console.log(e);
     return null;
   }
 }
@@ -27,8 +28,7 @@ export default async function handler(req, res) {
       return res.status(500).json(statusText[500]);
     }
 
-    const data = await response.json();
-    return res.status(200).json(data.data);
+    return res.status(200).json(response);
   } catch (e) {
     return res.status(500).json(statusText[500]);
   }

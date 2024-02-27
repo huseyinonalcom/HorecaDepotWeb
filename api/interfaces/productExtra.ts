@@ -4,7 +4,7 @@ export interface ProductExtra {
   per_box?: number;
   packaged_weight?: number;
   packaged_weight_net?: number;
-  packaged_dimension?: string;
+  packaged_dimensions?: string;
   seat_height?: number;
   diameter?: number;
   surface_area?: string;

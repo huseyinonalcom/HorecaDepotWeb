@@ -67,7 +67,7 @@ export class ProductConversion {
       weight: +item["AGIRLIK(KG)"],
       per_box: +item["KUTUICINDEKIMIKTAR"],
       packaged_weight: +item["KUTUAGIRLIGI(KG)"],
-      packaged_dimension: item["KUTUBOYUTU"],
+      packaged_dimensions: item["KUTUBOYUTU"],
       seat_height: +item["OTURMAYUKSEKLIGI(CM)"],
       diameter: +item["CAP(CM)"],
       surface_area: item["EBAT(MASA)(CM)"],
@@ -127,7 +127,7 @@ export class ProductTransformer {
       per_box: +item["KUTUICINDEKIMIKTAR"],
       packaged_weight: +item["KUTUBRUTAGIRLIGI(KG)"],
       packaged_weight_net: +item["KUTUNETAGIRLIGI(KG)"],
-      packaged_dimension: item["KUTUBOYUTU"],
+      packaged_dimensions: item["KUTUBOYUTU"],
       seat_height: +item["OTURMAYUKSEKLIGI(CM)"],
       barcode: item["EANKODU"],
     };

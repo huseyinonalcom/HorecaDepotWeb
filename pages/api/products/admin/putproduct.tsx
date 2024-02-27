@@ -95,7 +95,7 @@ export default async function putProduct(
               weight: prodToPost.product_extra.weight ?? 0,
               per_box: prodToPost.product_extra.per_box ?? 0,
               packaged_weight: prodToPost.product_extra.packaged_weight ?? 0,
-              packaged_dimension: prodToPost.product_extra.packaged_dimension,
+              packaged_dimensions: prodToPost.product_extra.packaged_dimensions,
               seat_height: prodToPost.product_extra.seat_height ?? 0,
               diameter: prodToPost.product_extra.diameter ?? 0,
               surface_area: prodToPost.product_extra.surface_area,
