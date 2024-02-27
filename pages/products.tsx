@@ -17,6 +17,8 @@ import RangeSlider from "../components/common/rangeSlider";
 import { useRouter } from "next/router";
 import componentThemes from "../components/componentThemes";
 
+// on currentPage change => scroll to top 
+
 export default function Products() {
   const { t, lang } = useTranslation("common");
   const router = useRouter();
