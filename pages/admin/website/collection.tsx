@@ -114,10 +114,6 @@ export default function Order() {
     }
   }, [currentCollection]);
 
-  useEffect(() => {
-    console.log(chosenProducts);
-  }, [chosenProducts]);
-
   if (isLoading) {
     return (
       <AdminLayout>
@@ -183,7 +179,6 @@ export default function Order() {
   } else {
     const putCollection = async (e) => {
       e.preventDefault();
-      console.log(chosenProducts.map((pro) => pro.id));
       const request = await fetch(
         `/api/collections/admin/submitcollection?id=${currentCollection.id}`,
         {

@@ -1,37 +1,35 @@
+import { CategoryConversion } from "../../../../api/interfaces/category";
 import statusText from "../../../../api/statustexts";
 
 const fetchUrl = `${process.env.API_URL}/api/categories?populate[headCategory][fields][0]=name&populate[subCategories][fields][0]=name&fields[0]=name&populate[image][fields][0]=url&sort=priority&pagination[pageSize]=100`;
 
-// export async function getAllCategoriesFlattened() {
+export async function getAllCategoriesFlattened() {
+  const response = await fetch(fetchUrl, {
+    headers: {
+      Authorization: `Bearer ${process.env.API_KEY}`,
+    },
+  });
 
-//   const response = await fetch(fetchUrl, {
-//     headers: {
-//       Authorization: `Bearer ${API_KEY}`,
-//     },
-//   });
-
-//   const data = await response.json();
-
-//   const allCategories = data["data"].map(CategoryConversion.fromJson);
-
-//   return allCategories;
-// }
+  try {
+    const data = await response.json();
+    const allCategories = data["data"].map(CategoryConversion.fromJson);
+    return allCategories;
+  } catch (e) {
+    return null;
+  }
+}
 
 export default async function handler(req, res) {
   try {
-    const response = await fetch(fetchUrl, {
-      headers: {
-        Authorization: `Bearer ${process.env.API_KEY}`,
-      },
-    });
+    const response = await getAllCategoriesFlattened();
 
-    if (!response.ok) {
-      res.status(400).json(statusText[400]);
+    if (!response) {
+      return res.status(500).json(statusText[500]);
     }
 
     const data = await response.json();
-    res.status(200).json(data.data);
-  } catch (error) {
-    res.status(500).json(statusText[500]);
+    return res.status(200).json(data.data);
+  } catch (e) {
+    return res.status(500).json(statusText[500]);
   }
 }

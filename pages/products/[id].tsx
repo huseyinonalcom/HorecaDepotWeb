@@ -11,57 +11,37 @@ import {
 } from "../../api/calls/productCalls";
 import ProductPreview from "../../components/products/product-preview";
 import ProductButtons from "../../components/products/product-buttons";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { ArrowLeft, Facebook } from "react-feather";
 import Link from "next/link";
+import { getAllCategoriesFlattened } from "../api/categories/public/getallcategoriesflattened";
 
 type Props = {
   product: Product;
   relatedProducts: Product[];
+  categories;
+  breadCrumbs;
 };
 
-const ProductPage = ({ product, relatedProducts }: Props) => {
+const ProductPage = ({
+  product,
+  relatedProducts,
+  categories,
+  breadCrumbs,
+}: Props) => {
   const { t, lang } = useTranslation("common");
 
   const [cartAmount, setCartAmount] = useState(1);
-  const [allCategories, setAllCategories] = useState([]);
   const [currentImage, setCurrentImage] = useState(0);
-  const [breadCrumbs, setBreadCrumbs] = useState([]);
   const imageBase =
     "absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000";
   const imageVisible = "opacity-100 z-40";
   const imageInvisible = "opacity-0";
 
-  const fetchCategories = async () => {
-    const answer = await fetch(
-      `/api/categories/public/getallcategoriesflattened`
-    );
-    const data = await answer.json();
-
-    setAllCategories(data);
-  };
-
-  useEffect(() => {
-    setCurrentImage(0);
-    fetchCategories();
-  }, [product]);
-
-  useEffect(() => {
-    const buildBreadcrumbs = (categoryId, crumbs = []) => {
-      const category = allCategories.find((cat) => cat.id === categoryId);
-      if (category) {
-        crumbs.push(category.Name);
-        if (category.headCategory != null) {
-          buildBreadcrumbs(category.headCategory.id, crumbs);
-        } else {
-          setBreadCrumbs(crumbs.reverse());
-        }
-      }
-    };
-    if (product.id && product.category) {
-      buildBreadcrumbs(product.category.id);
-    }
-  }, [allCategories]);
+  // useEffect(() => {
+  //   setCurrentImage(0);
+  //   fetchCategories();
+  // }, [product]);
 
   const slidePrevious = () => {
     setCurrentImage((prevImage) => {
@@ -133,7 +113,8 @@ const ProductPage = ({ product, relatedProducts }: Props) => {
                     key={img.id}
                     src={`https://hdapi.huseyinonalalpha.com${img.url}`}
                     fill
-                    priority  loading="eager"
+                    priority
+                    loading="eager"
                     style={{ objectFit: "cover" }}
                     alt={product.name}
                     className={`${imageBase} ${
@@ -154,7 +135,7 @@ const ProductPage = ({ product, relatedProducts }: Props) => {
             </div>
             {product.images && product.images.length > 1 ? (
               <div
-                className="absolute left-0 z-40 opacity-30 h-full bg-slate-100 flex flex-col justify-center"
+                className="absolute left-0 z-40 w-[30%] h-full flex flex-col justify-center items-start"
                 onClick={slidePrevious}
               >
                 <ArrowLeft />
@@ -162,7 +143,7 @@ const ProductPage = ({ product, relatedProducts }: Props) => {
             ) : null}
             {product.images && product.images.length > 1 ? (
               <div
-                className="absolute right-0 z-40 opacity-30 h-full bg-slate-100 flex flex-col justify-center"
+                className="absolute right-0 z-40 w-[30%] h-full flex flex-col justify-center items-end"
                 onClick={slideNext}
               >
                 <ArrowLeft className="rotate-180" />
@@ -185,7 +166,7 @@ const ProductPage = ({ product, relatedProducts }: Props) => {
                     <Link
                       key={index + 2}
                       href={`/products?category=${
-                        allCategories.find((cat) => cat.Name == crumb).id
+                        categories.find((cat) => cat.Name == crumb).id
                       }`}
                     >
                       {"> "}
@@ -274,7 +255,7 @@ const ProductPage = ({ product, relatedProducts }: Props) => {
                   <Fragment key={index}>
                     <Link
                       href={`/products?category=${
-                        allCategories.find((cat) => cat.Name === crumb).id
+                        categories.find((cat) => cat.Name === crumb).id
                       }`}
                     >
                       {t(crumb)}
@@ -315,7 +296,11 @@ const ProductPage = ({ product, relatedProducts }: Props) => {
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 w-[90%]">
               {relatedProducts.map((product) => (
-                <div key={product.id} className="w-full mt-2 mb-2">
+                <div
+                  onClick={() => setCurrentImage(0)}
+                  key={product.id}
+                  className="w-full mt-2 mb-2"
+                >
                   <ProductPreview product={product} width={"full"} />
                 </div>
               ))}
@@ -344,12 +329,34 @@ export const getStaticProps = async ({ params }: Params) => {
   const relatedProducts: Product[] = result[0]
     .filter((prd) => prd.id != product.id)
     .slice(0, 6) as Product[];
+
+  const categories = await getAllCategoriesFlattened();
+
+  let breadCrumbs;
+
+  const buildBreadcrumbs = (categoryId, crumbs = []) => {
+    const category = categories.find((cat) => cat.id === categoryId);
+    if (category) {
+      crumbs.push(category.Name);
+      if (category.headCategory != null) {
+        buildBreadcrumbs(category.headCategory.id, crumbs);
+      } else {
+        breadCrumbs = crumbs.reverse();
+      }
+    }
+  };
+  if (product.id && product.category) {
+    buildBreadcrumbs(product.category.id);
+  }
+
   return {
     props: {
       relatedProducts,
       product,
+      categories,
+      breadCrumbs,
     },
-    revalidate: 600,
+    revalidate: 900,
   };
 };
 

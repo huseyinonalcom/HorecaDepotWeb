@@ -14,7 +14,6 @@ export default async function submitCollection(req, res) {
 
   if (req.method == "POST") {
     const fetchUrl = `${process.env.API_URL}/api/product-collections?fields[0]=id`;
-    console.log(body);
     const postRequest = await fetch(fetchUrl, {
       headers: {
         "Content-Type": "application/json",
@@ -30,7 +29,6 @@ export default async function submitCollection(req, res) {
     if (postRequest.ok) {
       return res.status(200).json(answer.data);
     } else {
-      console.log(answer);
       return res.status(500).json(statusText[500]);
     }
   } else if (req.method == "PUT") {

@@ -183,7 +183,7 @@ const Header = () => {
               <User />
             </Link>
           )}
-     
+
           <button
             name="Shopping cart"
             className={navButtonsClass}

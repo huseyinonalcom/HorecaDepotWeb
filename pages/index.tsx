@@ -45,45 +45,35 @@ export default function Index({ collections, images, imageUrls }) {
         <meta name="description" content={t("main_description")} />
         <meta name="language" content={lang} />
       </Head>
+      <div className="relative w-full aspect-[32/9] max-h-[50vh]">
+        {images && (
+          <div className="relative w-full h-full">
+            {images.map((img, index) => (
+              <Image
+                onClick={() => {
+                  if (imageUrls[img.id] && imageUrls[img.id] !== "/") {
+                    router.push(imageUrls[img.id]);
+                  }
+                }}
+                fill
+                id="background-image"
+                style={{ objectFit: "cover" }}
+                priority={index == 0}
+                loading="eager"
+                key={index}
+                src={`https://hdapi.huseyinonalalpha.com${img.url}`}
+                alt={""}
+                className={`${imageBase} ${
+                  imageUrls[img.id] && imageUrls[img.id] !== "/"
+                    ? "cursor-pointer"
+                    : ""
+                } ${currentImage === index ? imageVisible : imageInvisible}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
       <div className="flex w-[90vw] flex-col items-center justify-center mx-auto">
-        <div className="relative w-[97vw] md:w-full aspect-[32/9] max-h-[50vh]">
-          {images && (
-            <div className="relative w-full h-full">
-              {images.map((img, index) =>
-                imageUrls[img.id] != "/" && imageUrls[img.id] != "" ? (
-                  <Image
-                    onClick={() => router.push(imageUrls[img.id])}
-                    fill
-                    id="background-image"
-                    style={{ objectFit: "cover" }}
-                    priority={index == 0}
-                    loading="eager"
-                    key={index}
-                    src={`https://hdapi.huseyinonalalpha.com${img.url}`}
-                    alt={""}
-                    className={`${imageBase} cursor-pointer ${
-                      currentImage === index ? imageVisible : imageInvisible
-                    }`}
-                  />
-                ) : (
-                  <Image
-                    fill
-                    id="background-image"
-                    style={{ objectFit: "cover" }}
-                    priority={index == 0}
-                    loading="eager"
-                    key={index}
-                    src={`https://hdapi.huseyinonalalpha.com${img.url}`}
-                    alt={""}
-                    className={`${imageBase} ${
-                      currentImage === index ? imageVisible : imageInvisible
-                    }`}
-                  />
-                )
-              )}
-            </div>
-          )}
-        </div>
         <div className="flex flex-col justify-start items-center mt-2 w-full gap-3">
           {collections &&
             collections.map((collection) => (

@@ -86,7 +86,7 @@ const CollectionShowcase = ({ collection }: Props) => {
             {collection.products.map((prod) => (
               <div
                 key={prod.id}
-                className="flex w-[200px] md:w-[12vw] md:aspect-[10/16] flex-shrink-0 bg-white rounded shadow-lg p-1 items-center last:mr-4"
+                className="flex w-[30vw] md:w-[12vw] md:aspect-[10/16] flex-shrink-0 bg-white rounded shadow-lg p-1 items-center last:mr-4"
               >
                 <ProductPreview width={"full"} product={prod} />
               </div>
@@ -98,7 +98,7 @@ const CollectionShowcase = ({ collection }: Props) => {
             className="absolute left-1 top-0 z-20 h-full flex items-center"
             onClick={() => handleScroll(-250)}
           >
-            <ArrowLeft className="cursor-pointer bg-white p-0.5 rounded-full" />
+            <ArrowLeft className="cursor-pointer bg-orange-400 p-0.5 hover:animate-pulse" />
           </div>
         )}
         {collection.products.length > 3 && (
@@ -106,7 +106,7 @@ const CollectionShowcase = ({ collection }: Props) => {
             className="absolute right-1 top-0 z-20 h-full flex items-center"
             onClick={() => handleScroll(250)}
           >
-            <ArrowLeft className="cursor-pointer rotate-180 bg-white p-0.5 rounded-full" />
+            <ArrowLeft className="cursor-pointer rotate-180 bg-orange-400 p-0.5 hover:animate-pulse" />
           </div>
         )}
       </div>
