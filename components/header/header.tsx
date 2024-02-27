@@ -159,7 +159,7 @@ const Header = () => {
           <form
             name="Search"
             aria-label="Search"
-            className="duration-300 w-full max-w-[500px] mx-auto hidden md:flex relative"
+            className="duration-300 w-full max-w-[700px] mx-auto hidden md:flex relative"
             onSubmit={handleSearchSubmit}
           >
             <input
@@ -280,7 +280,7 @@ const Header = () => {
               </div>
             </div>
           </div>
-          <div className="hidden lg:flex flex-row items-center justify-center gap-4 text-white h-[40px] duration-300 text-sm">
+          <div className="hidden lg:flex flex-row items-center justify-between gap-4 text-white w-full max-w-[700px] h-[40px] duration-300 text-sm">
             <Link className={navLinkClass} href="/projects">
               {t("PROJETS")}
             </Link>
