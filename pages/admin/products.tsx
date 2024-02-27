@@ -581,9 +581,8 @@ export default function Products() {
               t("Un erreur s'est produite pendant la modification de produit!")
             );
           } else {
-            fetchProducts();
-            setSelectedRows(new Set());
             window.location.reload();
+            setSelectedRows(new Set());
           }
         } catch {
           setSubmitError(
