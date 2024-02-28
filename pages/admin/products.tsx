@@ -486,6 +486,7 @@ export default function Products() {
     const shelf = currentProduct.shelves.find(
       (shelf) => shelf.establishment.id == id
     );
+    console.log(shelf);
     const putStock = await fetch(
       `/api/shelves/admin/putshelfstock?id=${shelf.id}`,
       {
@@ -538,7 +539,7 @@ export default function Products() {
             const answer = await request.json();
             throw new Error(`Post failed: ${request.status}`);
           }
-          fetchProducts();
+          window.location.reload();
         } catch (error) {}
       }
     });
@@ -581,7 +582,8 @@ export default function Products() {
               t("Un erreur s'est produite pendant la modification de produit!")
             );
           } else {
-            window.location.reload();
+            fetchProducts();
+            setChosenProductID(null);
             setSelectedRows(new Set());
           }
         } catch {
@@ -607,7 +609,7 @@ export default function Products() {
             fetchProducts();
             setSelectedRows(new Set());
             setNewProduct(false);
-            setChosenProductID(0);
+            setChosenProductID(null);
           }
         } catch {
           setSubmitError(
@@ -723,7 +725,14 @@ export default function Products() {
       });
     console.log(
       imagelessSorted.map(
-        (imgl) => imgl.category.Name + ", " + imgl.internalCode + ", " + imgl.name + ", " + imgl.color
+        (imgl) =>
+          imgl.category.Name +
+          ", " +
+          imgl.internalCode +
+          ", " +
+          imgl.name +
+          ", " +
+          imgl.color
       )
     );
   };
@@ -1082,6 +1091,9 @@ export default function Products() {
                     <p>{t("No")}</p>
                     <input
                       type="number"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       value={currentProduct?.id ?? ""}
                       placeholder={t("No")}
                       className={inputClass}
@@ -1122,6 +1134,9 @@ export default function Products() {
                     <p>{t("Code Model")}</p>
                     <input
                       type="text"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       value={currentProduct?.internalCode ?? ""}
                       onChange={(e) =>
                         handleChange("internalCode", e.target.value, false, [
@@ -1140,6 +1155,9 @@ export default function Products() {
                     <p>{t("EAN")}</p>
                     <input
                       type="number"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       value={currentProduct?.product_extra.barcode ?? ""}
                       onChange={(e) =>
                         handleChange("barcode", e.target.value, true, [
@@ -1156,6 +1174,9 @@ export default function Products() {
                   <div className={inputDivClass}>
                     <p>{t("Nom")}</p>
                     <input
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       type="text"
                       value={currentProduct?.name ?? ""}
                       onChange={(e) =>
@@ -1173,6 +1194,9 @@ export default function Products() {
                   <div className={inputDivClass}>
                     <p>{t("Prix Avant Remise")}</p>
                     <input
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       type="number"
                       value={currentProduct?.priceBeforeDiscount ?? ""}
                       onChange={(e) =>
@@ -1195,6 +1219,9 @@ export default function Products() {
                   <div className={inputDivClass}>
                     <p>{t("Prix Vente")}</p>
                     <input
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       type="number"
                       value={currentProduct?.value ?? ""}
                       onChange={(e) =>
@@ -1212,6 +1239,9 @@ export default function Products() {
                   <div className={inputDivClass}>
                     <p>{t("Matériel")}</p>
                     <input
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       type="text"
                       value={currentProduct?.material ?? ""}
                       onChange={(e) => handleChange("material", e.target.value)}
@@ -1223,6 +1253,9 @@ export default function Products() {
                     <p>{t("Couleur")}</p>
                     <input
                       type="text"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       value={currentProduct?.color ?? ""}
                       onChange={(e) => handleChange("color", e.target.value)}
                       placeholder={t("Couleur")}
@@ -1233,6 +1266,9 @@ export default function Products() {
                     <p>{t("Poids")}</p>
                     <input
                       type="number"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       value={currentProduct?.product_extra?.weight ?? ""}
                       onChange={(e) =>
                         handleChange("weight", e.target.value, true, [
@@ -1250,6 +1286,9 @@ export default function Products() {
                     <p>{t("Poids Colis Net")}</p>
                     <input
                       type="number"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       value={
                         currentProduct?.product_extra?.packaged_weight_net ?? ""
                       }
@@ -1274,6 +1313,9 @@ export default function Products() {
                     <p>{t("Poids Colis Brut")}</p>
                     <input
                       type="number"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       value={
                         currentProduct?.product_extra?.packaged_weight ?? ""
                       }
@@ -1295,6 +1337,9 @@ export default function Products() {
                     <p>{t("Dimensions Colis")}</p>
                     <input
                       type="text"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       value={
                         currentProduct?.product_extra?.packaged_dimensions ?? ""
                       }
@@ -1309,6 +1354,9 @@ export default function Products() {
                     <p>{t("Par Boite")}</p>
                     <input
                       type="number"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       value={currentProduct?.product_extra?.per_box ?? ""}
                       onChange={(e) =>
                         handleChange("per_box", e.target.value, true, [
@@ -1326,6 +1374,9 @@ export default function Products() {
                     <p>{t("Hauteur")}</p>
                     <input
                       type="number"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       value={currentProduct?.height ?? ""}
                       onChange={(e) =>
                         handleChange("height", e.target.value, false, [
@@ -1343,6 +1394,9 @@ export default function Products() {
                     <p>{t("Largeur")}</p>
                     <input
                       type="number"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       value={currentProduct?.width ?? ""}
                       onChange={(e) =>
                         handleChange("width", e.target.value, false, [
@@ -1360,6 +1414,9 @@ export default function Products() {
                     <p>{t("Longueur")}</p>
                     <input
                       type="number"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       value={currentProduct?.depth ?? ""}
                       onChange={(e) =>
                         handleChange("depth", e.target.value, false, [
@@ -1377,6 +1434,9 @@ export default function Products() {
                     <p>{t("Diametre")}</p>
                     <input
                       type="number"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       value={currentProduct?.product_extra?.diameter ?? ""}
                       onChange={(e) =>
                         handleChange("diameter", e.target.value, true, [
@@ -1394,6 +1454,9 @@ export default function Products() {
                     <p>{t("Surface")}</p>
                     <input
                       type="text"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       value={currentProduct?.product_extra?.surface_area ?? ""}
                       onChange={(e) =>
                         handleChange("surface_area", e.target.value, true, [
@@ -1411,6 +1474,9 @@ export default function Products() {
                     <p>{t("Hauteur Assise")}</p>
                     <input
                       type="number"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       value={currentProduct?.product_extra?.seat_height ?? ""}
                       onChange={(e) =>
                         handleChange("seat_height", e.target.value, true, [
@@ -1428,6 +1494,9 @@ export default function Products() {
                     <p>{t("Hauteur Accoudoir")}</p>
                     <input
                       type="number"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
                       value={
                         currentProduct?.product_extra?.armrest_height ?? ""
                       }
@@ -1552,7 +1621,7 @@ export default function Products() {
                   </div>
                   <div className="flex flex-col">
                     <button
-                      type="submit"
+                      onClick={handleFormSubmit}
                       className={buttonClass + " bg-white col-span-2"}
                     >
                       <div className={navIconDivClass}>
