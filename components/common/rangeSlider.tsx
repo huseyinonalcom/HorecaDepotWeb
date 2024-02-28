@@ -12,7 +12,16 @@ interface RangeSliderProps {
   label: string;
 }
 
-const RangeSlider: React.FC<RangeSliderProps> = ({ initialMin, initialMax, min, max, onChange, minGap, prefix, label }) => {
+const RangeSlider: React.FC<RangeSliderProps> = ({
+  initialMin,
+  initialMax,
+  min,
+  max,
+  onChange,
+  minGap,
+  prefix,
+  label,
+}) => {
   const { t } = useTranslation("common");
   const [minValue, setMinValue] = useState(initialMin);
   const [maxValue, setMaxValue] = useState(initialMax);
@@ -43,7 +52,9 @@ const RangeSlider: React.FC<RangeSliderProps> = ({ initialMin, initialMax, min, 
     (handle: "min" | "max") => (event: React.MouseEvent<HTMLDivElement>) => {
       const updateValue = (event: MouseEvent) => {
         const relativePosition = getRelativePosition(event.clientX);
-        let newValue = Math.round(relativePosition * (maxLimit - minLimit) + minLimit);
+        let newValue = Math.round(
+          relativePosition * (maxLimit - minLimit) + minLimit
+        );
         if (handle === "min") {
           newValue = Math.min(newValue, maxValue - minGap);
           setMinValue(newValue);
@@ -68,7 +79,9 @@ const RangeSlider: React.FC<RangeSliderProps> = ({ initialMin, initialMax, min, 
   const handleBarClick = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
       const relativePosition = getRelativePosition(event.clientX);
-      const clickedValue = Math.round(relativePosition * (maxLimit - minLimit) + minLimit);
+      const clickedValue = Math.round(
+        relativePosition * (maxLimit - minLimit) + minLimit
+      );
       const distanceToMin = Math.abs(minValue - clickedValue);
       const distanceToMax = Math.abs(maxValue - clickedValue);
 
@@ -85,14 +98,20 @@ const RangeSlider: React.FC<RangeSliderProps> = ({ initialMin, initialMax, min, 
 
   return (
     <div className="w-full py-2 flex flex-col gap-2">
-      <div ref={rangeRef} className="w-full h-4 lg:h-2 bg-gray-200 rounded-md relative" onMouseDown={handleBarClick}>
+      <div
+        ref={rangeRef}
+        className="w-full h-4 lg:h-2 bg-gray-200 rounded-md relative"
+        onMouseDown={handleBarClick}
+      >
         <div
           className="absolute bg-blue-500 h-4 lg:h-2 rounded-md cursor-pointer"
           style={{
             top: "50%",
             transform: "translateY(-50%)",
             left: `${((minValue - minLimit) / (maxLimit - minLimit)) * 100}%`,
-            right: `${100 - ((maxValue - minLimit) / (maxLimit - minLimit)) * 100}%`,
+            right: `${
+              100 - ((maxValue - minLimit) / (maxLimit - minLimit)) * 100
+            }%`,
           }}
         />
         <div
@@ -115,15 +134,18 @@ const RangeSlider: React.FC<RangeSliderProps> = ({ initialMin, initialMax, min, 
         />
       </div>
       <div className="flex flex-row justify-between">
-        <p>{minValue} - {maxValue}</p>
-        <button className="ml-4"
-                    onClick={() => {
-                      setMinValue(minLimit);
-                      setMaxValue(maxLimit);
-                    }}
-                  >
-                    {t("Remettre")}
-                  </button>
+        <p>
+          {prefix} {minValue} - {prefix} {maxValue}
+        </p>
+        <button
+          className="ml-4"
+          onClick={() => {
+            setMinValue(minLimit);
+            setMaxValue(maxLimit);
+          }}
+        >
+          {t("Remettre")}
+        </button>
       </div>
     </div>
   );
