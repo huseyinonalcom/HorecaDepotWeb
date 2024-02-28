@@ -219,7 +219,6 @@ export default function Products() {
           seat_height: 0,
           packaged_weight: 0,
           per_box: 0,
-          surface_area: "0",
           diameter: 0,
         },
       });
@@ -427,9 +426,9 @@ export default function Products() {
         return 9;
       case "PIEDS EXTERIEUR":
         return 8;
-      case "TABLET INTERIEUR":
+      case "TABLETTE INTERIEUR":
         return 21;
-      case "TABLET EXTERIEUR":
+      case "TABLETTE EXTERIEUR":
         return 20;
       default:
         return 0;
@@ -456,15 +455,13 @@ export default function Products() {
         if (categoryID != 0) {
           const worksheet = workbook.Sheets[sheets[i]];
           const json = xlsx.utils.sheet_to_json(worksheet);
+          console.log(json);
           const excelProds = ProductTransformer.fromXLSX(JSON.stringify(json));
+          console.log(excelProds);
           excelProds.forEach((prod) => {
             prod.category = { id: categoryID } as Category;
           });
           sendProductsToAPI(excelProds);
-        }
-
-        if (i == sheets.length - 1) {
-          setIsLoading(false);
         }
       }
     };
@@ -523,7 +520,6 @@ export default function Products() {
           if (!request.ok) {
             throw new Error(`Put failed: ${request.status}`);
           }
-          window.location.reload();
         } catch (error) {}
       } else {
         try {
@@ -539,10 +535,10 @@ export default function Products() {
             const answer = await request.json();
             throw new Error(`Post failed: ${request.status}`);
           }
-          window.location.reload();
         } catch (error) {}
       }
     });
+    // window.location.reload();
   };
 
   const [submitError, setSubmitError] = useState(null);
@@ -688,7 +684,6 @@ export default function Products() {
     width?: string;
     depth?: string;
     diameter?: string;
-    surface_area?: string;
     barcode?: string;
     armrest_height?: string;
     stock_depot?: string;
@@ -912,7 +907,6 @@ export default function Products() {
                     <th>{t("Largeur")}</th>
                     <th>{t("Longueur")}</th>
                     <th>{t("Diametre")}</th>
-                    <th>{t("Surface")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1024,11 +1018,6 @@ export default function Products() {
                           ? product.product_extra.diameter
                               .toString()
                               .replaceAll(".", ",") + " cm"
-                          : ""}
-                      </td>
-                      <td>
-                        {product.product_extra.surface_area != null
-                          ? product.product_extra.surface_area
                           : ""}
                       </td>
                     </tr>
@@ -1449,26 +1438,6 @@ export default function Products() {
                     )}
                   </div>
                   <div className={inputDivClass}>
-                    <p>{t("Surface")}</p>
-                    <input
-                      type="text"
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                      }}
-                      value={currentProduct?.product_extra?.surface_area ?? ""}
-                      onChange={(e) =>
-                        handleChange("surface_area", e.target.value, true, [
-                          validateDecimal,
-                        ])
-                      }
-                      placeholder={t("Surface")}
-                      className={inputClass}
-                    />
-                    {errors.surface_area && (
-                      <div className="error-message">{errors.surface_area}</div>
-                    )}
-                  </div>
-                  <div className={inputDivClass}>
                     <p>{t("Hauteur Assise")}</p>
                     <input
                       type="number"
@@ -1541,9 +1510,6 @@ export default function Products() {
                       placeholder={t("Description")}
                       className={inputClass + " h-full"}
                     />
-                    {errors.surface_area && (
-                      <div className="error-message">{errors.surface_area}</div>
-                    )}
                   </div>
                   <div className="flex flex-col gap-2">
                     {currentProduct && currentProduct.id != 0 ? (

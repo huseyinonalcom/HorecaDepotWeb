@@ -36,52 +36,6 @@ export class ProductConversion {
   public static toJson(value: Product): string {
     return JSON.stringify(value);
   }
-
-  public static fromXLSX(json: string): Product[] {
-    const jsonArray = JSON.parse(json) as any[];
-    return jsonArray.map((item) => this.transformItem(item));
-  }
-
-  private static transformItem(item: any): Product {
-    let productComplete: Partial<Product> = {
-      id: +item.ID,
-      name: item["MODELISMI"],
-      internalCode: item["NU"],
-      supplierCode: item["URUNKODU"],
-      value: +item["INDIRIMLIFIYAT"],
-      priceBeforeDiscount: +item["INDIRIMSIZFIYAT"],
-      depth: +item["DERINLIK(CM)"],
-      width: +item["GENISLIK(CM)"],
-      height: +item["TOTALYUKSEKLIK(CM)"],
-      material: item["MATERYALTURU"],
-      color: item["RENK"],
-      product_extra: this.transformProductExtra(item),
-    };
-
-    return productComplete as Product;
-  }
-
-  private static transformProductExtra(item: any): ProductExtra {
-    let productExtra: Partial<ProductExtra> = {
-      id: +item.ID,
-      weight: +item["AGIRLIK(KG)"],
-      per_box: +item["KUTUICINDEKIMIKTAR"],
-      packaged_weight: +item["KUTUAGIRLIGI(KG)"],
-      packaged_dimensions: item["KUTUBOYUTU"],
-      seat_height: +item["OTURMAYUKSEKLIGI(CM)"],
-      diameter: +item["CAP(CM)"],
-      surface_area: item["EBAT(MASA)(CM)"],
-      barcode: item["EANKODU"],
-    };
-
-    Object.keys(productExtra).forEach((key) => {
-      if (productExtra[key] === undefined) {
-        productExtra[key] = null;
-      }
-    });
-
-    return productExtra as ProductExtra;
-  }
 }
 
 export class ProductTransformer {
@@ -98,18 +52,17 @@ export class ProductTransformer {
     }, {});
 
     let product: Product = {
-      id: +normalizedItem["NU"],
+      id: 0,
       name: normalizedItem["MODELISMI"],
       internalCode: normalizedItem["URUNKODU"],
-      supplierCode: normalizedItem["EANKODU"],
-      value: +normalizedItem["INDIRIMLIFIYAT"],
-      priceBeforeDiscount: +normalizedItem["INDIRIMSIZFIYAT"],
-      depth: +normalizedItem["DERINLIK(CM)"],
-      width: +normalizedItem["GENISLIK(CM)"],
-      height: +normalizedItem["TOTALYUKSEKLIK(CM)"],
+      supplierCode: normalizedItem["EANKODU"]?.toString().replace(/[^0-9.]/g, ''),
+      value: +normalizedItem["INDIRIMLIFIYAT"]?.toString().replace(/[^0-9.]/g, ''),
+      priceBeforeDiscount: +normalizedItem["INDIRIMSIZFIYAT"]?.toString().replace(/[^0-9.]/g, ''),
+      depth: +normalizedItem["DERINLIK(CM)"]?.toString().replace(/[^0-9.]/g, ''),
+      width: +normalizedItem["GENISLIK(CM)"]?.toString().replace(/[^0-9.]/g, ''),
+      height: +normalizedItem["TOTALYUKSEKLIK(CM)"]?.toString().replace(/[^0-9.]/g, ''),
       material: normalizedItem["MATERYALTURU"],
       color: normalizedItem["RENK"],
-      // category: this.transformCategory(normalizedItem),
       product_extra: this.transformProductExtra(normalizedItem),
     };
 
@@ -118,17 +71,15 @@ export class ProductTransformer {
 
   private static transformProductExtra(item: any): ProductExtra {
     let productExtra: ProductExtra = {
-      id: +item["NU"],
-      // armrest_height: ,
-      // tags: ,
-      // diameter: ,
-      // surface_area: ,
-      weight: +item["AGIRLIK(KG)"],
+      id: 0,
+      armrest_height: +item["KOLDAYAMAYUKSEKLIGI(CM)"]?.toString().replace(/[^0-9.]/g, '') ,
+      diameter: +item["CAP(CM)"]?.toString().replace(/[^0-9.]/g, '') ,
+      weight: +item["AGIRLIK(KG)"]?.toString().replace(/[^0-9.]/g, ''),
       per_box: +item["KUTUICINDEKIMIKTAR"],
-      packaged_weight: +item["KUTUBRUTAGIRLIGI(KG)"],
-      packaged_weight_net: +item["KUTUNETAGIRLIGI(KG)"],
+      packaged_weight: +item["KUTUBRUTAGIRLIGI(KG)"]?.toString().replace(/[^0-9.]/g, ''),
+      packaged_weight_net: +item["KUTUNETAGIRLIGI(KG)"]?.toString().replace(/[^0-9.]/g, ''),
       packaged_dimensions: item["KUTUBOYUTU"],
-      seat_height: +item["OTURMAYUKSEKLIGI(CM)"],
+      seat_height: +item["OTURMAYUKSEKLIGI(CM)"]?.toString().replace(/[^0-9.]/g, ''),
       barcode: item["EANKODU"],
     };
 
