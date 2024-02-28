@@ -360,7 +360,7 @@ const Header = () => {
                 />
               </button>
               <button
-                onClick={async () => await setLanguage("DE")}
+                onClick={async () => await setLanguage("de")}
                 className={`${flagButtonClass} ${lang == "de" ? "hidden" : ""}`}
               >
                 <Image

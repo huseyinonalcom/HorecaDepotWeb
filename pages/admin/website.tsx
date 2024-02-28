@@ -14,7 +14,7 @@ export default function Website() {
         <title>Website</title>
         <meta name="language" content={lang} />
       </Head>
-      <div className="flex flex-col w-[95%] mx-auto items-center pt-2">
+      <div className="flex flex-col w-full px-2 items-center pt-2">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 w-full gap-2">
           <Link
             className={componentThemes.greenSubmitButton + " text-center"}
@@ -27,6 +27,12 @@ export default function Website() {
             href={"/admin/website/collections"}
           >
             {t("Collections")}
+          </Link>
+          <Link
+            className={componentThemes.greenSubmitButton + " text-center"}
+            href={"/admin/website/bulkkeywordsetter"}
+          >
+            {t("Bulk Keyword Setter")}
           </Link>
         </div>
       </div>

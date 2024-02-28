@@ -1,0 +1,217 @@
+import LoadingIndicator from "../../../components/common/loadingIndicator";
+import AdminLayout from "../../../components/admin/adminLayout";
+import useTranslation from "next-translate/useTranslation";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Head from "next/head";
+import componentThemes from "../../../components/componentThemes";
+import { Check, Search, Upload, X } from "react-feather";
+import Image from "next/image";
+
+const buttonClass =
+  "flex flex-row items-center justify-start py-2 rounded shadow-lg hover:bg-orange-400 overflow-hidden duration-500 cursor-pointer";
+const navIconDivClass = "flex flex-row justify-center flex-shrink-0 w-[35px]";
+const iconClass = "flex-shrink-0";
+const textClass = "mx-2 font-bold mtext-left";
+
+export default function Order() {
+  const router = useRouter();
+  const { t, lang } = useTranslation("common");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const [inputTags, setInputTags] = useState("");
+
+  const [products, setProducts] = useState(null);
+  const [allProducts, setAllProducts] = useState(null);
+  const [chosenProducts, setChosenProducts] = useState([]);
+  const [productSearch, setProductSearch] = useState<string>("");
+
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const fetchProducts = async () => {
+    const request = await fetch(
+      `/api/products/public/getproducts?count=19000`,
+      {
+        method: "GET",
+      }
+    );
+    const response = await request.json();
+    console.log(response);
+    if (request.ok) {
+      setAllProducts(response.sortedData);
+      setProducts(response.sortedData);
+      return response.sortedData;
+    } else {
+      setIsLoading(false);
+      return;
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts()
+      .catch(() => setIsLoading(false))
+      .then(() => setIsLoading(false));
+  }, []);
+
+  if (isLoading) {
+    return (
+      <AdminLayout>
+        <Head>
+          <title>horecadepot</title>
+          <meta name="description" content="horecadepot" />
+          <meta name="language" content={lang} />
+        </Head>
+        <div className="w-[95vw] flex flex-row justify-start items-start mx-auto">
+          <div className="mx-auto py-2">
+            <LoadingIndicator />
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  } else if (!allProducts) {
+    router.push("/admin/website");
+    return (
+      <AdminLayout>
+        <Head>
+          <title>horecadepot</title>
+          <meta name="description" content="horecadepot" />
+          <meta name="language" content={lang} />
+        </Head>
+        <div className="w-[95vw] flex flex-row justify-start items-start mx-auto">
+          <div className="mx-auto py-2">
+            <LoadingIndicator />
+          </div>
+        </div>
+      </AdminLayout>
+    );
+  } else {
+    const putTags = async (e) => {
+      e.preventDefault();
+      fetch("/api/products/admin/puttagsbulk", {
+        method: "PUT",
+        body: JSON.stringify({ products: chosenProducts, tags: inputTags }),
+      });
+      // fetch put tags with all IDs
+      // make api route to handle
+    };
+
+    return (
+      <AdminLayout>
+        <Head>
+          <title>horecadepot</title>
+          <meta name="description" content="horecadepot" />
+          <meta name="language" content={lang} />
+        </Head>
+        <div className="w-[95vw] flex flex-col justify-start items-center mx-auto">
+          <div className="text-center w-full font-semibold text-xl py-2">
+            {t("bulk_tag_setter")}
+          </div>
+          <form
+            onSubmit={putTags}
+            className="flex flex-col gap-2 items-center justify-center lg:flex-row"
+          >
+            <div>
+              {products && (
+                <div className="flex flex-col max-h-[350px] p-2 gap-1 overflow-y-scroll">
+                  <div className="flex flex-row border-b-2 border-black">
+                    <textarea
+                      value={productSearch}
+                      draggable={false}
+                      className="w-full min-h-[28px] max-h-[28px]"
+                      onChange={(e) => {
+                        setProductSearch(e.target.value.trim());
+                        if (e.target.value.trim() == "") {
+                          setProducts(allProducts);
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key.toLowerCase() == "enter") {
+                          setProducts(
+                            allProducts.filter(
+                              (prod) =>
+                                prod.internalCode
+                                  .toLowerCase()
+                                  .includes(productSearch.toLowerCase()) ||
+                                prod.name
+                                  .toLowerCase()
+                                  .includes(productSearch.toLowerCase()) ||
+                                prod.color
+                                  .toLowerCase()
+                                  .includes(productSearch.toLowerCase())
+                            )
+                          );
+                        }
+                      }}
+                      placeholder={t("Internal Code / Nom / Couleur")}
+                    />
+                    <Search
+                      onClick={() => {
+                        setProducts(
+                          allProducts.filter(
+                            (prod) =>
+                              prod.internalCode
+                                .toLowerCase()
+                                .includes(productSearch.toLowerCase()) ||
+                              prod.name
+                                .toLowerCase()
+                                .includes(productSearch.toLowerCase()) ||
+                              prod.color
+                                .toLowerCase()
+                                .includes(productSearch.toLowerCase())
+                          )
+                        );
+                      }}
+                    />
+                  </div>
+                  {products.map((prod) => (
+                    <div
+                      key={prod.id}
+                      className="flex flex-row cursor-pointer odd:bg-gray-300 hover:bg-orange-400"
+                      onClick={() => {
+                        if (chosenProducts.some((p) => p.id === prod.id)) {
+                          setChosenProducts(
+                            chosenProducts.filter((p) => p.id !== prod.id)
+                          );
+                        } else {
+                          setChosenProducts([...chosenProducts, prod]);
+                        }
+                      }}
+                    >
+                      {chosenProducts.some((p) => p.id === prod.id) ? (
+                        <Check color="green" />
+                      ) : (
+                        <X />
+                      )}
+                      {prod.internalCode} - {prod.name} - {prod.color}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col justify-center">
+              <textarea
+                className="w-full p-2 rounded border border-gray-300"
+                id="tags"
+                required
+                value={inputTags}
+                onChange={(e) => setInputTags(e.target.value)}
+                placeholder={t("Tags")}
+              />
+              <button className={componentThemes.greenSubmitButton}>
+                {t("bulk_tags_modify")}
+              </button>
+              {submitError && (
+                <p className="text-red-600 font-medium text-center">
+                  {submitError}
+                </p>
+              )}
+            </div>
+            <div></div>
+
+            <div></div>
+          </form>
+        </div>
+      </AdminLayout>
+    );
+  }
+}
