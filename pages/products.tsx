@@ -17,7 +17,7 @@ import RangeSlider from "../components/common/rangeSlider";
 import { useRouter } from "next/router";
 import componentThemes from "../components/componentThemes";
 
-// on currentPage change => scroll to top 
+// on currentPage change => scroll to top
 
 export default function Products() {
   const { t, lang } = useTranslation("common");
@@ -165,7 +165,7 @@ export default function Products() {
         query: {
           page: router.query.page ?? 1,
           category: "",
-          search: router.query.search ?? null,
+          search: router.query.search ?? "",
         },
       },
       undefined,
@@ -174,6 +174,9 @@ export default function Products() {
     const request = await fetch(fetchUrl);
     const result = await request.json();
     router.query.search && setCurrentSearch(router.query.search as string);
+    if (!router.query.search) {
+      setCurrentSearch("");
+    }
     router.query.category && setCurrentCategory(Number(router.query.category));
     setAllProducts(result.sortedData as Product[]);
     setTotalPages(result.totalPages as number);
@@ -222,7 +225,7 @@ export default function Products() {
 
     return (
       <div className="relative cursor-pointer">
-        <div className="w-full text-left flex justify-between items-center hover:bg-gray-200">
+        <div className="w-full text-left flex justify-between items-center min-w-[242px] hover:bg-gray-200">
           {hasSubCategories ? (
             <>
               <div
@@ -274,6 +277,12 @@ export default function Products() {
     );
   };
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
+
+  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+
   return (
     <>
       <Layout>
@@ -286,118 +295,18 @@ export default function Products() {
           id={t("Products")}
           className="w-full items-start flex flex-col lg:flex-row text-[#084E97]"
         >
-          <div className="flex flex-col w-full lg:w-[500px] px-1 gap-2">
-            <div
-              style={{
-                borderRadius: "0.25rem",
-                boxShadow:
-                  "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                backgroundColor: "#f3f4f6",
-                padding: "16px",
-              }}
-            >
-              <form
-                style={{ position: "relative" }}
-                onSubmit={handleSearchSubmit}
-                role="search"
-              >
-                <label htmlFor="searchInput" style={{ display: "none" }}>
-                  {t("Cherchez des produits")}
-                </label>
-                <input
-                  id="searchInput"
-                  className="placeholder-blue"
-                  value={tempSearch}
-                  onChange={handleSearchChange}
-                  type="text"
-                  style={{
-                    width: "100%",
-                    paddingLeft: "16px",
-                    paddingRight: "16px",
-                    paddingTop: "8px",
-                    paddingBottom: "8px",
-                    border: "2px solid",
-                    borderColor: "rgba(0, 0, 0, 0.1)",
-                    outline: "none",
-                  }}
-                  placeholder={t("Cherchez des produits")}
-                  aria-label="Search"
-                />
-                <div
-                  onClick={handleSearchSubmit}
-                  style={{
-                    cursor: "pointer",
-                    position: "absolute",
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                  }}
-                  role="button"
-                  aria-label="Submit search"
-                >
-                  <Search
-                    style={{
-                      height: "100%",
-                      width: "28px",
-                      margin: "auto 8px",
-                    }}
-                  />
-                </div>
-              </form>
-            </div>
-
-            <div>
-              {currentCategory || currentSearch ? (
-                <div
-                  className={`rounded overflow-hidden shadow-lg bg-gray-100 p-4`}
-                >
-                  {currentSearch ? (
-                    <div
-                      style={{ cursor: "pointer" }}
-                      className="mb-1 pr-3"
-                      onClick={() => setCurrentSearch("")}
-                    >
-                      x {currentSearch}
-                    </div>
-                  ) : null}
-                  {currentCategory ? (
-                    <div
-                      className="mb-1 pr-3"
-                      style={{ cursor: "pointer" }}
-                      onClick={() => setCurrentCategory(null)}
-                    >
-                      {allCategoriesFlat.find(
-                        (cat) => cat.id == currentCategory
-                      ) != null
-                        ? "x " +
-                          t(
-                            allCategoriesFlat.find(
-                              (cat) => cat.id == currentCategory
-                            ).Name
-                          )
-                        : currentCategory}
-                    </div>
-                  ) : null}
-                </div>
-              ) : null}
-            </div>
-
-            <div className="flex flex-col w-full py-2 text-gray-500 w-[240px] duration-300 bg-white shadow-lg">
-              {allCategories.map((category) => (
-                <CategoryItem key={category.id} category={category} />
-              ))}
-            </div>
-            <div className="shadow-lg bg-gray-100 p-2 flex flex-row gap-2">
+          <div className="relative flex flex-col w-full lg:w-[500px] px-1 gap-2">
+            <div className="shadow-lg sticky w-full bg-gray-100 p-2 flex flex-row gap-2">
               <ArrowUp
                 height={36}
                 width={36}
                 onClick={() => setCurrentSortDirection(!currentSortDirection)}
-                className={`rounded bg-white border-2 duration-500 border-blue-500 p-1 ${
+                className={`rounded bg-white border-2 flex flex-row items-center duration-500 border-blue-500 p-1 ${
                   currentSortDirection ? "rotate-0" : "rotate-180"
                 }`}
               />
               <div
-                className={`rounded px-2 py-1 bg-white border-2 ${
+                className={`rounded flex flex-row items-center px-2 py-1 bg-white border-2 ${
                   currentSort == "id" ? "border-blue-500" : ""
                 }`}
                 onClick={() => setCurrentSort("id")}
@@ -405,34 +314,165 @@ export default function Products() {
                 {t("Date")}
               </div>
               <div
-                className={`rounded px-2 py-1 bg-white border-2 ${
+                className={`rounded flex flex-row items-center px-2 py-1 bg-white border-2 ${
                   currentSort == "value" ? "border-blue-500" : ""
                 }`}
                 onClick={() => setCurrentSort("value")}
               >
                 {t("Prix")}
               </div>
+              <button
+                onClick={() => {
+                  setIsFilterDrawerOpen(!isFilterDrawerOpen);
+                }}
+                className="ml-auto bg-orange-400 lg:hidden font-semibold py-1 px-2"
+              >
+                {t("Filters")}
+              </button>
             </div>
-            <div className={`overflow-hidden shadow-lg bg-gray-100 p-4`}>
-              <RangeSlider
-                minGap={20}
-                initialMin={sliderMin}
-                initialMax={sliderMax}
-                min={minValueFromAPI}
-                max={maxValueFromAPI}
-                onChange={handleSliderChange}
-                prefix="€"
-                label="Prix"
-              />
-              <div className="flex flex-row justify-between">
-                <button
-                  className={componentThemes.greenSubmitButton}
-                  onClick={() => {
-                    fetchProductsFiltered();
-                  }}
-                >
-                  {t("Filtrer")}
-                </button>
+            <div
+              className={`fixed lg:hidden top-100 z-40 duration-700 bg-slate-300 w-full flex flex-row ${
+                isFilterDrawerOpen ? "right-[0]" : "right-[-100%]"
+              }`}
+            >
+              <button
+                className="flex flex-col flex-shrink-0 p-2"
+                onClick={() => setIsFilterDrawerOpen(false)}
+              >
+                <X />
+              </button>
+              <div className="flex flex-col bg-slate-300 w-full">
+                <div>
+                  {currentCategory || currentSearch ? (
+                    <div
+                      className={`rounded overflow-hidden shadow-lg bg-gray-100 p-4`}
+                    >
+                      {currentSearch ? (
+                        <div
+                          style={{ cursor: "pointer" }}
+                          className="mb-1 pr-3"
+                          onClick={() => setCurrentSearch("")}
+                        >
+                          x {currentSearch}
+                        </div>
+                      ) : null}
+                      {currentCategory ? (
+                        <div
+                          className="mb-1 pr-3"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => setCurrentCategory(null)}
+                        >
+                          {allCategoriesFlat.find(
+                            (cat) => cat.id == currentCategory
+                          ) != null
+                            ? "x " +
+                              t(
+                                allCategoriesFlat.find(
+                                  (cat) => cat.id == currentCategory
+                                ).Name
+                              )
+                            : currentCategory}
+                        </div>
+                      ) : null}
+                    </div>
+                  ) : null}
+                </div>
+                <div className="flex flex-col w-full py-2 text-gray-500 w-[240px] duration-300 bg-white shadow-lg">
+                  {allCategories.map((category) => (
+                    <CategoryItem key={category.id} category={category} />
+                  ))}
+                </div>
+                <div className={`overflow-hidden shadow-lg bg-gray-100 p-4`}>
+                  <RangeSlider
+                    minGap={20}
+                    initialMin={sliderMin}
+                    initialMax={sliderMax}
+                    min={minValueFromAPI}
+                    max={maxValueFromAPI}
+                    onChange={handleSliderChange}
+                    prefix="€"
+                    label="Prix"
+                  />
+                  <div className="flex flex-row justify-between">
+                    <button
+                      className={componentThemes.greenSubmitButton}
+                      onClick={() => {
+                        fetchProductsFiltered();
+                        setIsFilterDrawerOpen(false);
+                      }}
+                    >
+                      {t("Filtrer")}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              className={`hidden lg:flex duration-700 bg-slate-300 p-2 flex-row-reverse`}
+            >
+              <div className="flex flex-col bg-slate-300 w-full">
+                <div>
+                  {currentCategory || currentSearch ? (
+                    <div className={`rounded shadow-lg bg-gray-100 p-4`}>
+                      {currentSearch ? (
+                        <div
+                          style={{ cursor: "pointer" }}
+                          className="mb-1 pr-3"
+                          onClick={() => setCurrentSearch("")}
+                        >
+                          x {currentSearch}
+                        </div>
+                      ) : null}
+                      {currentCategory ? (
+                        <div
+                          className="mb-1 pr-3"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => setCurrentCategory(null)}
+                        >
+                          {allCategoriesFlat.find(
+                            (cat) => cat.id == currentCategory
+                          ) != null
+                            ? "x " +
+                              t(
+                                allCategoriesFlat.find(
+                                  (cat) => cat.id == currentCategory
+                                ).Name
+                              )
+                            : currentCategory}
+                        </div>
+                      ) : null}
+                    </div>
+                  ) : null}
+                </div>
+                <div className="flex flex-col w-full py-2 text-gray-500 w-[240px] duration-300 bg-white shadow-lg">
+                  {allCategories.map((category) => (
+                    <CategoryItem key={category.id} category={category} />
+                  ))}
+                </div>
+                <div className={`shadow-lg bg-gray-100 p-4`}>
+                  <RangeSlider
+                    minGap={20}
+                    initialMin={sliderMin}
+                    initialMax={sliderMax}
+                    min={minValueFromAPI}
+                    max={maxValueFromAPI}
+                    onChange={handleSliderChange}
+                    prefix="€"
+                    label="Prix"
+                  />
+                  <div className="flex flex-row justify-between">
+                    <button
+                      className={componentThemes.greenSubmitButton}
+                      onClick={() => {
+                        fetchProductsFiltered();
+                        setIsFilterDrawerOpen(false);
+                      }}
+                    >
+                      {t("Filtrer")}
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -446,7 +486,7 @@ export default function Products() {
                 {t("No products matching")}
               </h3>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 w-full">
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 w-full">
                 {allProducts.map((product) => (
                   <div key={product.id} className="w-full px-4 mt-2 mb-2">
                     <ProductPreview product={product} width={"full"} />

@@ -100,14 +100,19 @@ const Header = () => {
 
   // search bar
   const [searchQuery, setSearchQuery] = useState<string>();
+  const searchInputRef = useRef(null);
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchQuery(value);
+    if (value == "" && router.pathname == "/products") {
+      router.push(`/products?page=1`);
+    }
   };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+    searchInputRef.current.blur();
     if (searchQuery && searchQuery != "") {
       var url = "/products?page=1";
       url += "&search=" + searchQuery;
@@ -121,7 +126,6 @@ const Header = () => {
     "px-4 py-1 duration-300 font-bold underline-animation-white whitespace-nowrap";
   const navLinkClass =
     "duration-300 font-bold underline-animation-white whitespace-nowrap";
-  const searchInputRef = useRef(null);
 
   const [isHeaderDrawerOpen, setIsHeaderDrawerOpen] = useState(false);
   const [showLanguages, setShowLanguages] = useState(false);
@@ -381,6 +385,7 @@ const Header = () => {
                   className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
                 />
               </button>
+              <div className="h-2"></div>
             </div>
           </div>
         </div>

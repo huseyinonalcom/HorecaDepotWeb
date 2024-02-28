@@ -115,8 +115,8 @@ const RangeSlider: React.FC<RangeSliderProps> = ({ initialMin, initialMax, min, 
         />
       </div>
       <div className="flex flex-row justify-between">
-        <p>{label} {t("entre")} {prefix} <span>{minValue}</span> {t("et")} {prefix} <span>{maxValue}</span></p>
-        <button
+        <p>{minValue} - {maxValue}</p>
+        <button className="ml-4"
                     onClick={() => {
                       setMinValue(minLimit);
                       setMaxValue(maxLimit);
