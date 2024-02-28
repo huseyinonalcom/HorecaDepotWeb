@@ -706,6 +706,28 @@ export default function Products() {
     setCurrentSearch(tempSearch);
   };
 
+  const missingPictures = async () => {
+    const answer = await fetch(
+      `/api/products/public/getproducts?page=${currentPage}&count=19999`
+    );
+    const data = await answer.json();
+    const imagelessSorted = data.sortedData
+      .filter((prod) => !prod.images)
+      .sort((a, b) => {
+        // First, sort by category ID
+        if (a.category.id !== b.category.id) {
+          return a.category.id - b.category.id;
+        }
+        // If category IDs are the same, sort by name alphabetically
+        return a.name.localeCompare(b.name);
+      });
+    console.log(
+      imagelessSorted.map(
+        (imgl) => imgl.category.Name + ", " + imgl.internalCode + ", " + imgl.name + ", " + imgl.color
+      )
+    );
+  };
+
   if (isLoading) {
     return <LoadingIndicator />;
   } else
@@ -1662,6 +1684,7 @@ export default function Products() {
             )}
           </div>
         </div>
+        {/* <button onClick={() => missingPictures()}>missing pics</button> */}
       </AdminLayout>
     );
 }
