@@ -70,13 +70,42 @@ export default function Products() {
         const answer = await request.json();
         if (!request.ok) {
         } else {
-          currentProduct.active = answer;
           setCurrentProduct({ ...currentProduct, active: answer });
         }
       } catch {}
     };
 
     toggleActive();
+  };
+
+  const toggleProductNew = () => {
+    const toggleNew = async () => {
+      try {
+        const request = await fetch(
+          `/api/products/admin/togglenew?id=` + currentProduct.product_extra.id,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ new: !currentProduct.product_extra.new }),
+          }
+        );
+        const answer = await request.json();
+        if (!request.ok) {
+        } else {
+          setCurrentProduct((prevProduct) => ({
+            ...prevProduct,
+            product_extra: {
+              ...prevProduct.product_extra,
+              new: answer,
+            },
+          }));
+        }
+      } catch {}
+    };
+
+    toggleNew();
   };
 
   const getPageNumbers = () => {
@@ -437,6 +466,46 @@ export default function Products() {
 
   let allProductsFromAPI;
 
+  function s2ab(s) {
+    const buf = new ArrayBuffer(s.length);
+    const view = new Uint8Array(buf);
+    for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xff;
+    return buf;
+  }
+
+  const generateXlsx = () => {
+    const now = new Date();
+    const timestamp =
+      now.getFullYear() +
+      "_" +
+      (now.getMonth() + 1).toString().padStart(2, "0") +
+      "_" +
+      now.getDate().toString().padStart(2, "0") +
+      "_" +
+      now.getHours().toString().padStart(2, "0") +
+      "_" +
+      now.getMinutes().toString().padStart(2, "0");
+    const wb = xlsx.utils.book_new();
+    const testFile = xlsx.utils.json_to_sheet(allProducts);
+    xlsx.utils.book_append_sheet(wb, testFile, "Sheet1");
+
+    const wbout = xlsx.write(wb, { bookType: "xlsx", type: "binary" });
+
+    const blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    document.body.appendChild(a);
+    a.href = url;
+    a.download = timestamp + ".xlsx";
+    a.click();
+
+    setTimeout(() => {
+      URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    }, 0);
+  };
+
   const processFile = (file) => {
     setIsLoading(true);
     const reader = new FileReader();
@@ -455,9 +524,7 @@ export default function Products() {
         if (categoryID != 0) {
           const worksheet = workbook.Sheets[sheets[i]];
           const json = xlsx.utils.sheet_to_json(worksheet);
-          console.log(json);
           const excelProds = ProductTransformer.fromXLSX(JSON.stringify(json));
-          console.log(excelProds);
           excelProds.forEach((prod) => {
             prod.category = { id: categoryID } as Category;
           });
@@ -538,7 +605,7 @@ export default function Products() {
         } catch (error) {}
       }
     });
-    // window.location.reload();
+    window.location.reload();
   };
 
   const [submitError, setSubmitError] = useState(null);
@@ -862,18 +929,29 @@ export default function Products() {
                 <div className={navIconDivClass}>
                   <Upload className={iconClass} />
                 </div>
-                <span className={textClass}>{t("Télécharger Excel")}</span>
+                <span className={textClass}>{t("Téléverser Excel")}</span>
               </label>
               <input
-                title={t("Télécharger Excel")}
+                title={t("Téléverser Excel")}
                 className="w-0 h-0 opacity-0 absolute"
-                placeholder={t("Télécharger Excel")}
+                placeholder={t("Téléverser Excel")}
                 type="file"
                 name="upload"
                 id="upload"
                 onChange={excelUpload}
               />
             </form>
+
+            <button
+              className={buttonClass + " bg-green-400 flex-shrink-0"}
+              onClick={() => generateXlsx()}
+            >
+              <div className={navIconDivClass}>
+                <Download className={iconClass} />
+              </div>
+              <span className={textClass}>{t("Télécharger Excel")}</span>
+            </button>
+
             <button className={buttonClass} onClick={() => setNewProduct(true)}>
               <div className={navIconDivClass}>
                 <PlusCircle className={iconClass} />
@@ -1512,6 +1590,23 @@ export default function Products() {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
+                    {currentProduct && currentProduct.id != 0 ? (
+                      currentProduct.product_extra.new ? (
+                        <div
+                          className={`bg-green-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
+                          onClick={toggleProductNew}
+                        >
+                          {t("Featured")}
+                        </div>
+                      ) : (
+                        <div
+                          className={`bg-red-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
+                          onClick={toggleProductNew}
+                        >
+                          {t("Normal")}
+                        </div>
+                      )
+                    ) : null}
                     {currentProduct && currentProduct.id != 0 ? (
                       currentProduct.active ? (
                         <div
