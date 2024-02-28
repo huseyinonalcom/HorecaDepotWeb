@@ -34,7 +34,7 @@ const AdminDrawer = () => {
   const textClass = "ml-2 h-6 w-full font-bold text-left overflow-hidden";
   return (
     <div
-      className={`${drawerClass} print:hidden duration-700 shadow-[inset_-4px_0_10px_1px_rgba(0,0,0,0.3)] h-screen bg-slate-300 p-4 z-50 overflow-y-auto overflow-x-show`}
+      className={`${drawerClass} print:hidden duration-700 shadow-[inset_-4px_0_10px_1px_rgba(0,0,0,0.3)] flex-shrink-0 h-[100dvh] bg-slate-300 p-4 z-50`}
     >
       <div className="flex flex-col h-full gap-1">
         <nav className="flex flex-col h-full justify-between">

@@ -51,7 +51,7 @@ export default function Products() {
   const iconClass = "flex-shrink-0";
   const textClass = "mx-2 font-bold mtext-left";
   const inputDivClass =
-    "flex flex-col items-center shadow-lg gap-2 bg-white p-1 rounded h-min";
+    "flex flex-col items-center shadow-lg gap-2 bg-white p-1 h-min";
   const inputClass = "border rounded w-full";
 
   const toggleProductActive = () => {
@@ -746,7 +746,7 @@ export default function Products() {
           <title>Produits</title>
           <meta name="language" content={lang} />
         </Head>
-        <div className="flex flex-col w-full items-center pt-1">
+        <div className="flex flex-shrink-1 flex-col w-full items-center pt-1">
           <div className="flex mb-1 flex-row items-center gap-2">
             <div className="group relative h-full">
               <div className="flex flex-row items-center mr-1 font-bold text-black h-full bg-gray-100 pl-3 pr-2">
@@ -886,9 +886,9 @@ export default function Products() {
               <span className={textClass}>{t("Créer Nouveau Produit")}</span>
             </button>
           </div>
-          <div>
-            <div className="table-container">
-              <table className="rounded overflow-x-auto shadow-lg bg-gray-100 p-2">
+          <div className="w-full flex-shrink-1 flex flex-col items-center">
+            <div className="flex flex-shrink-1 max-h-[41vh] overflow-y-scroll overflow-x-scroll max-w-[95vw]">
+              <table className="rounded w-full shadow-lg bg-gray-100 p-2">
                 <thead>
                   <tr>
                     <th>{t("No")}</th>
@@ -1038,41 +1038,39 @@ export default function Products() {
             </div>
             <>
               {allProducts.length > 0 ? (
-                <div className="flex flex-row px-6 justify-center mb-4">
-                  <div className="mt-2">
-                    <div className="flex justify-center items-center space-x-1">
-                      <button
-                        className="p-2 border rounded hover:bg-gray-200"
-                        onClick={() => goToPage(currentPage - 1)}
-                        disabled={currentPage === 1}
-                      >
-                        <ChevronLeft />
-                      </button>
-                      {getPageNumbers().map((page, index) =>
-                        page === "..." ? (
-                          <span key={index} className="p-2">
-                            ...
-                          </span>
-                        ) : (
-                          <button
-                            key={index}
-                            className={`p-2 border rounded hover:bg-gray-200 ${
-                              currentPage === page ? "bg-gray-300" : ""
-                            }`}
-                            onClick={() => goToPage(page)}
-                          >
-                            {page}
-                          </button>
-                        )
-                      )}
-                      <button
-                        className="p-2 border rounded hover:bg-gray-200"
-                        onClick={() => goToPage(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                      >
-                        <ChevronRight />
-                      </button>
-                    </div>
+                <div className="flex flex-row px-6 justify-center mb-2 mt-2">
+                  <div className="flex justify-center items-center space-x-1">
+                    <button
+                      className="p-2 border rounded hover:bg-gray-200"
+                      onClick={() => goToPage(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      <ChevronLeft />
+                    </button>
+                    {getPageNumbers().map((page, index) =>
+                      page === "..." ? (
+                        <span key={index} className="p-2">
+                          ...
+                        </span>
+                      ) : (
+                        <button
+                          key={index}
+                          className={`p-2 border rounded hover:bg-gray-200 ${
+                            currentPage === page ? "bg-gray-300" : ""
+                          }`}
+                          onClick={() => goToPage(page)}
+                        >
+                          {page}
+                        </button>
+                      )
+                    )}
+                    <button
+                      className="p-2 border rounded hover:bg-gray-200"
+                      onClick={() => goToPage(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      <ChevronRight />
+                    </button>
                   </div>
                 </div>
               ) : (
@@ -1080,7 +1078,7 @@ export default function Products() {
               )}
             </>
           </div>
-          <div className="product-container mt-2 mb-1">
+          <div className="shadow-md bg-gray-400 p-2">
             {currentProduct || newProduct ? (
               <>
                 <form

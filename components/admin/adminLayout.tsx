@@ -23,7 +23,7 @@ const AdminLayout = ({ children }: Props) => {
   return (
     <AdminDrawerProvider>
       <main>
-        <div className="flex flex-row">
+        <div className="flex flex-row max-w-[100vw]">
           <AdminDrawer />
           {children}
         </div>
