@@ -481,10 +481,16 @@ export default function Products() {
   }
 
   const getAllProductsByCategories = async () => {
+    const answer = await fetch(
+      `/api/products/public/getproducts?page=${currentPage}&count=19999`
+    );
+    const data = await answer.json();
+    console.log(data);
     // fetch from an API route which will return a json with an array of categories each with an aray of products, it will not include empty categories
+    return data.sortedData;
   };
 
-  const generateXlsx = () => {
+  const generateXlsx = async () => {
     const now = new Date();
     const timestamp =
       now.getFullYear() +
@@ -498,7 +504,10 @@ export default function Products() {
       now.getMinutes().toString().padStart(2, "0");
     const wb = xlsx.utils.book_new();
 
-    const testFile = xlsx.utils.json_to_sheet(allProducts);
+    const testFile = xlsx.utils.json_to_sheet(
+      await getAllProductsByCategories()
+    );
+
     xlsx.utils.book_append_sheet(wb, testFile, "Sheet1");
 
     const wbout = xlsx.write(wb, { bookType: "xlsx", type: "binary" });
@@ -536,7 +545,7 @@ export default function Products() {
       const allIDsReq = await fetch("/api/products/admin/getallids");
       const allIDsAns = await allIDsReq.json();
       allProductsFromAPI = allIDsAns.data;
-
+      let allProdsFromExcel = [];
       for (let i = 0; i < sheets.length; i++) {
         const categoryID = categoryToId(sheets[i]);
         if (categoryID != 0) {
@@ -548,6 +557,7 @@ export default function Products() {
           });
           setCategoriesTotal((c) => c + 1);
           sendProductsToAPI(excelProds);
+          allProdsFromExcel.push(...excelProds);
         }
         if (!count) {
           setCount(0);
