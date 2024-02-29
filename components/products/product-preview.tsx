@@ -120,13 +120,16 @@ const ProductPreview = ({ product, width }: Props) => {
       >
         <h3 className="h-[25px] group-hover:h-[0px] text-base font-bold mt-3 w-full justify-center overflow-hidden duration-700 px-2">
           <AutoTextSize mode="oneline" maxFontSizePx={16}>
-            {`${product.name} ${
-              product.internalCode != "0" ? product.internalCode : ""
-            }`}
+            {`${product.name}`}
           </AutoTextSize>
         </h3>
+        <h4 className="h-[19px] group-hover:h-[0px] text-sm font-semibold w-full justify-center overflow-hidden duration-700 px-2">
+          <AutoTextSize mode="oneline" maxFontSizePx={13}>
+            {`${product.internalCode != "0" ? product.internalCode : ""}`}
+          </AutoTextSize>
+        </h4>
         <Link
-          className="h-[0px] group-hover:h-[25px] text-lg overflow-hidden duration-700 text-left text-orange-400 font-bold"
+          className="h-[0px] group-hover:h-[44px] text-lg overflow-hidden duration-700 text-left text-orange-400 font-bold"
           href={"/products/" + product.id}
         >
           {t("+ Voir details")}
