@@ -23,9 +23,9 @@ const AdminLayout = ({ children }: Props) => {
   return (
     <AdminDrawerProvider>
       <main>
-        <div className="flex flex-row max-w-[100vw]">
+        <div className="flex flex-row">
           <AdminDrawer />
-          {children}
+          <div className="flex-1 overflow-x-hidden px-2">{children}</div>
         </div>
       </main>
     </AdminDrawerProvider>
