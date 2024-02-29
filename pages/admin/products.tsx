@@ -480,6 +480,9 @@ export default function Products() {
     return buf;
   }
 
+  const getAllProductsByCategories = async () => {
+    // fetch from an API route which will return a json with an array of categories each with an aray of products, it will not include empty categories
+  };
   const generateXlsx = () => {
     const now = new Date();
     const timestamp =
@@ -493,6 +496,7 @@ export default function Products() {
       "_" +
       now.getMinutes().toString().padStart(2, "0");
     const wb = xlsx.utils.book_new();
+
     const testFile = xlsx.utils.json_to_sheet(allProducts);
     xlsx.utils.book_append_sheet(wb, testFile, "Sheet1");
 
