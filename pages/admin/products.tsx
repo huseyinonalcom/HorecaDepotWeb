@@ -483,7 +483,7 @@ export default function Products() {
   const getAllProductsByCategories = async () => {
     // fetch from an API route which will return a json with an array of categories each with an aray of products, it will not include empty categories
   };
-  
+
   const generateXlsx = () => {
     const now = new Date();
     const timestamp =
@@ -518,6 +518,12 @@ export default function Products() {
     }, 0);
   };
 
+  const excelUpload = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    processFile(file);
+  };
+
   const processFile = (file) => {
     setIsLoading(true);
     const reader = new FileReader();
@@ -540,34 +546,22 @@ export default function Products() {
           excelProds.forEach((prod) => {
             prod.category = { id: categoryID } as Category;
           });
+          setCategoriesTotal((c) => c + 1);
           sendProductsToAPI(excelProds);
+        }
+        if (!count) {
+          setCount(0);
         }
       }
     };
     reader.readAsArrayBuffer(file);
   };
 
-  const excelUpload = (e) => {
-    e.preventDefault();
-    const file = e.target.files[0];
-    processFile(file);
-  };
-
-  const submitStock = async (id) => {
-    const shelf = currentProduct.shelves.find(
-      (shelf) => shelf.establishment.id == id
-    );
-    console.log(shelf);
-    const putStock = await fetch(
-      `/api/shelves/admin/putshelfstock?id=${shelf.id}`,
-      {
-        method: "PUT",
-        body: JSON.stringify({ stock: shelf.stock }),
-      }
-    );
-  };
+  const [categoriesTotal, setCategoriesTotal] = useState(0);
+  const [count, setCount] = useState(null);
 
   const sendProductsToAPI = async (prodsToPOST: Product[]) => {
+    let track = 0;
     prodsToPOST.forEach(async (prodToPost) => {
       let prodFromAPI = allProductsFromAPI.find(
         (prod) =>
@@ -593,6 +587,7 @@ export default function Products() {
 
           if (!request.ok) {
             throw new Error(`Put failed: ${request.status}`);
+          } else {
           }
         } catch (error) {}
       } else {
@@ -606,15 +601,31 @@ export default function Products() {
           });
 
           if (!request.ok) {
-            const answer = await request.json();
             throw new Error(`Post failed: ${request.status}`);
+          } else {
           }
         } catch (error) {}
       }
+      track++;
+      if (track == prodsToPOST.length - 1) {
+        setCount((c) => c + 1);
+      }
     });
-    window.location.reload();
   };
 
+  const submitStock = async (id) => {
+    const shelf = currentProduct.shelves.find(
+      (shelf) => shelf.establishment.id == id
+    );
+    console.log(shelf);
+    const putStock = await fetch(
+      `/api/shelves/admin/putshelfstock?id=${shelf.id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({ stock: shelf.stock }),
+      }
+    );
+  };
   const [submitError, setSubmitError] = useState(null);
 
   const handleFormSubmit = async (e) => {
@@ -808,8 +819,19 @@ export default function Products() {
 
   const [isProductExpanded, setIsProductExpanded] = useState(true);
 
+  useEffect(() => {
+    if (count == categoriesTotal) {
+      window.location.reload();
+    }
+  }, [count]);
+
   if (isLoading) {
-    return <LoadingIndicator />;
+    return (
+      <div>
+        {count}/{categoriesTotal}
+        <LoadingIndicator />
+      </div>
+    );
   } else
     return (
       <AdminLayout>

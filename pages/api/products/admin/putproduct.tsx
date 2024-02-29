@@ -7,6 +7,7 @@ export default async function putProduct(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log("putting");
   const cookies = req.cookies;
   const authToken = cookies.j;
   const prodID = req.query.id;
@@ -80,6 +81,8 @@ export default async function putProduct(
       });
 
       if (!response.ok) {
+        const ans = await response.json();
+        console.log(ans);
         return res.status(400).json(statusText[400]);
       } else {
         const fetchUrl2 = `${process.env.API_URL}/api/product-extras/${prodExtraID}`;
@@ -95,10 +98,9 @@ export default async function putProduct(
               weight: prodToPost.product_extra.weight ?? 0,
               per_box: prodToPost.product_extra.per_box ?? 0,
               packaged_weight: prodToPost.product_extra.packaged_weight ?? 0,
-              packaged_dimensions: prodToPost.product_extra.packaged_dimensions,
+              packaged_dimensions: prodToPost.product_extra.packaged_dimensions?.toString(),
               seat_height: prodToPost.product_extra.seat_height ?? 0,
               diameter: prodToPost.product_extra.diameter ?? 0,
-              surface_area: prodToPost.product_extra.surface_area,
               tags: prodToPost.product_extra.tags,
               barcode: prodToPost.product_extra.barcode.toString(),
               armrest_height: prodToPost.product_extra.armrest_height,
@@ -110,6 +112,8 @@ export default async function putProduct(
         });
 
         if (!response2.ok) {
+          const ans2 = await response2.json();
+          console.log({ans2});
           return res.status(400).json(statusText[400]);
         } else {
           // post stock to shelves

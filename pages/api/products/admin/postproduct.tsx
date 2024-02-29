@@ -6,6 +6,7 @@ export default async function postProduct(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log("posting");
   const cookies = req.cookies;
   const authToken = cookies.j;
   if (req.method === "POST") {
@@ -47,6 +48,7 @@ export default async function postProduct(
       });
 
       if (!reqProd.ok) {
+        
         return res.status(500).json("error posting prod");
       } else {
         const answer = await reqProd.json();
@@ -65,10 +67,10 @@ export default async function postProduct(
               weight: prodToPost.product_extra.weight ?? 0,
               per_box: prodToPost.product_extra.per_box ?? 0,
               packaged_weight: prodToPost.product_extra.packaged_weight ?? 0,
-              packaged_dimensions: prodToPost.product_extra.packaged_dimensions,
+              packaged_dimensions:
+                prodToPost.product_extra.packaged_dimensions?.toString(),
               seat_height: prodToPost.product_extra.seat_height ?? 0,
               diameter: prodToPost.product_extra.diameter ?? 0,
-              surface_area: prodToPost.product_extra.surface_area,
               barcode: prodToPost.product_extra.barcode.toString(),
               tags: prodToPost.product_extra.tags,
               armrest_height: prodToPost.product_extra.armrest_height,
@@ -79,6 +81,8 @@ export default async function postProduct(
         });
 
         if (!response2.ok) {
+          const ans = await response2.json();
+          console.log(ans);
           return res.status(500).json("error posting extra");
         } else {
           // post empty shelves
@@ -117,6 +121,7 @@ export default async function postProduct(
         }
       }
     } catch (error) {
+      console.log(error);
       return res.status(500).json("error outside of requests");
     }
 
