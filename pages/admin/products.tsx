@@ -835,7 +835,7 @@ export default function Products() {
 
   if (isLoading) {
     return (
-      <div>
+      <div className="flex flex-col justify-center items-center">
         {count}/{categoriesTotal}
         <LoadingIndicator />
       </div>
