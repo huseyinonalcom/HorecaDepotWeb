@@ -486,6 +486,7 @@ export default function Products() {
     );
     const data = await answer.json();
     console.log(data);
+
     // fetch from an API route which will return a json with an array of categories each with an aray of products, it will not include empty categories
     return data.sortedData;
   };
