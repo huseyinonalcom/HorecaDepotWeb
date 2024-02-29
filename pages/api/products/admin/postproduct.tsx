@@ -47,7 +47,6 @@ export default async function postProduct(
       });
 
       if (!reqProd.ok) {
-        
         return res.status(500).json("error posting prod");
       } else {
         const answer = await reqProd.json();
@@ -83,7 +82,8 @@ export default async function postProduct(
           const ans = await response2.json();
           return res.status(500).json("error posting extra");
         } else {
-          // post empty shelves
+          console.log(prodToPost);
+          // post shelves
           const fetchUrlShelves = `${process.env.API_URL}/api/shelves`;
           const reqShelf1 = await fetch(fetchUrlShelves, {
             method: "POST",

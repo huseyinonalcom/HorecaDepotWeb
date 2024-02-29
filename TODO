@@ -1,6 +1,3 @@
-VERIFYPAYMENT(.tsx)
-figure out how to tell a successful payment (may need to complete an actual payment)
-
 TRANSLATIONS
 add all translations
 
@@ -9,3 +6,5 @@ universal autocomplete
 
 PAYMENTS
 ogone confirmation mail
+
+RESERVATIONS
