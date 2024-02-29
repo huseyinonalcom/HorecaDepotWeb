@@ -354,7 +354,7 @@ export default function Products() {
 
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      await sendFile(file).then((res) => e.target.value = '');
+      await sendFile(file).then((res) => (e.target.value = ""));
     }
   };
 
@@ -1857,7 +1857,9 @@ export default function Products() {
                     <ButtonShadow1
                       onClick={() => setIsProductExpanded(!isProductExpanded)}
                     >
-                      <Minus color="black" />
+                      <div className="p-2 bg-white">
+                        <Minus color="black" />
+                      </div>
                     </ButtonShadow1>
                     <ButtonShadow1
                       onClick={() => {
@@ -1866,7 +1868,9 @@ export default function Products() {
                         setChosenProductID(null);
                       }}
                     >
-                      <X color="red" />
+                      <div className="p-2 bg-white">
+                        <X color="red" />
+                      </div>
                     </ButtonShadow1>
                   </div>
                 </div>
