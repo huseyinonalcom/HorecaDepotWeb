@@ -806,22 +806,20 @@ export default function Products() {
     const imagelessSorted = data.sortedData
       .filter((prod) => !prod.images)
       .sort((a, b) => {
-        // First, sort by category ID
         if (a.category.id !== b.category.id) {
           return a.category.id - b.category.id;
         }
-        // If category IDs are the same, sort by name alphabetically
         return a.name.localeCompare(b.name);
       });
     console.log(
       imagelessSorted.map(
         (imgl) =>
           imgl.category.Name +
-          ", " +
+          "," +
           imgl.internalCode +
-          ", " +
+          "," +
           imgl.name +
-          ", " +
+          "," +
           imgl.color
       )
     );
