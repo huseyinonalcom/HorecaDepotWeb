@@ -617,7 +617,6 @@ export default function Products() {
     const shelf = currentProduct.shelves.find(
       (shelf) => shelf.establishment.id == id
     );
-    console.log(shelf);
     const putStock = await fetch(
       `/api/shelves/admin/putshelfstock?id=${shelf.id}`,
       {

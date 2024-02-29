@@ -19,7 +19,6 @@ export default async function putProduct(
   if (req.method === "PUT") {
     try {
       prodIds.forEach((chsp) => {
-        console.log(chsp);
         const putTags = async () => {
           const putReq = await fetch(
             `${process.env.API_URL}/api/product-extras/${chsp.product_extra.id}?fields[0]=id&fields[1]=tags`,
@@ -38,11 +37,8 @@ export default async function putProduct(
           return ans;
         };
         putTags()
-          .catch((e) => console.log(e))
-          .then((res) => console.log(res));
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).json(statusText[500]);
     }
 

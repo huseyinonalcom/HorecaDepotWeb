@@ -36,7 +36,6 @@ export default function Order() {
       }
     );
     const response = await request.json();
-    console.log(response);
     if (request.ok) {
       setAllProducts(response.sortedData);
       setProducts(response.sortedData);

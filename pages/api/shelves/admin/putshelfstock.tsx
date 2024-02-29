@@ -15,7 +15,6 @@ export default async function putShelfStock(
   if (!shelfID) {
     return res.status(401).json(statusText[401]);
   }
-  console.log(shelfStock);
   if (shelfStock != 0 && !shelfStock) {
     return res.status(401).json(statusText[401]);
   }

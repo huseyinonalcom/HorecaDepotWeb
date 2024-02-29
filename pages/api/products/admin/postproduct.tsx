@@ -6,7 +6,6 @@ export default async function postProduct(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("posting");
   const cookies = req.cookies;
   const authToken = cookies.j;
   if (req.method === "POST") {
@@ -82,7 +81,6 @@ export default async function postProduct(
 
         if (!response2.ok) {
           const ans = await response2.json();
-          console.log(ans);
           return res.status(500).json("error posting extra");
         } else {
           // post empty shelves
@@ -121,7 +119,6 @@ export default async function postProduct(
         }
       }
     } catch (error) {
-      console.log(error);
       return res.status(500).json("error outside of requests");
     }
 

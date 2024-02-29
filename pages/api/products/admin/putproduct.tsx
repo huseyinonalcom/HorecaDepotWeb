@@ -7,7 +7,6 @@ export default async function putProduct(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("putting");
   const cookies = req.cookies;
   const authToken = cookies.j;
   const prodID = req.query.id;
@@ -82,7 +81,6 @@ export default async function putProduct(
 
       if (!response.ok) {
         const ans = await response.json();
-        console.log(ans);
         return res.status(400).json(statusText[400]);
       } else {
         const fetchUrl2 = `${process.env.API_URL}/api/product-extras/${prodExtraID}`;
@@ -113,7 +111,6 @@ export default async function putProduct(
 
         if (!response2.ok) {
           const ans2 = await response2.json();
-          console.log({ans2});
           return res.status(400).json(statusText[400]);
         } else {
           // post stock to shelves
