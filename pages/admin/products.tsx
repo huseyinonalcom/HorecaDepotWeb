@@ -24,6 +24,7 @@ import BarcodeToPng from "../../components/common/barcodepng";
 import LoadingIndicator from "../../components/common/loadingIndicator";
 import { CategoryContext } from "../../api/providers/categoryProvider";
 import { Category } from "../../api/interfaces/category";
+import ButtonShadow1 from "../../components/buttons/shadow_1";
 
 export default function Products() {
   const { t, lang } = useTranslation("common");
@@ -52,8 +53,13 @@ export default function Products() {
   const iconClass = "flex-shrink-0";
   const textClass = "mx-2 font-bold text-left";
   const inputDivClass =
-    "flex flex-col items-center shadow-lg gap-2 w-[250px] bg-neutral-300 p-1 h-min";
+    "flex flex-col items-center shadow-lg gap-2 w-[230px] bg-neutral-300 p-1 h-min";
   const inputClass = "w-full";
+
+  useEffect(() => {
+    setIsProductExpanded(true);
+    setNewProduct(false);
+  }, [currentProduct]);
 
   const toggleProductActive = () => {
     const toggleActive = async () => {
@@ -342,13 +348,13 @@ export default function Products() {
     setSelectedRows(newSelectedRows);
   };
 
-  const uploadFile = (e) => {
+  const uploadFile = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      sendFile(file);
+      await sendFile(file).then((res) => e.target.value = '');
     }
   };
 
@@ -795,6 +801,8 @@ export default function Products() {
     );
   };
 
+  const [isProductExpanded, setIsProductExpanded] = useState(true);
+
   if (isLoading) {
     return <LoadingIndicator />;
   } else
@@ -804,7 +812,7 @@ export default function Products() {
           <title>Produits</title>
           <meta name="language" content={lang} />
         </Head>
-        <div className="flex flex-shrink-1 flex-col items-center pt-1">
+        <div className="flex flex-1 max-h-[100vh] pb-1 flex-col items-center pt-1">
           <div className="flex mb-1 flex-row items-center gap-2">
             <div className="group relative h-full">
               <div className="flex flex-row items-center mr-1 font-bold text-black h-full bg-gray-100 pl-3 pr-2">
@@ -955,876 +963,913 @@ export default function Products() {
               <span className={textClass}>{t("Créer Nouveau Produit")}</span>
             </button>
           </div>
-          <div className="flex flex-col w-full items-center pt-1">
-            <div className="w-full flex flex-col items-center">
-              <div className="flex max-h-[41vh] overflow-y-scroll overflow-x-scroll max-w-full">
-                <table className="w-full shadow-lg bg-gray-100 p-2 relative">
-                  <thead className="sticky top-0 bg-[#c0c1c3]">
-                    <tr>
-                      <th>{t("No")}</th>
-                      <th>{t("Catégorie")}</th>
-                      <th>{t("EAN")}</th>
-                      <th>{t("Code Model")}</th>
-                      <th>{t("Nom")}</th>
-                      <th>{t("Couleur")}</th>
-                      <th>{t("Matériel")}</th>
-                      <th>{t("Prix Avant Remise")}</th>
-                      <th>{t("Prix Vente")}</th>
-                      <th>{t("Stock Depot")}</th>
-                      <th>{t("Stock Magasin")}</th>
-                      <th>{t("Poids")}</th>
-                      <th>{t("Poids Colis Net")}</th>
-                      <th>{t("Poids Colis Brut")}</th>
-                      <th>{t("Dimensions Colis")}</th>
-                      <th>{t("Par Boite")}</th>
-                      <th>{t("Hauteur Assise")}</th>
-                      <th>{t("Hauteur")}</th>
-                      <th>{t("Largeur")}</th>
-                      <th>{t("Longueur")}</th>
-                      <th>{t("Diametre")}</th>
+          <div className="w-full flex-shrink-1 overflow-y-hidden flex flex-col items-center pt-1">
+            <div className="flex flex-col overflow-y-auto overflow-x-auto max-w-full">
+              <table className="w-full shadow-lg bg-gray-100 p-2 relative">
+                <thead className="sticky top-0 bg-[#c0c1c3]">
+                  <tr>
+                    <th>{t("No")}</th>
+                    <th>{t("Catégorie")}</th>
+                    <th>{t("EAN")}</th>
+                    <th>{t("Code Model")}</th>
+                    <th>{t("Nom")}</th>
+                    <th>{t("Couleur")}</th>
+                    <th>{t("Matériel")}</th>
+                    <th>{t("Prix Avant Remise")}</th>
+                    <th>{t("Prix Vente")}</th>
+                    <th>{t("Stock Depot")}</th>
+                    <th>{t("Stock Magasin")}</th>
+                    <th>{t("Poids")}</th>
+                    <th>{t("Poids Colis Net")}</th>
+                    <th>{t("Poids Colis Brut")}</th>
+                    <th>{t("Dimensions Colis")}</th>
+                    <th>{t("Par Boite")}</th>
+                    <th>{t("Hauteur Assise")}</th>
+                    <th>{t("Hauteur")}</th>
+                    <th>{t("Largeur")}</th>
+                    <th>{t("Longueur")}</th>
+                    <th>{t("Diametre")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allProducts.map((product, index) => (
+                    <tr
+                      key={index}
+                      className={`cursor-pointer ${
+                        !selectedRows.has(index) && index % 2 === 0
+                          ? "bg-slate-300"
+                          : ""
+                      } ${selectedRows.has(index) ? "bg-orange-300" : ""}`}
+                      onDoubleClick={() => setChosenProductID(product.id)}
+                      onClick={(e) => handleRowClick(index, e)}
+                      onMouseOver={(e) =>
+                        e.currentTarget.classList.add("hover:bg-slate-500")
+                      }
+                      onMouseOut={(e) =>
+                        e.currentTarget.classList.remove("hover:bg-slate-500")
+                      }
+                    >
+                      <td>{product.id}</td>
+                      <td>{product.category.Name}</td>
+                      <td>{product.product_extra.barcode}</td>
+                      <td>{product.internalCode}</td>
+                      <td>{product.name}</td>
+                      <td>{product.color}</td>
+                      <td>{product.material}</td>
+                      <td>
+                        {product.priceBeforeDiscount != undefined
+                          ? "€ " +
+                            product.priceBeforeDiscount
+                              .toFixed(2)
+                              .replaceAll(".", ",")
+                          : ""}
+                      </td>
+                      <td>
+                        {product.value != undefined
+                          ? "€ " + product.value.toFixed(2).replaceAll(".", ",")
+                          : ""}
+                      </td>
+                      <td>
+                        {
+                          product.shelves.find(
+                            (shelf) => shelf.establishment.id == 3
+                          ).stock
+                        }
+                      </td>
+                      <td>
+                        {
+                          product.shelves.find(
+                            (shelf) => shelf.establishment.id == 1
+                          ).stock
+                        }
+                      </td>
+                      <td>
+                        {product.product_extra.weight != 0
+                          ? product.product_extra.weight
+                              .toString()
+                              .replaceAll(".", ",") + " kg"
+                          : ""}
+                      </td>
+                      <td>
+                        {product.product_extra.packaged_weight_net != 0
+                          ? product.product_extra.packaged_weight_net
+                              .toString()
+                              .replaceAll(".", ",") + " kg"
+                          : ""}
+                      </td>
+                      <td>
+                        {product.product_extra.packaged_weight != 0
+                          ? product.product_extra.packaged_weight
+                              .toString()
+                              .replaceAll(".", ",") + " kg"
+                          : ""}
+                      </td>
+                      <td>{product.product_extra.packaged_dimensions}</td>
+                      <td>
+                        {product.product_extra.per_box != 0
+                          ? product.product_extra.per_box
+                          : ""}
+                      </td>
+                      <td>
+                        {product.product_extra.seat_height != 0
+                          ? product.product_extra.seat_height
+                              .toString()
+                              .replaceAll(".", ",") + " cm"
+                          : ""}
+                      </td>
+                      <td>
+                        {product.height != 0
+                          ? product.height.toString().replaceAll(".", ",") +
+                            " cm"
+                          : ""}
+                      </td>
+                      <td>
+                        {product.width != 0
+                          ? product.width.toString().replaceAll(".", ",") +
+                            " cm"
+                          : ""}
+                      </td>
+                      <td>
+                        {product.depth != 0
+                          ? product.depth.toString().replaceAll(".", ",") +
+                            " cm"
+                          : ""}
+                      </td>
+                      <td>
+                        {product.product_extra.diameter != 0
+                          ? product.product_extra.diameter
+                              .toString()
+                              .replaceAll(".", ",") + " cm"
+                          : ""}
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {allProducts.map((product, index) => (
-                      <tr
-                        key={index}
-                        className={`cursor-pointer ${
-                          !selectedRows.has(index) && index % 2 === 0
-                            ? "bg-slate-300"
-                            : ""
-                        } ${selectedRows.has(index) ? "bg-orange-300" : ""}`}
-                        onDoubleClick={() => setChosenProductID(product.id)}
-                        onClick={(e) => handleRowClick(index, e)}
-                        onMouseOver={(e) =>
-                          e.currentTarget.classList.add("hover:bg-slate-500")
-                        }
-                        onMouseOut={(e) =>
-                          e.currentTarget.classList.remove("hover:bg-slate-500")
-                        }
-                      >
-                        <td>{product.id}</td>
-                        <td>{product.category.Name}</td>
-                        <td>{product.product_extra.barcode}</td>
-                        <td>{product.internalCode}</td>
-                        <td>{product.name}</td>
-                        <td>{product.color}</td>
-                        <td>{product.material}</td>
-                        <td>
-                          {product.priceBeforeDiscount != undefined
-                            ? "€ " +
-                              product.priceBeforeDiscount
-                                .toFixed(2)
-                                .replaceAll(".", ",")
-                            : ""}
-                        </td>
-                        <td>
-                          {product.value != undefined
-                            ? "€ " +
-                              product.value.toFixed(2).replaceAll(".", ",")
-                            : ""}
-                        </td>
-                        <td>
-                          {
-                            product.shelves.find(
-                              (shelf) => shelf.establishment.id == 3
-                            ).stock
-                          }
-                        </td>
-                        <td>
-                          {
-                            product.shelves.find(
-                              (shelf) => shelf.establishment.id == 1
-                            ).stock
-                          }
-                        </td>
-                        <td>
-                          {product.product_extra.weight != 0
-                            ? product.product_extra.weight
-                                .toString()
-                                .replaceAll(".", ",") + " kg"
-                            : ""}
-                        </td>
-                        <td>
-                          {product.product_extra.packaged_weight_net != 0
-                            ? product.product_extra.packaged_weight_net
-                                .toString()
-                                .replaceAll(".", ",") + " kg"
-                            : ""}
-                        </td>
-                        <td>
-                          {product.product_extra.packaged_weight != 0
-                            ? product.product_extra.packaged_weight
-                                .toString()
-                                .replaceAll(".", ",") + " kg"
-                            : ""}
-                        </td>
-                        <td>{product.product_extra.packaged_dimensions}</td>
-                        <td>
-                          {product.product_extra.per_box != 0
-                            ? product.product_extra.per_box
-                            : ""}
-                        </td>
-                        <td>
-                          {product.product_extra.seat_height != 0
-                            ? product.product_extra.seat_height
-                                .toString()
-                                .replaceAll(".", ",") + " cm"
-                            : ""}
-                        </td>
-                        <td>
-                          {product.height != 0
-                            ? product.height.toString().replaceAll(".", ",") +
-                              " cm"
-                            : ""}
-                        </td>
-                        <td>
-                          {product.width != 0
-                            ? product.width.toString().replaceAll(".", ",") +
-                              " cm"
-                            : ""}
-                        </td>
-                        <td>
-                          {product.depth != 0
-                            ? product.depth.toString().replaceAll(".", ",") +
-                              " cm"
-                            : ""}
-                        </td>
-                        <td>
-                          {product.product_extra.diameter != 0
-                            ? product.product_extra.diameter
-                                .toString()
-                                .replaceAll(".", ",") + " cm"
-                            : ""}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <>
-                {allProducts.length > 0 ? (
-                  <div className="flex flex-row px-6 justify-center mb-2 mt-2">
-                    <div className="flex justify-center items-center space-x-1">
-                      <button
-                        className="p-2 border rounded hover:bg-gray-200"
-                        onClick={() => goToPage(currentPage - 1)}
-                        disabled={currentPage === 1}
-                      >
-                        <ChevronLeft />
-                      </button>
-                      {getPageNumbers().map((page, index) =>
-                        page === "..." ? (
-                          <span key={index} className="p-2">
-                            ...
-                          </span>
-                        ) : (
-                          <button
-                            key={index}
-                            className={`p-2 border rounded hover:bg-gray-200 ${
-                              currentPage === page ? "bg-gray-300" : ""
-                            }`}
-                            onClick={() => goToPage(page)}
-                          >
-                            {page}
-                          </button>
-                        )
-                      )}
-                      <button
-                        className="p-2 border rounded hover:bg-gray-200"
-                        onClick={() => goToPage(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                      >
-                        <ChevronRight />
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <p></p>
-                )}
-              </>
+                  ))}
+                </tbody>
+              </table>
             </div>
+            <>
+              {allProducts.length > 0 ? (
+                <div className="flex flex-row px-6 justify-center mb-2 mt-2">
+                  <div className="flex justify-center items-center space-x-1">
+                    <button
+                      className="p-2 border rounded hover:bg-gray-200"
+                      onClick={() => goToPage(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
+                      <ChevronLeft />
+                    </button>
+                    {getPageNumbers().map((page, index) =>
+                      page === "..." ? (
+                        <span key={index} className="p-2">
+                          ...
+                        </span>
+                      ) : (
+                        <button
+                          key={index}
+                          className={`p-2 border rounded hover:bg-gray-200 ${
+                            currentPage === page ? "bg-gray-300" : ""
+                          }`}
+                          onClick={() => goToPage(page)}
+                        >
+                          {page}
+                        </button>
+                      )
+                    )}
+                    <button
+                      className="p-2 border rounded hover:bg-gray-200"
+                      onClick={() => goToPage(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
+                      <ChevronRight />
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <p></p>
+              )}
+            </>
           </div>
-          <div className="shadow-md bg-gray-400 p-2">
+          <div
+            className={`shadow-md w-full flex flex-row flex-shrink-0 bg-gray-400 duration-500 overflow-y-hidden p-2 flex-grow transition-height `}
+          >
             {currentProduct || newProduct ? (
               <>
-                <div className="w-full flex flex-row justify-end gap-2 mb-2">
-                  <button className="p-2 bg-white shadow-sm hover:shadow-none">
-                    <Minus />
-                  </button>
-                  <button className="p-2 bg-white shadow-sm hover:shadow-none">
-                    <X color="red" />
-                  </button>
-                </div>
-                <form
-                  className="w-full flex flex-col justify-center items-center gap-2"
-                  onSubmit={handleFormSubmit}
+                <div
+                  className="grid"
+                  style={{
+                    gridTemplateRows: isProductExpanded ? "1fr" : "0fr",
+                    transition: "grid-template-rows 0.4s",
+                  }}
                 >
-                  <div className="flex flex-wrap gap-2 justify-center items-center">
-                    <div className={inputDivClass}>
-                      <p>{t("No")}</p>
-                      <input
-                        type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={currentProduct?.id ?? ""}
-                        placeholder={t("No")}
-                        className={inputClass}
-                        onChange={() => {}}
-                      />
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Catégorie")}</p>
-                      <select
-                        className="w-full"
-                        value={
-                          currentProduct != null &&
-                          currentProduct.category != null &&
-                          currentProduct.category.id != null
-                            ? currentProduct.category.id
-                            : 0
-                        }
-                        onChange={(e) =>
-                          handleChange(
-                            "category",
-                            allCategories.find(
-                              (cat) => cat.id == e.target.value
+                  <form
+                    className={`w-full overflow-hidden flex flex-col justify-center items-center gap-2`}
+                    onSubmit={handleFormSubmit}
+                  >
+                    <div className="flex flex-wrap gap-2 justify-center items-center">
+                      <div className={inputDivClass}>
+                        <p>{t("No")}</p>
+                        <input
+                          type="number"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          value={currentProduct?.id ?? ""}
+                          placeholder={t("No")}
+                          className={inputClass}
+                          onChange={() => {}}
+                        />
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Catégorie")}</p>
+                        <select
+                          className="w-full"
+                          value={
+                            currentProduct != null &&
+                            currentProduct.category != null &&
+                            currentProduct.category.id != null
+                              ? currentProduct.category.id
+                              : 0
+                          }
+                          onChange={(e) =>
+                            handleChange(
+                              "category",
+                              allCategories.find(
+                                (cat) => cat.id == e.target.value
+                              )
                             )
-                          )
-                        }
-                      >
-                        <option key={0} value={0}>
-                          Select a category
-                        </option>
-                        {allCategories.map((category) => (
-                          <option key={category.id} value={category.id}>
-                            {category.Name}
+                          }
+                        >
+                          <option key={0} value={0}>
+                            Select a category
                           </option>
-                        ))}
-                      </select>
-                      {errors.category && (
-                        <div className="error-message">{errors.category}</div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("EAN")}</p>
-                      <input
-                        type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={currentProduct?.product_extra.barcode ?? ""}
-                        onChange={(e) =>
-                          handleChange("barcode", e.target.value, true, [
-                            validateEmpty,
-                          ])
-                        }
-                        placeholder={t("EAN")}
-                        className={inputClass}
-                      />
-                      {errors.barcode && (
-                        <div className="error-message">{errors.barcode}</div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Code Model")}</p>
-                      <input
-                        type="text"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={currentProduct?.internalCode ?? ""}
-                        onChange={(e) =>
-                          handleChange("internalCode", e.target.value, false, [
-                            validateEmpty,
-                          ])
-                        }
-                        placeholder={t("Code Model")}
-                        className={inputClass}
-                      />
+                          {allCategories.map((category) => (
+                            <option key={category.id} value={category.id}>
+                              {category.Name}
+                            </option>
+                          ))}
+                        </select>
+                        {errors.category && (
+                          <div className="error-message">{errors.category}</div>
+                        )}
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("EAN")}</p>
+                        <input
+                          type="number"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          value={currentProduct?.product_extra.barcode ?? ""}
+                          onChange={(e) =>
+                            handleChange("barcode", e.target.value, true, [
+                              validateEmpty,
+                            ])
+                          }
+                          placeholder={t("EAN")}
+                          className={inputClass}
+                        />
+                        {errors.barcode && (
+                          <div className="error-message">{errors.barcode}</div>
+                        )}
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Code Model")}</p>
+                        <input
+                          type="text"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          value={currentProduct?.internalCode ?? ""}
+                          onChange={(e) =>
+                            handleChange(
+                              "internalCode",
+                              e.target.value,
+                              false,
+                              [validateEmpty]
+                            )
+                          }
+                          placeholder={t("Code Model")}
+                          className={inputClass}
+                        />
 
-                      {errors.internalCode && (
-                        <div className="error-message">
-                          {errors.internalCode}
-                        </div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Nom")}</p>
-                      <input
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        type="text"
-                        value={currentProduct?.name ?? ""}
-                        onChange={(e) =>
-                          handleChange("name", e.target.value, false, [
-                            validateEmpty,
-                          ])
-                        }
-                        placeholder={t("Nom")}
-                        className={inputClass}
-                      />
-                      {errors.name && (
-                        <div className="error-message">{errors.name}</div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Prix Avant Remise")}</p>
-                      <input
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        type="number"
-                        value={currentProduct?.priceBeforeDiscount ?? ""}
-                        onChange={(e) =>
-                          handleChange(
-                            "priceBeforeDiscount",
-                            e.target.value,
-                            false,
-                            [validateDecimal]
-                          )
-                        }
-                        placeholder={t("Prix Vente")}
-                        className={inputClass}
-                      />
-                      {errors.priceBeforeDiscount && (
-                        <div className="error-message">
-                          {errors.priceBeforeDiscount}
-                        </div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Prix Vente")}</p>
-                      <input
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        type="number"
-                        value={currentProduct?.value ?? ""}
-                        onChange={(e) =>
-                          handleChange("value", e.target.value, false, [
-                            validateDecimal,
-                          ])
-                        }
-                        placeholder={t("Prix Vente")}
-                        className={inputClass}
-                      />
-                      {errors.value && (
-                        <div className="error-message">{errors.value}</div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Matériel")}</p>
-                      <input
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        type="text"
-                        value={currentProduct?.material ?? ""}
-                        onChange={(e) =>
-                          handleChange("material", e.target.value)
-                        }
-                        placeholder={t("Matériel")}
-                        className={inputClass}
-                      />
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Couleur")}</p>
-                      <input
-                        type="text"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={currentProduct?.color ?? ""}
-                        onChange={(e) => handleChange("color", e.target.value)}
-                        placeholder={t("Couleur")}
-                        className={inputClass}
-                      />
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Poids")}</p>
-                      <input
-                        type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={currentProduct?.product_extra?.weight ?? ""}
-                        onChange={(e) =>
-                          handleChange("weight", e.target.value, true, [
-                            validateInteger,
-                          ])
-                        }
-                        placeholder={t("Poids")}
-                        className={inputClass}
-                      />
-                      {errors.weight && (
-                        <div className="error-message">{errors.weight}</div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Poids Colis Net")}</p>
-                      <input
-                        type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={
-                          currentProduct?.product_extra?.packaged_weight_net ??
-                          ""
-                        }
-                        onChange={(e) =>
-                          handleChange(
-                            "packaged_weight_net",
-                            e.target.value,
-                            true,
-                            [validateDecimal]
-                          )
-                        }
-                        placeholder={t("Poids Colis Net")}
-                        className={inputClass}
-                      />
-                      {errors.packaged_weight_net && (
-                        <div className="error-message">
-                          {errors.packaged_weight_net}
-                        </div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Poids Colis Brut")}</p>
-                      <input
-                        type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={
-                          currentProduct?.product_extra?.packaged_weight ?? ""
-                        }
-                        onChange={(e) =>
-                          handleChange(
-                            "packaged_weight",
-                            e.target.value,
-                            true,
-                            [validateDecimal]
-                          )
-                        }
-                        placeholder={t("Poids Colis")}
-                        className={inputClass}
-                      />
-                      {errors.packaged_weight && (
-                        <div className="error-message">
-                          {errors.packaged_weight}
-                        </div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Dimensions Colis")}</p>
-                      <input
-                        type="text"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={
-                          currentProduct?.product_extra?.packaged_dimensions ??
-                          ""
-                        }
-                        onChange={(e) =>
-                          handleChange(
-                            "packaged_dimension",
-                            e.target.value,
-                            true
-                          )
-                        }
-                        placeholder={t("Dimensions Colis")}
-                        className={inputClass}
-                      />
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Par Boite")}</p>
-                      <input
-                        type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={currentProduct?.product_extra?.per_box ?? ""}
-                        onChange={(e) =>
-                          handleChange("per_box", e.target.value, true, [
-                            validateInteger,
-                          ])
-                        }
-                        placeholder={t("Par Boite")}
-                        className={inputClass}
-                      />
-                      {errors.per_box && (
-                        <div className="error-message">{errors.per_box}</div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Hauteur")}</p>
-                      <input
-                        type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={currentProduct?.height ?? ""}
-                        onChange={(e) =>
-                          handleChange("height", e.target.value, false, [
-                            validateInteger,
-                          ])
-                        }
-                        placeholder={t("Hauteur")}
-                        className={inputClass}
-                      />
-                      {errors.height && (
-                        <div className="error-message">{errors.height}</div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Largeur")}</p>
-                      <input
-                        type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={currentProduct?.width ?? ""}
-                        onChange={(e) =>
-                          handleChange("width", e.target.value, false, [
-                            validateInteger,
-                          ])
-                        }
-                        placeholder={t("Largeur")}
-                        className={inputClass}
-                      />
-                      {errors.width && (
-                        <div className="error-message">{errors.width}</div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Longueur")}</p>
-                      <input
-                        type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={currentProduct?.depth ?? ""}
-                        onChange={(e) =>
-                          handleChange("depth", e.target.value, false, [
-                            validateInteger,
-                          ])
-                        }
-                        placeholder={t("Longueur")}
-                        className={inputClass}
-                      />
-                      {errors.depth && (
-                        <div className="error-message">{errors.depth}</div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Diametre")}</p>
-                      <input
-                        type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={currentProduct?.product_extra?.diameter ?? ""}
-                        onChange={(e) =>
-                          handleChange("diameter", e.target.value, true, [
-                            validateInteger,
-                          ])
-                        }
-                        placeholder={t("Diametre")}
-                        className={inputClass}
-                      />
-                      {errors.diameter && (
-                        <div className="error-message">{errors.diameter}</div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Hauteur Assise")}</p>
-                      <input
-                        type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={currentProduct?.product_extra?.seat_height ?? ""}
-                        onChange={(e) =>
-                          handleChange("seat_height", e.target.value, true, [
-                            validateInteger,
-                          ])
-                        }
-                        placeholder={t("Hauteur Assise")}
-                        className={inputClass}
-                      />
-                      {errors.seat_height && (
-                        <div className="error-message">
-                          {errors.seat_height}
-                        </div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Hauteur Accoudoir")}</p>
-                      <input
-                        type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={
-                          currentProduct?.product_extra?.armrest_height ?? ""
-                        }
-                        onChange={(e) =>
-                          handleChange("armrest_height", e.target.value, true, [
-                            validateInteger,
-                          ])
-                        }
-                        placeholder={t("Hauteur Accoudoir")}
-                        className={inputClass}
-                      />
-                      {errors.armrest_height && (
-                        <div className="error-message">
-                          {errors.armrest_height}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap gap-2 justify-center items-center">
-                    <div className={inputDivClass}>
-                      <p>{t("Ettiquetes")}</p>
-                      <textarea
-                        value={currentProduct?.product_extra?.tags ?? ""}
-                        onChange={(e) =>
-                          handleChange("tags", e.target.value, true, [])
-                        }
-                        placeholder={t("Ettiquetes")}
-                        className={inputClass}
-                      />
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Description")}</p>
-                      <textarea
-                        value={currentProduct?.description ?? ""}
-                        onChange={(e) =>
-                          handleChange("description", e.target.value, false, [])
-                        }
-                        placeholder={t("Description")}
-                        className={inputClass}
-                      />
-                    </div>
-                    {chosenProductID != 0 && chosenProductID != null && (
-                      <>
-                        <div className={inputDivClass}>
-                          <div className="flex flex-row items-center gap-2">
-                            <p className="whitespace-nowrap">
-                              {t("Stock Depot")}
-                            </p>
-                            <button
-                              onClick={() => submitStock(3)}
-                              className={componentThemes.greenSubmitButton}
-                            >
-                              {t("Save")}
-                            </button>
+                        {errors.internalCode && (
+                          <div className="error-message">
+                            {errors.internalCode}
                           </div>
-                          <input
-                            type="number"
-                            value={
-                              currentProduct?.shelves?.find(
-                                (shelf) => shelf.establishment.id == 3
-                              ).stock
-                            }
-                            onSubmit={(e) => {
-                              e.preventDefault();
-                              submitStock(3);
-                            }}
-                            onChange={(e) => {
-                              if (validateInteger(e.target.value) == "") {
-                                const updatedProduct = { ...currentProduct };
-                                const shelfIndex =
-                                  updatedProduct.shelves.findIndex(
-                                    (shelf) => shelf.establishment.id === 3
-                                  );
-                                if (shelfIndex !== -1) {
-                                  updatedProduct.shelves[shelfIndex].stock =
-                                    Number(e.target.value);
-                                  setCurrentProduct(updatedProduct);
-                                }
-                                errors.stock_depot = "";
-                              } else {
-                                errors.stock_depot = validateInteger(
-                                  e.target.value
-                                );
-                              }
-                            }}
-                            placeholder={t("Stock Depot")}
-                            className={inputClass}
-                          />
-                          {errors.stock_depot && (
-                            <div className="error-message">
-                              {errors.stock_depot}
+                        )}
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Nom")}</p>
+                        <input
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          type="text"
+                          value={currentProduct?.name ?? ""}
+                          onChange={(e) =>
+                            handleChange("name", e.target.value, false, [
+                              validateEmpty,
+                            ])
+                          }
+                          placeholder={t("Nom")}
+                          className={inputClass}
+                        />
+                        {errors.name && (
+                          <div className="error-message">{errors.name}</div>
+                        )}
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Prix Avant Remise")}</p>
+                        <input
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          type="number"
+                          value={currentProduct?.priceBeforeDiscount ?? ""}
+                          onChange={(e) =>
+                            handleChange(
+                              "priceBeforeDiscount",
+                              e.target.value,
+                              false,
+                              [validateDecimal]
+                            )
+                          }
+                          placeholder={t("Prix Vente")}
+                          className={inputClass}
+                        />
+                        {errors.priceBeforeDiscount && (
+                          <div className="error-message">
+                            {errors.priceBeforeDiscount}
+                          </div>
+                        )}
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Prix Vente")}</p>
+                        <input
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          type="number"
+                          value={currentProduct?.value ?? ""}
+                          onChange={(e) =>
+                            handleChange("value", e.target.value, false, [
+                              validateDecimal,
+                            ])
+                          }
+                          placeholder={t("Prix Vente")}
+                          className={inputClass}
+                        />
+                        {errors.value && (
+                          <div className="error-message">{errors.value}</div>
+                        )}
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Matériel")}</p>
+                        <input
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          type="text"
+                          value={currentProduct?.material ?? ""}
+                          onChange={(e) =>
+                            handleChange("material", e.target.value)
+                          }
+                          placeholder={t("Matériel")}
+                          className={inputClass}
+                        />
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Couleur")}</p>
+                        <input
+                          type="text"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          value={currentProduct?.color ?? ""}
+                          onChange={(e) =>
+                            handleChange("color", e.target.value)
+                          }
+                          placeholder={t("Couleur")}
+                          className={inputClass}
+                        />
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Poids")}</p>
+                        <input
+                          type="number"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          value={currentProduct?.product_extra?.weight ?? ""}
+                          onChange={(e) =>
+                            handleChange("weight", e.target.value, true, [
+                              validateInteger,
+                            ])
+                          }
+                          placeholder={t("Poids")}
+                          className={inputClass}
+                        />
+                        {errors.weight && (
+                          <div className="error-message">{errors.weight}</div>
+                        )}
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Poids Colis Net")}</p>
+                        <input
+                          type="number"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          value={
+                            currentProduct?.product_extra
+                              ?.packaged_weight_net ?? ""
+                          }
+                          onChange={(e) =>
+                            handleChange(
+                              "packaged_weight_net",
+                              e.target.value,
+                              true,
+                              [validateDecimal]
+                            )
+                          }
+                          placeholder={t("Poids Colis Net")}
+                          className={inputClass}
+                        />
+                        {errors.packaged_weight_net && (
+                          <div className="error-message">
+                            {errors.packaged_weight_net}
+                          </div>
+                        )}
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Poids Colis Brut")}</p>
+                        <input
+                          type="number"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          value={
+                            currentProduct?.product_extra?.packaged_weight ?? ""
+                          }
+                          onChange={(e) =>
+                            handleChange(
+                              "packaged_weight",
+                              e.target.value,
+                              true,
+                              [validateDecimal]
+                            )
+                          }
+                          placeholder={t("Poids Colis")}
+                          className={inputClass}
+                        />
+                        {errors.packaged_weight && (
+                          <div className="error-message">
+                            {errors.packaged_weight}
+                          </div>
+                        )}
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Dimensions Colis")}</p>
+                        <input
+                          type="text"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          value={
+                            currentProduct?.product_extra
+                              ?.packaged_dimensions ?? ""
+                          }
+                          onChange={(e) =>
+                            handleChange(
+                              "packaged_dimension",
+                              e.target.value,
+                              true
+                            )
+                          }
+                          placeholder={t("Dimensions Colis")}
+                          className={inputClass}
+                        />
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Par Boite")}</p>
+                        <input
+                          type="number"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          value={currentProduct?.product_extra?.per_box ?? ""}
+                          onChange={(e) =>
+                            handleChange("per_box", e.target.value, true, [
+                              validateInteger,
+                            ])
+                          }
+                          placeholder={t("Par Boite")}
+                          className={inputClass}
+                        />
+                        {errors.per_box && (
+                          <div className="error-message">{errors.per_box}</div>
+                        )}
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Hauteur")}</p>
+                        <input
+                          type="number"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          value={currentProduct?.height ?? ""}
+                          onChange={(e) =>
+                            handleChange("height", e.target.value, false, [
+                              validateInteger,
+                            ])
+                          }
+                          placeholder={t("Hauteur")}
+                          className={inputClass}
+                        />
+                        {errors.height && (
+                          <div className="error-message">{errors.height}</div>
+                        )}
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Largeur")}</p>
+                        <input
+                          type="number"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          value={currentProduct?.width ?? ""}
+                          onChange={(e) =>
+                            handleChange("width", e.target.value, false, [
+                              validateInteger,
+                            ])
+                          }
+                          placeholder={t("Largeur")}
+                          className={inputClass}
+                        />
+                        {errors.width && (
+                          <div className="error-message">{errors.width}</div>
+                        )}
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Longueur")}</p>
+                        <input
+                          type="number"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          value={currentProduct?.depth ?? ""}
+                          onChange={(e) =>
+                            handleChange("depth", e.target.value, false, [
+                              validateInteger,
+                            ])
+                          }
+                          placeholder={t("Longueur")}
+                          className={inputClass}
+                        />
+                        {errors.depth && (
+                          <div className="error-message">{errors.depth}</div>
+                        )}
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Diametre")}</p>
+                        <input
+                          type="number"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          value={currentProduct?.product_extra?.diameter ?? ""}
+                          onChange={(e) =>
+                            handleChange("diameter", e.target.value, true, [
+                              validateInteger,
+                            ])
+                          }
+                          placeholder={t("Diametre")}
+                          className={inputClass}
+                        />
+                        {errors.diameter && (
+                          <div className="error-message">{errors.diameter}</div>
+                        )}
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Hauteur Assise")}</p>
+                        <input
+                          type="number"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          value={
+                            currentProduct?.product_extra?.seat_height ?? ""
+                          }
+                          onChange={(e) =>
+                            handleChange("seat_height", e.target.value, true, [
+                              validateInteger,
+                            ])
+                          }
+                          placeholder={t("Hauteur Assise")}
+                          className={inputClass}
+                        />
+                        {errors.seat_height && (
+                          <div className="error-message">
+                            {errors.seat_height}
+                          </div>
+                        )}
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Hauteur Accoudoir")}</p>
+                        <input
+                          type="number"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          value={
+                            currentProduct?.product_extra?.armrest_height ?? ""
+                          }
+                          onChange={(e) =>
+                            handleChange(
+                              "armrest_height",
+                              e.target.value,
+                              true,
+                              [validateInteger]
+                            )
+                          }
+                          placeholder={t("Hauteur Accoudoir")}
+                          className={inputClass}
+                        />
+                        {errors.armrest_height && (
+                          <div className="error-message">
+                            {errors.armrest_height}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-2 justify-center items-center">
+                      <div className={inputDivClass}>
+                        <p>{t("Ettiquetes")}</p>
+                        <textarea
+                          value={currentProduct?.product_extra?.tags ?? ""}
+                          onChange={(e) =>
+                            handleChange("tags", e.target.value, true, [])
+                          }
+                          placeholder={t("Ettiquetes")}
+                          className={inputClass}
+                        />
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Description")}</p>
+                        <textarea
+                          value={currentProduct?.description ?? ""}
+                          onChange={(e) =>
+                            handleChange(
+                              "description",
+                              e.target.value,
+                              false,
+                              []
+                            )
+                          }
+                          placeholder={t("Description")}
+                          className={inputClass}
+                        />
+                      </div>
+                      {chosenProductID != 0 && chosenProductID != null && (
+                        <>
+                          <div className={inputDivClass}>
+                            <div className="flex flex-row items-center gap-2">
+                              <p className="whitespace-nowrap">
+                                {t("Stock Depot")}
+                              </p>
+                              <button
+                                onClick={() => submitStock(3)}
+                                className={componentThemes.greenSubmitButton}
+                              >
+                                {t("Save")}
+                              </button>
                             </div>
-                          )}
-                        </div>
-                        <div className={inputDivClass}>
-                          <div className="flex flex-row items-center gap-2">
-                            <p className="whitespace-nowrap">
-                              {t("Stock Magasin")}
-                            </p>
-                            <button
-                              onClick={() => submitStock(1)}
-                              className={componentThemes.greenSubmitButton}
-                            >
-                              {t("Save")}
-                            </button>
-                          </div>
-                          <input
-                            type="number"
-                            value={
-                              currentProduct?.shelves?.find(
-                                (shelf) => shelf.establishment.id == 1
-                              ).stock
-                            }
-                            onSubmit={(e) => {
-                              e.preventDefault();
-                              submitStock(1);
-                            }}
-                            onChange={(e) => {
-                              if (validateInteger(e.target.value) == "") {
-                                const updatedProduct = { ...currentProduct };
-                                const shelfIndex =
-                                  updatedProduct.shelves.findIndex(
-                                    (shelf) => shelf.establishment.id === 1
-                                  );
-                                if (shelfIndex !== -1) {
-                                  updatedProduct.shelves[shelfIndex].stock =
-                                    Number(e.target.value);
-                                  setCurrentProduct(updatedProduct);
-                                }
-                                errors.stock_store = "";
-                              } else {
-                                errors.stock_store = validateInteger(
-                                  e.target.value
-                                );
+                            <input
+                              type="number"
+                              value={
+                                currentProduct?.shelves?.find(
+                                  (shelf) => shelf.establishment.id == 3
+                                ).stock
                               }
-                            }}
-                            placeholder={t("Stock Magasin")}
-                            className={inputClass}
-                          />
-                          {errors.stock_store && (
-                            <div className="error-message">
-                              {errors.stock_store}
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                submitStock(3);
+                              }}
+                              onChange={(e) => {
+                                if (validateInteger(e.target.value) == "") {
+                                  const updatedProduct = { ...currentProduct };
+                                  const shelfIndex =
+                                    updatedProduct.shelves.findIndex(
+                                      (shelf) => shelf.establishment.id === 3
+                                    );
+                                  if (shelfIndex !== -1) {
+                                    updatedProduct.shelves[shelfIndex].stock =
+                                      Number(e.target.value);
+                                    setCurrentProduct(updatedProduct);
+                                  }
+                                  errors.stock_depot = "";
+                                } else {
+                                  errors.stock_depot = validateInteger(
+                                    e.target.value
+                                  );
+                                }
+                              }}
+                              placeholder={t("Stock Depot")}
+                              className={inputClass}
+                            />
+                            {errors.stock_depot && (
+                              <div className="error-message">
+                                {errors.stock_depot}
+                              </div>
+                            )}
+                          </div>
+                          <div className={inputDivClass}>
+                            <div className="flex flex-row items-center gap-2">
+                              <p className="whitespace-nowrap">
+                                {t("Stock Magasin")}
+                              </p>
+                              <button
+                                onClick={() => submitStock(1)}
+                                className={componentThemes.greenSubmitButton}
+                              >
+                                {t("Save")}
+                              </button>
                             </div>
+                            <input
+                              type="number"
+                              value={
+                                currentProduct?.shelves?.find(
+                                  (shelf) => shelf.establishment.id == 1
+                                ).stock
+                              }
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                                submitStock(1);
+                              }}
+                              onChange={(e) => {
+                                if (validateInteger(e.target.value) == "") {
+                                  const updatedProduct = { ...currentProduct };
+                                  const shelfIndex =
+                                    updatedProduct.shelves.findIndex(
+                                      (shelf) => shelf.establishment.id === 1
+                                    );
+                                  if (shelfIndex !== -1) {
+                                    updatedProduct.shelves[shelfIndex].stock =
+                                      Number(e.target.value);
+                                    setCurrentProduct(updatedProduct);
+                                  }
+                                  errors.stock_store = "";
+                                } else {
+                                  errors.stock_store = validateInteger(
+                                    e.target.value
+                                  );
+                                }
+                              }}
+                              placeholder={t("Stock Magasin")}
+                              className={inputClass}
+                            />
+                            {errors.stock_store && (
+                              <div className="error-message">
+                                {errors.stock_store}
+                              </div>
+                            )}
+                          </div>
+                          <BarcodeToPng value={currentProduct.supplierCode} />
+                        </>
+                      )}
+                      <div className="flex flex-col gap-2">
+                        {currentProduct && currentProduct.id != 0 ? (
+                          currentProduct.product_extra.new ? (
+                            <div
+                              className={`bg-green-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
+                              onClick={toggleProductNew}
+                            >
+                              {t("Featured")}
+                            </div>
+                          ) : (
+                            <div
+                              className={`bg-red-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
+                              onClick={toggleProductNew}
+                            >
+                              {t("Normal")}
+                            </div>
+                          )
+                        ) : null}
+                        {currentProduct && currentProduct.id != 0 ? (
+                          currentProduct.active ? (
+                            <div
+                              className={`bg-green-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
+                              onClick={toggleProductActive}
+                            >
+                              {t("Actif")}
+                            </div>
+                          ) : (
+                            <div
+                              className={`bg-red-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
+                              onClick={toggleProductActive}
+                            >
+                              {t("Inactif")}
+                            </div>
+                          )
+                        ) : null}
+                        {currentProduct &&
+                          currentProduct.id != 0 &&
+                          !newProduct && (
+                            <>
+                              <label
+                                htmlFor="uploadimg"
+                                className={buttonClass}
+                              >
+                                <div className={navIconDivClass}>
+                                  <Upload className={iconClass} />
+                                </div>
+                                <span className={textClass}>
+                                  {t("Télécharger Image")}
+                                </span>
+                              </label>
+                              <input
+                                title={t("Télécharger Image")}
+                                className="w-0 h-0 opacity-0 absolute"
+                                placeholder={t("Télécharger Image")}
+                                type="file"
+                                name="uploadimg"
+                                id="uploadimg"
+                                onChange={uploadFile}
+                              />
+                            </>
                           )}
-                        </div>
-                        <BarcodeToPng value={currentProduct.supplierCode} />
-                      </>
-                    )}
-                    <div className="flex flex-col gap-2">
-                      {currentProduct && currentProduct.id != 0 ? (
-                        currentProduct.product_extra.new ? (
-                          <div
-                            className={`bg-green-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
-                            onClick={toggleProductNew}
-                          >
-                            {t("Featured")}
+                      </div>
+                      <div className="flex flex-col">
+                        <button
+                          onClick={handleFormSubmit}
+                          className={buttonClass + " bg-white col-span-2"}
+                        >
+                          <div className={navIconDivClass}>
+                            <CheckCircle className={iconClass} />
                           </div>
-                        ) : (
-                          <div
-                            className={`bg-red-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
-                            onClick={toggleProductNew}
-                          >
-                            {t("Normal")}
-                          </div>
-                        )
-                      ) : null}
-                      {currentProduct && currentProduct.id != 0 ? (
-                        currentProduct.active ? (
-                          <div
-                            className={`bg-green-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
-                            onClick={toggleProductActive}
-                          >
-                            {t("Actif")}
-                          </div>
-                        ) : (
-                          <div
-                            className={`bg-red-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
-                            onClick={toggleProductActive}
-                          >
-                            {t("Inactif")}
-                          </div>
-                        )
-                      ) : null}
+                          <span className={textClass}>
+                            {newProduct
+                              ? t("Créer Nouveau Produit")
+                              : t("Modifier Produit")}
+                          </span>
+                        </button>
+                        {submitError && (
+                          <p className="text-red-400">{submitError}</p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex flex-row">
                       {currentProduct &&
                         currentProduct.id != 0 &&
-                        !newProduct && (
-                          <>
-                            <label htmlFor="uploadimg" className={buttonClass}>
-                              <div className={navIconDivClass}>
-                                <Upload className={iconClass} />
-                              </div>
-                              <span className={textClass}>
-                                {t("Télécharger Image")}
-                              </span>
-                            </label>
-                            <input
-                              title={t("Télécharger Image")}
-                              className="w-0 h-0 opacity-0 absolute"
-                              placeholder={t("Télécharger Image")}
-                              type="file"
-                              name="uploadimg"
-                              id="uploadimg"
-                              onChange={uploadFile}
+                        currentProduct.images?.map((img) => (
+                          <div className="relative image_parent" key={img.id}>
+                            <Image
+                              alt={""}
+                              src={
+                                "https://hdapi.huseyinonalalpha.com" + img.url
+                              }
+                              id={img.id.toString()}
+                              width={160}
+                              height={160}
                             />
-                          </>
-                        )}
-                    </div>
-                    <div className="flex flex-col">
-                      <button
-                        onClick={handleFormSubmit}
-                        className={buttonClass + " bg-white col-span-2"}
-                      >
-                        <div className={navIconDivClass}>
-                          <CheckCircle className={iconClass} />
-                        </div>
-                        <span className={textClass}>
-                          {newProduct
-                            ? t("Créer Nouveau Produit")
-                            : t("Modifier Produit")}
-                        </span>
-                      </button>
-                      {submitError && (
-                        <p className="text-red-400">{submitError}</p>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex flex-row">
-                    {currentProduct &&
-                      currentProduct.id != 0 &&
-                      currentProduct.images?.map((img) => (
-                        <div className="relative image_parent" key={img.id}>
-                          <Image
-                            alt={""}
-                            src={"https://hdapi.huseyinonalalpha.com" + img.url}
-                            id={img.id.toString()}
-                            width={160}
-                            height={160}
-                          />
-                          <div
-                            className="absolute top-2 right-2 z-50"
-                            onClick={handleImageDelete}
-                          >
-                            <X className="w-4 h-4" color="red" />
+                            <div
+                              className="absolute top-2 right-2 z-50"
+                              onClick={handleImageDelete}
+                            >
+                              <X className="w-4 h-4" color="red" />
+                            </div>
+                            <Link
+                              target="_blank"
+                              className="absolute top-6 right-2"
+                              href={
+                                "https://hdapi.huseyinonalalpha.com" + img.url
+                              }
+                            >
+                              <Download className="w-4 h-4" color="green" />
+                            </Link>
                           </div>
-                          <Link
-                            target="_blank"
-                            className="absolute top-6 right-2"
-                            href={
-                              "https://hdapi.huseyinonalalpha.com" + img.url
-                            }
-                          >
-                            <Download className="w-4 h-4" color="green" />
-                          </Link>
-                        </div>
-                      ))}
+                        ))}
+                    </div>
+                  </form>
+                </div>
+                <div className={`flex flex-col ml-auto`}>
+                  <div className="flex flex-row justify-end gap-2 mb-2">
+                    <ButtonShadow1
+                      onClick={() => setIsProductExpanded(!isProductExpanded)}
+                    >
+                      <Minus color="black" />
+                    </ButtonShadow1>
+                    <ButtonShadow1
+                      onClick={() => {
+                        setNewProduct(false);
+                        setCurrentProduct(null);
+                        setChosenProductID(null);
+                      }}
+                    >
+                      <X color="red" />
+                    </ButtonShadow1>
                   </div>
-                </form>
+                </div>
               </>
             ) : (
               <div className="flex w-full items-center justify-center text-2xl font-bold">

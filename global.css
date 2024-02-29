@@ -7,6 +7,11 @@
   scrollbar-color: orange black;
 }
 
+.transition-height {
+  transition-property: height;
+}
+
+
 *::-webkit-scrollbar {
   width: 9px;
   height: 9px;
