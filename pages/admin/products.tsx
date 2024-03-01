@@ -16,7 +16,6 @@ import {
   Upload,
   X,
 } from "react-feather";
-import * as xlsx from "xlsx";
 import Image from "next/image";
 import Link from "next/link";
 import componentThemes from "../../components/componentThemes";
@@ -25,6 +24,7 @@ import LoadingIndicator from "../../components/common/loadingIndicator";
 import { CategoryContext } from "../../api/providers/categoryProvider";
 import { Category } from "../../api/interfaces/category";
 import ButtonShadow1 from "../../components/buttons/shadow_1";
+import { read, utils, write } from "xlsx";
 
 export default function Products() {
   const { t, lang } = useTranslation("common");
@@ -484,22 +484,19 @@ export default function Products() {
     const answer = await fetch(
       `/api/products/admin/getallproducts?page=1&count=19999&sort=${currentSort}:${
         !currentSortDirection ? "desc" : "asc"
-      }${currentSearch ? `&search=${currentSearch}` : ""}${
-        currentCategory ? `&category=${currentCategory}` : ""
       }`
     );
     const data = await answer.json();
-    console.log(data);
     let groupedData = {};
 
     data.data.forEach((prod) => {
       const categoryName = prod.category.Name;
 
       if (!groupedData.hasOwnProperty(categoryName)) {
-        groupedData[categoryName] = []; // Create an empty array for the category if it doesn't exist
+        groupedData[categoryName] = [];
       }
 
-      groupedData[categoryName].push(prod); // Push the product into the array associated with its category
+      groupedData[categoryName].push(prod);
     });
 
     return groupedData;
@@ -517,7 +514,7 @@ export default function Products() {
       now.getHours().toString().padStart(2, "0") +
       "_" +
       now.getMinutes().toString().padStart(2, "0");
-    const wb = xlsx.utils.book_new();
+    const wb = utils.book_new();
 
     const productsToWrite = await getAllProductsByCategories();
 
@@ -525,30 +522,43 @@ export default function Products() {
 
     for (const category of sortedCategories) {
       const products = productsToWrite[category];
-    
-      // Map products to customize data structure
-      const customProducts = products.map(product => ({
-        'Product Name': product.name,
-        'Stock at Establishment 1': product.shelves.find(shelf => shelf.establishment.id == 1)?.stock || 0,
-        // Add more fields as needed
-      }));
-    
-      // Define column headers
-      const headers = [
-        'Product Name',
-        'Stock at Establishment 1',
-        // Add more headers as needed
-      ];
-    
-      // Convert customProducts to worksheet
-      const worksheet = xlsx.utils.json_to_sheet(customProducts);
-    
-      // Append worksheet to workbook
-      xlsx.utils.book_append_sheet(wb, worksheet, category);
-    }
-    
 
-    const wbout = xlsx.write(wb, { bookType: "xlsx", type: "binary" });
+      const customProducts = products.map((product) => ({
+        EAN: product.supplierCode,
+        "Code Model": product.internalCode,
+        Nom: product.name,
+        Couleur: product.color,
+        Matériel: product.material,
+        "Stock Depot":
+          product.shelves.find((shelf) => shelf.establishment.id == 3)?.stock ||
+          0,
+        "Stock Magasin":
+          product.shelves.find((shelf) => shelf.establishment.id == 1)?.stock ||
+          0,
+        Réservé: 0,
+        "Prix Avant Remise": product.priceBeforeDiscount,
+        "Prix de vente": product.value,
+        Poids: product.product_extra.weight,
+        "Poids Colis Net": product.product_extra.packaged_weight_net,
+        "Poids Colis Brut": product.product_extra.packaged_weight,
+        "Dimensions Du Colis": product.product_extra.packaged_dimensions,
+        "Par Boîte": product.product_extra.per_box,
+        "Hauteur d'assise": product.product_extra.seat_height,
+        Hauteur: product.height,
+        Largeur: product.width,
+        Longueur: product.depth,
+        "Hauteur Accoudoir": product.product_extra.armrest_height,
+        Diamètre: product.product_extra.diameter,
+      }));
+
+      const worksheet = utils.json_to_sheet(
+        customProducts.sort((a, b) => a.Nom.localeCompare(b.Nom))
+      );
+
+      utils.book_append_sheet(wb, worksheet, category);
+    }
+
+    const wbout = write(wb, { bookType: "xlsx", type: "binary" });
 
     const blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
 
@@ -576,7 +586,7 @@ export default function Products() {
     const reader = new FileReader();
     reader.onload = async (e) => {
       const data = e.target.result;
-      const workbook = xlsx.read(data, { type: "array" });
+      const workbook = read(data, { type: "array" });
 
       const sheets: string[] = workbook.SheetNames;
 
@@ -588,7 +598,7 @@ export default function Products() {
         const categoryID = categoryToId(sheets[i]);
         if (categoryID != 0) {
           const worksheet = workbook.Sheets[sheets[i]];
-          const json = xlsx.utils.sheet_to_json(worksheet);
+          const json = utils.sheet_to_json(worksheet);
           const excelProds = ProductTransformer.fromXLSX(JSON.stringify(json));
           excelProds.forEach((prod) => {
             prod.category = { id: categoryID } as Category;
