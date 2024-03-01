@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
 
-const fetchUrl = `${process.env.API_URL}/api/products?fields[0]=id&fields[1]=supplierCode&populate[product_extra][fields][0]=id&pagination[pageSize]=20000`;
+const fetchUrl = `${process.env.API_URL}/api/products?fields[0]=id&fields[1]=supplierCode&populate[product_extra][fields][0]=id&populate[shelves][populate][establishment][fields][0]=id&pagination[pageSize]=20000`;
 
 export default async function getAllProductIDs(
   req: NextApiRequest,
@@ -12,12 +12,12 @@ export default async function getAllProductIDs(
     if (!cookies.j) {
       return res.status(401).json(statusText[401]);
     }
-    const authToken = cookies.cj;
+    const authToken = cookies.j;
 
     try {
       const request = await fetch(fetchUrl, {
         headers: {
-          Authorization: `Bearer ${process.env.API_KEY}`,
+          Authorization: `Bearer ${authToken}`,
         },
       });
 

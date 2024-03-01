@@ -448,23 +448,23 @@ export default function Products() {
 
   const categoryToId = (category: string) => {
     switch (category) {
-      case "SANDALYE IC MEKAN":
+      case "Chaises Intérieur":
         return 3;
-      case "SANDALYE DIS MEKAN":
+      case "Chaises Extérieur":
         return 2;
-      case "BANKET":
+      case "Banquettes":
         return 10;
-      case "BAR TABURESI IC MEKAN":
+      case "Tabourets de Bar Intérieur":
         return 29;
-      case "ETKINLIK":
+      case "Événement":
         return 17;
-      case "PIEDS INTERIEUR":
+      case "Pieds de Table Intérieur":
         return 9;
-      case "PIEDS EXTERIEUR":
+      case "Pieds de Table Extérieur":
         return 8;
-      case "TABLETTE INTERIEUR":
+      case "Plateaux Intérieur":
         return 21;
-      case "TABLETTE EXTERIEUR":
+      case "Plateaux Extérieur":
         return 20;
       default:
         return 0;
@@ -628,18 +628,18 @@ export default function Products() {
       if (prodFromAPI) {
         let idToPost = prodFromAPI.id;
         let idToPostExtra = prodFromAPI.product_extra.id;
-        let idShelf1 = prodFromAPI.shelves.find((shelf) => shelf.establishment.id == 1);
-        let idShelf2 = prodFromAPI.shelves.find((shelf) => shelf.establishment.id == 3);
+        prodToPost.shelves.find((shelf) => shelf.id == 1).id =
+          prodFromAPI.shelves.find((shelf) => shelf.establishment.id == 1).id;
+
+        prodToPost.shelves.find((shelf) => shelf.id == 3).id =
+          prodFromAPI.shelves.find((shelf) => shelf.establishment.id == 3).id;
+
         try {
           const request = await fetch(
             `/api/products/admin/putproduct?batch=true&id=` +
               idToPost +
               "&extraid=" +
-              idToPostExtra+
-              "&shelf1=" +
-              idShelf1+
-              "&shelf2=" +
-              idShelf2,
+              idToPostExtra,
             {
               method: "PUT",
               headers: {
@@ -1401,7 +1401,8 @@ export default function Products() {
                           value={currentProduct?.value ?? ""}
                           onChange={(e) =>
                             handleChange("value", e.target.value, false, [
-                              validateDecimal, validateEmpty
+                              validateDecimal,
+                              validateEmpty,
                             ])
                           }
                           placeholder={t("Prix Vente")}

@@ -46,39 +46,39 @@ export class ProductTransformer {
 
   private static transformItem(item: any): Product {
     const normalizedItem = Object.keys(item).reduce((acc, key) => {
-      const normalizedKey = key.replace(/\s/g, "").toUpperCase();
+      const normalizedKey = key.replace(/\s/g, "").toLowerCase();
       acc[normalizedKey] = item[key];
       return acc;
     }, {});
 
     let product: Product = {
       id: 0,
-      name: normalizedItem["MODELISMI"],
-      internalCode: normalizedItem["URUNKODU"],
-      supplierCode: normalizedItem["EANKODU"]
+      name: normalizedItem["nom"],
+      internalCode: normalizedItem["codemodel"],
+      supplierCode: normalizedItem["ean"]
         ?.toString()
         .replace(/[^0-9.]/g, ""),
-      value: +normalizedItem["INDIRIMLIFIYAT"]
+      value: +normalizedItem["prixdevente"]
         ?.toString()
         .replace(/[^0-9.]/g, ""),
-      priceBeforeDiscount: +normalizedItem["INDIRIMSIZFIYAT"]
+      priceBeforeDiscount: +normalizedItem["prixavantremise"]
         ?.toString()
         .replace(/[^0-9.]/g, ""),
-      depth: +normalizedItem["DERINLIK(CM)"]
+      depth: +normalizedItem["longueur"]
         ?.toString()
         .replace(/[^0-9.]/g, ""),
-      width: +normalizedItem["GENISLIK(CM)"]
+      width: +normalizedItem["largeur"]
         ?.toString()
         .replace(/[^0-9.]/g, ""),
-      height: +normalizedItem["TOTALYUKSEKLIK(CM)"]
+      height: +normalizedItem["hauteur"]
         ?.toString()
         .replace(/[^0-9.]/g, ""),
-      material: normalizedItem["MATERYALTURU"],
-      color: normalizedItem["RENK"],
+      material: normalizedItem["matériel"],
+      color: normalizedItem["couleur"],
       product_extra: this.transformProductExtra(normalizedItem),
       shelves: [
-        { id: 1, stock: +normalizedItem["MAGAZASTOKMIKTARI"] },
-        { id: 3, stock: +normalizedItem["DEPOSTOKMIKTARI"] },
+        { id: 1, stock: +normalizedItem["stockmagasin"] },
+        { id: 3, stock: +normalizedItem["stockdepot"] },
       ],
     };
 
@@ -88,23 +88,23 @@ export class ProductTransformer {
   private static transformProductExtra(item: any): ProductExtra {
     let productExtra: ProductExtra = {
       id: 0,
-      armrest_height: +item["KOLDAYAMAYUKSEKLIGI(CM)"]
+      armrest_height: +item["hauteuraccoudoir"]
         ?.toString()
         .replace(/[^0-9.]/g, ""),
-      diameter: +item["CAP(CM)"]?.toString().replace(/[^0-9.]/g, ""),
-      weight: +item["AGIRLIK(KG)"]?.toString().replace(/[^0-9.]/g, ""),
-      per_box: +item["KUTUICINDEKIMIKTAR"],
-      packaged_weight: +item["KUTUBRUTAGIRLIGI(KG)"]
+      diameter: +item["diamètre"]?.toString().replace(/[^0-9.]/g, ""),
+      weight: +item["poids"]?.toString().replace(/[^0-9.]/g, ""),
+      per_box: +item["parboîte"],
+      packaged_weight: +item["poidscolisbrut"]
         ?.toString()
         .replace(/[^0-9.]/g, ""),
-      packaged_weight_net: +item["KUTUNETAGIRLIGI(KG)"]
+      packaged_weight_net: +item["poidscolisnet"]
         ?.toString()
         .replace(/[^0-9.]/g, ""),
-      packaged_dimensions: item["KUTUBOYUTU"],
-      seat_height: +item["OTURMAYUKSEKLIGI(CM)"]
+      packaged_dimensions: item["dimensionsducolis"],
+      seat_height: +item["hauteurdassise"]
         ?.toString()
         .replace(/[^0-9.]/g, ""),
-      barcode: item["EANKODU"],
+      barcode: item["ean"],
     };
 
     Object.keys(productExtra).forEach((key) => {
