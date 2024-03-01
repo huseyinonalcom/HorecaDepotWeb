@@ -3,14 +3,7 @@ import Head from "next/head";
 import { useContext, useEffect, useRef, useState } from "react";
 import useTranslation from "next-translate/useTranslation";
 import ProductPreview from "../components/products/product-preview";
-import {
-  ArrowUp,
-  ChevronLeft,
-  ChevronRight,
-  ChevronUp,
-  Search,
-  X,
-} from "react-feather";
+import { ArrowUp, ChevronLeft, X } from "react-feather";
 import { Product } from "../api/interfaces/product";
 import { CategoryContext } from "../api/providers/categoryProvider";
 import RangeSlider from "../components/common/rangeSlider";
@@ -242,10 +235,10 @@ export default function Products() {
                   setisHovered(!isHovered);
                 }}
               >
-                <ChevronUp
+                <ChevronLeft
                   className={
                     "ml-auto w-4 h-4 duration-300 " +
-                    (isHovered ? "rotate-180" : "")
+                    (isHovered ? "rotate-270" : "rotate-90")
                   }
                 />
               </div>
@@ -531,7 +524,7 @@ export default function Products() {
                       name="Next page"
                       aria-label="Next page"
                     >
-                      <ChevronRight />
+                      <ChevronLeft className="rotate-180" />
                     </button>
                   </div>
                 </div>

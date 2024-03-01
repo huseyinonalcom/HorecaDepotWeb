@@ -1,17 +1,17 @@
-import formatDateAPIToBe from "../../api/utils/formatdateapibe";
-import AdminLayout from "../../components/admin/adminLayout";
+import formatDateAPIToBe from "../../../api/utils/formatdateapibe";
+import AdminLayout from "../../../components/admin/adminLayout";
 import useTranslation from "next-translate/useTranslation";
 import React, { useState, useEffect } from "react";
 import { ChevronLeft } from "react-feather";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
-export default function Orders() {
+export default function Reservations() {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
-  const [allOrders, setAllOrders] = useState([]);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [allReservations, setAllReservations] = useState([]);
 
   const getPageNumbers = () => {
     let pages = [];
@@ -54,17 +54,17 @@ export default function Orders() {
     return pages;
   };
 
-  const fetchOrders = async () => {
+  const fetchReservations = async () => {
     const answer = await fetch(
-      `/api/documents/admin/getalldocuments?page=${currentPage}&type=order`
+      `/api/documents/admin/getalldocuments?page=${currentPage}&type=reservation`
     );
     const data = await answer.json();
-    setAllOrders(data["data"]);
+    setAllReservations(data["data"]);
     setTotalPages(data["meta"]["pagination"]["pageCount"]);
   };
 
   useEffect(() => {
-    fetchOrders();
+    fetchReservations();
   }, [currentPage]);
 
   const goToPage = (pageNumber: number) => {
@@ -92,14 +92,16 @@ export default function Orders() {
                   </tr>
                 </thead>
                 <tbody>
-                  {allOrders.map((order, index) => (
+                  {allReservations.map((reservation, index) => (
                     <tr
                       key={index}
                       className={`cursor-pointer ${
                         index % 2 === 0 ? "bg-slate-300" : ""
-                      }`}
+                      } `}
                       onDoubleClick={() =>
-                        router.push(`/admin/order?id=${order.id}`)
+                        router.push(
+                          `/admin/documents/reservation?id=${reservation.id}`
+                        )
                       }
                       onMouseOver={(e) =>
                         e.currentTarget.classList.add("hover:bg-slate-500")
@@ -108,12 +110,12 @@ export default function Orders() {
                         e.currentTarget.classList.remove("hover:bg-slate-500")
                       }
                     >
-                      <td>{order.prefix + order.number}</td>
-                      <td>{formatDateAPIToBe(order.date)}</td>
-                      <td>{`${order.client.firstName} ${order.client.lastName}`}</td>
+                      <td>{reservation.prefix + reservation.number}</td>
+                      <td>{formatDateAPIToBe(reservation.date)}</td>
+                      <td>{`${reservation.client.firstName} ${reservation.client.lastName}`}</td>
                       <td>
                         €{" "}
-                        {order.document_products
+                        {reservation.document_products
                           .reduce(
                             (total, product) => total + product.subTotal,
                             0
@@ -124,11 +126,11 @@ export default function Orders() {
                       <td>
                         €{" "}
                         {(
-                          order.document_products.reduce(
+                          reservation.document_products.reduce(
                             (total, product) => total + product.subTotal,
                             0
                           ) -
-                          order.payments.reduce(
+                          reservation.payments.reduce(
                             (total, payment) =>
                               total +
                               (payment.deleted || !payment.verified
@@ -147,7 +149,7 @@ export default function Orders() {
             </div>
           </div>
           <>
-            {allOrders.length > 0 ? (
+            {allReservations.length > 0 ? (
               <div className="flex flex-row px-6 justify-center mb-4">
                 <div className="mt-2">
                   <div className="flex justify-center items-center space-x-1">

@@ -45,7 +45,8 @@ export default function Index({ collections, images, imageUrls }) {
         <meta name="description" content={t("main_description")} />
         <meta name="language" content={lang} />
       </Head>
-      <div className="relative w-full aspect-[32/9] max-h-[50vh]">
+      <div className="flex w-[90vw] flex-col items-center justify-center mx-auto">
+      <div className="relative w-full aspect-[12/9] max-h-[50vh]">
         {images && (
           <div className="relative w-full h-full">
             {images.map((img, index) => (
@@ -73,7 +74,6 @@ export default function Index({ collections, images, imageUrls }) {
           </div>
         )}
       </div>
-      <div className="flex w-[90vw] flex-col items-center justify-center mx-auto">
         <div className="flex flex-col justify-start items-center mt-2 w-full gap-3">
           {collections &&
             collections.map((collection) => (
@@ -87,7 +87,7 @@ export default function Index({ collections, images, imageUrls }) {
             ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 mt-4 w-[95%] sm:w-full gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 mt-4 w-full gap-4">
           <div className={homepageSpecialBox + " bg-yellow-500"}>
             <Image
               src={"/assets/homepage/chaise.webp"}

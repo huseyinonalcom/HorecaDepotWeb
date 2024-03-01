@@ -86,7 +86,7 @@ const CollectionShowcase = ({ collection }: Props) => {
             {collection.products.map((prod) => (
               <div
                 key={prod.id}
-                className="flex w-[30vw] md:w-[12vw] md:aspect-[10/16] flex-shrink-0 bg-white rounded shadow-lg p-1 items-center last:mr-4"
+                className="flex w-[38vw] md:w-[12vw] md:aspect-[10/16] flex-shrink-0 bg-white rounded shadow-lg p-1 items-center last:mr-4"
               >
                 <ProductPreview width={"full"} product={prod} />
               </div>

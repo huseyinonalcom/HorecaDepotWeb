@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import { AdminDrawerContext } from "../../api/providers/adminDrawerProvider";
 import {
-  ChevronRight,
+  ChevronLeft,
   DollarSign,
   Globe,
   Home,
+  Lock,
   LogOut,
   Package,
   Settings,
@@ -43,9 +44,9 @@ const AdminDrawer = () => {
               className="ml-auto w-[30px] rounded flex flex-row justify-center mb-2 bg-black text-white shadow-lg  hover:bg-orange-400 duration-500"
               onClick={isAdminDrawerOpen ? closeAdminDrawer : openAdminDrawer}
             >
-              <ChevronRight
+              <ChevronLeft
                 className={`duration-700 ${
-                  isAdminDrawerOpen ? "rotate-180" : ""
+                  isAdminDrawerOpen ? "rotate-360" : "rotate-180"
                 }`}
               />
             </button>
@@ -67,12 +68,19 @@ const AdminDrawer = () => {
               </div>
               <span className={textClass}>{t("Commandes")}</span>
             </Link>
+            <Link className={buttonClass} href="/admin/documents/reservations">
+              <div className={navIconDivClass}>
+                <Lock className={iconClass} />
+              </div>
+              <span className={textClass}>{t("Reservations")}</span>
+            </Link>
             <Link className={buttonClass} href="/admin/website">
               <div className={navIconDivClass}>
                 <Globe className={iconClass} />
               </div>
               <span className={textClass}>{t("Site Web")}</span>
             </Link>
+
             {/* <Link className={buttonClass} href="/admin/payments">
             <div className={navIconDivClass}>
               <DollarSign className={iconClass} />

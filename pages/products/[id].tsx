@@ -104,6 +104,30 @@ const ProductPage = ({
         />
       </Head>
       <div className="w-full flex flex-col items-center pt-2">
+        <div className="flex flex-row gap-1 font-bold text-sm">
+          <Link key={1} href={"/"}>
+            {t("Page d'acceuil")}
+          </Link>
+
+          <Link key={2} href={"/products"}>
+            {"> "}
+            {t("Shop")}
+          </Link>
+          {breadCrumbs &&
+            breadCrumbs.map((crumb, index) => {
+              return (
+                <Link
+                  key={index + 2}
+                  href={`/products?category=${
+                    categories.find((cat) => cat.Name == crumb).id
+                  }`}
+                >
+                  {"> "}
+                  {t(crumb)}
+                </Link>
+              );
+            })}
+        </div>
         <div className="flex flex-col sm:flex-row items-center gap-2 w-[90vw]">
           <div className="relative h-[80vw] sm:h-[40vw] w-[80vw] sm:w-[40vw] flex flex-row items-center justify-center">
             <div className="relative mx-auto w-[80%] h-[80%]">
@@ -151,30 +175,6 @@ const ProductPage = ({
             ) : null}
           </div>
           <div className="flex flex-col pl-2 items-center sm:items-start gap-2">
-            <div className="flex flex-row gap-1 font-bold text-sm">
-              <Link key={1} href={"/"}>
-                {t("Page d'acceuil")}
-              </Link>
-
-              <Link key={2} href={"/products"}>
-                {"> "}
-                {t("Shop")}
-              </Link>
-              {breadCrumbs &&
-                breadCrumbs.map((crumb, index) => {
-                  return (
-                    <Link
-                      key={index + 2}
-                      href={`/products?category=${
-                        categories.find((cat) => cat.Name == crumb).id
-                      }`}
-                    >
-                      {"> "}
-                      {t(crumb)}
-                    </Link>
-                  );
-                })}
-            </div>
             <h2 className="font-bold text-lg">
               {product.name +
                 " " +

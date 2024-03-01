@@ -7,7 +7,7 @@ import useTranslation from "next-translate/useTranslation";
 import setLanguage from "next-translate/setLanguage";
 
 import {
-  ChevronUp,
+  ChevronLeft,
   Heart,
   Menu,
   Search,
@@ -48,7 +48,7 @@ const CategoryItem = ({ category }) => {
       >
         {t(category.Name)}
         {hasSubCategories && (
-          <ChevronUp
+          <ChevronLeft
             className={
               "w-4 h-4 duration-300 " + (isHovered ? "rotate-180" : "")
             }
@@ -273,7 +273,7 @@ const Header = () => {
                 className="hidden lg:flex flex-row px-2 py-2 items-center font-bold text-black h-full bg-orange-400"
               >
                 {t("SHOP")}
-                <ChevronUp className="ml-1 w-4 h-4 transform group-hover:rotate-180 duration-300" />
+                <ChevronLeft className="ml-1 w-4 h-4 transform rotate-90 group-hover:rotate-270 duration-300" />
               </Link>
               <div className="absolute pt-2 -left-5 z-50 text-gray-500 w-[240px] invisible group-hover:visible opacity-0 group-hover:opacity-100 duration-300">
                 <div className="bg-white shadow-lg">

@@ -69,6 +69,7 @@ const ProductPreview = ({ product, width }: Props) => {
     >
       <div id={`${product.id}-image`} className={`relative ${imgDimensions}`}>
         <Link href={`/products/${product.id}`}><Image
+        className="p-3"
           sizes="(max-width: 768px) 95vw, (max-width: 1024px) 48vw, 20vw"
           src={
             product.images != null
@@ -90,7 +91,7 @@ const ProductPreview = ({ product, width }: Props) => {
             </button>
           ) : null}
         </div>
-        <div className="absolute top-6 group-hover:top-2 opacity-100 lg:opacity-0 group-hover:opacity-100 duration-500 right-2 flex flex-col gap-2">
+        <div className="absolute top-2 lg:top-6 group-hover:top-2 opacity-100 lg:opacity-0 group-hover:opacity-100 duration-500 right-2 flex flex-col gap-2">
           <button
             name={`Add ${product.name} to Cart`}
             aria-label={`Add ${product.name} to Cart`}
