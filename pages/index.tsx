@@ -46,7 +46,7 @@ export default function Index({ collections, images, imageUrls }) {
         <meta name="language" content={lang} />
       </Head>
       <div className="flex w-[90vw] flex-col items-center justify-center mx-auto">
-      <div className="relative w-full aspect-[12/9] max-h-[50vh]">
+      <div className="relative w-full aspect-[1/1] md:aspect-[4/1]">
         {images && (
           <div className="relative w-full h-full">
             {images.map((img, index) => (
@@ -109,7 +109,7 @@ export default function Index({ collections, images, imageUrls }) {
             </div>
           </div>
           <div className={homepageSpecialBox + " bg-red-500"}>
-            <Image
+            <Image  
               src={"/assets/homepage/banquette.webp"}
               fill
               alt={"Banquette"}
