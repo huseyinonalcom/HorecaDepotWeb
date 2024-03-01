@@ -1056,7 +1056,6 @@ export default function Products() {
               <table className="w-full shadow-lg bg-gray-100 p-2 relative">
                 <thead className="sticky top-0 bg-[#c0c1c3]">
                   <tr>
-                    <th>{t("No")}</th>
                     <th>{t("Catégorie")}</th>
                     <th>{t("EAN")}</th>
                     <th>{t("Code Model")}</th>
@@ -1097,7 +1096,6 @@ export default function Products() {
                         e.currentTarget.classList.remove("hover:bg-slate-500")
                       }
                     >
-                      <td>{product.id}</td>
                       <td>{product.category.Name}</td>
                       <td>{product.product_extra.barcode}</td>
                       <td>{product.internalCode}</td>
