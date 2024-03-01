@@ -12,6 +12,7 @@ export default async function getAllProducts(
     const authToken = cookies.j;
     const page = "&pagination[page]=" + (req.query.page ?? 1);
     const sort = "&sort=" + req.query.sort;
+    const pageSize = "&pagination[pageSize]=" + (req.query.count ?? 30)
     let search = "";
     let category = "";
 
@@ -28,7 +29,7 @@ export default async function getAllProducts(
     }
 
     try {
-      const request = await fetch(fetchUrl + category + page + sort + search, {
+      const request = await fetch(fetchUrl + category + page + sort + search + pageSize, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },

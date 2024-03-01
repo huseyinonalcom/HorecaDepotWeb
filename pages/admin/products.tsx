@@ -482,13 +482,27 @@ export default function Products() {
 
   const getAllProductsByCategories = async () => {
     const answer = await fetch(
-      `/api/products/public/getproducts?page=${currentPage}&count=19999`
+      `/api/products/admin/getallproducts?page=1&count=19999&sort=${currentSort}:${
+        !currentSortDirection ? "desc" : "asc"
+      }${currentSearch ? `&search=${currentSearch}` : ""}${
+        currentCategory ? `&category=${currentCategory}` : ""
+      }`
     );
     const data = await answer.json();
     console.log(data);
+    let groupedData = {};
 
-    // fetch from an API route which will return a json with an array of categories each with an aray of products, it will not include empty categories
-    return data.sortedData;
+    data.data.forEach((prod) => {
+      const categoryName = prod.category.Name;
+
+      if (!groupedData.hasOwnProperty(categoryName)) {
+        groupedData[categoryName] = []; // Create an empty array for the category if it doesn't exist
+      }
+
+      groupedData[categoryName].push(prod); // Push the product into the array associated with its category
+    });
+
+    return groupedData;
   };
 
   const generateXlsx = async () => {
@@ -505,11 +519,34 @@ export default function Products() {
       now.getMinutes().toString().padStart(2, "0");
     const wb = xlsx.utils.book_new();
 
-    const testFile = xlsx.utils.json_to_sheet(
-      await getAllProductsByCategories()
-    );
+    const productsToWrite = await getAllProductsByCategories();
 
-    xlsx.utils.book_append_sheet(wb, testFile, "Sheet1");
+    const sortedCategories = Object.keys(productsToWrite).sort();
+
+    for (const category of sortedCategories) {
+      const products = productsToWrite[category];
+    
+      // Map products to customize data structure
+      const customProducts = products.map(product => ({
+        'Product Name': product.name,
+        'Stock at Establishment 1': product.shelves.find(shelf => shelf.establishment.id == 1)?.stock || 0,
+        // Add more fields as needed
+      }));
+    
+      // Define column headers
+      const headers = [
+        'Product Name',
+        'Stock at Establishment 1',
+        // Add more headers as needed
+      ];
+    
+      // Convert customProducts to worksheet
+      const worksheet = xlsx.utils.json_to_sheet(customProducts);
+    
+      // Append worksheet to workbook
+      xlsx.utils.book_append_sheet(wb, worksheet, category);
+    }
+    
 
     const wbout = xlsx.write(wb, { bookType: "xlsx", type: "binary" });
 

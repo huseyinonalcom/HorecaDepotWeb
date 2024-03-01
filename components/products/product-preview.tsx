@@ -68,9 +68,8 @@ const ProductPreview = ({ product, width }: Props) => {
       className={`flex flex-col items-center group w-full text-black`}
     >
       <div id={`${product.id}-image`} className={`relative ${imgDimensions}`}>
-        <Image
+        <Link href={`/products/${product.id}`}><Image
           sizes="(max-width: 768px) 95vw, (max-width: 1024px) 48vw, 20vw"
-          onClick={() => router.push(`/products/${product.id}`)}
           src={
             product.images != null
               ? "https://hdapi.huseyinonalalpha.com" + product.images.at(0).url
@@ -79,7 +78,7 @@ const ProductPreview = ({ product, width }: Props) => {
           fill
           style={{ objectFit: "contain", cursor: "pointer" }}
           alt={product.name}
-        />
+        /></Link>
         <div className="absolute top-2 left-2 flex flex-col gap-2">
           {product.priceBeforeDiscount ? (
             <button
