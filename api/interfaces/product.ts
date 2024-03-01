@@ -55,15 +55,31 @@ export class ProductTransformer {
       id: 0,
       name: normalizedItem["MODELISMI"],
       internalCode: normalizedItem["URUNKODU"],
-      supplierCode: normalizedItem["EANKODU"]?.toString().replace(/[^0-9.]/g, ''),
-      value: +normalizedItem["INDIRIMLIFIYAT"]?.toString().replace(/[^0-9.]/g, ''),
-      priceBeforeDiscount: +normalizedItem["INDIRIMSIZFIYAT"]?.toString().replace(/[^0-9.]/g, ''),
-      depth: +normalizedItem["DERINLIK(CM)"]?.toString().replace(/[^0-9.]/g, ''),
-      width: +normalizedItem["GENISLIK(CM)"]?.toString().replace(/[^0-9.]/g, ''),
-      height: +normalizedItem["TOTALYUKSEKLIK(CM)"]?.toString().replace(/[^0-9.]/g, ''),
+      supplierCode: normalizedItem["EANKODU"]
+        ?.toString()
+        .replace(/[^0-9.]/g, ""),
+      value: +normalizedItem["INDIRIMLIFIYAT"]
+        ?.toString()
+        .replace(/[^0-9.]/g, ""),
+      priceBeforeDiscount: +normalizedItem["INDIRIMSIZFIYAT"]
+        ?.toString()
+        .replace(/[^0-9.]/g, ""),
+      depth: +normalizedItem["DERINLIK(CM)"]
+        ?.toString()
+        .replace(/[^0-9.]/g, ""),
+      width: +normalizedItem["GENISLIK(CM)"]
+        ?.toString()
+        .replace(/[^0-9.]/g, ""),
+      height: +normalizedItem["TOTALYUKSEKLIK(CM)"]
+        ?.toString()
+        .replace(/[^0-9.]/g, ""),
       material: normalizedItem["MATERYALTURU"],
       color: normalizedItem["RENK"],
       product_extra: this.transformProductExtra(normalizedItem),
+      shelves: [
+        { id: 1, stock: +normalizedItem["MAGAZASTOKMIKTARI"] },
+        { id: 3, stock: +normalizedItem["DEPOSTOKMIKTARI"] },
+      ],
     };
 
     return product as Product;
@@ -72,14 +88,22 @@ export class ProductTransformer {
   private static transformProductExtra(item: any): ProductExtra {
     let productExtra: ProductExtra = {
       id: 0,
-      armrest_height: +item["KOLDAYAMAYUKSEKLIGI(CM)"]?.toString().replace(/[^0-9.]/g, '') ,
-      diameter: +item["CAP(CM)"]?.toString().replace(/[^0-9.]/g, '') ,
-      weight: +item["AGIRLIK(KG)"]?.toString().replace(/[^0-9.]/g, ''),
+      armrest_height: +item["KOLDAYAMAYUKSEKLIGI(CM)"]
+        ?.toString()
+        .replace(/[^0-9.]/g, ""),
+      diameter: +item["CAP(CM)"]?.toString().replace(/[^0-9.]/g, ""),
+      weight: +item["AGIRLIK(KG)"]?.toString().replace(/[^0-9.]/g, ""),
       per_box: +item["KUTUICINDEKIMIKTAR"],
-      packaged_weight: +item["KUTUBRUTAGIRLIGI(KG)"]?.toString().replace(/[^0-9.]/g, ''),
-      packaged_weight_net: +item["KUTUNETAGIRLIGI(KG)"]?.toString().replace(/[^0-9.]/g, ''),
+      packaged_weight: +item["KUTUBRUTAGIRLIGI(KG)"]
+        ?.toString()
+        .replace(/[^0-9.]/g, ""),
+      packaged_weight_net: +item["KUTUNETAGIRLIGI(KG)"]
+        ?.toString()
+        .replace(/[^0-9.]/g, ""),
       packaged_dimensions: item["KUTUBOYUTU"],
-      seat_height: +item["OTURMAYUKSEKLIGI(CM)"]?.toString().replace(/[^0-9.]/g, ''),
+      seat_height: +item["OTURMAYUKSEKLIGI(CM)"]
+        ?.toString()
+        .replace(/[^0-9.]/g, ""),
       barcode: item["EANKODU"],
     };
 

@@ -628,12 +628,18 @@ export default function Products() {
       if (prodFromAPI) {
         let idToPost = prodFromAPI.id;
         let idToPostExtra = prodFromAPI.product_extra.id;
+        let idShelf1 = prodFromAPI.shelves.find((shelf) => shelf.establishment.id == 1);
+        let idShelf2 = prodFromAPI.shelves.find((shelf) => shelf.establishment.id == 3);
         try {
           const request = await fetch(
             `/api/products/admin/putproduct?batch=true&id=` +
               idToPost +
               "&extraid=" +
-              idToPostExtra,
+              idToPostExtra+
+              "&shelf1=" +
+              idShelf1+
+              "&shelf2=" +
+              idShelf2,
             {
               method: "PUT",
               headers: {
@@ -1395,7 +1401,7 @@ export default function Products() {
                           value={currentProduct?.value ?? ""}
                           onChange={(e) =>
                             handleChange("value", e.target.value, false, [
-                              validateDecimal,
+                              validateDecimal, validateEmpty
                             ])
                           }
                           placeholder={t("Prix Vente")}

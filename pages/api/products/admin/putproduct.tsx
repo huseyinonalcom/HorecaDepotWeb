@@ -96,7 +96,8 @@ export default async function putProduct(
               weight: prodToPost.product_extra.weight ?? 0,
               per_box: prodToPost.product_extra.per_box ?? 0,
               packaged_weight: prodToPost.product_extra.packaged_weight ?? 0,
-              packaged_dimensions: prodToPost.product_extra.packaged_dimensions?.toString(),
+              packaged_dimensions:
+                prodToPost.product_extra.packaged_dimensions?.toString(),
               seat_height: prodToPost.product_extra.seat_height ?? 0,
               diameter: prodToPost.product_extra.diameter ?? 0,
               tags: prodToPost.product_extra.tags,
@@ -114,6 +115,43 @@ export default async function putProduct(
           return res.status(400).json(statusText[400]);
         } else {
           // post stock to shelves
+          console.log(prodToPost);
+          const fetchUrlShelves = `${process.env.API_URL}/api/shelves/`;
+          const reqShelf1 = await fetch(fetchUrlShelves + req.query.shelf1, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${authToken}`,
+            },
+            body: JSON.stringify({
+              data: {
+                stock:
+                  prodToPost.shelves.find(
+                    (shelf) => shelf.establishment.id == 1
+                  ).stock ?? 0,
+              },
+            }),
+          });
+          const reqShelf2 = await fetch(fetchUrlShelves + req.query.shelf2, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${authToken}`,
+            },
+            body: JSON.stringify({
+              data: {
+                stock:
+                  prodToPost.shelves.find(
+                    (shelf) => shelf.establishment.id == 3
+                  ).stock ?? 0,
+              },
+            }),
+          });
+          if (!reqShelf1.ok || !reqShelf2.ok) {
+            return res.status(500).json("error in shelf requests");
+          }
         }
       }
     } catch (error) {

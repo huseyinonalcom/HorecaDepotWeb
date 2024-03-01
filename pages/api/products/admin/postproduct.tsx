@@ -79,7 +79,6 @@ export default async function postProduct(
         });
 
         if (!response2.ok) {
-          const ans = await response2.json();
           return res.status(500).json("error posting extra");
         } else {
           console.log(prodToPost);
@@ -95,6 +94,7 @@ export default async function postProduct(
             body: JSON.stringify({
               data: {
                 product: prodToPost.id,
+                stock: prodToPost.shelves.find((shelf) => shelf.establishment.id == 1).stock ?? 0,
                 establishment: 1,
               },
             }),
@@ -109,6 +109,7 @@ export default async function postProduct(
             body: JSON.stringify({
               data: {
                 product: prodToPost.id,
+                stock: prodToPost.shelves.find((shelf) => shelf.establishment.id == 3).stock ?? 0,
                 establishment: 3,
               },
             }),
