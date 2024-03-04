@@ -144,7 +144,7 @@ export default function Products() {
     if (router.isReady) {
       initPage();
     }
-  }, [router.isReady]);
+  }, [router.isReady, router.query.search]);
 
   const initPage = async () => {
     var fetchUrl: string = `/api/products/public/getproducts?page=${
