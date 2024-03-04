@@ -69,6 +69,7 @@ export default function Order() {
       if (collectionID) {
         fetchCollection(collectionID)
           .then(async (coll) => {
+            console.log(coll);
             setCurrentCollection(coll);
             const fetchProducts = async () => {
               const request = await fetch(

@@ -903,7 +903,7 @@ export default function Products() {
         <div className="flex flex-1 max-h-[100vh] pb-1 flex-col items-center pt-1">
           <div className="flex mb-1 flex-row items-center gap-2">
             <div className="group relative h-full">
-              <div className="flex flex-row items-center mr-1 font-bold text-black h-full bg-gray-100 pl-3 pr-2">
+              <div className="flex flex-row items-center mr-1 py-4 font-bold text-black h-full bg-gray-100 pl-3 pr-2">
                 {t(
                   currentCategory
                     ? allCategories.find((cat) => cat.id == currentCategory)
