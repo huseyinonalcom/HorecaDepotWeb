@@ -78,7 +78,7 @@ export async function getCollections(collectionID?, filterFeatured?) {
     }?populate[products][fields][0]=name${
       filterFeatured ?? "&filters[featured][$eq]=true"
     }&populate[products][fields][1]=supplierCode&populate[products][fields][2]=internalCode&populate[products][fields][3]=color&populate[products][fields][4]=material&populate[products][fields][5]=priceBeforeDiscount&populate[products][fields][6]=value&populate[image][fields][0]=url&populate[products][populate][images][fields][0]=url`;
-
+console.log(fetchCollectionsUrl)
     const fetchCollectionsRequest = await fetch(fetchCollectionsUrl, {
       method: "GET",
       headers: {
