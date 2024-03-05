@@ -3,6 +3,7 @@ import useTranslation from "next-translate/useTranslation";
 import { CartContext } from "../../api/providers/cartProvider";
 import Image from "next/image";
 import { AutoTextSize } from "auto-text-size";
+import ButtonShadow1 from "../buttons/shadow_1";
 
 export default function CheckOutCart() {
   const { t, lang } = useTranslation("common");
@@ -12,21 +13,11 @@ export default function CheckOutCart() {
     decreaseQuantity,
     removeFromCart,
     setQuantity,
-    calculateTotal,
   } = useContext(CartContext);
-
-  const handleQuantityChange = (id: number, newQuantityStr: string) => {
-    const newQuantity = parseInt(newQuantityStr, 10);
-    if (newQuantity > 0) {
-      setQuantity(id, newQuantity);
-    } else {
-      removeFromCart(id);
-    }
-  };
 
   const handleDecreaseQuantity = (id, currentAmount) => {
     if (currentAmount <= 1) {
-      removeFromCart(id);
+      setQuantity(id, 1);
     } else {
       decreaseQuantity(id);
     }
@@ -48,7 +39,7 @@ export default function CheckOutCart() {
         <div
           key={product.id}
           className="mb-2 flex flex-col 
-          shadow-lg bg-white p-4 w-full h-[230px]"
+          shadow-lg bg-white pt-2 pb-3 w-full"
         >
           <div className="flex flex-col items-center w-full">
             <div className="flex flex-row justify-center">
@@ -70,7 +61,7 @@ export default function CheckOutCart() {
           </div>
           <div className="w-full flex flex-row items-end justify-center mb-2">
             <p className="mr-1 text-gray-400 text-sm line-through mb-1">
-              {product.priceBeforeDiscount > product.value 
+              {product.priceBeforeDiscount > product.value
                 ? "€ " +
                   (product.priceBeforeDiscount * product.amount)
                     .toFixed(2)
@@ -85,29 +76,20 @@ export default function CheckOutCart() {
 
           <div className="flex flex-row items-end justify-center">
             <button
-              onClick={() => handleDecreaseQuantity(product.id, product.amount)}
-              className="font-bold"
-            >
-              -
-            </button>
-            <input
-              value={product.amount}
-              onChange={(e) => handleQuantityChange(product.id, e.target.value)}
-              className="text-center mx-1.25 w-[40px]"
-              min="0"
-            />
-            <button
-              onClick={() => increaseQuantity(product.id)}
-              className="font-bold"
-            >
-              +
-            </button>
-            <button
               onClick={() => removeFromCart(product.id)}
-              className="ml-2.5"
+              className="mr-2.5"
             >
               🗑
             </button>
+            <ButtonShadow1
+              onClick={() => handleDecreaseQuantity(product.id, product.amount)}
+            >
+              <p className="aspect-[1/1] w-6 h-6 font-bold">-</p>
+            </ButtonShadow1>
+            <p className="text-center mx-1.25 w-[40px]">{product.amount}</p>
+            <ButtonShadow1 onClick={() => increaseQuantity(product.id)}>
+              <p className="aspect-[1/1] w-6 h-6 font-bold">+</p>
+            </ButtonShadow1>
           </div>
         </div>
       ))}
