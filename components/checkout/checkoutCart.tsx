@@ -7,21 +7,8 @@ import ButtonShadow1 from "../buttons/shadow_1";
 
 export default function CheckOutCart() {
   const { t, lang } = useTranslation("common");
-  const {
-    cart,
-    increaseQuantity,
-    decreaseQuantity,
-    removeFromCart,
-    setQuantity,
-  } = useContext(CartContext);
-
-  const handleDecreaseQuantity = (id, currentAmount) => {
-    if (currentAmount <= 1) {
-      setQuantity(id, 1);
-    } else {
-      decreaseQuantity(id);
-    }
-  };
+  const { cart, increaseQuantity, decreaseQuantity, removeFromCart } =
+    useContext(CartContext);
 
   if (cart.length <= 0) {
     return (
@@ -55,10 +42,10 @@ export default function CheckOutCart() {
                 height={150}
               />
             </div>
-            <h3 className="h-[20px] text-base font-bold w-full justify-center overflow-hidden duration-700">
+            <h3 className="h-[25px] text-base font-bold w-full justify-center overflow-hidden duration-700">
               <AutoTextSize maxFontSizePx={14}>{product.name}</AutoTextSize>
             </h3>
-            <h4 className="h-[15px] text-base w-full justify-center overflow-hidden duration-700">
+            <h4 className="h-[20px] text-base w-full justify-center overflow-hidden duration-700">
               <AutoTextSize maxFontSizePx={12}>
                 {product.internalCode}
               </AutoTextSize>
@@ -86,9 +73,7 @@ export default function CheckOutCart() {
             >
               🗑
             </button>
-            <ButtonShadow1
-              onClick={() => handleDecreaseQuantity(product.id, product.amount)}
-            >
+            <ButtonShadow1 onClick={() => decreaseQuantity(product.id)}>
               <p className="aspect-[1/1] w-6 h-6 font-bold">-</p>
             </ButtonShadow1>
             <p className="text-center mx-1.25 w-[40px]">{product.amount}</p>

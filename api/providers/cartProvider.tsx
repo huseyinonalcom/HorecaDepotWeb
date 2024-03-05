@@ -139,7 +139,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     setCart((prevCart) => {
       const updatedCart = prevCart.map((item) =>
         item.id === itemId
-          ? { ...item, amount: Math.max(0, item.amount - 1) }
+          ? { ...item, amount: Math.max(1, item.amount - 1) }
           : item
       );
       updateCart(updatedCart);

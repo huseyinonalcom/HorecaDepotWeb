@@ -2,8 +2,10 @@ import React, { useContext } from "react";
 import Image from "next/image";
 import { CartContext } from "../../api/providers/cartProvider";
 import Link from "next/link";
-import { Minus, Plus, X } from "react-feather";
+import { X } from "react-feather";
 import useTranslation from "next-translate/useTranslation";
+import ButtonShadow1 from "../buttons/shadow_1";
+import { AutoTextSize } from "auto-text-size";
 
 const CartDrawer = () => {
   const { t, lang } = useTranslation("common");
@@ -14,26 +16,8 @@ const CartDrawer = () => {
     removeFromCart,
     isDrawerOpen,
     closeDrawer,
-    setQuantity,
     calculateTotal,
   } = useContext(CartContext);
-
-  const handleQuantityChange = (id, newQuantityStr) => {
-    const newQuantity = parseInt(newQuantityStr, 10);
-    if (newQuantity > 0) {
-      setQuantity(id, newQuantity);
-    } else {
-      removeFromCart(id);
-    }
-  };
-
-  const handleDecreaseQuantity = (id, currentAmount) => {
-    if (currentAmount <= 1) {
-      removeFromCart(id);
-    } else {
-      decreaseQuantity(id);
-    }
-  };
 
   const drawerClass = isDrawerOpen ? "fixed right-0" : "fixed right-[-100%]";
   const overlayClass = isDrawerOpen
@@ -71,7 +55,14 @@ const CartDrawer = () => {
                 height={90}
               />
               <div className="flex flex-col w-full items-center justify-start">
-                <p className="pl-3 font-bold">{product.name}</p>
+                <h3 className="h-[25px] text-base font-bold w-full justify-center overflow-hidden duration-700">
+                  <AutoTextSize maxFontSizePx={14}>{product.name}</AutoTextSize>
+                </h3>
+                <h4 className="h-[20px] text-base w-full justify-center overflow-hidden duration-700">
+                  <AutoTextSize maxFontSizePx={12}>
+                    {product.internalCode}
+                  </AutoTextSize>
+                </h4>
                 <div className="w-full flex flex-row items-end justify-center mb-2">
                   <h5 className="mr-1 text-gray-400 text-sm line-through">
                     {product.priceBeforeDiscount &&
@@ -97,36 +88,22 @@ const CartDrawer = () => {
                     </h4>
                   )}
                 </div>
-                <div className="flex flex-row items-center justify-center">
-                  <button
-                    onClick={() =>
-                      handleDecreaseQuantity(product.id, product.amount)
-                    }
-                    className="font-bold"
-                  >
-                    <Minus className="h-3 w-3" />
-                  </button>
-                  <input
-                    type="text"
-                    value={product.amount}
-                    onChange={(e) =>
-                      handleQuantityChange(product.id, e.target.value)
-                    }
-                    className="text-center bg-transparent mx-1 w-[40px]"
-                    min="0"
-                  />
-                  <button
-                    onClick={() => increaseQuantity(product.id)}
-                    className="font-bold"
-                  >
-                    <Plus className="h-3 w-3" />
-                  </button>
+                <div className="flex flex-row items-end justify-center">
                   <button
                     onClick={() => removeFromCart(product.id)}
-                    className="ml-4"
+                    className="mr-2.5"
                   >
                     🗑
                   </button>
+                  <ButtonShadow1 onClick={() => decreaseQuantity(product.id)}>
+                    <p className="aspect-[1/1] w-6 h-6 font-bold">-</p>
+                  </ButtonShadow1>
+                  <p className="text-center mx-1.25 w-[40px]">
+                    {product.amount}
+                  </p>
+                  <ButtonShadow1 onClick={() => increaseQuantity(product.id)}>
+                    <p className="aspect-[1/1] w-6 h-6 font-bold">+</p>
+                  </ButtonShadow1>
                 </div>
               </div>
             </div>
