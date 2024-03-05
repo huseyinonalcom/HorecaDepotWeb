@@ -1,6 +1,7 @@
 type Props = {
   onChange?;
   onKeyDown?;
+  onSubmit?;
   value?: string;
   name: string;
   type: string;
@@ -10,6 +11,7 @@ type Props = {
 const InputOutlined = ({
   onChange,
   onKeyDown,
+  onSubmit,
   value,
   name,
   type,
@@ -21,6 +23,12 @@ const InputOutlined = ({
         <input
           type={type}
           name={name}
+          onSubmit={
+            onSubmit ??
+            ((e) => {
+              e.preventDefault();
+            })
+          }
           aria-label={name}
           value={value}
           onChange={onChange}
@@ -37,12 +45,14 @@ const InputOutlined = ({
           {name}
         </label>
       </div>
-      <p
-        aria-label={`error message for ${name}`}
-        className="pl-3 text-xs text-red-600"
-      >
-        {error}
-      </p>
+      {error && (
+        <p
+          aria-label={`error message for ${name}`}
+          className="pl-3 text-xs text-red-600"
+        >
+          {error}
+        </p>
+      )}
     </div>
   );
 };
