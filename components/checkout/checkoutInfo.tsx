@@ -1,29 +1,53 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { ClientContext } from "../../api/providers/clientProvider";
-import useTranslation from "next-translate/useTranslation";
-import { CartContext } from "../../api/providers/cartProvider";
 import { Client, ClientConversion } from "../../api/interfaces/client";
-import CustomTheme from "../componentThemes";
+import { ClientContext } from "../../api/providers/clientProvider";
+import { useContext, useEffect, useRef, useState } from "react";
+import { CartContext } from "../../api/providers/cartProvider";
+import useTranslation from "next-translate/useTranslation";
 import { Address } from "../../api/interfaces/address";
-import Link from "next/link";
 import { Document } from "../../api/interfaces/document";
-import { useRouter } from "next/navigation";
 import InputOutlined from "../inputs/outlined";
+import CustomTheme from "../componentThemes";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function CheckOutInfo() {
-  const { t, lang } = useTranslation("common");
   const router = useRouter();
+  const passwordInput = useRef(null);
+  const [error, setError] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const { t, lang } = useTranslation("common");
+  const options = ["Entreprise", "Particulier"];
+  const [cartError, setCartError] = useState("");
+  const [promoError, setPromoError] = useState("");
+  const [showLogin, setShowLogin] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const { updateClient } = useContext(ClientContext);
+  const [addressError, setAddressError] = useState("");
+  const [currentPromo, setCurrentPromo] = useState(null);
+  const [passwordRepeat, setPasswordRepeat] = useState("");
+  const { client, clearClient } = useContext(ClientContext);
+  const [clientType, setClientType] = useState(options.at(0));
+  const [showAddressForm, setShowAddressForm] = useState(false);
+  const [usedPromoCode, setUsedPromoCode] = useState<string>("");
+  const { cart, calculateTotal, clearCart } = useContext(CartContext);
+  const [chosenInvoiceAddressId, setChosenInvoiceAddressId] = useState(null);
+  const [totalAfterPromo, setTotalAfterPromo] = useState<number | null>(null);
+  const [chosenDeliveryAddressId, setChosenDeliveryAddressId] = useState(null);
+  const [deliverySameAddressAsInvoice, setDeliverySameAddressAsInvoice] =
+    useState(true);
+  const [newAddressExistingClient, setNewAddressExistingClient] =
+    useState<Address>({
+      name: "Secondaire",
+      country: "",
+      city: "",
+      zipCode: "",
+      doorNumber: "",
+      street: "",
+      floor: "",
+    });
 
-  useEffect(() => {
-    setTimeout(async () => {
-      const data = await fetch("/api/client/client/checkloggedinuser");
-      if (data.status != 200) {
-        clearClient();
-      }
-    }, 300);
-  }, []);
-
-  // new client
   const [newClient, setNewClient] = useState<Client>({
     username: "",
     email: "",
@@ -39,6 +63,7 @@ export default function CheckOutInfo() {
       taxID: "",
     },
   });
+
   const [addressNewClient, setAddressNewClient] = useState<Address>({
     name: "Primaire",
     country: "",
@@ -48,10 +73,38 @@ export default function CheckOutInfo() {
     street: "",
     floor: null,
   });
-  const [isOpen, setIsOpen] = useState(false);
-  const options = ["Entreprise", "Particulier"];
-  const [clientType, setClientType] = useState(options.at(0));
-  const [passwordRepeat, setPasswordRepeat] = useState("");
+
+  const [documentToPost, setDocumentToPost] = useState<Document>({
+    id: 0,
+    type: "Commande",
+    prefix: "NB-",
+    number: "0",
+    phase: 1,
+    invoiced: false,
+    deleted: false,
+    date: "",
+    client: { id: 0 },
+    note: null,
+    decisionMaker: null,
+    document_products: [{ id: 0 }, { id: 1 }],
+    docAddress: null,
+    delAddress: null,
+  });
+
+  useEffect(() => {
+    setTimeout(async () => {
+      const data = await fetch("/api/client/client/checkloggedinuser");
+      if (data.status != 200) {
+        clearClient();
+      }
+    }, 200);
+  }, []);
+
+  const handleLogOut = async (event) => {
+    event.preventDefault();
+    clearClient();
+    await fetch("/api/client/client/logout").then(() => {});
+  };
 
   const handleClientSubmit = async (event) => {
     event.preventDefault();
@@ -106,12 +159,6 @@ export default function CheckOutInfo() {
     }
   };
 
-  // login
-  const [showLogin, setShowLogin] = useState(false);
-  const [error, setError] = useState("");
-  const { updateClient } = useContext(ClientContext);
-
-  const [username, setUsername] = useState("");
   const handleKeyPress = (event) => {
     if (event.key === "Enter" && event.target.id === "username") {
       event.preventDefault();
@@ -119,8 +166,6 @@ export default function CheckOutInfo() {
     }
   };
 
-  const [password, setPassword] = useState("");
-  const passwordInput = useRef(null);
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
     setError("");
@@ -147,17 +192,7 @@ export default function CheckOutInfo() {
   };
 
   // existing client
-  const [showAddressForm, setShowAddressForm] = useState(false);
-  const [newAddressExistingClient, setNewAddressExistingClient] =
-    useState<Address>({
-      name: "Secondaire",
-      country: "",
-      city: "",
-      zipCode: "",
-      doorNumber: "",
-      street: "",
-      floor: "",
-    });
+
   const handleNewAddressExistingClientChange = async (event) => {
     const { name, value } = event.target;
 
@@ -190,33 +225,6 @@ export default function CheckOutInfo() {
     }
   };
 
-  const handleLogOut = async (event) => {
-    event.preventDefault();
-    clearClient();
-    await fetch("/api/client/client/logout").then(() => {});
-  };
-
-  const { client, clearClient } = useContext(ClientContext);
-  const [cartError, setCartError] = useState("");
-  const { cart, calculateTotal, clearCart } = useContext(CartContext);
-  const [documentToPost, setDocumentToPost] = useState<Document>({
-    id: 0,
-    type: "Commande",
-    prefix: "NB-",
-    number: "0",
-    phase: 1,
-    invoiced: false,
-    deleted: false,
-    date: "",
-    client: { id: 0 },
-    note: null,
-    decisionMaker: null,
-    document_products: [{ id: 0 }, { id: 1 }],
-    docAddress: null,
-    delAddress: null,
-  });
-
-  const [chosenInvoiceAddressId, setChosenInvoiceAddressId] = useState(null);
   const handleInvoiceAddressChange = async (e) => {
     e.preventDefault();
     setChosenInvoiceAddressId(e.target.value);
@@ -248,9 +256,6 @@ export default function CheckOutInfo() {
     );
   };
 
-  const [deliverySameAddressAsInvoice, setDeliverySameAddressAsInvoice] =
-    useState(true);
-  const [chosenDeliveryAddressId, setChosenDeliveryAddressId] = useState(null);
   const handleDeliveryAddressChange = async (e) => {
     e.preventDefault();
     setChosenDeliveryAddressId(e.target.value);
@@ -285,10 +290,6 @@ export default function CheckOutInfo() {
     );
   };
 
-  const [usedPromoCode, setUsedPromoCode] = useState<string>("");
-  const [totalAfterPromo, setTotalAfterPromo] = useState<number | null>(null);
-  const [promoError, setPromoError] = useState("");
-  const [currentPromo, setCurrentPromo] = useState(null);
   useEffect(() => {
     if (usedPromoCode != "") {
       calculateTotalWithPromo(currentPromo);
@@ -363,9 +364,6 @@ export default function CheckOutInfo() {
 
     setTotalAfterPromo(grandTotal);
   };
-
-  const [addressError, setAddressError] = useState("");
-  const [submitError, setSubmitError] = useState("");
 
   const handleOrderSubmit = async (event) => {
     event.preventDefault();
@@ -449,8 +447,7 @@ export default function CheckOutInfo() {
         </div>
       </div>
     );
-  }
-  if (showLogin == true && !client) {
+  } else if (showLogin == true && !client) {
     return (
       <div className="flex flex-col items-center">
         <div className="flex flex-row">
