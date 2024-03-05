@@ -51,13 +51,18 @@ export default function CheckOutCart() {
                     : "/assets/img/placeholder.png"
                 }
                 alt={product.name}
-                width={100}
-                height={100}
+                width={150}
+                height={150}
               />
             </div>
-            <h3 className="h-[25px] text-base font-bold w-full justify-center overflow-hidden duration-700">
+            <h3 className="h-[20px] text-base font-bold w-full justify-center overflow-hidden duration-700">
               <AutoTextSize maxFontSizePx={14}>{product.name}</AutoTextSize>
             </h3>
+            <h4 className="h-[15px] text-base w-full justify-center overflow-hidden duration-700">
+              <AutoTextSize maxFontSizePx={12}>
+                {product.internalCode}
+              </AutoTextSize>
+            </h4>
           </div>
           <div className="w-full flex flex-row items-end justify-center mb-2">
             <p className="mr-1 text-gray-400 text-sm line-through mb-1">
