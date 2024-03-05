@@ -53,23 +53,6 @@ export default function CheckOutInfo() {
   const [clientType, setClientType] = useState(options.at(0));
   const [passwordRepeat, setPasswordRepeat] = useState("");
 
-  const handleNewClientChange = (event) => {
-    const { name, value } = event.target;
-
-    if (name in newClient) {
-      setNewClient({ ...newClient, [name]: value });
-    } else if (name in newClient.client_info) {
-      setNewClient({
-        ...newClient,
-        client_info: { ...newClient.client_info, [name]: value },
-      });
-    } else if (name in addressNewClient) {
-      setAddressNewClient({ ...addressNewClient, [name]: value });
-    } else if (name == "password_repeat") {
-      setPasswordRepeat(value);
-    }
-  };
-
   const handleClientSubmit = async (event) => {
     event.preventDefault();
     const clientToSend: Client = {
@@ -611,209 +594,223 @@ export default function CheckOutInfo() {
           {clientType == options[0] && (
             <>
               <div className="flex flex-col w-full">
-                <h3 className="">{t("Nom d'entreprise")}</h3>
-                <div className="pr-4">
-                  <input
-                    required
-                    onChange={handleNewClientChange}
-                    className="w-full p-2 rounded border border-gray-300"
-                    type="text"
-                    name="company"
-                    value={newClient.client_info.company}
-                    placeholder={t("Nom d'entreprise")}
-                  />
-                </div>
+                <InputOutlined
+                  required
+                  name="company"
+                  label={t("Company Name")}
+                  onChange={(e) => {
+                    setNewClient({
+                      ...newClient,
+                      client_info: {
+                        ...newClient.client_info,
+                        company: e.target.value,
+                      },
+                    });
+                  }}
+                  value={newClient.client_info.company}
+                  type="text"
+                />
               </div>
               <div className="flex flex-col w-full">
-                <h3 className="">{t("Numéro de TVA")}</h3>
-                <div className="pr-4">
-                  <input
-                    required
-                    onChange={handleNewClientChange}
-                    className="w-full p-2 rounded border border-gray-300"
-                    type="text"
-                    name="taxID"
-                    value={newClient.client_info.taxID}
-                    placeholder={t("Numéro de TVA")}
-                  />
-                </div>
+                <InputOutlined
+                  required
+                  name="taxID"
+                  label={t("VAT number")}
+                  onChange={(e) => {
+                    setNewClient({
+                      ...newClient,
+                      client_info: {
+                        ...newClient.client_info,
+                        taxID: e.target.value,
+                      },
+                    });
+                  }}
+                  value={newClient.client_info.taxID}
+                  type="text"
+                />
               </div>
             </>
           )}
           <div className="flex flex-col sm:flex-row">
-            <div className="flex flex-col w-full sm:w-1/2">
-              {/* <h3 className="">{t("Votre Prénom")}</h3>
-              <div className="pr-4">
-                <input
-                  required
-                  onChange={handleNewClientChange}
-                  className="w-full p-2 rounded border border-gray-300"
-                  type="text"
-                  name="firstName"
-                  value={newClient.client_info.firstName}
-                  placeholder={t("Votre Prénom")}
-                />
-              </div> */}
+            <div className="flex flex-col pr-1 w-full sm:w-1/2">
               <InputOutlined
+                required
                 name="firstName"
-                label={t("firstName")}
+                label={t("Your first name")}
+                onChange={(e) => {
+                  setNewClient({
+                    ...newClient,
+                    client_info: {
+                      ...newClient.client_info,
+                      firstName: e.target.value,
+                    },
+                  });
+                }}
+                value={newClient.client_info.firstName}
                 type="text"
               />
             </div>
-            <div className="flex flex-col w-full sm:w-1/2">
-              <h3 className="">{t("Votre Nom de famille")}</h3>
-              <div className="pr-4">
-                <input
-                  required
-                  onChange={handleNewClientChange}
-                  className="w-full p-2 rounded border border-gray-300"
-                  type="text"
-                  name="lastName"
-                  value={newClient.client_info.lastName}
-                  placeholder={t("Votre Nom de famille")}
-                />
-              </div>
+            <div className="flex flex-col pl-1 w-full sm:w-1/2">
+              <InputOutlined
+                required
+                name="lastName"
+                label={t("Your last name")}
+                onChange={(e) => {
+                  setNewClient({
+                    ...newClient,
+                    client_info: {
+                      ...newClient.client_info,
+                      lastName: e.target.value,
+                    },
+                  });
+                }}
+                value={newClient.client_info.lastName}
+                type="text"
+              />
             </div>
           </div>
           <div className="flex flex-col w-full">
-            <h3 className="">{t("Pays")}</h3>
-            <div className="pr-4">
-              <input
+            <InputOutlined
+              required
+              name="country"
+              label={t("Country")}
+              onChange={(e) => {
+                setAddressNewClient({
+                  ...addressNewClient,
+                  country: e.target.value,
+                });
+              }}
+              value={addressNewClient.country}
+              type="text"
+            />
+          </div>
+          <div className="flex flex-col sm:flex-row">
+            <div className="flex flex-col w-full pr-1 sm:w-8/12">
+              <InputOutlined
                 required
-                onChange={handleNewClientChange}
-                className="w-full p-2 rounded border border-gray-300"
+                name="street"
+                label={t("Street")}
+                onChange={(e) => {
+                  setAddressNewClient({
+                    ...addressNewClient,
+                    street: e.target.value,
+                  });
+                }}
+                value={addressNewClient.street}
                 type="text"
-                name="country"
-                value={addressNewClient.country}
-                placeholder={t("Pays")}
+              />
+            </div>
+            <div className="flex flex-col w-full pl-1 sm:w-4/12">
+              <InputOutlined
+                required
+                name="doorNumber"
+                label={t("Door")}
+                onChange={(e) => {
+                  setAddressNewClient({
+                    ...addressNewClient,
+                    doorNumber: e.target.value,
+                  });
+                }}
+                value={addressNewClient.doorNumber}
+                type="text"
               />
             </div>
           </div>
           <div className="flex flex-col sm:flex-row">
-            <div className="flex flex-col w-full sm:w-8/12">
-              <h3 className="">{t("Rue")}</h3>
-              <div className="pr-4">
-                <input
-                  required
-                  onChange={handleNewClientChange}
-                  className="w-full p-2 rounded border border-gray-300"
-                  type="text"
-                  name="street"
-                  value={addressNewClient.street}
-                  placeholder={t("Rue")}
-                />
-              </div>
+            <div className="flex flex-col w-full pr-1 sm:w-4/12">
+              <InputOutlined
+                required
+                name="zipCode"
+                label={t("Zip Code")}
+                onChange={(e) => {
+                  setAddressNewClient({
+                    ...addressNewClient,
+                    zipCode: e.target.value,
+                  });
+                }}
+                value={addressNewClient.zipCode}
+                type="text"
+              />
             </div>
-            <div className="flex flex-col w-full sm:w-4/12">
-              <h3 className="">{t("Porte")}</h3>
-              <div className="pr-4">
-                <input
-                  required
-                  onChange={handleNewClientChange}
-                  className="w-full p-2 rounded border border-gray-300"
-                  type="text"
-                  name="doorNumber"
-                  value={addressNewClient.doorNumber}
-                  placeholder={t("Porte")}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col sm:flex-row">
-            <div className="flex flex-col w-full sm:w-4/12">
-              <h3 className="">{t("Code Postal")}</h3>
-              <div className="pr-4">
-                <input
-                  required
-                  onChange={handleNewClientChange}
-                  className="w-full p-2 rounded border border-gray-300"
-                  type="text"
-                  name="zipCode"
-                  value={addressNewClient.zipCode}
-                  placeholder={t("Code Postal")}
-                />
-              </div>
-            </div>
-            <div className="flex flex-col w-full sm:w-8/12">
-              <h3 className="">{t("Ville")}</h3>
-              <div className="pr-4">
-                <input
-                  required
-                  onChange={handleNewClientChange}
-                  className="w-full p-2 rounded border border-gray-300"
-                  type="text"
-                  name="city"
-                  value={addressNewClient.city}
-                  placeholder={t("Ville")}
-                />
-              </div>
+            <div className="flex flex-col w-full pl-1 sm:w-8/12">
+              <InputOutlined
+                required
+                name="city"
+                label={t("City")}
+                onChange={(e) => {
+                  setAddressNewClient({
+                    ...addressNewClient,
+                    city: e.target.value,
+                  });
+                }}
+                value={addressNewClient.city}
+                type="text"
+              />
             </div>
           </div>
           <div className="flex flex-row">
             <div className="flex flex-col w-full">
-              <h3 className="">{t("Téléphone")}</h3>
-              <div className="pr-4">
-                <input
-                  required
-                  onChange={handleNewClientChange}
-                  className="w-full p-2 rounded border border-gray-300"
-                  type="text"
-                  name="phone"
-                  value={newClient.client_info.phone}
-                  placeholder={t("Téléphone")}
-                />
-              </div>
+              <InputOutlined
+                name="phone"
+                label={t("Your Phone")}
+                onChange={(e) => {
+                  setNewClient({
+                    ...newClient,
+                    client_info: {
+                      ...newClient.client_info,
+                      phone: e.target.value,
+                    },
+                  });
+                }}
+                value={newClient.client_info.phone}
+                type="text"
+              />
             </div>
           </div>
           <div className="flex flex-row">
             <div className="flex flex-col w-full">
-              <h3 className="">{t("E-mail")}</h3>
-              <div className="pr-4">
-                <input
-                  required
-                  onChange={handleNewClientChange}
-                  className="w-full p-2 rounded border border-gray-300"
-                  autoComplete="chrome-off"
-                  type="email"
-                  name="email"
-                  value={newClient.email}
-                  placeholder={t("E-mail")}
-                />
-              </div>
+              <InputOutlined
+                required
+                name="email"
+                label={t("E-mail")}
+                onChange={(e) => {
+                  setNewClient({
+                    ...newClient,
+                    email: e.target.value,
+                  });
+                }}
+                value={newClient.email}
+                type="email"
+              />
             </div>
           </div>
           <div className="flex flex-row">
             <div className="flex flex-col w-full">
-              <h3 className="">{t("Mote de Passe")}</h3>
-              <div className="pr-4">
-                <input
-                  required
-                  onChange={handleNewClientChange}
-                  className="w-full p-2 rounded border border-gray-300"
-                  autoComplete="new-password"
-                  type="password"
-                  name="password"
-                  value={newClient.password}
-                  placeholder={t("Mote de Passe")}
-                />
-              </div>
+              <InputOutlined
+                label={t("Password")}
+                onChange={(e) => {
+                  setNewClient({
+                    ...newClient,
+                    password: e.target.value,
+                  });
+                }}
+                type="password"
+                name="password"
+                value={newClient.password}
+                required
+              />
             </div>
           </div>
           <div className="flex flex-row">
             <div className="flex flex-col w-full">
-              <h3 className="">{t("Repeat Mote de Passe")}</h3>
-              <div className="pr-4">
-                <input
-                  required
-                  onChange={handleNewClientChange}
-                  className="w-full p-2 rounded border border-gray-300"
-                  autoComplete="password-repeat"
-                  type="password"
-                  name="password_repeat"
-                  value={passwordRepeat}
-                  placeholder={t("Repeat Mote de Passe")}
-                />
-              </div>
+              <InputOutlined
+                type="password"
+                name="password_repeat"
+                value={passwordRepeat}
+                onChange={(e) => setPasswordRepeat(e.target.value)}
+                label={t("Repeat Password")}
+                required
+              />
             </div>
           </div>
           <div className="flex flex-row w-full">
