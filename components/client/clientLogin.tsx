@@ -60,7 +60,7 @@ const ClientLogin = () => {
       <div className="flex flex-col">
         <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
           {error && (
-            <div className="bg-red-100 text-red-700 p-2 text-center rounded">
+            <div className="bg-red-100 text-red-700 p-2 text-center ">
               {error}
             </div>
           )}
@@ -69,7 +69,7 @@ const ClientLogin = () => {
               {t("Utilisateur")}
             </label>
             <input
-              className="w-full p-2 rounded border border-gray-300"
+              className="w-full p-2  border border-gray-300"
               type="text"
               id="username"
               value={username}
@@ -83,7 +83,7 @@ const ClientLogin = () => {
               {t("Mote de Passe")}
             </label>
             <input
-              className="w-full p-2 rounded border border-gray-300"
+              className="w-full p-2  border border-gray-300"
               type="password"
               ref={passwordInput}
               autoComplete="current-password"
@@ -94,7 +94,7 @@ const ClientLogin = () => {
           </div>
           <button
             type="submit"
-            className="w-full py-2 bg-orange-400 hover:bg-orange-600 duration-700 text-black font-bold rounded"
+            className="w-full py-2 bg-orange-400 hover:bg-orange-600 duration-700 text-black font-bold "
           >
             {t("Login")}
           </button>

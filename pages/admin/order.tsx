@@ -211,7 +211,7 @@ export default function Order() {
                   )}
                 </div>
               </div>
-              <table className="rounded overflow-x-auto shadow-lg bg-gray-100 p-2 mt-3 print:shadow-none print:border-2 print:border-black print:bg-transparent">
+              <table className=" overflow-x-auto shadow-lg bg-gray-100 p-2 mt-3 print:shadow-none print:border-2 print:border-black print:bg-transparent">
                 <thead className="border-b-2 border-black">
                   <tr>
                     <th>{t("Nom")}</th>
@@ -312,7 +312,7 @@ export default function Order() {
                 </div>
               )} */}
             </div>
-            {/* <div className="shadow-lg my-2 mx-2 rounded p-4">
+            {/* <div className="shadow-lg my-2 mx-2  p-4">
               <h1 className="text-2xl font-bold">{currentOrder.type}</h1>
               <h2 className="text-xl font-bold">{currentOrder.prefix + currentOrder.number}</h2>
               <h3 className="text-lg font-bold">{formatDateAPIToBe(currentOrder.date)}</h3>
@@ -348,7 +348,7 @@ export default function Order() {
                   {currentOrder.docAddress.floor ? <p className="text-lg">Étage: {currentOrder.docAddress.floor}</p> : <></>}
                 </div>
               </div>
-              <table className="rounded overflow-x-auto shadow-lg bg-gray-100 p-2 mt-2">
+              <table className=" overflow-x-auto shadow-lg bg-gray-100 p-2 mt-2">
                 <thead>
                   <tr>
                     <th>{t("Nom")}</th>
@@ -403,7 +403,7 @@ export default function Order() {
                   </tr>
                 </tbody>
               </table>
-              <table className="rounded overflow-x-auto shadow-lg bg-gray-100 p-2 mt-2">
+              <table className=" overflow-x-auto shadow-lg bg-gray-100 p-2 mt-2">
                 <thead>
                   <tr>
                     <th>{t("Date")}</th>

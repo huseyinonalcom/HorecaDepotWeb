@@ -154,7 +154,7 @@ export default function Reservations() {
                 <div className="mt-2">
                   <div className="flex justify-center items-center space-x-1">
                     <button
-                      className="p-2 border rounded hover:bg-gray-200"
+                      className="p-2 border  hover:bg-gray-200"
                       onClick={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
                     >
@@ -168,7 +168,7 @@ export default function Reservations() {
                       ) : (
                         <button
                           key={index}
-                          className={`p-2 border rounded hover:bg-gray-200 ${
+                          className={`p-2 border  hover:bg-gray-200 ${
                             currentPage === page ? "bg-gray-300" : ""
                           }`}
                           onClick={() => goToPage(page)}
@@ -178,7 +178,7 @@ export default function Reservations() {
                       )
                     )}
                     <button
-                      className="p-2 border rounded hover:bg-gray-200"
+                      className="p-2 border  hover:bg-gray-200"
                       onClick={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
                     >

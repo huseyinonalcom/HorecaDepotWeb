@@ -227,7 +227,7 @@ export default function CheckOutInfo() {
         {addresses.map((address) => (
           <div
             key={"i" + address.id}
-            className="flex flex-row gap-2 shadow-lg rounded p-4 bg-white mt-2"
+            className="flex flex-row gap-2 shadow-lg  p-4 bg-white mt-2"
           >
             <input
               type="radio"
@@ -261,7 +261,7 @@ export default function CheckOutInfo() {
         {addresses.map((address) => (
           <div
             key={"d" + address.id}
-            className="flex flex-row gap-2 shadow-lg rounded p-4 bg-white mt-2"
+            className="flex flex-row gap-2 shadow-lg  p-4 bg-white mt-2"
           >
             <input
               type="radio"
@@ -470,7 +470,7 @@ export default function CheckOutInfo() {
               className="w-full mt-4 max-w-md space-y-4"
             >
               {error && (
-                <div className="bg-red-100 text-red-700 p-2 text-center rounded">
+                <div className="bg-red-100 text-red-700 p-2 text-center ">
                   {error}
                 </div>
               )}
@@ -479,7 +479,7 @@ export default function CheckOutInfo() {
                   {t("Utilisateur")}
                 </label>
                 <input
-                  className="w-full p-2 rounded border border-gray-300"
+                  className="w-full p-2  border border-gray-300"
                   type="text"
                   id="username"
                   value={username}
@@ -493,7 +493,7 @@ export default function CheckOutInfo() {
                   {t("Mote de Passe")}
                 </label>
                 <input
-                  className="w-full p-2 rounded border border-gray-300"
+                  className="w-full p-2  border border-gray-300"
                   type="password"
                   ref={passwordInput}
                   autoComplete="current-password"
@@ -529,7 +529,7 @@ export default function CheckOutInfo() {
           <div className="relative inline-block text-left z-40">
             <button
               type="button"
-              className="inline-flex justify-center rounded-md border border-gray-300 shadow-sm py-2 px-4 bg-blue-600 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none"
+              className="inline-flex justify-center -md border border-gray-300 shadow-sm py-2 px-4 bg-blue-600 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none"
               id="menu-button"
               aria-expanded="true"
               aria-haspopup="true"
@@ -552,7 +552,7 @@ export default function CheckOutInfo() {
             </button>
 
             <div
-              className={`absolute mt-2 bg-white rounded-md px-4 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
+              className={`absolute mt-2 bg-white -md px-4 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
                 isOpen
                   ? "transition ease-out duration-100 transform opacity-100 scale-100 visible"
                   : "invisible transition ease-in duration-75 transform opacity-0 scale-95"
@@ -631,8 +631,8 @@ export default function CheckOutInfo() {
               </div>
             </>
           )}
-          <div className="flex flex-col sm:flex-row">
-            <div className="flex flex-col pr-1 w-full sm:w-1/2">
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <div className="flex flex-col w-full sm:w-1/2">
               <InputOutlined
                 required
                 name="firstName"
@@ -650,7 +650,7 @@ export default function CheckOutInfo() {
                 type="text"
               />
             </div>
-            <div className="flex flex-col pl-1 w-full sm:w-1/2">
+            <div className="flex flex-col w-full sm:w-1/2">
               <InputOutlined
                 required
                 name="lastName"
@@ -684,8 +684,8 @@ export default function CheckOutInfo() {
               type="text"
             />
           </div>
-          <div className="flex flex-col sm:flex-row">
-            <div className="flex flex-col w-full pr-1 sm:w-8/12">
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <div className="flex flex-col w-full sm:w-8/12">
               <InputOutlined
                 required
                 name="street"
@@ -700,7 +700,7 @@ export default function CheckOutInfo() {
                 type="text"
               />
             </div>
-            <div className="flex flex-col w-full pl-1 sm:w-4/12">
+            <div className="flex flex-col w-full sm:w-4/12">
               <InputOutlined
                 required
                 name="doorNumber"
@@ -716,8 +716,8 @@ export default function CheckOutInfo() {
               />
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row">
-            <div className="flex flex-col w-full pr-1 sm:w-4/12">
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <div className="flex flex-col w-full sm:w-4/12">
               <InputOutlined
                 required
                 name="zipCode"
@@ -732,7 +732,7 @@ export default function CheckOutInfo() {
                 type="text"
               />
             </div>
-            <div className="flex flex-col w-full pl-1 sm:w-8/12">
+            <div className="flex flex-col w-full sm:w-8/12">
               <InputOutlined
                 required
                 name="city"
@@ -862,7 +862,7 @@ export default function CheckOutInfo() {
               {t("Code Promo")}
             </label>
             <input
-              className="w-full p-2 rounded border border-gray-300"
+              className="w-full p-2  border border-gray-300"
               type="text"
               id="promo"
               value={usedPromoCode}
@@ -898,7 +898,7 @@ export default function CheckOutInfo() {
                     <input
                       required
                       onChange={handleNewAddressExistingClientChange}
-                      className="w-full p-2 rounded border border-gray-300"
+                      className="w-full p-2  border border-gray-300"
                       type="text"
                       name="country"
                       value={newAddressExistingClient.country}
@@ -914,7 +914,7 @@ export default function CheckOutInfo() {
                     <input
                       required
                       onChange={handleNewAddressExistingClientChange}
-                      className="w-full p-2 rounded border border-gray-300"
+                      className="w-full p-2  border border-gray-300"
                       type="text"
                       name="street"
                       value={newAddressExistingClient.street}
@@ -928,7 +928,7 @@ export default function CheckOutInfo() {
                     <input
                       required
                       onChange={handleNewAddressExistingClientChange}
-                      className="w-full p-2 rounded border border-gray-300"
+                      className="w-full p-2  border border-gray-300"
                       type="text"
                       name="doorNumber"
                       value={newAddressExistingClient.doorNumber}
@@ -944,7 +944,7 @@ export default function CheckOutInfo() {
                     <input
                       required
                       onChange={handleNewAddressExistingClientChange}
-                      className="w-full p-2 rounded border border-gray-300"
+                      className="w-full p-2  border border-gray-300"
                       type="text"
                       name="zipCode"
                       value={newAddressExistingClient.zipCode}
@@ -958,7 +958,7 @@ export default function CheckOutInfo() {
                     <input
                       required
                       onChange={handleNewAddressExistingClientChange}
-                      className="w-full p-2 rounded border border-gray-300"
+                      className="w-full p-2  border border-gray-300"
                       type="text"
                       name="city"
                       value={newAddressExistingClient.city}

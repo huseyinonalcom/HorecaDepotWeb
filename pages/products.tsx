@@ -294,12 +294,12 @@ export default function Products() {
                 height={36}
                 width={36}
                 onClick={() => setCurrentSortDirection(!currentSortDirection)}
-                className={`rounded bg-white border-2 flex flex-row items-center duration-500 border-blue-500 p-1 ${
+                className={` bg-white border-2 flex flex-row items-center duration-500 border-blue-500 p-1 ${
                   currentSortDirection ? "rotate-0" : "rotate-180"
                 }`}
               />
               <div
-                className={`rounded flex flex-row items-center px-2 py-1 bg-white border-2 ${
+                className={` flex flex-row items-center px-2 py-1 bg-white border-2 ${
                   currentSort == "id" ? "border-blue-500" : ""
                 }`}
                 onClick={() => setCurrentSort("id")}
@@ -307,7 +307,7 @@ export default function Products() {
                 {t("Date")}
               </div>
               <div
-                className={`rounded flex flex-row items-center px-2 py-1 bg-white border-2 ${
+                className={` flex flex-row items-center px-2 py-1 bg-white border-2 ${
                   currentSort == "value" ? "border-blue-500" : ""
                 }`}
                 onClick={() => setCurrentSort("value")}
@@ -338,7 +338,7 @@ export default function Products() {
                 <div>
                   {currentCategory || currentSearch ? (
                     <div
-                      className={`rounded overflow-hidden shadow-lg bg-gray-100 p-4`}
+                      className={` overflow-hidden shadow-lg bg-gray-100 p-4`}
                     >
                       {currentSearch ? (
                         <div
@@ -407,7 +407,7 @@ export default function Products() {
               <div className="flex flex-col bg-slate-300 w-full">
                 <div>
                   {currentCategory || currentSearch ? (
-                    <div className={`rounded shadow-lg bg-gray-100 p-4`}>
+                    <div className={` shadow-lg bg-gray-100 p-4`}>
                       {currentSearch ? (
                         <div
                           style={{ cursor: "pointer" }}
@@ -492,7 +492,7 @@ export default function Products() {
                 <div className="mt-2">
                   <div className="flex justify-center items-center space-x-1">
                     <button
-                      className="p-2 border rounded hover:bg-gray-200"
+                      className="p-2 border  hover:bg-gray-200"
                       onClick={() => setCurrentPage(currentPage - 1)}
                       disabled={currentPage === 1}
                       name="Previous page"
@@ -508,7 +508,7 @@ export default function Products() {
                       ) : (
                         <button
                           key={index}
-                          className={`p-2 border rounded hover:bg-gray-200 ${
+                          className={`p-2 border  hover:bg-gray-200 ${
                             currentPage === page ? "bg-gray-300" : ""
                           }`}
                           onClick={() => setCurrentPage(page)}
@@ -518,7 +518,7 @@ export default function Products() {
                       )
                     )}
                     <button
-                      className="p-2 border rounded hover:bg-gray-200"
+                      className="p-2 border  hover:bg-gray-200"
                       onClick={() => setCurrentPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
                       name="Next page"

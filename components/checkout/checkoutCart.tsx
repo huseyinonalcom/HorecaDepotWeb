@@ -43,11 +43,11 @@ export default function CheckOutCart() {
   }
 
   return (
-    <div className="grid gap-2 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 auto-rows-min">
+    <div className="grid gap-2 grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 auto-rows-min">
       {cart.map((product) => (
         <div
           key={product.id}
-          className="mb-2 flex flex-col rounded
+          className="mb-2 flex flex-col 
           shadow-lg bg-white p-4 w-full h-[230px]"
         >
           <div className="flex flex-col items-center w-full">

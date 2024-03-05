@@ -183,7 +183,7 @@ const ProductPage = ({
             <div className="flex flex-row gap-2 items-center">
               {product.priceBeforeDiscount <= product.value ? null : (
                 <>
-                  <div className="font-bold text-white bg-green-700 rounded p-1">
+                  <div className="font-bold text-white bg-green-700  p-1">
                     {(
                       ((product.value - product.priceBeforeDiscount) /
                         product.priceBeforeDiscount) *

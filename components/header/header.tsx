@@ -208,7 +208,7 @@ const Header = () => {
               href="/wishlist"
             >
               <Heart />
-              <span className="absolute top-3 right-3 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-orange-400 rounded-full">
+              <span className="absolute top-3 right-3 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-orange-400 -full">
                 {wishlist.length}
               </span>
             </Link>
@@ -218,7 +218,7 @@ const Header = () => {
               onClick={openDrawer}
             >
               <ShoppingBag />
-              <span className="absolute top-3 right-3 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-orange-400 rounded-full">
+              <span className="absolute top-3 right-3 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-orange-400 -full">
                 {cartItems}
               </span>
             </button>

@@ -14,7 +14,7 @@ export default function Legal() {
         </Head>
 
         <div className="w-[90vw] mx-auto py-2">
-        <div className={`rounded overflow-hidden shadow-lg bg-gray-100 p-4`}>
+        <div className={` overflow-hidden shadow-lg bg-gray-100 p-4`}>
             <p>Privacy Policy</p>
             <p>Your security is important to us. For this reason, the personal data you share with us is carefully protected.</p>
             <p>

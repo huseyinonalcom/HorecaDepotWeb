@@ -58,15 +58,15 @@ export default function Admin() {
         <meta name="language" content={lang} />
       </Head>
       <div className="flex justify-center items-center min-h-screen">
-        <form onSubmit={handleSubmit} className="w-full max-w-md p-4 rounded shadow-lg space-y-4 bg-white">
+        <form onSubmit={handleSubmit} className="w-full max-w-md p-4  shadow-lg space-y-4 bg-white">
           <h2 className="text-xl font-bold text-center">ADMIN LOGIN</h2>
-          {error && <div className="bg-red-100 text-red-700 p-2 text-center rounded">{error}</div>}
+          {error && <div className="bg-red-100 text-red-700 p-2 text-center ">{error}</div>}
           <div>
             <label htmlFor="username" className="font-bold text-lg">
               {t("Utilisateur")}
             </label>
             <input
-              className="w-full p-2 rounded border border-gray-300"
+              className="w-full p-2  border border-gray-300"
               type="text"
               id="username"
               value={username}
@@ -80,7 +80,7 @@ export default function Admin() {
               {t("Mote de Passe")}
             </label>
             <input
-              className="w-full p-2 rounded border border-gray-300"
+              className="w-full p-2  border border-gray-300"
               type="password"
               ref={passwordInput}
               autoComplete="current-password"
@@ -89,7 +89,7 @@ export default function Admin() {
               placeholder={t("Mote de Passe")}
             />
           </div>
-          <button type="submit" className="w-full py-2 bg-black hover:bg-gray-600 text-white rounded">
+          <button type="submit" className="w-full py-2 bg-black hover:bg-gray-600 text-white ">
             Login
           </button>
         </form>

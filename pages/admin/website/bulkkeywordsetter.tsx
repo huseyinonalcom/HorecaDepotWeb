@@ -9,7 +9,7 @@ import { Check, Search, Upload, X } from "react-feather";
 import Image from "next/image";
 
 const buttonClass =
-  "flex flex-row items-center justify-start py-2 rounded shadow-lg hover:bg-orange-400 overflow-hidden duration-500 cursor-pointer";
+  "flex flex-row items-center justify-start py-2  shadow-lg hover:bg-orange-400 overflow-hidden duration-500 cursor-pointer";
 const navIconDivClass = "flex flex-row justify-center flex-shrink-0 w-[35px]";
 const iconClass = "flex-shrink-0";
 const textClass = "mx-2 font-bold mtext-left";
@@ -189,7 +189,7 @@ export default function Order() {
             </div>
             <div className="flex flex-col justify-center">
               <textarea
-                className="w-full p-2 rounded border border-gray-300"
+                className="w-full p-2  border border-gray-300"
                 id="tags"
                 required
                 value={inputTags}

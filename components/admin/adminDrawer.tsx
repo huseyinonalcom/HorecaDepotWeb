@@ -28,7 +28,7 @@ const AdminDrawer = () => {
 
   const drawerClass = isAdminDrawerOpen ? `w-[250px]` : `w-[73px] min-w-[73px]`;
   const buttonClass =
-    "flex items-center justify-start bg-white py-2 rounded shadow-lg hover:bg-orange-400 overflow-hidden duration-500";
+    "flex items-center justify-start bg-white py-2 shadow-lg hover:bg-orange-400 overflow-hidden duration-500";
   const iconClass = "flex-shrink-0";
   const navIconDivClass =
     "flex flex-row justify-center min-w-[40px] flex-shrink-0";
@@ -41,7 +41,7 @@ const AdminDrawer = () => {
         <nav className="flex flex-col h-full justify-between">
           <div className="flex flex-col gap-1">
             <button
-              className="ml-auto w-[30px] rounded flex flex-row justify-center mb-2 bg-black text-white shadow-lg  hover:bg-orange-400 duration-500"
+              className="ml-auto w-[30px] flex flex-row justify-center mb-2 bg-black text-white shadow-lg  hover:bg-orange-400 duration-500"
               onClick={isAdminDrawerOpen ? closeAdminDrawer : openAdminDrawer}
             >
               <ChevronLeft
@@ -201,4 +201,4 @@ const AdminDrawer = () => {
 };
 
 export default AdminDrawer;
-<div className="p-[5px] duration-500 ml-auto rounded bg-black text-white hover:bg-orange-400 cursor-pointer"></div>;
+<div className="p-[5px] duration-500 ml-auto bg-black text-white hover:bg-orange-400 cursor-pointer"></div>;

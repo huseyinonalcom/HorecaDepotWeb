@@ -9,7 +9,7 @@ import LoadingIndicator from "../../components/common/loadingIndicator";
 import componentThemes from "../../components/componentThemes";
 
 const buttonClass =
-  "flex flex-row items-center justify-start py-2 rounded shadow-lg hover:bg-orange-400 overflow-hidden duration-500 cursor-pointer";
+  "flex flex-row items-center justify-start py-2  shadow-lg hover:bg-orange-400 overflow-hidden duration-500 cursor-pointer";
 const navIconDivClass = "flex flex-row justify-center flex-shrink-0 w-[35px]";
 const iconClass = "flex-shrink-0";
 const textClass = "mx-2 font-bold mtext-left";
@@ -178,7 +178,7 @@ export default function Order() {
           </div>
           <form onSubmit={postCollection}>
             <input
-              className="w-full p-2 rounded border border-gray-300"
+              className="w-full p-2  border border-gray-300"
               type="text"
               id="name"
               required
@@ -269,7 +269,7 @@ export default function Order() {
           </div>
           <form onSubmit={putCollection} className="grid grid-cols-2">
             <input
-              className="w-full p-2 rounded border border-gray-300"
+              className="w-full p-2  border border-gray-300"
               type="text"
               id="name"
               required
@@ -278,7 +278,7 @@ export default function Order() {
               placeholder={t("Name")}
             />
             <input
-              className="w-full p-2 rounded border border-gray-300"
+              className="w-full p-2  border border-gray-300"
               type="text"
               id="category"
               required
@@ -287,7 +287,7 @@ export default function Order() {
               placeholder={t("Category")}
             />
             <input
-              className="w-full p-2 rounded border border-gray-300"
+              className="w-full p-2  border border-gray-300"
               type="text"
               id="description"
               required
@@ -296,7 +296,7 @@ export default function Order() {
               placeholder={t("Description")}
             />
             <textarea
-              className="w-full p-2 rounded border border-gray-300"
+              className="w-full p-2  border border-gray-300"
               id="tags"
               required
               value={inputTags}
@@ -407,7 +407,7 @@ export default function Order() {
             </div>
             <div className="flex flex-row">
               <input
-                className="w-full p-2 rounded border border-gray-300"
+                className="w-full p-2  border border-gray-300"
                 type="text"
                 id="background"
                 required
@@ -416,7 +416,7 @@ export default function Order() {
                 placeholder={t("Background (hex code)")}
               />
               <input
-                className="w-full p-2 rounded border border-gray-300"
+                className="w-full p-2  border border-gray-300"
                 type="text"
                 id="text"
                 required
@@ -427,14 +427,14 @@ export default function Order() {
             </div>
             {inputRight ? (
               <div
-                className={`bg-slate-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
+                className={`bg-slate-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
                 onClick={() => setInputRight(false)}
               >
                 {t("Right")}
               </div>
             ) : (
               <div
-                className={`bg-slate-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
+                className={`bg-slate-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
                 onClick={() => setInputRight(true)}
               >
                 {t("Left")}
@@ -442,14 +442,14 @@ export default function Order() {
             )}
             {inputFeatured ? (
               <div
-                className={`bg-green-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
+                className={`bg-green-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
                 onClick={() => setInputFeatured(false)}
               >
                 {t("Featured")}
               </div>
             ) : (
               <div
-                className={`bg-red-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
+                className={`bg-red-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
                 onClick={() => setInputFeatured(true)}
               >
                 {t("Not Featured")}

@@ -79,7 +79,7 @@ const CollectionPreview = ({ collection }: Props) => {
   return (
     <div
       key={collection.id}
-      className="flex flex-row shadow-lg gap-2 bg-white p-2 rounded"
+      className="flex flex-row shadow-lg gap-2 bg-white p-2"
     >
       <div className="flex flex-col">
         <p className="text-xl font-bold">{collection.name}</p>
@@ -148,14 +148,14 @@ const CollectionPreview = ({ collection }: Props) => {
             <div className="flex flex-row">
               {featured == true ? (
                 <div
-                  className={`bg-green-300 cursor-pointer rounded border-1 border-black items-center py-1 px-2 justify-center flex flex-col`}
+                  className={`bg-green-300 cursor-pointer  border-1 border-black items-center py-1 px-2 justify-center flex flex-col`}
                   onClick={toggleCollectionFeatured}
                 >
                   {t("Actif")}
                 </div>
               ) : (
                 <div
-                  className={`bg-red-300 cursor-pointer rounded border-1 border-black items-center py-1 px-2 justify-center flex flex-col`}
+                  className={`bg-red-300 cursor-pointer  border-1 border-black items-center py-1 px-2 justify-center flex flex-col`}
                   onClick={toggleCollectionFeatured}
                 >
                   {t("Inactif")}

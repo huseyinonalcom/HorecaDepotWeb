@@ -308,7 +308,7 @@ export default function Order() {
                   )}
                 </div>
               </div>
-              <table className="rounded overflow-x-auto shadow-lg bg-gray-100 p-2 mt-3 print:shadow-none print:border-2 print:border-black print:bg-transparent">
+              <table className=" overflow-x-auto shadow-lg bg-gray-100 p-2 mt-3 print:shadow-none print:border-2 print:border-black print:bg-transparent">
                 <thead className="border-b-2 border-black">
                   <tr>
                     <th>{t("Nom")}</th>

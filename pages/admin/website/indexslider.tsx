@@ -203,7 +203,7 @@ export default function IndexSlider() {
                         );
                         setImageUrls(newImageUrls);
                       }}
-                      className={`absolute bottom-10 left-10 bg-black p-4 rounded text-red-500 z-50 ${
+                      className={`absolute bottom-10 left-10 bg-black p-4  text-red-500 z-50 ${
                         currentImage === index ? "" : "hidden"
                       }`}
                     >
@@ -212,7 +212,7 @@ export default function IndexSlider() {
                     <div className="absolute bottom-10 right-10 z-50">
                       <form className="flex flex-col">
                         <input
-                          className={`p-2 rounded border border-gray-300 ${
+                          className={`p-2  border border-gray-300 ${
                             currentImage === index ? "" : "hidden"
                           }`}
                           type="text"
@@ -234,7 +234,7 @@ export default function IndexSlider() {
                               [img.id]: inputValues[img.id],
                             });
                           }}
-                          className={`bg-black p-4 rounded text-green-500 ${
+                          className={`bg-black p-4  text-green-500 ${
                             currentImage === index ? "" : "hidden"
                           }`}
                         >

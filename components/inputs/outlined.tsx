@@ -39,7 +39,7 @@ const InputOutlined = ({
           onChange={onChange}
           onKeyDown={onKeyDown}
           id="input"
-          className="block px-2.5 pb-1.5 pt-3 bg-white w-full text-sm text-black bg-transparent rounded-0 border-2 border-gray-300 outline-none focus:ring-0 focus:border-orange-400 peer"
+          className="block px-2.5 pb-1.5 pt-3 bg-white w-full text-sm text-black bg-transparent -0 border-2 border-gray-300 outline-none focus:ring-0 focus:border-orange-400 peer"
           placeholder=""
         />
         <label

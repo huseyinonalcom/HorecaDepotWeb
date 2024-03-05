@@ -85,7 +85,7 @@ const ProductPreview = ({ product, width }: Props) => {
         <div className="absolute top-2 left-2 flex flex-col gap-2">
           {product.priceBeforeDiscount ? (
             <button
-              className="flex items-center justify-center bg-green-700 h-12 w-12 font-bold rounded-full text-sm text-white overflow-hidden"
+              className="flex items-center justify-center bg-green-700 h-12 w-12 font-bold -full text-sm text-white overflow-hidden"
               style={{ padding: "1em", borderRadius: "50%" }}
               onClick={() => router.push(`/products/${product.id}`)}
             >

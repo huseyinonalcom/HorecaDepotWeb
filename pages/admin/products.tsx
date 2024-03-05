@@ -51,7 +51,7 @@ export default function Products() {
   const [currentCategory, setCurrentCategory] = useState(0);
 
   const buttonClass =
-    "flex flex-row items-center justify-start py-2 rounded shadow-lg hover:bg-orange-400 overflow-hidden duration-500 cursor-pointer";
+    "flex flex-row items-center justify-start py-2  shadow-lg hover:bg-orange-400 overflow-hidden duration-500 cursor-pointer";
   const navIconDivClass = "flex flex-row justify-center flex-shrink-0 w-[35px]";
   const iconClass = "flex-shrink-0";
   const textClass = "mx-2 font-bold text-left";
@@ -977,12 +977,12 @@ export default function Products() {
                 height={36}
                 width={36}
                 onClick={() => setCurrentSortDirection(!currentSortDirection)}
-                className={`rounded bg-white border-2 duration-500 border-blue-500 p-1 ${
+                className={` bg-white border-2 duration-500 border-blue-500 p-1 ${
                   currentSortDirection ? "rotate-0" : "rotate-180"
                 }`}
               />
               <div
-                className={`rounded px-2 py-1 bg-white border-2 ${
+                className={` px-2 py-1 bg-white border-2 ${
                   currentSort == "id" ? "border-blue-500" : ""
                 }`}
                 onClick={() => setCurrentSort("id")}
@@ -990,7 +990,7 @@ export default function Products() {
                 {t("Date")}
               </div>
               <div
-                className={`rounded px-2 py-1 bg-white border-2 ${
+                className={` px-2 py-1 bg-white border-2 ${
                   currentSort == "value" ? "border-blue-500" : ""
                 }`}
                 onClick={() => setCurrentSort("value")}
@@ -1183,7 +1183,7 @@ export default function Products() {
                 <div className="flex flex-row px-6 justify-center mb-2 mt-2">
                   <div className="flex justify-center items-center space-x-1">
                     <button
-                      className="p-2 border rounded hover:bg-gray-200"
+                      className="p-2 border  hover:bg-gray-200"
                       onClick={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
                     >
@@ -1197,7 +1197,7 @@ export default function Products() {
                       ) : (
                         <button
                           key={index}
-                          className={`p-2 border rounded hover:bg-gray-200 ${
+                          className={`p-2 border  hover:bg-gray-200 ${
                             currentPage === page ? "bg-gray-300" : ""
                           }`}
                           onClick={() => goToPage(page)}
@@ -1207,7 +1207,7 @@ export default function Products() {
                       )
                     )}
                     <button
-                      className="p-2 border rounded hover:bg-gray-200"
+                      className="p-2 border  hover:bg-gray-200"
                       onClick={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
                     >
@@ -1813,14 +1813,14 @@ export default function Products() {
                         {currentProduct && currentProduct.id != 0 ? (
                           currentProduct.product_extra.new ? (
                             <div
-                              className={`bg-green-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
+                              className={`bg-green-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
                               onClick={toggleProductNew}
                             >
                               {t("Featured")}
                             </div>
                           ) : (
                             <div
-                              className={`bg-red-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
+                              className={`bg-red-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
                               onClick={toggleProductNew}
                             >
                               {t("Normal")}
@@ -1830,14 +1830,14 @@ export default function Products() {
                         {currentProduct && currentProduct.id != 0 ? (
                           currentProduct.active ? (
                             <div
-                              className={`bg-green-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
+                              className={`bg-green-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
                               onClick={toggleProductActive}
                             >
                               {t("Actif")}
                             </div>
                           ) : (
                             <div
-                              className={`bg-red-300 cursor-pointer rounded border-1 border-black items-center justify-center flex flex-col`}
+                              className={`bg-red-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
                               onClick={toggleProductActive}
                             >
                               {t("Inactif")}

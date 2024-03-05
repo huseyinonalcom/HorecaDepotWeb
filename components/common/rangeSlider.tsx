@@ -100,11 +100,11 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
     <div className="w-full py-2 flex flex-col gap-2">
       <div
         ref={rangeRef}
-        className="w-full h-4 lg:h-2 bg-gray-200 rounded-md relative"
+        className="w-full h-4 lg:h-2 bg-gray-200 -md relative"
         onMouseDown={handleBarClick}
       >
         <div
-          className="absolute bg-blue-500 h-4 lg:h-2 rounded-md cursor-pointer"
+          className="absolute bg-blue-500 h-4 lg:h-2 -md cursor-pointer"
           style={{
             top: "50%",
             transform: "translateY(-50%)",
@@ -116,7 +116,7 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
         />
         <div
           onMouseDown={handleMouseDown("min")}
-          className="absolute w-6 h-6 lg:h-3 lg:w-3 bg-blue-500 rounded-full cursor-pointer"
+          className="absolute w-6 h-6 lg:h-3 lg:w-3 bg-blue-500 -full cursor-pointer"
           style={{
             top: "50%",
             transform: "translate(-50%, -50%)",
@@ -125,7 +125,7 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
         />
         <div
           onMouseDown={handleMouseDown("max")}
-          className="absolute w-6 h-6 lg:h-3 lg:w-3 bg-blue-500 rounded-full cursor-pointer"
+          className="absolute w-6 h-6 lg:h-3 lg:w-3 bg-blue-500 -full cursor-pointer"
           style={{
             top: "50%",
             transform: "translate(-50%, -50%)",
