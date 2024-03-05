@@ -25,6 +25,9 @@ import { CategoryContext } from "../../api/providers/categoryProvider";
 import { Category } from "../../api/interfaces/category";
 import ButtonShadow1 from "../../components/buttons/shadow_1";
 import { read, utils, write } from "xlsx";
+import validateInteger from "../../api/utils/input_validators/validate_integer";
+import validateEmpty from "../../api/utils/input_validators/validate_empty";
+import validateDecimal from "../../api/utils/input_validators/validate_decimal";
 
 export default function Products() {
   const { t, lang } = useTranslation("common");
@@ -764,24 +767,6 @@ export default function Products() {
       setInProgress(false);
       setCurrentProduct(null);
     }
-  };
-
-  // Reusable validators
-  const validateDecimal = (value: string) => {
-    const num = Number(value.replaceAll(",", "."));
-    if (isNaN(num) || num < 0) return t("Décimal invalide");
-    return "";
-  };
-
-  const validateInteger = (value: String) => {
-    if (value.includes(",") || value.includes(".")) return t("Entier invalide");
-    const num = Number(value);
-    if (isNaN(num) || num < 0) return t("Entier invalide");
-    return "";
-  };
-
-  const validateEmpty = (value: string) => {
-    return value.trim() === "" ? t("Champ requis") : "";
   };
 
   // Unified change handler

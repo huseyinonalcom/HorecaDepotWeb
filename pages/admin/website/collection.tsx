@@ -7,6 +7,7 @@ import Head from "next/head";
 import componentThemes from "../../../components/componentThemes";
 import { Check, Search, Upload, X } from "react-feather";
 import Image from "next/image";
+import InputOutlined from "../../../components/inputs/outlined";
 
 const buttonClass =
   "flex flex-row items-center justify-start py-2 rounded shadow-lg hover:bg-orange-400 overflow-hidden duration-500 cursor-pointer";
@@ -309,7 +310,7 @@ export default function Order() {
                 <div className="flex flex-col max-h-[350px] p-2 gap-1 overflow-y-scroll">
                   <div className="flex flex-row border-b-2 border-black">
                     <textarea
-                    className="w-full h-[30px]"
+                      className="w-full h-[30px]"
                       value={productSearch}
                       onChange={(e) => {
                         setProductSearch(e.target.value.trim());
@@ -439,6 +440,10 @@ export default function Order() {
                 {submitError}
               </p>
             )}
+            <div>
+              <InputOutlined name="test1" type="text" />
+              <InputOutlined name="test1" type="text" />
+            </div>
           </form>
         </div>
       </AdminLayout>
