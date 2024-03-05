@@ -60,7 +60,7 @@ const ProductPreview = ({ product, width }: Props) => {
   }
 
   const imgDimensions = `${widthString} aspect-square`;
-  const contentDimensions = ` ${widthString} h-[75px]`;
+  const contentDimensions = ` ${widthString}`;
 
   return (
     <div
@@ -68,18 +68,20 @@ const ProductPreview = ({ product, width }: Props) => {
       className={`flex flex-col items-center group w-full text-black`}
     >
       <div id={`${product.id}-image`} className={`relative ${imgDimensions}`}>
-        <Link href={`/products/${product.id}`}><Image
-        className="p-3"
-          sizes="(max-width: 768px) 95vw, (max-width: 1024px) 48vw, 20vw"
-          src={
-            product.images != null
-              ? "https://hdapi.huseyinonalalpha.com" + product.images.at(0).url
-              : "/assets/img/placeholder.png"
-          }
-          fill
-          style={{ objectFit: "contain", cursor: "pointer" }}
-          alt={product.name}
-        /></Link>
+        <Link href={`/products/${product.id}`}>
+          <Image
+            sizes="(max-width: 768px) 95vw, (max-width: 1024px) 48vw, 20vw"
+            src={
+              product.images != null
+                ? "https://hdapi.huseyinonalalpha.com" +
+                  product.images.at(0).url
+                : "/assets/img/placeholder.png"
+            }
+            fill
+            style={{ objectFit: "contain", cursor: "pointer" }}
+            alt={product.name}
+          />
+        </Link>
         <div className="absolute top-2 left-2 flex flex-col gap-2">
           {product.priceBeforeDiscount ? (
             <button
@@ -91,7 +93,7 @@ const ProductPreview = ({ product, width }: Props) => {
             </button>
           ) : null}
         </div>
-        <div className="absolute top-2 lg:top-6 group-hover:top-2 opacity-100 lg:opacity-0 group-hover:opacity-100 duration-500 right-2 flex flex-col gap-2">
+        <div className="hidden absolute top-2 lg:top-6 group-hover:top-2 opacity-100 lg:opacity-0 group-hover:opacity-100 duration-500 right-2 lg:flex flex-col gap-2">
           <button
             name={`Add ${product.name} to Cart`}
             aria-label={`Add ${product.name} to Cart`}
@@ -116,24 +118,41 @@ const ProductPreview = ({ product, width }: Props) => {
       </div>
       <div
         id={`${product.id}-content`}
-        className={"flex flex-col items-center " + contentDimensions}
+        className={
+          "flex flex-col items-center " + contentDimensions
+        }
       >
-        <h3 className="h-[25px] group-hover:h-[0px] text-base font-bold mt-3 w-full justify-center overflow-hidden duration-700 px-2">
-          <AutoTextSize mode="oneline" maxFontSizePx={16}>
-            {`${product.name}`}
-          </AutoTextSize>
-        </h3>
-        <h4 className="h-[19px] group-hover:h-[0px] text-sm font-semibold w-full justify-center overflow-hidden duration-700 px-2">
-          <AutoTextSize mode="oneline" maxFontSizePx={13}>
-            {`${product.internalCode != "0" ? product.internalCode : ""}`}
-          </AutoTextSize>
-        </h4>
-        <Link
-          className="h-[0px] group-hover:h-[44px] text-lg overflow-hidden duration-700 text-left text-orange-400 font-bold"
-          href={"/products/" + product.id}
-        >
-          {t("+ Voir details")}
-        </Link>
+        <div className="hidden lg:flex flex-col items-center">
+          <h3 className="h-[25px] text-base font-bold w-full justify-center overflow-hidden duration-700 px-2">
+            <AutoTextSize mode="oneline" maxFontSizePx={16}>
+              {`${product.name}`}
+            </AutoTextSize>
+          </h3>
+          <h4 className="h-[19px] group-hover:h-[0px] text-sm font-semibold w-full justify-center overflow-hidden duration-700 px-2">
+            <AutoTextSize mode="oneline" maxFontSizePx={13}>
+              {`${product.internalCode != "0" ? product.internalCode : ""}`}
+            </AutoTextSize>
+          </h4>
+          <Link
+            className="h-[0px] group-hover:h-[19px] text-sm overflow-hidden duration-700 text-left text-orange-400 font-bold"
+            href={"/products/" + product.id}
+          >
+            {t("+ Voir details")}
+          </Link>
+        </div>
+        <div className="flex lg:hidden flex-col items-center">
+          <h3 className="h-[25px] text-base font-bold w-full justify-center px-2">
+            <AutoTextSize mode="oneline" maxFontSizePx={16}>
+              {`${product.name}`}
+            </AutoTextSize>
+          </h3>
+          <h4 className="h-[19px] text-sm font-semibold w-full justify-center px-2">
+            <AutoTextSize mode="oneline" maxFontSizePx={13}>
+              {`${product.internalCode != "0" ? product.internalCode : ""}`}
+            </AutoTextSize>
+          </h4>
+        </div>
+
         <div className="w-full flex flex-row items-end justify-center">
           <p className="mr-1 text-gray-700 text-sm line-through justify-end mb-0.5">
             {product.priceBeforeDiscount > product.value
@@ -144,6 +163,29 @@ const ProductPreview = ({ product, width }: Props) => {
           <h4 className="text-lg font-bold">
             € {product.value.toFixed(2).replaceAll(".", ",")}
           </h4>
+        </div>
+
+        <div className="w-full flex lg:hidden flex-row-reverse justify-center gap-2">
+          <button
+            name={`Add ${product.name} to Cart`}
+            aria-label={`Add ${product.name} to Cart`}
+            className="duration-500 p-2 bg-white shadow-md hover:text-green-500"
+            onClick={() => addToCart(convertToCartProduct(product))}
+          >
+            <div className="flex flex-row justify-center w-full h-full items-center">
+              <ShoppingCart />
+            </div>
+          </button>
+          <button
+            name={`Add ${product.name} to Wishlist`}
+            aria-label={`Add ${product.name} to Wishlist`}
+            className="duration-500 p-2 bg-white shadow-md hover:text-red-500"
+            onClick={() => addToWishlist(convertToWishlistProduct(product))}
+          >
+            <div className="flex flex-row justify-center w-full h-full items-center">
+              <Heart />
+            </div>
+          </button>
         </div>
       </div>
     </div>
