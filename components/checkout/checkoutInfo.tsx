@@ -8,6 +8,7 @@ import { Address } from "../../api/interfaces/address";
 import Link from "next/link";
 import { Document } from "../../api/interfaces/document";
 import { useRouter } from "next/navigation";
+import InputOutlined from "../inputs/outlined";
 
 export default function CheckOutInfo() {
   const { t, lang } = useTranslation("common");
@@ -641,7 +642,7 @@ export default function CheckOutInfo() {
           )}
           <div className="flex flex-col sm:flex-row">
             <div className="flex flex-col w-full sm:w-1/2">
-              <h3 className="">{t("Votre Prénom")}</h3>
+              {/* <h3 className="">{t("Votre Prénom")}</h3>
               <div className="pr-4">
                 <input
                   required
@@ -652,7 +653,12 @@ export default function CheckOutInfo() {
                   value={newClient.client_info.firstName}
                   placeholder={t("Votre Prénom")}
                 />
-              </div>
+              </div> */}
+              <InputOutlined
+                name="firstName"
+                label={t("firstName")}
+                type="text"
+              />
             </div>
             <div className="flex flex-col w-full sm:w-1/2">
               <h3 className="">{t("Votre Nom de famille")}</h3>

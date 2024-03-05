@@ -4,6 +4,7 @@ type Props = {
   onSubmit?;
   value?: string;
   name: string;
+  label?: string;
   type: string;
   error?: string;
 };
@@ -14,11 +15,12 @@ const InputOutlined = ({
   onSubmit,
   value,
   name,
+  label,
   type,
   error,
 }: Props) => {
   return (
-    <div>
+    <div className="w-full">
       <div className="relative">
         <input
           type={type}
@@ -42,7 +44,7 @@ const InputOutlined = ({
           aria-label={`label for ${name}`}
           className="absolute text-sm text-gray-800 duration-300 transform -translate-y-3 scale-75 top-1 z-10 origin-[0] bg-white px-2 ml-1 peer-placeholder-shown:text-gray-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-1 peer-focus:scale-75 peer-focus:-translate-y-3 start-1"
         >
-          {name}
+          {label ?? name}
         </label>
       </div>
       {error && (
