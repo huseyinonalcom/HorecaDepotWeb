@@ -128,7 +128,6 @@ const Header = () => {
     "duration-300 font-bold underline-animation-white whitespace-nowrap";
 
   const [isHeaderDrawerOpen, setIsHeaderDrawerOpen] = useState(false);
-  const [showLanguages, setShowLanguages] = useState(false);
 
   function onClickOutsideDrawer() {
     setIsHeaderDrawerOpen(false);
@@ -308,8 +307,8 @@ const Header = () => {
               className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
             />
 
-            <ul className="absolute shadow-md items-center hidden text-gray-700 pt-1 right-[5px] group-hover:block w-max mx-auto">
-              <li className="pb-1 bg-neutral-300 ">
+            <ul className="absolute shadow-md items-center invisible text-gray-700 pt-1 right-[5px] block group-hover:visible w-max mx-auto duration-300 opacity-0 group-hover:opacity-100">
+              <li className="pb-1 bg-black">
                 <button
                   onClick={async () => await setLanguage("en")}
                   className={`${flagButtonClass} ${
@@ -326,7 +325,7 @@ const Header = () => {
                   />
                 </button>
               </li>
-              <li className="pb-1 bg-neutral-300 ">
+              <li className="pb-1 bg-black">
                 <button
                   onClick={async () => await setLanguage("fr")}
                   className={`${flagButtonClass} ${
@@ -343,7 +342,7 @@ const Header = () => {
                   />
                 </button>
               </li>
-              <li className="pb-1 bg-neutral-300 ">
+              <li className="pb-1 bg-black">
                 <button
                   onClick={async () => await setLanguage("nl")}
                   className={`${flagButtonClass} ${
@@ -360,7 +359,7 @@ const Header = () => {
                   />
                 </button>
               </li>
-              <li className="pb-1 bg-neutral-300">
+              <li className="pb-1 bg-black">
                 <button
                   onClick={async () => await setLanguage("de")}
                   className={`${flagButtonClass} ${
@@ -377,7 +376,7 @@ const Header = () => {
                   />
                 </button>
               </li>
-              <li className="bg-neutral-300">
+              <li className="pb-1 bg-black">
                 <button
                   onClick={async () => await setLanguage("tr")}
                   className={`${flagButtonClass} ${
