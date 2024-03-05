@@ -298,95 +298,103 @@ const Header = () => {
               {t("À PROPOS DE NOUS")}
             </Link>
           </div>
+          <div className="group hidden lg:inline-block w-[70px] flex-shrink-0 relative">
+            <Image
+              src={`/assets/header/${lang.toUpperCase()}.svg`}
+              alt={t("locale")}
+              width={54}
+              height={36}
+              style={{ width: "54px", height: "36px" }}
+              className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
+            />
 
-          <div className="relative hidden lg:flex flex-row items-center flex-shrink-0 justify-center text-white h-full duration-300 text-sm pr-3">
-            <button
-              onMouseEnter={() => setShowLanguages(true)}
-              onClick={() => setShowLanguages(!showLanguages)}
-            >
-              <Image
-                src={`/assets/header/${lang.toUpperCase()}.svg`}
-                alt={t("locale")}
-                width={54}
-                height={36}
-                style={{ width: "54px", height: "36px" }}
-                className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-              />
-            </button>
-
-            <div
-              onMouseLeave={() => setShowLanguages(false)}
-              className={`absolute top-full mt-2 flex flex-col items-center w-[80px] bg-black duration-300 shadow-md ${
-                showLanguages ? `visible opacity-100` : `invisible opacity-0`
-              }`}
-            >
-              <button
-                onClick={async () => await setLanguage("en")}
-                className={`${flagButtonClass} ${lang == "en" ? "hidden" : ""}`}
-              >
-                <Image
-                  src={`/assets/header/EN.svg`}
-                  alt={t("locale")}
-                  width={44}
-                  height={29.34}
-                  style={{ width: "44px", height: "29.34px" }}
-                  className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-                />
-              </button>
-              <button
-                onClick={async () => await setLanguage("fr")}
-                className={`${flagButtonClass} ${lang == "fr" ? "hidden" : ""}`}
-              >
-                <Image
-                  src={`/assets/header/FR.svg`}
-                  alt={t("locale")}
-                  width={44}
-                  height={29.34}
-                  style={{ width: "44px", height: "29.34px" }}
-                  className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-                />
-              </button>
-              <button
-                onClick={async () => await setLanguage("nl")}
-                className={`${flagButtonClass} ${lang == "nl" ? "hidden" : ""}`}
-              >
-                <Image
-                  src={`/assets/header/NL.svg`}
-                  alt={t("locale")}
-                  width={44}
-                  height={29.34}
-                  style={{ width: "44px", height: "29.34px" }}
-                  className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-                />
-              </button>
-              <button
-                onClick={async () => await setLanguage("de")}
-                className={`${flagButtonClass} ${lang == "de" ? "hidden" : ""}`}
-              >
-                <Image
-                  src={`/assets/header/DE.svg`}
-                  alt={t("locale")}
-                  width={44}
-                  height={29.34}
-                  style={{ width: "44px", height: "29.34px" }}
-                  className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-                />
-              </button>
-              <button
-                onClick={async () => await setLanguage("tr")}
-                className={`${flagButtonClass} ${lang == "tr" ? "hidden" : ""}`}
-              >
-                <Image
-                  src={`/assets/header/TR.svg`}
-                  alt={t("locale")}
-                  width={44}
-                  height={29.34}
-                  style={{ width: "44px", height: "29.34px" }}
-                  className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-                />
-              </button>
-              <div className="h-2"></div>
-            </div>
+            <ul className="absolute shadow-md items-center hidden text-gray-700 pt-1 right-[5px] group-hover:block w-max mx-auto">
+              <li className="pb-1 bg-neutral-300 ">
+                <button
+                  onClick={async () => await setLanguage("en")}
+                  className={`${flagButtonClass} ${
+                    lang == "en" ? "hidden" : ""
+                  }`}
+                >
+                  <Image
+                    src={`/assets/header/EN.svg`}
+                    alt={t("locale")}
+                    width={44}
+                    height={29.34}
+                    style={{ width: "44px", height: "29.34px" }}
+                    className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
+                  />
+                </button>
+              </li>
+              <li className="pb-1 bg-neutral-300 ">
+                <button
+                  onClick={async () => await setLanguage("fr")}
+                  className={`${flagButtonClass} ${
+                    lang == "fr" ? "hidden" : ""
+                  }`}
+                >
+                  <Image
+                    src={`/assets/header/FR.svg`}
+                    alt={t("locale")}
+                    width={44}
+                    height={29.34}
+                    style={{ width: "44px", height: "29.34px" }}
+                    className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
+                  />
+                </button>
+              </li>
+              <li className="pb-1 bg-neutral-300 ">
+                <button
+                  onClick={async () => await setLanguage("nl")}
+                  className={`${flagButtonClass} ${
+                    lang == "nl" ? "hidden" : ""
+                  }`}
+                >
+                  <Image
+                    src={`/assets/header/NL.svg`}
+                    alt={t("locale")}
+                    width={44}
+                    height={29.34}
+                    style={{ width: "44px", height: "29.34px" }}
+                    className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
+                  />
+                </button>
+              </li>
+              <li className="pb-1 bg-neutral-300">
+                <button
+                  onClick={async () => await setLanguage("de")}
+                  className={`${flagButtonClass} ${
+                    lang == "de" ? "hidden" : ""
+                  }`}
+                >
+                  <Image
+                    src={`/assets/header/DE.svg`}
+                    alt={t("locale")}
+                    width={44}
+                    height={29.34}
+                    style={{ width: "44px", height: "29.34px" }}
+                    className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
+                  />
+                </button>
+              </li>
+              <li className="bg-neutral-300">
+                <button
+                  onClick={async () => await setLanguage("tr")}
+                  className={`${flagButtonClass} ${
+                    lang == "tr" ? "hidden" : ""
+                  }`}
+                >
+                  <Image
+                    src={`/assets/header/TR.svg`}
+                    alt={t("locale")}
+                    width={44}
+                    height={29.34}
+                    style={{ width: "44px", height: "29.34px" }}
+                    className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
+                  />
+                </button>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

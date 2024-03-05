@@ -69,7 +69,6 @@ export default function Order() {
       if (collectionID) {
         fetchCollection(collectionID)
           .then(async (coll) => {
-            console.log(coll);
             setCurrentCollection(coll);
             const fetchProducts = async () => {
               const request = await fetch(
@@ -310,6 +309,7 @@ export default function Order() {
                 <div className="flex flex-col max-h-[350px] p-2 gap-1 overflow-y-scroll">
                   <div className="flex flex-row border-b-2 border-black">
                     <textarea
+                    className="w-full h-[30px]"
                       value={productSearch}
                       onChange={(e) => {
                         setProductSearch(e.target.value.trim());
