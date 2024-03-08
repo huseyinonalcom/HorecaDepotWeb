@@ -487,8 +487,8 @@ export default async function postOrder(
                                     margin-bottom: 16px;
                                   "
                                 >
-                                  Nous avons bien reçu vortre commande.<br />Cliquez sur le
-                                  bouton ci-dessous pour suivre tout votre commande.
+                                  Nous avons bien reçu votre commande.<br />Cliquez sur le
+                                  bouton ci-dessous pour suivre votre commande.
                                 </p>
                                 <table
                                   role="presentation"
