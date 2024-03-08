@@ -29,8 +29,10 @@ function convertToWishlistProduct(product: Product): WishlistProduct {
 const ProductButtons = ({ product, amount, onChange }: Props) => {
   const { addToCart } = useContext(CartContext);
   const { addToWishlist } = useContext(WishlistContext);
-  const { t, lang } = useTranslation("common");
+  const { t } = useTranslation("common");
   const [cartAmount, setCartAmount] = useState(amount);
+
+  useEffect(() => setCartAmount(1), [product]);
 
   useEffect(() => {
     if (cartAmount > 0) {
@@ -42,8 +44,11 @@ const ProductButtons = ({ product, amount, onChange }: Props) => {
 
   return (
     <div className="flex flex-row">
-      <div className="flex flex-col justify-center items-center duration-300 bg-white border-black p-2 mr-2 border-2">
-        <Plus onClick={() => setCartAmount((a) => ++a)} />
+      <div className="flex flex-col justify-center h-fit items-center duration-300 bg-white border-black mr-2 border-2">
+        <Plus
+          className="cursor-pointer h-7 w-7"
+          onClick={() => setCartAmount((a) => ++a)}
+        />
         <input
           type="text"
           value={cartAmount}
@@ -54,10 +59,13 @@ const ProductButtons = ({ product, amount, onChange }: Props) => {
               setCartAmount(Number(e.target.value));
             } else setCartAmount(1);
           }}
-          className="text-center bg-transparent w-[36px]"
+          className="text-center bg-transparent w-[36px] my-2"
           min="1"
         />
-        <Minus onClick={() => setCartAmount((a) => a - 1)} />
+        <Minus
+          className="cursor-pointer h-7 w-7"
+          onClick={() => setCartAmount((a) => a - 1)}
+        />
       </div>
       <div
         className={`flex flex-col items-center justify-center gap-2 text-black`}

@@ -11,7 +11,7 @@ import {
 } from "../../api/calls/productCalls";
 import ProductPreview from "../../components/products/product-preview";
 import ProductButtons from "../../components/products/product-buttons";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { ArrowLeft, Facebook } from "react-feather";
 import Link from "next/link";
 import { getAllCategoriesFlattened } from "../api/categories/public/getallcategoriesflattened";
@@ -38,10 +38,10 @@ const ProductPage = ({
   const imageVisible = "opacity-100 z-40";
   const imageInvisible = "opacity-0";
 
-  // useEffect(() => {
-  //   setCurrentImage(0);
-  //   fetchCategories();
-  // }, [product]);
+  useEffect(() => {
+    setCurrentImage(0);
+    handleCartAmountChange(1);
+  }, [product]);
 
   const slidePrevious = () => {
     setCurrentImage((prevImage) => {
