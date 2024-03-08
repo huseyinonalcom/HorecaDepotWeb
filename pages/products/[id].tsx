@@ -211,33 +211,36 @@ const ProductPage = ({
                 onChange={handleCartAmountChange}
               />
             </div>
-            {(product.height && product.height) != 0 && (
+            {product.height && product.height != 0 && (
               <p>
                 <b>{t("Hauteur")}:</b> {product.height} cm
               </p>
             )}
-            {(product.width && product.width) != 0 && (
+            {product.width && product.width != 0 && (
               <p>
                 <b>{t("Largeur")}:</b> {product.width} cm
               </p>
             )}
-            {(product.depth && product.depth) != 0 && (
+            {product.depth && product.depth != 0 && (
               <p>
                 <b>{t("Longueur")}:</b> {product.depth} cm
               </p>
             )}
-            {product.product_extra.seat_height != 0 && (
-              <p>
-                <b>{t("Hauteur d'assise")}:</b>{" "}
-                {product.product_extra.seat_height} cm
-              </p>
-            )}
-            {product.product_extra.armrest_height != 0 && (
-              <p>
-                <b>{t("Hauteur Accoudoir")}:</b>{" "}
-                {product.product_extra.armrest_height} cm
-              </p>
-            )}
+            {product.product_extra.seat_height !== undefined &&
+              product.product_extra.seat_height !== 0 && (
+                <p>
+                  <b>{t("Hauteur d'assise")}:</b>{" "}
+                  {product.product_extra.seat_height} cm
+                </p>
+              )}
+            {product.product_extra.armrest_height !== undefined &&
+              product.product_extra.armrest_height !== 0 && (
+                <p>
+                  <b>{t("Hauteur Accoudoir")}:</b>{" "}
+                  {product.product_extra.armrest_height} cm
+                </p>
+              )}
+
             {product.color && (
               <p>
                 <b>{t("Couleur")}:</b> {product.color}
