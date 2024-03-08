@@ -42,7 +42,7 @@ export default function Order() {
     );
     const resGetDocument = await reqGetDocument.json();
     if (reqGetDocument.ok) {
-      console.log(resGetDocument);
+      // console.log(resGetDocument);
       return resGetDocument.data;
     } else {
       setGetError(
@@ -158,7 +158,7 @@ export default function Order() {
         }
       );
       const answer = await request.json();
-      console.log(answer);
+      // console.log(answer);
       // if (request.ok) {
       //   router.push(`/admin/website/collection?id=${answer.id}`);
       // } else {
