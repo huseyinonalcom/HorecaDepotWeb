@@ -284,12 +284,11 @@ export default function Order() {
                             },
                             0
                           ) -
-                          currentOrder.payments.reduce(
-                            (accumulator, currentItem) => {
+                          currentOrder.payments
+                            .filter((pay) => !pay.deleted && pay.verified)
+                            .reduce((accumulator, currentItem) => {
                               return accumulator + currentItem.value;
-                            },
-                            0
-                          )
+                            }, 0)
                         )
                           .toFixed(2)
                           .replaceAll(".", ",")}

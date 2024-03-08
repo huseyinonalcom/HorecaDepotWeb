@@ -428,12 +428,11 @@ const PDFInvoice = ({ invoiceDocument }) => (
                     },
                     0
                   ) -
-                  invoiceDocument.payments.reduce(
-                    (accumulator, currentItem) => {
+                  invoiceDocument.payments
+                    .filter((payment) => !payment.deleted && payment.verified)
+                    .reduce((accumulator, currentItem) => {
                       return accumulator + currentItem.value;
-                    },
-                    0
-                  )
+                    }, 0)
                 )
                   .toFixed(2)
                   .replaceAll(".", ",")}

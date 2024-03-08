@@ -376,17 +376,20 @@ export default function Order() {
                         €{" "}
                         {(
                           currentOrder.document_products.reduce(
-                            (accumulator, currentItem) => {
-                              return accumulator + currentItem.subTotal;
+                            (accumulatedSubTotal, currentDocProd) => {
+                              return (
+                                accumulatedSubTotal + currentDocProd.subTotal
+                              );
                             },
                             0
                           ) -
-                          currentOrder.payments.reduce(
-                            (accumulator, currentItem) => {
-                              return accumulator + currentItem.value;
-                            },
-                            0
-                          )
+                          currentOrder.payments
+                            .filter(
+                              (payment) => !payment.deleted && payment.verified
+                            )
+                            .reduce((accumulatedPayments, currentPayment) => {
+                              return accumulatedPayments + currentPayment.value;
+                            }, 0)
                         )
                           .toFixed(2)
                           .replaceAll(".", ",")}
