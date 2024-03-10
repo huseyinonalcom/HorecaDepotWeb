@@ -10,6 +10,7 @@ import CustomTheme from "../componentThemes";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import areAllPropertiesNull from "../../api/utils/input_validators/are_all_properties_null";
+import validateEmpty from "../../api/utils/input_validators/validate_empty";
 
 export default function CheckOutInfo() {
   const router = useRouter();
@@ -122,20 +123,23 @@ export default function CheckOutInfo() {
     }));
 
     if (clientType === options.at(0)) {
-      if (newClient.client_info.company === "") {
-        setErrors((e) => ({ ...e, company: "This field is mandatory!" }));
-      }
+      setErrors((e) => ({ ...e, company: validateEmpty(newClient.client_info.company) }));
 
-      if (newClient.client_info.taxID === "") {
-        setErrors((e) => ({ ...e, taxID: "This field is mandatory!" }));
-      }
+      setErrors((e) => ({ ...e, taxID: validateEmpty(newClient.client_info.taxID) }));
     }
 
-    if (newClient.client_info.firstName == "") {
-      setErrors((e) => ({ ...e, firstName: "This field is mandatory!" }));
-    }
-    if (newClient.client_info.lastName == "") {
-      setErrors((e) => ({ ...e, lastName: "This field is mandatory!" }));
+    setErrors((e) => ({ ...e, firstName: validateEmpty(newClient.client_info.firstName) }));
+
+    setErrors((e) => ({ ...e, lastName: validateEmpty(newClient.client_info.lastName) }));
+
+    setErrors((e) => ({ ...e, email: validateEmpty(newClient.email) }));
+
+    setErrors((e) => ({ ...e, password: validateEmpty(newClient.password) }));
+
+    setErrors((e) => ({ ...e, password_repeat: validateEmpty(passwordRepeat) }));
+
+    if (!validateEmpty(passwordRepeat) && !validateEmpty(newClient.password)) {
+      setErrors((e) => ({ ...e, password_repeat: passwordRepeat == newClient.password ? null : t("password_notmatching") }));
     }
   };
 
@@ -146,6 +150,7 @@ export default function CheckOutInfo() {
         const clientToSend: Client = {
           ...newClient,
           username: newClient.email,
+          email: newClient.email,
           password: newClient.password,
           blocked: false,
           client_info: {
@@ -522,7 +527,7 @@ export default function CheckOutInfo() {
               <div className="flex flex-col w-full">
                 <InputOutlined
                   required
-                  error={errors.company ?? null}
+                  error={errors.company}
                   name="company"
                   label={t("Company Name")}
                   onChange={(e) => {
@@ -542,7 +547,7 @@ export default function CheckOutInfo() {
                 <InputOutlined
                   required
                   name="taxID"
-                  error={errors.taxID ?? null}
+                  error={errors.taxID}
                   label={t("VAT number")}
                   onChange={(e) => {
                     setNewClient({
@@ -703,6 +708,7 @@ export default function CheckOutInfo() {
                 required
                 name="email"
                 label={t("E-mail")}
+                error={errors.email}
                 onChange={(e) => {
                   setNewClient({
                     ...newClient,
@@ -718,6 +724,7 @@ export default function CheckOutInfo() {
             <div className="flex flex-col w-full">
               <InputOutlined
                 label={t("Password")}
+                error={errors.password}
                 onChange={(e) => {
                   setNewClient({
                     ...newClient,
@@ -736,6 +743,7 @@ export default function CheckOutInfo() {
               <InputOutlined
                 type="password"
                 name="password_repeat"
+                error={errors.password_repeat}
                 value={passwordRepeat}
                 onChange={(e) => setPasswordRepeat(e.target.value)}
                 label={t("Repeat Password")}

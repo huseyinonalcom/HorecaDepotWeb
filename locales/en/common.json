@@ -171,5 +171,6 @@
   "Événement": "Event",
   "Tabourets de Bar": "Bar Stools",
   "Tabourets de Bar Extérieur": "Outdoor Bar Stools",
-  "Tabourets de Bar Intérieur": "Indoor Bar Stools"
+  "Tabourets de Bar Intérieur": "Indoor Bar Stools",
+  "validators_empty_invalid": "This field is mandatory!"
 }

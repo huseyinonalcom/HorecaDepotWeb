@@ -1,3 +1,5 @@
+import useTranslation from "next-translate/useTranslation";
+
 type Props = {
   onChange?;
   onKeyDown?;
@@ -21,6 +23,7 @@ const InputOutlined = ({
   type,
   error,
 }: Props) => {
+  const { t } = useTranslation("common");
   return (
     <div className="w-full">
       <div className="relative">
@@ -55,7 +58,7 @@ const InputOutlined = ({
           aria-label={`error message for ${name}`}
           className="pl-3 text-xs text-red-600"
         >
-          {error}
+          {t(error)}
         </p>
       )}
     </div>
