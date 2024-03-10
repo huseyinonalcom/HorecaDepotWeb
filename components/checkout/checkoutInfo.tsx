@@ -9,11 +9,16 @@ import InputOutlined from "../inputs/outlined";
 import CustomTheme from "../componentThemes";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import areAllPropertiesNull from "../../api/utils/input_validators/are_all_properties_null";
 
 export default function CheckOutInfo() {
   const router = useRouter();
   const passwordInput = useRef(null);
   const [error, setError] = useState("");
+  const [errors, setErrors] = useState({
+    company: null,
+    taxID: null,
+  });
   const [isOpen, setIsOpen] = useState(false);
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -35,18 +40,16 @@ export default function CheckOutInfo() {
   const [chosenInvoiceAddressId, setChosenInvoiceAddressId] = useState(null);
   const [totalAfterPromo, setTotalAfterPromo] = useState<number | null>(null);
   const [chosenDeliveryAddressId, setChosenDeliveryAddressId] = useState(null);
-  const [deliverySameAddressAsInvoice, setDeliverySameAddressAsInvoice] =
-    useState(true);
-  const [newAddressExistingClient, setNewAddressExistingClient] =
-    useState<Address>({
-      name: "Secondaire",
-      country: "",
-      city: "",
-      zipCode: "",
-      doorNumber: "",
-      street: "",
-      floor: "",
-    });
+  const [deliverySameAddressAsInvoice, setDeliverySameAddressAsInvoice] = useState(true);
+  const [newAddressExistingClient, setNewAddressExistingClient] = useState<Address>({
+    name: "Secondaire",
+    country: "",
+    city: "",
+    zipCode: "",
+    doorNumber: "",
+    street: "",
+    floor: "",
+  });
 
   const [newClient, setNewClient] = useState<Client>({
     username: "",
@@ -108,56 +111,79 @@ export default function CheckOutInfo() {
 
   const handleClientSubmit = async (event) => {
     event.preventDefault();
-    const clientToSend: Client = {
-      ...newClient,
-      username: newClient.email,
-      password: newClient.password,
-      blocked: false,
-      client_info: {
-        ...newClient.client_info,
-        company:
-          clientType == options.at(0) ? newClient.client_info.company : null,
-        taxID: clientType == options.at(0) ? newClient.client_info.taxID : null,
-        category: clientType,
-        addresses: [addressNewClient],
-      },
-    };
-    const request = await fetch("/api/client/public/createclient", {
-      method: "POST",
-      body: JSON.stringify({
-        clientToSend,
-      }),
-    });
 
-    if (request.status == 200) {
-      setNewClient({
-        username: "",
-        email: "",
-        password: "",
-        blocked: true,
-        client_info: {
-          deleted: false,
-          firstName: "",
-          lastName: "",
-          phone: "",
-          category: "",
-          company: "",
-          taxID: "",
-        },
-      });
-      setAddressNewClient({
-        name: "Primaire",
-        country: "",
-        city: "",
-        zipCode: "",
-        doorNumber: "",
-        street: "",
-        floor: "",
-      });
-      setPasswordRepeat("");
-      setShowLogin(true);
+    setErrors((e) => ({
+      company: null,
+      taxID: null,
+    }));
+
+    if (clientType === options.at(0)) {
+      if (newClient.client_info.company === null || newClient.client_info.company === "") {
+        setErrors((e) => ({ ...e, company: "This field is mandatory!" }));
+      }
+
+      if (newClient.client_info.taxID === null || newClient.client_info.taxID === "") {
+        setErrors((e) => ({ ...e, taxID: "This field is mandatory!" }));
+      }
     }
   };
+
+  useEffect(() => {
+    console.log(areAllPropertiesNull(errors));
+    if (areAllPropertiesNull(errors)) {
+      const post = async () => {
+        const clientToSend: Client = {
+          ...newClient,
+          username: newClient.email,
+          password: newClient.password,
+          blocked: false,
+          client_info: {
+            ...newClient.client_info,
+            company: clientType == options.at(0) ? newClient.client_info.company : null,
+            taxID: clientType == options.at(0) ? newClient.client_info.taxID : null,
+            category: clientType,
+            addresses: [addressNewClient],
+          },
+        };
+        const request = await fetch("/api/client/public/createclient", {
+          method: "POST",
+          body: JSON.stringify({
+            clientToSend,
+          }),
+        });
+
+        if (request.status == 200) {
+          setNewClient({
+            username: "",
+            email: "",
+            password: "",
+            blocked: true,
+            client_info: {
+              deleted: false,
+              firstName: "",
+              lastName: "",
+              phone: "",
+              category: "",
+              company: "",
+              taxID: "",
+            },
+          });
+          setAddressNewClient({
+            name: "Primaire",
+            country: "",
+            city: "",
+            zipCode: "",
+            doorNumber: "",
+            street: "",
+            floor: "",
+          });
+          setPasswordRepeat("");
+          setShowLogin(true);
+        }
+      };
+      post();
+    }
+  }, [errors]);
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter" && event.target.id === "username") {
@@ -191,8 +217,6 @@ export default function CheckOutInfo() {
     }
   };
 
-  // existing client
-
   const handleNewAddressExistingClientChange = async (event) => {
     const { name, value } = event.target;
 
@@ -206,88 +230,18 @@ export default function CheckOutInfo() {
 
   const handleNewAddressExistingClientSubmit = async (event) => {
     event.preventDefault();
-    const request = await fetch(
-      "/api/client/client/postnewaddress?client=" + client.client_info.id,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          newAddressExistingClient,
-        }),
-      }
-    );
+    const request = await fetch("/api/client/client/postnewaddress?client=" + client.client_info.id, {
+      method: "POST",
+      body: JSON.stringify({
+        newAddressExistingClient,
+      }),
+    });
     if (request.ok) {
       setShowAddressForm(false);
-      const requestUpdatedClient = await fetch(
-        "/api/client/client/updateclientinfo"
-      );
+      const requestUpdatedClient = await fetch("/api/client/client/updateclientinfo");
       const answerUpdatedClient = await requestUpdatedClient.json();
       updateClient(answerUpdatedClient);
     }
-  };
-
-  const handleInvoiceAddressChange = async (e) => {
-    e.preventDefault();
-    setChosenInvoiceAddressId(e.target.value);
-  };
-  const InvoiceAddressSelector = ({ addresses }) => {
-    return (
-      <div>
-        {addresses.map((address) => (
-          <div
-            key={"i" + address.id}
-            className="flex flex-row gap-2 shadow-lg  p-4 bg-white mt-2"
-          >
-            <input
-              type="radio"
-              id={`invoice-address-${address.id}`}
-              name="invoiceAddress"
-              value={address.id}
-              checked={chosenInvoiceAddressId == address.id}
-              onChange={handleInvoiceAddressChange}
-            />
-            <label htmlFor={`invoice-address-${address.id}`} className="w-full">
-              {address.street} {address.doorNumber}
-              <br />
-              {address.city} {address.zipCode}
-            </label>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
-  const handleDeliveryAddressChange = async (e) => {
-    e.preventDefault();
-    setChosenDeliveryAddressId(e.target.value);
-  };
-  const DeliveryAddressSelector = ({ addresses }) => {
-    return (
-      <div>
-        {addresses.map((address) => (
-          <div
-            key={"d" + address.id}
-            className="flex flex-row gap-2 shadow-lg  p-4 bg-white mt-2"
-          >
-            <input
-              type="radio"
-              id={`delivery-address-${address.id}`}
-              name="deliveryAddress"
-              value={address.id}
-              checked={chosenDeliveryAddressId == address.id}
-              onChange={handleDeliveryAddressChange}
-            />
-            <label
-              htmlFor={`delivery-address-${address.id}`}
-              className="w-full"
-            >
-              {address.street} {address.doorNumber}
-              <br />
-              {address.city} {address.zipCode}
-            </label>
-          </div>
-        ))}
-      </div>
-    );
   };
 
   useEffect(() => {
@@ -299,12 +253,9 @@ export default function CheckOutInfo() {
   const validatePromo = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        "/api/checkout/client/validatepromo?promo=" + usedPromoCode,
-        {
-          method: "GET",
-        }
-      );
+      const response = await fetch("/api/checkout/client/validatepromo?promo=" + usedPromoCode, {
+        method: "GET",
+      });
 
       if (response.ok) {
         setPromoError(null);
@@ -343,16 +294,11 @@ export default function CheckOutInfo() {
 
     cartAfterPromo.forEach((item) => {
       if (perProduct && promoProducts.find((prod) => prod.id === item.id)) {
-        const discountableAmount =
-          Math.floor(item.amount / discountPer) * discountPer;
+        const discountableAmount = Math.floor(item.amount / discountPer) * discountPer;
         const totalDiscount = applyDiscount(item, discountableAmount);
         item.total = item.value * item.amount - totalDiscount;
-      } else if (
-        !perProduct &&
-        promoCategories.find((cat) => cat.id === item.category.id)
-      ) {
-        const discountableAmount =
-          Math.floor(item.amount / discountPer) * discountPer;
+      } else if (!perProduct && promoCategories.find((cat) => cat.id === item.category.id)) {
+        const discountableAmount = Math.floor(item.amount / discountPer) * discountPer;
         const totalDiscount = applyDiscount(item, discountableAmount);
         item.total = item.value * item.amount - totalDiscount;
       } else {
@@ -381,17 +327,11 @@ export default function CheckOutInfo() {
       return;
     }
     documentToPost.decisionMaker = `${client.client_info.firstName} ${client.client_info.lastName}`;
-    documentToPost.docAddress = client.client_info.addresses.find(
-      (address) => address.id == chosenInvoiceAddressId
-    );
+    documentToPost.docAddress = client.client_info.addresses.find((address) => address.id == chosenInvoiceAddressId);
     if (deliverySameAddressAsInvoice == true) {
-      documentToPost.delAddress = client.client_info.addresses.find(
-        (address) => address.id == chosenInvoiceAddressId
-      );
+      documentToPost.delAddress = client.client_info.addresses.find((address) => address.id == chosenInvoiceAddressId);
     } else {
-      documentToPost.delAddress = client.client_info.addresses.find(
-        (address) => address.id == chosenDeliveryAddressId
-      );
+      documentToPost.delAddress = client.client_info.addresses.find((address) => address.id == chosenDeliveryAddressId);
     }
     documentToPost.document_products = cart.map((cartProduct) => {
       return {
@@ -399,26 +339,22 @@ export default function CheckOutInfo() {
         amount: cartProduct.amount,
       };
     });
-    const request = await fetch(
-      "/api/checkout/client/postorder?final=true&promo=" + usedPromoCode,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          documentToPost,
-        }),
-      }
-    );
+
+    const request = await fetch("/api/checkout/client/postorder?final=true&promo=" + usedPromoCode, {
+      method: "POST",
+      body: JSON.stringify({
+        documentToPost,
+      }),
+    });
+
     if (request.ok) {
       const answer = await request.json();
       const orderID = answer.documentID;
       clearCart();
-      const paymentReq = await fetch(
-        `/api/payment/createpaymentlink?test=false`,
-        {
-          method: "POST",
-          body: JSON.stringify(answer),
-        }
-      );
+      const paymentReq = await fetch(`/api/payment/createpaymentlink?test=false`, {
+        method: "POST",
+        body: JSON.stringify(answer),
+      });
       if (paymentReq.ok) {
         const response = await paymentReq.json();
         if (response.url != 0) {
@@ -428,9 +364,7 @@ export default function CheckOutInfo() {
         }
       }
     } else {
-      setSubmitError(
-        "Une erreur s'est produite lors de la création de votre commande!"
-      );
+      setSubmitError("Une erreur s'est produite lors de la création de votre commande!");
     }
   };
 
@@ -438,10 +372,7 @@ export default function CheckOutInfo() {
     return (
       <div className="flex flex-col">
         <div className="w-full flex flex-row justify-center">
-          <Link
-            href={"/products"}
-            className="flex flex-row items-center mr-1 font-bold text-black h-full bg-orange-400 pl-3 py-2 pr-3"
-          >
+          <Link href={"/products"} className="flex flex-row items-center mr-1 font-bold text-black h-full bg-orange-400 pl-3 py-2 pr-3">
             SHOP
           </Link>
         </div>
@@ -462,15 +393,8 @@ export default function CheckOutInfo() {
             >
               {t("Retourner")}
             </button>
-            <form
-              onSubmit={handleLoginSubmit}
-              className="w-full mt-4 max-w-md space-y-4"
-            >
-              {error && (
-                <div className="bg-red-100 text-red-700 p-2 text-center ">
-                  {error}
-                </div>
-              )}
+            <form onSubmit={handleLoginSubmit} className="w-full mt-4 max-w-md space-y-4">
+              {error && <div className="bg-red-100 text-red-700 p-2 text-center ">{error}</div>}
               <div>
                 <label htmlFor="username" className="font-bold text-lg">
                   {t("Utilisateur")}
@@ -533,13 +457,7 @@ export default function CheckOutInfo() {
               onClick={() => setIsOpen(!isOpen)}
             >
               {clientType}
-              <svg
-                className="-mr-1 ml-2 h-5 w-5"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
+              <svg className="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path
                   fillRule="evenodd"
                   d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -593,6 +511,7 @@ export default function CheckOutInfo() {
               <div className="flex flex-col w-full">
                 <InputOutlined
                   required
+                  error={errors.company ?? null}
                   name="company"
                   label={t("Company Name")}
                   onChange={(e) => {
@@ -612,6 +531,7 @@ export default function CheckOutInfo() {
                 <InputOutlined
                   required
                   name="taxID"
+                  error={errors.taxID ?? null}
                   label={t("VAT number")}
                   onChange={(e) => {
                     setNewClient({
@@ -811,11 +731,7 @@ export default function CheckOutInfo() {
             </div>
           </div>
           <div className="flex flex-row w-full">
-            <button
-              onClick={handleClientSubmit}
-              type="submit"
-              className={CustomTheme.greenSubmitButton}
-            >
+            <button onClick={handleClientSubmit} type="submit" className={CustomTheme.greenSubmitButton}>
               {t("Proceed")}
             </button>
           </div>
@@ -825,9 +741,7 @@ export default function CheckOutInfo() {
   } else {
     return (
       <div className="flex flex-col">
-        <h2 className="text-xl font-bold mb-2">
-          {t("DÉTAILS DE FACTURATION")}
-        </h2>
+        <h2 className="text-xl font-bold mb-2">{t("DÉTAILS DE FACTURATION")}</h2>
         <div className="flex flex-col gap-2 lg:flex-row justify-between items-start">
           <div className="flex flex-col">
             <p>
@@ -842,8 +756,7 @@ export default function CheckOutInfo() {
           </div>
           <div className="flex flex-col lg:w-1/3">
             <p>
-              {t("Total avant remise")}: €{" "}
-              {calculateTotal().totalBeforeDiscount}
+              {t("Total avant remise")}: € {calculateTotal().totalBeforeDiscount}
             </p>
             <p>
               {t("Total avec remise")}: € {calculateTotal().totalAfterDiscount}
@@ -867,23 +780,34 @@ export default function CheckOutInfo() {
               placeholder={t("Code Promo")}
             />
             {promoError && <p className="text-red-400">{promoError}</p>}
-            <button
-              onClick={validatePromo}
-              className={CustomTheme.greenSubmitButton}
-            >
+            <button onClick={validatePromo} className={CustomTheme.greenSubmitButton}>
               {t("Apply Promo")}
             </button>
           </div>
         </div>
         <div className="mt-2">
-          <h3 className="text-lg font-bold">
-            {t("Select an Address for invoicing")}
-          </h3>
-          <InvoiceAddressSelector addresses={client.client_info.addresses} />
-          <button
-            className={CustomTheme.greenSubmitButton}
-            onClick={() => setShowAddressForm(!showAddressForm)}
-          >
+          <h3 className="text-lg font-bold">{t("Select an Address for invoicing")}</h3>
+          {client.client_info.addresses.map((address) => (
+            <div key={"i" + address.id} className="flex flex-row gap-2 shadow-lg  p-4 bg-white mt-2">
+              <input
+                type="radio"
+                id={`invoice-address-${address.id}`}
+                name="invoiceAddress"
+                value={address.id}
+                checked={chosenInvoiceAddressId == address.id}
+                onChange={(e) => {
+                  e.preventDefault();
+                  setChosenInvoiceAddressId(e.target.value);
+                }}
+              />
+              <label htmlFor={`invoice-address-${address.id}`} className="w-full">
+                {address.street} {address.doorNumber}
+                <br />
+                {address.city} {address.zipCode}
+              </label>
+            </div>
+          ))}
+          <button className={CustomTheme.greenSubmitButton} onClick={() => setShowAddressForm(!showAddressForm)}>
             {t("Add new address")}
           </button>
           {showAddressForm && (
@@ -965,11 +889,7 @@ export default function CheckOutInfo() {
                 </div>
               </div>
               <div className="flex flex-row w-full">
-                <button
-                  onClick={handleNewAddressExistingClientSubmit}
-                  type="submit"
-                  className={CustomTheme.greenSubmitButton}
-                >
+                <button onClick={handleNewAddressExistingClientSubmit} type="submit" className={CustomTheme.greenSubmitButton}>
                   {t("Register new address")}
                 </button>
               </div>
@@ -977,56 +897,57 @@ export default function CheckOutInfo() {
           )}
         </div>
         <div className="mt-2">
-          <h3 className="text-lg font-bold">
-            {t("Select an Address for delivery")}
-          </h3>
+          <h3 className="text-lg font-bold">{t("Select an Address for delivery")}</h3>
           {deliverySameAddressAsInvoice ? (
-            <button
-              className={CustomTheme.greenSubmitButton}
-              onClick={() =>
-                setDeliverySameAddressAsInvoice(!deliverySameAddressAsInvoice)
-              }
-            >
+            <button className={CustomTheme.greenSubmitButton} onClick={() => setDeliverySameAddressAsInvoice(!deliverySameAddressAsInvoice)}>
               {t("Delivery to different address")}
             </button>
           ) : (
-            <button
-              className={CustomTheme.greenSubmitButton}
-              onClick={() =>
-                setDeliverySameAddressAsInvoice(!deliverySameAddressAsInvoice)
-              }
-            >
+            <button className={CustomTheme.greenSubmitButton} onClick={() => setDeliverySameAddressAsInvoice(!deliverySameAddressAsInvoice)}>
               {t("Delivery to same address as invoice")}
             </button>
           )}
           {!deliverySameAddressAsInvoice && (
-            <DeliveryAddressSelector addresses={client.client_info.addresses} />
+            <>
+              {client.client_info.addresses.map((address) => (
+                <div key={"d" + address.id} className="flex flex-row gap-2 shadow-lg  p-4 bg-white mt-2">
+                  <input
+                    type="radio"
+                    id={`delivery-address-${address.id}`}
+                    name="deliveryAddress"
+                    value={address.id}
+                    checked={chosenDeliveryAddressId == address.id}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setChosenDeliveryAddressId(e.target.value);
+                    }}
+                  />
+                  <label htmlFor={`delivery-address-${address.id}`} className="w-full">
+                    {address.street} {address.doorNumber}
+                    <br />
+                    {address.city} {address.zipCode}
+                  </label>
+                </div>
+              ))}
+            </>
           )}
         </div>
         {addressError && <p className="text-red-500">{addressError}</p>}
         {cartError && <p className="text-red-500">{cartError}</p>}
         {submitError && <p className="text-red-500">{submitError}</p>}
-        <button
-          onClick={handleOrderSubmit}
-          className={CustomTheme.greenSubmitButton}
-        >
+        <button onClick={handleOrderSubmit} className={CustomTheme.greenSubmitButton}>
           {t("Proceed with order")}
         </button>
         {lang != "tr" ? (
           <p className="mt-8">
-            {t("Not")} {client.client_info.firstName}{" "}
-            {client.client_info.lastName}?
+            {t("Not")} {client.client_info.firstName} {client.client_info.lastName}?
           </p>
         ) : (
           <p className="mt-8">
-            Siz {client.client_info.firstName} {client.client_info.lastName}{" "}
-            değil misiniz?
+            Siz {client.client_info.firstName} {client.client_info.lastName} değil misiniz?
           </p>
         )}
-        <button
-          onClick={handleLogOut}
-          className={CustomTheme.orangeSubmitButton}
-        >
+        <button onClick={handleLogOut} className={CustomTheme.orangeSubmitButton}>
           {t("Log Out")}
         </button>
       </div>

@@ -21,9 +21,7 @@ export default function Checkout() {
             {t("SHOP")}
           </Link>
           <p className="font-bold mx-2">/</p>
-          <p className="underline decoration-orange-400 decoration-4 underline-offset-8 text-white">
-            {t("CHECKOUT")}
-          </p>
+          <p className="underline decoration-orange-400 decoration-4 underline-offset-8 text-white">{t("CHECKOUT")}</p>
         </div>
       </div>
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
