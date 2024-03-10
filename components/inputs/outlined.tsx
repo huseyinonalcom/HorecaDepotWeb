@@ -12,17 +12,7 @@ type Props = {
   required?: boolean;
 };
 
-const InputOutlined = ({
-  onChange,
-  onKeyDown,
-  onSubmit,
-  value,
-  required,
-  name,
-  label,
-  type,
-  error,
-}: Props) => {
+const InputOutlined = ({ onChange, onKeyDown, onSubmit, value, required, name, label, type, error }: Props) => {
   const { t } = useTranslation("common");
   return (
     <div className="w-full">
@@ -30,14 +20,14 @@ const InputOutlined = ({
         <input
           required={required ?? false}
           type={type}
-          name={name}
+          name={t(name)}
           onSubmit={
             onSubmit ??
             ((e) => {
               e.preventDefault();
             })
           }
-          aria-label={name}
+          aria-label={t(name)}
           value={value}
           onChange={onChange}
           onKeyDown={onKeyDown}
@@ -47,17 +37,14 @@ const InputOutlined = ({
         />
         <label
           htmlFor="input"
-          aria-label={`label for ${name}`}
+          aria-label={`${t("label for")} ${t(name)}`}
           className="absolute pointer-events-none text-sm text-gray-800 duration-300 transform -translate-y-3 scale-75 top-1 z-10 origin-[0] bg-white px-2 ml-1 peer-placeholder-shown:text-gray-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-1 peer-focus:scale-75 peer-focus:-translate-y-3 start-1"
         >
-          {label ?? name}
+          {t(label) ?? t(name)}
         </label>
       </div>
       {error && (
-        <p
-          aria-label={`error message for ${name}`}
-          className="pl-3 text-xs text-red-600"
-        >
+        <p aria-label={`${t("error message for")} ${t(name)}`} className="pl-3 text-xs text-red-600">
           {t(error)}
         </p>
       )}
