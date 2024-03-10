@@ -529,7 +529,7 @@ export default function CheckOutInfo() {
                   required
                   error={errors.company}
                   name="company"
-                  label={t("Company Name")}
+                  label={"Company Name"}
                   onChange={(e) => {
                     setNewClient({
                       ...newClient,
@@ -548,7 +548,7 @@ export default function CheckOutInfo() {
                   required
                   name="taxID"
                   error={errors.taxID}
-                  label={t("VAT number")}
+                  label={"VAT number"}
                   onChange={(e) => {
                     setNewClient({
                       ...newClient,
@@ -569,7 +569,7 @@ export default function CheckOutInfo() {
               <InputOutlined
                 required
                 name="firstName"
-                label={t("Your first name")}
+                label={"Your first name"}
                 error={errors.firstName}
                 onChange={(e) => {
                   setNewClient({
@@ -588,7 +588,7 @@ export default function CheckOutInfo() {
               <InputOutlined
                 required
                 name="lastName"
-                label={t("Your last name")}
+                label={"Your last name"}
                 error={errors.lastName}
                 onChange={(e) => {
                   setNewClient({
@@ -608,7 +608,7 @@ export default function CheckOutInfo() {
             <InputOutlined
               required
               name="country"
-              label={t("Country")}
+              label={"Country"}
               onChange={(e) => {
                 setAddressNewClient({
                   ...addressNewClient,
@@ -624,7 +624,7 @@ export default function CheckOutInfo() {
               <InputOutlined
                 required
                 name="street"
-                label={t("Street")}
+                label={"Street"}
                 onChange={(e) => {
                   setAddressNewClient({
                     ...addressNewClient,
@@ -639,7 +639,7 @@ export default function CheckOutInfo() {
               <InputOutlined
                 required
                 name="doorNumber"
-                label={t("Door")}
+                label={"Door"}
                 onChange={(e) => {
                   setAddressNewClient({
                     ...addressNewClient,
@@ -656,7 +656,7 @@ export default function CheckOutInfo() {
               <InputOutlined
                 required
                 name="zipCode"
-                label={t("Zip Code")}
+                label={"Zip Code"}
                 onChange={(e) => {
                   setAddressNewClient({
                     ...addressNewClient,
@@ -671,7 +671,7 @@ export default function CheckOutInfo() {
               <InputOutlined
                 required
                 name="city"
-                label={t("City")}
+                label={"City"}
                 onChange={(e) => {
                   setAddressNewClient({
                     ...addressNewClient,
@@ -707,7 +707,7 @@ export default function CheckOutInfo() {
               <InputOutlined
                 required
                 name="email"
-                label={t("E-mail")}
+                label={"E-mail"}
                 error={errors.email}
                 onChange={(e) => {
                   setNewClient({
@@ -723,7 +723,7 @@ export default function CheckOutInfo() {
           <div className="flex flex-row">
             <div className="flex flex-col w-full">
               <InputOutlined
-                label={t("Password")}
+                label={"Password"}
                 error={errors.password}
                 onChange={(e) => {
                   setNewClient({
@@ -746,7 +746,7 @@ export default function CheckOutInfo() {
                 error={errors.password_repeat}
                 value={passwordRepeat}
                 onChange={(e) => setPasswordRepeat(e.target.value)}
-                label={t("Repeat Password")}
+                label={"Repeat Password"}
                 required
               />
             </div>
