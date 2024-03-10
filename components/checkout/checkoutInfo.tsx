@@ -16,15 +16,6 @@ export default function CheckOutInfo() {
   const router = useRouter();
   const passwordInput = useRef(null);
   const [error, setError] = useState("");
-  const [errors, setErrors] = useState({
-    company: null,
-    taxID: null,
-    firstName: null,
-    lastName: null,
-    email: null,
-    password: null,
-    password_repeat: null,
-  });
   const [isOpen, setIsOpen] = useState(false);
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -56,7 +47,21 @@ export default function CheckOutInfo() {
     street: "",
     floor: "",
   });
-
+  const [errors, setErrors] = useState({
+    company: null,
+    taxID: null,
+    firstName: null,
+    lastName: null,
+    email: null,
+    password: null,
+    password_repeat: null,
+    country: null,
+    street: null,
+    doorNumber: null,
+    floor: null,
+    zipCode: null,
+    city: null,
+  });
   const [newClient, setNewClient] = useState<Client>({
     username: "",
     email: "",
@@ -72,7 +77,6 @@ export default function CheckOutInfo() {
       taxID: "",
     },
   });
-
   const [addressNewClient, setAddressNewClient] = useState<Address>({
     name: "Primaire",
     country: "",
@@ -80,9 +84,8 @@ export default function CheckOutInfo() {
     zipCode: "",
     doorNumber: "",
     street: "",
-    floor: null,
+    floor: "",
   });
-
   const [documentToPost, setDocumentToPost] = useState<Document>({
     id: 0,
     type: "Commande",
@@ -126,27 +129,35 @@ export default function CheckOutInfo() {
       email: null,
       password: null,
       password_repeat: null,
+      country: null,
+      street: null,
+      doorNumber: null,
+      floor: null,
+      zipCode: null,
+      city: null,
     }));
 
     if (clientType === options.at(0)) {
       setErrors((e) => ({ ...e, company: validateEmpty(newClient.client_info.company) }));
-
       setErrors((e) => ({ ...e, taxID: validateEmpty(newClient.client_info.taxID) }));
     }
 
     setErrors((e) => ({ ...e, firstName: validateEmpty(newClient.client_info.firstName) }));
-
     setErrors((e) => ({ ...e, lastName: validateEmpty(newClient.client_info.lastName) }));
-
     setErrors((e) => ({ ...e, email: validateEmpty(newClient.email) }));
-
     setErrors((e) => ({ ...e, password: validateEmpty(newClient.password) }));
-
     setErrors((e) => ({ ...e, password_repeat: validateEmpty(passwordRepeat) }));
 
     if (!validateEmpty(passwordRepeat) && !validateEmpty(newClient.password)) {
       setErrors((e) => ({ ...e, password_repeat: passwordRepeat == newClient.password ? null : t("password_notmatching") }));
     }
+
+    setErrors((e) => ({ ...e, country: validateEmpty(addressNewClient.country) }));
+    setErrors((e) => ({ ...e, street: validateEmpty(addressNewClient.street) }));
+    setErrors((e) => ({ ...e, doorNumber: validateEmpty(addressNewClient.doorNumber) }));
+    setErrors((e) => ({ ...e, floor: validateEmpty(addressNewClient.floor) }));
+    setErrors((e) => ({ ...e, zipCode: validateEmpty(addressNewClient.zipCode) }));
+    setErrors((e) => ({ ...e, city: validateEmpty(addressNewClient.city) }));
   };
 
   useEffect(() => {
@@ -533,9 +544,11 @@ export default function CheckOutInfo() {
               <div className="flex flex-col w-full">
                 <InputOutlined
                   required
-                  error={errors.company}
+                  type="text"
                   name="company"
                   label={"Company Name"}
+                  value={newClient.client_info.company}
+                  error={errors.company}
                   onChange={(e) => {
                     setNewClient({
                       ...newClient,
@@ -545,16 +558,16 @@ export default function CheckOutInfo() {
                       },
                     });
                   }}
-                  value={newClient.client_info.company}
-                  type="text"
                 />
               </div>
               <div className="flex flex-col w-full">
                 <InputOutlined
                   required
+                  type="text"
                   name="taxID"
-                  error={errors.taxID}
                   label={"VAT number"}
+                  value={newClient.client_info.taxID}
+                  error={errors.taxID}
                   onChange={(e) => {
                     setNewClient({
                       ...newClient,
@@ -564,8 +577,6 @@ export default function CheckOutInfo() {
                       },
                     });
                   }}
-                  value={newClient.client_info.taxID}
-                  type="text"
                 />
               </div>
             </>
@@ -574,8 +585,10 @@ export default function CheckOutInfo() {
             <div className="flex flex-col w-full sm:w-1/2">
               <InputOutlined
                 required
+                type="text"
                 name="firstName"
                 label={"Your first name"}
+                value={newClient.client_info.firstName}
                 error={errors.firstName}
                 onChange={(e) => {
                   setNewClient({
@@ -586,15 +599,15 @@ export default function CheckOutInfo() {
                     },
                   });
                 }}
-                value={newClient.client_info.firstName}
-                type="text"
               />
             </div>
             <div className="flex flex-col w-full sm:w-1/2">
               <InputOutlined
                 required
+                type="text"
                 name="lastName"
                 label={"Your last name"}
+                value={newClient.client_info.lastName}
                 error={errors.lastName}
                 onChange={(e) => {
                   setNewClient({
@@ -605,55 +618,72 @@ export default function CheckOutInfo() {
                     },
                   });
                 }}
-                value={newClient.client_info.lastName}
-                type="text"
               />
             </div>
           </div>
           <div className="flex flex-col w-full">
             <InputOutlined
               required
+              type="text"
               name="country"
               label={"Country"}
+              value={addressNewClient.country}
+              error={errors.country}
               onChange={(e) => {
                 setAddressNewClient({
                   ...addressNewClient,
                   country: e.target.value,
                 });
               }}
-              value={addressNewClient.country}
-              type="text"
             />
           </div>
           <div className="flex flex-col gap-2 sm:flex-row">
-            <div className="flex flex-col w-full sm:w-8/12">
+            <div className="flex flex-col w-full sm:w-7/12">
               <InputOutlined
                 required
+                type="text"
                 name="street"
                 label={"Street"}
+                value={addressNewClient.street}
+                error={errors.street}
                 onChange={(e) => {
                   setAddressNewClient({
                     ...addressNewClient,
                     street: e.target.value,
                   });
                 }}
-                value={addressNewClient.street}
-                type="text"
               />
             </div>
-            <div className="flex flex-col w-full sm:w-4/12">
+            <div className="flex flex-col w-full sm:w-3/12">
               <InputOutlined
                 required
+                type="text"
                 name="doorNumber"
                 label={"Door"}
+                value={addressNewClient.doorNumber}
+                error={errors.doorNumber}
                 onChange={(e) => {
                   setAddressNewClient({
                     ...addressNewClient,
                     doorNumber: e.target.value,
                   });
                 }}
-                value={addressNewClient.doorNumber}
+              />
+            </div>
+            <div className="flex flex-col w-full sm:w-2/12">
+              <InputOutlined
+                required
                 type="text"
+                name="floor"
+                label={"Floor"}
+                value={addressNewClient.floor}
+                error={errors.floor}
+                onChange={(e) => {
+                  setAddressNewClient({
+                    ...addressNewClient,
+                    floor: e.target.value,
+                  });
+                }}
               />
             </div>
           </div>
@@ -661,39 +691,43 @@ export default function CheckOutInfo() {
             <div className="flex flex-col w-full sm:w-4/12">
               <InputOutlined
                 required
+                type="text"
                 name="zipCode"
                 label={"Zip Code"}
+                value={addressNewClient.zipCode}
+                error={errors.zipCode}
                 onChange={(e) => {
                   setAddressNewClient({
                     ...addressNewClient,
                     zipCode: e.target.value,
                   });
                 }}
-                value={addressNewClient.zipCode}
-                type="text"
               />
             </div>
             <div className="flex flex-col w-full sm:w-8/12">
               <InputOutlined
                 required
+                type="text"
                 name="city"
                 label={"City"}
+                value={addressNewClient.city}
+                error={errors.city}
                 onChange={(e) => {
                   setAddressNewClient({
                     ...addressNewClient,
                     city: e.target.value,
                   });
                 }}
-                value={addressNewClient.city}
-                type="text"
               />
             </div>
           </div>
           <div className="flex flex-row">
             <div className="flex flex-col w-full">
               <InputOutlined
+                type="text"
                 name="phone"
-                label={t("Your Phone")}
+                label={"Your Phone"}
+                value={newClient.client_info.phone}
                 onChange={(e) => {
                   setNewClient({
                     ...newClient,
@@ -703,8 +737,6 @@ export default function CheckOutInfo() {
                     },
                   });
                 }}
-                value={newClient.client_info.phone}
-                type="text"
               />
             </div>
           </div>
@@ -712,8 +744,10 @@ export default function CheckOutInfo() {
             <div className="flex flex-col w-full">
               <InputOutlined
                 required
+                type="email"
                 name="email"
                 label={"E-mail"}
+                value={newClient.email}
                 error={errors.email}
                 onChange={(e) => {
                   setNewClient({
@@ -721,15 +755,17 @@ export default function CheckOutInfo() {
                     email: e.target.value,
                   });
                 }}
-                value={newClient.email}
-                type="email"
               />
             </div>
           </div>
           <div className="flex flex-row">
             <div className="flex flex-col w-full">
               <InputOutlined
+                required
+                type="password"
+                name="password"
                 label={"Password"}
+                value={newClient.password}
                 error={errors.password}
                 onChange={(e) => {
                   setNewClient({
@@ -737,23 +773,19 @@ export default function CheckOutInfo() {
                     password: e.target.value,
                   });
                 }}
-                type="password"
-                name="password"
-                value={newClient.password}
-                required
               />
             </div>
           </div>
           <div className="flex flex-row">
             <div className="flex flex-col w-full">
               <InputOutlined
+                required
                 type="password"
                 name="password_repeat"
-                error={errors.password_repeat}
-                value={passwordRepeat}
-                onChange={(e) => setPasswordRepeat(e.target.value)}
                 label={"Repeat Password"}
-                required
+                value={passwordRepeat}
+                error={errors.password_repeat}
+                onChange={(e) => setPasswordRepeat(e.target.value)}
               />
             </div>
           </div>
