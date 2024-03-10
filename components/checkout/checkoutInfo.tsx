@@ -21,6 +21,9 @@ export default function CheckOutInfo() {
     taxID: null,
     firstName: null,
     lastName: null,
+    email: null,
+    password: null,
+    password_repeat: null,
   });
   const [isOpen, setIsOpen] = useState(false);
   const [password, setPassword] = useState("");
@@ -120,6 +123,9 @@ export default function CheckOutInfo() {
       taxID: null,
       firstName: null,
       lastName: null,
+      email: null,
+      password: null,
+      password_repeat: null,
     }));
 
     if (clientType === options.at(0)) {
