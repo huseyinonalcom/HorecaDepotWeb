@@ -18,6 +18,8 @@ export default function CheckOutInfo() {
   const [errors, setErrors] = useState({
     company: null,
     taxID: null,
+    firstName: null,
+    lastName: null,
   });
   const [isOpen, setIsOpen] = useState(false);
   const [password, setPassword] = useState("");
@@ -115,16 +117,25 @@ export default function CheckOutInfo() {
     setErrors((e) => ({
       company: null,
       taxID: null,
+      firstName: null,
+      lastName: null,
     }));
 
     if (clientType === options.at(0)) {
-      if (newClient.client_info.company === null || newClient.client_info.company === "") {
+      if (newClient.client_info.company === "") {
         setErrors((e) => ({ ...e, company: "This field is mandatory!" }));
       }
 
-      if (newClient.client_info.taxID === null || newClient.client_info.taxID === "") {
+      if (newClient.client_info.taxID === "") {
         setErrors((e) => ({ ...e, taxID: "This field is mandatory!" }));
       }
+    }
+
+    if (newClient.client_info.firstName == "") {
+      setErrors((e) => ({ ...e, firstName: "This field is mandatory!" }));
+    }
+    if (newClient.client_info.lastName == "") {
+      setErrors((e) => ({ ...e, lastName: "This field is mandatory!" }));
     }
   };
 
@@ -554,6 +565,7 @@ export default function CheckOutInfo() {
                 required
                 name="firstName"
                 label={t("Your first name")}
+                error={errors.firstName}
                 onChange={(e) => {
                   setNewClient({
                     ...newClient,
@@ -572,6 +584,7 @@ export default function CheckOutInfo() {
                 required
                 name="lastName"
                 label={t("Your last name")}
+                error={errors.lastName}
                 onChange={(e) => {
                   setNewClient({
                     ...newClient,
