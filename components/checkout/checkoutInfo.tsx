@@ -265,9 +265,7 @@ export default function CheckOutInfo() {
   }, [errorsNewAddressExistingClientForm]);
 
   // might need to be checked
-  const [cartError, setCartError] = useState("");
   const [promoError, setPromoError] = useState("");
-  const [addressError, setAddressError] = useState("");
   const [currentPromo, setCurrentPromo] = useState(null);
   const [usedPromoCode, setUsedPromoCode] = useState<string>("");
   const [submitErrorDocument, setSubmitErrorDocument] = useState("");
@@ -343,17 +341,17 @@ export default function CheckOutInfo() {
   // might need to be checked
   const handleOrderSubmit = async (event) => {
     event.preventDefault();
+    setSubmitErrorDocument(null);
     if (!chosenInvoiceAddressId) {
-      setAddressError("Choissisez un address pour facturation!");
+      setSubmitErrorDocument("Choissisez un address pour facturation!");
       return;
     }
     if (!deliverySameAddressAsInvoice && !chosenDeliveryAddressId) {
-      setAddressError("Choissisez un address pour livrasion!");
+      setSubmitErrorDocument("Choissisez un address pour livrasion!");
       return;
     }
-    setAddressError(null);
     if (calculateTotal().totalAfterDiscount < 0) {
-      setCartError(t("Panier Vide"));
+      setSubmitErrorDocument(t("Panier Vide"));
       return;
     }
     let documentToPost: Document = {
@@ -368,24 +366,21 @@ export default function CheckOutInfo() {
       client: { id: 0 },
       note: null,
       decisionMaker: null,
-      document_products: [{ id: 0 }, { id: 1 }],
-      docAddress: null,
+      document_products: cart.map((cartProduct) => {
+        return {
+          product: cartProduct.id,
+          amount: cartProduct.amount,
+        };
+      }),
+      docAddress: client.client_info.addresses.find((address) => address.id == chosenInvoiceAddressId),
       delAddress: null,
     };
     documentToPost.decisionMaker = `${client.client_info.firstName} ${client.client_info.lastName}`;
-    documentToPost.docAddress = client.client_info.addresses.find((address) => address.id == chosenInvoiceAddressId);
     if (deliverySameAddressAsInvoice == true) {
       documentToPost.delAddress = client.client_info.addresses.find((address) => address.id == chosenInvoiceAddressId);
     } else {
       documentToPost.delAddress = client.client_info.addresses.find((address) => address.id == chosenDeliveryAddressId);
     }
-    documentToPost.document_products = cart.map((cartProduct) => {
-      return {
-        product: cartProduct.id,
-        amount: cartProduct.amount,
-      };
-    });
-
     const request = await fetch("/api/checkout/client/postorder?final=true&promo=" + usedPromoCode, {
       method: "POST",
       body: JSON.stringify({
@@ -871,11 +866,11 @@ export default function CheckOutInfo() {
             </div>
           ))}
           <button className={CustomTheme.greenSubmitButton} onClick={() => setShowAddressForm(!showAddressForm)}>
-            {t("Add new address")}
+            {showAddressForm ? t("new_address_hide") : t("new_address_show")}
           </button>
           {showAddressForm && (
-            <form>
-              <div className="flex flex-col w-full">
+            <form onSubmit={handleNewAddressExistingClientFormSubmit} className="flex flex-col gap-2 bg-white px-1 pb-1 m-2">
+              <div className="flex flex-col mt-2 w-full">
                 <InputOutlined
                   required
                   type="text"
@@ -976,7 +971,7 @@ export default function CheckOutInfo() {
                 </div>
               </div>
               <div className="flex flex-row w-full">
-                <button onClick={handleNewAddressExistingClientFormSubmit} type="submit" className={CustomTheme.greenSubmitButton}>
+                <button type="submit" className={CustomTheme.greenSubmitButton}>
                   {t("Register new address")}
                 </button>
               </div>
@@ -997,7 +992,7 @@ export default function CheckOutInfo() {
           {!deliverySameAddressAsInvoice && (
             <>
               {client.client_info.addresses.map((address) => (
-                <div key={"d" + address.id} className="flex flex-row gap-2 shadow-lg  p-4 bg-white mt-2">
+                <div key={"d" + address.id} className="flex flex-row gap-2 shadow-lg p-4 bg-white mt-2">
                   <input
                     type="radio"
                     id={`delivery-address-${address.id}`}
@@ -1019,8 +1014,6 @@ export default function CheckOutInfo() {
             </>
           )}
         </div>
-        {addressError && <p className="text-red-500">{addressError}</p>}
-        {cartError && <p className="text-red-500">{cartError}</p>}
         {submitErrorDocument && <p className="text-red-500">{submitErrorDocument}</p>}
         <button onClick={handleOrderSubmit} className={CustomTheme.greenSubmitButton}>
           {t("Proceed with order")}
