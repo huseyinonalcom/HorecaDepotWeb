@@ -17,7 +17,7 @@ import componentThemes from "../componentThemes";
 export default function CheckOutInfo() {
   const router = useRouter();
   const passwordInput = useRef(null);
-  const [error, setError] = useState("");
+  const [errorLogin, setErrorLogin] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -40,7 +40,7 @@ export default function CheckOutInfo() {
   const [chosenDeliveryAddressId, setChosenDeliveryAddressId] = useState(null);
   const [deliverySameAddressAsInvoice, setDeliverySameAddressAsInvoice] = useState(true);
 
-  // could use some work
+  // don't change these for now
   useEffect(() => {
     setTimeout(async () => {
       const data = await fetch("/api/client/client/checkloggedinuser");
@@ -55,15 +55,9 @@ export default function CheckOutInfo() {
     clearClient();
     await fetch("/api/client/client/logout").then(() => {});
   };
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter" && event.target.id === "username") {
-      event.preventDefault();
-      passwordInput.current?.focus();
-    }
-  };
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
-    setError("");
+    setErrorLogin("");
     try {
       const response = await fetch("/api/auth/postlogin", {
         method: "POST",
@@ -79,10 +73,10 @@ export default function CheckOutInfo() {
         updateClient(authedClient as Client);
         setShowLogin(false);
       } else {
-        setError(t("user_pass_invalid"));
+        setErrorLogin(t("user_pass_invalid"));
       }
     } catch (error) {
-      setError(t("user_pass_invalid"));
+      setErrorLogin(t("user_pass_invalid"));
     }
   };
 
@@ -449,35 +443,24 @@ export default function CheckOutInfo() {
               {t("Retourner")}
             </button>
             <form onSubmit={handleLoginSubmit} className="w-full mt-4 max-w-md space-y-4">
-              {error && <div className="bg-red-100 text-red-700 p-2 text-center ">{error}</div>}
-              <div>
-                <label htmlFor="username" className="font-bold text-lg">
-                  {t("Utilisateur")}
-                </label>
-                <input
-                  className="w-full p-2  border border-gray-300"
-                  type="text"
-                  id="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  onKeyDown={handleKeyPress}
-                  placeholder={t("Utilisateur")}
-                />
-              </div>
-              <div>
-                <label htmlFor="password" className="font-bold text-lg">
-                  {t("Mote de Passe")}
-                </label>
-                <input
-                  className="w-full p-2  border border-gray-300"
-                  type="password"
-                  ref={passwordInput}
-                  autoComplete="current-password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder={t("Mote de Passe")}
-                />
-              </div>
+              <InputOutlined
+                required
+                type="text"
+                name="Username"
+                label="Username"
+                value={username}
+                error={errorLogin}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <InputOutlined
+                required
+                type="password"
+                name="Password"
+                label={"Password"}
+                value={password}
+                error={errorLogin}
+                onChange={(e) => setPassword(e.target.value)}
+              />
               <button type="submit" className={CustomTheme.greenSubmitButton}>
                 {t("Login")}
               </button>
