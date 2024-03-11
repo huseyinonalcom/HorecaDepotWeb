@@ -12,6 +12,7 @@ import CustomTheme from "../componentThemes";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import areAllPropertiesEmpty from "../../api/utils/input_validators/are_all_properties_empty";
+import componentThemes from "../componentThemes";
 
 export default function CheckOutInfo() {
   const router = useRouter();
@@ -39,6 +40,7 @@ export default function CheckOutInfo() {
   const [chosenDeliveryAddressId, setChosenDeliveryAddressId] = useState(null);
   const [deliverySameAddressAsInvoice, setDeliverySameAddressAsInvoice] = useState(true);
 
+  // could use some work
   useEffect(() => {
     setTimeout(async () => {
       const data = await fetch("/api/client/client/checkloggedinuser");
@@ -84,6 +86,7 @@ export default function CheckOutInfo() {
     }
   };
 
+  // don't change these for now
   const [newClient, setNewClient] = useState<Client>({
     username: "",
     email: "",
@@ -222,6 +225,7 @@ export default function CheckOutInfo() {
     }
   }, [errorsNewClientForm]);
 
+  // don't change these for now
   const [newAddressExistingClient, setNewAddressExistingClient] = useState<Address>({
     country: "",
     city: "",
@@ -277,6 +281,7 @@ export default function CheckOutInfo() {
     }
   }, [errorsNewAddressExistingClientForm]);
 
+  // could use some work
   useEffect(() => {
     if (usedPromoCode != "") {
       calculateTotalWithPromo(currentPromo);
@@ -342,6 +347,7 @@ export default function CheckOutInfo() {
     setTotalAfterPromo(grandTotal);
   };
 
+  // could use some work
   const [documentToPost, setDocumentToPost] = useState<Document>({
     id: 0,
     type: "Commande",
@@ -419,9 +425,11 @@ export default function CheckOutInfo() {
     return (
       <div className="flex flex-col">
         <div className="w-full flex flex-row justify-center">
-          <Link href={"/products"} className="flex flex-row items-center mr-1 font-bold text-black h-full bg-orange-400 pl-3 py-2 pr-3">
-            SHOP
-          </Link>
+          <div>
+            <Link href={"/products"} className={componentThemes.greenSubmitButton}>
+              SHOP
+            </Link>
+          </div>
         </div>
       </div>
     );
