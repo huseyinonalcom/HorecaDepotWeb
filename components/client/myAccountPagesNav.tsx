@@ -53,7 +53,7 @@ export default function MyAccountPagesNav() {
         {t("Tableau du bord")}
       </Link> */}
       <Link href={"/account/myorders"} className={getNavLinkClass("/account/myorders")}>
-        {t("Mes Commandes")}
+        {t("Mes Orders")}
       </Link>
       {/* <Link href={"/account/mydetails"} className={getNavLinkClass("/account/mydetails")}>
         {t("Mes Details")}

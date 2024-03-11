@@ -293,11 +293,11 @@ export default function CheckOutInfo() {
         calculateTotalWithPromo(answer);
         setCurrentPromo(answer);
       } else {
-        setPromoError(t("Promo n'est pas valide"));
+        setPromoError(t("promo_invalid"));
         setTotalAfterPromo(null);
       }
     } catch (error) {
-      setPromoError(t("Promo n'est pas valide"));
+      setPromoError(t("promo_invalid"));
       setTotalAfterPromo(null);
     }
   };
@@ -832,7 +832,7 @@ export default function CheckOutInfo() {
           </div>
           <div className="lg:w-1/4 flex flex-col justify-start">
             <label htmlFor="promo" className="font-bold text-lg">
-              {t("Code Promo")}
+              {t("Promo Code")}
             </label>
             <input
               className="w-full p-2  border border-gray-300"
@@ -840,7 +840,7 @@ export default function CheckOutInfo() {
               id="promo"
               value={usedPromoCode}
               onChange={(e) => setUsedPromoCode(e.target.value)}
-              placeholder={t("Code Promo")}
+              placeholder={t("Promo Code")}
             />
             {promoError && <p className="text-red-400">{promoError}</p>}
             <button onClick={validatePromo} className={CustomTheme.greenSubmitButton}>

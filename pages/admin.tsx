@@ -63,7 +63,7 @@ export default function Admin() {
           {error && <div className="bg-red-100 text-red-700 p-2 text-center ">{error}</div>}
           <div>
             <label htmlFor="username" className="font-bold text-lg">
-              {t("Utilisateur")}
+              {t("user")}
             </label>
             <input
               className="w-full p-2  border border-gray-300"
@@ -72,12 +72,12 @@ export default function Admin() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               onKeyDown={handleKeyPress}
-              placeholder={t("Utilisateur")}
+              placeholder={t("user")}
             />
           </div>
           <div>
             <label htmlFor="password" className="font-bold text-lg">
-              {t("Mote de Passe")}
+              {t("password")}
             </label>
             <input
               className="w-full p-2  border border-gray-300"
@@ -86,7 +86,7 @@ export default function Admin() {
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder={t("Mote de Passe")}
+              placeholder={t("password")}
             />
           </div>
           <button type="submit" className="w-full py-2 bg-black hover:bg-gray-600 text-white ">

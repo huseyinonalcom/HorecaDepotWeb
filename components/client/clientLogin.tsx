@@ -66,7 +66,7 @@ const ClientLogin = () => {
           )}
           <div>
             <label htmlFor="username" className="font-bold text-lg">
-              {t("Utilisateur")}
+              {t("user")}
             </label>
             <input
               className="w-full p-2  border border-gray-300"
@@ -75,12 +75,12 @@ const ClientLogin = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               onKeyDown={handleKeyPress}
-              placeholder={t("Utilisateur")}
+              placeholder={t("user")}
             />
           </div>
           <div>
             <label htmlFor="password" className="font-bold text-lg">
-              {t("Mote de Passe")}
+              {t("password")}
             </label>
             <input
               className="w-full p-2  border border-gray-300"
@@ -89,7 +89,7 @@ const ClientLogin = () => {
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder={t("Mote de Passe")}
+              placeholder={t("password")}
             />
           </div>
           <button

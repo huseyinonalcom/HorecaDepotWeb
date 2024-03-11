@@ -66,7 +66,7 @@ const AdminDrawer = () => {
               <div className={navIconDivClass}>
                 <Package className={iconClass} />
               </div>
-              <span className={textClass}>{t("Commandes")}</span>
+              <span className={textClass}>{t("Orders")}</span>
             </Link>
             <Link className={buttonClass} href="/admin/documents/reservations">
               <div className={navIconDivClass}>
@@ -85,7 +85,7 @@ const AdminDrawer = () => {
             <div className={navIconDivClass}>
               <DollarSign className={iconClass} />
             </div>
-            <span className={textClass}>{t("Paiements")}</span>
+            <span className={textClass}>{t("Payments")}</span>
           </Link> */}
           </div>
           <div className="flex flex-col gap-1">
@@ -185,7 +185,7 @@ const AdminDrawer = () => {
               <div className={navIconDivClass}>
                 <LogOut className={iconClass} />
               </div>
-              <span className={textClass}>{t("Déconnecter")}</span>
+              <span className={textClass}>{t("Logout")}</span>
             </button>
             {/* <Link className={`${buttonClass}`} href="/admin/settings">
             <div className={navIconDivClass}>
