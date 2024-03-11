@@ -16,21 +16,15 @@ import componentThemes from "../componentThemes";
 
 export default function CheckOutInfo() {
   const router = useRouter();
-  const passwordInput = useRef(null);
-  const [errorLogin, setErrorLogin] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
   const { t, lang } = useTranslation("common");
   const options = ["Entreprise", "Particulier"];
   const [cartError, setCartError] = useState("");
   const [promoError, setPromoError] = useState("");
-  const [showLogin, setShowLogin] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const { updateClient } = useContext(ClientContext);
   const [addressError, setAddressError] = useState("");
   const [currentPromo, setCurrentPromo] = useState(null);
-  const { client, clearClient } = useContext(ClientContext);
   const [clientType, setClientType] = useState(options.at(0));
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [usedPromoCode, setUsedPromoCode] = useState<string>("");
@@ -41,6 +35,11 @@ export default function CheckOutInfo() {
   const [deliverySameAddressAsInvoice, setDeliverySameAddressAsInvoice] = useState(true);
 
   // don't change these for now
+  const { client, clearClient } = useContext(ClientContext);
+  const [showLogin, setShowLogin] = useState(false);
+  const [errorLogin, setErrorLogin] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   useEffect(() => {
     setTimeout(async () => {
       const data = await fetch("/api/client/client/checkloggedinuser");
