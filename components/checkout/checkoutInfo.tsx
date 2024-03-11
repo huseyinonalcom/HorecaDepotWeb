@@ -1,3 +1,4 @@
+import areAllPropertiesEmpty from "../../api/utils/input_validators/are_all_properties_empty";
 import areAllPropertiesNull from "../../api/utils/input_validators/are_all_properties_null";
 import validateEmpty from "../../api/utils/input_validators/validate_empty";
 import { Client, ClientConversion } from "../../api/interfaces/client";
@@ -7,39 +8,26 @@ import { CartContext } from "../../api/providers/cartProvider";
 import useTranslation from "next-translate/useTranslation";
 import { Document } from "../../api/interfaces/document";
 import { Address } from "../../api/interfaces/address";
+import componentThemes from "../componentThemes";
 import InputOutlined from "../inputs/outlined";
 import CustomTheme from "../componentThemes";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import areAllPropertiesEmpty from "../../api/utils/input_validators/are_all_properties_empty";
-import componentThemes from "../componentThemes";
 
 export default function CheckOutInfo() {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
   const { t, lang } = useTranslation("common");
-  const options = ["Entreprise", "Particulier"];
-  const [cartError, setCartError] = useState("");
-  const [promoError, setPromoError] = useState("");
-  const [submitError, setSubmitError] = useState("");
-  const { updateClient } = useContext(ClientContext);
-  const [addressError, setAddressError] = useState("");
-  const [currentPromo, setCurrentPromo] = useState(null);
-  const [clientType, setClientType] = useState(options.at(0));
-  const [showAddressForm, setShowAddressForm] = useState(false);
-  const [usedPromoCode, setUsedPromoCode] = useState<string>("");
   const { cart, calculateTotal, clearCart } = useContext(CartContext);
-  const [chosenInvoiceAddressId, setChosenInvoiceAddressId] = useState(null);
-  const [totalAfterPromo, setTotalAfterPromo] = useState<number | null>(null);
-  const [chosenDeliveryAddressId, setChosenDeliveryAddressId] = useState(null);
-  const [deliverySameAddressAsInvoice, setDeliverySameAddressAsInvoice] = useState(true);
 
   // don't change these for now
-  const { client, clearClient } = useContext(ClientContext);
-  const [showLogin, setShowLogin] = useState(false);
-  const [errorLogin, setErrorLogin] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const options = ["Entreprise", "Particulier"];
+  const [errorLogin, setErrorLogin] = useState("");
+  const [showLogin, setShowLogin] = useState(false);
+  const { client, clearClient } = useContext(ClientContext);
+  const [clientType, setClientType] = useState(options.at(0));
+  const [isOpenClientType, setIsOpenClientType] = useState(false);
   useEffect(() => {
     setTimeout(async () => {
       const data = await fetch("/api/client/client/checkloggedinuser");
@@ -69,7 +57,7 @@ export default function CheckOutInfo() {
       if (response.ok) {
         const answer = await response.json();
         const authedClient: Client = ClientConversion.fromJson(answer);
-        updateClient(authedClient as Client);
+        updateClient(authedClient);
         setShowLogin(false);
       } else {
         setErrorLogin(t("user_pass_invalid"));
@@ -219,6 +207,8 @@ export default function CheckOutInfo() {
   }, [errorsNewClientForm]);
 
   // don't change these for now
+  const { updateClient } = useContext(ClientContext);
+  const [showAddressForm, setShowAddressForm] = useState(false);
   const [newAddressExistingClient, setNewAddressExistingClient] = useState<Address>({
     country: "",
     city: "",
@@ -274,7 +264,17 @@ export default function CheckOutInfo() {
     }
   }, [errorsNewAddressExistingClientForm]);
 
-  // could use some work
+  // might need to be checked
+  const [cartError, setCartError] = useState("");
+  const [promoError, setPromoError] = useState("");
+  const [addressError, setAddressError] = useState("");
+  const [currentPromo, setCurrentPromo] = useState(null);
+  const [usedPromoCode, setUsedPromoCode] = useState<string>("");
+  const [submitErrorDocument, setSubmitErrorDocument] = useState("");
+  const [chosenInvoiceAddressId, setChosenInvoiceAddressId] = useState(null);
+  const [totalAfterPromo, setTotalAfterPromo] = useState<number | null>(null);
+  const [chosenDeliveryAddressId, setChosenDeliveryAddressId] = useState(null);
+  const [deliverySameAddressAsInvoice, setDeliverySameAddressAsInvoice] = useState(true);
   useEffect(() => {
     if (usedPromoCode != "") {
       calculateTotalWithPromo(currentPromo);
@@ -340,23 +340,7 @@ export default function CheckOutInfo() {
     setTotalAfterPromo(grandTotal);
   };
 
-  // could use some work
-  const [documentToPost, setDocumentToPost] = useState<Document>({
-    id: 0,
-    type: "Commande",
-    prefix: "NB-",
-    number: "0",
-    phase: 1,
-    invoiced: false,
-    deleted: false,
-    date: "",
-    client: { id: 0 },
-    note: null,
-    decisionMaker: null,
-    document_products: [{ id: 0 }, { id: 1 }],
-    docAddress: null,
-    delAddress: null,
-  });
+  // might need to be checked
   const handleOrderSubmit = async (event) => {
     event.preventDefault();
     if (!chosenInvoiceAddressId) {
@@ -372,6 +356,22 @@ export default function CheckOutInfo() {
       setCartError(t("Panier Vide"));
       return;
     }
+    let documentToPost: Document = {
+      id: 0,
+      type: "Commande",
+      prefix: "NB-",
+      number: "0",
+      phase: 1,
+      invoiced: false,
+      deleted: false,
+      date: "",
+      client: { id: 0 },
+      note: null,
+      decisionMaker: null,
+      document_products: [{ id: 0 }, { id: 1 }],
+      docAddress: null,
+      delAddress: null,
+    };
     documentToPost.decisionMaker = `${client.client_info.firstName} ${client.client_info.lastName}`;
     documentToPost.docAddress = client.client_info.addresses.find((address) => address.id == chosenInvoiceAddressId);
     if (deliverySameAddressAsInvoice == true) {
@@ -396,7 +396,6 @@ export default function CheckOutInfo() {
     if (request.ok) {
       const answer = await request.json();
       const orderID = answer.documentID;
-      clearCart();
       const paymentReq = await fetch(`/api/payment/createpaymentlink?test=false`, {
         method: "POST",
         body: JSON.stringify(answer),
@@ -404,13 +403,14 @@ export default function CheckOutInfo() {
       if (paymentReq.ok) {
         const response = await paymentReq.json();
         if (response.url != 0) {
+          clearCart();
           window.location.href = response.url;
         } else {
           router.push(`/account/order?id=${orderID}`);
         }
       }
     } else {
-      setSubmitError("Une erreur s'est produite lors de la création de votre commande!");
+      setSubmitErrorDocument("Une erreur s'est produite lors de la création de votre commande!");
     }
   };
 
@@ -491,7 +491,7 @@ export default function CheckOutInfo() {
               id="menu-button"
               aria-expanded="true"
               aria-haspopup="true"
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={() => setIsOpenClientType(!isOpenClientType)}
             >
               {clientType}
               <svg className="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -505,7 +505,7 @@ export default function CheckOutInfo() {
 
             <div
               className={`absolute mt-2 bg-white -md px-4 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
-                isOpen
+                isOpenClientType
                   ? "transition ease-out duration-100 transform opacity-100 scale-100 visible"
                   : "invisible transition ease-in duration-75 transform opacity-0 scale-95"
               }`}
@@ -521,7 +521,7 @@ export default function CheckOutInfo() {
                   id="menu-item-0"
                   onClick={() => {
                     setClientType(options.at(0));
-                    setIsOpen(false);
+                    setIsOpenClientType(false);
                   }}
                 >
                   {options.at(0)}
@@ -533,7 +533,7 @@ export default function CheckOutInfo() {
                   id="menu-item-1"
                   onClick={() => {
                     setClientType(options.at(1));
-                    setIsOpen(false);
+                    setIsOpenClientType(false);
                   }}
                 >
                   {options.at(1)}
@@ -542,7 +542,7 @@ export default function CheckOutInfo() {
             </div>
           </div>
         </div>
-        <form className="flex flex-col gap-2">
+        <form onSubmit={handleClientSubmit} className="flex flex-col gap-2">
           {clientType == options[0] && (
             <>
               <div className="flex flex-col w-full">
@@ -794,7 +794,7 @@ export default function CheckOutInfo() {
             </div>
           </div>
           <div className="flex flex-row w-full">
-            <button onClick={handleClientSubmit} type="submit" className={CustomTheme.greenSubmitButton}>
+            <button type="submit" className={CustomTheme.greenSubmitButton}>
               {t("Proceed")}
             </button>
           </div>
@@ -1021,19 +1021,11 @@ export default function CheckOutInfo() {
         </div>
         {addressError && <p className="text-red-500">{addressError}</p>}
         {cartError && <p className="text-red-500">{cartError}</p>}
-        {submitError && <p className="text-red-500">{submitError}</p>}
+        {submitErrorDocument && <p className="text-red-500">{submitErrorDocument}</p>}
         <button onClick={handleOrderSubmit} className={CustomTheme.greenSubmitButton}>
           {t("Proceed with order")}
         </button>
-        {lang != "tr" ? (
-          <p className="mt-8">
-            {t("Not")} {client.client_info.firstName} {client.client_info.lastName}?
-          </p>
-        ) : (
-          <p className="mt-8">
-            Siz {client.client_info.firstName} {client.client_info.lastName} değil misiniz?
-          </p>
-        )}
+        <p className="mt-8">{t("wrong_user", { userName: `${client.client_info.firstName} ${client.client_info.lastName}` })}</p>
         <button onClick={handleLogOut} className={CustomTheme.orangeSubmitButton}>
           {t("Log Out")}
         </button>

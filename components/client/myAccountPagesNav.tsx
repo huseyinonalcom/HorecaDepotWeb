@@ -14,8 +14,7 @@ export default function MyAccountPagesNav() {
   console.log(client);
 
   const getNavLinkClass = (href) => {
-    const baseClass =
-      "font-bold py-1 pl-1 duration-300 w-full hover:bg-gray-200";
+    const baseClass = "font-bold py-1 pl-1 duration-300 w-full hover:bg-gray-200";
     return href === pathname ? `${baseClass} bg-gray-200` : baseClass;
   };
 
@@ -38,30 +37,14 @@ export default function MyAccountPagesNav() {
 
   return (
     <div className="flex flex-col items-left w-[200px] justify-start pr-2 border-r border-gray-400 flex-shrink-0 print:hidden">
-      <h2 className="font-bold text-2xl pb-2 border-gray-400 border-b mb-2">
-        {t("Ma Compte")}
-      </h2>
+      <h2 className="font-bold text-2xl pb-2 border-gray-400 border-b mb-2">{t("Ma Compte")}</h2>
       {client && (
         <>
           <h2 className="font-bold py-1 pl-1 w-full">
-            <AutoTextSize maxFontSizePx={12}>
-              {client.client_info.firstName + " " + client.client_info.lastName}
-            </AutoTextSize>
+            <AutoTextSize maxFontSizePx={12}>{client.client_info.firstName + " " + client.client_info.lastName}</AutoTextSize>
           </h2>
-          <Link
-            href={"/"}
-            as={"/"}
-            onClick={handleLogOut}
-            className="font-bold py-1 pl-1 duration-300 w-full hover:bg-gray-200"
-          >
-            <AutoTextSize maxFontSizePx={12}>
-              {t("Not") +
-                " " +
-                client.client_info.firstName +
-                " " +
-                client.client_info.lastName}
-              ?
-            </AutoTextSize>
+          <Link href={"/"} as={"/"} onClick={handleLogOut} className="font-bold py-1 pl-1 duration-300 w-full hover:bg-gray-200">
+            <AutoTextSize maxFontSizePx={12}>{t("wrong_user", { userName: `${client.client_info.firstName} ${client.client_info.lastName}` })}</AutoTextSize>
           </Link>
         </>
       )}
@@ -69,10 +52,7 @@ export default function MyAccountPagesNav() {
       {/* <Link href={"/account/myaccount"} className={getNavLinkClass("/account/myaccount")}>
         {t("Tableau du bord")}
       </Link> */}
-      <Link
-        href={"/account/myorders"}
-        className={getNavLinkClass("/account/myorders")}
-      >
+      <Link href={"/account/myorders"} className={getNavLinkClass("/account/myorders")}>
         {t("Mes Commandes")}
       </Link>
       {/* <Link href={"/account/mydetails"} className={getNavLinkClass("/account/mydetails")}>
