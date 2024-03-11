@@ -1,16 +1,17 @@
+import areAllPropertiesNull from "../../api/utils/input_validators/are_all_properties_null";
+import validateEmpty from "../../api/utils/input_validators/validate_empty";
 import { Client, ClientConversion } from "../../api/interfaces/client";
 import { ClientContext } from "../../api/providers/clientProvider";
 import { useContext, useEffect, useRef, useState } from "react";
 import { CartContext } from "../../api/providers/cartProvider";
 import useTranslation from "next-translate/useTranslation";
-import { Address } from "../../api/interfaces/address";
 import { Document } from "../../api/interfaces/document";
+import { Address } from "../../api/interfaces/address";
 import InputOutlined from "../inputs/outlined";
 import CustomTheme from "../componentThemes";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import areAllPropertiesNull from "../../api/utils/input_validators/are_all_properties_null";
-import validateEmpty from "../../api/utils/input_validators/validate_empty";
+import areAllPropertiesEmpty from "../../api/utils/input_validators/are_all_properties_empty";
 
 export default function CheckOutInfo() {
   const router = useRouter();
@@ -28,7 +29,6 @@ export default function CheckOutInfo() {
   const { updateClient } = useContext(ClientContext);
   const [addressError, setAddressError] = useState("");
   const [currentPromo, setCurrentPromo] = useState(null);
-  const [passwordRepeat, setPasswordRepeat] = useState("");
   const { client, clearClient } = useContext(ClientContext);
   const [clientType, setClientType] = useState(options.at(0));
   const [showAddressForm, setShowAddressForm] = useState(false);
@@ -38,8 +38,67 @@ export default function CheckOutInfo() {
   const [totalAfterPromo, setTotalAfterPromo] = useState<number | null>(null);
   const [chosenDeliveryAddressId, setChosenDeliveryAddressId] = useState(null);
   const [deliverySameAddressAsInvoice, setDeliverySameAddressAsInvoice] = useState(true);
-  const [newAddressExistingClient, setNewAddressExistingClient] = useState<Address>({
-    name: "Secondaire",
+
+  useEffect(() => {
+    setTimeout(async () => {
+      const data = await fetch("/api/client/client/checkloggedinuser");
+      if (data.status != 200) {
+        clearClient();
+        await fetch("/api/client/client/logout").then(() => {});
+      }
+    }, 200);
+  }, []);
+  const handleLogOut = async (event) => {
+    event.preventDefault();
+    clearClient();
+    await fetch("/api/client/client/logout").then(() => {});
+  };
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter" && event.target.id === "username") {
+      event.preventDefault();
+      passwordInput.current?.focus();
+    }
+  };
+  const handleLoginSubmit = async (event) => {
+    event.preventDefault();
+    setError("");
+    try {
+      const response = await fetch("/api/auth/postlogin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ identifier: username, password }),
+      });
+
+      if (response.ok) {
+        const answer = await response.json();
+        const authedClient: Client = ClientConversion.fromJson(answer);
+        updateClient(authedClient as Client);
+        setShowLogin(false);
+      } else {
+        setError(t("user_pass_invalid"));
+      }
+    } catch (error) {
+      setError(t("user_pass_invalid"));
+    }
+  };
+
+  const [newClient, setNewClient] = useState<Client>({
+    username: "",
+    email: "",
+    password: "",
+    client_info: {
+      firstName: "",
+      lastName: "",
+      phone: "",
+      category: "",
+      company: "",
+      taxID: "",
+    },
+  });
+  const [passwordRepeat, setPasswordRepeat] = useState("");
+  const [addressNewClient, setAddressNewClient] = useState<Address>({
     country: "",
     city: "",
     zipCode: "",
@@ -47,7 +106,7 @@ export default function CheckOutInfo() {
     street: "",
     floor: "",
   });
-  const [errors, setErrors] = useState({
+  const [errorsNewClientForm, setErrorsNewClientForm] = useState({
     company: null,
     taxID: null,
     firstName: null,
@@ -62,66 +121,13 @@ export default function CheckOutInfo() {
     zipCode: null,
     city: null,
   });
-  const [newClient, setNewClient] = useState<Client>({
-    username: "",
-    email: "",
-    password: "",
-    blocked: true,
-    client_info: {
-      deleted: false,
-      firstName: "",
-      lastName: "",
-      phone: "",
-      category: "",
-      company: "",
-      taxID: "",
-    },
-  });
-  const [addressNewClient, setAddressNewClient] = useState<Address>({
-    name: "Primaire",
-    country: "",
-    city: "",
-    zipCode: "",
-    doorNumber: "",
-    street: "",
-    floor: "",
-  });
-  const [documentToPost, setDocumentToPost] = useState<Document>({
-    id: 0,
-    type: "Commande",
-    prefix: "NB-",
-    number: "0",
-    phase: 1,
-    invoiced: false,
-    deleted: false,
-    date: "",
-    client: { id: 0 },
-    note: null,
-    decisionMaker: null,
-    document_products: [{ id: 0 }, { id: 1 }],
-    docAddress: null,
-    delAddress: null,
-  });
-
-  useEffect(() => {
-    setTimeout(async () => {
-      const data = await fetch("/api/client/client/checkloggedinuser");
-      if (data.status != 200) {
-        clearClient();
-      }
-    }, 200);
-  }, []);
-
-  const handleLogOut = async (event) => {
-    event.preventDefault();
-    clearClient();
-    await fetch("/api/client/client/logout").then(() => {});
-  };
-
   const handleClientSubmit = async (event) => {
     event.preventDefault();
 
-    setErrors((e) => ({
+    console.log(areAllPropertiesEmpty(newClient));
+    console.log(areAllPropertiesEmpty(addressNewClient));
+
+    setErrorsNewClientForm((e) => ({
       company: null,
       taxID: null,
       firstName: null,
@@ -138,31 +144,29 @@ export default function CheckOutInfo() {
     }));
 
     if (clientType === options.at(0)) {
-      setErrors((e) => ({ ...e, company: validateEmpty(newClient.client_info.company) }));
-      setErrors((e) => ({ ...e, taxID: validateEmpty(newClient.client_info.taxID) }));
+      setErrorsNewClientForm((e) => ({ ...e, company: validateEmpty(newClient.client_info.company) }));
+      setErrorsNewClientForm((e) => ({ ...e, taxID: validateEmpty(newClient.client_info.taxID) }));
     }
 
-    setErrors((e) => ({ ...e, firstName: validateEmpty(newClient.client_info.firstName) }));
-    setErrors((e) => ({ ...e, lastName: validateEmpty(newClient.client_info.lastName) }));
-    setErrors((e) => ({ ...e, email: validateEmpty(newClient.email) }));
-    setErrors((e) => ({ ...e, password: validateEmpty(newClient.password) }));
-    setErrors((e) => ({ ...e, password_repeat: validateEmpty(passwordRepeat) }));
+    setErrorsNewClientForm((e) => ({ ...e, firstName: validateEmpty(newClient.client_info.firstName) }));
+    setErrorsNewClientForm((e) => ({ ...e, lastName: validateEmpty(newClient.client_info.lastName) }));
+    setErrorsNewClientForm((e) => ({ ...e, email: validateEmpty(newClient.email) }));
+    setErrorsNewClientForm((e) => ({ ...e, password: validateEmpty(newClient.password) }));
+    setErrorsNewClientForm((e) => ({ ...e, password_repeat: validateEmpty(passwordRepeat) }));
 
     if (!validateEmpty(passwordRepeat) && !validateEmpty(newClient.password)) {
-      setErrors((e) => ({ ...e, password_repeat: passwordRepeat == newClient.password ? null : t("password_notmatching") }));
+      setErrorsNewClientForm((e) => ({ ...e, password_repeat: passwordRepeat == newClient.password ? null : t("password_notmatching") }));
     }
 
-    setErrors((e) => ({ ...e, country: validateEmpty(addressNewClient.country) }));
-    setErrors((e) => ({ ...e, street: validateEmpty(addressNewClient.street) }));
-    setErrors((e) => ({ ...e, doorNumber: validateEmpty(addressNewClient.doorNumber) }));
-    setErrors((e) => ({ ...e, floor: validateEmpty(addressNewClient.floor) }));
-    setErrors((e) => ({ ...e, zipCode: validateEmpty(addressNewClient.zipCode) }));
-    setErrors((e) => ({ ...e, city: validateEmpty(addressNewClient.city) }));
+    setErrorsNewClientForm((e) => ({ ...e, country: validateEmpty(addressNewClient.country) }));
+    setErrorsNewClientForm((e) => ({ ...e, street: validateEmpty(addressNewClient.street) }));
+    setErrorsNewClientForm((e) => ({ ...e, doorNumber: validateEmpty(addressNewClient.doorNumber) }));
+    setErrorsNewClientForm((e) => ({ ...e, floor: validateEmpty(addressNewClient.floor) }));
+    setErrorsNewClientForm((e) => ({ ...e, zipCode: validateEmpty(addressNewClient.zipCode) }));
+    setErrorsNewClientForm((e) => ({ ...e, city: validateEmpty(addressNewClient.city) }));
   };
-
   useEffect(() => {
-    console.log(areAllPropertiesNull(errors));
-    if (areAllPropertiesNull(errors)) {
+    if (areAllPropertiesNull(errorsNewClientForm) && !areAllPropertiesEmpty(newClient) && !areAllPropertiesEmpty(addressNewClient)) {
       const post = async () => {
         const clientToSend: Client = {
           ...newClient,
@@ -216,73 +220,68 @@ export default function CheckOutInfo() {
       };
       post();
     }
-  }, [errors]);
+  }, [errorsNewClientForm]);
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter" && event.target.id === "username") {
-      event.preventDefault();
-      passwordInput.current?.focus();
-    }
-  };
-
-  const handleLoginSubmit = async (event) => {
+  const [newAddressExistingClient, setNewAddressExistingClient] = useState<Address>({
+    country: "",
+    city: "",
+    zipCode: "",
+    doorNumber: "",
+    street: "",
+    floor: "",
+  });
+  const [errorsNewAddressExistingClientForm, setErrorsNewAddressExistingClientForm] = useState({
+    country: null,
+    street: null,
+    doorNumber: null,
+    floor: null,
+    zipCode: null,
+    city: null,
+  });
+  const handleNewAddressExistingClientFormSubmit = async (event) => {
     event.preventDefault();
-    setError("");
-    try {
-      const response = await fetch("/api/auth/postlogin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ identifier: username, password }),
-      });
 
-      if (response.ok) {
-        const answer = await response.json();
-        const authedClient: Client = ClientConversion.fromJson(answer);
-        updateClient(authedClient as Client);
-        setShowLogin(false);
-      } else {
-        setError(t("user_pass_invalid"));
-      }
-    } catch (error) {
-      setError(t("user_pass_invalid"));
-    }
+    setErrorsNewAddressExistingClientForm((e) => ({
+      country: null,
+      street: null,
+      doorNumber: null,
+      floor: null,
+      zipCode: null,
+      city: null,
+    }));
+
+    setErrorsNewAddressExistingClientForm((e) => ({ ...e, country: validateEmpty(newAddressExistingClient.country) }));
+    setErrorsNewAddressExistingClientForm((e) => ({ ...e, street: validateEmpty(newAddressExistingClient.street) }));
+    setErrorsNewAddressExistingClientForm((e) => ({ ...e, doorNumber: validateEmpty(newAddressExistingClient.doorNumber) }));
+    setErrorsNewAddressExistingClientForm((e) => ({ ...e, floor: validateEmpty(newAddressExistingClient.floor) }));
+    setErrorsNewAddressExistingClientForm((e) => ({ ...e, zipCode: validateEmpty(newAddressExistingClient.zipCode) }));
+    setErrorsNewAddressExistingClientForm((e) => ({ ...e, city: validateEmpty(newAddressExistingClient.city) }));
   };
-
-  const handleNewAddressExistingClientChange = async (event) => {
-    const { name, value } = event.target;
-
-    if (name in newAddressExistingClient) {
-      setNewAddressExistingClient({
-        ...newAddressExistingClient,
-        [name]: value,
-      });
+  useEffect(() => {
+    if (areAllPropertiesNull(errorsNewAddressExistingClientForm) && !areAllPropertiesEmpty(newAddressExistingClient)) {
+      const post = async () => {
+        const request = await fetch("/api/client/client/postnewaddress?client=" + client.client_info.id, {
+          method: "POST",
+          body: JSON.stringify({
+            newAddressExistingClient,
+          }),
+        });
+        if (request.ok) {
+          setShowAddressForm(false);
+          const requestUpdatedClient = await fetch("/api/client/client/updateclientinfo");
+          const answerUpdatedClient = await requestUpdatedClient.json();
+          updateClient(answerUpdatedClient);
+        }
+      };
+      post();
     }
-  };
-
-  const handleNewAddressExistingClientSubmit = async (event) => {
-    event.preventDefault();
-    const request = await fetch("/api/client/client/postnewaddress?client=" + client.client_info.id, {
-      method: "POST",
-      body: JSON.stringify({
-        newAddressExistingClient,
-      }),
-    });
-    if (request.ok) {
-      setShowAddressForm(false);
-      const requestUpdatedClient = await fetch("/api/client/client/updateclientinfo");
-      const answerUpdatedClient = await requestUpdatedClient.json();
-      updateClient(answerUpdatedClient);
-    }
-  };
+  }, [errorsNewAddressExistingClientForm]);
 
   useEffect(() => {
     if (usedPromoCode != "") {
       calculateTotalWithPromo(currentPromo);
     }
   }, [cart]);
-
   const validatePromo = async (e) => {
     e.preventDefault();
     try {
@@ -304,7 +303,6 @@ export default function CheckOutInfo() {
       setTotalAfterPromo(null);
     }
   };
-
   const calculateTotalWithPromo = async (promoDetails) => {
     const cartAfterPromo = JSON.parse(JSON.stringify(cart));
     const discountAmount = promoDetails.discount;
@@ -344,6 +342,22 @@ export default function CheckOutInfo() {
     setTotalAfterPromo(grandTotal);
   };
 
+  const [documentToPost, setDocumentToPost] = useState<Document>({
+    id: 0,
+    type: "Commande",
+    prefix: "NB-",
+    number: "0",
+    phase: 1,
+    invoiced: false,
+    deleted: false,
+    date: "",
+    client: { id: 0 },
+    note: null,
+    decisionMaker: null,
+    document_products: [{ id: 0 }, { id: 1 }],
+    docAddress: null,
+    delAddress: null,
+  });
   const handleOrderSubmit = async (event) => {
     event.preventDefault();
     if (!chosenInvoiceAddressId) {
@@ -548,7 +562,7 @@ export default function CheckOutInfo() {
                   name="company"
                   label={"Company Name"}
                   value={newClient.client_info.company}
-                  error={errors.company}
+                  error={errorsNewClientForm.company}
                   onChange={(e) => {
                     setNewClient({
                       ...newClient,
@@ -567,7 +581,7 @@ export default function CheckOutInfo() {
                   name="taxID"
                   label={"VAT number"}
                   value={newClient.client_info.taxID}
-                  error={errors.taxID}
+                  error={errorsNewClientForm.taxID}
                   onChange={(e) => {
                     setNewClient({
                       ...newClient,
@@ -589,7 +603,7 @@ export default function CheckOutInfo() {
                 name="firstName"
                 label={"Your first name"}
                 value={newClient.client_info.firstName}
-                error={errors.firstName}
+                error={errorsNewClientForm.firstName}
                 onChange={(e) => {
                   setNewClient({
                     ...newClient,
@@ -608,7 +622,7 @@ export default function CheckOutInfo() {
                 name="lastName"
                 label={"Your last name"}
                 value={newClient.client_info.lastName}
-                error={errors.lastName}
+                error={errorsNewClientForm.lastName}
                 onChange={(e) => {
                   setNewClient({
                     ...newClient,
@@ -628,7 +642,7 @@ export default function CheckOutInfo() {
               name="country"
               label={"Country"}
               value={addressNewClient.country}
-              error={errors.country}
+              error={errorsNewClientForm.country}
               onChange={(e) => {
                 setAddressNewClient({
                   ...addressNewClient,
@@ -645,7 +659,7 @@ export default function CheckOutInfo() {
                 name="street"
                 label={"Street"}
                 value={addressNewClient.street}
-                error={errors.street}
+                error={errorsNewClientForm.street}
                 onChange={(e) => {
                   setAddressNewClient({
                     ...addressNewClient,
@@ -661,7 +675,7 @@ export default function CheckOutInfo() {
                 name="doorNumber"
                 label={"Door"}
                 value={addressNewClient.doorNumber}
-                error={errors.doorNumber}
+                error={errorsNewClientForm.doorNumber}
                 onChange={(e) => {
                   setAddressNewClient({
                     ...addressNewClient,
@@ -677,7 +691,7 @@ export default function CheckOutInfo() {
                 name="floor"
                 label={"Floor"}
                 value={addressNewClient.floor}
-                error={errors.floor}
+                error={errorsNewClientForm.floor}
                 onChange={(e) => {
                   setAddressNewClient({
                     ...addressNewClient,
@@ -695,7 +709,7 @@ export default function CheckOutInfo() {
                 name="zipCode"
                 label={"Zip Code"}
                 value={addressNewClient.zipCode}
-                error={errors.zipCode}
+                error={errorsNewClientForm.zipCode}
                 onChange={(e) => {
                   setAddressNewClient({
                     ...addressNewClient,
@@ -711,7 +725,7 @@ export default function CheckOutInfo() {
                 name="city"
                 label={"City"}
                 value={addressNewClient.city}
-                error={errors.city}
+                error={errorsNewClientForm.city}
                 onChange={(e) => {
                   setAddressNewClient({
                     ...addressNewClient,
@@ -748,7 +762,7 @@ export default function CheckOutInfo() {
                 name="email"
                 label={"E-mail"}
                 value={newClient.email}
-                error={errors.email}
+                error={errorsNewClientForm.email}
                 onChange={(e) => {
                   setNewClient({
                     ...newClient,
@@ -766,7 +780,7 @@ export default function CheckOutInfo() {
                 name="password"
                 label={"Password"}
                 value={newClient.password}
-                error={errors.password}
+                error={errorsNewClientForm.password}
                 onChange={(e) => {
                   setNewClient({
                     ...newClient,
@@ -784,7 +798,7 @@ export default function CheckOutInfo() {
                 name="password_repeat"
                 label={"Repeat Password"}
                 value={passwordRepeat}
-                error={errors.password_repeat}
+                error={errorsNewClientForm.password_repeat}
                 onChange={(e) => setPasswordRepeat(e.target.value)}
               />
             </div>
@@ -871,84 +885,108 @@ export default function CheckOutInfo() {
           </button>
           {showAddressForm && (
             <form>
-              <div className="flex flex-row">
-                <div className="flex flex-col w-full">
-                  <h3 className="">{t("Pays")}</h3>
-                  <div className="pr-4">
-                    <input
-                      required
-                      onChange={handleNewAddressExistingClientChange}
-                      className="w-full p-2  border border-gray-300"
-                      type="text"
-                      name="country"
-                      value={newAddressExistingClient.country}
-                      placeholder={t("Pays")}
-                    />
-                  </div>
+              <div className="flex flex-col w-full">
+                <InputOutlined
+                  required
+                  type="text"
+                  name="country"
+                  label={"Country"}
+                  value={newAddressExistingClient.country}
+                  error={errorsNewAddressExistingClientForm.country}
+                  onChange={(e) => {
+                    setNewAddressExistingClient({
+                      ...newAddressExistingClient,
+                      country: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <div className="flex flex-col w-full sm:w-7/12">
+                  <InputOutlined
+                    required
+                    type="text"
+                    name="street"
+                    label={"Street"}
+                    value={newAddressExistingClient.street}
+                    error={errorsNewAddressExistingClientForm.street}
+                    onChange={(e) => {
+                      setNewAddressExistingClient({
+                        ...newAddressExistingClient,
+                        street: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
+                <div className="flex flex-col w-full sm:w-3/12">
+                  <InputOutlined
+                    required
+                    type="text"
+                    name="doorNumber"
+                    label={"Door"}
+                    value={newAddressExistingClient.doorNumber}
+                    error={errorsNewAddressExistingClientForm.doorNumber}
+                    onChange={(e) => {
+                      setNewAddressExistingClient({
+                        ...newAddressExistingClient,
+                        doorNumber: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
+                <div className="flex flex-col w-full sm:w-2/12">
+                  <InputOutlined
+                    required
+                    type="text"
+                    name="floor"
+                    label={"Floor"}
+                    value={newAddressExistingClient.floor}
+                    error={errorsNewAddressExistingClientForm.floor}
+                    onChange={(e) => {
+                      setNewAddressExistingClient({
+                        ...newAddressExistingClient,
+                        floor: e.target.value,
+                      });
+                    }}
+                  />
                 </div>
               </div>
-              <div className="flex flex-col lg:flex-row">
-                <div className="flex flex-col lg:w-8/12">
-                  <h3 className="">{t("Rue")}</h3>
-                  <div className="pr-4">
-                    <input
-                      required
-                      onChange={handleNewAddressExistingClientChange}
-                      className="w-full p-2  border border-gray-300"
-                      type="text"
-                      name="street"
-                      value={newAddressExistingClient.street}
-                      placeholder={t("Rue")}
-                    />
-                  </div>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <div className="flex flex-col w-full sm:w-4/12">
+                  <InputOutlined
+                    required
+                    type="text"
+                    name="zipCode"
+                    label={"Zip Code"}
+                    value={newAddressExistingClient.zipCode}
+                    error={errorsNewAddressExistingClientForm.zipCode}
+                    onChange={(e) => {
+                      setNewAddressExistingClient({
+                        ...newAddressExistingClient,
+                        zipCode: e.target.value,
+                      });
+                    }}
+                  />
                 </div>
-                <div className="flex flex-col lg:w-4/12">
-                  <h3 className="">{t("Porte")}</h3>
-                  <div className="pr-4">
-                    <input
-                      required
-                      onChange={handleNewAddressExistingClientChange}
-                      className="w-full p-2  border border-gray-300"
-                      type="text"
-                      name="doorNumber"
-                      value={newAddressExistingClient.doorNumber}
-                      placeholder={t("Porte")}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col lg:flex-row">
-                <div className="flex flex-col lg:w-4/12">
-                  <h3 className="">{t("Code Postal")}</h3>
-                  <div className="pr-4">
-                    <input
-                      required
-                      onChange={handleNewAddressExistingClientChange}
-                      className="w-full p-2  border border-gray-300"
-                      type="text"
-                      name="zipCode"
-                      value={newAddressExistingClient.zipCode}
-                      placeholder={t("Code Postal")}
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col lg:w-8/12">
-                  <h3 className="">{t("Ville")}</h3>
-                  <div className="pr-4">
-                    <input
-                      required
-                      onChange={handleNewAddressExistingClientChange}
-                      className="w-full p-2  border border-gray-300"
-                      type="text"
-                      name="city"
-                      value={newAddressExistingClient.city}
-                      placeholder={t("Ville")}
-                    />
-                  </div>
+                <div className="flex flex-col w-full sm:w-8/12">
+                  <InputOutlined
+                    required
+                    type="text"
+                    name="city"
+                    label={"City"}
+                    value={newAddressExistingClient.city}
+                    error={errorsNewAddressExistingClientForm.city}
+                    onChange={(e) => {
+                      setNewAddressExistingClient({
+                        ...newAddressExistingClient,
+                        city: e.target.value,
+                      });
+                    }}
+                  />
                 </div>
               </div>
               <div className="flex flex-row w-full">
-                <button onClick={handleNewAddressExistingClientSubmit} type="submit" className={CustomTheme.greenSubmitButton}>
+                <button onClick={handleNewAddressExistingClientFormSubmit} type="submit" className={CustomTheme.greenSubmitButton}>
                   {t("Register new address")}
                 </button>
               </div>
