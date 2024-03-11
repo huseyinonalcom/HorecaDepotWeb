@@ -7,8 +7,7 @@ import ButtonShadow1 from "../buttons/shadow_1";
 
 export default function CheckOutCart() {
   const { t, lang } = useTranslation("common");
-  const { cart, increaseQuantity, decreaseQuantity, removeFromCart } =
-    useContext(CartContext);
+  const { cart, increaseQuantity, decreaseQuantity, removeFromCart } = useContext(CartContext);
 
   if (cart.length <= 0) {
     return (
@@ -31,12 +30,7 @@ export default function CheckOutCart() {
           <div className="flex flex-col items-center w-full">
             <div className="flex flex-row justify-center">
               <Image
-                src={
-                  product.images != null
-                    ? "https://hdapi.huseyinonalalpha.com" +
-                      product.images.at(0).url
-                    : "/assets/img/placeholder.png"
-                }
+                src={product.images != null ? "https://hdapi.huseyinonalalpha.com" + product.images.at(0).url : "/assets/img/placeholder.png"}
                 alt={product.name}
                 width={150}
                 height={150}
@@ -46,31 +40,18 @@ export default function CheckOutCart() {
               <AutoTextSize maxFontSizePx={14}>{product.name}</AutoTextSize>
             </h3>
             <h4 className="h-[20px] text-base w-full justify-center overflow-hidden duration-700">
-              <AutoTextSize maxFontSizePx={12}>
-                {product.internalCode}
-              </AutoTextSize>
+              <AutoTextSize maxFontSizePx={12}>{product.internalCode}</AutoTextSize>
             </h4>
           </div>
           <div className="w-full flex flex-row items-end justify-center mb-2">
             <p className="mr-1 text-gray-400 text-sm line-through mb-1">
-              {product.priceBeforeDiscount > product.value
-                ? "€ " +
-                  (product.priceBeforeDiscount * product.amount)
-                    .toFixed(2)
-                    .replaceAll(".", ",")
-                : ""}
+              {product.priceBeforeDiscount > product.value ? "€ " + (product.priceBeforeDiscount * product.amount).toFixed(2).replaceAll(".", ",") : ""}
             </p>
-            <p className="text-orange-400 text-lg font-bold">
-              €{" "}
-              {(product.value * product.amount).toFixed(2).replaceAll(".", ",")}
-            </p>
+            <p className="text-orange-400 text-lg font-bold">€ {(product.value * product.amount).toFixed(2).replaceAll(".", ",")}</p>
           </div>
 
           <div className="flex flex-row items-end justify-center">
-            <button
-              onClick={() => removeFromCart(product.id)}
-              className="mr-2.5"
-            >
+            <button onClick={() => removeFromCart(product.id)} className="mr-2.5">
               🗑
             </button>
             <ButtonShadow1 onClick={() => decreaseQuantity(product.id)}>
