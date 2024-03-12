@@ -196,7 +196,7 @@ export default function Order() {
                 onChange={(e) => setInputTags(e.target.value)}
                 placeholder={t("Tags")}
               />
-              <button className={componentThemes.greenSubmitButton}>
+              <button className={componentThemes.greenSubmitButton} type="submit">
                 {t("bulk_tags_modify")}
               </button>
               {submitError && (

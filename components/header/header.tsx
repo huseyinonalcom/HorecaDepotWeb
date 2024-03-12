@@ -6,14 +6,7 @@ import Image from "next/image";
 import useTranslation from "next-translate/useTranslation";
 import setLanguage from "next-translate/setLanguage";
 
-import {
-  ChevronLeft,
-  Heart,
-  Menu,
-  Search,
-  ShoppingBag,
-  User,
-} from "react-feather";
+import { ChevronLeft, Heart, Menu, Search, ShoppingBag, User } from "react-feather";
 import { CategoryContext } from "../../api/providers/categoryProvider";
 import { CartContext } from "../../api/providers/cartProvider";
 import { ClientContext } from "../../api/providers/clientProvider";
@@ -26,8 +19,7 @@ const CategoryItem = ({ category }) => {
   const { t } = useTranslation("common");
   const [isHovered, setisHovered] = useState(false);
   const router = useRouter();
-  const hasSubCategories =
-    category.subCategories && category.subCategories.length > 0;
+  const hasSubCategories = category.subCategories && category.subCategories.length > 0;
 
   return (
     <div
@@ -47,13 +39,7 @@ const CategoryItem = ({ category }) => {
         className="py-2 w-full px-4 w-full text-left flex justify-between items-center"
       >
         {t(category.Name)}
-        {hasSubCategories && (
-          <ChevronLeft
-            className={
-              "w-4 h-4 duration-300 " + (isHovered ? "rotate-180" : "")
-            }
-          />
-        )}
+        {hasSubCategories && <ChevronLeft className={"w-4 h-4 duration-300 " + (isHovered ? "rotate-180" : "")} />}
       </p>
       {hasSubCategories && isHovered && (
         <div
@@ -122,10 +108,8 @@ const Header = () => {
     }
   };
 
-  const flagButtonClass =
-    "px-4 py-1 duration-300 font-bold underline-animation-white whitespace-nowrap";
-  const navLinkClass =
-    "duration-300 font-bold underline-animation-white whitespace-nowrap";
+  const flagButtonClass = "px-4 py-1 duration-300 font-bold underline-animation-white whitespace-nowrap";
+  const navLinkClass = "duration-300 font-bold underline-animation-white whitespace-nowrap";
 
   const [isHeaderDrawerOpen, setIsHeaderDrawerOpen] = useState(false);
 
@@ -139,10 +123,7 @@ const Header = () => {
   return (
     <div className="flex flex-col items-center print:hidden bg-black z-50 sticky top-0 w-full p-3 duration-300 shadow-lg text-white">
       <div className="flex flex-col w-full gap-2 px-3">
-        <HeaderDrawer
-          isOpen={isHeaderDrawerOpen}
-          onClickOutside={onClickOutsideDrawer}
-        />
+        <HeaderDrawer isOpen={isHeaderDrawerOpen} onClickOutside={onClickOutsideDrawer} />
 
         <div className="flex flex-row gap-4 w-full items-center justify-between">
           <Link
@@ -152,19 +133,9 @@ const Header = () => {
               WebkitTapHighlightColor: "transparent",
             }}
           >
-            <Image
-              width={170}
-              height={45}
-              src="/assets/header/logo.png"
-              alt="Horeca Depot Logo"
-            />
+            <Image width={170} height={45} src="/assets/header/logo.png" alt="Horeca Depot Logo" />
           </Link>
-          <form
-            name="Search"
-            aria-label="Search"
-            className="duration-300 w-full max-w-[700px] mx-auto hidden md:flex relative"
-            onSubmit={handleSearchSubmit}
-          >
+          <form name="Search" aria-label="Search" className="duration-300 w-full max-w-[700px] mx-auto hidden md:flex relative" onSubmit={handleSearchSubmit}>
             <input
               name="Search bar input"
               aria-label="Search bar input"
@@ -175,48 +146,28 @@ const Header = () => {
               placeholder={t("Cherchez des produits")}
             />
             <div className="absolute inset-y-0 right-0 flex">
-              <div
-                aria-label="Search bar submit button"
-                onClick={handleSearchSubmit}
-                className="bg-orange-400 h-full w-[45px] cursor-pointer"
-              >
-                <Search className="h-6 w-6 mx-auto pr-1 mt-2.5" />
-              </div>
+              <button aria-label="Search bar submit button" type="submit" className="bg-orange-400 h-full w-[45px] cursor-pointer">
+                <Search className="h-6 w-6 mx-auto my-auto pr-1" />
+              </button>
             </div>
           </form>
           <div className="flex flex-shrink-0 flex-row gap-2 h-[45px]">
             {client ? (
-              <Link
-                aria-label="Link to User Account Dashboard"
-                className={navButtonsClass}
-                href="/account/myorders"
-              >
+              <Link aria-label="Link to User Account Dashboard" className={navButtonsClass} href="/account/myorders">
                 <User />
               </Link>
             ) : (
-              <Link
-                aria-label="Link to User Login"
-                className={navButtonsClass}
-                href="/login"
-              >
+              <Link aria-label="Link to User Login" className={navButtonsClass} href="/login">
                 <User />
               </Link>
             )}
-            <Link
-              aria-label="Link to Wishlist"
-              className={`${navButtonsClass} hidden lg:flex`}
-              href="/wishlist"
-            >
+            <Link aria-label="Link to Wishlist" className={`${navButtonsClass} hidden lg:flex`} href="/wishlist">
               <Heart />
               <span className="absolute top-3 right-3 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-orange-400 -full">
                 {wishlist.length}
               </span>
             </Link>
-            <button
-              name="Shopping cart"
-              className={navButtonsClass}
-              onClick={openDrawer}
-            >
+            <button name="Shopping cart" className={navButtonsClass} onClick={openDrawer}>
               <ShoppingBag />
               <span className="absolute top-3 right-3 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-orange-400 -full">
                 {cartItems}
@@ -236,12 +187,7 @@ const Header = () => {
 
         <div className="flex flex-row w-full md:hidden">
           <div className="relative w-full">
-            <form
-              name="Search"
-              aria-label="Search"
-              className="w-full duration-300"
-              onSubmit={handleSearchSubmit}
-            >
+            <form name="Search" aria-label="Search" className="w-full duration-300" onSubmit={handleSearchSubmit}>
               <input
                 name="Search bar input"
                 aria-label="Search bar input"
@@ -252,13 +198,9 @@ const Header = () => {
                 placeholder={t("Cherchez des produits")}
               />
               <div className="absolute inset-y-0 right-0 flex">
-                <div
-                  aria-label="Search bar submit button"
-                  onClick={handleSearchSubmit}
-                  className="bg-orange-400 h-full w-[45px] cursor-pointer"
-                >
-                  <Search className="h-6 w-6 mx-auto pr-1 mt-2.5" />
-                </div>
+                <button aria-label="Search bar submit button" type="submit" className="bg-orange-400 h-full w-[45px] cursor-pointer">
+                  <Search className="h-6 w-6 mx-auto my-auto pr-1" />
+                </button>
               </div>
             </form>
           </div>
@@ -267,10 +209,7 @@ const Header = () => {
         <div className="flex flex-row w-full justify-between hidden lg:flex">
           <div className="hidden lg:flex w-[90px] flex-row items-center">
             <div className="group relative h-full flex-shrink-0">
-              <Link
-                href="/products?page=1"
-                className="hidden lg:flex flex-row px-2 py-2 items-center font-bold text-black h-full bg-orange-400"
-              >
+              <Link href="/products?page=1" className="hidden lg:flex flex-row px-2 py-2 items-center font-bold text-black h-full bg-orange-400">
                 {t("SHOP")}
                 <ChevronLeft className="ml-1 w-4 h-4 transform rotate-90 group-hover:rotate-270 duration-300" />
               </Link>
@@ -309,12 +248,7 @@ const Header = () => {
 
             <ul className="absolute shadow-md items-center invisible text-gray-700 pt-1 right-[5px] block group-hover:visible w-max mx-auto duration-300 opacity-0 group-hover:opacity-100">
               <li className="pb-1 bg-black">
-                <button
-                  onClick={async () => await setLanguage("en")}
-                  className={`${flagButtonClass} ${
-                    lang == "en" ? "hidden" : ""
-                  }`}
-                >
+                <button onClick={async () => await setLanguage("en")} className={`${flagButtonClass} ${lang == "en" ? "hidden" : ""}`}>
                   <Image
                     src={`/assets/header/EN.svg`}
                     alt={t("locale")}
@@ -326,12 +260,7 @@ const Header = () => {
                 </button>
               </li>
               <li className="pb-1 bg-black">
-                <button
-                  onClick={async () => await setLanguage("fr")}
-                  className={`${flagButtonClass} ${
-                    lang == "fr" ? "hidden" : ""
-                  }`}
-                >
+                <button onClick={async () => await setLanguage("fr")} className={`${flagButtonClass} ${lang == "fr" ? "hidden" : ""}`}>
                   <Image
                     src={`/assets/header/FR.svg`}
                     alt={t("locale")}
@@ -343,12 +272,7 @@ const Header = () => {
                 </button>
               </li>
               <li className="pb-1 bg-black">
-                <button
-                  onClick={async () => await setLanguage("nl")}
-                  className={`${flagButtonClass} ${
-                    lang == "nl" ? "hidden" : ""
-                  }`}
-                >
+                <button onClick={async () => await setLanguage("nl")} className={`${flagButtonClass} ${lang == "nl" ? "hidden" : ""}`}>
                   <Image
                     src={`/assets/header/NL.svg`}
                     alt={t("locale")}
@@ -360,12 +284,7 @@ const Header = () => {
                 </button>
               </li>
               <li className="pb-1 bg-black">
-                <button
-                  onClick={async () => await setLanguage("de")}
-                  className={`${flagButtonClass} ${
-                    lang == "de" ? "hidden" : ""
-                  }`}
-                >
+                <button onClick={async () => await setLanguage("de")} className={`${flagButtonClass} ${lang == "de" ? "hidden" : ""}`}>
                   <Image
                     src={`/assets/header/DE.svg`}
                     alt={t("locale")}
@@ -377,12 +296,7 @@ const Header = () => {
                 </button>
               </li>
               <li className="pb-1 bg-black">
-                <button
-                  onClick={async () => await setLanguage("tr")}
-                  className={`${flagButtonClass} ${
-                    lang == "tr" ? "hidden" : ""
-                  }`}
-                >
+                <button onClick={async () => await setLanguage("tr")} className={`${flagButtonClass} ${lang == "tr" ? "hidden" : ""}`}>
                   <Image
                     src={`/assets/header/TR.svg`}
                     alt={t("locale")}
