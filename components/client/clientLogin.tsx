@@ -51,7 +51,7 @@ const ClientLogin = () => {
         <form onSubmit={handleSubmit} className="w-full mt-4 max-w-md space-y-4">
           {error && <div className="bg-red-100 text-red-700 p-2 text-center ">{error}</div>}
           <InputOutlined required type="text" name="Username" label="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-          <InputOutlined required type="password" name="Password" label={"Password"} value={password} onChange={(e) => setPassword(e.target.value)} />
+          <InputOutlined required type="password" name="Password" label="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
           <button type="submit" className={CustomTheme.greenSubmitButton}>
             {t("Login")}
           </button>
