@@ -13,8 +13,6 @@ import { ClientContext } from "../../api/providers/clientProvider";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import HeaderDrawer from "./headerDrawer";
 
-/// TODO: make popups dismiss when click outside of popups happens (maybe an overlay)
-
 const CategoryItem = ({ category }) => {
   const { t } = useTranslation("common");
   const [isHovered, setisHovered] = useState(false);

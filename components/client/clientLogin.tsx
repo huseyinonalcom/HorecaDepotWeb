@@ -1,11 +1,13 @@
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
-import { useState, useContext, useEffect, useRef } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Client, ClientConversion } from "../../api/interfaces/client";
 import { ClientContext } from "../../api/providers/clientProvider";
+import InputOutlined from "../inputs/outlined";
+import CustomTheme from "../componentThemes";
 
 const ClientLogin = () => {
-  const { t, lang } = useTranslation("common");
+  const { t } = useTranslation("common");
   const router = useRouter();
 
   const [error, setError] = useState("");
@@ -16,19 +18,7 @@ const ClientLogin = () => {
     document.getElementById("username")?.focus();
   }, []);
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter" && event.target.id === "username") {
-      event.preventDefault();
-      goToPassword();
-    }
-  };
-
-  const goToPassword = () => {
-    passwordInput.current?.focus();
-  };
-
   const [password, setPassword] = useState("");
-  const passwordInput = useRef(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -58,44 +48,11 @@ const ClientLogin = () => {
   return (
     <>
       <div className="flex flex-col">
-        <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4">
-          {error && (
-            <div className="bg-red-100 text-red-700 p-2 text-center ">
-              {error}
-            </div>
-          )}
-          <div>
-            <label htmlFor="username" className="font-bold text-lg">
-              {t("user")}
-            </label>
-            <input
-              className="w-full p-2  border border-gray-300"
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              onKeyDown={handleKeyPress}
-              placeholder={t("user")}
-            />
-          </div>
-          <div>
-            <label htmlFor="password" className="font-bold text-lg">
-              {t("password")}
-            </label>
-            <input
-              className="w-full p-2  border border-gray-300"
-              type="password"
-              ref={passwordInput}
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder={t("password")}
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full py-2 bg-orange-400 hover:bg-orange-600 duration-700 text-black font-bold "
-          >
+        <form onSubmit={handleSubmit} className="w-full mt-4 max-w-md space-y-4">
+          {error && <div className="bg-red-100 text-red-700 p-2 text-center ">{error}</div>}
+          <InputOutlined required type="text" name="Username" label="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <InputOutlined required type="password" name="Password" label={"Password"} value={password} onChange={(e) => setPassword(e.target.value)} />
+          <button type="submit" className={CustomTheme.greenSubmitButton}>
             {t("Login")}
           </button>
         </form>
