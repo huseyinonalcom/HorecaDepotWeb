@@ -84,7 +84,7 @@ export default function Order() {
           <div className="w-[95vw] flex flex-row justify-start items-start mx-auto">
             <MyAccountPagesNav />
             <div className="mx-auto py-2">
-              {t("Une erreur s'est produite.")}
+              {t("An error has occurred.")}
             </div>
           </div>
         </Layout>
@@ -311,10 +311,10 @@ export default function Order() {
               <table className=" overflow-x-auto shadow-lg bg-gray-100 p-2 mt-3 print:shadow-none print:border-2 print:border-black print:bg-transparent">
                 <thead className="border-b-2 border-black">
                   <tr>
-                    <th>{t("Nom")}</th>
-                    <th>{t("Quantite")}</th>
-                    <th>{t("Prix")}</th>
-                    <th>{t("Remise")}</th>
+                    <th>{t("Name")}</th>
+                    <th>{t("Quantity")}</th>
+                    <th>{t("Price")}</th>
+                    <th>{t("Discount")}</th>
                     <th>{t("Subtotal")}</th>
                   </tr>
                 </thead>
@@ -369,7 +369,7 @@ export default function Order() {
                       </b>
                     </td>
                     <td>
-                      <b>{t("A payer")}</b>
+                      <b>{t("To pay")}</b>
                     </td>
                     <td align="right">
                       <b>

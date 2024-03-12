@@ -451,19 +451,19 @@ export default function Products() {
 
   const categoryToId = (category: string) => {
     switch (category) {
-      case "Chaises Intérieur":
+      case "Indoor Chairs":
         return 3;
-      case "Chaises Extérieur":
+      case "Outdoor Chairs":
         return 2;
-      case "Banquettes":
+      case "Benches":
         return 10;
-      case "Tabourets de Bar Intérieur":
+      case "Indoor Bar Stools":
         return 29;
-      case "Événement":
+      case "Event":
         return 17;
-      case "Pieds de Table Intérieur":
+      case "Indoor Table Legs":
         return 9;
-      case "Pieds de Table Extérieur":
+      case "Outdoor Table Legs":
         return 8;
       case "Plateaux Intérieur":
         return 21;
@@ -539,14 +539,14 @@ export default function Products() {
           product.shelves.find((shelf) => shelf.establishment.id == 1)?.stock ||
           0,
         Réservé: 0,
-        "Prix Avant Remise": product.priceBeforeDiscount,
+        "Price Before Discount": product.priceBeforeDiscount,
         "Prix de vente": product.value,
         Poids: product.product_extra.weight,
         "Poids Colis Net": product.product_extra.packaged_weight_net,
         "Poids Colis Brut": product.product_extra.packaged_weight,
         "Dimensions Du Colis": product.product_extra.packaged_dimensions,
         "Par Boîte": product.product_extra.per_box,
-        "Hauteur d'assise": product.product_extra.seat_height,
+        "Seat height": product.product_extra.seat_height,
         Hauteur: product.height,
         Largeur: product.width,
         Longueur: product.depth,
@@ -701,10 +701,10 @@ export default function Products() {
     setInProgress(true);
     setSelectedRows(new Set<number>());
     if (Object.values(errors).some((error) => error !== "")) {
-      setSubmitError(t("Remplir tous les champs requis correctement!"));
+      setSubmitError(t("Fill all the required fields correctly!"));
       setInProgress(false);
     } else if (currentProduct.category.id == 0) {
-      setSubmitError(t("Choissisez un categorie!"));
+      setSubmitError(t("Choose a category!"));
       setInProgress(false);
     } else {
       if (
@@ -726,7 +726,7 @@ export default function Products() {
           );
           if (!request.ok) {
             setSubmitError(
-              t("Un erreur s'est produite pendant la modification de produit!")
+              t("An error occurred while modifying the product!")
             );
           } else {
             fetchProducts();
@@ -735,7 +735,7 @@ export default function Products() {
           }
         } catch {
           setSubmitError(
-            t("Un erreur s'est produite pendant la modification de produit!")
+            t("An error occurred while modifying the product!")
           );
         }
       } else {
@@ -750,7 +750,7 @@ export default function Products() {
           const answer = await request.json();
           if (!request.ok) {
             setSubmitError(
-              t("Un erreur s'est produite pendant la creation de produit!")
+              t("An error occurred during the product creation!")
             );
           } else {
             fetchProducts();
@@ -760,7 +760,7 @@ export default function Products() {
           }
         } catch {
           setSubmitError(
-            t("Un erreur s'est produite pendant la creation de produit!")
+            t("An error occurred during the product creation!")
           );
         }
       }
@@ -928,7 +928,7 @@ export default function Products() {
                 role="search"
               >
                 <label htmlFor="searchInput" style={{ display: "none" }}>
-                  {t("Cherchez des produits")}
+                  {t("Search Products")}
                 </label>
                 <input
                   id="searchInput"
@@ -947,7 +947,7 @@ export default function Products() {
                     borderColor: "rgba(0, 0, 0, 0.1)",
                     outline: "none",
                   }}
-                  placeholder={t("Cherchez des produits")}
+                  placeholder={t("Search Products")}
                   aria-label="Search"
                 />
                 <div
@@ -995,7 +995,7 @@ export default function Products() {
                 }`}
                 onClick={() => setCurrentSort("value")}
               >
-                {t("Prix")}
+                {t("Price")}
               </div>
             </div>
             <form
@@ -1026,14 +1026,14 @@ export default function Products() {
               <div className={navIconDivClass}>
                 <Download className={iconClass} />
               </div>
-              <span className={textClass}>{t("Télécharger Excel")}</span>
+              <span className={textClass}>{t("Upload Excel")}</span>
             </button>
 
             <button className={buttonClass} onClick={() => setNewProduct(true)}>
               <div className={navIconDivClass}>
                 <PlusCircle className={iconClass} />
               </div>
-              <span className={textClass}>{t("Créer Nouveau Produit")}</span>
+              <span className={textClass}>{t("Create New Product")}</span>
             </button>
           </div>
           <div className="w-full flex-shrink-1 overflow-y-hidden flex flex-col items-center pt-1">
@@ -1041,14 +1041,14 @@ export default function Products() {
               <table className="w-full shadow-lg bg-gray-100 p-2 relative">
                 <thead className="sticky top-0 bg-[#c0c1c3]">
                   <tr>
-                    <th>{t("Catégorie")}</th>
+                    <th>{t("Category")}</th>
                     <th>{t("EAN")}</th>
                     <th>{t("Code Model")}</th>
-                    <th>{t("Nom")}</th>
+                    <th>{t("Name")}</th>
                     <th>{t("Couleur")}</th>
-                    <th>{t("Matériel")}</th>
-                    <th>{t("Prix Avant Remise")}</th>
-                    <th>{t("Prix Vente")}</th>
+                    <th>{t("Material")}</th>
+                    <th>{t("Price Before Discount")}</th>
+                    <th>{t("Selling Price")}</th>
                     <th>{t("Stock Depot")}</th>
                     <th>{t("Stock Magasin")}</th>
                     <th>{t("Poids")}</th>
@@ -1251,7 +1251,7 @@ export default function Products() {
                         />
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Catégorie")}</p>
+                        <p>{t("Category")}</p>
                         <select
                           className="w-full"
                           value={
@@ -1330,7 +1330,7 @@ export default function Products() {
                         )}
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Nom")}</p>
+                        <p>{t("Name")}</p>
                         <input
                           onSubmit={(e) => {
                             e.preventDefault();
@@ -1342,7 +1342,7 @@ export default function Products() {
                               validateEmpty,
                             ])
                           }
-                          placeholder={t("Nom")}
+                          placeholder={t("Name")}
                           className={inputClass}
                         />
                         {errors.name && (
@@ -1350,7 +1350,7 @@ export default function Products() {
                         )}
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Prix Avant Remise")}</p>
+                        <p>{t("Price Before Discount")}</p>
                         <input
                           onSubmit={(e) => {
                             e.preventDefault();
@@ -1365,7 +1365,7 @@ export default function Products() {
                               [validateDecimal]
                             )
                           }
-                          placeholder={t("Prix Vente")}
+                          placeholder={t("Selling Price")}
                           className={inputClass}
                         />
                         {errors.priceBeforeDiscount && (
@@ -1375,7 +1375,7 @@ export default function Products() {
                         )}
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Prix Vente")}</p>
+                        <p>{t("Selling Price")}</p>
                         <input
                           onSubmit={(e) => {
                             e.preventDefault();
@@ -1388,7 +1388,7 @@ export default function Products() {
                               validateEmpty,
                             ])
                           }
-                          placeholder={t("Prix Vente")}
+                          placeholder={t("Selling Price")}
                           className={inputClass}
                         />
                         {errors.value && (
@@ -1396,7 +1396,7 @@ export default function Products() {
                         )}
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Matériel")}</p>
+                        <p>{t("Material")}</p>
                         <input
                           onSubmit={(e) => {
                             e.preventDefault();
@@ -1406,7 +1406,7 @@ export default function Products() {
                           onChange={(e) =>
                             handleChange("material", e.target.value)
                           }
-                          placeholder={t("Matériel")}
+                          placeholder={t("Material")}
                           className={inputClass}
                         />
                       </div>
@@ -1881,7 +1881,7 @@ export default function Products() {
                           </div>
                           <span className={textClass}>
                             {newProduct
-                              ? t("Créer Nouveau Produit")
+                              ? t("Create New Product")
                               : t("Modifier Produit")}
                           </span>
                         </button>

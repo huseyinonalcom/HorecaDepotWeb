@@ -38,7 +38,7 @@ const WishListComponent = () => {
                   className="h-[0px] group-hover:h-[25px] text-lg overflow-hidden duration-700 text-left text-orange-400 font-bold"
                   href={"/products/" + product.id}
                 >
-                  {t("+ Voir details")}
+                  {t("+ View Details")}
                 </Link>
                 <div className="flex flex-row items-end justify-center">
                   <h5 className="mr-1 text-gray-400 text-sm line-through mb-0.5">

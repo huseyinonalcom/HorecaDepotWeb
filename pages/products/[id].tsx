@@ -248,7 +248,7 @@ const ProductPage = ({
             )}
             {product.material && (
               <p>
-                <b>{t("Matériel")}:</b> {product.material}
+                <b>{t("Material")}:</b> {product.material}
               </p>
             )}
             {breadCrumbs && (
@@ -295,7 +295,7 @@ const ProductPage = ({
         {relatedProducts.length < 2 ? null : (
           <>
             <h2 className="w-full flex flex-row justify-center text-xl font-bold mt-6">
-              {t("PRODUITS APPARENTÉS")}
+              {t("RELATED PRODUCTS")}
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 w-[90%]">
               {relatedProducts.map((product) => (

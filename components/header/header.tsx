@@ -141,7 +141,7 @@ const Header = () => {
               type="text"
               onChange={handleSearchChange}
               className="w-full pl-4 pr-4 py-2 border-2 text-black outline-none focus:border-orange-400"
-              placeholder={t("Cherchez des produits")}
+              placeholder={t("Search Products")}
             />
             <div className="absolute inset-y-0 right-0 flex">
               <button aria-label="Search bar submit button" type="submit" className="bg-orange-400 h-full w-[45px] cursor-pointer">
@@ -193,7 +193,7 @@ const Header = () => {
                 type="text"
                 onChange={handleSearchChange}
                 className="w-full pl-4 pr-4 py-2 border-2 text-black outline-none focus:border-orange-400"
-                placeholder={t("Cherchez des produits")}
+                placeholder={t("Search Products")}
               />
               <div className="absolute inset-y-0 right-0 flex">
                 <button aria-label="Search bar submit button" type="submit" className="bg-orange-400 h-full w-[45px] cursor-pointer">

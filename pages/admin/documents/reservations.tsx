@@ -88,7 +88,7 @@ export default function Reservations() {
                     <th>{t("Date")}</th>
                     <th>{t("Client")}</th>
                     <th>{t("Total")}</th>
-                    <th>{t("A payer")}</th>
+                    <th>{t("To pay")}</th>
                   </tr>
                 </thead>
                 <tbody>

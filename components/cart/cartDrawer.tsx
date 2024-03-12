@@ -131,7 +131,7 @@ const CartDrawer = () => {
             {calculateTotal().totalBeforeDiscount !=
               calculateTotal().totalAfterDiscount && (
               <div className="flex flex-row items-center justify-between">
-                <h3 className="font-extrabold text-lg">{`${t("Remise")}:`}</h3>
+                <h3 className="font-extrabold text-lg">{`${t("Discount")}:`}</h3>
                 <h3 className="font-extrabold text-green-500">
                   €{" "}
                   {(

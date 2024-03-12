@@ -312,7 +312,7 @@ export default function Products() {
                 }`}
                 onClick={() => setCurrentSort("value")}
               >
-                {t("Prix")}
+                {t("Price")}
               </div>
               <button
                 onClick={() => {
@@ -384,7 +384,7 @@ export default function Products() {
                     max={maxValueFromAPI}
                     onChange={handleSliderChange}
                     prefix="€"
-                    label="Prix"
+                    label="Price"
                   />
                   <div className="flex flex-row justify-between">
                     <button
@@ -452,7 +452,7 @@ export default function Products() {
                     max={maxValueFromAPI}
                     onChange={handleSliderChange}
                     prefix="€"
-                    label="Prix"
+                    label="Price"
                   />
                   <div className="flex flex-row justify-between">
                     <button

@@ -37,7 +37,7 @@ export default function MyAccountPagesNav() {
 
   return (
     <div className="flex flex-col items-left w-[200px] justify-start pr-2 border-r border-gray-400 flex-shrink-0 print:hidden">
-      <h2 className="font-bold text-2xl pb-2 border-gray-400 border-b mb-2">{t("Ma Compte")}</h2>
+      <h2 className="font-bold text-2xl pb-2 border-gray-400 border-b mb-2">{t("My Account")}</h2>
       {client && (
         <>
           <h2 className="font-bold py-1 pl-1 w-full">
@@ -50,13 +50,13 @@ export default function MyAccountPagesNav() {
       )}
       <Link href={"/"} onClick={handleLogOut}></Link>
       {/* <Link href={"/account/myaccount"} className={getNavLinkClass("/account/myaccount")}>
-        {t("Tableau du bord")}
+        {t("Dashboard")}
       </Link> */}
       <Link href={"/account/myorders"} className={getNavLinkClass("/account/myorders")}>
-        {t("Mes Orders")}
+        {t("My Orders")}
       </Link>
       {/* <Link href={"/account/mydetails"} className={getNavLinkClass("/account/mydetails")}>
-        {t("Mes Details")}
+        {t("My Details")}
       </Link> */}
     </div>
   );

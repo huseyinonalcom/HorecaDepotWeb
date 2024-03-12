@@ -72,7 +72,7 @@ export default function MyDetails() {
               </p> */}
             </>
           ) : (
-            <p>{t(`Une erreur s'est produite.`)}</p>
+            <p>{t(`An error has occurred.`)}</p>
           )}
         </div>
       </div>

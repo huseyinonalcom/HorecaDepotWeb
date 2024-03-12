@@ -53,7 +53,7 @@ const Layout = ({ children }: Props) => {
                 <div className="pb-2 px-2 mx-auto">
                   <AutoTextSize mode="oneline" maxFontSizePx={16}>
                     © Horeca Depot. {new Date().getFullYear()}.{" "}
-                    {t("Tous Droits Réservés")}
+                    {t("All Rights Reserved")}
                   </AutoTextSize>
                 </div>
               </div>

@@ -137,7 +137,7 @@ const ProductPreview = ({ product, width }: Props) => {
             className="h-[0px] group-hover:h-[19px] text-sm overflow-hidden duration-700 text-left text-orange-400 font-bold"
             href={"/products/" + product.id}
           >
-            {t("+ Voir details")}
+            {t("+ View Details")}
           </Link>
         </div>
         <div className="flex lg:hidden flex-col items-center">

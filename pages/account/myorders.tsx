@@ -46,7 +46,7 @@ export default function MyOrders() {
       <div className="flex w-[95vw] flex-row justify-start items-start mx-auto">
         <MyAccountPagesNav />
         <div className="flex flex-col items-center gap-2 w-full">
-          <h1 className="text-3xl font-bold">{t("Mes Orders")}</h1>
+          <h1 className="text-3xl font-bold">{t("My Orders")}</h1>
           <div className="grid grid-cols grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 w-full justify-between gap-2">
             {isLoading ? (
               <LoadingIndicator />

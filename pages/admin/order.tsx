@@ -74,7 +74,7 @@ export default function Order() {
             <meta name="language" content={lang} />
           </Head>
           <div className="w-[90vw] mx-auto py-2">
-            {t("Une erreur s'est produite.")}
+            {t("An error has occurred.")}
           </div>
         </AdminLayout>
       </>
@@ -214,10 +214,10 @@ export default function Order() {
               <table className=" overflow-x-auto shadow-lg bg-gray-100 p-2 mt-3 print:shadow-none print:border-2 print:border-black print:bg-transparent">
                 <thead className="border-b-2 border-black">
                   <tr>
-                    <th>{t("Nom")}</th>
-                    <th>{t("Quantite")}</th>
-                    <th>{t("Prix")}</th>
-                    <th>{t("Remise")}</th>
+                    <th>{t("Name")}</th>
+                    <th>{t("Quantity")}</th>
+                    <th>{t("Price")}</th>
+                    <th>{t("Discount")}</th>
                     <th>{t("Subtotal")}</th>
                   </tr>
                 </thead>
@@ -272,7 +272,7 @@ export default function Order() {
                       </b>
                     </td>
                     <td>
-                      <b>{t("A payer")}</b>
+                      <b>{t("To pay")}</b>
                     </td>
                     <td align="right">
                       <b>
@@ -350,10 +350,10 @@ export default function Order() {
               <table className=" overflow-x-auto shadow-lg bg-gray-100 p-2 mt-2">
                 <thead>
                   <tr>
-                    <th>{t("Nom")}</th>
-                    <th>{t("Quantite")}</th>
-                    <th>{t("Prix")}</th>
-                    <th>{t("Remise")}</th>
+                    <th>{t("Name")}</th>
+                    <th>{t("Quantity")}</th>
+                    <th>{t("Price")}</th>
+                    <th>{t("Discount")}</th>
                     <th>{t("Subtotal")}</th>
                   </tr>
                 </thead>
@@ -383,7 +383,7 @@ export default function Order() {
                           .replaceAll(".", ",")}
                       </b>
                     </td>
-                    <td>{t("A payer")}</td>
+                    <td>{t("To pay")}</td>
                     <td>
                       <b>
                         €{" "}
@@ -406,8 +406,8 @@ export default function Order() {
                 <thead>
                   <tr>
                     <th>{t("Date")}</th>
-                    <th>{t("Methode")}</th>
-                    <th>{t("Valeur")}</th>
+                    <th>{t("Method")}</th>
+                    <th>{t("Value")}</th>
                   </tr>
                 </thead>
                 <tbody>
