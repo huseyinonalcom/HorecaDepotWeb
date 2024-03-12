@@ -1,16 +1,6 @@
 import React, { useContext, useState } from "react";
 import { AdminDrawerContext } from "../../api/providers/adminDrawerProvider";
-import {
-  ChevronLeft,
-  DollarSign,
-  Globe,
-  Home,
-  Lock,
-  LogOut,
-  Package,
-  Settings,
-  Table,
-} from "react-feather";
+import { ChevronLeft, DollarSign, Globe, Home, Lock, LogOut, Package, Settings, Table } from "react-feather";
 import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
 import setLanguage from "next-translate/setLanguage";
@@ -20,23 +10,17 @@ import Image from "next/image";
 const AdminDrawer = () => {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
-  const { isAdminDrawerOpen, closeAdminDrawer, openAdminDrawer } =
-    useContext(AdminDrawerContext);
   const [showLanguages, setShowLanguages] = useState(false);
-  const navLinkClass =
-    "px-4 py-3 duration-300 font-bold underline-animation-white";
+  const { isAdminDrawerOpen, closeAdminDrawer, openAdminDrawer } = useContext(AdminDrawerContext);
 
-  const drawerClass = isAdminDrawerOpen ? `w-[250px]` : `w-[73px] min-w-[73px]`;
-  const buttonClass =
-    "flex items-center justify-start bg-white py-2 shadow-lg hover:bg-orange-400 overflow-hidden duration-500";
   const iconClass = "flex-shrink-0";
-  const navIconDivClass =
-    "flex flex-row justify-center min-w-[40px] flex-shrink-0";
   const textClass = "ml-2 h-6 w-full font-bold text-left overflow-hidden";
+  const drawerClass = isAdminDrawerOpen ? `w-[250px]` : `w-[73px] min-w-[73px]`;
+  const navLinkClass = "px-4 py-3 duration-300 font-bold underline-animation-white";
+  const navIconDivClass = "flex flex-row justify-center min-w-[40px] flex-shrink-0";
+  const buttonClass = "flex items-center justify-start bg-white py-2 shadow-lg hover:bg-orange-400 overflow-hidden duration-500";
   return (
-    <div
-      className={`${drawerClass} print:hidden duration-700 shadow-[inset_-4px_0_10px_1px_rgba(0,0,0,0.3)] flex-shrink-0 h-[100dvh] bg-slate-300 p-4 z-50`}
-    >
+    <div className={`${drawerClass} print:hidden duration-700 shadow-[inset_-4px_0_10px_1px_rgba(0,0,0,0.3)] flex-shrink-0 h-[100dvh] bg-slate-300 p-4 z-50`}>
       <div className="flex flex-col h-full gap-1">
         <nav className="flex flex-col h-full justify-between">
           <div className="flex flex-col gap-1">
@@ -44,11 +28,7 @@ const AdminDrawer = () => {
               className="ml-auto w-[30px] flex flex-row justify-center mb-2 bg-black text-white shadow-lg  hover:bg-orange-400 duration-500"
               onClick={isAdminDrawerOpen ? closeAdminDrawer : openAdminDrawer}
             >
-              <ChevronLeft
-                className={`duration-700 ${
-                  isAdminDrawerOpen ? "rotate-360" : "rotate-180"
-                }`}
-              />
+              <ChevronLeft className={`duration-700 ${isAdminDrawerOpen ? "rotate-360" : "rotate-180"}`} />
             </button>
             {/* <Link className={buttonClass} href="/admin/dashboard">
             <div className={navIconDivClass}>
@@ -78,7 +58,7 @@ const AdminDrawer = () => {
               <div className={navIconDivClass}>
                 <Globe className={iconClass} />
               </div>
-              <span className={textClass}>{t("Site Web")}</span>
+              <span className={textClass}>{t("Website")}</span>
             </Link>
 
             {/* <Link className={buttonClass} href="/admin/payments">
@@ -107,10 +87,7 @@ const AdminDrawer = () => {
                   showLanguages ? `visible opacity-100` : `invisible opacity-0`
                 }`}
               >
-                <button
-                  onClick={async () => await setLanguage("en")}
-                  className={`${navLinkClass} ${lang == "en" ? "hidden" : ""}`}
-                >
+                <button onClick={async () => await setLanguage("en")} className={`${navLinkClass} ${lang == "en" ? "hidden" : ""}`}>
                   <Image
                     src={`/assets/header/EN.svg`}
                     alt={"Flag of the UK"}
@@ -120,10 +97,7 @@ const AdminDrawer = () => {
                     className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
                   />
                 </button>
-                <button
-                  onClick={async () => await setLanguage("fr")}
-                  className={`${navLinkClass} ${lang == "fr" ? "hidden" : ""}`}
-                >
+                <button onClick={async () => await setLanguage("fr")} className={`${navLinkClass} ${lang == "fr" ? "hidden" : ""}`}>
                   <Image
                     src={`/assets/header/FR.svg`}
                     alt={"Drapeau de la France"}
@@ -133,10 +107,7 @@ const AdminDrawer = () => {
                     className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
                   />
                 </button>
-                <button
-                  onClick={async () => await setLanguage("nl")}
-                  className={`${navLinkClass} ${lang == "nl" ? "hidden" : ""}`}
-                >
+                <button onClick={async () => await setLanguage("nl")} className={`${navLinkClass} ${lang == "nl" ? "hidden" : ""}`}>
                   <Image
                     src={`/assets/header/NL.svg`}
                     alt={"Vlag van Nederland"}
@@ -146,10 +117,7 @@ const AdminDrawer = () => {
                     className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
                   />
                 </button>
-                <button
-                  onClick={async () => await setLanguage("DE")}
-                  className={`${navLinkClass} ${lang == "de" ? "hidden" : ""}`}
-                >
+                <button onClick={async () => await setLanguage("DE")} className={`${navLinkClass} ${lang == "de" ? "hidden" : ""}`}>
                   <Image
                     src={`/assets/header/DE.svg`}
                     alt={"Flagge von Deutschland"}
@@ -159,10 +127,7 @@ const AdminDrawer = () => {
                     className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
                   />
                 </button>
-                <button
-                  onClick={async () => await setLanguage("tr")}
-                  className={`${navLinkClass} ${lang == "tr" ? "hidden" : ""}`}
-                >
+                <button onClick={async () => await setLanguage("tr")} className={`${navLinkClass} ${lang == "tr" ? "hidden" : ""}`}>
                   <Image
                     src={`/assets/header/TR.svg`}
                     alt={"Türk bayrağı"}
