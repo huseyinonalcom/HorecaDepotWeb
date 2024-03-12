@@ -179,5 +179,6 @@
   "Bar Stools": "Bar Stools",
   "Outdoor Bar Stools": "Outdoor Bar Stools",
   "Indoor Bar Stools": "Indoor Bar Stools",
-  "validators_empty_invalid": "This field is mandatory!"
+  "validators_empty_invalid": "This field is mandatory!",
+  "Active": "Active"
 }
