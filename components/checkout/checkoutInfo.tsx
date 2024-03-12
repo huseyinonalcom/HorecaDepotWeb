@@ -450,7 +450,7 @@ export default function CheckOutInfo() {
                 required
                 type="password"
                 name="Password"
-                label={"Password"}
+                label="Password"
                 value={password}
                 error={errorLogin}
                 onChange={(e) => setPassword(e.target.value)}
@@ -544,8 +544,8 @@ export default function CheckOutInfo() {
                 <InputOutlined
                   required
                   type="text"
-                  name="company"
-                  label={"Company Name"}
+                  name="Company"
+                  label="The name of your company"
                   value={newClient.client_info.company}
                   error={errorsNewClientForm.company}
                   onChange={(e) => {
@@ -563,8 +563,8 @@ export default function CheckOutInfo() {
                 <InputOutlined
                   required
                   type="text"
-                  name="taxID"
-                  label={"VAT number"}
+                  name="TaxID"
+                  label="VAT number"
                   value={newClient.client_info.taxID}
                   error={errorsNewClientForm.taxID}
                   onChange={(e) => {
@@ -585,8 +585,8 @@ export default function CheckOutInfo() {
               <InputOutlined
                 required
                 type="text"
-                name="firstName"
-                label={"Your first name"}
+                name="FirstName"
+                label="Your first name"
                 value={newClient.client_info.firstName}
                 error={errorsNewClientForm.firstName}
                 onChange={(e) => {
@@ -604,8 +604,8 @@ export default function CheckOutInfo() {
               <InputOutlined
                 required
                 type="text"
-                name="lastName"
-                label={"Your last name"}
+                name="LastName"
+                label="Your last name"
                 value={newClient.client_info.lastName}
                 error={errorsNewClientForm.lastName}
                 onChange={(e) => {
@@ -624,8 +624,8 @@ export default function CheckOutInfo() {
             <InputOutlined
               required
               type="text"
-              name="country"
-              label={"Country"}
+              name="Country"
+              label="Country"
               value={addressNewClient.country}
               error={errorsNewClientForm.country}
               onChange={(e) => {
@@ -641,8 +641,8 @@ export default function CheckOutInfo() {
               <InputOutlined
                 required
                 type="text"
-                name="street"
-                label={"Street"}
+                name="Street"
+                label="Street"
                 value={addressNewClient.street}
                 error={errorsNewClientForm.street}
                 onChange={(e) => {
@@ -657,8 +657,8 @@ export default function CheckOutInfo() {
               <InputOutlined
                 required
                 type="text"
-                name="doorNumber"
-                label={"Door"}
+                name="DoorNumber"
+                label="Door"
                 value={addressNewClient.doorNumber}
                 error={errorsNewClientForm.doorNumber}
                 onChange={(e) => {
@@ -673,8 +673,8 @@ export default function CheckOutInfo() {
               <InputOutlined
                 required
                 type="text"
-                name="floor"
-                label={"Floor"}
+                name="Floor"
+                label="Floor"
                 value={addressNewClient.floor}
                 error={errorsNewClientForm.floor}
                 onChange={(e) => {
@@ -691,8 +691,8 @@ export default function CheckOutInfo() {
               <InputOutlined
                 required
                 type="text"
-                name="zipCode"
-                label={"Zip Code"}
+                name="ZipCode"
+                label="Zip Code"
                 value={addressNewClient.zipCode}
                 error={errorsNewClientForm.zipCode}
                 onChange={(e) => {
@@ -707,8 +707,8 @@ export default function CheckOutInfo() {
               <InputOutlined
                 required
                 type="text"
-                name="city"
-                label={"City"}
+                name="City"
+                label="City"
                 value={addressNewClient.city}
                 error={errorsNewClientForm.city}
                 onChange={(e) => {
@@ -724,8 +724,8 @@ export default function CheckOutInfo() {
             <div className="flex flex-col w-full">
               <InputOutlined
                 type="text"
-                name="phone"
-                label={"Your Phone"}
+                name="Phone"
+                label="Your Phone"
                 value={newClient.client_info.phone}
                 onChange={(e) => {
                   setNewClient({
@@ -744,8 +744,8 @@ export default function CheckOutInfo() {
               <InputOutlined
                 required
                 type="email"
-                name="email"
-                label={"E-mail"}
+                name="E-mail"
+                label="E-mail"
                 value={newClient.email}
                 error={errorsNewClientForm.email}
                 onChange={(e) => {
@@ -762,8 +762,8 @@ export default function CheckOutInfo() {
               <InputOutlined
                 required
                 type="password"
-                name="password"
-                label={"Password"}
+                name="Password"
+                label="Password"
                 value={newClient.password}
                 error={errorsNewClientForm.password}
                 onChange={(e) => {
@@ -781,7 +781,7 @@ export default function CheckOutInfo() {
                 required
                 type="password"
                 name="password_repeat"
-                label={"Repeat Password"}
+                label="Repeat Password"
                 value={passwordRepeat}
                 error={errorsNewClientForm.password_repeat}
                 onChange={(e) => setPasswordRepeat(e.target.value)}
@@ -874,8 +874,8 @@ export default function CheckOutInfo() {
                 <InputOutlined
                   required
                   type="text"
-                  name="country"
-                  label={"Country"}
+                  name="Country"
+                  label="Country"
                   value={newAddressExistingClient.country}
                   error={errorsNewAddressExistingClientForm.country}
                   onChange={(e) => {
@@ -891,8 +891,8 @@ export default function CheckOutInfo() {
                   <InputOutlined
                     required
                     type="text"
-                    name="street"
-                    label={"Street"}
+                    name="Street"
+                    label="Street"
                     value={newAddressExistingClient.street}
                     error={errorsNewAddressExistingClientForm.street}
                     onChange={(e) => {
@@ -907,8 +907,8 @@ export default function CheckOutInfo() {
                   <InputOutlined
                     required
                     type="text"
-                    name="doorNumber"
-                    label={"Door"}
+                    name="DoorNumber"
+                    label="Door"
                     value={newAddressExistingClient.doorNumber}
                     error={errorsNewAddressExistingClientForm.doorNumber}
                     onChange={(e) => {
@@ -923,8 +923,8 @@ export default function CheckOutInfo() {
                   <InputOutlined
                     required
                     type="text"
-                    name="floor"
-                    label={"Floor"}
+                    name="Floor"
+                    label="Floor"
                     value={newAddressExistingClient.floor}
                     error={errorsNewAddressExistingClientForm.floor}
                     onChange={(e) => {
@@ -941,8 +941,8 @@ export default function CheckOutInfo() {
                   <InputOutlined
                     required
                     type="text"
-                    name="zipCode"
-                    label={"Zip Code"}
+                    name="ZipCode"
+                    label="Zip Code"
                     value={newAddressExistingClient.zipCode}
                     error={errorsNewAddressExistingClientForm.zipCode}
                     onChange={(e) => {
@@ -957,8 +957,8 @@ export default function CheckOutInfo() {
                   <InputOutlined
                     required
                     type="text"
-                    name="city"
-                    label={"City"}
+                    name="City"
+                    label="City"
                     value={newAddressExistingClient.city}
                     error={errorsNewAddressExistingClientForm.city}
                     onChange={(e) => {

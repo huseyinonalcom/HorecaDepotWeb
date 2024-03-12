@@ -441,8 +441,6 @@ export default function Order() {
               </p>
             )}
             <div>
-              <InputOutlined name="test1" type="text" />
-              <InputOutlined name="test1" type="text" />
             </div>
           </form>
         </div>

@@ -7,19 +7,17 @@ type Props = {
   value?: string;
   name: string;
   label?: string;
-  type: string;
   error?: string;
   required?: boolean;
 };
 
-const InputOutlined = ({ onChange, onKeyDown, onSubmit, value, required, name, label, type, error }: Props) => {
+const TextareaOutlined = ({ onChange, onKeyDown, onSubmit, value, required, name, label, error }: Props) => {
   const { t } = useTranslation("common");
   return (
     <div className="w-full">
       <div className="relative">
-        <input
+        <textarea
           required={required ?? false}
-          type={type}
           name={t(name)}
           onSubmit={
             onSubmit ??
@@ -52,4 +50,4 @@ const InputOutlined = ({ onChange, onKeyDown, onSubmit, value, required, name, l
   );
 };
 
-export default InputOutlined;
+export default TextareaOutlined;

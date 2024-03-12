@@ -1,12 +1,14 @@
 import useTranslation from "next-translate/useTranslation";
 import { MessageSquare } from "react-feather";
+import InputOutlined from "../inputs/outlined";
+import TextareaOutlined from "../inputs/textarea_outlined";
 
 const ContactForm = () => {
-  const { t, lang } = useTranslation("common");
+  const { t } = useTranslation("common");
   return (
     <form
       className="flex flex-col mx-auto justify-center w-[95%] items-center gap-2"
-      action="https://formsubmit.co/horecadepothoreca@gmail.com"
+      action="https://formsubmit.co/huseyin-_-onal@hotmail.com"
       encType="multipart/form-data"
       method="POST"
     >
@@ -16,62 +18,31 @@ const ContactForm = () => {
       </h2>
       <div className="flex flex-col md:flex-row w-full gap-2">
         <div className="w-full md:w-6/12">
-          <input
-            required
-            className="w-full p-2 border border-gray-300"
-            type="text"
-            name="nom"
-            placeholder={t("Votre Nom")}
-          />
+          <InputOutlined required type="text" name="Name" label="Your Name" />
         </div>
         <div className="w-full md:w-6/12">
-          <input
-            required
-            className="w-full p-2 border border-gray-300"
-            type="email"
-            name="email"
-            placeholder={t("Your e-mail address")}
-          />
+          <InputOutlined required type="text" name="E-mail" label="Your E-mail" />
         </div>
       </div>
 
       <div className="flex flex-col md:flex-row w-full gap-2">
         <div className="w-full md:w-6/12">
-          <input
-            className="w-full p-2 border border-gray-300"
-            type="text"
-            name="telephone"
-            placeholder={t("Your phone number")}
-          />
+          <InputOutlined type="text" name="Telephone" label="Your phone number" />
         </div>
         <div className="w-full md:w-6/12">
-          <input
-            required
-            className="w-full p-2 border border-gray-300"
-            type="text"
-            name="societe"
-            placeholder={t("The name of your company")}
-          />
+          <InputOutlined type="text" name="Company" label="The name of your company" />
         </div>
       </div>
 
       <div className="w-full">
-        <textarea
-          required
-          className="w-full p-2 border border-gray-300 h-[120px]"
-          name="message"
-          placeholder={t("Your message")}
-        />
+        <TextareaOutlined required name="Message" label="Your message" />
       </div>
 
       <input type="text" name="_honey" className="hidden" />
       <input type="hidden" name="_captcha" value="false" />
       <input type="hidden" name="_template" value="box" />
 
-      <button
-        type="submit"
-        className="w-full py-2 duration-500 bg-[#524f4e] hover:bg-[#363332] font-bold text-white"
-      >
+      <button type="submit" className="w-full py-2 duration-500 bg-[#524f4e] hover:bg-[#363332] font-bold text-white">
         {t("Send")}
       </button>
     </form>
