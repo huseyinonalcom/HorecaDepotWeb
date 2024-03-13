@@ -166,5 +166,11 @@
   "Your wishlist is empty.": "Your wishlist is empty.",
   "wrong_user": "Are you not {{userName}}?",
   "label_for": "Label for {{labelTarget}}",
-  "error_for": "Error message for {{errorTarget}}"
+  "error_for": "Error message for {{errorTarget}}",
+  "Choose a category!": "Choose a category!",
+  "collection_modify_error": "Error while modifying collection",
+  "collection_submit_error": "Error while saving collection",
+  "Fill all the required fields correctly!": "Fill all the required fields correctly!",
+  "promo_invalid": "Invalid Promo Code",
+  "user_pass_invalid": "Username and/or Password invalid"
 }

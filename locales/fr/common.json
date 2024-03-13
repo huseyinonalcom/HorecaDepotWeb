@@ -166,5 +166,11 @@
   "Your wishlist is empty.": "Votre liste de souhaits est vide.",
   "wrong_user": "N'êtes-vous pas {{userName}} ?",
   "label_for": "Étiquette pour {{labelTarget}}",
-  "error_for": "Message d'erreur pour {{errorTarget}}"
+  "error_for": "Message d'erreur pour {{errorTarget}}",
+  "Choose a category!": "Choisissez une catégorie !",
+  "collection_modify_error": "Erreur lors de la modification de la collection",
+  "collection_submit_error": "Erreur lors de l'enregistrement de la collection",
+  "Fill all the required fields correctly!": "Remplissez correctement tous les champs requis !",
+  "promo_invalid": "Code Promo invalide",
+  "user_pass_invalid": "Nom d'utilisateur et/ou mot de passe invalide"
 }

@@ -166,5 +166,11 @@
   "Your wishlist is empty.": "Je verlanglijstje is leeg.",
   "wrong_user": "Ben je niet {{userName}}?",
   "label_for": "Label voor {{labelTarget}}",
-  "error_for": "Foutmelding voor {{errorTarget}}"
+  "error_for": "Foutmelding voor {{errorTarget}}",
+  "Choose a category!": "Kies een categorie!",
+  "collection_modify_error": "Fout bij het wijzigen van de collectie",
+  "collection_submit_error": "Fout bij het opslaan van de collectie",
+  "Fill all the required fields correctly!": "Vul alle verplichte velden correct in!",
+  "promo_invalid": "Ongeldige Promotiecode",
+  "user_pass_invalid": "Gebruikersnaam en/of wachtwoord ongeldig"
 }

@@ -166,5 +166,11 @@
   "Your wishlist is empty.": "İstek listeniz boş.",
   "wrong_user": "Siz {{userName}} değil misiniz?",
   "label_for": "{{labelTarget}} için etiket",
-  "error_for": "{{errorTarget}} için hata mesajı"
+  "error_for": "{{errorTarget}} için hata mesajı",
+  "Choose a category!": "Bir kategori seçin!",
+  "collection_modify_error": "Koleksiyonu değiştirirken hata oluştu",
+  "collection_submit_error": "Koleksiyon kaydedilirken hata oluştu",
+  "Fill all the required fields correctly!": "Tüm gerekli alanları doğru şekilde doldurun!",
+  "promo_invalid": "Geçersiz Promosyon Kodu",
+  "user_pass_invalid": "Kullanıcı adı ve/veya Şifre geçersiz"
 }
