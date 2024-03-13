@@ -9,7 +9,7 @@ const Follow = () => {
   const iconSize: number = 36;
   return (
     <div className="flex flex-col gap-2">
-      <h3 className="font-bold text-2xl text-center">{t("Suivez-nous !")}</h3>
+      <h3 className="font-bold text-2xl text-center">{t("Follow us!")}</h3>
       <div className="flex flex-row gap-5 justify-around">
         <Link
           href={"https://www.facebook.com/HorecaDepotBelgium/"}

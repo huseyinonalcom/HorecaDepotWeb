@@ -222,16 +222,16 @@ const Header = () => {
           </div>
           <div className="hidden lg:flex flex-row items-center justify-between gap-4 text-white w-full max-w-[700px] h-[40px] duration-300 text-sm">
             <Link className={navLinkClass} href="/projects">
-              {t("PROJETS")}
+              {t("PROJECTS")}
             </Link>
             <Link className={navLinkClass} href="/references">
-              {t("RÉFÉRENCES")}
+              {t("References")}
             </Link>
             <Link className={navLinkClass} href="/contact">
               {t("CONTACT")}
             </Link>
             <Link className={navLinkClass} href="/about">
-              {t("À PROPOS DE NOUS")}
+              {t("ABOUT US")}
             </Link>
           </div>
           <div className="group hidden lg:inline-block w-[70px] flex-shrink-0 relative">

@@ -13,7 +13,7 @@ const WishListComponent = () => {
     <>
       {wishlist.length === 0 ? (
         <div className="flex flex-col items-center gap-2">
-          <div className="text-gray-500">{t("Votre wishlist est vide.")}</div>
+          <div className="text-gray-500">{t("Your wishlist is empty.")}</div>
           <Link href={"/products"} className="font-bold text-black bg-orange-400 py-2 px-4">
             SHOP
           </Link>

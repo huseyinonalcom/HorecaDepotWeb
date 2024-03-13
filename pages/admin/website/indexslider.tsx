@@ -207,7 +207,7 @@ export default function IndexSlider() {
                         currentImage === index ? "" : "hidden"
                       }`}
                     >
-                      ❌ {t("Supprimer cette image")}
+                      ❌ {t("Delete this image")}
                     </button>
                     <div className="absolute bottom-10 right-10 z-50">
                       <form className="flex flex-col">
@@ -217,7 +217,7 @@ export default function IndexSlider() {
                           }`}
                           type="text"
                           name="url"
-                          placeholder={t("Lien")}
+                          placeholder={t("Link")}
                           value={inputValues[img.id]}
                           onChange={(e) =>
                             setInputValues({
@@ -238,7 +238,7 @@ export default function IndexSlider() {
                             currentImage === index ? "" : "hidden"
                           }`}
                         >
-                          🔗 {t("Attacher lien a cette image")}
+                          🔗 {t("Attach link to this image")}
                         </button>
                       </form>
                     </div>
@@ -272,7 +272,7 @@ export default function IndexSlider() {
               onClick={saveChanges}
               className={componentThemes.greenSubmitButton}
             >
-              {t("Sauvegarder")}
+              {t("Save")}
             </button>
             <>
               <label
@@ -283,12 +283,12 @@ export default function IndexSlider() {
                 }
               >
                 <Upload className={iconClass} />
-                <span className={textClass}>{t("Télécharger Image")}</span>
+                <span className={textClass}>{t("Upload Image")}</span>
               </label>
               <input
-                title={t("Télécharger Image")}
+                title={t("Upload Image")}
                 className="w-0 h-0 opacity-0 absolute"
-                placeholder={t("Télécharger Image")}
+                placeholder={t("Upload Image")}
                 type="file"
                 name="uploadimg"
                 id="uploadimg"

@@ -13,7 +13,7 @@ export default function CheckOutCart() {
     return (
       <div className="flex flex-col">
         <div className="flex flex-row w-full justify-center">
-          <p>{t("Votre panier est vide!")}</p>
+          <p>{t("Your cart is empty")}</p>
         </div>
       </div>
     );

@@ -539,14 +539,14 @@ export default function Products() {
           product.shelves.find((shelf) => shelf.establishment.id == 1)?.stock ||
           0,
         Réservé: 0,
-        "Price Before Discount": product.priceBeforeDiscount,
+        "Prix Avant Remise": product.priceBeforeDiscount,
         "Prix de vente": product.value,
         Poids: product.product_extra.weight,
         "Poids Colis Net": product.product_extra.packaged_weight_net,
         "Poids Colis Brut": product.product_extra.packaged_weight,
         "Dimensions Du Colis": product.product_extra.packaged_dimensions,
         "Par Boîte": product.product_extra.per_box,
-        "Seat height": product.product_extra.seat_height,
+        "Hauteur d'assise": product.product_extra.seat_height,
         Hauteur: product.height,
         Largeur: product.width,
         Longueur: product.depth,
@@ -905,7 +905,7 @@ export default function Products() {
                       setCurrentCategory(null);
                     }}
                   >
-                    {t("Tout")}
+                    {t("All")}
                   </div>
                 </div>
                 {allCategoriesHierarchy.map((category) => (
@@ -1006,12 +1006,12 @@ export default function Products() {
                 <div className={navIconDivClass}>
                   <Upload className={iconClass} />
                 </div>
-                <span className={textClass}>{t("Téléverser Excel")}</span>
+                <span className={textClass}>{t("Upload Excel")}</span>
               </label>
               <input
-                title={t("Téléverser Excel")}
+                title={t("Upload Excel")}
                 className="w-0 h-0 opacity-0 absolute"
-                placeholder={t("Téléverser Excel")}
+                placeholder={t("Upload Excel")}
                 type="file"
                 name="upload"
                 id="upload"
@@ -1026,7 +1026,7 @@ export default function Products() {
               <div className={navIconDivClass}>
                 <Download className={iconClass} />
               </div>
-              <span className={textClass}>{t("Upload Excel")}</span>
+              <span className={textClass}>{t("Download Excel")}</span>
             </button>
 
             <button className={buttonClass} onClick={() => setNewProduct(true)}>
@@ -1045,22 +1045,22 @@ export default function Products() {
                     <th>{t("EAN")}</th>
                     <th>{t("Code Model")}</th>
                     <th>{t("Name")}</th>
-                    <th>{t("Couleur")}</th>
+                    <th>{t("Color")}</th>
                     <th>{t("Material")}</th>
                     <th>{t("Price Before Discount")}</th>
                     <th>{t("Selling Price")}</th>
-                    <th>{t("Stock Depot")}</th>
-                    <th>{t("Stock Magasin")}</th>
-                    <th>{t("Poids")}</th>
-                    <th>{t("Poids Colis Net")}</th>
-                    <th>{t("Poids Colis Brut")}</th>
-                    <th>{t("Dimensions Colis")}</th>
-                    <th>{t("Par Boite")}</th>
-                    <th>{t("Hauteur Assise")}</th>
-                    <th>{t("Hauteur")}</th>
-                    <th>{t("Largeur")}</th>
-                    <th>{t("Longueur")}</th>
-                    <th>{t("Diametre")}</th>
+                    <th>{t("Stock Warehouse")}</th>
+                    <th>{t("Stock Store")}</th>
+                    <th>{t("Weig")}</th>
+                    <th>{t("Packaged Weight Net")}</th>
+                    <th>{t("Packaged Weight")}</th>
+                    <th>{t("Packaged Dimensions")}</th>
+                    <th>{t("Per Box")}</th>
+                    <th>{t("Seat Height")}</th>
+                    <th>{t("Height")}</th>
+                    <th>{t("Width")}</th>
+                    <th>{t("Depth")}</th>
+                    <th>{t("Diameter")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1411,7 +1411,7 @@ export default function Products() {
                         />
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Couleur")}</p>
+                        <p>{t("Color")}</p>
                         <input
                           type="text"
                           onSubmit={(e) => {
@@ -1421,12 +1421,12 @@ export default function Products() {
                           onChange={(e) =>
                             handleChange("color", e.target.value)
                           }
-                          placeholder={t("Couleur")}
+                          placeholder={t("Color")}
                           className={inputClass}
                         />
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Poids")}</p>
+                        <p>{t("Weight")}</p>
                         <input
                           type="number"
                           onSubmit={(e) => {
@@ -1438,7 +1438,7 @@ export default function Products() {
                               validateInteger,
                             ])
                           }
-                          placeholder={t("Poids")}
+                          placeholder={t("Weight")}
                           className={inputClass}
                         />
                         {errors.weight && (
@@ -1446,7 +1446,7 @@ export default function Products() {
                         )}
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Poids Colis Net")}</p>
+                        <p>{t("Packaged Weight Net")}</p>
                         <input
                           type="number"
                           onSubmit={(e) => {
@@ -1464,7 +1464,7 @@ export default function Products() {
                               [validateDecimal]
                             )
                           }
-                          placeholder={t("Poids Colis Net")}
+                          placeholder={t("Packaged Weight Net")}
                           className={inputClass}
                         />
                         {errors.packaged_weight_net && (
@@ -1474,7 +1474,7 @@ export default function Products() {
                         )}
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Poids Colis Brut")}</p>
+                        <p>{t("Packaged Weight")}</p>
                         <input
                           type="number"
                           onSubmit={(e) => {
@@ -1491,7 +1491,7 @@ export default function Products() {
                               [validateDecimal]
                             )
                           }
-                          placeholder={t("Poids Colis")}
+                          placeholder={t("Packaged Weight")}
                           className={inputClass}
                         />
                         {errors.packaged_weight && (
@@ -1501,7 +1501,7 @@ export default function Products() {
                         )}
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Dimensions Colis")}</p>
+                        <p>{t("Packaged Dimensions")}</p>
                         <input
                           type="text"
                           onSubmit={(e) => {
@@ -1518,12 +1518,12 @@ export default function Products() {
                               true
                             )
                           }
-                          placeholder={t("Dimensions Colis")}
+                          placeholder={t("Packaged Dimensions")}
                           className={inputClass}
                         />
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Par Boite")}</p>
+                        <p>{t("Per Box")}</p>
                         <input
                           type="number"
                           onSubmit={(e) => {
@@ -1535,7 +1535,7 @@ export default function Products() {
                               validateInteger,
                             ])
                           }
-                          placeholder={t("Par Boite")}
+                          placeholder={t("Per Box")}
                           className={inputClass}
                         />
                         {errors.per_box && (
@@ -1543,7 +1543,7 @@ export default function Products() {
                         )}
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Hauteur")}</p>
+                        <p>{t("Height")}</p>
                         <input
                           type="number"
                           onSubmit={(e) => {
@@ -1555,7 +1555,7 @@ export default function Products() {
                               validateInteger,
                             ])
                           }
-                          placeholder={t("Hauteur")}
+                          placeholder={t("Height")}
                           className={inputClass}
                         />
                         {errors.height && (
@@ -1563,7 +1563,7 @@ export default function Products() {
                         )}
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Largeur")}</p>
+                        <p>{t("Width")}</p>
                         <input
                           type="number"
                           onSubmit={(e) => {
@@ -1575,7 +1575,7 @@ export default function Products() {
                               validateInteger,
                             ])
                           }
-                          placeholder={t("Largeur")}
+                          placeholder={t("Width")}
                           className={inputClass}
                         />
                         {errors.width && (
@@ -1583,7 +1583,7 @@ export default function Products() {
                         )}
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Longueur")}</p>
+                        <p>{t("Depth")}</p>
                         <input
                           type="number"
                           onSubmit={(e) => {
@@ -1595,7 +1595,7 @@ export default function Products() {
                               validateInteger,
                             ])
                           }
-                          placeholder={t("Longueur")}
+                          placeholder={t("Depth")}
                           className={inputClass}
                         />
                         {errors.depth && (
@@ -1603,7 +1603,7 @@ export default function Products() {
                         )}
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Diametre")}</p>
+                        <p>{t("Diameter")}</p>
                         <input
                           type="number"
                           onSubmit={(e) => {
@@ -1615,7 +1615,7 @@ export default function Products() {
                               validateInteger,
                             ])
                           }
-                          placeholder={t("Diametre")}
+                          placeholder={t("Diameter")}
                           className={inputClass}
                         />
                         {errors.diameter && (
@@ -1623,7 +1623,7 @@ export default function Products() {
                         )}
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Hauteur Assise")}</p>
+                        <p>{t("Seat Height")}</p>
                         <input
                           type="number"
                           onSubmit={(e) => {
@@ -1637,7 +1637,7 @@ export default function Products() {
                               validateInteger,
                             ])
                           }
-                          placeholder={t("Hauteur Assise")}
+                          placeholder={t("Seat Height")}
                           className={inputClass}
                         />
                         {errors.seat_height && (
@@ -1647,7 +1647,7 @@ export default function Products() {
                         )}
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Hauteur Accoudoir")}</p>
+                        <p>{t("Armrest Height")}</p>
                         <input
                           type="number"
                           onSubmit={(e) => {
@@ -1664,7 +1664,7 @@ export default function Products() {
                               [validateInteger]
                             )
                           }
-                          placeholder={t("Hauteur Accoudoir")}
+                          placeholder={t("Armrest Height")}
                           className={inputClass}
                         />
                         {errors.armrest_height && (
@@ -1676,13 +1676,13 @@ export default function Products() {
                     </div>
                     <div className="flex flex-wrap gap-2 justify-center items-center">
                       <div className={inputDivClass}>
-                        <p>{t("Ettiquetes")}</p>
+                        <p>{t("Tags")}</p>
                         <textarea
                           value={currentProduct?.product_extra?.tags ?? ""}
                           onChange={(e) =>
                             handleChange("tags", e.target.value, true, [])
                           }
-                          placeholder={t("Ettiquetes")}
+                          placeholder={t("Tags")}
                           className={inputClass}
                         />
                       </div>
@@ -1707,7 +1707,7 @@ export default function Products() {
                           <div className={inputDivClass}>
                             <div className="flex flex-row items-center gap-2">
                               <p className="whitespace-nowrap">
-                                {t("Stock Depot")}
+                                {t("Stock Warehouse")}
                               </p>
                               <button
                                 onClick={() => submitStock(3)}
@@ -1746,7 +1746,7 @@ export default function Products() {
                                   );
                                 }
                               }}
-                              placeholder={t("Stock Depot")}
+                              placeholder={t("Stock Warehouse")}
                               className={inputClass}
                             />
                             {errors.stock_depot && (
@@ -1758,7 +1758,7 @@ export default function Products() {
                           <div className={inputDivClass}>
                             <div className="flex flex-row items-center gap-2">
                               <p className="whitespace-nowrap">
-                                {t("Stock Magasin")}
+                                {t("Stock Store")}
                               </p>
                               <button
                                 onClick={() => submitStock(1)}
@@ -1797,7 +1797,7 @@ export default function Products() {
                                   );
                                 }
                               }}
-                              placeholder={t("Stock Magasin")}
+                              placeholder={t("Stock Store")}
                               className={inputClass}
                             />
                             {errors.stock_store && (
@@ -1823,7 +1823,7 @@ export default function Products() {
                               className={`bg-red-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
                               onClick={toggleProductNew}
                             >
-                              {t("Normal")}
+                              {t("Not Featured")}
                             </div>
                           )
                         ) : null}
@@ -1833,14 +1833,14 @@ export default function Products() {
                               className={`bg-green-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
                               onClick={toggleProductActive}
                             >
-                              {t("Actif")}
+                              {t("Active")}
                             </div>
                           ) : (
                             <div
                               className={`bg-red-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
                               onClick={toggleProductActive}
                             >
-                              {t("Inactif")}
+                              {t("Inactive")}
                             </div>
                           )
                         ) : null}
@@ -1856,13 +1856,13 @@ export default function Products() {
                                   <Upload className={iconClass} />
                                 </div>
                                 <span className={textClass}>
-                                  {t("Télécharger Image")}
+                                  {t("Upload Image")}
                                 </span>
                               </label>
                               <input
-                                title={t("Télécharger Image")}
+                                title={t("Upload Image")}
                                 className="w-0 h-0 opacity-0 absolute"
-                                placeholder={t("Télécharger Image")}
+                                placeholder={t("Upload Image")}
                                 type="file"
                                 name="uploadimg"
                                 id="uploadimg"
@@ -1882,7 +1882,7 @@ export default function Products() {
                           <span className={textClass}>
                             {newProduct
                               ? t("Create New Product")
-                              : t("Modifier Produit")}
+                              : t("Modify Product")}
                           </span>
                         </button>
                         {submitError && (
@@ -1949,7 +1949,7 @@ export default function Products() {
               </>
             ) : (
               <div className="flex w-full items-center justify-center text-2xl font-bold">
-                {t("Aucun produit sélectionné")}
+                {t("No products selected")}
               </div>
             )}
           </div>

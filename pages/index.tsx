@@ -99,10 +99,10 @@ export default function Index({ collections, images, imageUrls }) {
             />
             <div className="absolute my-auto left-4 flex flex-col justify-center items-start h-full w-full">
               <div className="flex flex-col items-center">
-                <p className="text-white font-bold py-2 px-4">{t("Chaises")}</p>
+                <p className="text-white font-bold py-2 px-4">{t("Chairs")}</p>
                 <Link href={"products?category=1"}>
                   <button className="bg-gray-700 hover:bg-transparent text-white border-solid border-gray-700 px-2 py-1 border duration-700">
-                    {t("Voir produits")}
+                    {t("View produits")}
                   </button>
                 </Link>
               </div>
@@ -120,11 +120,11 @@ export default function Index({ collections, images, imageUrls }) {
             <div className="absolute my-auto flex flex-col justify-center items-center h-full w-full">
               <div className="flex flex-col items-center">
                 <p className="text-white font-bold py-2 px-4">
-                  {t("Banquettes")}
+                  {t("Benches")}
                 </p>
                 <Link href={"products?category=10"}>
                   <button className="bg-gray-700 hover:bg-transparent text-white border-solid border-gray-700 px-2 py-1 border duration-700">
-                    {t("Voir produits")}
+                    {t("View produits")}
                   </button>
                 </Link>
               </div>
@@ -142,11 +142,11 @@ export default function Index({ collections, images, imageUrls }) {
             <div className="absolute my-auto right-4 flex flex-col justify-center items-end h-full w-full">
               <div className="flex flex-col items-center">
                 <p className="text-white font-bold py-2 px-4">
-                  {t("Tabourettes")}
+                  {t("Stools")}
                 </p>
                 <Link href={"products?category=11"}>
                   <button className="bg-gray-700 hover:bg-transparent text-white border-solid border-gray-700 px-2 py-1 border duration-700">
-                    {t("Voir produits")}
+                    {t("View produits")}
                   </button>
                 </Link>
               </div>

@@ -101,7 +101,7 @@ export class ProductTransformer {
         ?.toString()
         .replace(/[^0-9.]/g, ""),
       packaged_dimensions: item["dimensionsducolis"],
-      seat_height: +item["hauteurdassise"]
+      seat_height: +item["hauteurd'assise"]
         ?.toString()
         .replace(/[^0-9.]/g, ""),
       barcode: item["ean"],

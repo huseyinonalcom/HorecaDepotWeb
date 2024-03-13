@@ -97,7 +97,7 @@ const OrderPreview = ({ order }) => {
       </div>
       <div className="grid grid-cols-2 border-2 p-4 w-full">
         <div className="flex flex-col">
-          <p className="font-bold">{t("Commande")}</p>
+          <p className="font-bold">{t("Orders")}</p>
           <p>{order.prefix + order.number}</p>
         </div>
         <div className="flex flex-col">
@@ -116,7 +116,7 @@ const OrderPreview = ({ order }) => {
         </div>
 
         <div className="flex flex-col">
-          <p className="font-bold">{t("À payer")} </p>
+          <p className="font-bold">{t("To pay")} </p>
           <p>
             €{" "}
             {(
@@ -138,7 +138,7 @@ const OrderPreview = ({ order }) => {
           href={`/account/order?id=${order.id}`}
           className={`${componentThemes.greenSubmitButton} col-span-2 flex flex-col items-center justify-center`}
         >
-          {t("Voir Details")}
+          {t("View Details")}
         </Link>
       </div>
     </div>

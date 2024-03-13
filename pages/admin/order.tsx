@@ -134,14 +134,14 @@ export default function Order() {
                           className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
                           onClick={submitCheckPayment}
                         >
-                          {t("Verifier payment")}
+                          {t("Verify payment")}
                         </button>
                       )}
                       <button
                         className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
                         onClick={submitPayment}
                       >
-                        {t("Proceder au payment")}
+                        {t("Proceed to payment")}
                       </button>
                     </>
                   )} */}
@@ -152,7 +152,7 @@ export default function Order() {
                       document={<PDFInvoice invoiceDocument={currentOrder} />}
                       className={`${componentThemes.greenSubmitButton} flex flex-row text-xl items-center whitespace-nowrap`}
                     >
-                      📄 <p className="ml-1">{t("Télécharger PDF")}</p>
+                      📄 <p className="ml-1">{t("Download PDF")}</p>
                     </PDFDownloadLink>
                   )}
                   <button
@@ -162,7 +162,7 @@ export default function Order() {
                     className={`${componentThemes.greenSubmitButton} flex flex-row text-xl items-center whitespace-nowrap`}
                   >
                     🖨️
-                    <p className="ml-1">{t("Imprimer")}</p>
+                    <p className="ml-1">{t("Print")}</p>
                   </button>
                 </div>
               </div>
@@ -305,7 +305,7 @@ export default function Order() {
                       className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
                       onClick={submitPayment}
                     >
-                      {t("Proceder au payment")}
+                      {t("Proceed to payment")}
                     </button>
                   </div>
                 </div>

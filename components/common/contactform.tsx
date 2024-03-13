@@ -27,7 +27,7 @@ const ContactForm = () => {
 
       <div className="flex flex-col md:flex-row w-full gap-2">
         <div className="w-full md:w-6/12">
-          <InputOutlined type="text" name="Telephone" label="Your phone number" />
+          <InputOutlined type="text" name="Phone" label="Your phone number" />
         </div>
         <div className="w-full md:w-6/12">
           <InputOutlined type="text" name="Company" label="The name of your company" />

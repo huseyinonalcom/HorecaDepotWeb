@@ -144,7 +144,7 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
             setMaxValue(maxLimit);
           }}
         >
-          {t("Remettre")}
+          {t("Reset")}
         </button>
       </div>
     </div>

@@ -21,7 +21,7 @@ export default function References({ images }: Props) {
       </Head>
 
       <h1 className="font-bold text-4xl bg-black text-white text-center pt-2">
-        {t("Nos références")}
+        {t("Our references")}
       </h1>
       <div className="h-[70px] bg-black shadow-lg flex flex-col justify-around">
         <div className="flex flex-row text-md font-bold items-center justify-center text-gray-300">
@@ -30,7 +30,7 @@ export default function References({ images }: Props) {
           </Link>
           <p className="font-bold mx-2">/</p>
           <p className="underline decoration-solid decoration-orange-400 decoration-4 underline-offset-8 text-white">
-            {t("Références")}
+            {t("References")}
           </p>
         </div>
       </div>

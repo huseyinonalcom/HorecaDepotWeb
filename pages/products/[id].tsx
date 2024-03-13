@@ -106,7 +106,7 @@ const ProductPage = ({
       <div className="w-full flex flex-col items-center pt-2">
         <div className="flex flex-row gap-1 font-bold text-sm">
           <Link key={1} href={"/"}>
-            {t("Page d'acceuil")}
+            {t("Home Page")}
           </Link>
 
           <Link key={2} href={"/products"}>
@@ -213,37 +213,37 @@ const ProductPage = ({
             </div>
             {product.height && product.height != 0 && (
               <p>
-                <b>{t("Hauteur")}:</b> {product.height} cm
+                <b>{t("Height")}:</b> {product.height} cm
               </p>
             )}
             {product.width && product.width != 0 && (
               <p>
-                <b>{t("Largeur")}:</b> {product.width} cm
+                <b>{t("Width")}:</b> {product.width} cm
               </p>
             )}
             {product.depth && product.depth != 0 && (
               <p>
-                <b>{t("Longueur")}:</b> {product.depth} cm
+                <b>{t("Length")}:</b> {product.depth} cm
               </p>
             )}
             {product.product_extra.seat_height !== undefined &&
               product.product_extra.seat_height !== 0 && (
                 <p>
-                  <b>{t("Hauteur d'assise")}:</b>{" "}
+                  <b>{t("Seat Height")}:</b>{" "}
                   {product.product_extra.seat_height} cm
                 </p>
               )}
             {product.product_extra.armrest_height !== undefined &&
               product.product_extra.armrest_height !== 0 && (
                 <p>
-                  <b>{t("Hauteur Accoudoir")}:</b>{" "}
+                  <b>{t("Armrest Height")}:</b>{" "}
                   {product.product_extra.armrest_height} cm
                 </p>
               )}
 
             {product.color && (
               <p>
-                <b>{t("Couleur")}:</b> {product.color}
+                <b>{t("Color")}:</b> {product.color}
               </p>
             )}
             {product.material && (
@@ -253,7 +253,7 @@ const ProductPage = ({
             )}
             {breadCrumbs && (
               <div className="flex flex-row gap-2">
-                <b>{t("Catégories")}: </b>
+                <b>{t("Categories")}: </b>
                 {breadCrumbs.map((crumb, index) => (
                   <Fragment key={index}>
                     <Link
@@ -269,7 +269,7 @@ const ProductPage = ({
               </div>
             )}
             <div className="flex flex-row items-center gap-2">
-              <b>{t("Partager")}:</b>
+              <b>{t("Share")}:</b>
               <Link
                 target="_blank"
                 aria-label="Share via Facebook"

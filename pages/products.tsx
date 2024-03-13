@@ -394,7 +394,7 @@ export default function Products() {
                         setIsFilterDrawerOpen(false);
                       }}
                     >
-                      {t("Filtrer")}
+                      {t("Filter")}
                     </button>
                   </div>
                 </div>
@@ -462,7 +462,7 @@ export default function Products() {
                         setIsFilterDrawerOpen(false);
                       }}
                     >
-                      {t("Filtrer")}
+                      {t("Filter")}
                     </button>
                   </div>
                 </div>

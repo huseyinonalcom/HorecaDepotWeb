@@ -53,7 +53,7 @@ export default function MyOrders() {
             ) : allOrders ? (
               allOrders.map((order) => <OrderPreview order={order} key={order.id} />)
             ) : (
-              <p>{t("Aucun commande trouve")}</p>
+              <p>{t("No orders found")}</p>
             )}
           </div>
         </div>

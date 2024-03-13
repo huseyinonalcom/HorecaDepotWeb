@@ -76,7 +76,7 @@ const ProductButtons = ({ product, amount, onChange }: Props) => {
         >
           <div className="flex flex-row justify-center gap-2 w-full h-full items-center px-1">
             <ShoppingCart />
-            <p className="font-bold text-lg">{t("Ajouter au panier")}</p>
+            <p className="font-bold text-lg">{t("Add to cart")}</p>
           </div>
         </button>
 
@@ -86,7 +86,7 @@ const ProductButtons = ({ product, amount, onChange }: Props) => {
         >
           <div className="flex flex-row justify-center gap-2 w-full h-full items-center">
             <Heart />{" "}
-            <p className="font-bold text-lg">{t("Ajouter au wishlist")}</p>
+            <p className="font-bold text-lg">{t("Add to wishlist")}</p>
           </div>
         </button>
       </div>

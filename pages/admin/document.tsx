@@ -309,12 +309,12 @@ export default function Order() {
                   <div className={navIconDivClass}>
                     <Upload className={iconClass} />
                   </div>
-                  <span className={textClass}>{t("Télécharger Image")}</span>
+                  <span className={textClass}>{t("Upload Image")}</span>
                 </label>
                 <input
-                  title={t("Télécharger Image")}
+                  title={t("Upload Image")}
                   className="w-0 h-0 opacity-0 absolute"
-                  placeholder={t("Télécharger Image")}
+                  placeholder={t("Upload Image")}
                   type="file"
                   name="uploadimg"
                   id="uploadimg"

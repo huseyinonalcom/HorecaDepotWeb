@@ -35,7 +35,7 @@ const CartDrawer = () => {
       >
         <button onClick={closeDrawer} className="w-full mb-2 duration-700">
           <div className="group flex w-full flex-row justify-between py-1 pl-2 pr-1 border-b border-gray-300">
-            <p className="font-bold">{t("Panier")}</p>
+            <p className="font-bold">{t("Cart")}</p>
             <X className="-rotate-180 group-hover:rotate-180 duration-700" />
           </div>
         </button>
@@ -110,7 +110,7 @@ const CartDrawer = () => {
           </div>
         ))}
         {cart.length === 0 && (
-          <div className="text-center text-black">{t("Panier Vide")}</div>
+          <div className="text-center text-black">{t("Cart Empty")}</div>
         )}
         <div>
           <div className="flex flex-col">
@@ -158,7 +158,7 @@ const CartDrawer = () => {
               href="/checkout"
               className="flex flex-row justify-center w-full shadow-xl bg-green-700 hover:bg-orange-400 text-white mt-1 py-1 font-medium duration-500"
             >
-              {t("Commander")}
+              {t("Order")}
             </Link>
           )}
         </div>

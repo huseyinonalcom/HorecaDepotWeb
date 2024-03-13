@@ -351,7 +351,7 @@ export default function CheckOutInfo() {
       return;
     }
     if (calculateTotal().totalAfterDiscount < 0) {
-      setSubmitErrorDocument(t("Panier Vide"));
+      setSubmitErrorDocument(t("Cart Empty"));
       return;
     }
     let documentToPost: Document = {
@@ -434,7 +434,7 @@ export default function CheckOutInfo() {
               }}
               className={CustomTheme.orangeSubmitButton}
             >
-              {t("Retourner")}
+              {t("Return")}
             </button>
             <form onSubmit={handleLoginSubmit} className="w-full mt-4 max-w-md space-y-4">
               <InputOutlined
@@ -466,7 +466,7 @@ export default function CheckOutInfo() {
   } else if (!client) {
     return (
       <div className="flex flex-col gap-2">
-        <h2 className="text-xl font-bold">{t("DÉTAILS DE FACTURATION")}</h2>
+        <h2 className="text-xl font-bold">{t("INVOICING DETAILS")}</h2>
         <div className="flex flex-col">
           <h3 className="">{t("Already have an account?")}</h3>
           <button
@@ -478,7 +478,7 @@ export default function CheckOutInfo() {
           >
             {t("Login")}
           </button>
-          <h3 className="">{t("Entreprise ou Particulier")}</h3>
+          <h3 className="">{t("Business or Individual")}</h3>
           <div className="relative inline-block text-left z-40">
             <button
               type="button"
@@ -799,29 +799,29 @@ export default function CheckOutInfo() {
   } else {
     return (
       <div className="flex flex-col">
-        <h2 className="text-xl font-bold mb-2">{t("DÉTAILS DE FACTURATION")}</h2>
+        <h2 className="text-xl font-bold mb-2">{t("INVOICING DETAILS")}</h2>
         <div className="flex flex-col gap-2 lg:flex-row justify-between items-start">
           <div className="flex flex-col">
             <p>
-              {t("Facture a")}{" "}
+              {t("Invoiced to")}{" "}
               <span className="font-bold">
                 {client.client_info.firstName} {client.client_info.lastName}
               </span>
               <br />
-              {t("Telephone")}: {client.client_info.phone} <br />
+              {t("Phone")}: {client.client_info.phone} <br />
               {t("Email")}: {client.email}
             </p>
           </div>
           <div className="flex flex-col lg:w-1/3">
             <p>
-              {t("Total avant remise")}: € {calculateTotal().totalBeforeDiscount}
+              {t("Total before reduction")}: € {calculateTotal().totalBeforeDiscount}
             </p>
             <p>
-              {t("Total avec remise")}: € {calculateTotal().totalAfterDiscount}
+              {t("Total after reduction")}: € {calculateTotal().totalAfterDiscount}
             </p>
             {totalAfterPromo && (
               <p>
-                {t("Total avec promo")}: € {totalAfterPromo}
+                {t("Total after promo")}: € {totalAfterPromo}
               </p>
             )}
           </div>
