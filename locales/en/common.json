@@ -163,7 +163,7 @@
   "Wishlist": "Wishlist",
   "WISHLIST": "WISHLIST",
   "Your cart is empty": "Your cart is empty",
-  "Your wishlist is empty.": "Your wishlist is empty.",  
+  "Your wishlist is empty.": "Your wishlist is empty.",
   "wrong_user": "Are you not {{userName}}?",
   "label_for": "Label for {{labelTarget}}",
   "error_for": "Error message for {{errorTarget}}"
