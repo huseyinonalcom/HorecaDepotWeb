@@ -50,6 +50,9 @@ export default async function postProductReservation(
           console.log(reqClientAnswer);
           if (reqClient.ok) {
             document.client.id = reqClientAnswer.data.id;
+            // post the document
+            // then post the documentproducts
+             
           } else {
             console.log("Error during client creation:", reqClientAnswer);
             return res

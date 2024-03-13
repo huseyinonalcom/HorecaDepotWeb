@@ -108,9 +108,6 @@ export default function CheckOutInfo() {
   const handleClientSubmit = async (event) => {
     event.preventDefault();
 
-    console.log(areAllPropertiesEmpty(newClient));
-    console.log(areAllPropertiesEmpty(addressNewClient));
-
     setErrorsNewClientForm((e) => ({
       company: null,
       taxID: null,

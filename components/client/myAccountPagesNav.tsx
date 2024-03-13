@@ -11,8 +11,6 @@ export default function MyAccountPagesNav() {
   const router = useRouter();
   const { client, clearClient } = useContext(ClientContext);
 
-  console.log(client);
-
   const getNavLinkClass = (href) => {
     const baseClass = "font-bold py-1 pl-1 duration-300 w-full hover:bg-gray-200";
     return href === pathname ? `${baseClass} bg-gray-200` : baseClass;

@@ -10,10 +10,7 @@ export default async function createPaymentLink(req, res) {
 
     const reqBody = JSON.parse(req.body);
 
-    console.log("req body");
-    console.log(reqBody);
-
-    const fetchOrderUrl = `${process.env.API_URL}/api/documents/${reqBody.id}?populate[0]=client&populate[1]=establishment&populate[2]=delAddress&populate[3]=docAddress&populate[4]=document_products&populate[5]=payments`;
+    const fetchOrderUrl = `${process.env.API_URL}/api/documents/${reqBody.documentID}?populate[0]=client&populate[1]=establishment&populate[2]=delAddress&populate[3]=docAddress&populate[4]=document_products&populate[5]=payments`;
 
     let document;
     let amount;
@@ -30,8 +27,6 @@ export default async function createPaymentLink(req, res) {
       const answer = await request.json();
 
       document = answer.data;
-      console.log("document");
-      console.log(document);
       amount =
         document.document_products.reduce((accumulator, currentItem) => {
           return accumulator + currentItem.subTotal;
@@ -124,8 +119,7 @@ export default async function createPaymentLink(req, res) {
               // fiscalNumber: document.client.taxID, // figure out how to format this correctly (remove spaces and dots I think)
             },
             references: {
-              merchantReference:
-                document.prefix + document.number + "-" + paymentID.toFixed(0),
+              merchantReference: document.prefix + document.number + "-" + paymentID.toFixed(0),
             },
           },
           hostedCheckoutSpecificInput: {
@@ -191,14 +185,11 @@ export default async function createPaymentLink(req, res) {
           // fiscalNumber: document.client.taxID, // figure out how to format this correctly (remove spaces and dots I think)
         },
         references: {
-          merchantReference:
-            document.prefix + document.number + "-" + paymentID.toFixed(0),
+          merchantReference: document.prefix + document.number + "-" + paymentID.toFixed(0),
         },
       },
       hostedCheckoutSpecificInput: {
-        returnUrl: `https://horecadepot.meubelweb.com/payment?id=${paymentID.toFixed(
-          0
-        )}`,
+        returnUrl: `https://horecadepot.meubelweb.com/payment?id=${paymentID.toFixed(0)}`,
         isRecurring: false,
         locale: "en_GB",
       },
@@ -213,12 +204,7 @@ export default async function createPaymentLink(req, res) {
       };
     }
 
-    const createHostedCheckoutResponse =
-      await directSdkClient.hostedCheckout.createHostedCheckout(
-        "ATKSPRL",
-        createHostedCheckoutRequest,
-        null
-      );
+    const createHostedCheckoutResponse = await directSdkClient.hostedCheckout.createHostedCheckout("ATKSPRL", createHostedCheckoutRequest, null);
 
     const hostedUrl = createHostedCheckoutResponse;
 
