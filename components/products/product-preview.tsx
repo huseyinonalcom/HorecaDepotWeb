@@ -8,7 +8,6 @@ import { useContext } from "react";
 import { CartProduct } from "../../api/interfaces/cartProduct";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import { WishlistProduct } from "../../api/interfaces/wishlistProduct";
-import { useRouter } from "next/router";
 import { AutoTextSize } from "auto-text-size";
 
 type Props = {
@@ -44,7 +43,6 @@ const ProductPreview = ({ product, width }: Props) => {
   const { addToCart } = useContext(CartContext);
   const { addToWishlist } = useContext(WishlistContext);
   const { t } = useTranslation("common");
-  const router = useRouter();
 
   const discountPercentage = calculatePercentageDifference(
     product.priceBeforeDiscount,
@@ -84,13 +82,13 @@ const ProductPreview = ({ product, width }: Props) => {
         </Link>
         <div className="absolute top-2 left-2 flex flex-col gap-2">
           {product.priceBeforeDiscount ? (
-            <button
+            <Link
               className="flex items-center justify-center bg-green-700 h-12 w-12 font-bold -full text-sm text-white overflow-hidden"
               style={{ padding: "1em", borderRadius: "50%" }}
-              onClick={() => router.push(`/products/${product.id}`)}
+              href={`/products/${product.id}`}
             >
               <div className="flex flex-row justify-center items-center">{`-${discountPercentage}%`}</div>
-            </button>
+            </Link>
           ) : null}
         </div>
         <div className="hidden absolute top-2 lg:top-6 group-hover:top-2 opacity-100 lg:opacity-0 group-hover:opacity-100 duration-500 right-2 lg:flex flex-col gap-2">
@@ -118,9 +116,7 @@ const ProductPreview = ({ product, width }: Props) => {
       </div>
       <div
         id={`${product.id}-content`}
-        className={
-          "flex flex-col items-center " + contentDimensions
-        }
+        className={"flex flex-col items-center " + contentDimensions}
       >
         <div className="hidden lg:flex flex-col items-center">
           <h3 className="h-[25px] text-base font-bold w-full justify-center overflow-hidden duration-700 px-2">
