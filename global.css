@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+}
+
 * {
   scrollbar-width: 9px;
   scrollbar-color: orange black;
@@ -10,7 +16,6 @@
 .transition-height {
   transition-property: height;
 }
-
 
 *::-webkit-scrollbar {
   width: 9px;
@@ -43,7 +48,6 @@ a {
 .error-message {
   color: #ff1515;
 }
-
 
 .orders-table-container {
   min-width: calc(100vw - 280px);

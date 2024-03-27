@@ -85,8 +85,7 @@ export default function Products() {
   const [currentSearch, setCurrentSearch] = useState<string>("");
   const [tempSearch, setTempSearch] = useState<string>("");
   const [currentSort, setCurrentSort] = useState<string | null>("id");
-  const [currentSortDirection, setCurrentSortDirection] =
-    useState<boolean>(false);
+  const [currentSortDirection, setCurrentSortDirection] = useState<boolean>(false);
 
   useEffect(() => {
     if (allCategories.length === 0 && categories.length > 0) {
@@ -147,11 +146,9 @@ export default function Products() {
   }, [router.isReady, router.query.search]);
 
   const initPage = async () => {
-    var fetchUrl: string = `/api/products/public/getproducts?page=${
-      router.query.page ? router.query.page : "1"
-    }${router.query.category ? `&category=${router.query.category}` : ``}${
-      router.query.search ? `&search=${router.query.search}` : ``
-    }`;
+    var fetchUrl: string = `/api/products/public/getproducts?page=${router.query.page ? router.query.page : "1"}${
+      router.query.category ? `&category=${router.query.category}` : ``
+    }${router.query.search ? `&search=${router.query.search}` : ``}`;
     router.push(
       {
         pathname: "/products",
@@ -177,9 +174,7 @@ export default function Products() {
     setMaxValueFromAPI(result.maxValueFromAPI as number);
     setSliderMin(result.minValueFromAPI as number);
     setSliderMax(result.maxValueFromAPI as number);
-    const allCategoriesReq = await fetch(
-      "/api/categories/public/getallcategoriesflattened"
-    );
+    const allCategoriesReq = await fetch("/api/categories/public/getallcategoriesflattened");
     setCategoriesFlat(await allCategoriesReq.json());
     setPageInitialized(true);
   };
@@ -192,14 +187,10 @@ export default function Products() {
       searchParam = null;
     }
 
-    var fetchUrl: string = `/api/products/public/getproducts?page=${pageParam}${
-      currentCategory ? `&category=${currentCategory}` : ``
-    }${sliderMin ? `&minprice=${sliderMin}` : ``}${
-      sliderMax ? `&maxprice=${sliderMax}` : ``
-    }${searchParam ? `&search=${searchParam}` : ``}${
-      currentSort
-        ? `&sort=${currentSort}${currentSortDirection ? ":asc" : ":desc"}`
-        : ``
+    var fetchUrl: string = `/api/products/public/getproducts?page=${pageParam}${currentCategory ? `&category=${currentCategory}` : ``}${
+      sliderMin ? `&minprice=${sliderMin}` : ``
+    }${sliderMax ? `&maxprice=${sliderMax}` : ``}${searchParam ? `&search=${searchParam}` : ``}${
+      currentSort ? `&sort=${currentSort}${currentSortDirection ? ":asc" : ":desc"}` : ``
     }`;
 
     const request = await fetch(fetchUrl);
@@ -213,12 +204,11 @@ export default function Products() {
 
   const CategoryItem = ({ category }) => {
     const [isHovered, setisHovered] = useState(false);
-    const hasSubCategories =
-      category.subCategories && category.subCategories.length > 0;
+    const hasSubCategories = category.subCategories && category.subCategories.length > 0;
 
     return (
       <div className="relative cursor-pointer">
-        <div className="w-full text-left flex justify-between items-center min-w-[242px] hover:bg-gray-200">
+        <div className="w-full focus:overlay-none text-left flex justify-between items-center min-w-[242px] hover:bg-gray-200">
           {hasSubCategories ? (
             <>
               <div
@@ -235,12 +225,7 @@ export default function Products() {
                   setisHovered(!isHovered);
                 }}
               >
-                <ChevronLeft
-                  className={
-                    "ml-auto w-4 h-4 duration-300 " +
-                    (isHovered ? "rotate-270" : "rotate-90")
-                  }
-                />
+                <ChevronLeft className={"ml-auto w-4 h-4 duration-300 " + (isHovered ? "rotate-270" : "rotate-90")} />
               </div>
             </>
           ) : (
@@ -255,12 +240,7 @@ export default function Products() {
           )}
         </div>
         {hasSubCategories && (
-          <div
-            className={
-              "pl-4 overflow-hidden transition-max-height duration-300 ease-in-out " +
-              (isHovered ? "max-h-96" : "max-h-0")
-            }
-          >
+          <div className={"pl-4 overflow-hidden transition-max-height duration-300 ease-in-out " + (isHovered ? "max-h-96" : "max-h-0")}>
             {category.subCategories.map((subCategory) => (
               <CategoryItem key={subCategory.id} category={subCategory} />
             ))}
@@ -284,32 +264,23 @@ export default function Products() {
           <meta name="description" content={t("main_description")} />
           <meta name="language" content={lang} />
         </Head>
-        <div
-          id={t("Products")}
-          className="w-full items-start flex flex-col lg:flex-row text-[#084E97]"
-        >
+        <div id={t("Products")} className="w-full items-start flex flex-col lg:flex-row text-[#084E97]">
           <div className="relative flex flex-col w-full lg:w-[500px] px-1 gap-2">
             <div className="shadow-lg sticky w-full bg-gray-100 p-2 flex flex-row gap-2">
               <ArrowUp
                 height={36}
                 width={36}
                 onClick={() => setCurrentSortDirection(!currentSortDirection)}
-                className={` bg-white border-2 flex flex-row items-center duration-500 border-blue-500 p-1 ${
-                  currentSortDirection ? "rotate-0" : "rotate-180"
-                }`}
+                className={` bg-white border-2 flex flex-row items-center duration-500 border-blue-500 p-1 ${currentSortDirection ? "rotate-0" : "rotate-180"}`}
               />
               <div
-                className={` flex flex-row items-center px-2 py-1 bg-white border-2 ${
-                  currentSort == "id" ? "border-blue-500" : ""
-                }`}
+                className={` flex flex-row items-center px-2 py-1 bg-white border-2 ${currentSort == "id" ? "border-blue-500" : ""}`}
                 onClick={() => setCurrentSort("id")}
               >
                 {t("Date")}
               </div>
               <div
-                className={` flex flex-row items-center px-2 py-1 bg-white border-2 ${
-                  currentSort == "value" ? "border-blue-500" : ""
-                }`}
+                className={` flex flex-row items-center px-2 py-1 bg-white border-2 ${currentSort == "value" ? "border-blue-500" : ""}`}
                 onClick={() => setCurrentSort("value")}
               >
                 {t("Price")}
@@ -323,47 +294,26 @@ export default function Products() {
                 {t("Filters")}
               </button>
             </div>
-            <div
-              className={`fixed lg:hidden top-100 z-40 duration-700 bg-slate-300 w-full flex flex-row ${
-                isFilterDrawerOpen ? "right-[0]" : "right-[-100%]"
-              }`}
-            >
-              <button
-                className="flex flex-col flex-shrink-0 p-2"
-                onClick={() => setIsFilterDrawerOpen(false)}
-              >
-                <X />
-              </button>
+            <div className={`fixed lg:hidden bottom-0 z-40 duration-700 w-full flex flex-col ${isFilterDrawerOpen ? "bottom-0" : "bottom-[-100%]"}`}>
+              <div onClick={() => setIsFilterDrawerOpen(false)} className={`bg-transparent ${isFilterDrawerOpen ? "h-screen" : "h-0"}`}></div>
+              <div className="flex flex-row bg-slate-300 justify-end flex-shrink-0 py-2 px-3">
+                <button onClick={() => setIsFilterDrawerOpen(false)}>
+                  <X />
+                </button>
+              </div>
               <div className="flex flex-col bg-slate-300 w-full">
                 <div>
                   {currentCategory || currentSearch ? (
-                    <div
-                      className={` overflow-hidden shadow-lg bg-gray-100 p-4`}
-                    >
+                    <div className={`overflow-hidden shadow-lg bg-gray-100 p-4`}>
                       {currentSearch ? (
-                        <div
-                          style={{ cursor: "pointer" }}
-                          className="mb-1 pr-3"
-                          onClick={() => setCurrentSearch("")}
-                        >
+                        <div style={{ cursor: "pointer" }} className="mb-1 pr-3" onClick={() => setCurrentSearch("")}>
                           x {currentSearch}
                         </div>
                       ) : null}
                       {currentCategory ? (
-                        <div
-                          className="mb-1 pr-3"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => setCurrentCategory(null)}
-                        >
-                          {allCategoriesFlat.find(
-                            (cat) => cat.id == currentCategory
-                          ) != null
-                            ? "x " +
-                              t(
-                                allCategoriesFlat.find(
-                                  (cat) => cat.id == currentCategory
-                                ).Name
-                              )
+                        <div className="mb-1 pr-3" style={{ cursor: "pointer" }} onClick={() => setCurrentCategory(null)}>
+                          {allCategoriesFlat.find((cat) => cat.id == currentCategory) != null
+                            ? "x " + t(allCategoriesFlat.find((cat) => cat.id == currentCategory).Name)
                             : currentCategory}
                         </div>
                       ) : null}
@@ -401,37 +351,20 @@ export default function Products() {
               </div>
             </div>
 
-            <div
-              className={`hidden lg:flex duration-700 bg-slate-300 p-2 flex-row-reverse`}
-            >
+            <div className={`hidden lg:flex duration-700 bg-slate-300 p-2 flex-row-reverse`}>
               <div className="flex flex-col bg-slate-300 w-full">
                 <div>
                   {currentCategory || currentSearch ? (
                     <div className={` shadow-lg bg-gray-100 p-4`}>
                       {currentSearch ? (
-                        <div
-                          style={{ cursor: "pointer" }}
-                          className="mb-1 pr-3"
-                          onClick={() => setCurrentSearch("")}
-                        >
+                        <div style={{ cursor: "pointer" }} className="mb-1 pr-3" onClick={() => setCurrentSearch("")}>
                           x {currentSearch}
                         </div>
                       ) : null}
                       {currentCategory ? (
-                        <div
-                          className="mb-1 pr-3"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => setCurrentCategory(null)}
-                        >
-                          {allCategoriesFlat.find(
-                            (cat) => cat.id == currentCategory
-                          ) != null
-                            ? "x " +
-                              t(
-                                allCategoriesFlat.find(
-                                  (cat) => cat.id == currentCategory
-                                ).Name
-                              )
+                        <div className="mb-1 pr-3" style={{ cursor: "pointer" }} onClick={() => setCurrentCategory(null)}>
+                          {allCategoriesFlat.find((cat) => cat.id == currentCategory) != null
+                            ? "x " + t(allCategoriesFlat.find((cat) => cat.id == currentCategory).Name)
                             : currentCategory}
                         </div>
                       ) : null}
@@ -471,13 +404,9 @@ export default function Products() {
           </div>
 
           <div className="flex flex-col w-full">
-            <h2 className="text-5xl justify-center w-full flex font-bold mt-2">
-              {t("Products")}
-            </h2>
+            <h2 className="text-5xl justify-center w-full flex font-bold mt-2">{t("Products")}</h2>
             {allProducts.length <= 0 ? (
-              <h3 className="text-xl justify-center text-red-700 w-full flex font-bold">
-                {t("No products matching")}
-              </h3>
+              <h3 className="text-xl justify-center text-red-700 w-full flex font-bold">{t("No products matching")}</h3>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 w-full">
                 {allProducts.map((product) => (
@@ -508,9 +437,7 @@ export default function Products() {
                       ) : (
                         <button
                           key={index}
-                          className={`p-2 border  hover:bg-gray-200 ${
-                            currentPage === page ? "bg-gray-300" : ""
-                          }`}
+                          className={`p-2 border  hover:bg-gray-200 ${currentPage === page ? "bg-gray-300" : ""}`}
                           onClick={() => setCurrentPage(page)}
                         >
                           {page}
