@@ -150,18 +150,18 @@ export default function Products() {
     var fetchUrl: string = `/api/products/public/getproducts?page=${router.query.page ? router.query.page : "1"}${
       router.query.category ? `&category=${router.query.category}` : ``
     }${router.query.search ? `&search=${router.query.search}` : ``}`;
-    router.push(
-      {
-        pathname: "/products",
-        query: {
-          page: router.query.page ?? 1,
-          category: "",
-          search: router.query.search ?? "",
-        },
-      },
-      undefined,
-      { shallow: true },
-    );
+    // router.push(
+    //   {
+    //     pathname: "/products",
+    //     query: {
+    //       page: router.query.page ?? 1,
+    //       category: "",
+    //       search: router.query.search ?? "",
+    //     },
+    //   },
+    //   undefined,
+    //   { shallow: true },
+    // );
     const request = await fetch(fetchUrl);
     const result = await request.json();
     router.query.search && setCurrentSearch(router.query.search as string);

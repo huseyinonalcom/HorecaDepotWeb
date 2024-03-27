@@ -2,13 +2,12 @@ import React, { useContext } from "react";
 import Image from "next/image";
 import { CartContext } from "../../api/providers/cartProvider";
 import Link from "next/link";
-import { X } from "react-feather";
+import { Minus, Plus, X } from "react-feather";
 import useTranslation from "next-translate/useTranslation";
-import ButtonShadow1 from "../buttons/shadow_1";
 import { AutoTextSize } from "auto-text-size";
 
 const CartDrawer = () => {
-  const { t, lang } = useTranslation("common");
+  const { t } = useTranslation("common");
   const {
     cart,
     increaseQuantity,
@@ -63,7 +62,7 @@ const CartDrawer = () => {
                     {product.internalCode}
                   </AutoTextSize>
                 </h4>
-                <div className="mb-2 flex w-full flex-row items-end justify-center">
+                <div className="mb-1 flex w-full flex-row items-center justify-center">
                   <h5 className="mr-1 text-sm text-gray-400 line-through">
                     {product.priceBeforeDiscount &&
                     product.priceBeforeDiscount > product.value
@@ -95,15 +94,19 @@ const CartDrawer = () => {
                   >
                     🗑
                   </button>
-                  <ButtonShadow1 onClick={() => decreaseQuantity(product.id)}>
-                    <p className="aspect-[1/1] h-6 w-6 font-bold">-</p>
-                  </ButtonShadow1>
-                  <p className="mx-1.25 w-[40px] text-center">
-                    {product.amount}
-                  </p>
-                  <ButtonShadow1 onClick={() => increaseQuantity(product.id)}>
-                    <p className="aspect-[1/1] h-6 w-6 font-bold">+</p>
-                  </ButtonShadow1>
+                  <div className="mr-2 flex h-fit flex-row items-center justify-center border-2 border-black bg-black p-0.5 text-white duration-300">
+                    <Minus
+                      className="h-6 w-6 cursor-pointer pl-1 duration-300 hover:text-red-500"
+                      onClick={() => decreaseQuantity(product.id)}
+                    />
+                    <p className="mx-1.25 w-[40px] text-center">
+                      {product.amount}
+                    </p>
+                    <Plus
+                      className="h-6 w-6 cursor-pointer pr-1 duration-300 hover:text-green-500"
+                      onClick={() => increaseQuantity(product.id)}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

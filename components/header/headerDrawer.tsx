@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ChevronUp,
   Globe,
@@ -8,23 +8,86 @@ import {
   MapPin,
   ShoppingCart,
   X,
+  ChevronLeft,
 } from "react-feather";
 import useTranslation from "next-translate/useTranslation";
 import Link from "next/link";
-import { WishlistContext } from "../../api/providers/wishlistProvider";
 import Image from "next/image";
 import setLanguage from "next-translate/setLanguage";
+import { CategoryContext } from "../../api/providers/categoryProvider";
 
 const HeaderDrawer = ({ onClickOutside, isOpen }) => {
   const { t, lang } = useTranslation("common");
   const [showLanguages, setShowLanguages] = useState(false);
-  const { wishlist } = useContext(WishlistContext);
   const drawerClass = isOpen ? "fixed z-50 right-0" : "fixed right-[-100%]";
   const overlayClass = isOpen
     ? "fixed inset-0 bg-black bg-opacity-50 z-40"
     : "fixed right-[-100%]";
   const navButtonsClass = "flex flex-row gap-2 py-3 font-bold items-center";
   const flagButtonsClass = "flex flex-row gap-2 py-2 font-bold items-center";
+
+  const { categories } = useContext(CategoryContext);
+  const [allCategories, setCategories] = useState([]);
+  const [showCategories, setShowCategories] = useState(false);
+
+  useEffect(() => {
+    setCategories(categories);
+  }, [categories]);
+
+  const CategoryItem = ({ category }) => {
+    const [isHovered, setisHovered] = useState(false);
+    const hasSubCategories =
+      category.subCategories && category.subCategories.length > 0;
+
+    return (
+      <div className="relative cursor-pointer">
+        <div className="focus:overlay-none flex w-full items-center justify-between text-left hover:bg-gray-200">
+          {hasSubCategories ? (
+            <>
+              <Link
+                className="h-full whitespace-nowrap px-4 py-2"
+                href={`/products?=${category.id}`}
+              >
+                {t(category.Name)}
+              </Link>
+              <div
+                className="w-full py-3 pr-4"
+                onClick={() => {
+                  setisHovered(!isHovered);
+                }}
+              >
+                <ChevronLeft
+                  className={
+                    "ml-auto h-4 w-4 duration-300 " +
+                    (isHovered ? "rotate-270" : "rotate-90")
+                  }
+                />
+              </div>
+            </>
+          ) : (
+            <Link
+              className="h-full w-full whitespace-nowrap px-4 py-2"
+              href={`/products?=${category.id}`}
+            >
+              {t(category.Name)}
+            </Link>
+          )}
+        </div>
+        {hasSubCategories && (
+          <div
+            className={
+              "transition-max-height overflow-hidden pl-4 duration-300 ease-in-out " +
+              (isHovered ? "max-h-96" : "max-h-0")
+            }
+          >
+            {category.subCategories.map((subCategory) => (
+              <CategoryItem key={subCategory.id} category={subCategory} />
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <>
@@ -43,7 +106,6 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
           >
             <X className="h-8 w-8 -rotate-180 duration-700 hover:rotate-180" />
           </button>
-
           <div className="relative">
             <button
               aria-label="Language switching menu opening button"
@@ -73,7 +135,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
                 }`}
               >
                 <Image
-                  src={`/assets/header/EN.svg`}
+                  src="/assets/header/EN.svg"
                   alt={t("locale")}
                   width={66}
                   height={44}
@@ -88,7 +150,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
                 }`}
               >
                 <Image
-                  src={`/assets/header/FR.svg`}
+                  src="/assets/header/FR.svg"
                   alt={t("locale")}
                   width={66}
                   height={44}
@@ -103,7 +165,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
                 }`}
               >
                 <Image
-                  src={`/assets/header/NL.svg`}
+                  src="/assets/header/NL.svg"
                   alt={t("locale")}
                   width={66}
                   height={44}
@@ -118,7 +180,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
                 }`}
               >
                 <Image
-                  src={`/assets/header/DE.svg`}
+                  src="/assets/header/DE.svg"
                   alt={t("locale")}
                   width={66}
                   height={44}
@@ -133,7 +195,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
                 }`}
               >
                 <Image
-                  src={`/assets/header/TR.svg`}
+                  src="/assets/header/TR.svg"
                   alt={t("locale")}
                   width={66}
                   height={44}
@@ -152,6 +214,24 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
           >
             <ShoppingCart /> {t("Shop")}
           </Link>
+          <button
+            className={navButtonsClass}
+            onClick={() => setShowCategories(!showCategories)}
+          >
+            <ChevronLeft
+              className={
+                "duration-300 " + (showCategories ? "rotate-270" : "rotate-90")
+              }
+            />
+            {t("Categories")}
+          </button>
+          {showCategories && (
+            <div className="flex w-full flex-col bg-white py-2 text-gray-500 duration-300">
+              {allCategories.map((category) => (
+                <CategoryItem key={category.id} category={category} />
+              ))}
+            </div>
+          )}
           <Link
             aria-label="Link to Wishlist"
             className={navButtonsClass}

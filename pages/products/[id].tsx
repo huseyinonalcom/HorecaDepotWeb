@@ -221,30 +221,27 @@ const ProductPage = ({
               />
             </div>
             <div className="flex flex-col gap-1">
-              <div className="content-left grid w-full grid-cols-1 gap-2 md:grid-cols-2">
-                {product.height && product.height != 0 && (
+              {product.height && product.height != 0 && (
+                <p>
+                  <b>{t("Height")}:</b> {product.height} cm
+                </p>
+              )}
+              {product.width && product.width != 0 && (
+                <p>
+                  <b>{t("Width")}:</b> {product.width} cm
+                </p>
+              )}
+              {product.depth && product.depth != 0 && (
+                <p>
+                  <b>{t("Length")}:</b> {product.depth} cm
+                </p>
+              )}
+              {product.product_extra.surface_area &&
+                product.product_extra.surface_area != "" && (
                   <p>
-                    <b>{t("Height")}:</b> {product.height} cm
+                    <b>{t("Surface")}:</b> {product.product_extra.surface_area}
                   </p>
                 )}
-                {product.width && product.width != 0 && (
-                  <p>
-                    <b>{t("Width")}:</b> {product.width} cm
-                  </p>
-                )}
-                {product.depth && product.depth != 0 && (
-                  <p>
-                    <b>{t("Length")}:</b> {product.depth} cm
-                  </p>
-                )}
-                {product.product_extra.surface_area &&
-                  product.product_extra.surface_area != "" && (
-                    <p>
-                      <b>{t("Surface")}:</b>{" "}
-                      {product.product_extra.surface_area}
-                    </p>
-                  )}
-              </div>
               {product.product_extra.seat_height !== undefined &&
                 product.product_extra.seat_height !== 0 && (
                   <p>
@@ -252,7 +249,7 @@ const ProductPage = ({
                     {product.product_extra.seat_height} cm
                   </p>
                 )}
-              {product.product_extra.armrest_height &&
+              {product.product_extra.armrest_height !== undefined &&
                 product.product_extra.armrest_height !== 0 && (
                   <p>
                     <b>{t("Armrest Height")}:</b>{" "}
@@ -311,7 +308,7 @@ const ProductPage = ({
         </div>
         {relatedProducts.length < 2 ? null : (
           <>
-            <h2 className="mt-6 flex w-full flex-row justify-center text-xl font-bold">
+            <h2 className="mt-4 flex w-full flex-row justify-center text-xl font-bold">
               {t("RELATED PRODUCTS")}
             </h2>
             <div className={`relative flex h-full w-full flex-col px-2`}>
@@ -324,7 +321,7 @@ const ProductPage = ({
                   {relatedProducts.map((prod) => (
                     <div
                       key={prod.id}
-                      className="flex w-[40vw] flex-shrink-0 items-center p-1 last:mr-4 md:aspect-[10/16] md:w-[20vw]"
+                      className="flex w-[40vw] flex-shrink-0 items-center p-1 last:mr-4 md:w-[15vw]"
                     >
                       <ProductPreview width={"full"} product={prod} />
                     </div>
