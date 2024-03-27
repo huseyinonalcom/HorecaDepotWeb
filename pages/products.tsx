@@ -214,7 +214,7 @@ export default function Products() {
 
     return (
       <div className="relative cursor-pointer">
-        <div className="focus:overlay-none flex w-full min-w-[242px] items-center justify-between text-left hover:bg-gray-200">
+        <div className="focus:overlay-none flex w-full items-center justify-between text-left hover:bg-gray-200">
           {hasSubCategories ? (
             <>
               <div
@@ -285,7 +285,7 @@ export default function Products() {
           className="flex w-full flex-col items-start text-[#084E97] lg:flex-row"
         >
           <div className="relative flex w-full flex-col gap-2 px-1 lg:w-[500px]">
-            <div className="sticky flex w-full flex-row gap-2 bg-gray-100 p-2 shadow-lg">
+            <div className="flex w-full flex-row gap-2 bg-gray-100 p-2 shadow-lg">
               <ArrowUp
                 height={36}
                 width={36}
@@ -361,7 +361,7 @@ export default function Products() {
                     </div>
                   ) : null}
                 </div>
-                <div className="flex w-[240px] w-full flex-col bg-white py-2 text-gray-500 shadow-lg duration-300">
+                <div className="flex w-full flex-col bg-white py-2 text-gray-500 shadow-lg duration-300">
                   {allCategories.map((category) => (
                     <CategoryItem key={category.id} category={category} />
                   ))}
@@ -391,71 +391,64 @@ export default function Products() {
                 </div>
               </div>
             </div>
-
-            <div
-              className={`hidden flex-row-reverse bg-slate-300 p-2 duration-700 lg:flex`}
-            >
-              <div className="flex w-full flex-col bg-slate-300">
-                <div>
-                  {currentCategory || currentSearch ? (
-                    <div className={` bg-gray-100 p-4 shadow-lg`}>
-                      {currentSearch ? (
-                        <div
-                          style={{ cursor: "pointer" }}
-                          className="mb-1 pr-3"
-                          onClick={() => setCurrentSearch("")}
-                        >
-                          x {currentSearch}
-                        </div>
-                      ) : null}
-                      {currentCategory ? (
-                        <div
-                          className="mb-1 pr-3"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => setCurrentCategory(null)}
-                        >
-                          {allCategoriesFlat.find(
-                            (cat) => cat.id == currentCategory,
-                          ) != null
-                            ? "x " +
-                              t(
-                                allCategoriesFlat.find(
-                                  (cat) => cat.id == currentCategory,
-                                ).Name,
-                              )
-                            : currentCategory}
-                        </div>
-                      ) : null}
+            <div className="hidden w-full flex-col duration-700 lg:flex">
+              {currentCategory || currentSearch ? (
+                <div className="bg-gray-100 p-4">
+                  {currentSearch ? (
+                    <div
+                      style={{ cursor: "pointer" }}
+                      className="mb-1 pr-3"
+                      onClick={() => setCurrentSearch("")}
+                    >
+                      x {currentSearch}
+                    </div>
+                  ) : null}
+                  {currentCategory ? (
+                    <div
+                      className="mb-1 pr-3"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => setCurrentCategory(null)}
+                    >
+                      {allCategoriesFlat.find(
+                        (cat) => cat.id == currentCategory,
+                      ) != null
+                        ? "x " +
+                          t(
+                            allCategoriesFlat.find(
+                              (cat) => cat.id == currentCategory,
+                            ).Name,
+                          )
+                        : currentCategory}
                     </div>
                   ) : null}
                 </div>
-                <div className="flex w-[240px] w-full flex-col bg-white py-2 text-gray-500 shadow-lg duration-300">
-                  {allCategories.map((category) => (
-                    <CategoryItem key={category.id} category={category} />
-                  ))}
-                </div>
-                <div className={`bg-gray-100 p-4 shadow-lg`}>
-                  <RangeSlider
-                    minGap={20}
-                    initialMin={sliderMin}
-                    initialMax={sliderMax}
-                    min={minValueFromAPI}
-                    max={maxValueFromAPI}
-                    onChange={handleSliderChange}
-                    prefix="€"
-                    label="Price"
-                  />
-                  <div className="flex flex-row justify-between">
-                    <button
-                      className={componentThemes.greenSubmitButton}
-                      onClick={() => {
-                        fetchProductsFiltered();
-                        setIsFilterDrawerOpen(false);
-                      }}
-                    >
-                      {t("Filter")}
-                    </button>
-                  </div>
+              ) : null}
+              <div className="flex w-full flex-col bg-white py-2 text-gray-500 duration-300">
+                {allCategories.map((category) => (
+                  <CategoryItem key={category.id} category={category} />
+                ))}
+              </div>
+              <div className="bg-gray-100 p-4">
+                <RangeSlider
+                  minGap={20}
+                  initialMin={sliderMin}
+                  initialMax={sliderMax}
+                  min={minValueFromAPI}
+                  max={maxValueFromAPI}
+                  onChange={handleSliderChange}
+                  prefix="€"
+                  label="Price"
+                />
+                <div className="flex flex-row justify-between">
+                  <button
+                    className={componentThemes.greenSubmitButton}
+                    onClick={() => {
+                      fetchProductsFiltered();
+                      setIsFilterDrawerOpen(false);
+                    }}
+                  >
+                    {t("Filter")}
+                  </button>
                 </div>
               </div>
             </div>
@@ -478,7 +471,7 @@ export default function Products() {
                 ))}
               </div>
             )}
-            {allProducts.length > 0 ? (
+            {allProducts.length > 0 && (
               <div className="mb-4 flex flex-row justify-center px-6">
                 <div className="mt-2">
                   <div className="flex items-center justify-center space-x-1">
@@ -499,7 +492,7 @@ export default function Products() {
                       ) : (
                         <button
                           key={index}
-                          className={`border p-2  hover:bg-gray-200 ${currentPage === page ? "bg-gray-300" : ""}`}
+                          className={`border p-2 hover:bg-gray-200 ${currentPage === page && "bg-gray-300"}`}
                           onClick={() => setCurrentPage(page)}
                         >
                           {page}
@@ -507,7 +500,7 @@ export default function Products() {
                       ),
                     )}
                     <button
-                      className="border p-2  hover:bg-gray-200"
+                      className="border p-2 hover:bg-gray-200"
                       onClick={() => setCurrentPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
                       name="Next page"
@@ -518,8 +511,6 @@ export default function Products() {
                   </div>
                 </div>
               </div>
-            ) : (
-              <p></p>
             )}
           </div>
         </div>
