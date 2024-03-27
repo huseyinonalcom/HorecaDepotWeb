@@ -426,7 +426,7 @@ const PDFInvoice = ({ invoiceDocument }) => (
                     (accumulator, currentItem) => {
                       return accumulator + currentItem.subTotal;
                     },
-                    0
+                    0,
                   ) -
                   invoiceDocument.payments
                     .filter((payment) => !payment.deleted && payment.verified)

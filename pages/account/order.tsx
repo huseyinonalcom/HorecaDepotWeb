@@ -31,7 +31,7 @@ export default function Order() {
 
       const fetchOrder = async (orderID: number) => {
         const request = await fetch(
-          `/api/checkout/client/orderdetails?order=${orderID}`
+          `/api/checkout/client/orderdetails?order=${orderID}`,
         );
         const response = await request.json();
         if (request.ok) {
@@ -63,7 +63,7 @@ export default function Order() {
             <meta name="description" content="horecadepot" />
             <meta name="language" content={lang} />
           </Head>
-          <div className="w-[95vw] flex flex-row justify-start items-start mx-auto">
+          <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
             <MyAccountPagesNav />
             <div className=" mx-auto py-2">
               <LoadingIndicator />
@@ -81,11 +81,9 @@ export default function Order() {
             <meta name="description" content="horecadepot" />
             <meta name="language" content={lang} />
           </Head>
-          <div className="w-[95vw] flex flex-row justify-start items-start mx-auto">
+          <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
             <MyAccountPagesNav />
-            <div className="mx-auto py-2">
-              {t("An error has occurred.")}
-            </div>
+            <div className="mx-auto py-2">{t("An error has occurred.")}</div>
           </div>
         </Layout>
       </>
@@ -95,7 +93,7 @@ export default function Order() {
       (accumulator, currentItem) => {
         return accumulator + currentItem.subTotal;
       },
-      0
+      0,
     );
 
     let totalPayments = currentOrder.payments
@@ -135,7 +133,7 @@ export default function Order() {
             {
               method: "POST",
               body: JSON.stringify(currentOrder),
-            }
+            },
           );
           if (verifyPaymentRequest.ok) {
             anyPaymentSucceeded = true;
@@ -150,7 +148,7 @@ export default function Order() {
                   Accept: "application/json",
                   Authorization: `Bearer ${process.env.API_KEY}`,
                 },
-              }
+              },
             );
 
             const notif = await requestNotif.json();
@@ -168,11 +166,11 @@ export default function Order() {
             setTimeout(() => {
               setVerificationRunning(false);
               setVerificationMessage(
-                <p className="text-red-500 whitespace-nowrap">
+                <p className="whitespace-nowrap text-red-500">
                   {t("No_payment_part1")}
                   <br />
                   {t("No_payment_part2")}
-                </p>
+                </p>,
               );
             }, 2000);
           }
@@ -186,12 +184,12 @@ export default function Order() {
           <Head>
             <title>horecadepot</title>
           </Head>
-          <div className="w-[95vw] flex flex-row justify-start items-start mx-auto">
+          <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
             <MyAccountPagesNav />
-            <div className="shadow-lg ml-4 p-4 print:shadow-none w-full bg-white">
+            <div className="ml-4 w-full bg-white p-4 shadow-lg print:shadow-none">
               <div className="flex flex-row justify-between">
                 <div
-                  className={`hidden print:block relative w-[358px] h-[64px] mt-2`}
+                  className={`relative mt-2 hidden h-[64px] w-[358px] print:block`}
                 >
                   <Image
                     src={"/assets/header/logo.png"}
@@ -200,7 +198,7 @@ export default function Order() {
                     alt="HorecaDepot Logo"
                   />
                 </div>
-                <div className="hidden print:flex flex-col pt-1">
+                <div className="hidden flex-col pt-1 print:flex">
                   <h4 className="font-bold">Horeca Depot</h4>
                   <p className="">Rue de Ribaucourt 154</p>
                   <p className="">1080 Bruxelles, Belgique</p>
@@ -214,29 +212,29 @@ export default function Order() {
                     {formatDateAPIToBe(currentOrder.date)}
                   </h3>
                 </div>
-                <div className="flex flex-row items-center gap-2 flex-shrink-0 print:hidden">
+                <div className="flex flex-shrink-0 flex-row items-center gap-2 print:hidden">
                   {balance > 0 && (
                     <>
                       {verificationMessage && verificationMessage}
 
                       {verificationRunning ? (
                         <button
-                          className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
+                          className={`${CustomTheme.greenSubmitButton} whitespace-nowrap text-xl`}
                         >
-                          <div className="w-[100px] flex flex-row justify-center">
+                          <div className="flex w-[100px] flex-row justify-center">
                             <TypeWriter textTypeWriter={["...."]} />
                           </div>
                         </button>
                       ) : (
                         <button
-                          className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
+                          className={`${CustomTheme.greenSubmitButton} whitespace-nowrap text-xl`}
                           onClick={submitCheckPayment}
                         >
                           {t("Verify payment")}
                         </button>
                       )}
                       <button
-                        className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
+                        className={`${CustomTheme.greenSubmitButton} whitespace-nowrap text-xl`}
                         onClick={submitPayment}
                       >
                         {t("Proceed to payment")}
@@ -247,7 +245,7 @@ export default function Order() {
                     <PDFDownloadLink
                       fileName={currentOrder.prefix + currentOrder.number}
                       document={<PDFInvoice invoiceDocument={currentOrder} />}
-                      className={`${componentThemes.greenSubmitButton} flex flex-row text-xl items-center whitespace-nowrap`}
+                      className={`${componentThemes.greenSubmitButton} flex flex-row items-center whitespace-nowrap text-xl`}
                     >
                       📄 <p className="ml-1">{t("Download PDF")}</p>
                     </PDFDownloadLink>
@@ -256,7 +254,7 @@ export default function Order() {
                     onClick={() => {
                       print();
                     }}
-                    className={`${componentThemes.greenSubmitButton} flex flex-row text-xl items-center whitespace-nowrap`}
+                    className={`${componentThemes.greenSubmitButton} flex flex-row items-center whitespace-nowrap text-xl`}
                   >
                     🖨️
                     <p className="ml-1">{t("Print")}</p>
@@ -308,7 +306,7 @@ export default function Order() {
                   )}
                 </div>
               </div>
-              <table className=" overflow-x-auto shadow-lg bg-gray-100 p-2 mt-3 print:shadow-none print:border-2 print:border-black print:bg-transparent">
+              <table className=" mt-3 overflow-x-auto bg-gray-100 p-2 shadow-lg print:border-2 print:border-black print:bg-transparent print:shadow-none">
                 <thead className="border-b-2 border-black">
                   <tr>
                     <th>{t("Name")}</th>
@@ -350,7 +348,7 @@ export default function Order() {
                             .replaceAll(".", ",")}
                         </td>
                       </tr>
-                    )
+                    ),
                   )}
                   <tr>
                     <td></td>
@@ -381,11 +379,11 @@ export default function Order() {
                                 accumulatedSubTotal + currentDocProd.subTotal
                               );
                             },
-                            0
+                            0,
                           ) -
                           currentOrder.payments
                             .filter(
-                              (payment) => !payment.deleted && payment.verified
+                              (payment) => !payment.deleted && payment.verified,
                             )
                             .reduce((accumulatedPayments, currentPayment) => {
                               return accumulatedPayments + currentPayment.value;
@@ -403,7 +401,7 @@ export default function Order() {
                 <div className="flex flex-row print:hidden">
                   <div className="ml-auto">
                     <button
-                      className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
+                      className={`${CustomTheme.greenSubmitButton} whitespace-nowrap text-xl`}
                       onClick={submitPayment}
                     >
                       {t("Proceed to payment")}

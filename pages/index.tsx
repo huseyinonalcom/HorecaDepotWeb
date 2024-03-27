@@ -45,36 +45,36 @@ export default function Index({ collections, images, imageUrls }) {
         <meta name="description" content={t("main_description")} />
         <meta name="language" content={lang} />
       </Head>
-      <div className="flex w-[90vw] flex-col items-center justify-center mx-auto">
-      <div className="relative w-full aspect-[1/1] md:aspect-[4/1]">
-        {images && (
-          <div className="relative w-full h-full">
-            {images.map((img, index) => (
-              <Image
-                onClick={() => {
-                  if (imageUrls[img.id] && imageUrls[img.id] !== "/") {
-                    router.push(imageUrls[img.id]);
-                  }
-                }}
-                fill
-                id="background-image"
-                style={{ objectFit: "cover" }}
-                priority={index == 0}
-                loading="eager"
-                key={index}
-                src={`https://hdapi.huseyinonalalpha.com${img.url}`}
-                alt={""}
-                className={`${imageBase} ${
-                  imageUrls[img.id] && imageUrls[img.id] !== "/"
-                    ? "cursor-pointer"
-                    : ""
-                } ${currentImage === index ? imageVisible : imageInvisible}`}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-        <div className="flex flex-col justify-start items-center mt-2 w-full gap-3">
+      <div className="mx-auto flex w-[90vw] flex-col items-center justify-center">
+        <div className="relative aspect-[1/1] w-full md:aspect-[4/1]">
+          {images && (
+            <div className="relative h-full w-full">
+              {images.map((img, index) => (
+                <Image
+                  onClick={() => {
+                    if (imageUrls[img.id] && imageUrls[img.id] !== "/") {
+                      router.push(imageUrls[img.id]);
+                    }
+                  }}
+                  fill
+                  id="background-image"
+                  style={{ objectFit: "cover" }}
+                  priority={index == 0}
+                  loading="eager"
+                  key={index}
+                  src={`https://hdapi.huseyinonalalpha.com${img.url}`}
+                  alt={""}
+                  className={`${imageBase} ${
+                    imageUrls[img.id] && imageUrls[img.id] !== "/"
+                      ? "cursor-pointer"
+                      : ""
+                  } ${currentImage === index ? imageVisible : imageInvisible}`}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="mt-2 flex w-full flex-col items-center justify-start gap-3">
           {collections &&
             collections.map((collection) => (
               <div
@@ -87,7 +87,7 @@ export default function Index({ collections, images, imageUrls }) {
             ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 mt-4 w-full gap-4">
+        <div className="mt-4 grid w-full grid-cols-1 gap-4 md:grid-cols-3">
           <div className={homepageSpecialBox + " bg-yellow-500"}>
             <Image
               src={"/assets/homepage/chaise.webp"}
@@ -97,11 +97,11 @@ export default function Index({ collections, images, imageUrls }) {
               style={{ objectFit: "contain" }}
               className="py-2"
             />
-            <div className="absolute my-auto left-4 flex flex-col justify-center items-start h-full w-full">
+            <div className="absolute left-4 my-auto flex h-full w-full flex-col items-start justify-center">
               <div className="flex flex-col items-center">
-                <p className="text-white font-bold py-2 px-4">{t("Chairs")}</p>
+                <p className="px-4 py-2 font-bold text-white">{t("Chairs")}</p>
                 <Link href={"products?category=1"}>
-                  <button className="bg-gray-700 hover:bg-transparent text-white border-solid border-gray-700 px-2 py-1 border duration-700">
+                  <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
                     {t("View produits")}
                   </button>
                 </Link>
@@ -109,7 +109,7 @@ export default function Index({ collections, images, imageUrls }) {
             </div>
           </div>
           <div className={homepageSpecialBox + " bg-red-500"}>
-            <Image  
+            <Image
               src={"/assets/homepage/banquette.webp"}
               fill
               alt={"Banquette"}
@@ -117,13 +117,11 @@ export default function Index({ collections, images, imageUrls }) {
               style={{ objectFit: "contain" }}
               className="py-2"
             />
-            <div className="absolute my-auto flex flex-col justify-center items-center h-full w-full">
+            <div className="absolute my-auto flex h-full w-full flex-col items-center justify-center">
               <div className="flex flex-col items-center">
-                <p className="text-white font-bold py-2 px-4">
-                  {t("Benches")}
-                </p>
+                <p className="px-4 py-2 font-bold text-white">{t("Benches")}</p>
                 <Link href={"products?category=10"}>
-                  <button className="bg-gray-700 hover:bg-transparent text-white border-solid border-gray-700 px-2 py-1 border duration-700">
+                  <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
                     {t("View produits")}
                   </button>
                 </Link>
@@ -139,13 +137,11 @@ export default function Index({ collections, images, imageUrls }) {
               style={{ objectFit: "contain" }}
               className="py-2"
             />
-            <div className="absolute my-auto right-4 flex flex-col justify-center items-end h-full w-full">
+            <div className="absolute right-4 my-auto flex h-full w-full flex-col items-end justify-center">
               <div className="flex flex-col items-center">
-                <p className="text-white font-bold py-2 px-4">
-                  {t("Stools")}
-                </p>
+                <p className="px-4 py-2 font-bold text-white">{t("Stools")}</p>
                 <Link href={"products?category=11"}>
-                  <button className="bg-gray-700 hover:bg-transparent text-white border-solid border-gray-700 px-2 py-1 border duration-700">
+                  <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
                     {t("View produits")}
                   </button>
                 </Link>

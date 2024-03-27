@@ -55,7 +55,7 @@ export default function IndexSlider() {
               "Content-Type": "application/json",
             },
             body: json,
-          }
+          },
         );
 
         if (request2.status == 200) {
@@ -76,7 +76,7 @@ export default function IndexSlider() {
       "/api/website/public/getindexsliderimages",
       {
         method: "GET",
-      }
+      },
     );
     if (fetchImagesRequest.ok) {
       const fetchImagesAnswer = await fetchImagesRequest.json();
@@ -166,11 +166,11 @@ export default function IndexSlider() {
         <title>Website</title>
         <meta name="language" content={lang} />
       </Head>
-      <div className="flex flex-col w-[95%] items-center mx-auto pt-2">
-        <div className="relative w-full aspect-[32/9] max-h-[50vh]">
+      <div className="mx-auto flex w-[95%] flex-col items-center pt-2">
+        <div className="relative aspect-[32/9] max-h-[50vh] w-full">
           {images && imageUrls && inputValues && (
-            <div className="relative h-full w-full flex flex-row flex-shrink-0">
-              <div className="relative w-full h-full">
+            <div className="relative flex h-full w-full flex-shrink-0 flex-row">
+              <div className="relative h-full w-full">
                 {images.map((img, index) => (
                   <Fragment key={img.id}>
                     <Image
@@ -199,11 +199,11 @@ export default function IndexSlider() {
                             }
                             return acc; // Return the accumulated object
                           },
-                          {}
+                          {},
                         );
                         setImageUrls(newImageUrls);
                       }}
-                      className={`absolute bottom-10 left-10 bg-black p-4  text-red-500 z-50 ${
+                      className={`absolute bottom-10 left-10 z-50 bg-black  p-4 text-red-500 ${
                         currentImage === index ? "" : "hidden"
                       }`}
                     >
@@ -212,7 +212,7 @@ export default function IndexSlider() {
                     <div className="absolute bottom-10 right-10 z-50">
                       <form className="flex flex-col">
                         <input
-                          className={`p-2  border border-gray-300 ${
+                          className={`border  border-gray-300 p-2 ${
                             currentImage === index ? "" : "hidden"
                           }`}
                           type="text"
@@ -247,7 +247,7 @@ export default function IndexSlider() {
               </div>
               {images.length > 1 ? (
                 <div
-                  className="absolute z-40 left-0 h-full opacity-40 bg-slate-100 flex flex-col justify-center"
+                  className="absolute left-0 z-40 flex h-full flex-col justify-center bg-slate-100 opacity-40"
                   onClick={slidePrevious}
                 >
                   <ArrowLeft />
@@ -257,7 +257,7 @@ export default function IndexSlider() {
               )}
               {images.length > 1 ? (
                 <div
-                  className="absolute z-40 right-0 h-full opacity-40 bg-slate-100 flex flex-col justify-center"
+                  className="absolute right-0 z-40 flex h-full flex-col justify-center bg-slate-100 opacity-40"
                   onClick={slideNext}
                 >
                   <ArrowLeft className="rotate-180" />
@@ -279,7 +279,7 @@ export default function IndexSlider() {
                 htmlFor="uploadimg"
                 className={
                   componentThemes.greenSubmitButton +
-                  " flex flex-row justify-center cursor-pointer"
+                  " flex cursor-pointer flex-row justify-center"
                 }
               >
                 <Upload className={iconClass} />
@@ -287,7 +287,7 @@ export default function IndexSlider() {
               </label>
               <input
                 title={t("Upload Image")}
-                className="w-0 h-0 opacity-0 absolute"
+                className="absolute h-0 w-0 opacity-0"
                 placeholder={t("Upload Image")}
                 type="file"
                 name="uploadimg"

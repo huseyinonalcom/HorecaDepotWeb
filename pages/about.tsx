@@ -13,22 +13,22 @@ export default function About() {
         <meta name="language" content={lang} />
       </Head>
 
-      <h1 className="font-bold text-4xl bg-black text-white text-center pt-2">
+      <h1 className="bg-black pt-2 text-center text-4xl font-bold text-white">
         {t("Who are we?")}
       </h1>
-      <div className="h-[70px] bg-black shadow-lg flex flex-col justify-around">
-        <div className="flex flex-row text-md font-bold items-center justify-center text-gray-300">
-          <Link href="/" className="hover:text-white duration-700">
+      <div className="flex h-[70px] flex-col justify-around bg-black shadow-lg">
+        <div className="text-md flex flex-row items-center justify-center font-bold text-gray-300">
+          <Link href="/" className="duration-700 hover:text-white">
             {t("Home")}
           </Link>
-          <p className="font-bold mx-2">/</p>
-          <p className="underline decoration-solid decoration-orange-400 decoration-4 underline-offset-8 text-white">
+          <p className="mx-2 font-bold">/</p>
+          <p className="text-white underline decoration-orange-400 decoration-solid decoration-4 underline-offset-8">
             {t("Who we are")}
           </p>
         </div>
       </div>
-      <div className="flex flex-col pt-4 items-center w-full">
-        <div className="grid w-full pt-4 grid-cols-1 lg:grid-cols-2">
+      <div className="flex w-full flex-col items-center pt-4">
+        <div className="grid w-full grid-cols-1 pt-4 lg:grid-cols-2">
           <iframe
             className="mx-auto mb-4 lg:mb-0"
             style={{ width: "85%", height: "auto", aspectRatio: "16/9" }}
@@ -39,9 +39,9 @@ export default function About() {
             allowFullScreen
           ></iframe>
 
-          <div className="flex flex-col items-center justify-center lg:items-start w-full p-4">
-            <div className="flex flex-col font-semibold max-w-[640px] text-justify gap-4">
-              <h2 className="font-bold text-3xl">À PROPOS DE NOUS</h2>
+          <div className="flex w-full flex-col items-center justify-center p-4 lg:items-start">
+            <div className="flex max-w-[640px] flex-col gap-4 text-justify font-semibold">
+              <h2 className="text-3xl font-bold">À PROPOS DE NOUS</h2>
               <p className="text-lg">
                 Depuis 1980, nous sommes une entreprise qui vend des produits en
                 gros ou au détail. Nous hébergeons deux sociétés différentes
@@ -58,7 +58,7 @@ export default function About() {
                 produits et projets. Appelez pour un rendez-vous ou envoyez un
                 email.
               </p>
-              <p className="text-lg border-l-2 border-orange-500 pl-4">
+              <p className="border-l-2 border-orange-500 pl-4 text-lg">
                 Meilleur prix pour hotel, restaurant, cafe et vous.
               </p>
             </div>

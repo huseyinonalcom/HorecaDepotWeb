@@ -4,8 +4,8 @@ import { CategoryProvider } from "../api/providers/categoryProvider";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-        <CategoryProvider>
-          <Component {...pageProps} />
-        </CategoryProvider>
+    <CategoryProvider>
+      <Component {...pageProps} />
+    </CategoryProvider>
   );
 }

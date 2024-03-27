@@ -23,7 +23,7 @@ export default function MyAccount() {
         <meta name="description" content={t("main_description")} />
         <meta name="language" content={lang} />
       </Head>
-      <div className="flex w-[90vw] flex-row justify-start items-start mx-auto">
+      <div className="mx-auto flex w-[90vw] flex-row items-start justify-start">
         <MyAccountPagesNav />
         <MyAccountDash />
       </div>

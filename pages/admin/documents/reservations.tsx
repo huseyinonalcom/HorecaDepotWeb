@@ -56,7 +56,7 @@ export default function Reservations() {
 
   const fetchReservations = async () => {
     const answer = await fetch(
-      `/api/documents/admin/getalldocuments?page=${currentPage}&type=reservation`
+      `/api/documents/admin/getalldocuments?page=${currentPage}&type=reservation`,
     );
     const data = await answer.json();
     setAllReservations(data["data"]);
@@ -77,11 +77,11 @@ export default function Reservations() {
         <title>Produits</title>
         <meta name="language" content={lang} />
       </Head>
-      <div className="flex flex-col w-full items-center pt-2">
+      <div className="flex w-full flex-col items-center pt-2">
         <div>
-          <div className="w-full flex-shrink-1 overflow-y-hidden flex flex-col items-center pt-1">
-            <div className="flex flex-col overflow-y-auto overflow-x-auto max-w-full">
-              <table className="w-full shadow-lg bg-gray-100 p-2 relative">
+          <div className="flex-shrink-1 flex w-full flex-col items-center overflow-y-hidden pt-1">
+            <div className="flex max-w-full flex-col overflow-x-auto overflow-y-auto">
+              <table className="relative w-full bg-gray-100 p-2 shadow-lg">
                 <thead className="sticky top-0 bg-[#c0c1c3]">
                   <tr>
                     <th>{t("No")}</th>
@@ -100,7 +100,7 @@ export default function Reservations() {
                       } `}
                       onDoubleClick={() =>
                         router.push(
-                          `/admin/documents/reservation?id=${reservation.id}`
+                          `/admin/documents/reservation?id=${reservation.id}`,
                         )
                       }
                       onMouseOver={(e) =>
@@ -118,7 +118,7 @@ export default function Reservations() {
                         {reservation.document_products
                           .reduce(
                             (total, product) => total + product.subTotal,
-                            0
+                            0,
                           )
                           .toFixed(2)
                           .replaceAll(".", ",")}
@@ -128,7 +128,7 @@ export default function Reservations() {
                         {(
                           reservation.document_products.reduce(
                             (total, product) => total + product.subTotal,
-                            0
+                            0,
                           ) -
                           reservation.payments.reduce(
                             (total, payment) =>
@@ -136,7 +136,7 @@ export default function Reservations() {
                               (payment.deleted || !payment.verified
                                 ? 0
                                 : payment.value),
-                            0
+                            0,
                           )
                         )
                           .toFixed(2)
@@ -150,11 +150,11 @@ export default function Reservations() {
           </div>
           <>
             {allReservations.length > 0 ? (
-              <div className="flex flex-row px-6 justify-center mb-4">
+              <div className="mb-4 flex flex-row justify-center px-6">
                 <div className="mt-2">
-                  <div className="flex justify-center items-center space-x-1">
+                  <div className="flex items-center justify-center space-x-1">
                     <button
-                      className="p-2 border  hover:bg-gray-200"
+                      className="border p-2  hover:bg-gray-200"
                       onClick={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
                     >
@@ -168,17 +168,17 @@ export default function Reservations() {
                       ) : (
                         <button
                           key={index}
-                          className={`p-2 border  hover:bg-gray-200 ${
+                          className={`border p-2  hover:bg-gray-200 ${
                             currentPage === page ? "bg-gray-300" : ""
                           }`}
                           onClick={() => goToPage(page)}
                         >
                           {page}
                         </button>
-                      )
+                      ),
                     )}
                     <button
-                      className="p-2 border  hover:bg-gray-200"
+                      className="border p-2  hover:bg-gray-200"
                       onClick={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
                     >

@@ -19,7 +19,9 @@ const TypeWriter = ({ textTypeWriter, delayChar, delayString }: Props) => {
 
     const typeString = () => {
       const currentText = textTypeWriter[currentStringIndex];
-      const currentIndex = isDeleting ? currentString.length - 1 : currentString.length + 1;
+      const currentIndex = isDeleting
+        ? currentString.length - 1
+        : currentString.length + 1;
 
       setCurrentString(currentText.substring(0, currentIndex));
 
@@ -27,7 +29,9 @@ const TypeWriter = ({ textTypeWriter, delayChar, delayString }: Props) => {
         timeoutId = setTimeout(() => setIsDeleting(true), delayBetweenStrings);
       } else if (isDeleting && currentString === "") {
         setIsDeleting(false);
-        setCurrentStringIndex((prevIndex) => (prevIndex + 1) % textTypeWriter.length);
+        setCurrentStringIndex(
+          (prevIndex) => (prevIndex + 1) % textTypeWriter.length,
+        );
         timeoutId = setTimeout(() => {
           setCurrentString("");
           timeoutId = setTimeout(typeString, delayBetweenCharacters);
@@ -46,7 +50,7 @@ const TypeWriter = ({ textTypeWriter, delayChar, delayString }: Props) => {
 
   return (
     <>
-      <h4 className="px-2 w-fit">{currentString}‎</h4>
+      <h4 className="w-fit px-2">{currentString}‎</h4>
     </>
   );
 };

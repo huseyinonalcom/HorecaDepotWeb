@@ -44,7 +44,7 @@ export default function Order() {
       `/api/collections/public/getcollections?id=${orderID}`,
       {
         method: "GET",
-      }
+      },
     );
     const response = await request.json();
     if (request.ok) {
@@ -76,7 +76,7 @@ export default function Order() {
                 `/api/products/public/getproducts?count=19000`,
                 {
                   method: "GET",
-                }
+                },
               );
               const response = await request.json();
               if (request.ok) {
@@ -123,7 +123,7 @@ export default function Order() {
           <meta name="description" content="horecadepot" />
           <meta name="language" content={lang} />
         </Head>
-        <div className="w-[95vw] flex flex-row justify-start items-start mx-auto">
+        <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
           <div className="mx-auto py-2">
             <LoadingIndicator />
           </div>
@@ -151,13 +151,13 @@ export default function Order() {
           <meta name="description" content="horecadepot" />
           <meta name="language" content={lang} />
         </Head>
-        <div className="w-[95vw] flex flex-col justify-start items-center mx-auto">
-          <div className="text-center w-full font-semibold text-xl py-2">
+        <div className="mx-auto flex w-[95vw] flex-col items-center justify-start">
+          <div className="w-full py-2 text-center text-xl font-semibold">
             {t("collection_name_choose")}
           </div>
           <form onSubmit={postCollection}>
             <input
-              className="w-full p-2  border border-gray-300"
+              className="w-full border  border-gray-300 p-2"
               type="text"
               id="name"
               required
@@ -169,7 +169,7 @@ export default function Order() {
               {t("collection_create")}
             </button>
             {submitError && (
-              <p className="text-red-600 font-medium text-center">
+              <p className="text-center font-medium text-red-600">
                 {submitError}
               </p>
             )}
@@ -195,7 +195,7 @@ export default function Order() {
             textColor: inputTextColor,
             products: chosenProducts.map((pro) => pro.id),
           }),
-        }
+        },
       );
       if (request.ok) {
         router.push("/admin/website/collections");
@@ -239,13 +239,13 @@ export default function Order() {
           <meta name="description" content="horecadepot" />
           <meta name="language" content={lang} />
         </Head>
-        <div className="w-[95vw] flex flex-col justify-start items-center mx-auto">
-          <div className="text-center w-full font-semibold text-xl py-2">
+        <div className="mx-auto flex w-[95vw] flex-col items-center justify-start">
+          <div className="w-full py-2 text-center text-xl font-semibold">
             {t("collection_name_choose")}
           </div>
           <form onSubmit={putCollection} className="grid grid-cols-2">
             <input
-              className="w-full p-2  border border-gray-300"
+              className="w-full border  border-gray-300 p-2"
               type="text"
               id="name"
               required
@@ -254,7 +254,7 @@ export default function Order() {
               placeholder={t("Name")}
             />
             <input
-              className="w-full p-2  border border-gray-300"
+              className="w-full border  border-gray-300 p-2"
               type="text"
               id="category"
               required
@@ -263,7 +263,7 @@ export default function Order() {
               placeholder={t("Category")}
             />
             <input
-              className="w-full p-2  border border-gray-300"
+              className="w-full border  border-gray-300 p-2"
               type="text"
               id="description"
               required
@@ -272,7 +272,7 @@ export default function Order() {
               placeholder={t("Description")}
             />
             <textarea
-              className="w-full p-2  border border-gray-300"
+              className="w-full border  border-gray-300 p-2"
               id="tags"
               required
               value={inputTags}
@@ -289,7 +289,7 @@ export default function Order() {
                 </label>
                 <input
                   title={t("Upload Image")}
-                  className="w-0 h-0 opacity-0 absolute"
+                  className="absolute h-0 w-0 opacity-0"
                   placeholder={t("Upload Image")}
                   type="file"
                   name="uploadimg"
@@ -307,10 +307,10 @@ export default function Order() {
             )}
             <div>
               {products && (
-                <div className="flex flex-col max-h-[350px] p-2 gap-1 overflow-y-scroll">
+                <div className="flex max-h-[350px] flex-col gap-1 overflow-y-scroll p-2">
                   <div className="flex flex-row border-b-2 border-black">
                     <textarea
-                      className="w-full h-[30px]"
+                      className="h-[30px] w-full"
                       value={productSearch}
                       onChange={(e) => {
                         setProductSearch(e.target.value.trim());
@@ -331,8 +331,8 @@ export default function Order() {
                                   .includes(productSearch.toLowerCase()) ||
                                 prod.color
                                   .toLowerCase()
-                                  .includes(productSearch.toLowerCase())
-                            )
+                                  .includes(productSearch.toLowerCase()),
+                            ),
                           );
                         }
                       }}
@@ -351,8 +351,8 @@ export default function Order() {
                                 .includes(productSearch.toLowerCase()) ||
                               prod.color
                                 .toLowerCase()
-                                .includes(productSearch.toLowerCase())
-                          )
+                                .includes(productSearch.toLowerCase()),
+                          ),
                         );
                       }}
                     />
@@ -360,11 +360,11 @@ export default function Order() {
                   {products.map((prod) => (
                     <div
                       key={prod.id}
-                      className="flex flex-row cursor-pointer odd:bg-gray-300 hover:bg-orange-400"
+                      className="flex cursor-pointer flex-row odd:bg-gray-300 hover:bg-orange-400"
                       onClick={() => {
                         if (chosenProducts.some((p) => p.id === prod.id)) {
                           setChosenProducts(
-                            chosenProducts.filter((p) => p.id !== prod.id)
+                            chosenProducts.filter((p) => p.id !== prod.id),
                           );
                         } else {
                           setChosenProducts([...chosenProducts, prod]);
@@ -384,7 +384,7 @@ export default function Order() {
             </div>
             <div className="flex flex-row">
               <input
-                className="w-full p-2  border border-gray-300"
+                className="w-full border  border-gray-300 p-2"
                 type="text"
                 id="background"
                 required
@@ -393,7 +393,7 @@ export default function Order() {
                 placeholder={t("Background (hex code)")}
               />
               <input
-                className="w-full p-2  border border-gray-300"
+                className="w-full border  border-gray-300 p-2"
                 type="text"
                 id="text"
                 required
@@ -404,14 +404,14 @@ export default function Order() {
             </div>
             {inputRight ? (
               <div
-                className={`bg-slate-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
+                className={`border-1 flex  cursor-pointer flex-col items-center justify-center border-black bg-slate-300`}
                 onClick={() => setInputRight(false)}
               >
                 {t("Right")}
               </div>
             ) : (
               <div
-                className={`bg-slate-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
+                className={`border-1 flex  cursor-pointer flex-col items-center justify-center border-black bg-slate-300`}
                 onClick={() => setInputRight(true)}
               >
                 {t("Left")}
@@ -419,14 +419,14 @@ export default function Order() {
             )}
             {inputFeatured ? (
               <div
-                className={`bg-green-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
+                className={`border-1 flex  cursor-pointer flex-col items-center justify-center border-black bg-green-300`}
                 onClick={() => setInputFeatured(false)}
               >
                 {t("Featured")}
               </div>
             ) : (
               <div
-                className={`bg-red-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
+                className={`border-1 flex  cursor-pointer flex-col items-center justify-center border-black bg-red-300`}
                 onClick={() => setInputFeatured(true)}
               >
                 {t("Not Featured")}
@@ -436,12 +436,11 @@ export default function Order() {
               {t("collection_modify")}
             </button>
             {submitError && (
-              <p className="text-red-600 font-medium text-center">
+              <p className="text-center font-medium text-red-600">
                 {submitError}
               </p>
             )}
-            <div>
-            </div>
+            <div></div>
           </form>
         </div>
       </AdminLayout>

@@ -26,7 +26,7 @@ export default function Order() {
 
       const fetchOrder = async (orderID: number) => {
         const request = await fetch(
-          `/api/documents/admin/getorderdetails?order=${orderID}`
+          `/api/documents/admin/getorderdetails?order=${orderID}`,
         );
         const response = await request.json();
         if (request.ok) {
@@ -58,7 +58,7 @@ export default function Order() {
             <meta name="description" content="horecadepot" />
             <meta name="language" content={lang} />
           </Head>
-          <div className="w-[90vw] mx-auto py-2">
+          <div className="mx-auto w-[90vw] py-2">
             <LoadingIndicator />
           </div>
         </AdminLayout>
@@ -73,7 +73,7 @@ export default function Order() {
             <meta name="description" content="horecadepot" />
             <meta name="language" content={lang} />
           </Head>
-          <div className="w-[90vw] mx-auto py-2">
+          <div className="mx-auto w-[90vw] py-2">
             {t("An error has occurred.")}
           </div>
         </AdminLayout>
@@ -90,10 +90,10 @@ export default function Order() {
           </Head>
 
           <div className="w-full px-2 py-2">
-            <div className="shadow-lg p-4 print:shadow-none print:ml-0 print:p-0 w-full">
+            <div className="w-full p-4 shadow-lg print:ml-0 print:p-0 print:shadow-none">
               <div className="flex flex-row justify-between">
                 <div
-                  className={`hidden print:block relative w-[358px] h-[64px] mt-2`}
+                  className={`relative mt-2 hidden h-[64px] w-[358px] print:block`}
                 >
                   <Image
                     src={"/assets/header/logo.png"}
@@ -102,7 +102,7 @@ export default function Order() {
                     alt="HorecaDepot Logo"
                   />
                 </div>
-                <div className="hidden print:flex flex-col pt-1">
+                <div className="hidden flex-col pt-1 print:flex">
                   <h4 className="font-bold">Horeca Depot</h4>
                   <p className="">Rue de Ribaucourt 154</p>
                   <p className="">1080 Bruxelles, Belgique</p>
@@ -116,7 +116,7 @@ export default function Order() {
                     {formatDateAPIToBe(currentOrder.date)}
                   </h3>
                 </div>
-                <div className="flex flex-row items-center gap-2 flex-shrink-0 print:hidden">
+                <div className="flex flex-shrink-0 flex-row items-center gap-2 print:hidden">
                   {/* {balance > 0 && (
                     <>
                       {verificationMessage && verificationMessage}
@@ -150,7 +150,7 @@ export default function Order() {
                     <PDFDownloadLink
                       fileName={currentOrder.prefix + currentOrder.number}
                       document={<PDFInvoice invoiceDocument={currentOrder} />}
-                      className={`${componentThemes.greenSubmitButton} flex flex-row text-xl items-center whitespace-nowrap`}
+                      className={`${componentThemes.greenSubmitButton} flex flex-row items-center whitespace-nowrap text-xl`}
                     >
                       📄 <p className="ml-1">{t("Download PDF")}</p>
                     </PDFDownloadLink>
@@ -159,7 +159,7 @@ export default function Order() {
                     onClick={() => {
                       print();
                     }}
-                    className={`${componentThemes.greenSubmitButton} flex flex-row text-xl items-center whitespace-nowrap`}
+                    className={`${componentThemes.greenSubmitButton} flex flex-row items-center whitespace-nowrap text-xl`}
                   >
                     🖨️
                     <p className="ml-1">{t("Print")}</p>
@@ -211,7 +211,7 @@ export default function Order() {
                   )}
                 </div>
               </div>
-              <table className=" overflow-x-auto shadow-lg bg-gray-100 p-2 mt-3 print:shadow-none print:border-2 print:border-black print:bg-transparent">
+              <table className=" mt-3 overflow-x-auto bg-gray-100 p-2 shadow-lg print:border-2 print:border-black print:bg-transparent print:shadow-none">
                 <thead className="border-b-2 border-black">
                   <tr>
                     <th>{t("Name")}</th>
@@ -253,7 +253,7 @@ export default function Order() {
                             .replaceAll(".", ",")}
                         </td>
                       </tr>
-                    )
+                    ),
                   )}
                   <tr>
                     <td></td>
@@ -282,7 +282,7 @@ export default function Order() {
                             (accumulator, currentItem) => {
                               return accumulator + currentItem.subTotal;
                             },
-                            0
+                            0,
                           ) -
                           currentOrder.payments
                             .filter((pay) => !pay.deleted && pay.verified)

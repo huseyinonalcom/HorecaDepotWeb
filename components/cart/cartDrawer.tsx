@@ -31,17 +31,17 @@ const CartDrawer = () => {
         onClick={closeDrawer}
       ></div>
       <div
-        className={`${drawerClass} top-0 min-w-[250px] max-w-[290px] h-screen bg-gray-100 p-5 z-50 overflow-y-auto duration-500`}
+        className={`${drawerClass} top-0 z-50 h-screen min-w-[250px] max-w-[290px] overflow-y-auto bg-gray-100 p-5 duration-500`}
       >
-        <button onClick={closeDrawer} className="w-full mb-2 duration-700">
-          <div className="group flex w-full flex-row justify-between py-1 pl-2 pr-1 border-b border-gray-300">
+        <button onClick={closeDrawer} className="mb-2 w-full duration-700">
+          <div className="group flex w-full flex-row justify-between border-b border-gray-300 py-1 pl-2 pr-1">
             <p className="font-bold">{t("Cart")}</p>
-            <X className="-rotate-180 group-hover:rotate-180 duration-700" />
+            <X className="-rotate-180 duration-700 group-hover:rotate-180" />
           </div>
         </button>
 
         {cart.map((product) => (
-          <div key={product.id} className="mb-2 my-1 pb-2 border-b">
+          <div key={product.id} className="my-1 mb-2 border-b pb-2">
             <div className="flex flex-row items-center">
               <Image
                 src={
@@ -54,17 +54,17 @@ const CartDrawer = () => {
                 width={90}
                 height={90}
               />
-              <div className="flex flex-col w-full items-center justify-start">
-                <h3 className="h-[25px] text-base font-bold w-full justify-center overflow-hidden duration-700">
+              <div className="flex w-full flex-col items-center justify-start">
+                <h3 className="h-[25px] w-full justify-center overflow-hidden text-base font-bold duration-700">
                   <AutoTextSize maxFontSizePx={14}>{product.name}</AutoTextSize>
                 </h3>
-                <h4 className="h-[20px] text-base w-full justify-center overflow-hidden duration-700">
+                <h4 className="h-[20px] w-full justify-center overflow-hidden text-base duration-700">
                   <AutoTextSize maxFontSizePx={12}>
                     {product.internalCode}
                   </AutoTextSize>
                 </h4>
-                <div className="w-full flex flex-row items-end justify-center mb-2">
-                  <h5 className="mr-1 text-gray-400 text-sm line-through">
+                <div className="mb-2 flex w-full flex-row items-end justify-center">
+                  <h5 className="mr-1 text-sm text-gray-400 line-through">
                     {product.priceBeforeDiscount &&
                     product.priceBeforeDiscount > product.value
                       ? `€ ${(product.priceBeforeDiscount * product.amount)
@@ -96,13 +96,13 @@ const CartDrawer = () => {
                     🗑
                   </button>
                   <ButtonShadow1 onClick={() => decreaseQuantity(product.id)}>
-                    <p className="aspect-[1/1] w-6 h-6 font-bold">-</p>
+                    <p className="aspect-[1/1] h-6 w-6 font-bold">-</p>
                   </ButtonShadow1>
-                  <p className="text-center mx-1.25 w-[40px]">
+                  <p className="mx-1.25 w-[40px] text-center">
                     {product.amount}
                   </p>
                   <ButtonShadow1 onClick={() => increaseQuantity(product.id)}>
-                    <p className="aspect-[1/1] w-6 h-6 font-bold">+</p>
+                    <p className="aspect-[1/1] h-6 w-6 font-bold">+</p>
                   </ButtonShadow1>
                 </div>
               </div>
@@ -117,8 +117,8 @@ const CartDrawer = () => {
             {calculateTotal().totalBeforeDiscount !=
               calculateTotal().totalAfterDiscount && (
               <div className="flex flex-row items-center justify-between">
-                <h3 className="font-extrabold text-lg">{`${t(
-                  "Subtotal"
+                <h3 className="text-lg font-extrabold">{`${t(
+                  "Subtotal",
                 )}:`}</h3>
                 <h3 className="font-extrabold text-red-600 line-through">
                   €{" "}
@@ -131,7 +131,7 @@ const CartDrawer = () => {
             {calculateTotal().totalBeforeDiscount !=
               calculateTotal().totalAfterDiscount && (
               <div className="flex flex-row items-center justify-between">
-                <h3 className="font-extrabold text-lg">{`${t("Discount")}:`}</h3>
+                <h3 className="text-lg font-extrabold">{`${t("Discount")}:`}</h3>
                 <h3 className="font-extrabold text-green-500">
                   €{" "}
                   {(
@@ -144,8 +144,8 @@ const CartDrawer = () => {
               </div>
             )}
             <div className="flex flex-row items-center justify-between">
-              <h3 className="font-extrabold text-lg">{`${t("Total")}:`}</h3>
-              <h3 className="font-extrabold text-lg">
+              <h3 className="text-lg font-extrabold">{`${t("Total")}:`}</h3>
+              <h3 className="text-lg font-extrabold">
                 €{" "}
                 {calculateTotal()
                   .totalAfterDiscount.toFixed(2)
@@ -156,7 +156,7 @@ const CartDrawer = () => {
           {cart.length > 0 && (
             <Link
               href="/checkout"
-              className="flex flex-row justify-center w-full shadow-xl bg-green-700 hover:bg-orange-400 text-white mt-1 py-1 font-medium duration-500"
+              className="mt-1 flex w-full flex-row justify-center bg-green-700 py-1 font-medium text-white shadow-xl duration-500 hover:bg-orange-400"
             >
               {t("Order")}
             </Link>

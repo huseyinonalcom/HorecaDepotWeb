@@ -57,16 +57,23 @@ export default function Admin() {
         <title>Admin Login</title>
         <meta name="language" content={lang} />
       </Head>
-      <div className="flex justify-center items-center min-h-screen">
-        <form onSubmit={handleSubmit} className="w-full max-w-md p-4  shadow-lg space-y-4 bg-white">
-          <h2 className="text-xl font-bold text-center">ADMIN LOGIN</h2>
-          {error && <div className="bg-red-100 text-red-700 p-2 text-center ">{error}</div>}
+      <div className="flex min-h-screen items-center justify-center">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full max-w-md space-y-4  bg-white p-4 shadow-lg"
+        >
+          <h2 className="text-center text-xl font-bold">ADMIN LOGIN</h2>
+          {error && (
+            <div className="bg-red-100 p-2 text-center text-red-700 ">
+              {error}
+            </div>
+          )}
           <div>
-            <label htmlFor="username" className="font-bold text-lg">
+            <label htmlFor="username" className="text-lg font-bold">
               {t("user")}
             </label>
             <input
-              className="w-full p-2  border border-gray-300"
+              className="w-full border  border-gray-300 p-2"
               type="text"
               id="username"
               value={username}
@@ -76,11 +83,11 @@ export default function Admin() {
             />
           </div>
           <div>
-            <label htmlFor="password" className="font-bold text-lg">
+            <label htmlFor="password" className="text-lg font-bold">
               {t("password")}
             </label>
             <input
-              className="w-full p-2  border border-gray-300"
+              className="w-full border  border-gray-300 p-2"
               type="password"
               ref={passwordInput}
               autoComplete="current-password"
@@ -89,7 +96,10 @@ export default function Admin() {
               placeholder={t("password")}
             />
           </div>
-          <button type="submit" className="w-full py-2 bg-black hover:bg-gray-600 text-white ">
+          <button
+            type="submit"
+            className="w-full bg-black py-2 text-white hover:bg-gray-600 "
+          >
             Login
           </button>
         </form>

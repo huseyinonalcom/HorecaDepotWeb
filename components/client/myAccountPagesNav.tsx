@@ -12,7 +12,8 @@ export default function MyAccountPagesNav() {
   const { client, clearClient } = useContext(ClientContext);
 
   const getNavLinkClass = (href) => {
-    const baseClass = "font-bold py-1 pl-1 duration-300 w-full hover:bg-gray-200";
+    const baseClass =
+      "font-bold py-1 pl-1 duration-300 w-full hover:bg-gray-200";
     return href === pathname ? `${baseClass} bg-gray-200` : baseClass;
   };
 
@@ -34,15 +35,28 @@ export default function MyAccountPagesNav() {
   }, []);
 
   return (
-    <div className="flex flex-col items-left w-[200px] justify-start pr-2 border-r border-gray-400 flex-shrink-0 print:hidden">
-      <h2 className="font-bold text-2xl pb-2 border-gray-400 border-b mb-2">{t("My Account")}</h2>
+    <div className="items-left flex w-[200px] flex-shrink-0 flex-col justify-start border-r border-gray-400 pr-2 print:hidden">
+      <h2 className="mb-2 border-b border-gray-400 pb-2 text-2xl font-bold">
+        {t("My Account")}
+      </h2>
       {client && (
         <>
-          <h2 className="font-bold py-1 pl-1 w-full">
-            <AutoTextSize maxFontSizePx={12}>{client.client_info.firstName + " " + client.client_info.lastName}</AutoTextSize>
+          <h2 className="w-full py-1 pl-1 font-bold">
+            <AutoTextSize maxFontSizePx={12}>
+              {client.client_info.firstName + " " + client.client_info.lastName}
+            </AutoTextSize>
           </h2>
-          <Link href={"/"} as={"/"} onClick={handleLogOut} className="font-bold py-1 pl-1 duration-300 w-full hover:bg-gray-200">
-            <AutoTextSize maxFontSizePx={12}>{t("wrong_user", { userName: `${client.client_info.firstName} ${client.client_info.lastName}` })}</AutoTextSize>
+          <Link
+            href={"/"}
+            as={"/"}
+            onClick={handleLogOut}
+            className="w-full py-1 pl-1 font-bold duration-300 hover:bg-gray-200"
+          >
+            <AutoTextSize maxFontSizePx={12}>
+              {t("wrong_user", {
+                userName: `${client.client_info.firstName} ${client.client_info.lastName}`,
+              })}
+            </AutoTextSize>
           </Link>
         </>
       )}
@@ -50,7 +64,10 @@ export default function MyAccountPagesNav() {
       {/* <Link href={"/account/myaccount"} className={getNavLinkClass("/account/myaccount")}>
         {t("Dashboard")}
       </Link> */}
-      <Link href={"/account/myorders"} className={getNavLinkClass("/account/myorders")}>
+      <Link
+        href={"/account/myorders"}
+        className={getNavLinkClass("/account/myorders")}
+      >
         {t("My Orders")}
       </Link>
       {/* <Link href={"/account/mydetails"} className={getNavLinkClass("/account/mydetails")}>

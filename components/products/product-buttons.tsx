@@ -45,8 +45,11 @@ const ProductButtons = ({ product, amount, onChange }: Props) => {
   return (
     <div className="flex flex-col">
       <div className="flex flex-row">
-        <div className="flex flex-row justify-center h-fit items-center duration-300 bg-black text-white border-black mr-2 border-2">
-          <Minus className="cursor-pointer h-6 w-6 pl-1 hover:text-red-500 duration-300" onClick={() => setCartAmount((a) => a - 1)} />
+        <div className="mr-2 flex h-fit flex-row items-center justify-center border-2 border-black bg-black text-white duration-300">
+          <Minus
+            className="h-6 w-6 cursor-pointer pl-1 duration-300 hover:text-red-500"
+            onClick={() => setCartAmount((a) => a - 1)}
+          />
           <input
             type="text"
             value={cartAmount}
@@ -57,28 +60,32 @@ const ProductButtons = ({ product, amount, onChange }: Props) => {
                 setCartAmount(Number(e.target.value));
               } else setCartAmount(1);
             }}
-            className="text-center bg-black w-[36px] my-2"
+            className="my-2 w-[36px] bg-black text-center"
             min="1"
           />
-          <Plus className="cursor-pointer h-6 w-6 pr-1 hover:text-green-500 duration-300" onClick={() => setCartAmount((a) => ++a)} />
+          <Plus
+            className="h-6 w-6 cursor-pointer pr-1 duration-300 hover:text-green-500"
+            onClick={() => setCartAmount((a) => ++a)}
+          />
         </div>
         <button
-          className="duration-300 bg-black text-white hover:text-green-500 border-black hover:border-green-500 p-1 border-2"
+          className="border-2 border-black bg-black p-1 text-white duration-300 hover:border-green-500 hover:text-green-500"
           onClick={() => addToCart(convertToCartProduct(product, cartAmount))}
         >
-          <div className="flex flex-row justify-center gap-2 w-full h-full items-center px-1">
+          <div className="flex h-full w-full flex-row items-center justify-center gap-2 px-1">
             <ShoppingCart />
-            <p className="font-bold text-lg">{t("Add to cart")}</p>
+            <p className="text-lg font-bold">{t("Add to cart")}</p>
           </div>
         </button>
       </div>
       <div className="mt-1">
         <button
-          className="duration-300 bg-black text-white border-black hover:text-red-500 hover:border-red-500 p-1 border-2"
+          className="border-2 border-black bg-black p-1 text-white duration-300 hover:border-red-500 hover:text-red-500"
           onClick={() => addToWishlist(convertToWishlistProduct(product))}
         >
-          <div className="flex flex-row justify-center gap-2 w-full h-full items-center">
-            <Heart /> <p className="font-bold text-lg">{t("Add to wishlist")}</p>
+          <div className="flex h-full w-full flex-row items-center justify-center gap-2">
+            <Heart />{" "}
+            <p className="text-lg font-bold">{t("Add to wishlist")}</p>
           </div>
         </button>
       </div>

@@ -16,7 +16,7 @@ export default function Collections() {
       "/api/collections/public/getcollections",
       {
         method: "GET",
-      }
+      },
     );
     if (fetchCollectionRequest.ok) {
       const fetchCollectionAnswer = await fetchCollectionRequest.json();
@@ -42,7 +42,7 @@ export default function Collections() {
         <title>Website</title>
         <meta name="language" content={lang} />
       </Head>
-      <div className="flex flex-col w-[95%] items-center mx-auto p-2">
+      <div className="mx-auto flex w-[95%] flex-col items-center p-2">
         <div className="flex flex-row">
           <Link
             className={componentThemes.greenSubmitButton}
@@ -52,7 +52,7 @@ export default function Collections() {
           </Link>
         </div>
         {collections && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
             {collections.map((collection) => (
               <CollectionPreview key={collection.id} collection={collection} />
             ))}

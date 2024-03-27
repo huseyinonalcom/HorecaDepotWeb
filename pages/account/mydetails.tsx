@@ -43,15 +43,16 @@ export default function MyDetails() {
         <meta name="description" content={t("main_description")} />
         <meta name="language" content={lang} />
       </Head>
-      <div className="flex w-[90vw] flex-row justify-start items-start mx-auto">
+      <div className="mx-auto flex w-[90vw] flex-row items-start justify-start">
         <MyAccountPagesNav />
-        <div className="flex flex-col w-full gap-4 ml-4">
+        <div className="ml-4 flex w-full flex-col gap-4">
           {isLoading ? (
             <LoadingIndicator />
           ) : clientDetails ? (
             <>
               <h2>
-                {clientDetails.client_info.firstName} {clientDetails.client_info.lastName}
+                {clientDetails.client_info.firstName}{" "}
+                {clientDetails.client_info.lastName}
               </h2>
               {/* <p>Date: {formatDateAPIToBe(order.date)}</p>
               <p>

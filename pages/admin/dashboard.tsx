@@ -14,7 +14,6 @@ export default function Dashboard() {
         <title>Dashboard</title>
         <meta name="language" content={lang} />
       </Head>
-      
     </AdminLayout>
   );
 }

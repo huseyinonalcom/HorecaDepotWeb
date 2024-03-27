@@ -4,9 +4,9 @@ type Props = {
   label?: String;
 };
 
-const LoadingIndicator = ({label}: Props) => {
+const LoadingIndicator = ({ label }: Props) => {
   return (
-    <div className="flex justify-center items-center flex-col min-h-[80dvh]">
+    <div className="flex min-h-[80dvh] flex-col items-center justify-center">
       <Loader className="animate-spin text-orange-500" size={48} />
       {label && <p>{label}</p>}
     </div>

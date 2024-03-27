@@ -20,24 +20,24 @@ export default function References({ images }: Props) {
         <meta name="language" content={lang} />
       </Head>
 
-      <h1 className="font-bold text-4xl bg-black text-white text-center pt-2">
+      <h1 className="bg-black pt-2 text-center text-4xl font-bold text-white">
         {t("Our references")}
       </h1>
-      <div className="h-[70px] bg-black shadow-lg flex flex-col justify-around">
-        <div className="flex flex-row text-md font-bold items-center justify-center text-gray-300">
-          <Link href="/" className="hover:text-white duration-700">
+      <div className="flex h-[70px] flex-col justify-around bg-black shadow-lg">
+        <div className="text-md flex flex-row items-center justify-center font-bold text-gray-300">
+          <Link href="/" className="duration-700 hover:text-white">
             {t("Home")}
           </Link>
-          <p className="font-bold mx-2">/</p>
-          <p className="underline decoration-solid decoration-orange-400 decoration-4 underline-offset-8 text-white">
+          <p className="mx-2 font-bold">/</p>
+          <p className="text-white underline decoration-orange-400 decoration-solid decoration-4 underline-offset-8">
             {t("References")}
           </p>
         </div>
       </div>
-      <div className="flex flex-col mx-auto w-[95%] justify-center items-center mb-2 bg-white shadow-md p-3">
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="mx-auto mb-2 flex w-[95%] flex-col items-center justify-center bg-white p-3 shadow-md">
+        <div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
           {images.map((image, index) => (
-            <div key={index} className="relative min-w-[200px] min-h-[200px]">
+            <div key={index} className="relative min-h-[200px] min-w-[200px]">
               <Image
                 sizes="(max-width: 768px) 95vw, (max-width: 1024px) 48vw, 20vw"
                 src={image}
@@ -58,7 +58,7 @@ export async function getStaticProps() {
     process.cwd(),
     "public",
     "assets",
-    "references"
+    "references",
   );
   const filenames = fs.readdirSync(directoryPath);
 

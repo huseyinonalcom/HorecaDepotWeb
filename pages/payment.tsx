@@ -62,7 +62,7 @@ export default function Products() {
                 Accept: "application/json",
                 Authorization: `Bearer ${process.env.API_KEY}`,
               },
-            }
+            },
           );
           if (request.ok) {
             const answer = await request.json();
@@ -77,7 +77,7 @@ export default function Products() {
                   Accept: "application/json",
                   Authorization: `Bearer ${process.env.API_KEY}`,
                 },
-              }
+              },
             );
 
             const notif = await requestNotif.json();
@@ -99,21 +99,21 @@ export default function Products() {
   if (!paymentCheckDone) {
     // show something to indicate something is running in the background
     return (
-      <div className="w-[90vw] h-[90vh] items-center justify-center flex flex-col">
+      <div className="flex h-[90vh] w-[90vw] flex-col items-center justify-center">
         <LoadingIndicator label={t("Payment being checked")} />
       </div>
     );
   } else if (!paymentSuccessful) {
     // give choice between re-attempting payment or going to the order page (find order by fetching order related to payment)
     return (
-      <div className="w-[90vw] h-[90vh] items-center justify-center flex flex-col">
+      <div className="flex h-[90vh] w-[90vw] flex-col items-center justify-center">
         <h2>{t("payment_fail")}</h2>
       </div>
     );
   } else {
     // show something to indicate payment succeeded and redirect to the order page (find order by fetching order related to payment)
     return (
-      <div className="w-[90vw] h-[90vh] items-center justify-center flex flex-col">
+      <div className="flex h-[90vh] w-[90vw] flex-col items-center justify-center">
         <h2>{t("payment_success")}</h2>
       </div>
     );

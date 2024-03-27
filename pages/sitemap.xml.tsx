@@ -10,13 +10,15 @@ function generateSiteMap(productIDs: number[]) {
       <url><loc>https://${URL}/contact</loc></url>
       <url><loc>https://${URL}/legal</loc></url>
       <url><loc>https://${URL}/products</loc></url>
-     ${productIDs.map((ID) => {
-       return `
+     ${productIDs
+       .map((ID) => {
+         return `
       <url>
           <loc>https://${URL}/products/${ID}</loc>
       </url>
     `;
-     }).join('')}
+       })
+       .join("")}
    </urlset>
  `;
 }

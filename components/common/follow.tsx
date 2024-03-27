@@ -9,8 +9,8 @@ const Follow = () => {
   const iconSize: number = 36;
   return (
     <div className="flex flex-col gap-2">
-      <h3 className="font-bold text-2xl text-center">{t("Follow us!")}</h3>
-      <div className="flex flex-row gap-5 justify-around">
+      <h3 className="text-center text-2xl font-bold">{t("Follow us!")}</h3>
+      <div className="flex flex-row justify-around gap-5">
         <Link
           href={"https://www.facebook.com/HorecaDepotBelgium/"}
           aria-label="Link to Facebook"
@@ -36,7 +36,7 @@ const Follow = () => {
           aria-label="Link to Pinterest"
           href={"https://www.pinterest.com/horecadepot/"}
           target="_blank"
-          className={`w-[36px] h-[36px]`}
+          className={`h-[36px] w-[36px]`}
         >
           <Image
             src={"/assets/img/pinterest.svg"}
@@ -44,7 +44,7 @@ const Follow = () => {
             width={iconSize}
             height={iconSize}
             color="black"
-            className={`w-[36px] h-[36px]`}
+            className={`h-[36px] w-[36px]`}
           />
         </Link>
       </div>

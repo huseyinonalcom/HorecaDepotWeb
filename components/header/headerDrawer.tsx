@@ -33,7 +33,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
         onClick={onClickOutside}
       ></div>
       <div
-        className={`${drawerClass} text-black top-0 min-w-[310px] h-screen bg-gray-100 p-5 z-50 overflow-y-auto duration-500`}
+        className={`${drawerClass} top-0 z-50 h-screen min-w-[310px] overflow-y-auto bg-gray-100 p-5 text-black duration-500`}
       >
         <div className="flex w-full flex-row justify-between py-1">
           <button
@@ -41,7 +41,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             name="Mobile navigation menu closing button"
             onClick={onClickOutside}
           >
-            <X className="-rotate-180 h-8 w-8 hover:rotate-180 duration-700" />
+            <X className="h-8 w-8 -rotate-180 duration-700 hover:rotate-180" />
           </button>
 
           <div className="relative">
@@ -62,7 +62,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
 
             <div
               onMouseLeave={() => setShowLanguages(false)}
-              className={`absolute top-full -right-[6px] mt-2 flex flex-col items-center bg-black duration-300 shadow-md w-[78px] ${
+              className={`absolute -right-[6px] top-full mt-2 flex w-[78px] flex-col items-center bg-black shadow-md duration-300 ${
                 showLanguages ? `visible opacity-100` : `invisible opacity-0`
               }`}
             >
@@ -144,7 +144,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             </div>
           </div>
         </div>
-        <div className="w-full flex flex-col">
+        <div className="flex w-full flex-col">
           <Link
             aria-label="Link to Shop"
             className={navButtonsClass}

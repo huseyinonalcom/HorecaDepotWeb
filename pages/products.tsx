@@ -290,16 +290,16 @@ export default function Products() {
                 height={36}
                 width={36}
                 onClick={() => setCurrentSortDirection(!currentSortDirection)}
-                className={` flex flex-row items-center border-2 border-blue-500 bg-white p-1 duration-500 ${currentSortDirection ? "rotate-0" : "rotate-180"}`}
+                className={`flex flex-row items-center border-2 border-blue-500 bg-white p-1 duration-500 ${currentSortDirection ? "rotate-0" : "rotate-180"}`}
               />
               <div
-                className={` flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "id" ? "border-blue-500" : ""}`}
+                className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "id" && "border-blue-500"}`}
                 onClick={() => setCurrentSort("id")}
               >
                 {t("Date")}
               </div>
               <div
-                className={` flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "value" ? "border-blue-500" : ""}`}
+                className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "value" && "border-blue-500"}`}
                 onClick={() => setCurrentSort("value")}
               >
                 {t("Price")}
@@ -314,7 +314,7 @@ export default function Products() {
               </button>
             </div>
             <div
-              className={`fixed bottom-0 z-40 flex w-full flex-col duration-700 lg:hidden ${isFilterDrawerOpen ? "bottom-0" : "bottom-[-100%]"}`}
+              className={`fixed bottom-0 z-50 flex w-full flex-col duration-700 lg:hidden ${isFilterDrawerOpen ? "bottom-0" : "bottom-[-100%]"}`}
             >
               <div
                 onClick={() => setIsFilterDrawerOpen(false)}

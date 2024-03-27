@@ -47,9 +47,9 @@ const OrderPreview = ({ order }) => {
   };
 
   return (
-    <div className="flex flex-row sm:min-w-[400px] bg-white p-1 shadow-md">
-      <div className="relative h-[100px] sm:h-[200px] w-[100px] sm:w-[200px] flex flex-row flex-shrink-0">
-        <div className="relative w-full h-full">
+    <div className="flex flex-row bg-white p-1 shadow-md sm:min-w-[400px]">
+      <div className="relative flex h-[100px] w-[100px] flex-shrink-0 flex-row sm:h-[200px] sm:w-[200px]">
+        <div className="relative h-full w-full">
           {orderImages.length > 0 ? (
             orderImages.map((img, index) => (
               <Image
@@ -76,7 +76,7 @@ const OrderPreview = ({ order }) => {
         </div>
         {orderImages.length > 1 ? (
           <div
-            className="absolute z-40 left-0 h-full opacity-40 bg-slate-100 flex flex-col justify-center"
+            className="absolute left-0 z-40 flex h-full flex-col justify-center bg-slate-100 opacity-40"
             onClick={slidePrevious}
           >
             <ArrowLeft />
@@ -86,7 +86,7 @@ const OrderPreview = ({ order }) => {
         )}
         {orderImages.length > 1 ? (
           <div
-            className="absolute z-40 right-0 h-full opacity-40 bg-slate-100 flex flex-col justify-center"
+            className="absolute right-0 z-40 flex h-full flex-col justify-center bg-slate-100 opacity-40"
             onClick={slideNext}
           >
             <ArrowLeft className="rotate-180" />
@@ -95,7 +95,7 @@ const OrderPreview = ({ order }) => {
           <div></div>
         )}
       </div>
-      <div className="grid grid-cols-2 border-2 p-4 w-full">
+      <div className="grid w-full grid-cols-2 border-2 p-4">
         <div className="flex flex-col">
           <p className="font-bold">{t("Orders")}</p>
           <p>{order.prefix + order.number}</p>
@@ -122,7 +122,7 @@ const OrderPreview = ({ order }) => {
             {(
               order.document_products.reduce(
                 (total, product) => total + product.subTotal,
-                0
+                0,
               ) -
               order.payments
                 .filter((pay) => pay.verified && !pay.deleted)

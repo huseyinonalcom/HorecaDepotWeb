@@ -43,15 +43,17 @@ export default function MyOrders() {
         <meta name="description" content={t("main_description")} />
         <meta name="language" content={lang} />
       </Head>
-      <div className="flex w-[95vw] flex-row justify-start items-start mx-auto">
+      <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
         <MyAccountPagesNav />
-        <div className="flex flex-col items-center gap-2 w-full">
+        <div className="flex w-full flex-col items-center gap-2">
           <h1 className="text-3xl font-bold">{t("My Orders")}</h1>
-          <div className="grid grid-cols grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 w-full justify-between gap-2">
+          <div className="grid-cols grid w-full grid-cols-1 justify-between gap-2 xl:grid-cols-2 2xl:grid-cols-3">
             {isLoading ? (
               <LoadingIndicator />
             ) : allOrders ? (
-              allOrders.map((order) => <OrderPreview order={order} key={order.id} />)
+              allOrders.map((order) => (
+                <OrderPreview order={order} key={order.id} />
+              ))
             ) : (
               <p>{t("No orders found")}</p>
             )}

@@ -33,7 +33,7 @@ export default function Order() {
       `/api/products/public/getproducts?count=19000`,
       {
         method: "GET",
-      }
+      },
     );
     const response = await request.json();
     if (request.ok) {
@@ -60,7 +60,7 @@ export default function Order() {
           <meta name="description" content="horecadepot" />
           <meta name="language" content={lang} />
         </Head>
-        <div className="w-[95vw] flex flex-row justify-start items-start mx-auto">
+        <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
           <div className="mx-auto py-2">
             <LoadingIndicator />
           </div>
@@ -76,7 +76,7 @@ export default function Order() {
           <meta name="description" content="horecadepot" />
           <meta name="language" content={lang} />
         </Head>
-        <div className="w-[95vw] flex flex-row justify-start items-start mx-auto">
+        <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
           <div className="mx-auto py-2">
             <LoadingIndicator />
           </div>
@@ -101,22 +101,22 @@ export default function Order() {
           <meta name="description" content="horecadepot" />
           <meta name="language" content={lang} />
         </Head>
-        <div className="w-[95vw] flex flex-col justify-start items-center mx-auto">
-          <div className="text-center w-full font-semibold text-xl py-2">
+        <div className="mx-auto flex w-[95vw] flex-col items-center justify-start">
+          <div className="w-full py-2 text-center text-xl font-semibold">
             {t("bulk_tag_setter")}
           </div>
           <form
             onSubmit={putTags}
-            className="flex flex-col gap-2 items-center justify-center lg:flex-row"
+            className="flex flex-col items-center justify-center gap-2 lg:flex-row"
           >
             <div>
               {products && (
-                <div className="flex flex-col max-h-[350px] p-2 gap-1 overflow-y-scroll">
+                <div className="flex max-h-[350px] flex-col gap-1 overflow-y-scroll p-2">
                   <div className="flex flex-row border-b-2 border-black">
                     <textarea
                       value={productSearch}
                       draggable={false}
-                      className="w-full min-h-[28px] max-h-[28px]"
+                      className="max-h-[28px] min-h-[28px] w-full"
                       onChange={(e) => {
                         setProductSearch(e.target.value.trim());
                         if (e.target.value.trim() == "") {
@@ -136,8 +136,8 @@ export default function Order() {
                                   .includes(productSearch.toLowerCase()) ||
                                 prod.color
                                   .toLowerCase()
-                                  .includes(productSearch.toLowerCase())
-                            )
+                                  .includes(productSearch.toLowerCase()),
+                            ),
                           );
                         }
                       }}
@@ -156,8 +156,8 @@ export default function Order() {
                                 .includes(productSearch.toLowerCase()) ||
                               prod.color
                                 .toLowerCase()
-                                .includes(productSearch.toLowerCase())
-                          )
+                                .includes(productSearch.toLowerCase()),
+                          ),
                         );
                       }}
                     />
@@ -165,11 +165,11 @@ export default function Order() {
                   {products.map((prod) => (
                     <div
                       key={prod.id}
-                      className="flex flex-row cursor-pointer odd:bg-gray-300 hover:bg-orange-400"
+                      className="flex cursor-pointer flex-row odd:bg-gray-300 hover:bg-orange-400"
                       onClick={() => {
                         if (chosenProducts.some((p) => p.id === prod.id)) {
                           setChosenProducts(
-                            chosenProducts.filter((p) => p.id !== prod.id)
+                            chosenProducts.filter((p) => p.id !== prod.id),
                           );
                         } else {
                           setChosenProducts([...chosenProducts, prod]);
@@ -189,18 +189,21 @@ export default function Order() {
             </div>
             <div className="flex flex-col justify-center">
               <textarea
-                className="w-full p-2  border border-gray-300"
+                className="w-full border  border-gray-300 p-2"
                 id="tags"
                 required
                 value={inputTags}
                 onChange={(e) => setInputTags(e.target.value)}
                 placeholder={t("Tags")}
               />
-              <button className={componentThemes.greenSubmitButton} type="submit">
+              <button
+                className={componentThemes.greenSubmitButton}
+                type="submit"
+              >
                 {t("bulk_tags_modify")}
               </button>
               {submitError && (
-                <p className="text-red-600 font-medium text-center">
+                <p className="text-center font-medium text-red-600">
                   {submitError}
                 </p>
               )}

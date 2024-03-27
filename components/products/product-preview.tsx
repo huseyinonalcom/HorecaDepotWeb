@@ -17,7 +17,7 @@ type Props = {
 
 function convertToCartProduct(
   product: Product,
-  amount: number = 1
+  amount: number = 1,
 ): CartProduct {
   return {
     ...product,
@@ -46,7 +46,7 @@ const ProductPreview = ({ product, width }: Props) => {
 
   const discountPercentage = calculatePercentageDifference(
     product.priceBeforeDiscount,
-    product.value
+    product.value,
   );
 
   var widthString: string;
@@ -63,7 +63,7 @@ const ProductPreview = ({ product, width }: Props) => {
   return (
     <div
       id={`${product.id}-preview`}
-      className={`flex flex-col items-center group w-full text-black`}
+      className={`group flex w-full flex-col items-center text-black`}
     >
       <div id={`${product.id}-image`} className={`relative ${imgDimensions}`}>
         <Link href={`/products/${product.id}`}>
@@ -80,35 +80,35 @@ const ProductPreview = ({ product, width }: Props) => {
             alt={product.name}
           />
         </Link>
-        <div className="absolute top-2 left-2 flex flex-col gap-2">
+        <div className="absolute left-2 top-2 flex flex-col gap-2">
           {product.priceBeforeDiscount ? (
             <Link
-              className="flex items-center justify-center bg-green-700 h-12 w-12 font-bold -full text-sm text-white overflow-hidden"
+              className="-full flex h-12 w-12 items-center justify-center overflow-hidden bg-green-700 text-sm font-bold text-white"
               style={{ padding: "1em", borderRadius: "50%" }}
               href={`/products/${product.id}`}
             >
-              <div className="flex flex-row justify-center items-center">{`-${discountPercentage}%`}</div>
+              <div className="flex flex-row items-center justify-center">{`-${discountPercentage}%`}</div>
             </Link>
           ) : null}
         </div>
-        <div className="hidden absolute top-2 lg:top-6 group-hover:top-2 opacity-100 lg:opacity-0 group-hover:opacity-100 duration-500 right-2 lg:flex flex-col gap-2">
+        <div className="absolute right-2 top-2 hidden flex-col gap-2 opacity-100 duration-500 group-hover:top-2 group-hover:opacity-100 lg:top-6 lg:flex lg:opacity-0">
           <button
             name={`Add ${product.name} to Cart`}
             aria-label={`Add ${product.name} to Cart`}
-            className="duration-500 p-2 bg-white shadow-md hover:text-green-500"
+            className="bg-white p-2 shadow-md duration-500 hover:text-green-500"
             onClick={() => addToCart(convertToCartProduct(product))}
           >
-            <div className="flex flex-row justify-center w-full h-full items-center">
+            <div className="flex h-full w-full flex-row items-center justify-center">
               <ShoppingCart />
             </div>
           </button>
           <button
             name={`Add ${product.name} to Wishlist`}
             aria-label={`Add ${product.name} to Wishlist`}
-            className="duration-500 p-2 bg-white shadow-md hover:text-red-500"
+            className="bg-white p-2 shadow-md duration-500 hover:text-red-500"
             onClick={() => addToWishlist(convertToWishlistProduct(product))}
           >
-            <div className="flex flex-row justify-center w-full h-full items-center">
+            <div className="flex h-full w-full flex-row items-center justify-center">
               <Heart />
             </div>
           </button>
@@ -118,39 +118,39 @@ const ProductPreview = ({ product, width }: Props) => {
         id={`${product.id}-content`}
         className={"flex flex-col items-center " + contentDimensions}
       >
-        <div className="hidden lg:flex flex-col items-center">
-          <h3 className="h-[25px] text-base font-bold w-full justify-center overflow-hidden duration-700 px-2">
+        <div className="hidden flex-col items-center lg:flex">
+          <h3 className="h-[25px] w-full justify-center overflow-hidden px-2 text-base font-bold duration-700">
             <AutoTextSize mode="oneline" maxFontSizePx={16}>
               {`${product.name}`}
             </AutoTextSize>
           </h3>
-          <h4 className="h-[19px] group-hover:h-[0px] text-sm font-semibold w-full justify-center overflow-hidden duration-700 px-2">
+          <h4 className="h-[19px] w-full justify-center overflow-hidden px-2 text-sm font-semibold duration-700 group-hover:h-[0px]">
             <AutoTextSize mode="oneline" maxFontSizePx={13}>
               {`${product.internalCode != "0" ? product.internalCode : ""}`}
             </AutoTextSize>
           </h4>
           <Link
-            className="h-[0px] group-hover:h-[19px] text-sm overflow-hidden duration-700 text-left text-orange-400 font-bold"
+            className="h-[0px] overflow-hidden text-left text-sm font-bold text-orange-400 duration-700 group-hover:h-[19px]"
             href={"/products/" + product.id}
           >
             {t("+ View Details")}
           </Link>
         </div>
-        <div className="flex lg:hidden flex-col items-center">
-          <h3 className="h-[25px] text-base font-bold w-full justify-center px-2">
+        <div className="flex flex-col items-center lg:hidden">
+          <h3 className="h-[25px] w-full justify-center px-2 text-base font-bold">
             <AutoTextSize mode="oneline" maxFontSizePx={16}>
               {`${product.name}`}
             </AutoTextSize>
           </h3>
-          <h4 className="h-[19px] text-sm font-semibold w-full justify-center px-2">
+          <h4 className="h-[19px] w-full justify-center px-2 text-sm font-semibold">
             <AutoTextSize mode="oneline" maxFontSizePx={13}>
               {`${product.internalCode != "0" ? product.internalCode : ""}`}
             </AutoTextSize>
           </h4>
         </div>
 
-        <div className="w-full flex flex-row items-end justify-center">
-          <p className="mr-1 text-gray-700 text-sm line-through justify-end mb-0.5">
+        <div className="flex w-full flex-row items-end justify-center">
+          <p className="mb-0.5 mr-1 justify-end text-sm text-gray-700 line-through">
             {product.priceBeforeDiscount > product.value
               ? "€ " +
                 product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")
@@ -161,24 +161,24 @@ const ProductPreview = ({ product, width }: Props) => {
           </h4>
         </div>
 
-        <div className="w-full flex lg:hidden flex-row-reverse justify-center gap-2">
+        <div className="flex w-full flex-row-reverse justify-center gap-2 lg:hidden">
           <button
             name={`Add ${product.name} to Cart`}
             aria-label={`Add ${product.name} to Cart`}
-            className="duration-500 p-2 bg-white shadow-md hover:text-green-500"
+            className="bg-white p-2 shadow-md duration-500 hover:text-green-500"
             onClick={() => addToCart(convertToCartProduct(product))}
           >
-            <div className="flex flex-row justify-center w-full h-full items-center">
+            <div className="flex h-full w-full flex-row items-center justify-center">
               <ShoppingCart />
             </div>
           </button>
           <button
             name={`Add ${product.name} to Wishlist`}
             aria-label={`Add ${product.name} to Wishlist`}
-            className="duration-500 p-2 bg-white shadow-md hover:text-red-500"
+            className="bg-white p-2 shadow-md duration-500 hover:text-red-500"
             onClick={() => addToWishlist(convertToWishlistProduct(product))}
           >
-            <div className="flex flex-row justify-center w-full h-full items-center">
+            <div className="flex h-full w-full flex-row items-center justify-center">
               <Heart />
             </div>
           </button>

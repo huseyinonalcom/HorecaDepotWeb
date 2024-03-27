@@ -75,7 +75,7 @@ export default function Products() {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ active: !currentProduct.active }),
-          }
+          },
         );
         const answer = await request.json();
         if (!request.ok) {
@@ -99,7 +99,7 @@ export default function Products() {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ new: !currentProduct.product_extra.new }),
-          }
+          },
         );
         const answer = await request.json();
         if (!request.ok) {
@@ -166,11 +166,11 @@ export default function Products() {
 
     return (
       <div className="relative cursor-pointer">
-        <div className="w-full text-left flex justify-between items-center hover:bg-gray-200">
+        <div className="flex w-full items-center justify-between text-left hover:bg-gray-200">
           {hasSubCategories ? (
             <>
               <div
-                className="whitespace-nowrap h-full py-2 px-4"
+                className="h-full whitespace-nowrap px-4 py-2"
                 // onClick={() => {
                 //   setCurrentCategory(category.id);
                 // }}
@@ -191,7 +191,7 @@ export default function Products() {
               >
                 <ChevronUp
                   className={
-                    "ml-auto w-4 h-4 duration-300 " +
+                    "ml-auto h-4 w-4 duration-300 " +
                     (isHovered ? "rotate-180" : "")
                   }
                 />
@@ -199,7 +199,7 @@ export default function Products() {
             </>
           ) : (
             <div
-              className="whitespace-nowrap w-full h-full px-4 py-2"
+              className="h-full w-full whitespace-nowrap px-4 py-2"
               onClick={() => {
                 setCurrentCategory(category.id);
               }}
@@ -211,7 +211,7 @@ export default function Products() {
         {hasSubCategories && (
           <div
             className={
-              "pl-4 overflow-hidden transition-max-height duration-300 ease-in-out " +
+              "transition-max-height overflow-hidden pl-4 duration-300 ease-in-out " +
               (isHovered ? "max-h-96" : "max-h-0")
             }
           >
@@ -279,7 +279,7 @@ export default function Products() {
         !currentSortDirection ? "desc" : "asc"
       }${currentSearch ? `&search=${currentSearch}` : ""}${
         currentCategory ? `&category=${currentCategory}` : ""
-      }`
+      }`,
     );
     const data = await answer.json();
     setAllProducts(data["data"]);
@@ -288,7 +288,7 @@ export default function Products() {
 
   const fetchCategories = async () => {
     const answer = await fetch(
-      `/api/categories/public/getallcategoriesflattened`
+      `/api/categories/public/getallcategoriesflattened`,
     );
     const data = await answer.json();
     setAllCategories(data.filter((cat) => cat.subCategories.length == 0));
@@ -305,7 +305,7 @@ export default function Products() {
   const fetchProductByID = async () => {
     if (chosenProductID && chosenProductID != 0) {
       const answer = await fetch(
-        `/api/products/admin/getproductbyid?id=${chosenProductID}`
+        `/api/products/admin/getproductbyid?id=${chosenProductID}`,
       );
       const data = await answer.json();
       setErrors({});
@@ -326,7 +326,7 @@ export default function Products() {
 
   const handleRowClick = (
     index: number,
-    event: React.MouseEvent<HTMLTableRowElement, MouseEvent>
+    event: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
   ) => {
     const newSelectedRows = new Set(selectedRows);
 
@@ -396,7 +396,7 @@ export default function Products() {
               "Content-Type": "application/json",
             },
             body: json,
-          }
+          },
         );
 
         if (request2.status == 200) {
@@ -428,7 +428,7 @@ export default function Products() {
       if (imageElement && imageElement.id) {
         const deleteRequest = await fetch(
           `/api/files/admin/deletefilebyid?id=${imageElement.id}`,
-          { method: "DELETE" }
+          { method: "DELETE" },
         );
         fetchProductByID();
       } else {
@@ -487,7 +487,7 @@ export default function Products() {
     const answer = await fetch(
       `/api/products/admin/getallproducts?page=1&count=19999&sort=${currentSort}:${
         !currentSortDirection ? "desc" : "asc"
-      }`
+      }`,
     );
     const data = await answer.json();
     let groupedData = {};
@@ -555,7 +555,7 @@ export default function Products() {
       }));
 
       const worksheet = utils.json_to_sheet(
-        customProducts.sort((a, b) => a.Nom.localeCompare(b.Nom))
+        customProducts.sort((a, b) => a.Nom.localeCompare(b.Nom)),
       );
 
       utils.book_append_sheet(wb, worksheet, category);
@@ -626,7 +626,7 @@ export default function Products() {
     prodsToPOST.forEach(async (prodToPost) => {
       let prodFromAPI = allProductsFromAPI.find(
         (prod) =>
-          prod.supplierCode.toString() == prodToPost.supplierCode.toString()
+          prod.supplierCode.toString() == prodToPost.supplierCode.toString(),
       );
       if (prodFromAPI) {
         let idToPost = prodFromAPI.id;
@@ -649,7 +649,7 @@ export default function Products() {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify(prodToPost),
-            }
+            },
           );
 
           if (!request.ok) {
@@ -682,14 +682,14 @@ export default function Products() {
 
   const submitStock = async (id) => {
     const shelf = currentProduct.shelves.find(
-      (shelf) => shelf.establishment.id == id
+      (shelf) => shelf.establishment.id == id,
     );
     const putStock = await fetch(
       `/api/shelves/admin/putshelfstock?id=${shelf.id}`,
       {
         method: "PUT",
         body: JSON.stringify({ stock: shelf.stock }),
-      }
+      },
     );
   };
   const [submitError, setSubmitError] = useState(null);
@@ -722,21 +722,17 @@ export default function Products() {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify(currentProduct),
-            }
+            },
           );
           if (!request.ok) {
-            setSubmitError(
-              t("An error occurred while modifying the product!")
-            );
+            setSubmitError(t("An error occurred while modifying the product!"));
           } else {
             fetchProducts();
             setChosenProductID(null);
             setSelectedRows(new Set());
           }
         } catch {
-          setSubmitError(
-            t("An error occurred while modifying the product!")
-          );
+          setSubmitError(t("An error occurred while modifying the product!"));
         }
       } else {
         try {
@@ -749,9 +745,7 @@ export default function Products() {
           });
           const answer = await request.json();
           if (!request.ok) {
-            setSubmitError(
-              t("An error occurred during the product creation!")
-            );
+            setSubmitError(t("An error occurred during the product creation!"));
           } else {
             fetchProducts();
             setSelectedRows(new Set());
@@ -759,9 +753,7 @@ export default function Products() {
             setChosenProductID(null);
           }
         } catch {
-          setSubmitError(
-            t("An error occurred during the product creation!")
-          );
+          setSubmitError(t("An error occurred during the product creation!"));
         }
       }
       setInProgress(false);
@@ -774,7 +766,7 @@ export default function Products() {
     field: string,
     value: string,
     isSubObject = false,
-    validators = []
+    validators = [],
   ) => {
     let errorMsg = "";
     for (const validator of validators) {
@@ -838,7 +830,7 @@ export default function Products() {
 
   const missingPictures = async () => {
     const answer = await fetch(
-      `/api/products/public/getproducts?page=${currentPage}&count=19999`
+      `/api/products/public/getproducts?page=${currentPage}&count=19999`,
     );
     const data = await answer.json();
     const imagelessSorted = data.sortedData
@@ -858,8 +850,8 @@ export default function Products() {
           "," +
           imgl.name +
           "," +
-          imgl.color
-      )
+          imgl.color,
+      ),
     );
   };
 
@@ -873,7 +865,7 @@ export default function Products() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col justify-center items-center">
+      <div className="flex flex-col items-center justify-center">
         {count}/{categoriesTotal}
         <LoadingIndicator />
       </div>
@@ -885,22 +877,22 @@ export default function Products() {
           <title>Produits</title>
           <meta name="language" content={lang} />
         </Head>
-        <div className="flex flex-1 max-h-[100vh] pb-1 flex-col items-center pt-1">
-          <div className="flex mb-1 flex-row items-center gap-2">
+        <div className="flex max-h-[100vh] flex-1 flex-col items-center pb-1 pt-1">
+          <div className="mb-1 flex flex-row items-center gap-2">
             <div className="group relative h-full">
-              <div className="flex flex-row items-center mr-1 py-4 font-bold text-black h-full bg-gray-100 pl-3 pr-2">
+              <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-4 pl-3 pr-2 font-bold text-black">
                 {t(
                   currentCategory
                     ? allCategories.find((cat) => cat.id == currentCategory)
                         .Name
-                    : "Tout"
+                    : "Tout",
                 )}
-                <ChevronUp className="ml-1 w-4 h-4 transform group-hover:rotate-180 duration-300" />
+                <ChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />
               </div>
-              <div className="absolute top-8 mt-4 py-2 -left-5 z-50 text-gray-500 w-[240px] invisible group-hover:visible opacity-0 group-hover:opacity-100 duration-300 bg-white shadow-lg">
-                <div className="w-full text-left flex justify-between items-center hover:bg-gray-200 cursor-pointer">
+              <div className="invisible absolute -left-5 top-8 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
+                <div className="flex w-full cursor-pointer items-center justify-between text-left hover:bg-gray-200">
                   <div
-                    className="whitespace-nowrap w-full h-full px-4 py-2"
+                    className="h-full w-full whitespace-nowrap px-4 py-2"
                     onClick={() => {
                       setCurrentCategory(null);
                     }}
@@ -972,17 +964,17 @@ export default function Products() {
                 </div>
               </form>
             </div>
-            <div className="shadow-lg bg-gray-100 p-2 flex flex-row gap-2">
+            <div className="flex flex-row gap-2 bg-gray-100 p-2 shadow-lg">
               <ArrowUp
                 height={36}
                 width={36}
                 onClick={() => setCurrentSortDirection(!currentSortDirection)}
-                className={` bg-white border-2 duration-500 border-blue-500 p-1 ${
+                className={` border-2 border-blue-500 bg-white p-1 duration-500 ${
                   currentSortDirection ? "rotate-0" : "rotate-180"
                 }`}
               />
               <div
-                className={` px-2 py-1 bg-white border-2 ${
+                className={` border-2 bg-white px-2 py-1 ${
                   currentSort == "id" ? "border-blue-500" : ""
                 }`}
                 onClick={() => setCurrentSort("id")}
@@ -990,7 +982,7 @@ export default function Products() {
                 {t("Date")}
               </div>
               <div
-                className={` px-2 py-1 bg-white border-2 ${
+                className={` border-2 bg-white px-2 py-1 ${
                   currentSort == "value" ? "border-blue-500" : ""
                 }`}
                 onClick={() => setCurrentSort("value")}
@@ -1010,7 +1002,7 @@ export default function Products() {
               </label>
               <input
                 title={t("Upload Excel")}
-                className="w-0 h-0 opacity-0 absolute"
+                className="absolute h-0 w-0 opacity-0"
                 placeholder={t("Upload Excel")}
                 type="file"
                 name="upload"
@@ -1020,7 +1012,7 @@ export default function Products() {
             </form>
 
             <button
-              className={buttonClass + " bg-green-400 flex-shrink-0"}
+              className={buttonClass + " flex-shrink-0 bg-green-400"}
               onClick={() => generateXlsx()}
             >
               <div className={navIconDivClass}>
@@ -1036,9 +1028,9 @@ export default function Products() {
               <span className={textClass}>{t("Create New Product")}</span>
             </button>
           </div>
-          <div className="w-full flex-shrink-1 overflow-y-hidden flex flex-col items-center pt-1">
-            <div className="flex flex-col overflow-y-auto overflow-x-auto max-w-full">
-              <table className="w-full shadow-lg bg-gray-100 p-2 relative">
+          <div className="flex-shrink-1 flex w-full flex-col items-center overflow-y-hidden pt-1">
+            <div className="flex max-w-full flex-col overflow-x-auto overflow-y-auto">
+              <table className="relative w-full bg-gray-100 p-2 shadow-lg">
                 <thead className="sticky top-0 bg-[#c0c1c3]">
                   <tr>
                     <th>{t("Category")}</th>
@@ -1103,14 +1095,14 @@ export default function Products() {
                       <td>
                         {
                           product.shelves.find(
-                            (shelf) => shelf.establishment.id == 3
+                            (shelf) => shelf.establishment.id == 3,
                           ).stock
                         }
                       </td>
                       <td>
                         {
                           product.shelves.find(
-                            (shelf) => shelf.establishment.id == 1
+                            (shelf) => shelf.establishment.id == 1,
                           ).stock
                         }
                       </td>
@@ -1180,10 +1172,10 @@ export default function Products() {
             </div>
             <>
               {allProducts.length > 0 ? (
-                <div className="flex flex-row px-6 justify-center mb-2 mt-2">
-                  <div className="flex justify-center items-center space-x-1">
+                <div className="mb-2 mt-2 flex flex-row justify-center px-6">
+                  <div className="flex items-center justify-center space-x-1">
                     <button
-                      className="p-2 border  hover:bg-gray-200"
+                      className="border p-2  hover:bg-gray-200"
                       onClick={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
                     >
@@ -1197,17 +1189,17 @@ export default function Products() {
                       ) : (
                         <button
                           key={index}
-                          className={`p-2 border  hover:bg-gray-200 ${
+                          className={`border p-2  hover:bg-gray-200 ${
                             currentPage === page ? "bg-gray-300" : ""
                           }`}
                           onClick={() => goToPage(page)}
                         >
                           {page}
                         </button>
-                      )
+                      ),
                     )}
                     <button
-                      className="p-2 border  hover:bg-gray-200"
+                      className="border p-2  hover:bg-gray-200"
                       onClick={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
                     >
@@ -1221,7 +1213,7 @@ export default function Products() {
             </>
           </div>
           <div
-            className={`shadow-md w-full flex flex-row flex-shrink-0 bg-gray-400 duration-500 overflow-y-hidden p-2 flex-grow transition-height `}
+            className={`transition-height flex w-full flex-shrink-0 flex-grow flex-row overflow-y-hidden bg-gray-400 p-2 shadow-md duration-500 `}
           >
             {currentProduct || newProduct ? (
               <>
@@ -1233,10 +1225,10 @@ export default function Products() {
                   }}
                 >
                   <form
-                    className={`w-full overflow-hidden flex flex-col justify-center items-center gap-2`}
+                    className={`flex w-full flex-col items-center justify-center gap-2 overflow-hidden`}
                     onSubmit={handleFormSubmit}
                   >
-                    <div className="flex flex-wrap gap-2 justify-center items-center">
+                    <div className="flex flex-wrap items-center justify-center gap-2">
                       <div className={inputDivClass}>
                         <p>{t("No")}</p>
                         <input
@@ -1265,8 +1257,8 @@ export default function Products() {
                             handleChange(
                               "category",
                               allCategories.find(
-                                (cat) => cat.id == e.target.value
-                              )
+                                (cat) => cat.id == e.target.value,
+                              ),
                             )
                           }
                         >
@@ -1316,7 +1308,7 @@ export default function Products() {
                               "internalCode",
                               e.target.value,
                               false,
-                              [validateEmpty]
+                              [validateEmpty],
                             )
                           }
                           placeholder={t("Code Model")}
@@ -1362,7 +1354,7 @@ export default function Products() {
                               "priceBeforeDiscount",
                               e.target.value,
                               false,
-                              [validateDecimal]
+                              [validateDecimal],
                             )
                           }
                           placeholder={t("Selling Price")}
@@ -1461,7 +1453,7 @@ export default function Products() {
                               "packaged_weight_net",
                               e.target.value,
                               true,
-                              [validateDecimal]
+                              [validateDecimal],
                             )
                           }
                           placeholder={t("Packaged Weight Net")}
@@ -1488,7 +1480,7 @@ export default function Products() {
                               "packaged_weight",
                               e.target.value,
                               true,
-                              [validateDecimal]
+                              [validateDecimal],
                             )
                           }
                           placeholder={t("Packaged Weight")}
@@ -1515,7 +1507,7 @@ export default function Products() {
                             handleChange(
                               "packaged_dimension",
                               e.target.value,
-                              true
+                              true,
                             )
                           }
                           placeholder={t("Packaged Dimensions")}
@@ -1661,7 +1653,7 @@ export default function Products() {
                               "armrest_height",
                               e.target.value,
                               true,
-                              [validateInteger]
+                              [validateInteger],
                             )
                           }
                           placeholder={t("Armrest Height")}
@@ -1674,7 +1666,7 @@ export default function Products() {
                         )}
                       </div>
                     </div>
-                    <div className="flex flex-wrap gap-2 justify-center items-center">
+                    <div className="flex flex-wrap items-center justify-center gap-2">
                       <div className={inputDivClass}>
                         <p>{t("Tags")}</p>
                         <textarea
@@ -1695,7 +1687,7 @@ export default function Products() {
                               "description",
                               e.target.value,
                               false,
-                              []
+                              [],
                             )
                           }
                           placeholder={t("Description")}
@@ -1720,7 +1712,7 @@ export default function Products() {
                               type="number"
                               value={
                                 currentProduct?.shelves?.find(
-                                  (shelf) => shelf.establishment.id == 3
+                                  (shelf) => shelf.establishment.id == 3,
                                 ).stock
                               }
                               onSubmit={(e) => {
@@ -1732,7 +1724,7 @@ export default function Products() {
                                   const updatedProduct = { ...currentProduct };
                                   const shelfIndex =
                                     updatedProduct.shelves.findIndex(
-                                      (shelf) => shelf.establishment.id === 3
+                                      (shelf) => shelf.establishment.id === 3,
                                     );
                                   if (shelfIndex !== -1) {
                                     updatedProduct.shelves[shelfIndex].stock =
@@ -1742,7 +1734,7 @@ export default function Products() {
                                   errors.stock_depot = "";
                                 } else {
                                   errors.stock_depot = validateInteger(
-                                    e.target.value
+                                    e.target.value,
                                   );
                                 }
                               }}
@@ -1771,7 +1763,7 @@ export default function Products() {
                               type="number"
                               value={
                                 currentProduct?.shelves?.find(
-                                  (shelf) => shelf.establishment.id == 1
+                                  (shelf) => shelf.establishment.id == 1,
                                 ).stock
                               }
                               onSubmit={(e) => {
@@ -1783,7 +1775,7 @@ export default function Products() {
                                   const updatedProduct = { ...currentProduct };
                                   const shelfIndex =
                                     updatedProduct.shelves.findIndex(
-                                      (shelf) => shelf.establishment.id === 1
+                                      (shelf) => shelf.establishment.id === 1,
                                     );
                                   if (shelfIndex !== -1) {
                                     updatedProduct.shelves[shelfIndex].stock =
@@ -1793,7 +1785,7 @@ export default function Products() {
                                   errors.stock_store = "";
                                 } else {
                                   errors.stock_store = validateInteger(
-                                    e.target.value
+                                    e.target.value,
                                   );
                                 }
                               }}
@@ -1813,14 +1805,14 @@ export default function Products() {
                         {currentProduct && currentProduct.id != 0 ? (
                           currentProduct.product_extra.new ? (
                             <div
-                              className={`bg-green-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
+                              className={`border-1 flex  cursor-pointer flex-col items-center justify-center border-black bg-green-300`}
                               onClick={toggleProductNew}
                             >
                               {t("Featured")}
                             </div>
                           ) : (
                             <div
-                              className={`bg-red-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
+                              className={`border-1 flex  cursor-pointer flex-col items-center justify-center border-black bg-red-300`}
                               onClick={toggleProductNew}
                             >
                               {t("Not Featured")}
@@ -1830,14 +1822,14 @@ export default function Products() {
                         {currentProduct && currentProduct.id != 0 ? (
                           currentProduct.active ? (
                             <div
-                              className={`bg-green-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
+                              className={`border-1 flex  cursor-pointer flex-col items-center justify-center border-black bg-green-300`}
                               onClick={toggleProductActive}
                             >
                               {t("Active")}
                             </div>
                           ) : (
                             <div
-                              className={`bg-red-300 cursor-pointer  border-1 border-black items-center justify-center flex flex-col`}
+                              className={`border-1 flex  cursor-pointer flex-col items-center justify-center border-black bg-red-300`}
                               onClick={toggleProductActive}
                             >
                               {t("Inactive")}
@@ -1861,7 +1853,7 @@ export default function Products() {
                               </label>
                               <input
                                 title={t("Upload Image")}
-                                className="w-0 h-0 opacity-0 absolute"
+                                className="absolute h-0 w-0 opacity-0"
                                 placeholder={t("Upload Image")}
                                 type="file"
                                 name="uploadimg"
@@ -1874,7 +1866,7 @@ export default function Products() {
                       <div className="flex flex-col">
                         <button
                           onClick={handleFormSubmit}
-                          className={buttonClass + " bg-white col-span-2"}
+                          className={buttonClass + " col-span-2 bg-white"}
                         >
                           <div className={navIconDivClass}>
                             <CheckCircle className={iconClass} />
@@ -1894,7 +1886,7 @@ export default function Products() {
                       {currentProduct &&
                         currentProduct.id != 0 &&
                         currentProduct.images?.map((img) => (
-                          <div className="relative image_parent" key={img.id}>
+                          <div className="image_parent relative" key={img.id}>
                             <Image
                               alt={""}
                               src={
@@ -1905,31 +1897,31 @@ export default function Products() {
                               height={160}
                             />
                             <div
-                              className="absolute top-2 right-2 z-50"
+                              className="absolute right-2 top-2 z-50"
                               onClick={handleImageDelete}
                             >
-                              <X className="w-4 h-4" color="red" />
+                              <X className="h-4 w-4" color="red" />
                             </div>
                             <Link
                               target="_blank"
-                              className="absolute top-6 right-2"
+                              className="absolute right-2 top-6"
                               href={
                                 "https://hdapi.huseyinonalalpha.com" + img.url
                               }
                             >
-                              <Download className="w-4 h-4" color="green" />
+                              <Download className="h-4 w-4" color="green" />
                             </Link>
                           </div>
                         ))}
                     </div>
                   </form>
                 </div>
-                <div className={`flex flex-col ml-auto`}>
-                  <div className="flex flex-row justify-end gap-2 mb-2">
+                <div className={`ml-auto flex flex-col`}>
+                  <div className="mb-2 flex flex-row justify-end gap-2">
                     <ButtonShadow1
                       onClick={() => setIsProductExpanded(!isProductExpanded)}
                     >
-                      <div className="p-2 bg-white">
+                      <div className="bg-white p-2">
                         <Minus color="black" />
                       </div>
                     </ButtonShadow1>
@@ -1940,7 +1932,7 @@ export default function Products() {
                         setChosenProductID(null);
                       }}
                     >
-                      <div className="p-2 bg-white">
+                      <div className="bg-white p-2">
                         <X color="red" />
                       </div>
                     </ButtonShadow1>

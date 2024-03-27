@@ -38,7 +38,7 @@ export default function Order() {
       `/api/collections/admin/getdocumentbyid?id=${reservationID}`,
       {
         method: "GET",
-      }
+      },
     );
     const resGetDocument = await reqGetDocument.json();
     if (reqGetDocument.ok) {
@@ -46,7 +46,7 @@ export default function Order() {
       return resGetDocument.data;
     } else {
       setGetError(
-        "Error has occurred while fetching the document from the database"
+        "Error has occurred while fetching the document from the database",
       );
       return;
     }
@@ -73,7 +73,7 @@ export default function Order() {
                 `/api/products/public/getproducts?count=19000`,
                 {
                   method: "GET",
-                }
+                },
               );
               const resGetProducts = await reqGetProducts.json();
               if (resGetProducts.ok) {
@@ -81,8 +81,8 @@ export default function Order() {
               } else {
                 setGetError(
                   t(
-                    "Error has occurred while fetching products from the database"
-                  )
+                    "Error has occurred while fetching products from the database",
+                  ),
                 );
                 return;
               }
@@ -92,7 +92,7 @@ export default function Order() {
           })
           .catch((_) => {
             setGetError(
-              t("Error has occurred while fetching products from the database")
+              t("Error has occurred while fetching products from the database"),
             );
             setIsLoading(false);
           });
@@ -121,7 +121,7 @@ export default function Order() {
           <meta name="description" content="horecadepot" />
           <meta name="language" content={lang} />
         </Head>
-        <div className="w-[95vw] flex flex-row justify-start items-start mx-auto">
+        <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
           <div className="mx-auto py-2">
             <p className="text-red">{getError}</p>
           </div>
@@ -136,7 +136,7 @@ export default function Order() {
           <meta name="description" content="horecadepot" />
           <meta name="language" content={lang} />
         </Head>
-        <div className="w-[95vw] flex flex-row justify-start items-start mx-auto">
+        <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
           <div className="mx-auto py-2">
             <LoadingIndicator />
           </div>
@@ -155,7 +155,7 @@ export default function Order() {
               client: inputClient,
             },
           }),
-        }
+        },
       );
       const answer = await request.json();
       // console.log(answer);
@@ -172,13 +172,13 @@ export default function Order() {
           <meta name="description" content="horecadepot" />
           <meta name="language" content={lang} />
         </Head>
-        <div className="w-[95vw] flex flex-col justify-start items-center mx-auto">
-          <div className="text-center w-full font-semibold text-xl py-2">
+        <div className="mx-auto flex w-[95vw] flex-col items-center justify-start">
+          <div className="w-full py-2 text-center text-xl font-semibold">
             {t("collection_name_choose")}
           </div>
           <form onSubmit={postCollection}>
             <input
-              className="w-full p-2  border border-gray-300"
+              className="w-full border  border-gray-300 p-2"
               type="text"
               id="name"
               required
@@ -192,7 +192,7 @@ export default function Order() {
               {t("document_create")}
             </button>
             {submitError && (
-              <p className="text-red-600 font-medium text-center">
+              <p className="text-center font-medium text-red-600">
                 {submitError}
               </p>
             )}

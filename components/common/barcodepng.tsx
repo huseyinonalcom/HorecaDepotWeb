@@ -24,7 +24,7 @@ const BarcodeToPng = ({ value }) => {
       const pngUrl = canvas.toDataURL("image/png");
 
       const imgElement = document.getElementById(
-        "barcodePng"
+        "barcodePng",
       ) as HTMLImageElement;
       if (imgElement) {
         imgElement.src = pngUrl;
