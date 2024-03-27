@@ -29,7 +29,14 @@
     "autoprefixer": "latest",
     "next-translate-plugin": "latest",
     "postcss": "latest",
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.12",
     "tailwindcss": "latest",
     "typescript": "latest"
+  },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ]
   }
 }

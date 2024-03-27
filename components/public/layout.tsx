@@ -33,20 +33,26 @@ const Layout = ({ children }: Props) => {
                 className="fixed bottom-10 right-10 z-40 print:hidden"
                 href={`https://api.whatsapp.com/send?phone=32499738373&text=https://horecadepot.meubelweb.com${router.asPath}`}
               >
-                <Image alt="WhatsApp" width={50} height={50} src={"/assets/img/wa.png"} />
+                <Image
+                  alt="WhatsApp"
+                  width={50}
+                  height={50}
+                  src={"/assets/img/wa.png"}
+                />
               </Link>
             </main>
-            <footer className="bg-neutral-100 print:hidden border-t border-neutral-200 z-30 absolute botton-0 w-full py-8">
-              <div className="flex flex-col w-full">
-                <div className="flex flex-col md:flex-row justify-around items-center pb-2 gap-2">
+            <footer className="botton-0 absolute z-30 w-full border-t border-neutral-200 bg-neutral-100 py-8 print:hidden">
+              <div className="flex w-full flex-col">
+                <div className="flex flex-col items-center justify-around gap-2 pb-2 md:flex-row">
                   <div></div>
                   <div className="w-min">
                     <Follow />
                   </div>
                 </div>
-                <div className="pb-2 px-2 mx-auto">
+                <div className="mx-auto px-2 pb-2">
                   <AutoTextSize mode="oneline" maxFontSizePx={16}>
-                    © Horeca Depot. {new Date().getFullYear()}. {t("All Rights Reserved")}
+                    © Horeca Depot. {new Date().getFullYear()}.{" "}
+                    {t("All Rights Reserved")}
                   </AutoTextSize>
                 </div>
               </div>

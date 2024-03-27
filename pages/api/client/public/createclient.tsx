@@ -4,7 +4,7 @@ import statusText from "../../../../api/statustexts";
 
 export default async function postClient(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   function splitObject(obj) {
     // Clone the original object to avoid modifying it

@@ -15,20 +15,22 @@ export default function Checkout() {
         <meta name="description" content={t("main_description")} />
         <meta name="language" content={lang} />
       </Head>
-      <div className="h-[50px] bg-black shadow-lg flex flex-col justify-around">
-        <div className="flex flex-row text-md font-bold items-center justify-center text-gray-300">
-          <Link href="/products" className="hover:text-white duration-700">
+      <div className="flex h-[50px] flex-col justify-around bg-black shadow-lg">
+        <div className="text-md flex flex-row items-center justify-center font-bold text-gray-300">
+          <Link href="/products" className="duration-700 hover:text-white">
             {t("SHOP")}
           </Link>
-          <p className="font-bold mx-2">/</p>
-          <p className="underline decoration-orange-400 decoration-4 underline-offset-8 text-white">{t("CHECKOUT")}</p>
+          <p className="mx-2 font-bold">/</p>
+          <p className="text-white underline decoration-orange-400 decoration-4 underline-offset-8">
+            {t("CHECKOUT")}
+          </p>
         </div>
       </div>
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-        <div className="shadow-lg order-2 sm:order-1 my-2 p-4">
+        <div className="order-2 my-2 p-4 shadow-lg sm:order-1">
           <CheckOutInfo />
         </div>
-        <div className="shadow-lg order-1 sm:order-2 my-2 p-4">
+        <div className="order-1 my-2 p-4 shadow-lg sm:order-2">
           <CheckOutCart />
         </div>
       </div>
