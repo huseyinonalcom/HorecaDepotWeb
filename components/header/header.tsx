@@ -42,7 +42,7 @@ const CategoryItem = ({ category }) => {
         onClick={() => {
           router.push(`/products?page=1&category=${category.id}`);
         }}
-        className="flex w-full w-full items-center justify-between px-4 py-2 text-left"
+        className="flex w-full items-center justify-between px-4 py-2 text-left"
       >
         {t(category.Name)}
         {hasSubCategories && (
@@ -135,8 +135,8 @@ const Header = () => {
     "relative flex flex-col justify-center items-center p-1 bg-white duration-300 font-bold text-sm text-black hover:bg-orange-400 aspect-[1/1]";
 
   return (
-    <div className="sticky top-0 z-50 flex w-full flex-col items-center bg-black p-3 text-white shadow-lg duration-300 print:hidden">
-      <div className="flex w-full flex-col gap-2 px-3">
+    <div className="sticky top-0 z-50 flex w-full flex-col items-center bg-black pt-3 text-white shadow-lg duration-300 print:hidden">
+      <div className="flex w-full flex-col gap-2 px-5 pb-4">
         <HeaderDrawer
           isOpen={isHeaderDrawerOpen}
           onClickOutside={onClickOutsideDrawer}
@@ -384,6 +384,10 @@ const Header = () => {
             </ul>
           </div>
         </div>
+      </div>
+      <div className="flex w-full flex-row justify-between">
+        <div className="inverted-border-radius-tl"></div>
+        <div className="inverted-border-radius-tr"></div>
       </div>
     </div>
   );

@@ -156,7 +156,7 @@ const ProductPage = ({
               </div>
             ) : null}
           </div>
-          <div className="flex flex-col items-center gap-2 pl-2 sm:items-start">
+          <div className="flex w-full flex-col items-center gap-2 pl-2 sm:items-start">
             <div className="flex flex-row gap-1 text-xs font-bold">
               <Link key={1} href={"/"} className="text-gray-400">
                 {t("Home Page")}
@@ -220,7 +220,7 @@ const ProductPage = ({
                 onChange={handleCartAmountChange}
               />
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex w-full flex-col gap-1">
               {product.height && product.height != 0 && (
                 <p>
                   <b>{t("Height")}:</b> {product.height} cm

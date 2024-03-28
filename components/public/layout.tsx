@@ -25,7 +25,7 @@ const Layout = ({ children }: Props) => {
           <WishlistProvider>
             <Meta />
             <Header />
-            <main className="min-h-[80dvh] bg-neutral-100">
+            <main className="min-h-[80dvh]">
               {children}
               <CartDrawer />
               <Link
