@@ -5,6 +5,7 @@ import { ProductExtra } from "./productExtra";
 import { Shelf } from "./shelf";
 
 export interface Product {
+  reservations?: any;
   id?: number;
   name?: string;
   active?: boolean;
@@ -55,24 +56,14 @@ export class ProductTransformer {
       id: 0,
       name: normalizedItem["nom"],
       internalCode: normalizedItem["codemodel"],
-      supplierCode: normalizedItem["ean"]
-        ?.toString()
-        .replace(/[^0-9.]/g, ""),
-      value: +normalizedItem["prixdevente"]
-        ?.toString()
-        .replace(/[^0-9.]/g, ""),
+      supplierCode: normalizedItem["ean"]?.toString().replace(/[^0-9.]/g, ""),
+      value: +normalizedItem["prixdevente"]?.toString().replace(/[^0-9.]/g, ""),
       priceBeforeDiscount: +normalizedItem["prixavantremise"]
         ?.toString()
         .replace(/[^0-9.]/g, ""),
-      depth: +normalizedItem["longueur"]
-        ?.toString()
-        .replace(/[^0-9.]/g, ""),
-      width: +normalizedItem["largeur"]
-        ?.toString()
-        .replace(/[^0-9.]/g, ""),
-      height: +normalizedItem["hauteur"]
-        ?.toString()
-        .replace(/[^0-9.]/g, ""),
+      depth: +normalizedItem["longueur"]?.toString().replace(/[^0-9.]/g, ""),
+      width: +normalizedItem["largeur"]?.toString().replace(/[^0-9.]/g, ""),
+      height: +normalizedItem["hauteur"]?.toString().replace(/[^0-9.]/g, ""),
       material: normalizedItem["matériel"],
       color: normalizedItem["couleur"],
       product_extra: this.transformProductExtra(normalizedItem),
@@ -101,9 +92,7 @@ export class ProductTransformer {
         ?.toString()
         .replace(/[^0-9.]/g, ""),
       packaged_dimensions: item["dimensionsducolis"],
-      seat_height: +item["hauteurd'assise"]
-        ?.toString()
-        .replace(/[^0-9.]/g, ""),
+      seat_height: +item["hauteurd'assise"]?.toString().replace(/[^0-9.]/g, ""),
       barcode: item["ean"],
     };
 

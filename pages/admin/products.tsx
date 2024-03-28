@@ -789,6 +789,67 @@ export default function Products() {
     setCurrentProduct(updatedValue);
   };
 
+  const [newReservation, setNewReservation] = useState({
+    client_name: "",
+    amount: 1,
+  });
+
+  const sendNewReservation = async () => {
+    const request = await fetch(
+      `/api/products/admin/postreservation?id=` + currentProduct.id,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          currProd: currentProduct,
+          newRes: newReservation,
+        }),
+      },
+    );
+    if (!request.ok) {
+      setSubmitError(t("An error occurred while modifying the product!"));
+    } else {
+      fetchProducts();
+      fetchProductByID();
+      setNewReservation({
+        client_name: "",
+        amount: 1,
+      });
+    }
+  };
+
+  const deleteReservation = async (id) => {
+    const newProd = currentProduct;
+    newProd.reservations = currentProduct.reservations.filter(
+      (res) => res.id != id,
+    );
+    const request = await fetch(
+      `/api/products/admin/postreservation?id=` + currentProduct.id,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          currProd: currentProduct,
+          newRes: null,
+        }),
+      },
+    );
+    if (!request.ok) {
+      setSubmitError(t("An error occurred while modifying the product!"));
+    } else {
+      fetchProducts();
+      fetchProductByID();
+      setNewReservation({
+        client_name: "",
+        amount: 1,
+      });
+    }
+  };
+
   // Component state for errors
   type FormErrors = {
     internalCode?: string;
@@ -862,6 +923,20 @@ export default function Products() {
       window.location.reload();
     }
   }, [count]);
+
+  const calculateReserved = (reservations) => {
+    var reserved = 0;
+
+    if (reservations && reservations.length > 0) {
+      for (let i = 0; i < reservations.length; i++) {
+        if (!reservations[i].is_deleted) {
+          reserved += reservations[i].amount;
+        }
+      }
+    }
+
+    return reserved;
+  };
 
   if (isLoading) {
     return (
@@ -1043,7 +1118,8 @@ export default function Products() {
                     <th>{t("Selling Price")}</th>
                     <th>{t("Stock Warehouse")}</th>
                     <th>{t("Stock Store")}</th>
-                    <th>{t("Weig")}</th>
+                    <th>{t("Reserved")}</th>
+                    <th>{t("Weight")}</th>
                     <th>{t("Packaged Weight Net")}</th>
                     <th>{t("Packaged Weight")}</th>
                     <th>{t("Packaged Dimensions")}</th>
@@ -1106,6 +1182,7 @@ export default function Products() {
                           ).stock
                         }
                       </td>
+                      <td>{calculateReserved(product.reservations)}</td>
                       <td>
                         {product.product_extra.weight != 0
                           ? product.product_extra.weight
@@ -1664,6 +1741,75 @@ export default function Products() {
                             {errors.armrest_height}
                           </div>
                         )}
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("New Reservation")}</p>
+                        <input
+                          type="number"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          value={newReservation.amount}
+                          onChange={(e) => {
+                            const validIntegerRegex = /^\d+$/;
+                            if (validIntegerRegex.test(e.target.value))
+                              setNewReservation((nr) => ({
+                                ...nr,
+                                amount: parseInt(e.target.value, 10),
+                              }));
+                          }}
+                          placeholder={t("Amount")}
+                          className={inputClass}
+                        />
+                        <input
+                          type="text"
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                          }}
+                          value={newReservation.client_name}
+                          onChange={(e) =>
+                            setNewReservation((nr) => ({
+                              ...nr,
+                              client_name: e.target.value,
+                            }))
+                          }
+                          placeholder={t("Client")}
+                          className={inputClass}
+                        />
+                        <button
+                          type="button"
+                          className={componentThemes.greenSubmitButton}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            sendNewReservation();
+                          }}
+                        >
+                          {t("reservation_create")}
+                        </button>
+                      </div>
+                      <div className={inputDivClass}>
+                        <p>{t("Reservations")}</p>
+                        <div className="flex flex-wrap gap-2">
+                          {currentProduct.reservations &&
+                            currentProduct.reservations.length > 0 &&
+                            currentProduct.reservations.map((res, index) => (
+                              <div key={index}>
+                                {res.client_name}
+                                {": x"}
+                                {res.amount}
+                                {"  "}
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    deleteReservation(res.id);
+                                  }}
+                                >
+                                  🗑️
+                                </button>
+                              </div>
+                            ))}
+                        </div>
                       </div>
                     </div>
                     <div className="flex flex-wrap items-center justify-center gap-2">

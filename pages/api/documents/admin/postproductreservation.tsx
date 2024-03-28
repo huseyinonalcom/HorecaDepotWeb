@@ -47,20 +47,17 @@ export default async function postProductReservation(
             }),
           });
           const reqClientAnswer = await reqClient.json();
-          console.log(reqClientAnswer);
           if (reqClient.ok) {
             document.client.id = reqClientAnswer.data.id;
             // post the document
             // then post the documentproducts
              
           } else {
-            console.log("Error during client creation:", reqClientAnswer);
             return res
               .status(400)
               .json({ error: "negative response posting client" });
           }
         } catch (e) {
-          console.log("Error during client creation:", e);
           return res.status(500).json("internal error posting client");
         }
       }
