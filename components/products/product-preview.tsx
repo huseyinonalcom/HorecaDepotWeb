@@ -83,8 +83,7 @@ const ProductPreview = ({ product, width }: Props) => {
         <div className="absolute left-2 top-2 flex flex-col gap-2">
           {product.priceBeforeDiscount ? (
             <Link
-              className="-full flex h-12 w-12 items-center justify-center overflow-hidden bg-green-700 text-sm font-bold text-white"
-              style={{ padding: "1em", borderRadius: "50%" }}
+              className="flex h-8 w-12 items-center justify-center overflow-hidden rounded-full border-t-0 bg-green-700 text-sm font-bold text-white"
               href={`/products/${product.id}`}
             >
               <div className="flex flex-row items-center justify-center">{`-${discountPercentage}%`}</div>
