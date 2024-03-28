@@ -1743,7 +1743,7 @@ export default function Products() {
                         )}
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("New Reservation")}</p>
+                        <p>{t("reservation_new")}</p>
                         <input
                           type="number"
                           onSubmit={(e) => {
@@ -1788,7 +1788,7 @@ export default function Products() {
                         </button>
                       </div>
                       <div className={inputDivClass}>
-                        <p>{t("Reservations")}</p>
+                        <p>{t("reservations")}</p>
                         <div className="flex flex-wrap gap-2">
                           {currentProduct.reservations &&
                             currentProduct.reservations.length > 0 &&

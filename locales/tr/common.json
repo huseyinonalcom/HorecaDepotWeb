@@ -172,5 +172,8 @@
   "collection_submit_error": "Koleksiyon kaydedilirken hata oluştu",
   "Fill all the required fields correctly!": "Tüm gerekli alanları doğru şekilde doldurun!",
   "promo_invalid": "Geçersiz Promosyon Kodu",
-  "user_pass_invalid": "Kullanıcı adı ve/veya Şifre geçersiz"
+  "user_pass_invalid": "Kullanıcı adı ve/veya Şifre geçersiz",
+  "reservation_new": "Yeni Rezervasyon",
+  "reservation_create": "Rezervasyon Ekle",
+  "reservations": "Rezervasyonlar"
 }

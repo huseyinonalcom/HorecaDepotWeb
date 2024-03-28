@@ -172,5 +172,8 @@
   "collection_submit_error": "Error while saving collection",
   "Fill all the required fields correctly!": "Fill all the required fields correctly!",
   "promo_invalid": "Invalid Promo Code",
-  "user_pass_invalid": "Username and/or Password invalid"
+  "user_pass_invalid": "Username and/or Password invalid",
+  "reservation_new": "New Reservation",
+  "reservation_create": "Add Reservation",
+  "reservations": "Reservations"
 }

@@ -172,5 +172,8 @@
   "collection_submit_error": "Fout bij het opslaan van de collectie",
   "Fill all the required fields correctly!": "Vul alle verplichte velden correct in!",
   "promo_invalid": "Ongeldige Promotiecode",
-  "user_pass_invalid": "Gebruikersnaam en/of wachtwoord ongeldig"
+  "user_pass_invalid": "Gebruikersnaam en/of wachtwoord ongeldig",
+  "reservation_new": "Nieuwe Reservering",
+  "reservation_create": "Reservering Toevoegen",
+  "reservations": "Reserveringen"
 }
