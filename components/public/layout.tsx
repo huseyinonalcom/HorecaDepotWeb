@@ -44,7 +44,6 @@ const Layout = ({ children }: Props) => {
             <footer className="botton-0 absolute z-30 w-full border-t border-neutral-200 bg-neutral-100 py-8 print:hidden">
               <div className="flex w-full flex-col">
                 <div className="flex flex-col items-center justify-around gap-2 pb-2 md:flex-row">
-                  <div></div>
                   <div className="w-min">
                     <Follow />
                   </div>
