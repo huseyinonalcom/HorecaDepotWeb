@@ -62,12 +62,18 @@ const ProductPreview = ({ product, width }: Props) => {
 
   return (
     <div
+      draggable={false}
       id={`${product.id}-preview`}
       className={`group flex w-full flex-col items-center text-black`}
     >
-      <div id={`${product.id}-image`} className={`relative ${imgDimensions}`}>
-        <Link href={`/products/${product.id}`}>
+      <div
+        draggable={false}
+        id={`${product.id}-image`}
+        className={`relative ${imgDimensions}`}
+      >
+        <Link draggable={false} href={`/products/${product.id}`}>
           <Image
+            draggable={false}
             sizes="(max-width: 768px) 95vw, (max-width: 1024px) 48vw, 20vw"
             src={
               product.images != null
@@ -83,6 +89,7 @@ const ProductPreview = ({ product, width }: Props) => {
         <div className="absolute left-2 top-2 flex flex-col gap-2">
           {product.priceBeforeDiscount ? (
             <Link
+            draggable={false}
               className="flex h-8 w-12 items-center justify-center overflow-hidden rounded-full border-t-0 bg-green-700 text-sm font-bold text-white"
               href={`/products/${product.id}`}
             >
@@ -92,6 +99,7 @@ const ProductPreview = ({ product, width }: Props) => {
         </div>
         <div className="absolute right-2 top-2 hidden flex-col gap-2 opacity-100 duration-500 group-hover:top-2 group-hover:opacity-100 lg:top-6 lg:flex lg:opacity-0">
           <button
+                draggable={false}
             name={`Add ${product.name} to Cart`}
             aria-label={`Add ${product.name} to Cart`}
             className="bg-white p-2 shadow-md duration-500 hover:text-green-500"
@@ -102,6 +110,7 @@ const ProductPreview = ({ product, width }: Props) => {
             </div>
           </button>
           <button
+                draggable={false}
             name={`Add ${product.name} to Wishlist`}
             aria-label={`Add ${product.name} to Wishlist`}
             className="bg-white p-2 shadow-md duration-500 hover:text-red-500"

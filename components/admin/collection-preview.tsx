@@ -4,6 +4,7 @@ import useTranslation from "next-translate/useTranslation";
 import { ArrowLeft } from "react-feather";
 import { useEffect, useState } from "react";
 import componentThemes from "../componentThemes";
+import { useDragScroll } from "../common/use-drag-scroll";
 
 type Props = {
   collection;
@@ -19,6 +20,7 @@ const CollectionPreview = ({ collection }: Props) => {
     "absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000";
   const imageVisible = "opacity-100 z-40";
   const imageInvisible = "opacity-0";
+  
 
   useEffect(() => {
     setCurrentImage(0);

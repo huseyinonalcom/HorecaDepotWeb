@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-::selection {
-  background-color: transparent;
-}
-
 @layer base {
   html {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);

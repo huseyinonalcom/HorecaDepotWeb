@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft } from "react-feather";
 import Image from "next/image";
 import ProductPreview from "../products/product-preview";
+import { useDragScroll } from "../common/use-drag-scroll";
 
 type Props = {
   collection;
@@ -11,6 +11,8 @@ const CollectionShowcase = ({ collection }: Props) => {
   const [textColor, setTextColor] = useState("");
   const [description, setDescription] = useState(<p></p>);
   const [title, setTitle] = useState(<p></p>);
+
+  const [ref] = useDragScroll();
 
   useEffect(() => {
     setTextColor(collection.textColor);
@@ -40,14 +42,6 @@ const CollectionShowcase = ({ collection }: Props) => {
     );
   }, [textColor]);
 
-  const containerRef = useRef(null);
-
-  const handleScroll = (scrollOffset) => {
-    if (containerRef.current) {
-      containerRef.current.scrollLeft += scrollOffset;
-    }
-  };
-
   return (
     <div
       className={`flex flex-col ${collection.right ? "md:flex-row-reverse" : "md:flex-row"} h-full w-full md:aspect-[38/9]`}
@@ -73,14 +67,14 @@ const CollectionShowcase = ({ collection }: Props) => {
 
       <div className={`relative flex h-full w-full flex-col px-2 md:w-1/2`}>
         <div
+          ref={ref}
           className="no-scrollbar flex h-full flex-row overflow-x-scroll py-2"
-          ref={containerRef}
-          style={{ scrollBehavior: "smooth" }}
         >
-          <div className="flex h-full w-full items-center gap-2">
+          <div className="hidden h-full w-full items-center gap-2 md:flex">
             {collection.products.map((prod) => (
               <div
                 key={prod.id}
+                draggable={false}
                 className="flex w-[38vw] flex-shrink-0 items-center bg-white p-1 shadow-lg last:mr-4 md:aspect-[10/16] md:w-[12vw]"
               >
                 <ProductPreview width={"full"} product={prod} />
@@ -88,22 +82,19 @@ const CollectionShowcase = ({ collection }: Props) => {
             ))}
           </div>
         </div>
-        {collection.products.length > 3 && (
-          <div
-            className="absolute left-1 top-0 z-20 flex h-full items-center"
-            onClick={() => handleScroll(-250)}
-          >
-            <ArrowLeft className="cursor-pointer bg-orange-400 p-0.5 hover:animate-pulse" />
+        <div className="no-scrollbar flex h-full  flex-row overflow-x-scroll py-2 md:hidden">
+          <div className="flex h-full w-full items-center gap-2">
+            {collection.products.map((prod) => (
+              <div
+                key={prod.id}
+                draggable={false}
+                className="flex w-[38vw] flex-shrink-0 items-center bg-white p-1 shadow-lg last:mr-4 md:aspect-[10/16] md:w-[12vw]"
+              >
+                <ProductPreview width={"full"} product={prod} />
+              </div>
+            ))}
           </div>
-        )}
-        {collection.products.length > 3 && (
-          <div
-            className="absolute right-1 top-0 z-20 flex h-full items-center"
-            onClick={() => handleScroll(250)}
-          >
-            <ArrowLeft className="rotate-180 cursor-pointer bg-orange-400 p-0.5 hover:animate-pulse" />
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );
