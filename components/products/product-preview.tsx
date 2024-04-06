@@ -86,10 +86,13 @@ const ProductPreview = ({ product, width }: Props) => {
             alt={product.name}
           />
         </Link>
-        <div className="absolute left-2 top-2 flex flex-col gap-2">
+        <div
+          draggable={false}
+          className="absolute left-2 top-2 flex flex-col gap-2"
+        >
           {product.priceBeforeDiscount ? (
             <Link
-            draggable={false}
+              draggable={false}
               className="flex h-8 w-12 items-center justify-center overflow-hidden rounded-full border-t-0 bg-green-700 text-sm font-bold text-white"
               href={`/products/${product.id}`}
             >
@@ -97,96 +100,133 @@ const ProductPreview = ({ product, width }: Props) => {
             </Link>
           ) : null}
         </div>
-        <div className="absolute right-2 top-2 hidden flex-col gap-2 opacity-100 duration-500 group-hover:top-2 group-hover:opacity-100 lg:top-6 lg:flex lg:opacity-0">
+        <div
+          draggable={false}
+          className="absolute right-2 top-2 hidden flex-col gap-2 opacity-100 duration-500 group-hover:top-2 group-hover:opacity-100 lg:top-6 lg:flex lg:opacity-0"
+        >
           <button
-                draggable={false}
+            draggable={false}
             name={`Add ${product.name} to Cart`}
             aria-label={`Add ${product.name} to Cart`}
             className="bg-white p-2 shadow-md duration-500 hover:text-green-500"
             onClick={() => addToCart(convertToCartProduct(product))}
           >
-            <div className="flex h-full w-full flex-row items-center justify-center">
+            <div
+              draggable={false}
+              className="flex h-full w-full flex-row items-center justify-center"
+            >
               <ShoppingCart />
             </div>
           </button>
           <button
-                draggable={false}
+            draggable={false}
             name={`Add ${product.name} to Wishlist`}
             aria-label={`Add ${product.name} to Wishlist`}
             className="bg-white p-2 shadow-md duration-500 hover:text-red-500"
             onClick={() => addToWishlist(convertToWishlistProduct(product))}
           >
-            <div className="flex h-full w-full flex-row items-center justify-center">
+            <div
+              draggable={false}
+              className="flex h-full w-full flex-row items-center justify-center"
+            >
               <Heart />
             </div>
           </button>
         </div>
       </div>
       <div
+        draggable={false}
         id={`${product.id}-content`}
         className={"flex flex-col items-center " + contentDimensions}
       >
-        <div className="hidden flex-col items-center lg:flex">
+        <div draggable={false} className="hidden flex-col items-center lg:flex">
           <h3 className="h-[25px] w-full justify-center overflow-hidden px-2 text-base font-bold duration-700">
-            <AutoTextSize mode="oneline" maxFontSizePx={16}>
+            <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={16}>
               {`${product.name}`}
             </AutoTextSize>
           </h3>
-          <h4 className="h-[19px] w-full justify-center overflow-hidden px-2 text-sm font-semibold duration-700 group-hover:h-[0px]">
-            <AutoTextSize mode="oneline" maxFontSizePx={13}>
+          <h4
+            draggable={false}
+            className="h-[19px] w-full justify-center overflow-hidden px-2 text-sm font-semibold duration-700 group-hover:h-[0px]"
+          >
+            <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={13}>
               {`${product.internalCode != "0" ? product.internalCode : ""}`}
             </AutoTextSize>
           </h4>
           <Link
+            draggable={false}
             className="h-[0px] overflow-hidden text-left text-sm font-bold text-orange-400 duration-700 group-hover:h-[19px]"
             href={"/products/" + product.id}
           >
             {t("+ View Details")}
           </Link>
         </div>
-        <div className="flex flex-col items-center lg:hidden">
-          <h3 className="h-[25px] w-full justify-center px-2 text-base font-bold">
-            <AutoTextSize mode="oneline" maxFontSizePx={16}>
+        <div draggable={false} className="flex flex-col items-center lg:hidden">
+          <h3
+            draggable={false}
+            className="h-[25px] w-full justify-center px-2 text-base font-bold"
+          >
+            <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={16}>
               {`${product.name}`}
             </AutoTextSize>
           </h3>
-          <h4 className="h-[19px] w-full justify-center px-2 text-sm font-semibold">
-            <AutoTextSize mode="oneline" maxFontSizePx={13}>
+          <h4
+            draggable={false}
+            className="h-[19px] w-full justify-center px-2 text-sm font-semibold"
+          >
+            <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={13}>
               {`${product.internalCode != "0" ? product.internalCode : ""}`}
             </AutoTextSize>
           </h4>
         </div>
 
-        <div className="flex w-full flex-row items-end justify-center">
-          <p className="mb-0.5 mr-1 justify-end text-sm text-gray-700 line-through">
+        <div
+          draggable={false}
+          className="flex w-full flex-row items-end justify-center"
+        >
+          <p
+            draggable={false}
+            className="mb-0.5 mr-1 justify-end text-sm text-gray-700 line-through"
+          >
             {product.priceBeforeDiscount > product.value
               ? "€ " +
                 product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")
               : ""}
           </p>
-          <h4 className="text-lg font-bold">
+          <h4 draggable={false} className="text-lg font-bold">
             € {product.value.toFixed(2).replaceAll(".", ",")}
           </h4>
         </div>
 
-        <div className="flex w-full flex-row-reverse justify-center gap-2 lg:hidden">
+        <div
+          draggable={false}
+          className="flex w-full flex-row-reverse justify-center gap-2 lg:hidden"
+        >
           <button
+            draggable={false}
             name={`Add ${product.name} to Cart`}
             aria-label={`Add ${product.name} to Cart`}
             className="bg-white p-2 shadow-md duration-500 hover:text-green-500"
             onClick={() => addToCart(convertToCartProduct(product))}
           >
-            <div className="flex h-full w-full flex-row items-center justify-center">
+            <div
+              draggable={false}
+              className="flex h-full w-full flex-row items-center justify-center"
+            >
               <ShoppingCart />
             </div>
           </button>
           <button
+            draggable={false}
             name={`Add ${product.name} to Wishlist`}
             aria-label={`Add ${product.name} to Wishlist`}
             className="bg-white p-2 shadow-md duration-500 hover:text-red-500"
             onClick={() => addToWishlist(convertToWishlistProduct(product))}
           >
-            <div className="flex h-full w-full flex-row items-center justify-center">
+            <div
+              draggable={false}
+              className="flex h-full w-full flex-row items-center justify-center"
+            >
               <Heart />
             </div>
           </button>

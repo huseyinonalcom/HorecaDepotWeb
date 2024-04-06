@@ -15,6 +15,7 @@ import Meta from "../../components/public/meta";
 import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
+import { useDragScroll } from "../../components/common/use-drag-scroll";
 
 type Props = {
   relatedProducts: Product[];
@@ -31,6 +32,7 @@ const ProductPage = ({
 }: Props) => {
   const { t, lang } = useTranslation("common");
 
+  const [ref] = useDragScroll();
   const [cartAmount, setCartAmount] = useState(1);
   const [currentImage, setCurrentImage] = useState(0);
   const imageBase =
@@ -70,14 +72,6 @@ const ProductPage = ({
   const handleCartAmountChange = (cartAmount: number) => {
     if (cartAmount > 0) {
       setCartAmount(cartAmount);
-    }
-  };
-
-  const containerRef = useRef(null);
-
-  const handleScroll = (scrollOffset) => {
-    if (containerRef.current) {
-      containerRef.current.scrollLeft += scrollOffset;
     }
   };
 
@@ -314,8 +308,7 @@ const ProductPage = ({
             <div className={`relative flex h-full w-full flex-col px-2`}>
               <div
                 className="no-scrollbar flex h-full flex-row overflow-x-scroll py-2"
-                ref={containerRef}
-                style={{ scrollBehavior: "smooth" }}
+                ref={ref}
               >
                 <div className="flex h-full w-full items-center gap-2">
                   {relatedProducts.map((prod) => (
@@ -328,22 +321,6 @@ const ProductPage = ({
                   ))}
                 </div>
               </div>
-              {relatedProducts.length > 3 && (
-                <div
-                  className="absolute left-1 top-0 z-20 flex h-full items-center"
-                  onClick={() => handleScroll(-250)}
-                >
-                  <ArrowLeft className="h-8 cursor-pointer bg-orange-400 p-0.5 hover:animate-pulse" />
-                </div>
-              )}
-              {relatedProducts.length > 3 && (
-                <div
-                  className="absolute right-1 top-0 z-20 flex h-full items-center"
-                  onClick={() => handleScroll(250)}
-                >
-                  <ArrowLeft className="h-8 rotate-180 cursor-pointer bg-orange-400 p-0.5 hover:animate-pulse" />
-                </div>
-              )}
             </div>
           </>
         )}
