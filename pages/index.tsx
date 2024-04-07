@@ -107,10 +107,15 @@ export default function Index({ collections, images, imageUrls }) {
           <div className="relative h-full w-full">
             {indexImages.map((img, index) => (
               <div
-                className={`font-semibold p-2 flex flex-col gap-2 items-center absolute z-30 duration-300 top-[50%] ${currentImage === index ? "left-[10%]" : "-left-[200%]"}`}
+                className={`absolute top-[50%] z-30 flex flex-col items-center gap-2 p-2 font-semibold duration-300 ${currentImage === index ? "left-[10%]" : "-left-[200%]"}`}
               >
                 <p className="text-2xl text-white shadow-md">{img.text}</p>
-                <Link className="bg-black text-white hover:bg-white p-2 hover:text-black duration-300" href={img.url}>{img.buttontext}</Link>
+                <Link
+                  className="bg-black p-2 text-white duration-300 hover:bg-white hover:text-black"
+                  href={img.url}
+                >
+                  {img.buttontext}
+                </Link>
               </div>
             ))}
             {indexImages.map((img, index) => (
@@ -155,6 +160,9 @@ export default function Index({ collections, images, imageUrls }) {
             ))}
           </div>
         </div>
+        <h4 className="mb-4 mt-12 text-4xl font-bold">
+          {t("Special Collections")}
+        </h4>
         <div className="mt-2 flex w-full flex-col items-center justify-start gap-3">
           {collections &&
             collections.map((collection) => (
@@ -167,6 +175,7 @@ export default function Index({ collections, images, imageUrls }) {
               </div>
             ))}
         </div>
+        <h4 className="mb-4 mt-12 text-4xl font-bold">{t("Top Categories")}</h4>
         <div
           ref={ref}
           className="no-scrollbar mx-auto my-3 flex h-[230px] w-[95vw] flex-row gap-2 overflow-x-scroll py-2"
@@ -176,31 +185,32 @@ export default function Index({ collections, images, imageUrls }) {
               .filter((cat) => cat.image?.url)
               .map((category) => (
                 <div
+                  onClick={() =>
+                    router.push(`/products?category=${category.id}`)
+                  }
                   key={category.id}
-                  className={homepageSpecialBox + " bg-orange-400"}
+                  className={homepageSpecialBox + " group bg-orange-400"}
                 >
-                  <Image
-                    draggable={false}
-                    src={
-                      "https://hdapi.huseyinonalalpha.com" + category.image.url
-                    }
-                    fill
-                    alt={category.Name}
-                    sizes="(max-width: 768px) 50vw, 33vw"
-                    style={{ objectFit: "contain" }}
-                    className="py-2"
-                  />
-                  <div className="absolute my-auto flex h-full flex-col items-start justify-center">
-                    <div className="flex flex-col items-center">
+                  <div className="relative h-[90%] w-[90%] duration-500 group-hover:h-full group-hover:w-full">
+                    <Image
+                      draggable={false}
+                      src={
+                        "https://hdapi.huseyinonalalpha.com" +
+                        category.image.url
+                      }
+                      fill
+                      alt={category.Name}
+                      sizes="(max-width: 768px) 50vw, 33vw"
+                      style={{ objectFit: "contain" }}
+                      className="py-2"
+                    />
+                  </div>
+                  <div className="absolute flex h-full flex-col items-start justify-end pb-3">
+                    <Link href={`products?category=${category.id}`}>
                       <p className="px-4 py-2 font-bold text-white">
                         {t(category.Name)}
                       </p>
-                      <Link href={"products?category=1"}>
-                        <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
-                          {t("View produits")}
-                        </button>
-                      </Link>
-                    </div>
+                    </Link>
                   </div>
                 </div>
               ))}
