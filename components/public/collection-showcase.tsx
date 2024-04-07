@@ -60,7 +60,7 @@ const CollectionShowcase = ({ collection }: Props) => {
         <div className="absolute left-0 top-0 z-40 flex flex-col whitespace-nowrap bg-neutral-100 bg-opacity-50 pl-2 pr-2 pt-1">
           {title}
         </div>
-        <div className="absolute bottom-0 left-0 z-40 flex whitespace-nowrap bg-neutral-100 bg-opacity-50 pb-1 pl-2 pr-2">
+        <div className="absolute bottom-0 left-0 z-40 flex bg-neutral-100 bg-opacity-50 pb-1 pl-2 pr-2">
           {description}
         </div>
       </div>
@@ -75,20 +75,20 @@ const CollectionShowcase = ({ collection }: Props) => {
               <div
                 key={prod.id}
                 draggable={false}
-                className="flex w-[38vw] flex-shrink-0 items-center bg-white p-1 shadow-lg last:mr-4 md:aspect-[10/16] md:w-[12vw]"
+                className="flex w-[200px] flex-shrink-0 items-center bg-white p-1 py-4 shadow-lg last:mr-4"
               >
                 <ProductPreview width={"full"} product={prod} />
               </div>
             ))}
           </div>
         </div>
-        <div className="no-scrollbar flex h-full  flex-row overflow-x-scroll py-2 md:hidden">
+        <div className="no-scrollbar flex h-full flex-row overflow-x-scroll py-2 md:hidden">
           <div className="flex h-full w-full items-center gap-2">
             {collection.products.map((prod) => (
               <div
                 key={prod.id}
                 draggable={false}
-                className="flex w-[38vw] flex-shrink-0 items-center bg-white p-1 shadow-lg last:mr-4 md:aspect-[10/16] md:w-[12vw]"
+                className="flex w-[200px] flex-shrink-0 items-center bg-white p-1 py-4 shadow-lg last:mr-4"
               >
                 <ProductPreview width={"full"} product={prod} />
               </div>

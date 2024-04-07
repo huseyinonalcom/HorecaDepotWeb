@@ -16,7 +16,7 @@ export default function Index({ collections, images, imageUrls }) {
   const [currentImage, setCurrentImage] = useState(0);
 
   const imageBase =
-    "absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000";
+    "absolute flex flex-col items-center justify-center transition-opacity duration-1000";
   const imageVisible = "opacity-100 z-40";
   const imageInvisible = "opacity-0";
   const homepageSpecialBox = "relative h-52 text-white pl-4";
@@ -34,8 +34,53 @@ export default function Index({ collections, images, imageUrls }) {
   }, [images]);
 
   const slideNext = () => {
-    setCurrentImage((prevImage) => (prevImage + 1) % images.length);
+    setCurrentImage((prevImage) => (prevImage + 1) % indexImages.length);
   };
+
+  const indexImages = [
+    {
+      id: 1,
+      wpath: "/assets/projects/teddy/w-1.jpg",
+      vpath: "/assets/projects/teddy/v-1.jpg",
+      alt: "Le Teddy's",
+      url: null,
+    },
+    {
+      id: 2,
+      wpath: "/assets/projects/factory/w-1.jpg",
+      vpath: "/assets/projects/factory/w-1.jpg",
+      alt: "Factory",
+      url: null,
+    },
+    {
+      id: 3,
+      wpath: "/assets/projects/moon/w-1.jpg",
+      vpath: "/assets/projects/moon/v-1.jpg",
+      alt: "Moon Lounge",
+      url: "/products/149",
+    },
+    {
+      id: 4,
+      wpath: "/assets/projects/v-1.png",
+      vpath: "/assets/projects/v-1.png",
+      alt: "Incanto",
+      url: "/products/116",
+    },
+    {
+      id: 5,
+      wpath: "/assets/projects/w-2.png",
+      vpath: "/assets/projects/w-2.png",
+      alt: "Misoni",
+      url: "/products/307",
+    },
+    {
+      id: 6,
+      wpath: "/assets/projects/w-3.png",
+      vpath: "/assets/projects/w-3.png",
+      alt: "Florian",
+      url: "/products/191",
+    },
+  ];
 
   return (
     <Layout>
@@ -45,15 +90,15 @@ export default function Index({ collections, images, imageUrls }) {
         <meta name="description" content={t("main_description")} />
         <meta name="language" content={lang} />
       </Head>
-      <div className="mx-auto flex flex-col items-center justify-center">
-        <div className="relative w-full h-[80vh]">
-          {images && (
+      <div className="flex flex-col items-center justify-center">
+        <div className="relative h-[80vh] w-full">
+          {indexImages && (
             <div className="relative h-full w-full">
-              {images.map((img, index) => (
+              {indexImages.map((img, index) => (
                 <Image
                   onClick={() => {
-                    if (imageUrls[img.id] && imageUrls[img.id] !== "/") {
-                      router.push(imageUrls[img.id]);
+                    if (img.url) {
+                      router.push(img.url);
                     }
                   }}
                   fill
@@ -62,12 +107,30 @@ export default function Index({ collections, images, imageUrls }) {
                   priority={index == 0}
                   loading="eager"
                   key={index}
-                  src={`https://hdapi.huseyinonalalpha.com${img.url}`}
+                  src={`${img.wpath}`}
                   alt={""}
-                  className={`${imageBase} ${
-                    imageUrls[img.id] && imageUrls[img.id] !== "/"
-                      ? "cursor-pointer"
-                      : ""
+                  className={`${imageBase} hidden md:flex  ${
+                    img.url ? "cursor-pointer" : ""
+                  } ${currentImage === index ? imageVisible : imageInvisible}`}
+                />
+              ))}
+              {indexImages.map((img, index) => (
+                <Image
+                  onClick={() => {
+                    if (img.url) {
+                      router.push(img.url);
+                    }
+                  }}
+                  fill
+                  id="background-image"
+                  style={{ objectFit: "cover" }}
+                  priority={index == 0}
+                  loading="eager"
+                  key={index}
+                  src={`${img.vpath}`}
+                  alt={""}
+                  className={`${imageBase} flex md:hidden ${
+                    img.url ? "cursor-pointer" : ""
                   } ${currentImage === index ? imageVisible : imageInvisible}`}
                 />
               ))}
@@ -97,7 +160,7 @@ export default function Index({ collections, images, imageUrls }) {
               style={{ objectFit: "contain" }}
               className="py-2"
             />
-            <div className="absolute left-4 my-auto flex h-full w-full flex-col items-start justify-center">
+            <div className="absolute my-auto flex h-full flex-col items-start justify-center">
               <div className="flex flex-col items-center">
                 <p className="px-4 py-2 font-bold text-white">{t("Chairs")}</p>
                 <Link href={"products?category=1"}>
@@ -117,7 +180,7 @@ export default function Index({ collections, images, imageUrls }) {
               style={{ objectFit: "contain" }}
               className="py-2"
             />
-            <div className="absolute my-auto flex h-full w-full flex-col items-center justify-center">
+            <div className="absolute my-auto flex h-full flex-col items-center justify-center">
               <div className="flex flex-col items-center">
                 <p className="px-4 py-2 font-bold text-white">{t("Benches")}</p>
                 <Link href={"products?category=10"}>
@@ -137,7 +200,7 @@ export default function Index({ collections, images, imageUrls }) {
               style={{ objectFit: "contain" }}
               className="py-2"
             />
-            <div className="absolute right-4 my-auto flex h-full w-full flex-col items-end justify-center">
+            <div className="absolute right-4 my-auto flex h-full flex-col items-end justify-center">
               <div className="flex flex-col items-center">
                 <p className="px-4 py-2 font-bold text-white">{t("Stools")}</p>
                 <Link href={"products?category=11"}>

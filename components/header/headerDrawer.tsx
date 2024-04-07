@@ -93,12 +93,16 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
     <>
       <div
         className={`${overlayClass} h-screen duration-700`}
-        onClick={onClickOutside}
+        onClick={() => {
+          showCategories ? setShowCategories(false) : onClickOutside();
+        }}
       ></div>
       <div
         className={`${drawerClass} top-0 z-50 h-screen min-w-[310px] overflow-y-auto bg-gray-100 p-5 text-black duration-500`}
       >
-        <div className="flex w-full flex-row justify-between py-1">
+        <div onClick={() => {
+          setShowCategories(false);
+        }} className="flex w-full flex-row justify-between py-1">
           <button
             aria-label="Mobile navigation menu closing button"
             name="Mobile navigation menu closing button"
@@ -225,13 +229,14 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             />
             {t("Categories")}
           </button>
-          {showCategories && (
-            <div className="flex w-full flex-col bg-white py-2 text-gray-500 duration-300">
-              {allCategories.map((category) => (
-                <CategoryItem key={category.id} category={category} />
-              ))}
-            </div>
-          )}
+          <div
+            className={`fixed right-0 flex flex-col bg-gray-100 py-2 text-gray-500 duration-300 ${showCategories ? `w-[310px]` : `w-0`}`}
+          >
+            {allCategories.map((category) => (
+              <CategoryItem key={category.id} category={category} />
+            ))}
+          </div>
+
           <Link
             aria-label="Link to Wishlist"
             className={navButtonsClass}
