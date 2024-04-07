@@ -4,17 +4,19 @@ import { getCollections } from "./api/collections/public/getcollections";
 import useTranslation from "next-translate/useTranslation";
 import Layout from "../components/public/layout";
 import Meta from "../components/public/meta";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 import { useDragScroll } from "../components/common/use-drag-scroll";
+import { CategoryContext } from "../api/providers/categoryProvider";
 
 export default function Index({ collections, images, imageUrls }) {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
   const [currentImage, setCurrentImage] = useState(0);
+  const { categories } = useContext(CategoryContext);
 
   const imageBase =
     "absolute flex flex-col items-center justify-center transition-opacity duration-1000";
@@ -45,14 +47,14 @@ export default function Index({ collections, images, imageUrls }) {
       wpath: "/assets/projects/teddy/w-1.jpg",
       vpath: "/assets/projects/teddy/v-1.jpg",
       alt: "Le Teddy's",
-      url: null,
+      url: 'products/143',
     },
     {
       id: 2,
       wpath: "/assets/projects/factory/w-1.jpg",
       vpath: "/assets/projects/factory/w-1.jpg",
       alt: "Factory",
-      url: null,
+      url: 'contact',
     },
     {
       id: 3,
@@ -98,6 +100,7 @@ export default function Index({ collections, images, imageUrls }) {
         <div className="relative h-[80vh] w-full">
           {indexImages && (
             <div className="relative h-full w-full">
+
               {indexImages.map((img, index) => (
                 <Image
                   onClick={() => {
@@ -157,195 +160,39 @@ export default function Index({ collections, images, imageUrls }) {
           ref={ref}
           className="no-scrollbar mx-auto my-3 flex h-[230px] w-[95vw] flex-row gap-2 overflow-x-scroll py-2"
         >
-          <div key={1} className={homepageSpecialBox + " bg-yellow-500"}>
-            <Image
-              draggable={false}
-              src={"/assets/homepage/chaise.webp"}
-              fill
-              alt={"Chaise"}
-              sizes="(max-width: 768px) 50vw, 33vw"
-              style={{ objectFit: "contain" }}
-              className="py-2"
-            />
-            <div className="absolute my-auto flex h-full flex-col items-start justify-center">
-              <div className="flex flex-col items-center">
-                <p className="px-4 py-2 font-bold text-white">{t("Chairs")}</p>
-                <Link href={"products?category=1"}>
-                  <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
-                    {t("View produits")}
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div key={2} className={homepageSpecialBox + " bg-green-500"}>
-            <Image
-              draggable={false}
-              src={"/assets/homepage/banquette.webp"}
-              fill
-              alt={"Banquette"}
-              sizes="(max-width: 768px) 50vw, 33vw"
-              style={{ objectFit: "contain" }}
-              className="py-2"
-            />
-            <div className="absolute my-auto flex h-full flex-col items-center justify-center">
-              <div className="flex flex-col items-center">
-                <p className="px-4 py-2 font-bold text-white">{t("Benches")}</p>
-                <Link href={"products?category=10"}>
-                  <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
-                    {t("View produits")}
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div key={3} className={homepageSpecialBox + " bg-purple-500"}>
-            <Image
-              draggable={false}
-              src={"/assets/homepage/tabourette.webp"}
-              fill
-              alt={"Tabourette"}
-              sizes="(max-width: 768px) 50vw, 33vw"
-              style={{ objectFit: "contain" }}
-              className="py-2"
-            />
-            <div className="absolute my-auto flex h-full flex-col items-center justify-center">
-              <div className="flex flex-col items-center">
-                <p className="px-4 py-2 font-bold text-white">{t("Stools")}</p>
-                <Link href={"products?category=11"}>
-                  <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
-                    {t("View produits")}
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div key={11} className={homepageSpecialBox + " bg-yellow-500"}>
-            <Image
-              draggable={false}
-              src={"/assets/homepage/chaise.webp"}
-              fill
-              alt={"Chaise"}
-              sizes="(max-width: 768px) 50vw, 33vw"
-              style={{ objectFit: "contain" }}
-              className="py-2"
-            />
-            <div className="absolute my-auto flex h-full flex-col items-start justify-center">
-              <div className="flex flex-col items-center">
-                <p className="px-4 py-2 font-bold text-white">{t("Chairs")}</p>
-                <Link href={"products?category=1"}>
-                  <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
-                    {t("View produits")}
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div key={21} className={homepageSpecialBox + " bg-red-500"}>
-            <Image
-              draggable={false}
-              src={"/assets/homepage/banquette.webp"}
-              fill
-              alt={"Banquette"}
-              sizes="(max-width: 768px) 50vw, 33vw"
-              style={{ objectFit: "contain" }}
-              className="py-2"
-            />
-            <div className="absolute my-auto flex h-full flex-col items-center justify-center">
-              <div className="flex flex-col items-center">
-                <p className="px-4 py-2 font-bold text-white">{t("Benches")}</p>
-                <Link href={"products?category=10"}>
-                  <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
-                    {t("View produits")}
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div key={31} className={homepageSpecialBox + " bg-black"}>
-            <Image
-              draggable={false}
-              src={"/assets/homepage/tabourette.webp"}
-              fill
-              alt={"Tabourette"}
-              sizes="(max-width: 768px) 50vw, 33vw"
-              style={{ objectFit: "contain" }}
-              className="py-2"
-            />
-            <div className="absolute my-auto flex h-full flex-col items-center justify-center">
-              <div className="flex flex-col items-center">
-                <p className="px-4 py-2 font-bold text-white">{t("Stools")}</p>
-                <Link href={"products?category=11"}>
-                  <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
-                    {t("View produits")}
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div key={14} className={homepageSpecialBox + " bg-yellow-500"}>
-            <Image
-              draggable={false}
-              src={"/assets/homepage/chaise.webp"}
-              fill
-              alt={"Chaise"}
-              sizes="(max-width: 768px) 50vw, 33vw"
-              style={{ objectFit: "contain" }}
-              className="py-2"
-            />
-            <div className="absolute my-auto flex h-full flex-col items-start justify-center">
-              <div className="flex flex-col items-center">
-                <p className="px-4 py-2 font-bold text-white">{t("Chairs")}</p>
-                <Link href={"products?category=1"}>
-                  <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
-                    {t("View produits")}
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div key={24} className={homepageSpecialBox + " bg-green-500"}>
-            <Image
-              draggable={false}
-              src={"/assets/homepage/banquette.webp"}
-              fill
-              alt={"Banquette"}
-              sizes="(max-width: 768px) 50vw, 33vw"
-              style={{ objectFit: "contain" }}
-              className="py-2"
-            />
-            <div className="absolute my-auto flex h-full flex-col items-center justify-center">
-              <div className="flex flex-col items-center">
-                <p className="px-4 py-2 font-bold text-white">{t("Benches")}</p>
-                <Link href={"products?category=10"}>
-                  <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
-                    {t("View produits")}
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div key={34} className={homepageSpecialBox + " bg-purple-500"}>
-            <Image
-              draggable={false}
-              src={"/assets/homepage/tabourette.webp"}
-              fill
-              alt={"Tabourette"}
-              sizes="(max-width: 768px) 50vw, 33vw"
-              style={{ objectFit: "contain" }}
-              className="py-2"
-            />
-            <div className="absolute my-auto flex h-full flex-col items-center justify-center">
-              <div className="flex flex-col items-center">
-                <p className="px-4 py-2 font-bold text-white">{t("Stools")}</p>
-                <Link href={"products?category=11"}>
-                  <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
-                    {t("View produits")}
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
+          {categories &&
+            categories
+              .filter((cat) => cat.image?.url)
+              .map((category) => (
+                <div
+                  key={category.id}
+                  className={homepageSpecialBox + " bg-orange-400"}
+                >
+                  <Image
+                    draggable={false}
+                    src={
+                      "https://hdapi.huseyinonalalpha.com" + category.image.url
+                    }
+                    fill
+                    alt={category.Name}
+                    sizes="(max-width: 768px) 50vw, 33vw"
+                    style={{ objectFit: "contain" }}
+                    className="py-2"
+                  />
+                  <div className="absolute my-auto flex h-full flex-col items-start justify-center">
+                    <div className="flex flex-col items-center">
+                      <p className="px-4 py-2 font-bold text-white">
+                        {t(category.Name)}
+                      </p>
+                      <Link href={"products?category=1"}>
+                        <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
+                          {t("View produits")}
+                        </button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
         </div>
       </div>
     </Layout>

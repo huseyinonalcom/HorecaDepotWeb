@@ -42,21 +42,21 @@ export default function Contact() {
                 {t("Contact")}
               </h2>
               <div className="flex flex-col gap-2 pl-2">
-                <div className="flex flex-row items-center gap-2 text-xl">
+                <a href="tel:+32499738373" className="flex flex-row items-center gap-2 text-xl">
                   <Phone
                     className="h-10 w-10 border-2 border-[#6e6b6a] p-1"
                     color="#6e6b6a"
                   />
                   <p>+32 499 73 83 73</p>
-                </div>
-                <div className="flex flex-row items-center gap-2 text-xl">
+                </a>
+                <a href="mailto:info@horecadepot.be" className="flex flex-row items-center gap-2 text-xl">
                   <Mail
                     className="h-10 w-10 border-2 border-[#6e6b6a] p-1"
                     color="#6e6b6a"
                   />
                   <p>info@horecadepot.be</p>
-                </div>
-                <div className="flex flex-row items-center gap-2 text-xl">
+                </a>
+                <a target="blank" href="https://www.google.com/maps/dir//HorecaDepot+Rue+de+Ribaucourt+154+1080+Bruxelles/@50.8618074,4.3429586,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x47c3c32a1a2325c3:0x7594491cb3de795a!2m2!1d4.3429586!2d50.8618074?entry=ttu" className="flex flex-row items-center gap-2 text-xl">
                   <Briefcase
                     className="h-10 w-10 border-2 border-[#6e6b6a] p-1"
                     color="#6e6b6a"
@@ -66,7 +66,7 @@ export default function Contact() {
                     <br />
                     1080 Bruxelles
                   </p>
-                </div>
+                </a>
                 <div className="flex flex-row items-center gap-2 text-xl">
                   <Clock
                     className="h-10 w-10 border-2 border-[#6e6b6a] p-1"

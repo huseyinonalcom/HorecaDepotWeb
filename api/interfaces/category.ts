@@ -1,4 +1,7 @@
+import { Image } from "./image";
+
 export interface Category {
+  image?: Image;
   id?: number;
   Name?: string;
   headCategory?: Category;
