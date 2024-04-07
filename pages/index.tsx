@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
+import { useDragScroll } from "../components/common/use-drag-scroll";
 
 export default function Index({ collections, images, imageUrls }) {
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function Index({ collections, images, imageUrls }) {
     "absolute flex flex-col items-center justify-center transition-opacity duration-1000";
   const imageVisible = "opacity-100 z-40";
   const imageInvisible = "opacity-0";
-  const homepageSpecialBox = "relative h-52 text-white pl-4";
+  const homepageSpecialBox = "relative h-52 text-white pl-4 ";
 
   useEffect(() => {
     setCurrentImage(0);
@@ -81,6 +82,8 @@ export default function Index({ collections, images, imageUrls }) {
       url: "/products/191",
     },
   ];
+
+  const [ref] = useDragScroll();
 
   return (
     <Layout>
@@ -149,69 +152,83 @@ export default function Index({ collections, images, imageUrls }) {
               </div>
             ))}
         </div>
-
-        <div className="mt-4 grid w-full grid-cols-1 gap-4 md:grid-cols-3">
-          <div className={homepageSpecialBox + " bg-yellow-500"}>
-            <Image
-              src={"/assets/homepage/chaise.webp"}
-              fill
-              alt={"Chaise"}
-              sizes="(max-width: 768px) 50vw, 33vw"
-              style={{ objectFit: "contain" }}
-              className="py-2"
-            />
-            <div className="absolute my-auto flex h-full flex-col items-start justify-center">
-              <div className="flex flex-col items-center">
-                <p className="px-4 py-2 font-bold text-white">{t("Chairs")}</p>
-                <Link href={"products?category=1"}>
-                  <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
-                    {t("View produits")}
-                  </button>
-                </Link>
+        <div
+          className="no-scrollbar flex h-full w-full flex-row  overflow-x-scroll py-2"
+          ref={ref}
+        >
+          <div
+            className="flex h-full w-full flex-row gap-2 py-2"
+          >
+            <div className={homepageSpecialBox + "w-[300px] bg-yellow-500"}>
+              <Image
+                src={"/assets/homepage/chaise.webp"}
+                fill
+                alt={"Chaise"}
+                sizes="(max-width: 768px) 50vw, 33vw"
+                style={{ objectFit: "contain" }}
+                className="py-2"
+              />
+              <div className="absolute my-auto flex h-full flex-col items-start justify-center">
+                <div className="flex flex-col items-center">
+                  <p className="px-4 py-2 font-bold text-white">
+                    {t("Chairs")}
+                  </p>
+                  <Link href={"products?category=1"}>
+                    <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
+                      {t("View produits")}
+                    </button>
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-          <div className={homepageSpecialBox + " bg-red-500"}>
-            <Image
-              src={"/assets/homepage/banquette.webp"}
-              fill
-              alt={"Banquette"}
-              sizes="(max-width: 768px) 50vw, 33vw"
-              style={{ objectFit: "contain" }}
-              className="py-2"
-            />
-            <div className="absolute my-auto flex h-full flex-col items-center justify-center">
-              <div className="flex flex-col items-center">
-                <p className="px-4 py-2 font-bold text-white">{t("Benches")}</p>
-                <Link href={"products?category=10"}>
-                  <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
-                    {t("View produits")}
-                  </button>
-                </Link>
+            <div className={homepageSpecialBox + "w-[300px] bg-red-500"}>
+              <Image
+                src={"/assets/homepage/banquette.webp"}
+                fill
+                alt={"Banquette"}
+                sizes="(max-width: 768px) 50vw, 33vw"
+                style={{ objectFit: "contain" }}
+                className="py-2"
+              />
+              <div className="absolute my-auto flex h-full flex-col items-center justify-center">
+                <div className="flex flex-col items-center">
+                  <p className="px-4 py-2 font-bold text-white">
+                    {t("Benches")}
+                  </p>
+                  <Link href={"products?category=10"}>
+                    <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
+                      {t("View produits")}
+                    </button>
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-          <div className={homepageSpecialBox + " bg-orange-500"}>
-            <Image
-              src={"/assets/homepage/tabourette.webp"}
-              fill
-              alt={"Tabourette"}
-              sizes="(max-width: 768px) 50vw, 33vw"
-              style={{ objectFit: "contain" }}
-              className="py-2"
-            />
-            <div className="absolute right-4 my-auto flex h-full flex-col items-end justify-center">
-              <div className="flex flex-col items-center">
-                <p className="px-4 py-2 font-bold text-white">{t("Stools")}</p>
-                <Link href={"products?category=11"}>
-                  <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
-                    {t("View produits")}
-                  </button>
-                </Link>
+            <div className={homepageSpecialBox + "w-[300px] bg-orange-500"}>
+              <Image
+                src={"/assets/homepage/tabourette.webp"}
+                fill
+                alt={"Tabourette"}
+                sizes="(max-width: 768px) 50vw, 33vw"
+                style={{ objectFit: "contain" }}
+                className="py-2"
+              />
+              <div className="absolute right-4 my-auto flex h-full flex-col items-end justify-center">
+                <div className="flex flex-col items-center">
+                  <p className="px-4 py-2 font-bold text-white">
+                    {t("Stools")}
+                  </p>
+                  <Link href={"products?category=11"}>
+                    <button className="border border-solid border-gray-700 bg-gray-700 px-2 py-1 text-white duration-700 hover:bg-transparent">
+                      {t("View produits")}
+                    </button>
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
+          </div>{" "}
         </div>
+
+        <div className="mt-4 grid w-full grid-cols-1 gap-4 md:grid-cols-3"></div>
       </div>
     </Layout>
   );
