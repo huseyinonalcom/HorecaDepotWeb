@@ -45,8 +45,8 @@ export default function Index({ collections, images, imageUrls }) {
         <meta name="description" content={t("main_description")} />
         <meta name="language" content={lang} />
       </Head>
-      <div className="mx-auto flex w-[90vw] flex-col items-center justify-center">
-        <div className="relative aspect-[1/1] w-full md:aspect-[4/1]">
+      <div className="mx-auto flex flex-col items-center justify-center">
+        <div className="relative w-full h-[80vh]">
           {images && (
             <div className="relative h-full w-full">
               {images.map((img, index) => (
