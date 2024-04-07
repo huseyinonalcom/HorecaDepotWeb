@@ -169,7 +169,7 @@ export default function Index({ collections, images, imageUrls }) {
               <div
                 key={collection.id}
                 style={{ backgroundColor: `#${collection.bgColor}` }}
-                className={`w-full md:aspect-[38/9]`}
+                className={`w-full py-2 md:aspect-[38/9]`}
               >
                 <CollectionShowcase collection={collection} />
               </div>
