@@ -107,7 +107,7 @@ const ProductPage = ({
       </Head>
       <div className="flex w-full flex-col items-center pt-2">
         <div className="flex w-[90vw] flex-col items-center justify-center gap-4 sm:flex-row">
-          <div className="relative flex h-[80vw] w-[80vw] flex-shrink-0 flex-row items-center justify-center sm:h-[30vw] sm:w-[30vw]">
+          <div className="relative flex h-[80vw] w-[80vw] flex-shrink-0 flex-row items-center justify-center sm:h-[40vw] sm:w-[40vw]">
             <div className="relative mx-auto h-[90%] w-[90%]">
               {product.images && product.images.length > 0 ? (
                 product.images.map((img, index) => (
@@ -237,6 +237,7 @@ const ProductPage = ({
                   </p>
                 )}
               {product.product_extra.seat_height !== undefined &&
+                product.product_extra.seat_height !== null &&
                 product.product_extra.seat_height !== 0 && (
                   <p>
                     <b>{t("Seat Height")}:</b>{" "}
@@ -244,6 +245,7 @@ const ProductPage = ({
                   </p>
                 )}
               {product.product_extra.armrest_height !== undefined &&
+                product.product_extra.armrest_height !== null &&
                 product.product_extra.armrest_height !== 0 && (
                   <p>
                     <b>{t("Armrest Height")}:</b>{" "}

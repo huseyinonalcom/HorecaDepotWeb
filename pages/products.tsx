@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useContext, useEffect, useRef, useState } from "react";
 import useTranslation from "next-translate/useTranslation";
 import ProductPreview from "../components/products/product-preview";
-import { ArrowUp, ChevronLeft, X } from "react-feather";
+import { ArrowUp, ChevronLeft, DivideCircle, X } from "react-feather";
 import { Product } from "../api/interfaces/product";
 import { CategoryContext } from "../api/providers/categoryProvider";
 import RangeSlider from "../components/common/rangeSlider";
@@ -285,45 +285,18 @@ export default function Products() {
           className="flex w-full flex-col items-start text-[#084E97] lg:flex-row"
         >
           <div className="relative flex w-full flex-col gap-2 px-1 lg:w-[500px]">
-            <div className="flex w-full flex-row gap-2 bg-gray-100 p-2 shadow-lg">
-              <ArrowUp
-                height={36}
-                width={36}
-                onClick={() => setCurrentSortDirection(!currentSortDirection)}
-                className={`flex flex-row items-center border-2 border-blue-500 bg-white p-1 duration-500 ${currentSortDirection ? "rotate-0" : "rotate-180"}`}
-              />
-              <div
-                className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "id" && "border-blue-500"}`}
-                onClick={() => setCurrentSort("id")}
-              >
-                {t("Date")}
-              </div>
-              <div
-                className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "value" && "border-blue-500"}`}
-                onClick={() => setCurrentSort("value")}
-              >
-                {t("Price")}
-              </div>
-              <button
-                onClick={() => {
-                  setIsFilterDrawerOpen(!isFilterDrawerOpen);
-                }}
-                className="ml-auto bg-orange-400 px-2 py-1 font-semibold lg:hidden"
-              >
-                {t("Filters")}
-              </button>
-            </div>
             <div
               className={`fixed bottom-0 z-50 flex w-full flex-col duration-700 lg:hidden ${isFilterDrawerOpen ? "left-0" : "left-[-100%]"}`}
             >
               <div className="flex h-[100dvh] w-full flex-row">
                 <div className="flex h-full w-fit flex-col justify-between">
-                  <div className="flex w-full flex-shrink-0 flex-row justify-end bg-slate-300 px-3 py-2">
-                    <button onClick={() => setIsFilterDrawerOpen(false)}>
-                      <X />
-                    </button>
-                  </div>
-                  <div className="flex h-full w-full flex-col justify-end bg-slate-300">
+                  <button
+                    onClick={() => setIsFilterDrawerOpen(false)}
+                    className="flex w-full flex-shrink-0 flex-row justify-end bg-slate-300 px-3 py-2"
+                  >
+                    <X />
+                  </button>
+                  <div className="flex h-full w-full flex-col justify-end bg-white ">
                     <div>
                       {currentCategory || currentSearch ? (
                         <div
@@ -359,14 +332,18 @@ export default function Products() {
                         </div>
                       ) : null}
                     </div>
-                    <div className="flex w-full flex-col bg-white py-2 text-gray-500 shadow-lg duration-300">
+                    <p className="mt-4 border-b pb-1 pl-3 text-lg font-semibold">
+                      {t("Categories")}
+                    </p>
+                    <div className="flex w-full flex-col border-b bg-white py-2 text-gray-500 duration-300 mb-4">
                       {allCategories.map((category) => (
                         <CategoryItem key={category.id} category={category} />
                       ))}
                     </div>
-                    <div
-                      className={`overflow-hidden bg-gray-100 p-4 shadow-lg`}
-                    >
+                    <p className="mt-4 border-b pb-1 pl-3 text-lg font-semibold">
+                      {t("Price")}
+                    </p>
+                    <div className={`overflow-hidden px-4 pt-2 mb-4`}>
                       <RangeSlider
                         minGap={20}
                         initialMin={sliderMin}
@@ -377,17 +354,17 @@ export default function Products() {
                         prefix="€"
                         label="Price"
                       />
-                      <div className="flex flex-row justify-between">
-                        <button
-                          className={componentThemes.greenSubmitButton}
-                          onClick={() => {
-                            fetchProductsFiltered();
-                            setIsFilterDrawerOpen(false);
-                          }}
-                        >
-                          {t("Filter")}
-                        </button>
-                      </div>
+                    </div>
+                    <div className="flex flex-row justify-between">
+                      <button
+                        className={componentThemes.greenSubmitButton}
+                        onClick={() => {
+                          fetchProductsFiltered();
+                          setIsFilterDrawerOpen(false);
+                        }}
+                      >
+                        {t("Filter")}
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -429,12 +406,18 @@ export default function Products() {
                   ) : null}
                 </div>
               ) : null}
+              <p className="mt-4 border-b pb-1 pl-3 text-lg font-semibold">
+                {t("Categories")}
+              </p>
               <div className="flex w-full flex-col bg-white py-2 text-gray-500 duration-300">
                 {allCategories.map((category) => (
                   <CategoryItem key={category.id} category={category} />
                 ))}
               </div>
-              <div className="bg-gray-100 p-4">
+              <p className="mt-4 border-b pb-1 pl-3 text-lg font-semibold">
+                {t("Price")}
+              </p>
+              <div className={`overflow-hidden px-4 pt-2`}>
                 <RangeSlider
                   minGap={20}
                   initialMin={sliderMin}
@@ -445,25 +428,56 @@ export default function Products() {
                   prefix="€"
                   label="Price"
                 />
-                <div className="flex flex-row justify-between">
-                  <button
-                    className={componentThemes.greenSubmitButton}
-                    onClick={() => {
-                      fetchProductsFiltered();
-                      setIsFilterDrawerOpen(false);
-                    }}
-                  >
-                    {t("Filter")}
-                  </button>
-                </div>
+              </div>
+              <div className="flex flex-row justify-between">
+                <button
+                  className={componentThemes.greenSubmitButton}
+                  onClick={() => {
+                    fetchProductsFiltered();
+                    setIsFilterDrawerOpen(false);
+                  }}
+                >
+                  {t("Filter")}
+                </button>
               </div>
             </div>
           </div>
 
           <div className="flex w-full flex-col">
-            <h2 className="mt-2 flex w-full justify-center text-5xl font-bold">
-              {t("Products")}
-            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3">
+              <p className="hidden md:flex"></p>
+              <h2 className="mt-2 flex w-full justify-center text-5xl font-bold">
+                {t("Products")}
+              </h2>
+              <div className="my-auto flex h-fit w-full flex-row justify-end gap-2 pr-4">
+                <ArrowUp
+                  height={36}
+                  width={36}
+                  onClick={() => setCurrentSortDirection(!currentSortDirection)}
+                  className={`flex flex-row items-center border-2 border-blue-500 bg-white p-1 duration-500 ${currentSortDirection ? "rotate-0" : "rotate-180"}`}
+                />
+                <div
+                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "id" && "border-blue-500"}`}
+                  onClick={() => setCurrentSort("id")}
+                >
+                  {t("Date")}
+                </div>
+                <div
+                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "value" && "border-blue-500"}`}
+                  onClick={() => setCurrentSort("value")}
+                >
+                  {t("Price")}
+                </div>
+                <button
+                  onClick={() => {
+                    setIsFilterDrawerOpen(!isFilterDrawerOpen);
+                  }}
+                  className="ml-auto bg-orange-400 px-2 py-1 font-semibold lg:hidden"
+                >
+                  {t("Filters")}
+                </button>
+              </div>
+            </div>
             {allProducts.length <= 0 ? (
               <h3 className="flex w-full justify-center text-xl font-bold text-red-700">
                 {t("No products matching")}

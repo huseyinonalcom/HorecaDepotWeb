@@ -32,7 +32,7 @@ export default function Index({ collections, images, imageUrls }) {
   useEffect(() => {
     const interval = setInterval(() => {
       slideNext();
-    }, 5000);
+    }, 8000);
 
     return () => clearInterval(interval);
   }, [images]);
@@ -47,21 +47,27 @@ export default function Index({ collections, images, imageUrls }) {
       wpath: "/assets/projects/teddy/w-1.jpg",
       vpath: "/assets/projects/teddy/v-1.jpg",
       alt: "Le Teddy's",
-      url: 'products/143',
+      text: "Designs élégants pour restaurants haut de gamme.",
+      buttontext: "Voir les choix",
+      url: "/products?page=1&search=flora&category=1",
     },
     {
       id: 2,
       wpath: "/assets/projects/factory/w-1.jpg",
       vpath: "/assets/projects/factory/w-1.jpg",
       alt: "Factory",
-      url: 'contact',
+      text: "Fabrication et expédition rapides.",
+      buttontext: "Visitez-nous",
+      url: "contact",
     },
     {
       id: 3,
       wpath: "/assets/projects/moon/w-1.jpg",
       vpath: "/assets/projects/moon/v-1.jpg",
       alt: "Moon Lounge",
-      url: "/products/149",
+      text: "Tout pour l'horeca.",
+      buttontext: "Commander maintenant",
+      url: "/products?page=1&search=BALLOON",
     },
     // {
     //   id: 4,
@@ -97,52 +103,57 @@ export default function Index({ collections, images, imageUrls }) {
         <meta name="language" content={lang} />
       </Head>
       <div className="flex flex-col items-center justify-center">
-        <div className="relative h-[80vh] w-full">
-          {indexImages && (
-            <div className="relative h-full w-full">
-
-              {indexImages.map((img, index) => (
-                <Image
-                  onClick={() => {
-                    if (img.url) {
-                      router.push(img.url);
-                    }
-                  }}
-                  fill
-                  id="background-image"
-                  style={{ objectFit: "cover" }}
-                  priority={index == 0}
-                  loading="eager"
-                  key={index}
-                  src={`${img.wpath}`}
-                  alt={""}
-                  className={`${imageBase} hidden md:flex  ${
-                    img.url ? "cursor-pointer" : ""
-                  } ${currentImage === index ? imageVisible : imageInvisible}`}
-                />
-              ))}
-              {indexImages.map((img, index) => (
-                <Image
-                  onClick={() => {
-                    if (img.url) {
-                      router.push(img.url);
-                    }
-                  }}
-                  fill
-                  id="background-image"
-                  style={{ objectFit: "cover" }}
-                  priority={index == 0}
-                  loading="eager"
-                  key={index}
-                  src={`${img.vpath}`}
-                  alt={""}
-                  className={`${imageBase} flex md:hidden ${
-                    img.url ? "cursor-pointer" : ""
-                  } ${currentImage === index ? imageVisible : imageInvisible}`}
-                />
-              ))}
-            </div>
-          )}
+        <div className="h-[80vh] w-full">
+          <div className="relative h-full w-full">
+            {indexImages.map((img, index) => (
+              <div
+                className={`font-semibold p-2 flex flex-col gap-2 items-center absolute z-30 duration-300 top-[50%] ${currentImage === index ? "left-[10%]" : "-left-[200%]"}`}
+              >
+                <p className="text-2xl text-white shadow-md">{img.text}</p>
+                <Link className="bg-black text-white hover:bg-white p-2 hover:text-black duration-300" href={img.url}>{img.buttontext}</Link>
+              </div>
+            ))}
+            {indexImages.map((img, index) => (
+              <Image
+                onClick={() => {
+                  if (img.url) {
+                    router.push(img.url);
+                  }
+                }}
+                fill
+                id="background-image"
+                style={{ objectFit: "cover" }}
+                priority={index == 0}
+                loading="eager"
+                key={index}
+                src={`${img.wpath}`}
+                alt={""}
+                className={`${imageBase} z-20 hidden md:flex  ${
+                  img.url ? "cursor-pointer" : ""
+                } ${currentImage === index ? imageVisible : imageInvisible}`}
+              />
+            ))}
+            {indexImages.map((img, index) => (
+              <Image
+                onClick={() => {
+                  if (img.url) {
+                    router.push(img.url);
+                  }
+                }}
+                fill
+                id="background-image"
+                style={{ objectFit: "cover" }}
+                priority={index == 0}
+                loading="eager"
+                key={index}
+                src={`${img.vpath}`}
+                alt={""}
+                className={`${imageBase} z-20 flex md:hidden ${
+                  img.url ? "cursor-pointer" : ""
+                } ${currentImage === index ? imageVisible : imageInvisible}`}
+              />
+            ))}
+          </div>
         </div>
         <div className="mt-2 flex w-full flex-col items-center justify-start gap-3">
           {collections &&
