@@ -314,81 +314,87 @@ export default function Products() {
               </button>
             </div>
             <div
-              className={`fixed bottom-0 z-50 flex w-full flex-col duration-700 lg:hidden ${isFilterDrawerOpen ? "bottom-0" : "bottom-[-100%]"}`}
+              className={`fixed bottom-0 z-50 flex w-full flex-col duration-700 lg:hidden ${isFilterDrawerOpen ? "left-0" : "left-[-100%]"}`}
             >
-              <div
-                onClick={() => setIsFilterDrawerOpen(false)}
-                className={`bg-transparent ${isFilterDrawerOpen ? "h-screen" : "h-0"}`}
-              ></div>
-              <div className="flex flex-shrink-0 flex-row justify-end bg-slate-300 px-3 py-2">
-                <button onClick={() => setIsFilterDrawerOpen(false)}>
-                  <X />
-                </button>
-              </div>
-              <div className="flex w-full flex-col bg-slate-300">
-                <div>
-                  {currentCategory || currentSearch ? (
-                    <div
-                      className={`overflow-hidden bg-gray-100 p-4 shadow-lg`}
-                    >
-                      {currentSearch ? (
+              <div className="flex h-[100dvh] w-full flex-row">
+                <div className="flex h-full w-fit flex-col justify-between">
+                  <div className="flex w-full flex-shrink-0 flex-row justify-end bg-slate-300 px-3 py-2">
+                    <button onClick={() => setIsFilterDrawerOpen(false)}>
+                      <X />
+                    </button>
+                  </div>
+                  <div className="flex h-full w-full flex-col justify-end bg-slate-300">
+                    <div>
+                      {currentCategory || currentSearch ? (
                         <div
-                          style={{ cursor: "pointer" }}
-                          className="mb-1 pr-3"
-                          onClick={() => setCurrentSearch("")}
+                          className={`overflow-hidden bg-gray-100 p-4 shadow-lg`}
                         >
-                          x {currentSearch}
-                        </div>
-                      ) : null}
-                      {currentCategory ? (
-                        <div
-                          className="mb-1 pr-3"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => setCurrentCategory(null)}
-                        >
-                          {allCategoriesFlat.find(
-                            (cat) => cat.id == currentCategory,
-                          ) != null
-                            ? "x " +
-                              t(
-                                allCategoriesFlat.find(
-                                  (cat) => cat.id == currentCategory,
-                                ).Name,
-                              )
-                            : currentCategory}
+                          {currentSearch ? (
+                            <div
+                              style={{ cursor: "pointer" }}
+                              className="mb-1 pr-3"
+                              onClick={() => setCurrentSearch("")}
+                            >
+                              x {currentSearch}
+                            </div>
+                          ) : null}
+                          {currentCategory ? (
+                            <div
+                              className="mb-1 pr-3"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => setCurrentCategory(null)}
+                            >
+                              {allCategoriesFlat.find(
+                                (cat) => cat.id == currentCategory,
+                              ) != null
+                                ? "x " +
+                                  t(
+                                    allCategoriesFlat.find(
+                                      (cat) => cat.id == currentCategory,
+                                    ).Name,
+                                  )
+                                : currentCategory}
+                            </div>
+                          ) : null}
                         </div>
                       ) : null}
                     </div>
-                  ) : null}
-                </div>
-                <div className="flex w-full flex-col bg-white py-2 text-gray-500 shadow-lg duration-300">
-                  {allCategories.map((category) => (
-                    <CategoryItem key={category.id} category={category} />
-                  ))}
-                </div>
-                <div className={`overflow-hidden bg-gray-100 p-4 shadow-lg`}>
-                  <RangeSlider
-                    minGap={20}
-                    initialMin={sliderMin}
-                    initialMax={sliderMax}
-                    min={minValueFromAPI}
-                    max={maxValueFromAPI}
-                    onChange={handleSliderChange}
-                    prefix="€"
-                    label="Price"
-                  />
-                  <div className="flex flex-row justify-between">
-                    <button
-                      className={componentThemes.greenSubmitButton}
-                      onClick={() => {
-                        fetchProductsFiltered();
-                        setIsFilterDrawerOpen(false);
-                      }}
+                    <div className="flex w-full flex-col bg-white py-2 text-gray-500 shadow-lg duration-300">
+                      {allCategories.map((category) => (
+                        <CategoryItem key={category.id} category={category} />
+                      ))}
+                    </div>
+                    <div
+                      className={`overflow-hidden bg-gray-100 p-4 shadow-lg`}
                     >
-                      {t("Filter")}
-                    </button>
+                      <RangeSlider
+                        minGap={20}
+                        initialMin={sliderMin}
+                        initialMax={sliderMax}
+                        min={minValueFromAPI}
+                        max={maxValueFromAPI}
+                        onChange={handleSliderChange}
+                        prefix="€"
+                        label="Price"
+                      />
+                      <div className="flex flex-row justify-between">
+                        <button
+                          className={componentThemes.greenSubmitButton}
+                          onClick={() => {
+                            fetchProductsFiltered();
+                            setIsFilterDrawerOpen(false);
+                          }}
+                        >
+                          {t("Filter")}
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
+                <div
+                  onClick={() => setIsFilterDrawerOpen(false)}
+                  className={`h-full w-full`}
+                ></div>
               </div>
             </div>
             <div className="hidden w-full flex-col duration-700 lg:flex">

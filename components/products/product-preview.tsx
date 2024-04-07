@@ -147,19 +147,12 @@ const ProductPreview = ({ product, width }: Props) => {
           </h3>
           <h4
             draggable={false}
-            className="h-[19px] w-full justify-center overflow-hidden px-2 text-sm font-semibold duration-700 group-hover:h-[0px]"
+            className="h-[19px] w-full justify-center overflow-hidden px-2 text-sm font-semibold duration-700 "
           >
             <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={13}>
               {`${product.internalCode != "0" ? product.internalCode : ""}`}
             </AutoTextSize>
           </h4>
-          <Link
-            draggable={false}
-            className="h-[0px] overflow-hidden text-left text-sm font-bold text-orange-400 duration-700 group-hover:h-[19px]"
-            href={"/products/" + product.id}
-          >
-            {t("+ View Details")}
-          </Link>
         </div>
         <div draggable={false} className="flex flex-col items-center lg:hidden">
           <h3
