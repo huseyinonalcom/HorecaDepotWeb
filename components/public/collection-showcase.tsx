@@ -75,7 +75,7 @@ const CollectionShowcase = ({ collection }: Props) => {
               <div
                 key={prod.id}
                 draggable={false}
-                className="flex w-[200px] flex-shrink-0 items-center bg-white p-1 py-4 shadow-lg last:mr-4"
+                className="flex h-full aspect-[250/430] flex-shrink-0 flex-col items-center justify-center bg-white p-1 shadow-lg last:mr-4"
               >
                 <ProductPreview width={"full"} product={prod} />
               </div>

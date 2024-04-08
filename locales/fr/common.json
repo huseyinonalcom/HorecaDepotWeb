@@ -175,5 +175,7 @@
   "user_pass_invalid": "Nom d'utilisateur et/ou mot de passe invalide",
   "reservation_new": "Nouvelle Réservation",
   "reservation_create": "Réservation Ajouter",
-  "reservations": "Réservations"
+  "reservations": "Réservations",
+  "Special Collections": "Collections spéciales",
+  "Top Categories": "Catégories populaires"
 }

@@ -1252,7 +1252,7 @@ export default function Products() {
                 <div className="mb-2 mt-2 flex flex-row justify-center px-6">
                   <div className="flex items-center justify-center space-x-1">
                     <button
-                      className="border p-2  hover:bg-gray-200"
+                      className="border p-2 hover:bg-gray-200"
                       onClick={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
                     >
@@ -1266,7 +1266,7 @@ export default function Products() {
                       ) : (
                         <button
                           key={index}
-                          className={`border p-2  hover:bg-gray-200 ${
+                          className={`border p-2 hover:bg-gray-200 ${
                             currentPage === page ? "bg-gray-300" : ""
                           }`}
                           onClick={() => goToPage(page)}
@@ -1276,7 +1276,7 @@ export default function Products() {
                       ),
                     )}
                     <button
-                      className="border p-2  hover:bg-gray-200"
+                      className="border p-2 hover:bg-gray-200"
                       onClick={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
                     >

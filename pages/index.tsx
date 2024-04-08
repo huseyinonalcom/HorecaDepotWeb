@@ -23,7 +23,7 @@ export default function Index({ collections, images, imageUrls }) {
   const imageVisible = "opacity-100 z-40";
   const imageInvisible = "opacity-0";
   const homepageSpecialBox =
-    "relative flex flex-col w-[300px] h-[200px] flex-shrink-0 items-center p-1 py-4 shadow-lg last:mr-4";
+    "relative flex flex-col w-[250px] h-[220px] flex-shrink-0 items-center p-1 py-5 duration-300 hover:py-3 last:mr-4";
 
   useEffect(() => {
     setCurrentImage(0);
@@ -103,13 +103,40 @@ export default function Index({ collections, images, imageUrls }) {
         <meta name="language" content={lang} />
       </Head>
       <div className="flex flex-col items-center justify-center">
-        <div className="h-[80vh] w-full">
+        <div className="h-[60vh] w-full">
           <div className="relative h-full w-full">
             {indexImages.map((img, index) => (
+              <Image
+                fill
+                id="background-image"
+                style={{ objectFit: "cover" }}
+                priority={index == 0}
+                loading="eager"
+                key={index}
+                src={img.wpath}
+                alt={"background image"}
+                className={`${imageBase} z-20 hidden md:flex ${currentImage === index ? imageVisible : imageInvisible}`}
+              />
+            ))}
+            {indexImages.map((img, index) => (
+              <Image
+                fill
+                id="background-image"
+                style={{ objectFit: "cover" }}
+                priority={index == 0}
+                loading="eager"
+                key={index}
+                src={img.vpath}
+                alt={"background image"}
+                className={`${imageBase} z-20 flex md:hidden ${currentImage === index ? imageVisible : imageInvisible}`}
+              />
+            ))}
+            {indexImages.map((img, index) => (
               <div
-                className={`absolute top-[50%] z-30 flex flex-col items-center gap-2 p-2 font-semibold duration-300 ${currentImage === index ? "left-[10%]" : "-left-[200%]"}`}
+                key={index}
+                className={`absolute top-[50%] z-40 flex flex-col items-center gap-2 bg-white p-4 font-semibold duration-300 ${currentImage === index ? "left-[10%]" : "-left-[200%]"}`}
               >
-                <p className="text-2xl text-white shadow-md">{img.text}</p>
+                <p className={`text-2xl font-bold text-black`}>{img.text}</p>
                 <Link
                   className="bg-black p-2 text-white duration-300 hover:bg-white hover:text-black"
                   href={img.url}
@@ -117,46 +144,6 @@ export default function Index({ collections, images, imageUrls }) {
                   {img.buttontext}
                 </Link>
               </div>
-            ))}
-            {indexImages.map((img, index) => (
-              <Image
-                onClick={() => {
-                  if (img.url) {
-                    router.push(img.url);
-                  }
-                }}
-                fill
-                id="background-image"
-                style={{ objectFit: "cover" }}
-                priority={index == 0}
-                loading="eager"
-                key={index}
-                src={`${img.wpath}`}
-                alt={""}
-                className={`${imageBase} z-20 hidden md:flex  ${
-                  img.url ? "cursor-pointer" : ""
-                } ${currentImage === index ? imageVisible : imageInvisible}`}
-              />
-            ))}
-            {indexImages.map((img, index) => (
-              <Image
-                onClick={() => {
-                  if (img.url) {
-                    router.push(img.url);
-                  }
-                }}
-                fill
-                id="background-image"
-                style={{ objectFit: "cover" }}
-                priority={index == 0}
-                loading="eager"
-                key={index}
-                src={`${img.vpath}`}
-                alt={""}
-                className={`${imageBase} z-20 flex md:hidden ${
-                  img.url ? "cursor-pointer" : ""
-                } ${currentImage === index ? imageVisible : imageInvisible}`}
-              />
             ))}
           </div>
         </div>
@@ -178,7 +165,7 @@ export default function Index({ collections, images, imageUrls }) {
         <h4 className="mb-4 mt-12 text-4xl font-bold">{t("Top Categories")}</h4>
         <div
           ref={ref}
-          className="no-scrollbar mx-auto my-3 flex h-[230px] w-[95vw] flex-row gap-2 overflow-x-scroll py-2"
+          className="no-scrollbar mx-auto my-3 flex w-[95vw] flex-row gap-2 overflow-x-scroll py-2"
         >
           {categories &&
             categories
@@ -189,9 +176,9 @@ export default function Index({ collections, images, imageUrls }) {
                     router.push(`/products?category=${category.id}`)
                   }
                   key={category.id}
-                  className={homepageSpecialBox + " group bg-orange-400"}
+                  className={homepageSpecialBox}
                 >
-                  <div className="relative h-[90%] w-[90%] duration-500 group-hover:h-full group-hover:w-full">
+                  <div className="relative h-[90%] w-full bg-orange-400 duration-500">
                     <Image
                       draggable={false}
                       src={
@@ -205,9 +192,9 @@ export default function Index({ collections, images, imageUrls }) {
                       className="py-2"
                     />
                   </div>
-                  <div className="absolute flex h-full flex-col items-start justify-end pb-3">
+                  <div className="flex flex-col items-start justify-end pb-4">
                     <Link href={`products?category=${category.id}`}>
-                      <p className="px-4 py-2 font-bold text-white">
+                      <p className="px-4 py-2 font-bold text-gray-700">
                         {t(category.Name)}
                       </p>
                     </Link>
