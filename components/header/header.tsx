@@ -648,6 +648,15 @@ const Header = () => {
   const [allCategories, setAllCategories] = useState([]);
   const { cart, calculateTotal } = useContext(CartContext);
 
+  const [offset, setOffset] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => setOffset(window.scrollY);
+    window.removeEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   useEffect(() => {
     if (allCategories.length === 0 && categories.length > 0) {
       setAllCategories(categories);
@@ -668,7 +677,7 @@ const Header = () => {
 
   return (
     <div
-      className={`top-0 z-50 flex w-full flex-col items-center bg-black bg-opacity-25 pt-3 text-white shadow-lg duration-300 print:hidden ${router.asPath == "/" ? "fixed" : "sticky"}`}
+      className={`top-0 z-50 flex w-full flex-col items-center bg-black pt-3 text-white shadow-lg duration-300 print:hidden ${router.asPath == "/" ? "fixed" : "sticky"} ${router.asPath != "/" || offset > 100 ? "bg-opacity-100" : "bg-opacity-25"}`}
     >
       <div className="flex w-full flex-col gap-2 pb-4">
         <HeaderDrawer
