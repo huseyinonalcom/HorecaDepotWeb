@@ -49,7 +49,7 @@ const CollectionShowcase = ({ collection }: Props) => {
       <div className="relative h-[250px] w-full md:h-full md:w-1/2">
         <Image
           fill
-          style={{ objectFit: "cover", zIndex: 30 }}
+          style={{ objectFit: "cover", zIndex: 10 }}
           src={
             collection.image != null
               ? "https://hdapi.huseyinonalalpha.com" + collection.image.url
@@ -57,10 +57,10 @@ const CollectionShowcase = ({ collection }: Props) => {
           }
           alt=""
         />
-        <div className="absolute left-0 top-0 z-40 flex flex-col whitespace-nowrap bg-neutral-100 bg-opacity-50 pl-2 pr-2 pt-1">
+        <div className="absolute left-0 top-0 z-20 flex flex-col whitespace-nowrap bg-neutral-100 bg-opacity-50 pl-2 pr-2 pt-1">
           {title}
         </div>
-        <div className="absolute bottom-0 left-0 z-40 flex bg-neutral-100 bg-opacity-50 pb-1 pl-2 pr-2">
+        <div className="absolute bottom-0 left-0 z-20 flex bg-neutral-100 bg-opacity-50 pb-1 pl-2 pr-2">
           {description}
         </div>
       </div>

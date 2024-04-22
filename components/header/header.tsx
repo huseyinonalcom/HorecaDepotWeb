@@ -604,7 +604,7 @@ const HeaderButtons = ({ cartItems }) => {
       {client ? (
         <Link
           aria-label="Link to User Account Dashboard"
-          className={navButtonsClass}
+          className={`${navButtonsClass} hidden lg:flex`}
           href="/account/myorders"
         >
           <User />
@@ -612,7 +612,7 @@ const HeaderButtons = ({ cartItems }) => {
       ) : (
         <Link
           aria-label="Link to User Login"
-          className={navButtonsClass}
+          className={`${navButtonsClass} hidden lg:flex`}
           href="/login"
         >
           <User />
@@ -624,7 +624,7 @@ const HeaderButtons = ({ cartItems }) => {
         href="/wishlist"
       >
         <Heart />
-        <span className="-full absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-orange-400 px-1 py-0.5 text-xs font-bold leading-none text-red-100">
+        <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-orange-400 px-1 py-0.5 text-xs font-bold leading-none text-red-100">
           {wishlist.length}
         </span>
       </Link>
@@ -634,7 +634,7 @@ const HeaderButtons = ({ cartItems }) => {
         onClick={openDrawer}
       >
         <ShoppingBag />
-        <span className="-full absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-orange-400 px-1 py-0.5 text-xs font-bold leading-none text-red-100">
+        <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-orange-400 px-1 py-0.5 text-xs font-bold leading-none text-red-100">
           {cartItems}
         </span>
       </button>
@@ -653,7 +653,7 @@ const Header = () => {
   useEffect(() => {
     const onScroll = () => setOffset(window.scrollY);
     window.removeEventListener("scroll", onScroll);
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -677,7 +677,7 @@ const Header = () => {
 
   return (
     <div
-      className={`top-0 z-50 flex w-full flex-col items-center bg-black pt-3 text-white shadow-lg duration-300 print:hidden ${router.asPath == "/" ? "fixed" : "sticky"} ${router.asPath != "/" || offset > 100 ? "bg-opacity-100" : "bg-opacity-25"}`}
+      className={`top-0 z-40 flex w-full flex-col items-center bg-black pt-3 text-white shadow-lg duration-300 print:hidden ${router.asPath == "/" ? "fixed" : "sticky"} ${router.asPath != "/" || offset > 100 ? "bg-opacity-100" : "bg-opacity-25"}`}
     >
       <div className="flex w-full flex-col gap-2 pb-4">
         <HeaderDrawer

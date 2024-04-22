@@ -10,6 +10,7 @@ import Link from "next/link";
 import CartDrawer from "../cart/cartDrawer";
 import Follow from "../common/follow";
 import { useRouter } from "next/router";
+import { Heart, ShoppingCart, User } from "react-feather";
 
 type Props = {
   children: React.ReactNode;
@@ -17,6 +18,8 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   const { t, lang } = useTranslation("common");
+  const navButtonsClass =
+    "relative flex flex-col justify-center items-center p-1 duration-300 font-bold text-sm text-white hover:bg-orange-400 aspect-[1/1]";
   const router = useRouter();
   return (
     <>
@@ -55,7 +58,29 @@ const Layout = ({ children }: Props) => {
                   </div>
                 </div>
               </div>
-              <div className="sticky bottom-0 z-50 h-[50px] w-full bg-red-600"></div>
+              <div className="sticky bottom-0 z-40 flex md:hidden h-[50px] w-full flex-row justify-between bg-black px-5">
+                <Link
+                  aria-label="Link to Shop"
+                  className={navButtonsClass}
+                  href="/products?page=1"
+                >
+                  <ShoppingCart />
+                </Link>
+                <Link
+                  aria-label="Link to User Account Dashboard"
+                  className={navButtonsClass}
+                  href="/account/myorders"
+                >
+                  <User />
+                </Link>
+                <Link
+                  aria-label="Link to Wishlist"
+                  className={navButtonsClass}
+                  href="/wishlist"
+                >
+                  <Heart />
+                </Link>
+              </div>
             </main>
           </WishlistProvider>
         </CartProvider>

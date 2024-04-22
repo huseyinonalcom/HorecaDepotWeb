@@ -20,7 +20,7 @@ export default function Index({ collections, images, imageUrls }) {
 
   const imageBase =
     "absolute top-0 flex flex-col items-center justify-center transition-opacity duration-1000";
-  const imageVisible = "opacity-100 z-40";
+  const imageVisible = "opacity-100 z-20";
   const imageInvisible = "opacity-0";
   const homepageSpecialBox =
     "relative flex flex-col w-[250px] h-[220px] flex-shrink-0 items-center p-1 py-5 duration-300 hover:py-3 last:mr-4";
@@ -134,7 +134,7 @@ export default function Index({ collections, images, imageUrls }) {
             {indexImages.map((img, index) => (
               <div
                 key={index}
-                className={`absolute top-[50%] z-40 flex flex-col items-center gap-2 bg-white p-4 font-semibold duration-300 ${currentImage === index ? "left-[10%]" : "-left-[200%]"}`}
+                className={`absolute top-[50%] z-30 flex flex-col items-center gap-2 bg-white p-4 font-semibold duration-300 ${currentImage === index ? "left-[10%]" : "-left-[200%]"}`}
               >
                 <p className={`text-2xl font-bold text-black`}>{img.text}</p>
                 <Link
