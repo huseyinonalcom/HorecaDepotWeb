@@ -25,12 +25,12 @@ const Layout = ({ children }: Props) => {
           <WishlistProvider>
             <Meta />
             <main className="min-h-[80dvh]">
-            <Header />
+              <Header />
               {children}
               <CartDrawer />
               <Link
                 target="_blank"
-                className="fixed bottom-10 right-10 z-40 print:hidden"
+                className="fixed bottom-14 right-10 z-40 print:hidden"
                 href={`https://api.whatsapp.com/send?phone=32499738373&text=https://horecadepot.meubelweb.com${router.asPath}`}
               >
                 <Image
@@ -40,23 +40,23 @@ const Layout = ({ children }: Props) => {
                   src={"/assets/img/wa.png"}
                 />
               </Link>
-              <div className="w-full z-50 h-[50px] bg-red-600 sticky bottom-0"></div>
-            </main>
-            <footer className="botton-0 absolute z-30 w-full border-t border-neutral-200 bg-neutral-100 py-8 print:hidden">
-              <div className="flex w-full flex-col">
-                <div className="flex flex-col items-center justify-around gap-2 pb-2 md:flex-row">
-                  <div className="w-min">
-                    <Follow />
+              <div className="z-30 w-full border-t border-neutral-200 bg-neutral-100 py-8 print:hidden">
+                <div className="flex w-full flex-col">
+                  <div className="flex flex-col items-center justify-around gap-2 pb-2 md:flex-row">
+                    <div className="w-min">
+                      <Follow />
+                    </div>
+                  </div>
+                  <div className="mx-auto px-2 pb-2">
+                    <AutoTextSize mode="oneline" maxFontSizePx={16}>
+                      © Horeca Depot. {new Date().getFullYear()}.{" "}
+                      {t("All Rights Reserved")}
+                    </AutoTextSize>
                   </div>
                 </div>
-                <div className="mx-auto px-2 pb-2">
-                  <AutoTextSize mode="oneline" maxFontSizePx={16}>
-                    © Horeca Depot. {new Date().getFullYear()}.{" "}
-                    {t("All Rights Reserved")}
-                  </AutoTextSize>
-                </div>
               </div>
-            </footer>
+              <div className="sticky bottom-0 z-50 h-[50px] w-full bg-red-600"></div>
+            </main>
           </WishlistProvider>
         </CartProvider>
       </ClientProvider>
