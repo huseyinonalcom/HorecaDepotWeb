@@ -19,7 +19,7 @@ export default function Index({ collections, images, imageUrls }) {
   const { categories } = useContext(CategoryContext);
 
   const imageBase =
-    "absolute flex flex-col items-center justify-center transition-opacity duration-1000";
+    "absolute top-0 flex flex-col items-center justify-center transition-opacity duration-1000";
   const imageVisible = "opacity-100 z-40";
   const imageInvisible = "opacity-0";
   const homepageSpecialBox =
@@ -103,7 +103,7 @@ export default function Index({ collections, images, imageUrls }) {
         <meta name="language" content={lang} />
       </Head>
       <div className="flex flex-col items-center justify-center">
-        <div className="h-[60vh] w-full">
+        <div className="h-[70vh] w-full">
           <div className="relative h-full w-full">
             {indexImages.map((img, index) => (
               <Image

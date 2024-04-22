@@ -135,14 +135,14 @@ const Header = () => {
     "relative flex flex-col justify-center items-center p-1 bg-white duration-300 font-bold text-sm text-black hover:bg-orange-400 aspect-[1/1]";
 
   return (
-    <div className="sticky top-0 z-50 flex w-full flex-col items-center bg-black pt-3 text-white shadow-lg duration-300 print:hidden">
-      <div className="flex w-full flex-col gap-2 px-5 pb-4">
+    <div className="fixed top-0 isolate z-50 flex w-full flex-col items-center bg-black bg-opacity-25 pt-3 text-white shadow-lg duration-300 print:hidden">
+      <div className="isolate flex w-full flex-col gap-2 px-5 pb-4">
         <HeaderDrawer
           isOpen={isHeaderDrawerOpen}
           onClickOutside={onClickOutsideDrawer}
         />
 
-        <div className="flex w-full flex-row items-center justify-between gap-4">
+        <div className="isolate flex w-full flex-row items-center justify-between gap-4">
           <Link
             href={"/"}
             className="flex-shrink-0"
@@ -262,7 +262,7 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="flex hidden w-full flex-row justify-between lg:flex">
+        <div className="isolate hidden w-full flex-row justify-between lg:flex">
           <div className="hidden w-[90px] flex-row items-center lg:flex">
             <div className="group relative h-full flex-shrink-0">
               <Link
@@ -384,10 +384,6 @@ const Header = () => {
             </ul>
           </div>
         </div>
-      </div>
-      <div className="flex w-full flex-row justify-between">
-        <div className="inverted-border-radius-tl"></div>
-        <div className="inverted-border-radius-tr"></div>
       </div>
     </div>
   );
