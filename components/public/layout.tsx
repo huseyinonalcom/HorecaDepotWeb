@@ -40,6 +40,7 @@ const Layout = ({ children }: Props) => {
                   src={"/assets/img/wa.png"}
                 />
               </Link>
+              <div className="w-full z-50 h-[50px] bg-red-600 sticky bottom-0"></div>
             </main>
             <footer className="botton-0 absolute z-30 w-full border-t border-neutral-200 bg-neutral-100 py-8 print:hidden">
               <div className="flex w-full flex-col">
