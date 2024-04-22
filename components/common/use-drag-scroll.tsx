@@ -33,8 +33,8 @@ export const useDragScroll = () => {
         resetCursor(node);
       };
 
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener("mousemove", handleMouseMove, { passive: true });
+      document.addEventListener("mouseup", handleMouseUp, { passive: true });
     },
     [node]
   );
@@ -67,8 +67,8 @@ export const useDragScroll = () => {
         resetCursor(node);
       };
 
-      document.addEventListener("touchmove", handleTouchMove);
-      document.addEventListener("touchend", handleTouchEnd);
+      document.addEventListener("touchmove", handleTouchMove, { passive: true });
+      document.addEventListener("touchend", handleTouchEnd, { passive: true });
     },
     [node]
   );
@@ -87,10 +87,10 @@ export const useDragScroll = () => {
     if (!node) {
       return;
     }
-    node.addEventListener("mousedown", handleMouseDown);
-    node.addEventListener("touchstart", handleTouchStart);
+    node.addEventListener("mousedown", handleMouseDown, { passive: true });
+    node.addEventListener("touchstart", handleTouchStart, { passive: true });
     return () => {
-      node.removeEventListener("mousedown", handleMouseDown);
+      node.removeEventListener("mousedown", handleMouseDown,);
       node.removeEventListener("touchstart", handleTouchStart);
     };
   }, [node]);

@@ -208,5 +208,7 @@
   "Tabourets de Bar Extérieur": "Outdoor Bar Stools",
   "Tabourets de Bar Intérieur": "Indoor Bar Stools",
   "REFERENCES": "REFERENCES",
-  "location": "Store Location"
+  "location": "Store Location",
+  "Username": "Username",
+  "Password": "Password"
 }
