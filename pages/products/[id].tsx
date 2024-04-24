@@ -36,8 +36,8 @@ const ProductPage = ({
   const [cartAmount, setCartAmount] = useState(1);
   const [currentImage, setCurrentImage] = useState(0);
   const imageBase =
-    "absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000";
-  const imageVisible = "opacity-100 z-40";
+    "z-20 absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000";
+  const imageVisible = "opacity-100 z-20";
   const imageInvisible = "opacity-0";
 
   useEffect(() => {
