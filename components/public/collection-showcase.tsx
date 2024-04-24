@@ -24,7 +24,7 @@ const CollectionShowcase = ({ collection }: Props) => {
         style={{
           color: `#${textColor.substring(0, 2)}${textColor.substring(2, 4)}${textColor.substring(4, 6)}`,
         }}
-        className={`text-2xl font-bold ${textColor}`}
+        className={`text-2xl font-bold`}
       >
         {collection.name}
       </p>,
@@ -35,7 +35,7 @@ const CollectionShowcase = ({ collection }: Props) => {
         style={{
           color: `#${textColor.substring(0, 2)}${textColor.substring(2, 4)}${textColor.substring(4, 6)}`,
         }}
-        className={`w-full text-lg font-semibold`}
+        className={`w-full font-semibold`}
       >
         {collection.description}
       </p>,
@@ -55,13 +55,12 @@ const CollectionShowcase = ({ collection }: Props) => {
               ? "https://hdapi.huseyinonalalpha.com" + collection.image.url
               : "/assets/img/placeholder.png"
           }
+          className="z-10"
           alt=""
         />
-        <div className="absolute left-0 top-0 z-20 flex flex-col whitespace-nowrap bg-neutral-100 bg-opacity-50 pl-2 pr-2 pt-1">
-          {title}
-        </div>
-        <div className="absolute bottom-0 left-0 z-20 flex bg-neutral-100 bg-opacity-50 pb-1 pl-2 pr-2">
-          {description}
+        <div className="relative z-20 flex h-full w-full flex-col items-center justify-center">
+          <div className="z-20">{title}</div>
+          <div className="z-20 text-sm">{description}</div>
         </div>
       </div>
 
@@ -75,7 +74,7 @@ const CollectionShowcase = ({ collection }: Props) => {
               <div
                 key={prod.id}
                 draggable={false}
-                className="flex h-full aspect-[250/430] flex-shrink-0 flex-col items-center justify-center bg-white p-1 shadow-lg last:mr-4"
+                className="flex aspect-[250/430] h-full flex-shrink-0 flex-col items-center justify-center bg-white p-1 shadow-lg last:mr-4"
               >
                 <ProductPreview width={"full"} product={prod} />
               </div>

@@ -43,12 +43,10 @@ const Layout = ({ children }: Props) => {
                   src={"/assets/img/wa.png"}
                 />
               </Link>
-              <div className="z-30 w-full border-t border-neutral-200 bg-neutral-100 py-8 print:hidden">
+              <div className="z-30 w-full border-t border-neutral-200 bg-neutral-100 pb-8 pt-4 print:hidden">
                 <div className="flex w-full flex-col">
-                  <div className="flex flex-col items-center justify-around gap-2 pb-2 md:flex-row">
-                    <div className="w-min">
+                  <div className="pb-4 px-4 border-b border-neutral-200 bg-neutral-100">
                       <Follow />
-                    </div>
                   </div>
                   <div className="mx-auto px-2 pb-2">
                     <AutoTextSize mode="oneline" maxFontSizePx={16}>
