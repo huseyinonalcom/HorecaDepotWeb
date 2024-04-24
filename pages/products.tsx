@@ -444,26 +444,26 @@ export default function Products() {
           </div>
 
           <div className="flex w-full flex-col">
-            <div className="grid grid-cols-2 md:grid-cols-3">
+            <div className="grid grid-cols-1 md:grid-cols-3">
               <p className="hidden md:flex"></p>
               <h2 className="mt-2 flex w-full justify-center text-5xl font-bold">
                 {t("Products")}
               </h2>
-              <div className="my-auto flex h-fit w-full flex-row justify-end gap-2 pr-4">
+              <div className="my-auto flex h-fit w-full flex-row justify-end gap-2 pr-4 pl-4">
                 <ArrowUp
                   height={36}
                   width={36}
                   onClick={() => setCurrentSortDirection(!currentSortDirection)}
-                  className={`flex flex-row items-center border-2 border-blue-500 bg-white p-1 duration-500 ${currentSortDirection ? "rotate-0" : "rotate-180"}`}
+                  className={`flex flex-row items-center border-2 border-blue-500 cursor-pointer bg-white p-1 duration-500 ${currentSortDirection ? "rotate-0" : "rotate-180"}`}
                 />
                 <div
-                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "id" && "border-blue-500"}`}
+                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "id" && "border-blue-500"} cursor-pointer`}
                   onClick={() => setCurrentSort("id")}
                 >
                   {t("Date")}
                 </div>
                 <div
-                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "value" && "border-blue-500"}`}
+                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "value" && "border-blue-500"} cursor-pointer`}
                   onClick={() => setCurrentSort("value")}
                 >
                   {t("Price")}
@@ -483,7 +483,7 @@ export default function Products() {
                 {t("No products matching")}
               </h3>
             ) : (
-              <div className="grid w-full grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+              <div className="grid w-full grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                 {allProducts.map((product) => (
                   <div key={product.id} className="mb-2 mt-2 w-full px-4">
                     <ProductPreview product={product} width={"full"} />

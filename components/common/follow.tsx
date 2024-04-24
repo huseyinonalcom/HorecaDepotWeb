@@ -18,7 +18,7 @@ const Follow = () => {
           color="black"
           width={170}
           height={45}
-          src="/assets/header/logob.svg"
+          src="/assets/header/logob.png"
           alt="Horeca Depot Logo"
         />
       </Link>

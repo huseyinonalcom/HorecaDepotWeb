@@ -48,7 +48,7 @@ const Layout = ({ children }: Props) => {
                   <div className="pb-4 px-4 border-b border-neutral-200 bg-neutral-100">
                       <Follow />
                   </div>
-                  <div className="mx-auto px-2 pb-2">
+                  <div className="mx-auto px-2 pt-6">
                     <AutoTextSize mode="oneline" maxFontSizePx={16}>
                       © Horeca Depot. {new Date().getFullYear()}.{" "}
                       {t("All Rights Reserved")}
