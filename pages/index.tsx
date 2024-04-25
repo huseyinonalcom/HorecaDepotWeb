@@ -23,7 +23,14 @@ export default function Index({ collections, images, imageUrls }) {
   const imageVisible = "opacity-100 z-20";
   const imageInvisible = "opacity-0";
   const homepageSpecialBox =
-    "relative flex flex-col w-[240px] h-[250px] flex-shrink-0 items-center px-1 py-5 duration-300 hover:py-3 last:mr-4";
+    "relative flex flex-col w-[380px] h-[380px] flex-shrink-0 items-center px-1 py-5 duration-300 hover:py-3 last:mr-4";
+
+  let allCategories = [];
+
+  for (let i = 0; i < categories.length; i++) {
+    allCategories.push(categories[i]);
+    allCategories.push(...categories[i].subCategories);
+  }
 
   useEffect(() => {
     setCurrentImage(0);
@@ -167,8 +174,8 @@ export default function Index({ collections, images, imageUrls }) {
           ref={ref}
           className="no-scrollbar mx-auto my-3 flex w-[95vw] flex-row gap-2 overflow-x-scroll py-2"
         >
-          {categories &&
-            categories
+          {allCategories &&
+            allCategories
               .filter((cat) => cat.image?.url)
               .map((category) => (
                 <div
@@ -178,7 +185,7 @@ export default function Index({ collections, images, imageUrls }) {
                   key={category.id}
                   className={homepageSpecialBox}
                 >
-                  <div className="relative h-[90%] w-full bg-orange-400 duration-500">
+                  <div className="relative h-[90%] w-full bg-stone-300 duration-500">
                     <Image
                       draggable={false}
                       src={
