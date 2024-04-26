@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useDragScroll } from "../components/common/use-drag-scroll";
 import { CategoryContext } from "../api/providers/categoryProvider";
 import { getProjects } from "./api/projects/public/getprojects";
+import ProjectCarousel from "../components/index/project_carousel";
 
 export default function Index({ collections, images, imageUrls, projects }) {
   const router = useRouter();
@@ -171,21 +172,21 @@ export default function Index({ collections, images, imageUrls, projects }) {
             ))}
         </div>
         <h4 className="mb-4 mt-12 text-4xl font-bold">{t("Our Projects")}</h4>
-        <div
-          className="no-scrollbar mx-auto my-3 flex w-[95vw] flex-row gap-2 overflow-x-scroll py-2"
-        >
+        <ProjectCarousel projects={projects} />
+        <div className="no-scrollbar mx-auto my-3 flex w-[95vw] flex-row gap-2 overflow-x-scroll py-2">
           {projects &&
             projects.map((projects) => (
               <div
                 onClick={() => router.push(`/projects/${projects.id}`)}
                 key={projects.id}
-                className={'w-[33vw] aspect-square'}
+                className={"aspect-square w-[50vw] md:w-[33vw]"}
               >
                 <div className="relative h-[90%] w-full bg-stone-300 duration-500">
                   <Image
                     draggable={false}
                     src={
-                      "https://hdapi.huseyinonalalpha.com" + projects.cover.at(0).url
+                      "https://hdapi.huseyinonalalpha.com" +
+                      projects.cover.at(0).url
                     }
                     fill
                     alt={projects.Name}
