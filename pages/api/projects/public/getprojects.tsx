@@ -35,7 +35,6 @@ export async function getProjects() {
     });
 
     const fetchImagesUrl = `${process.env.API_URL}/api/projects?${query}`;
-    console.log("fetchImagesUrl", fetchImagesUrl)
 
     const fetchImagesRequest = await fetch(fetchImagesUrl, {
       method: "GET",

@@ -257,7 +257,6 @@ export const getStaticProps = async () => {
   const images = imageStuff.indexSliderImages;
   const imageUrls = imageStuff.indexSliderImagesUrls;
   const projects = await getProjects();
-  console.log(projects);
   return {
     props: {
       collections,
