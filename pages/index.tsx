@@ -173,7 +173,7 @@ export default function Index({ collections, images, imageUrls, projects }) {
         </div>
         <h4 className="mb-4 mt-12 text-4xl font-bold">{t("Our Projects")}</h4>
         <ProjectCarousel projects={projects} />
-        <div className="no-scrollbar mx-auto my-3 flex w-[95vw] flex-row gap-2 overflow-x-scroll py-2">
+        {/* <div className="no-scrollbar mx-auto my-3 flex w-[95vw] flex-row gap-2 overflow-x-scroll py-2">
           {projects &&
             projects.map((projects) => (
               <div
@@ -204,7 +204,7 @@ export default function Index({ collections, images, imageUrls, projects }) {
                 </div>
               </div>
             ))}
-        </div>
+        </div> */}
         <h4 className="mb-4 mt-12 text-4xl font-bold">{t("Top Categories")}</h4>
         <div
           ref={ref}
