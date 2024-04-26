@@ -11,8 +11,9 @@ import Head from "next/head";
 import Link from "next/link";
 import { useDragScroll } from "../components/common/use-drag-scroll";
 import { CategoryContext } from "../api/providers/categoryProvider";
+import { getProjects } from "./api/projects/public/getprojects";
 
-export default function Index({ collections, images, imageUrls }) {
+export default function Index({ collections, images, imageUrls, projects }) {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
   const [currentImage, setCurrentImage] = useState(0);
@@ -169,6 +170,40 @@ export default function Index({ collections, images, imageUrls }) {
               </div>
             ))}
         </div>
+        <h4 className="mb-4 mt-12 text-4xl font-bold">{t("Our Projects")}</h4>
+        <div
+          className="no-scrollbar mx-auto my-3 flex w-[95vw] flex-row gap-2 overflow-x-scroll py-2"
+        >
+          {projects &&
+            projects.map((projects) => (
+              <div
+                onClick={() => router.push(`/projects/${projects.id}`)}
+                key={projects.id}
+                className={'w-[33vw] aspect-square'}
+              >
+                <div className="relative h-[90%] w-full bg-stone-300 duration-500">
+                  <Image
+                    draggable={false}
+                    src={
+                      "https://hdapi.huseyinonalalpha.com" + projects.cover.at(0).url
+                    }
+                    fill
+                    alt={projects.Name}
+                    sizes="(max-width: 768px) 50vw, 33vw"
+                    style={{ objectFit: "contain" }}
+                    className="py-2"
+                  />
+                </div>
+                <div className="flex flex-col items-start justify-end pb-4">
+                  <Link href={`/projects/${projects.id}`}>
+                    <p className="px-4 py-2 font-bold text-gray-700">
+                      {projects.Name}
+                    </p>
+                  </Link>
+                </div>
+              </div>
+            ))}
+        </div>
         <h4 className="mb-4 mt-12 text-4xl font-bold">{t("Top Categories")}</h4>
         <div
           ref={ref}
@@ -220,11 +255,14 @@ export const getStaticProps = async () => {
   const imageStuff = await getIndexSliderImages();
   const images = imageStuff.indexSliderImages;
   const imageUrls = imageStuff.indexSliderImagesUrls;
+  const projects = await getProjects();
+  console.log(projects);
   return {
     props: {
       collections,
       images,
       imageUrls,
+      projects,
     },
     revalidate: 1800,
   };
