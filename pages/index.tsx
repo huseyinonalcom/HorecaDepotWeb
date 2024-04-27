@@ -143,9 +143,9 @@ export default function Index({ collections, images, imageUrls, projects }) {
             {indexImages.map((img, index) => (
               <div
                 key={index}
-                className={`absolute top-[50%] z-30 flex flex-col items-center gap-2 p-4 font-semibold duration-300 ${currentImage === index ? "left-[10%]" : "-left-[200%]"}`}
+                className={`absolute top-[50%] w-[90vw] z-30 flex flex-col items-center gap-2 p-4 font-semibold duration-300 ${currentImage === index ? "left-[0%]" : "-left-[200%]"}`}
               >
-                <p className={`text-2xl font-black text-white`}>{img.text}</p>
+                <p className={`text-xl text-center font-black text-white`}>{img.text}</p>
                 <Link
                   className="bg-black p-2 text-white duration-300 hover:bg-white hover:text-black"
                   href={img.url}
