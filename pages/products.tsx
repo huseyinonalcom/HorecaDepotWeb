@@ -1,9 +1,9 @@
 import Layout from "../components/public/layout";
 import Head from "next/head";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useTranslation from "next-translate/useTranslation";
 import ProductPreview from "../components/products/product-preview";
-import { ArrowUp, ChevronLeft, DivideCircle, X } from "react-feather";
+import { ArrowUp, ChevronLeft, X } from "react-feather";
 import { Product } from "../api/interfaces/product";
 import { CategoryContext } from "../api/providers/categoryProvider";
 import RangeSlider from "../components/common/rangeSlider";
@@ -335,7 +335,7 @@ export default function Products() {
                     <p className="mt-4 border-b pb-1 pl-3 text-lg font-semibold">
                       {t("Categories")}
                     </p>
-                    <div className="flex w-full flex-col border-b bg-white py-2 text-gray-500 duration-300 mb-4">
+                    <div className="mb-4 flex w-full flex-col border-b bg-white py-2 text-gray-500 duration-300">
                       {allCategories.map((category) => (
                         <CategoryItem key={category.id} category={category} />
                       ))}
@@ -343,7 +343,7 @@ export default function Products() {
                     <p className="mt-4 border-b pb-1 pl-3 text-lg font-semibold">
                       {t("Price")}
                     </p>
-                    <div className={`overflow-hidden px-4 pt-2 mb-4`}>
+                    <div className={`mb-4 overflow-hidden px-4 pt-2`}>
                       <RangeSlider
                         minGap={20}
                         initialMin={sliderMin}
@@ -449,12 +449,12 @@ export default function Products() {
               <h2 className="mt-2 flex w-full justify-center text-5xl font-bold">
                 {t("Products")}
               </h2>
-              <div className="my-auto flex h-fit w-full flex-row justify-end gap-2 pr-4 pl-4">
+              <div className="my-auto flex h-fit w-full flex-row justify-end gap-2 pl-4 pr-4">
                 <ArrowUp
                   height={36}
                   width={36}
                   onClick={() => setCurrentSortDirection(!currentSortDirection)}
-                  className={`flex flex-row items-center border-2 border-blue-500 cursor-pointer bg-white p-1 duration-500 ${currentSortDirection ? "rotate-0" : "rotate-180"}`}
+                  className={`flex cursor-pointer flex-row items-center border-2 border-blue-500 bg-white p-1 duration-500 ${currentSortDirection ? "rotate-0" : "rotate-180"}`}
                 />
                 <div
                   className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "id" && "border-blue-500"} cursor-pointer`}

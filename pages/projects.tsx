@@ -1,10 +1,7 @@
 import useTranslation from "next-translate/useTranslation";
 import Layout from "../components/public/layout";
-import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
-import path from "path";
-import fs from "fs";
 import { getProjects } from "./api/projects/public/getprojects";
 
 type Props = {

@@ -1,21 +1,8 @@
-import { getAllCategoriesFlattened } from "../api/categories/public/getallcategoriesflattened";
-import {
-  getAllProductIDs,
-  getProductByID,
-  getProducts,
-} from "../../api/calls/productCalls";
-import ProductPreview from "../../components/products/product-preview";
-import ProductButtons from "../../components/products/product-buttons";
-import { Fragment, useEffect, useRef, useState } from "react";
 import useTranslation from "next-translate/useTranslation";
-import { Product } from "../../api/interfaces/product";
 import Layout from "../../components/public/layout";
-import { ArrowLeft, Facebook } from "react-feather";
-import Meta from "../../components/public/meta";
 import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
-import { useDragScroll } from "../../components/common/use-drag-scroll";
 import { getProjectByID } from "../api/projects/public/getprojectbyid";
 import { getAllProjectIDs } from "../api/projects/public/getallprojectids";
 
