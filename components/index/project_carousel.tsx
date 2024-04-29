@@ -8,6 +8,7 @@ function ProjectCarousel({ projects }) {
   return (
     <div className="aspect-[15/13] w-full p-4 md:aspect-[24/15]">
       <Carousel
+        draggable={false}
         onSlideChange={(e) => setCenterIndex(e)}
         indicators={false}
         className="z-20 duration-500"
@@ -32,7 +33,7 @@ function ProjectCarousel({ projects }) {
               />
               <Link
                 className={
-                  `absolute bottom-1 w-full left-1 z-40 rounded-md  px-4 py-4 font-bold text-white transition-all duration-700  hover:text-white ` +
+                  `absolute bottom-1 left-1 z-40 w-full rounded-md  px-4 py-4 font-bold text-white transition-all duration-700  hover:text-white ` +
                   `${centerIndex === index ? "opacity-100" : "opacity-0"}`
                 }
                 href={`/projects/${project.id}`}

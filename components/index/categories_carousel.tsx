@@ -8,6 +8,7 @@ function CategoryCarousel({ categories }) {
   return (
     <div className="aspect-[15/13] w-full p-4 md:aspect-[24/15]">
       <Carousel
+        draggable={false}
         onSlideChange={(e) => setCenterIndex(e)}
         indicators={false}
         className="z-10 duration-500"
@@ -58,6 +59,7 @@ function CategoryCarousel({ categories }) {
         {categories &&
           categories.map((category, index) => (
             <div
+              draggable={false}
               key={category.id}
               className={`relative aspect-[15/13] w-full transform transition-all duration-500 ease-in-out md:aspect-[24/15]`}
             >
@@ -73,7 +75,7 @@ function CategoryCarousel({ categories }) {
               />
               <Link
                 className={
-                  `absolute bottom-1 w-full left-1 z-30 rounded-md  px-4 py-4 font-bold text-black transition-all duration-700 ` +
+                  `absolute bottom-1 left-1 z-30 w-full rounded-md  px-4 py-4 font-bold text-black transition-all duration-700 ` +
                   `${centerIndex === index ? "opacity-100" : "opacity-0"}`
                 }
                 href={`/products?category=${category.id}`}
