@@ -10,9 +10,9 @@ function CategoryCarousel({ categories }) {
       <Carousel
         onSlideChange={(e) => setCenterIndex(e)}
         indicators={false}
-        className="duration-500"
+        className="z-10 duration-500"
         leftControl={
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-full  bg-gray-800/30 hover:bg-gray-800/60 focus:outline-none focus:ring-4 focus:ring-gray-800/70 focus:ring-white sm:h-10 sm:w-10">
+          <span className="z-20 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-800/30 hover:bg-gray-800/60 focus:outline-none focus:ring-4 focus:ring-gray-800/70 focus:ring-white sm:h-10 sm:w-10">
             <svg
               stroke="currentColor"
               fill="none"
@@ -33,7 +33,7 @@ function CategoryCarousel({ categories }) {
           </span>
         }
         rightControl={
-          <span className="inline-flex h-8 w-8 rotate-180 items-center justify-center  rounded-full bg-gray-800/30 hover:bg-gray-800/60 focus:outline-none focus:ring-4 focus:ring-gray-800/70 focus:ring-white sm:h-10 sm:w-10">
+          <span className="z-20 inline-flex h-8 w-8 rotate-180 items-center justify-center rounded-full bg-gray-800/30 hover:bg-gray-800/60 focus:outline-none focus:ring-4 focus:ring-gray-800/70 focus:ring-white sm:h-10 sm:w-10">
             <svg
               stroke="currentColor"
               fill="none"
@@ -71,17 +71,15 @@ function CategoryCarousel({ categories }) {
                 }}
                 alt={category.Name}
               />
-               <div className="absolute bottom-4 left-1 z-40">
-                <Link
-                  className={
-                    `rounded-md hover:bg-stone-300 px-4 py-4 font-bold hover:text-black transition-all duration-700 bg-black text-white ` +
-                    `${centerIndex === index ? "opacity-100" : "opacity-0"}`
-                  }
-                  href={`/products?category=${category.id}`}
-                >
-                  {category.Name}
-                </Link>
-              </div>
+              <Link
+                className={
+                  `absolute bottom-1 w-full left-1 z-30 rounded-md  px-4 py-4 font-bold text-black transition-all duration-700 ` +
+                  `${centerIndex === index ? "opacity-100" : "opacity-0"}`
+                }
+                href={`/products?category=${category.id}`}
+              >
+                {category.Name}
+              </Link>
             </div>
           ))}
       </Carousel>
