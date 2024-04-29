@@ -178,13 +178,13 @@ export default function Index({ collections, images, imageUrls, projects }) {
         </div>
         <div className="grid w-[95vw] grid-cols-1 md:grid-cols-2">
           <div className="flex flex-col">
-            <h4 className="mb-4 mt-12 text-4xl font-bold">
+            <h4 className="mb-4 mt-12 pl-2 text-4xl font-bold">
               {t("Our Projects")}
             </h4>
             <ProjectCarousel projects={projects} />
           </div>
           <div className="flex flex-col">
-            <h4 className="mb-4 mt-12 text-4xl font-bold">
+            <h4 className="mb-4 mt-12 pl-2 text-4xl font-bold">
               {t("Top Categories")}
             </h4>
             {/* <div

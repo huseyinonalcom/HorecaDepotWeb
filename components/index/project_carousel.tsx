@@ -6,7 +6,7 @@ function ProjectCarousel({ projects }) {
   const [centerIndex, setCenterIndex] = useState(0);
 
   return (
-    <div className="aspect-[15/13] md:aspect-[24/15] w-full p-4">
+    <div className="aspect-[15/13] w-full p-4 md:aspect-[24/15]">
       <Carousel
         onSlideChange={(e) => setCenterIndex(e)}
         indicators={false}
@@ -17,7 +17,7 @@ function ProjectCarousel({ projects }) {
           projects.map((project, index) => (
             <div
               key={project.id}
-              className={`relative aspect-[15/13] md:aspect-[24/15] w-full transform transition-all duration-500 ease-in-out`}
+              className={`relative aspect-[15/13] w-full transform transition-all duration-500 ease-in-out md:aspect-[24/15]`}
             >
               <img
                 draggable={false}
@@ -29,10 +29,10 @@ function ProjectCarousel({ projects }) {
                 }}
                 alt={project.title}
               />
-              <div className="absolute bottom-0 left-0 z-40 m-4">
+              <div className="absolute bottom-4 left-1 z-40">
                 <Link
                   className={
-                    `bg-stone-300 px-6 py-4 font-bold text-black transition-all duration-700 hover:bg-black hover:text-white ` +
+                    `rounded-md bg-stone-300 px-4 py-4 font-bold text-black transition-all duration-700 hover:bg-black hover:text-white ` +
                     `${centerIndex === index ? "opacity-100" : "opacity-0"}`
                   }
                   href={`/projects/${project.id}`}

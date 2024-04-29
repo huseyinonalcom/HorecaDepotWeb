@@ -71,10 +71,10 @@ function CategoryCarousel({ categories }) {
                 }}
                 alt={category.Name}
               />
-              <div className="absolute bottom-0 left-0 z-40 m-4">
+               <div className="absolute bottom-4 left-1 z-40">
                 <Link
                   className={
-                    `bg-stone-300 px-6 py-4 font-bold text-black transition-all duration-700 hover:bg-black hover:text-white ` +
+                    `rounded-md hover:bg-stone-300 px-4 py-4 font-bold hover:text-black transition-all duration-700 bg-black text-white ` +
                     `${centerIndex === index ? "opacity-100" : "opacity-0"}`
                   }
                   href={`/products?category=${category.id}`}
