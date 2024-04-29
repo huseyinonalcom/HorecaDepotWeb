@@ -143,11 +143,15 @@ export default function Index({ collections, images, imageUrls, projects }) {
             {indexImages.map((img, index) => (
               <div
                 key={index}
-                className={`absolute top-[50%] w-[90vw] z-30 flex flex-col items-center gap-2 p-4 font-semibold duration-300 ${currentImage === index ? "left-[0%]" : "-left-[200%]"}`}
+                className={`absolute top-[50%] z-30 flex w-[90vw] flex-col items-center gap-2 p-4 font-semibold duration-300 ${currentImage === index ? "left-[0%]" : "-left-[200%]"}`}
               >
-                <p className={`text-xl md:text-3xl text-center font-black text-white`}>{img.text}</p>
+                <p
+                  className={`text-center text-xl font-black text-white md:text-3xl`}
+                >
+                  {img.text}
+                </p>
                 <Link
-                  className="bg-black p-2 md:text-2xl text-white duration-300 hover:bg-white hover:text-black"
+                  className="bg-black p-2 text-white duration-300 hover:bg-white hover:text-black md:text-2xl"
                   href={img.url}
                 >
                   {img.buttontext}
@@ -173,38 +177,6 @@ export default function Index({ collections, images, imageUrls, projects }) {
         </div>
         <h4 className="mb-4 mt-12 text-4xl font-bold">{t("Our Projects")}</h4>
         <ProjectCarousel projects={projects} />
-        {/* <div className="no-scrollbar mx-auto my-3 flex w-[95vw] flex-row gap-2 overflow-x-scroll py-2">
-          {projects &&
-            projects.map((projects) => (
-              <div
-                onClick={() => router.push(`/projects/${projects.id}`)}
-                key={projects.id}
-                className={"aspect-square w-[50vw] md:w-[33vw]"}
-              >
-                <div className="relative h-[90%] w-full bg-stone-300 duration-500">
-                  <Image
-                    draggable={false}
-                    src={
-                      "https://hdapi.huseyinonalalpha.com" +
-                      projects.cover.at(0).url
-                    }
-                    fill
-                    alt={projects.Name}
-                    sizes="(max-width: 768px) 50vw, 33vw"
-                    style={{ objectFit: "contain" }}
-                    className="py-2"
-                  />
-                </div>
-                <div className="flex flex-col items-start justify-end pb-4">
-                  <Link href={`/projects/${projects.id}`}>
-                    <p className="px-4 py-2 font-bold text-gray-700">
-                      {projects.Name}
-                    </p>
-                  </Link>
-                </div>
-              </div>
-            ))}
-        </div> */}
         <h4 className="mb-4 mt-12 text-4xl font-bold">{t("Top Categories")}</h4>
         <div
           ref={ref}
