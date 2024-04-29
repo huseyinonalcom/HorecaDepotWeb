@@ -6,7 +6,7 @@ function ProjectCarousel({ projects }) {
   const [centerIndex, setCenterIndex] = useState(0);
 
   return (
-    <div className="aspect-[15/13] w-full p-4">
+    <div className="aspect-[15/13] md:aspect-[24/15] w-full p-4">
       <Carousel
         onSlideChange={(e) => setCenterIndex(e)}
         indicators={false}
@@ -17,7 +17,7 @@ function ProjectCarousel({ projects }) {
           projects.map((project, index) => (
             <div
               key={project.id}
-              className={`relative aspect-[15/13] w-full transform transition-all duration-500 ease-in-out`}
+              className={`relative aspect-[15/13] md:aspect-[24/15] w-full transform transition-all duration-500 ease-in-out`}
             >
               <img
                 draggable={false}

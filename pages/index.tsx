@@ -13,6 +13,7 @@ import { useDragScroll } from "../components/common/use-drag-scroll";
 import { CategoryContext } from "../api/providers/categoryProvider";
 import { getProjects } from "./api/projects/public/getprojects";
 import ProjectCarousel from "../components/index/project_carousel";
+import CategoryCarousel from "../components/index/categories_carousel";
 
 export default function Index({ collections, images, imageUrls, projects }) {
   const router = useRouter();
@@ -175,47 +176,60 @@ export default function Index({ collections, images, imageUrls, projects }) {
               </div>
             ))}
         </div>
-        <h4 className="mb-4 mt-12 text-4xl font-bold">{t("Our Projects")}</h4>
-        <ProjectCarousel projects={projects} />
-        <h4 className="mb-4 mt-12 text-4xl font-bold">{t("Top Categories")}</h4>
-        <div
-          ref={ref}
-          className="no-scrollbar mx-auto my-3 flex w-[95vw] flex-row gap-2 overflow-x-scroll py-2"
-        >
-          {allCategories &&
-            allCategories
-              .filter((cat) => cat.image?.url)
-              .map((category) => (
-                <div
-                  onClick={() =>
-                    router.push(`/products?category=${category.id}`)
-                  }
-                  key={category.id}
-                  className={homepageSpecialBox}
-                >
-                  <div className="relative h-[90%] w-full bg-stone-300 duration-500">
-                    <Image
-                      draggable={false}
-                      src={
-                        "https://hdapi.huseyinonalalpha.com" +
-                        category.image.url
+        <div className="grid w-[95vw] grid-cols-1 md:grid-cols-2">
+          <div className="flex flex-col">
+            <h4 className="mb-4 mt-12 text-4xl font-bold">
+              {t("Our Projects")}
+            </h4>
+            <ProjectCarousel projects={projects} />
+          </div>
+          <div className="flex flex-col">
+            <h4 className="mb-4 mt-12 text-4xl font-bold">
+              {t("Top Categories")}
+            </h4>
+            {/* <div
+              ref={ref}
+              className="no-scrollbar mx-auto my-3 flex w-[95%] flex-row gap-2 overflow-x-scroll py-2"
+            >
+              {allCategories &&
+                allCategories
+                  .filter((cat) => cat.image?.url)
+                  .map((category) => (
+                    <div
+                      onClick={() =>
+                        router.push(`/products?category=${category.id}`)
                       }
-                      fill
-                      alt={category.Name}
-                      sizes="(max-width: 768px) 50vw, 33vw"
-                      style={{ objectFit: "contain" }}
-                      className="py-2"
-                    />
-                  </div>
-                  <div className="flex flex-col items-start justify-end pb-4">
-                    <Link href={`products?category=${category.id}`}>
-                      <p className="px-4 py-2 font-bold text-gray-700">
-                        {t(category.Name)}
-                      </p>
-                    </Link>
-                  </div>
-                </div>
-              ))}
+                      key={category.id}
+                      className={homepageSpecialBox}
+                    >
+                      <div className="relative h-[90%] w-full bg-stone-300 duration-500">
+                        <Image
+                          draggable={false}
+                          src={
+                            "https://hdapi.huseyinonalalpha.com" +
+                            category.image.url
+                          }
+                          fill
+                          alt={category.Name}
+                          sizes="(max-width: 768px) 50vw, 33vw"
+                          style={{ objectFit: "contain" }}
+                          className="py-2"
+                        />
+                      </div>
+                      <div className="flex flex-col items-start justify-end pb-4">
+                        <Link href={`products?category=${category.id}`}>
+                          <p className="px-4 py-2 font-bold text-gray-700">
+                            {t(category.Name)}
+                          </p>
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+            </div> */}
+            <CategoryCarousel
+              categories={allCategories.filter((cat) => cat.image?.url)}
+            />
+          </div>
         </div>
       </div>
     </Layout>
