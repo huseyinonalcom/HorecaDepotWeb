@@ -12,60 +12,46 @@ function CategoryCarousel({ categories }) {
         indicators={false}
         className="duration-500"
         leftControl={
-          <button
-            className="group"
-            data-testid="carousel-left-control"
-            type="button"
-            aria-label="Previous slide"
-          >
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full  bg-gray-800/30 group-hover:bg-gray-800/60 group-focus:outline-none group-focus:ring-4 group-focus:ring-gray-800/70 group-focus:ring-white sm:h-10 sm:w-10">
-              <svg
-                stroke="currentColor"
-                fill="none"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-                className="h-5 w-5 text-gray-800 sm:h-6 sm:w-6"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M15 19l-7-7 7-7"
-                ></path>
-              </svg>
-            </span>
-          </button>
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-full  bg-gray-800/30 hover:bg-gray-800/60 focus:outline-none focus:ring-4 focus:ring-gray-800/70 focus:ring-white sm:h-10 sm:w-10">
+            <svg
+              stroke="currentColor"
+              fill="none"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              className="h-5 w-5 text-gray-800 sm:h-6 sm:w-6"
+              height="1em"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 19l-7-7 7-7"
+              ></path>
+            </svg>
+          </span>
         }
         rightControl={
-          <button
-            className="group rotate-180"
-            data-testid="carousel-right-control"
-            type="button"
-            aria-label="Previous slide"
-          >
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full  bg-gray-800/30 group-hover:bg-gray-800/60 group-focus:outline-none group-focus:ring-4 group-focus:ring-gray-800/70 group-focus:ring-white sm:h-10 sm:w-10">
-              <svg
-                stroke="currentColor"
-                fill="none"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-                className="h-5 w-5 text-gray-800 sm:h-6 sm:w-6"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M15 19l-7-7 7-7"
-                ></path>
-              </svg>
-            </span>
-          </button>
+          <span className="inline-flex h-8 w-8 rotate-180 items-center justify-center  rounded-full bg-gray-800/30 hover:bg-gray-800/60 focus:outline-none focus:ring-4 focus:ring-gray-800/70 focus:ring-white sm:h-10 sm:w-10">
+            <svg
+              stroke="currentColor"
+              fill="none"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              className="h-5 w-5 text-gray-800 sm:h-6 sm:w-6"
+              height="1em"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 19l-7-7 7-7"
+              ></path>
+            </svg>
+          </span>
         }
         slide={false}
       >
