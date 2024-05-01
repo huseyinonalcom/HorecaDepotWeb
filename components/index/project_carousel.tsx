@@ -1,4 +1,5 @@
 import { Carousel } from "flowbite-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef } from "react";
 
@@ -20,7 +21,7 @@ function ProjectCarousel({ projects }) {
               key={project.id}
               className={`relative z-20 aspect-[15/13] w-full transform transition-all duration-500 ease-in-out md:aspect-[24/15]`}
             >
-              <img
+              <Image
                 draggable={false}
                 src={`https://hdapi.huseyinonalalpha.com${project.cover.at(0).url}`}
                 style={{

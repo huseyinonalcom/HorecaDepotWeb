@@ -1,4 +1,5 @@
 import { Carousel } from "flowbite-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef } from "react";
 
@@ -63,7 +64,7 @@ function CategoryCarousel({ categories }) {
               key={category.id}
               className={`relative aspect-[15/13] w-full transform transition-all duration-500 ease-in-out md:aspect-[24/15]`}
             >
-              <img
+              <Image
                 draggable={false}
                 src={`https://hdapi.huseyinonalalpha.com${category.image.url}`}
                 style={{
