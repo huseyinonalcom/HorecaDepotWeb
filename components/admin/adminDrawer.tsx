@@ -110,8 +110,8 @@ const AdminDrawer = () => {
                   className={`${navLinkClass} ${lang == "en" ? "hidden" : ""}`}
                 >
                   <Image
-                    src={`/assets/header/EN.svg`}
-                    alt={"Flag of the UK"}
+                    src="/assets/header/EN.svg"
+                    alt="Flag of the UK"
                     width={32}
                     height={21.34}
                     style={{ width: "32px", height: "21.34px" }}
@@ -123,8 +123,8 @@ const AdminDrawer = () => {
                   className={`${navLinkClass} ${lang == "fr" ? "hidden" : ""}`}
                 >
                   <Image
-                    src={`/assets/header/FR.svg`}
-                    alt={"Drapeau de la France"}
+                    src="/assets/header/FR.svg"
+                    alt="Drapeau de la France"
                     width={32}
                     height={21.34}
                     style={{ width: "32px", height: "21.34px" }}
@@ -136,8 +136,8 @@ const AdminDrawer = () => {
                   className={`${navLinkClass} ${lang == "nl" ? "hidden" : ""}`}
                 >
                   <Image
-                    src={`/assets/header/NL.svg`}
-                    alt={"Vlag van Nederland"}
+                    src="/assets/header/NL.svg"
+                    alt="Vlag van Nederland"
                     width={32}
                     height={21.34}
                     style={{ width: "32px", height: "21.34px" }}
@@ -149,7 +149,7 @@ const AdminDrawer = () => {
                   className={`${navLinkClass} ${lang == "de" ? "hidden" : ""}`}
                 >
                   <Image
-                    src={`/assets/header/DE.svg`}
+                    src="/assets/header/DE.svg"
                     alt={"Flagge von Deutschland"}
                     width={32}
                     height={21.34}

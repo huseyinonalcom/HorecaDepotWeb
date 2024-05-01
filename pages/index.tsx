@@ -10,8 +10,8 @@ import Head from "next/head";
 import Link from "next/link";
 import { CategoryContext } from "../api/providers/categoryProvider";
 import { getProjects } from "./api/projects/public/getprojects";
-import ProjectCarousel from "../components/index/project_carousel";
-import CategoryCarousel from "../components/index/categories_carousel";
+import CatCarousel from "../components/index/category_carousel";
+import ProCarousel from "../components/index/pro_carousel";
 
 export default function Index({ collections, images, projects }) {
   const { t, lang } = useTranslation("common");
@@ -146,18 +146,19 @@ export default function Index({ collections, images, projects }) {
               </div>
             ))}
         </div>
-        <div className="grid w-[95vw] grid-cols-1 md:grid-cols-2">
+
+        <div className="grid w-[95vw] grid-cols-1 md:grid-cols-2 mb-6">
           <div className="flex flex-col">
             <h4 className="mb-4 mt-12 pl-2 text-4xl font-bold">
               {t("Our Projects")}
             </h4>
-            <ProjectCarousel projects={projects} />
+            <ProCarousel projects={projects} />
           </div>
           <div className="flex flex-col">
             <h4 className="mb-4 mt-12 pl-2 text-4xl font-bold">
               {t("Top Categories")}
             </h4>
-            <CategoryCarousel
+            <CatCarousel
               categories={allCategories.filter((cat) => cat.image?.url)}
             />
           </div>

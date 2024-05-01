@@ -10,7 +10,6 @@
     "@react-pdf/renderer": "^3.3.8",
     "auto-text-size": "^0.2.2",
     "canvg": "^4.0.1",
-    "flowbite-react": "^0.9.0",
     "formidable": "latest",
     "next": "latest",
     "next-translate": "latest",
