@@ -85,7 +85,7 @@ export default function Index({ collections, images, projects }) {
         <meta name="language" content={lang} />
       </Head>
       <div className="flex flex-col items-center justify-center">
-        <div className="h-[70vh] w-full">
+        <div className="h-[60vh] w-full">
           <div className="relative h-full w-full">
             {indexImages.map((img, index) => (
               <Image

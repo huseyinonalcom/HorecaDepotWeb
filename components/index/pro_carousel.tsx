@@ -37,7 +37,7 @@ const ProCarousel = ({ projects }) => {
                 }}
                 className="z-10"
                 fill
-                sizes="(max-width: 640px) 45vw, (max-width: 768px) 45vw, (max-width: 1024px) 90vw, 90vw"
+                sizes="(max-width: 768px) 45vw, 90vw"
                 alt={`image of a ${project.title}`}
               />
               <p className="absolute bottom-1 left-1 z-40 w-full rounded-md px-4 py-4 font-bold text-white transition-all duration-700">
