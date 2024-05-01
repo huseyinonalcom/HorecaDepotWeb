@@ -22,10 +22,9 @@ function ProjectCarousel({ projects }) {
                 draggable={false}
                 src={`https://hdapi.huseyinonalalpha.com${project.cover.at(0).url}`}
                 style={{
-                  width: "100%",
-                  height: "100%",
                   objectFit: "cover",
                 }}
+                fill
                 className="z-20"
                 alt={`image of ${project.title}`}
               />

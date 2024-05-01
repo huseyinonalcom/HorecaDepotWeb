@@ -93,6 +93,7 @@ export default function Index({ collections, images, projects }) {
                 id="background-image"
                 style={{ objectFit: "cover" }}
                 priority={index == 0}
+                sizes="100vw"
                 key={index}
                 src={img.wpath}
                 alt={img.alt}
@@ -105,6 +106,7 @@ export default function Index({ collections, images, projects }) {
                 id="background-image"
                 style={{ objectFit: "cover" }}
                 priority={index == 0}
+                sizes="100vw"
                 key={index}
                 src={img.vpath}
                 alt={img.alt}

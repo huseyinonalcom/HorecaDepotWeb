@@ -46,7 +46,7 @@ const ProductButtons = ({ product, amount, onChange }: Props) => {
     <div className="flex flex-row gap-2 text-white">
       <div className="flex h-fit flex-row items-center justify-center rounded-md border-2 border-black bg-black px-1 duration-300">
         <Minus
-          className="h-7 w-7 cursor-pointer duration-300 hover:text-red-500"
+          className="h-7 w-7 cursor-pointer rounded-md bg-orange-400 duration-300 hover:text-red-500"
           onClick={() => setCartAmount((a) => a - 1)}
         />
         <p className="mx-1.25 my-2 w-[40px] text-center">{cartAmount}</p>

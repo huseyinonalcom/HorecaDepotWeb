@@ -94,16 +94,16 @@ const CartDrawer = () => {
                   >
                     🗑
                   </button>
-                  <div className="mr-2 flex h-fit flex-row items-center justify-center border-2 border-black bg-black p-0.5 text-white duration-300 rounded-md">
+                  <div className="mr-2 flex h-fit flex-row items-center justify-center rounded-md border-2 border-black bg-black p-0.5 text-white duration-300">
                     <Minus
-                      className="h-6 w-6 cursor-pointer pl-1 duration-300 hover:text-red-500"
+                      className="h-6 w-6 cursor-pointer rounded-md bg-orange-400 px-1 duration-300  hover:text-red-500"
                       onClick={() => decreaseQuantity(product.id)}
                     />
                     <p className="mx-1.25 w-[40px] text-center">
                       {product.amount}
                     </p>
                     <Plus
-                      className="h-6 w-6 cursor-pointer px-1 rounded-md duration-300 bg-orange-400  hover:text-green-500"
+                      className="h-6 w-6 cursor-pointer rounded-md bg-orange-400 px-1 duration-300  hover:text-green-500"
                       onClick={() => increaseQuantity(product.id)}
                     />
                   </div>

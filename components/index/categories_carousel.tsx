@@ -65,10 +65,9 @@ function CategoryCarousel({ categories }) {
                 draggable={false}
                 src={`https://hdapi.huseyinonalalpha.com${category.image.url}`}
                 style={{
-                  width: "100%",
-                  height: "100%",
                   objectFit: "contain",
                 }}
+                fill
                 alt={`image of a ${category.Name}`}
               />
               <p className="absolute bottom-1 left-1 z-30 w-full rounded-md  px-4 py-4 font-bold text-black transition-all duration-700">
