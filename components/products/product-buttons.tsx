@@ -1,11 +1,11 @@
-import useTranslation from "next-translate/useTranslation";
-import { Product } from "../../api/interfaces/product";
-import { Heart, Minus, Plus, ShoppingCart } from "react-feather";
-import { CartContext } from "../../api/providers/cartProvider";
-import { useContext, useEffect, useState } from "react";
-import { CartProduct } from "../../api/interfaces/cartProduct";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import { WishlistProduct } from "../../api/interfaces/wishlistProduct";
+import { Heart, Minus, Plus, ShoppingCart } from "react-feather";
+import { CartContext } from "../../api/providers/cartProvider";
+import { CartProduct } from "../../api/interfaces/cartProduct";
+import useTranslation from "next-translate/useTranslation";
+import { useContext, useEffect, useState } from "react";
+import { Product } from "../../api/interfaces/product";
 
 type Props = {
   product: Product;

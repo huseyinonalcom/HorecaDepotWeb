@@ -1,10 +1,10 @@
+import { CartContext } from "../../api/providers/cartProvider";
+import useTranslation from "next-translate/useTranslation";
+import { Minus, Plus, X } from "react-feather";
+import { AutoTextSize } from "auto-text-size";
 import React, { useContext } from "react";
 import Image from "next/image";
-import { CartContext } from "../../api/providers/cartProvider";
 import Link from "next/link";
-import { Minus, Plus, X } from "react-feather";
-import useTranslation from "next-translate/useTranslation";
-import { AutoTextSize } from "auto-text-size";
 
 const CartDrawer = () => {
   const { t } = useTranslation("common");
