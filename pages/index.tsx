@@ -5,18 +5,15 @@ import useTranslation from "next-translate/useTranslation";
 import Layout from "../components/public/layout";
 import Meta from "../components/public/meta";
 import { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
-import { useDragScroll } from "../components/common/use-drag-scroll";
 import { CategoryContext } from "../api/providers/categoryProvider";
 import { getProjects } from "./api/projects/public/getprojects";
 import ProjectCarousel from "../components/index/project_carousel";
 import CategoryCarousel from "../components/index/categories_carousel";
 
-export default function Index({ collections, images, imageUrls, projects }) {
-  const router = useRouter();
+export default function Index({ collections, images, projects }) {
   const { t, lang } = useTranslation("common");
   const [currentImage, setCurrentImage] = useState(0);
   const { categories } = useContext(CategoryContext);
@@ -25,8 +22,6 @@ export default function Index({ collections, images, imageUrls, projects }) {
     "absolute top-0 flex flex-col items-center justify-center transition-opacity duration-1000";
   const imageVisible = "opacity-100 z-20";
   const imageInvisible = "opacity-0";
-  const homepageSpecialBox =
-    "relative flex flex-col w-[380px] h-[380px] flex-shrink-0 items-center px-1 py-5 duration-300 hover:py-3 last:mr-4";
 
   let allCategories = [];
 
@@ -79,30 +74,7 @@ export default function Index({ collections, images, imageUrls, projects }) {
       buttontext: "Commander maintenant",
       url: "/products?page=1&search=BALLOON",
     },
-    // {
-    //   id: 4,
-    //   wpath: "/assets/projects/v-1.png",
-    //   vpath: "/assets/projects/v-1.png",
-    //   alt: "Incanto",
-    //   url: "/products/116",
-    // },
-    // {
-    //   id: 5,
-    //   wpath: "/assets/projects/w-2.png",
-    //   vpath: "/assets/projects/w-2.png",
-    //   alt: "Misoni",
-    //   url: "/products/307",
-    // },
-    // {
-    //   id: 6,
-    //   wpath: "/assets/projects/w-3.png",
-    //   vpath: "/assets/projects/w-3.png",
-    //   alt: "Florian",
-    //   url: "/products/191",
-    // },
   ];
-
-  const [ref] = useDragScroll();
 
   return (
     <Layout>
@@ -123,7 +95,7 @@ export default function Index({ collections, images, imageUrls, projects }) {
                 priority={index == 0}
                 key={index}
                 src={img.wpath}
-                alt={"background image"}
+                alt="background image"
                 className={`${imageBase} z-20 hidden md:flex ${currentImage === index ? imageVisible : imageInvisible}`}
               />
             ))}
@@ -135,7 +107,7 @@ export default function Index({ collections, images, imageUrls, projects }) {
                 priority={index == 0}
                 key={index}
                 src={img.vpath}
-                alt={"background image"}
+                alt="background image"
                 className={`${imageBase} z-20 flex md:hidden ${currentImage === index ? imageVisible : imageInvisible}`}
               />
             ))}
@@ -144,9 +116,7 @@ export default function Index({ collections, images, imageUrls, projects }) {
                 key={index}
                 className={`absolute top-[50%] z-30 flex w-[90vw] flex-col items-center gap-2 p-4 font-semibold duration-300 ${currentImage === index ? "left-[0%]" : "-left-[200%]"}`}
               >
-                <p
-                  className={`text-center text-xl font-black text-white md:text-3xl`}
-                >
+                <p className="text-center text-xl font-black text-white md:text-3xl">
                   {img.text}
                 </p>
                 <Link
@@ -168,7 +138,7 @@ export default function Index({ collections, images, imageUrls, projects }) {
               <div
                 key={collection.id}
                 style={{ backgroundColor: `#${collection.bgColor}` }}
-                className={`w-full pb-2 md:aspect-[38/9]`}
+                className="w-full pb-2 md:aspect-[38/9]"
               >
                 <CollectionShowcase collection={collection} />
               </div>
@@ -185,45 +155,6 @@ export default function Index({ collections, images, imageUrls, projects }) {
             <h4 className="mb-4 mt-12 pl-2 text-4xl font-bold">
               {t("Top Categories")}
             </h4>
-            {/* <div
-              ref={ref}
-              className="no-scrollbar mx-auto my-3 flex w-[95%] flex-row gap-2 overflow-x-scroll py-2"
-            >
-              {allCategories &&
-                allCategories
-                  .filter((cat) => cat.image?.url)
-                  .map((category) => (
-                    <div
-                      onClick={() =>
-                        router.push(`/products?category=${category.id}`)
-                      }
-                      key={category.id}
-                      className={homepageSpecialBox}
-                    >
-                      <div className="relative h-[90%] w-full bg-stone-300 duration-500">
-                        <Image
-                          draggable={false}
-                          src={
-                            "https://hdapi.huseyinonalalpha.com" +
-                            category.image.url
-                          }
-                          fill
-                          alt={category.Name}
-                          sizes="(max-width: 768px) 50vw, 33vw"
-                          style={{ objectFit: "contain" }}
-                          className="py-2"
-                        />
-                      </div>
-                      <div className="flex flex-col items-start justify-end pb-4">
-                        <Link href={`products?category=${category.id}`}>
-                          <p className="px-4 py-2 font-bold text-gray-700">
-                            {t(category.Name)}
-                          </p>
-                        </Link>
-                      </div>
-                    </div>
-                  ))}
-            </div> */}
             <CategoryCarousel
               categories={allCategories.filter((cat) => cat.image?.url)}
             />

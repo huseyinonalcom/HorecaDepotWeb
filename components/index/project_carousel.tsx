@@ -1,25 +1,22 @@
 import { Carousel } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef } from "react";
 
 function ProjectCarousel({ projects }) {
-  const [centerIndex, setCenterIndex] = useState(0);
-
   return (
     <div className="aspect-[15/13] w-full p-4 md:aspect-[24/15]">
       <Carousel
         draggable={false}
-        onSlideChange={(e) => setCenterIndex(e)}
         indicators={false}
         className="z-20 duration-500"
         slide={false}
       >
         {projects &&
-          projects.map((project, index) => (
-            <div
+          projects.map((project) => (
+            <Link
+              href={`/projects/${project.id}`}
               key={project.id}
-              className={`relative z-20 aspect-[15/13] w-full transform transition-all duration-500 ease-in-out md:aspect-[24/15]`}
+              className="relative z-20 aspect-[15/13] w-full transform transition-all duration-500 ease-in-out md:aspect-[24/15]"
             >
               <Image
                 draggable={false}
@@ -32,16 +29,10 @@ function ProjectCarousel({ projects }) {
                 className="z-20"
                 alt={project.title}
               />
-              <Link
-                className={
-                  `absolute bottom-1 left-1 z-40 w-full rounded-md  px-4 py-4 font-bold text-white transition-all duration-700  hover:text-white ` +
-                  `${centerIndex === index ? "opacity-100" : "opacity-0"}`
-                }
-                href={`/projects/${project.id}`}
-              >
+              <p className="absolute bottom-1 left-1 z-40 w-full rounded-md px-4 py-4 font-bold text-white transition-all duration-700  hover:text-white">
                 {project.title}
-              </Link>
-            </div>
+              </p>
+            </Link>
           ))}
       </Carousel>
     </div>

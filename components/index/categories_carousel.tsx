@@ -1,16 +1,12 @@
 import { Carousel } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef } from "react";
 
 function CategoryCarousel({ categories }) {
-  const [centerIndex, setCenterIndex] = useState(0);
-
   return (
     <div className="aspect-[15/13] w-full p-4 md:aspect-[24/15]">
       <Carousel
         draggable={false}
-        onSlideChange={(e) => setCenterIndex(e)}
         indicators={false}
         className="z-10 duration-500"
         leftControl={
@@ -59,10 +55,11 @@ function CategoryCarousel({ categories }) {
       >
         {categories &&
           categories.map((category, index) => (
-            <div
+            <Link
+              href={`/products?category=${category.id}`}
               draggable={false}
               key={category.id}
-              className={`relative aspect-[15/13] w-full transform transition-all duration-500 ease-in-out md:aspect-[24/15]`}
+              className="relative aspect-[15/13] w-full transform transition-all duration-500 ease-in-out md:aspect-[24/15]"
             >
               <Image
                 draggable={false}
@@ -74,16 +71,10 @@ function CategoryCarousel({ categories }) {
                 }}
                 alt={category.Name}
               />
-              <Link
-                className={
-                  `absolute bottom-1 left-1 z-30 w-full rounded-md  px-4 py-4 font-bold text-black transition-all duration-700 ` +
-                  `${centerIndex === index ? "opacity-100" : "opacity-0"}`
-                }
-                href={`/products?category=${category.id}`}
-              >
+              <p className="absolute bottom-1 left-1 z-30 w-full rounded-md  px-4 py-4 font-bold text-black transition-all duration-700">
                 {category.Name}
-              </Link>
-            </div>
+              </p>
+            </Link>
           ))}
       </Carousel>
     </div>
