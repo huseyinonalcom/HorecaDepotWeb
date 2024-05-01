@@ -52,7 +52,7 @@ const CatCarousel = ({ categories }) => {
         type="button"
         aria-label="Next slide"
       >
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800/30 hover:bg-gray-800/60 focus:outline-none focus:ring-4 focus:ring-gray-800/70 focus:ring-white sm:h-10 sm:w-10">
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800/30 hover:bg-gray-800/60 focus:outline-none focus:ring-4 focus:ring-gray-800/70 sm:h-10 sm:w-10">
           <svg
             stroke="currentColor"
             fill="none"
@@ -79,7 +79,7 @@ const CatCarousel = ({ categories }) => {
         type="button"
         aria-label="Next slide"
       >
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800/30 hover:bg-gray-800/60 focus:outline-none focus:ring-4 focus:ring-gray-800/70 focus:ring-white sm:h-10 sm:w-10">
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800/30 hover:bg-gray-800/60 focus:outline-none focus:ring-4 focus:ring-gray-800/70 sm:h-10 sm:w-10">
           <svg
             stroke="currentColor"
             fill="none"
