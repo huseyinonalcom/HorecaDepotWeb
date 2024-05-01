@@ -51,7 +51,7 @@ export default function Index({ collections, images, projects }) {
       id: 1,
       wpath: "/assets/projects/teddy/w-1.jpg",
       vpath: "/assets/projects/teddy/v-1.jpg",
-      alt: "Le Teddy's",
+      alt: "Image of Le Teddy's Restaurant",
       text: "Designs élégants pour restaurants haut de gamme.",
       buttontext: "Voir les choix",
       url: "/products?page=1&search=flora&category=1",
@@ -60,7 +60,7 @@ export default function Index({ collections, images, projects }) {
       id: 2,
       wpath: "/assets/projects/factory/w-1.jpg",
       vpath: "/assets/projects/factory/w-1.jpg",
-      alt: "Factory",
+      alt: "Image of HorecaDepot Factory",
       text: "Fabrication et expédition rapides.",
       buttontext: "Visitez-nous",
       url: "contact",
@@ -69,7 +69,7 @@ export default function Index({ collections, images, projects }) {
       id: 3,
       wpath: "/assets/projects/moon/w-1.jpg",
       vpath: "/assets/projects/moon/v-1.jpg",
-      alt: "Moon Lounge",
+      alt: "Image of Moon Lounge interior",
       text: "Tout pour l'horeca.",
       buttontext: "Commander maintenant",
       url: "/products?page=1&search=BALLOON",
@@ -95,7 +95,7 @@ export default function Index({ collections, images, projects }) {
                 priority={index == 0}
                 key={index}
                 src={img.wpath}
-                alt="background image"
+                alt={img.alt}
                 className={`${imageBase} z-20 hidden md:flex ${currentImage === index ? imageVisible : imageInvisible}`}
               />
             ))}
@@ -107,7 +107,7 @@ export default function Index({ collections, images, projects }) {
                 priority={index == 0}
                 key={index}
                 src={img.vpath}
-                alt="background image"
+                alt={img.alt}
                 className={`${imageBase} z-20 flex md:hidden ${currentImage === index ? imageVisible : imageInvisible}`}
               />
             ))}

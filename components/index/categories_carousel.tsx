@@ -69,7 +69,7 @@ function CategoryCarousel({ categories }) {
                   height: "100%",
                   objectFit: "contain",
                 }}
-                alt={category.Name}
+                alt={`image of a ${category.Name}`}
               />
               <p className="absolute bottom-1 left-1 z-30 w-full rounded-md  px-4 py-4 font-bold text-black transition-all duration-700">
                 {category.Name}

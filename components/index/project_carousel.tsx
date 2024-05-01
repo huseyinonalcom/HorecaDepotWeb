@@ -27,7 +27,7 @@ function ProjectCarousel({ projects }) {
                   objectFit: "cover",
                 }}
                 className="z-20"
-                alt={project.title}
+                alt={`image of ${project.title}`}
               />
               <p className="absolute bottom-1 left-1 z-40 w-full rounded-md px-4 py-4 font-bold text-white transition-all duration-700  hover:text-white">
                 {project.title}
