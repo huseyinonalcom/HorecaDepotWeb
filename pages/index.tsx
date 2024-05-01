@@ -121,7 +121,6 @@ export default function Index({ collections, images, imageUrls, projects }) {
                 id="background-image"
                 style={{ objectFit: "cover" }}
                 priority={index == 0}
-                loading="eager"
                 key={index}
                 src={img.wpath}
                 alt={"background image"}
@@ -134,7 +133,6 @@ export default function Index({ collections, images, imageUrls, projects }) {
                 id="background-image"
                 style={{ objectFit: "cover" }}
                 priority={index == 0}
-                loading="eager"
                 key={index}
                 src={img.vpath}
                 alt={"background image"}
