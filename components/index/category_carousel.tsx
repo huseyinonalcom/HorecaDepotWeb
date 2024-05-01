@@ -37,6 +37,7 @@ const CatCarousel = ({ categories }) => {
                 }}
                 className="z-10"
                 fill
+                sizes="(max-width: 768px) 45vw, 90vw"
                 alt={`image of a ${category.Name}`}
               />
               <p className="absolute bottom-1 left-1 z-30 w-full rounded-md px-4 py-4 font-bold text-black transition-all duration-700">
@@ -52,7 +53,7 @@ const CatCarousel = ({ categories }) => {
         type="button"
         aria-label="Next slide"
       >
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800/30 hover:bg-gray-800/60 focus:outline-none focus:ring-4 focus:ring-gray-800/70 sm:h-10 sm:w-10">
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800/30 group-hover:bg-gray-800/60 group-focus:outline-none group-focus:ring-4 group-focus:ring-gray-800/70 sm:h-10 sm:w-10">
           <svg
             stroke="currentColor"
             fill="none"
@@ -79,7 +80,7 @@ const CatCarousel = ({ categories }) => {
         type="button"
         aria-label="Next slide"
       >
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800/30 hover:bg-gray-800/60 focus:outline-none focus:ring-4 focus:ring-gray-800/70 sm:h-10 sm:w-10">
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800/30 group-hover:bg-gray-800/60 group-focus:outline-none group-focus:ring-4 group-focus:ring-gray-800/70 sm:h-10 sm:w-10">
           <svg
             stroke="currentColor"
             fill="none"
