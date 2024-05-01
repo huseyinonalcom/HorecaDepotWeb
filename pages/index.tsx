@@ -1,4 +1,3 @@
-import { getIndexSliderImages } from "./api/website/public/getindexsliderimages";
 import CollectionShowcase from "../components/public/collection-showcase";
 import { getCollections } from "./api/collections/public/getcollections";
 import useTranslation from "next-translate/useTranslation";
@@ -13,7 +12,7 @@ import { getProjects } from "./api/projects/public/getprojects";
 import CatCarousel from "../components/index/category_carousel";
 import ProCarousel from "../components/index/pro_carousel";
 
-export default function Index({ collections, images, projects }) {
+export default function Index({ collections, projects }) {
   const { t, lang } = useTranslation("common");
   const [currentImage, setCurrentImage] = useState(0);
   const { categories } = useContext(CategoryContext);
@@ -32,7 +31,7 @@ export default function Index({ collections, images, projects }) {
 
   useEffect(() => {
     setCurrentImage(0);
-  }, [images]);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -40,7 +39,7 @@ export default function Index({ collections, images, projects }) {
     }, 8000);
 
     return () => clearInterval(interval);
-  }, [images]);
+  }, []);
 
   const slideNext = () => {
     setCurrentImage((prevImage) => (prevImage + 1) % indexImages.length);
@@ -85,51 +84,49 @@ export default function Index({ collections, images, projects }) {
         <meta name="language" content={lang} />
       </Head>
       <div className="flex flex-col items-center justify-center">
-        <div className="h-[60vh] w-full">
-          <div className="relative h-full w-full">
-            {indexImages.map((img, index) => (
-              <Image
-                fill
-                id="background-image"
-                style={{ objectFit: "cover" }}
-                priority={index == 0}
-                sizes="100vw"
-                key={index}
-                src={img.wpath}
-                alt={img.alt}
-                className={`${imageBase} z-20 hidden md:flex ${currentImage === index ? imageVisible : imageInvisible}`}
-              />
-            ))}
-            {indexImages.map((img, index) => (
-              <Image
-                fill
-                id="background-image"
-                style={{ objectFit: "cover" }}
-                priority={index == 0}
-                sizes="100vw"
-                key={index}
-                src={img.vpath}
-                alt={img.alt}
-                className={`${imageBase} z-20 flex md:hidden ${currentImage === index ? imageVisible : imageInvisible}`}
-              />
-            ))}
-            {indexImages.map((img, index) => (
-              <div
-                key={index}
-                className={`absolute top-[50%] z-30 flex w-[90vw] flex-col items-center gap-2 p-4 font-semibold duration-300 ${currentImage === index ? "left-[0%]" : "-left-[200%]"}`}
+        <div className="relative h-[60vh] w-full">
+          {indexImages.map((img, index) => (
+            <Image
+              fill
+              id="background-image"
+              style={{ objectFit: "cover" }}
+              priority={index == 0}
+              sizes="100vw"
+              key={index}
+              src={img.wpath}
+              alt={img.alt}
+              className={`${imageBase} z-20 hidden md:flex ${currentImage === index ? imageVisible : imageInvisible}`}
+            />
+          ))}
+          {indexImages.map((img, index) => (
+            <Image
+              fill
+              id="background-image"
+              style={{ objectFit: "cover" }}
+              priority={index == 0}
+              sizes="100vw"
+              key={index}
+              src={img.vpath}
+              alt={img.alt}
+              className={`${imageBase} z-20 flex md:hidden ${currentImage === index ? imageVisible : imageInvisible}`}
+            />
+          ))}
+          {indexImages.map((img, index) => (
+            <div
+              key={index}
+              className={`absolute top-[50%] z-30 flex w-[90vw] flex-col items-center gap-2 p-4 font-semibold duration-300 ${currentImage === index ? "left-[0%]" : "-left-[200%]"}`}
+            >
+              <p className="text-center text-xl font-black text-white md:text-3xl">
+                {img.text}
+              </p>
+              <Link
+                className="bg-black p-2 text-white duration-300 hover:bg-white hover:text-black md:text-2xl"
+                href={img.url}
               >
-                <p className="text-center text-xl font-black text-white md:text-3xl">
-                  {img.text}
-                </p>
-                <Link
-                  className="bg-black p-2 text-white duration-300 hover:bg-white hover:text-black md:text-2xl"
-                  href={img.url}
-                >
-                  {img.buttontext}
-                </Link>
-              </div>
-            ))}
-          </div>
+                {img.buttontext}
+              </Link>
+            </div>
+          ))}
         </div>
         <h4 className="mb-4 mt-12 text-4xl font-bold">
           {t("Special Collections")}
@@ -147,7 +144,7 @@ export default function Index({ collections, images, projects }) {
             ))}
         </div>
 
-        <div className="grid w-[95vw] grid-cols-1 md:grid-cols-2 mb-6">
+        <div className="mb-6 grid w-[95vw] grid-cols-1 md:grid-cols-2">
           <div className="flex flex-col">
             <h4 className="mb-4 mt-12 pl-2 text-4xl font-bold">
               {t("Our Projects")}
@@ -171,15 +168,15 @@ export default function Index({ collections, images, projects }) {
 export const getStaticProps = async () => {
   let collections = await getCollections();
   collections = collections.sort(() => Math.random() - 0.5);
-  const imageStuff = await getIndexSliderImages();
-  const images = imageStuff.indexSliderImages;
-  const imageUrls = imageStuff.indexSliderImagesUrls;
+  // const imageStuff = await getIndexSliderImages();
+  // const images = imageStuff.indexSliderImages;
+  // const imageUrls = imageStuff.indexSliderImagesUrls;
   const projects = await getProjects();
   return {
     props: {
       collections,
-      images,
-      imageUrls,
+      // images,
+      // imageUrls,
       projects,
     },
     revalidate: 1800,
