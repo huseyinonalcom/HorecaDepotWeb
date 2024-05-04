@@ -49,25 +49,14 @@ export default function Index({ collections, projects }) {
     {
       id: 1,
       wpath: "/assets/projects/teddy/w-1.jpg",
-      vpath: "/assets/projects/teddy/v-1.jpg",
       alt: "Image of Le Teddy's Restaurant",
       text: "Designs élégants pour restaurants haut de gamme.",
       buttontext: "Voir les choix",
       url: "/products?page=1&search=flora&category=1",
     },
     {
-      id: 2,
-      wpath: "/assets/projects/factory/w-1.jpg",
-      vpath: "/assets/projects/factory/w-1.jpg",
-      alt: "Image of HorecaDepot Factory",
-      text: "Fabrication et expédition rapides.",
-      buttontext: "Visitez-nous",
-      url: "contact",
-    },
-    {
       id: 3,
       wpath: "/assets/projects/moon/w-1.jpg",
-      vpath: "/assets/projects/moon/v-1.jpg",
       alt: "Image of Moon Lounge interior",
       text: "Tout pour l'horeca.",
       buttontext: "Commander maintenant",
@@ -84,60 +73,46 @@ export default function Index({ collections, projects }) {
         <meta name="language" content={lang} />
       </Head>
       <div className="flex flex-col items-center justify-center">
-        <div className="relative h-[60vh] w-full">
+        <div className="relative aspect-[3/4] w-full md:aspect-[23/10]">
           {indexImages.map((img, index) => (
-            <Image
-              fill
-              id="background-image"
-              style={{ objectFit: "cover" }}
-              priority={index == 0}
-              sizes="100vw"
-              key={index}
-              src={img.wpath}
-              alt={img.alt}
-              className={`${imageBase} z-20 hidden md:flex ${currentImage === index ? imageVisible : imageInvisible}`}
-            />
-          ))}
-          {indexImages.map((img, index) => (
-            <Image
-              fill
-              id="background-image"
-              style={{ objectFit: "cover" }}
-              priority={index == 0}
-              sizes="100vw"
-              key={index}
-              src={img.vpath}
-              alt={img.alt}
-              className={`${imageBase} z-20 flex md:hidden ${currentImage === index ? imageVisible : imageInvisible}`}
-            />
-          ))}
-          {indexImages.map((img, index) => (
-            <div
-              key={index}
-              className={`absolute top-[50%] z-30 flex w-[90vw] flex-col items-center gap-2 p-4 font-semibold duration-300 ${currentImage === index ? "left-[0%]" : "-left-[200%]"}`}
-            >
-              <p className="text-center text-xl font-black text-white md:text-3xl">
-                {img.text}
-              </p>
-              <Link
-                className="bg-black p-2 text-white duration-300 hover:bg-white hover:text-black md:text-2xl"
-                href={img.url}
+            <>
+              <Image
+                fill
+                id="background-image"
+                style={{ objectFit: "cover" }}
+                priority={index == 0}
+                sizes="100vw"
+                key={`${index}-img`}
+                src={img.wpath}
+                alt={img.alt}
+                className={`${imageBase} z-20 flex ${currentImage === index ? imageVisible : imageInvisible}`}
+              />
+              <div
+                key={`${index}-cta`}
+                className={`absolute top-[40%] z-30 flex w-full flex-col items-center gap-2 p-4 font-semibold duration-300 ${currentImage === index ? "left-[0%]" : "-left-[200%]"}`}
               >
-                {img.buttontext}
-              </Link>
-            </div>
+                <p className="mb-8 text-center text-xl font-black text-white md:text-3xl">
+                  {img.text}
+                </p>
+                <Link
+                  className="bg-black p-2 text-white duration-300 hover:bg-white hover:text-black md:text-2xl"
+                  href={img.url}
+                >
+                  {img.buttontext}
+                </Link>
+              </div>
+            </>
           ))}
         </div>
-        <h4 className="mb-4 mt-12 text-4xl font-bold">
+        {/* <h4 className="mb-4 mt-12 text-4xl font-bold">
           {t("Special Collections")}
-        </h4>
+        </h4> */}
         <div className="mt-2 flex w-full flex-col items-center justify-start gap-3">
           {collections &&
             collections.map((collection) => (
               <div
                 key={collection.id}
-                style={{ backgroundColor: `#${collection.bgColor}` }}
-                className="w-full pb-2 md:aspect-[38/9]"
+                className="w-full pb-2"
               >
                 <CollectionShowcase collection={collection} />
               </div>

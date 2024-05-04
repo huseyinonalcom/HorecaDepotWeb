@@ -199,7 +199,7 @@ const ProductPreview = ({ product, width }: Props) => {
             draggable={false}
             name={`Add ${product.name} to Cart`}
             aria-label={`Add ${product.name} to Cart`}
-            className="bg-white p-2 shadow-md duration-500 hover:text-green-500"
+            className="bg-white p-2 shadow-sm duration-500 hover:text-green-500"
             onClick={() => addToCart(convertToCartProduct(product))}
           >
             <div
@@ -213,7 +213,7 @@ const ProductPreview = ({ product, width }: Props) => {
             draggable={false}
             name={`Add ${product.name} to Wishlist`}
             aria-label={`Add ${product.name} to Wishlist`}
-            className="bg-white p-2 shadow-md duration-500 hover:text-red-500"
+            className="bg-white p-2 shadow-sm duration-500 hover:text-red-500"
             onClick={() => addToWishlist(convertToWishlistProduct(product))}
           >
             <div
