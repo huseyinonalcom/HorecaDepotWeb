@@ -1,24 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 const CatCarousel = ({ categories }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const total = categories.length;
+  const slider = useRef<HTMLDivElement>(null);
 
   const next = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % total);
+    const nextIndex = (currentIndex + 1) % total;
+    slider.current.scrollLeft = nextIndex * slider.current.clientWidth;
+    setCurrentIndex(nextIndex);
   };
 
   const prev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + total) % total);
+    const nextIndex = (currentIndex - 1 + total) % total;
+    slider.current.scrollLeft = nextIndex * slider.current.clientWidth;
+    setCurrentIndex(nextIndex);
   };
-
   return (
     <div className="relative mx-auto aspect-[15/13] w-[95%] overflow-hidden rounded-lg md:aspect-[24/15]">
       <div
-        className="flex aspect-[15/13] transition-transform duration-500 ease-in-out md:aspect-[24/15]"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+        ref={slider}
+        className="no-scrollbar flex aspect-[15/13] snap-x flex-row overflow-x-auto scroll-smooth transition-transform duration-500 ease-in-out md:aspect-[24/15]"
       >
         {categories &&
           categories.map((category) => (
@@ -26,8 +30,7 @@ const CatCarousel = ({ categories }) => {
               href={`/products?category=${category.id}`}
               draggable={false}
               key={category.id}
-              className="relative aspect-[15/13] w-full transform transition-all duration-500 ease-in-out 
-              md:aspect-[24/15]"
+              className="relative aspect-[15/13] h-full w-full transform snap-start transition-all duration-500 ease-in-out md:aspect-[24/15]"
             >
               <Image
                 draggable={false}

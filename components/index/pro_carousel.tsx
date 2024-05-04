@@ -32,8 +32,7 @@ const ProCarousel = ({ projects }) => {
               href={`/projects/${project.id}`}
               draggable={false}
               key={project.id}
-              className="relative aspect-[15/13] h-full w-full transform snap-start transition-all duration-500 ease-in-out 
-              md:aspect-[24/15]"
+              className="relative aspect-[15/13] h-full w-full transform snap-start transition-all duration-500 ease-in-out md:aspect-[24/15]"
             >
               <Image
                 draggable={false}
