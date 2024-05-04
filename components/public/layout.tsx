@@ -13,7 +13,13 @@ import { useRouter } from "next/router";
 import { Heart, ShoppingCart, User } from "react-feather";
 import localFont from "next/font/local";
 
-const nexa = localFont({ src: "../fonts/Nexa-Regular.otf" });
+const nexa = localFont({
+  src: [
+    { path: "../fonts/Nexa-Light.otf", weight: "200", style: "normal" },
+    { path: "../fonts/Nexa-Regular.otf", weight: "400", style: "normal" },
+    { path: "../fonts/Nexa-Bold.otf", weight: "700", style: "normal" },
+  ],
+});
 
 type Props = {
   children: React.ReactNode;
