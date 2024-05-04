@@ -26,7 +26,7 @@ const ProCarousel = ({ projects }) => {
               href={`/projects/${project.id}`}
               draggable={false}
               key={project.id}
-              className="relative aspect-[15/13] w-full transform transition-all duration-500 ease-in-out 
+              className="relative aspect-[15/13] w-[100%] transform transition-all duration-500 ease-in-out 
               md:aspect-[24/15]"
             >
               <Image
@@ -40,7 +40,7 @@ const ProCarousel = ({ projects }) => {
                 sizes="(max-width: 768px) 45vw, 90vw"
                 alt={`image of a ${project.title}`}
               />
-              <p className="absolute bottom-1 left-1 z-40 w-full rounded-md px-4 py-4 font-bold text-white transition-all duration-700">
+              <p className="absolute bottom-1 left-1 z-30 w-full rounded-md px-4 py-4 font-bold text-white transition-all duration-700">
                 {project.title}
               </p>
             </Link>

@@ -173,10 +173,10 @@ const ProductPreview = ({ product, width }: Props) => {
             </AutoTextSize>
           </h4>
         </div>
-        <div draggable={false} className="flex flex-col items-center lg:hidden">
+        <div draggable={false} className="flex flex-col items-start lg:hidden">
           <h3
             draggable={false}
-            className="h-[25px] w-full justify-center px-2 text-base font-bold"
+            className="h-[25px] justify-start text-base font-bold"
           >
             <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={16}>
               {`${product.name}`}
@@ -184,7 +184,7 @@ const ProductPreview = ({ product, width }: Props) => {
           </h3>
           <h4
             draggable={false}
-            className="h-[19px] w-full justify-center px-2 text-sm font-semibold"
+            className="h-[19px] w-full justify-start text-sm font-semibold"
           >
             <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={13}>
               {`${product.internalCode != "0" ? product.internalCode : ""}`}
