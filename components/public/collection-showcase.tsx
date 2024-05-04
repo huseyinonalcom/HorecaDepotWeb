@@ -61,17 +61,17 @@ const CollectionShowcase = ({ collection }: Props) => {
       </div>
       <button
         type="button"
-        className="absolute left-0 top-[50%]"
+        className="absolute bottom-[35%] left-0 ml-2 rounded-full bg-gray-800/30 hover:bg-gray-800/60"
         onClick={() => scroll("left")}
       >
-        <ChevronLeft size={42} />
+        <ChevronLeft size={40} />
       </button>
       <button
         type="button"
-        className="absolute right-0 top-[50%] rotate-180"
+        className="absolute bottom-[35%] right-0 mr-2 rotate-180 rounded-full bg-gray-800/30 hover:bg-gray-800/60"
         onClick={() => scroll("right")}
       >
-        <ChevronLeft size={42} />
+        <ChevronLeft size={40} />
       </button>
     </div>
   );
