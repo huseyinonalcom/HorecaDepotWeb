@@ -11,6 +11,9 @@ import CartDrawer from "../cart/cartDrawer";
 import Follow from "../common/follow";
 import { useRouter } from "next/router";
 import { Heart, ShoppingCart, User } from "react-feather";
+import localFont from "next/font/local";
+
+const nexa = localFont({ src: "../fonts/Nexa-Regular.otf" });
 
 type Props = {
   children: React.ReactNode;
@@ -27,7 +30,7 @@ const Layout = ({ children }: Props) => {
         <CartProvider>
           <WishlistProvider>
             <Meta />
-            <main className="min-h-[80dvh]">
+            <main className={`${nexa.className} min-h-[80dvh]`}>
               <Header />
               {children}
               <CartDrawer />
@@ -45,8 +48,8 @@ const Layout = ({ children }: Props) => {
               </Link>
               <div className="z-30 w-full border-t border-neutral-200 bg-neutral-100 pb-8 pt-4 print:hidden">
                 <div className="flex w-full flex-col">
-                  <div className="pb-4 px-4 border-b border-neutral-200 bg-neutral-100">
-                      <Follow />
+                  <div className="border-b border-neutral-200 bg-neutral-100 px-4 pb-4">
+                    <Follow />
                   </div>
                   <div className="mx-auto px-2 pt-6">
                     <AutoTextSize mode="oneline" maxFontSizePx={16}>
@@ -56,7 +59,7 @@ const Layout = ({ children }: Props) => {
                   </div>
                 </div>
               </div>
-              <div className="sticky bottom-0 z-40 flex md:hidden h-[50px] w-full flex-row justify-between bg-black px-5">
+              <div className="sticky bottom-0 z-40 flex h-[50px] w-full flex-row justify-between bg-black px-5 md:hidden">
                 <Link
                   aria-label="Link to Shop"
                   className={navButtonsClass}
