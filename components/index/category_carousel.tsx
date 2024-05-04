@@ -3,26 +3,39 @@ import Link from "next/link";
 import React, { useRef, useState } from "react";
 
 const CatCarousel = ({ categories }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const total = categories.length;
+
   const slider = useRef<HTMLDivElement>(null);
 
   const next = () => {
-    const nextIndex = (currentIndex + 1) % total;
-    slider.current.scrollLeft = nextIndex * slider.current.clientWidth;
-    setCurrentIndex(nextIndex);
+    const maxScroll = slider.current.clientWidth * (total - 1);
+    if (maxScroll - slider.current.scrollLeft < 50) {
+      slider.current.scrollLeft = 0;
+      return;
+    } else {
+      slider.current.scrollLeft =
+        (slider.current.scrollLeft / slider.current.clientWidth + 1) *
+        slider.current.clientWidth;
+      return;
+    }
   };
 
   const prev = () => {
-    const nextIndex = (currentIndex - 1 + total) % total;
-    slider.current.scrollLeft = nextIndex * slider.current.clientWidth;
-    setCurrentIndex(nextIndex);
+    if (slider.current.scrollLeft === 0) {
+      slider.current.scrollLeft = slider.current.clientWidth * (total - 1);
+      return;
+    } else {
+      slider.current.scrollLeft =
+        (slider.current.scrollLeft / slider.current.clientWidth - 1) *
+        slider.current.clientWidth;
+      return;
+    }
   };
   return (
     <div className="relative mx-auto aspect-[15/13] w-[95%] overflow-hidden rounded-lg md:aspect-[24/15]">
       <div
         ref={slider}
-        className="no-scrollbar flex aspect-[15/13] snap-x flex-row overflow-x-auto scroll-smooth transition-transform duration-500 ease-in-out md:aspect-[24/15]"
+        className="no-scrollbar flex aspect-[15/13] snap-x snap-mandatory flex-row overflow-x-auto scroll-smooth transition-transform duration-500 ease-in-out md:aspect-[24/15]"
       >
         {categories &&
           categories.map((category) => (
