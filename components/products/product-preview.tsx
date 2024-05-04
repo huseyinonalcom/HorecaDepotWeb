@@ -4,7 +4,7 @@ import useTranslation from "next-translate/useTranslation";
 import { Product } from "../../api/interfaces/product";
 import { Heart, ShoppingCart } from "react-feather";
 import { CartContext } from "../../api/providers/cartProvider";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CartProduct } from "../../api/interfaces/cartProduct";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import { WishlistProduct } from "../../api/interfaces/wishlistProduct";
@@ -49,6 +49,26 @@ const ProductPreview = ({ product, width }: Props) => {
     product.value,
   );
 
+  const [prodBg, setProdBG] = useState(false);
+
+  const handleKeyPress = (event) => {
+    if (event.key === "g") {
+      setProdBG(true);
+    } else if (event.key === "h") {
+      setProdBG(false);
+    }
+  };
+
+  useEffect(() => {
+    // Add event listener when component mounts
+    window.addEventListener("keydown", handleKeyPress);
+
+    // Remove event listener on cleanup
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
+
   var widthString: string;
 
   if (width == "full") {
@@ -69,7 +89,7 @@ const ProductPreview = ({ product, width }: Props) => {
       <div
         draggable={false}
         id={`${product.id}-image`}
-        className={`relative ${imgDimensions}`}
+        className={`relative ${prodBg && "bg-stone-200"} ${imgDimensions}`}
       >
         <Link draggable={false} href={`/products/${product.id}`}>
           <Image
@@ -136,17 +156,17 @@ const ProductPreview = ({ product, width }: Props) => {
       <div
         draggable={false}
         id={`${product.id}-content`}
-        className={"flex flex-col items-center " + contentDimensions}
+        className={"flex flex-col items-start " + contentDimensions}
       >
-        <div draggable={false} className="hidden flex-col items-center lg:flex">
-          <h3 className="h-[25px] w-full justify-center overflow-hidden px-2 text-base font-bold duration-700">
+        <div draggable={false} className="hidden flex-col items-start lg:flex">
+          <h3 className="h-[25px] text-base font-bold duration-700">
             <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={16}>
               {`${product.name}`}
             </AutoTextSize>
           </h3>
           <h4
             draggable={false}
-            className="h-[19px] w-full justify-center overflow-hidden px-2 text-sm font-semibold duration-700 "
+            className="h-[19px] text-sm font-semibold duration-700 "
           >
             <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={13}>
               {`${product.internalCode != "0" ? product.internalCode : ""}`}
@@ -174,7 +194,7 @@ const ProductPreview = ({ product, width }: Props) => {
 
         <div
           draggable={false}
-          className="flex w-full flex-row items-end justify-center"
+          className="flex flex-row items-end justify-center"
         >
           <p
             draggable={false}

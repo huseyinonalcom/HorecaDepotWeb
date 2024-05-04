@@ -33,10 +33,12 @@ export const useDragScroll = () => {
         resetCursor(node);
       };
 
-      document.addEventListener("mousemove", handleMouseMove, { passive: true });
+      document.addEventListener("mousemove", handleMouseMove, {
+        passive: true,
+      });
       document.addEventListener("mouseup", handleMouseUp, { passive: true });
     },
-    [node]
+    [node],
   );
 
   const handleTouchStart = useCallback(
@@ -67,10 +69,12 @@ export const useDragScroll = () => {
         resetCursor(node);
       };
 
-      document.addEventListener("touchmove", handleTouchMove, { passive: true });
+      document.addEventListener("touchmove", handleTouchMove, {
+        passive: true,
+      });
       document.addEventListener("touchend", handleTouchEnd, { passive: true });
     },
-    [node]
+    [node],
   );
 
   const updateCursor = (ele: HTMLElement) => {
@@ -90,7 +94,7 @@ export const useDragScroll = () => {
     node.addEventListener("mousedown", handleMouseDown, { passive: true });
     node.addEventListener("touchstart", handleTouchStart, { passive: true });
     return () => {
-      node.removeEventListener("mousedown", handleMouseDown,);
+      node.removeEventListener("mousedown", handleMouseDown);
       node.removeEventListener("touchstart", handleTouchStart);
     };
   }, [node]);
