@@ -86,29 +86,28 @@ const ProductPreview = ({ product, width }: Props) => {
             alt={product.name}
           />
         </Link>
-        <div
+        {/* <div
           draggable={false}
           className="absolute left-2 top-2 flex flex-col gap-2"
         >
           {product.priceBeforeDiscount ? (
-            <Link
+            <p
               draggable={false}
               className="flex h-8 w-12 items-center justify-center overflow-hidden rounded-full border-t-0 bg-green-700 text-sm font-bold text-white"
-              href={`/products/${product.id}`}
             >
               <div className="flex flex-row items-center justify-center">{`-${discountPercentage}%`}</div>
-            </Link>
+            </p>
           ) : null}
-        </div>
+        </div> */}
         <div
           draggable={false}
-          className="absolute right-2 top-2 hidden flex-col gap-2 opacity-100 duration-500 group-hover:top-2 group-hover:opacity-100 lg:top-6 lg:flex lg:opacity-0"
+          className="absolute right-2 top-2 flex flex-col gap-2 opacity-100 duration-500 group-hover:top-2 group-hover:opacity-100 lg:top-6 lg:opacity-0"
         >
           <button
             draggable={false}
             name={`Add ${product.name} to Cart`}
             aria-label={`Add ${product.name} to Cart`}
-            className="bg-white p-2 shadow-md duration-500 hover:text-green-500"
+            className="h-8 w-8 bg-white p-1.5 shadow-md duration-500 hover:text-green-500 md:h-12 md:w-12 md:p-2"
             onClick={() => addToCart(convertToCartProduct(product))}
           >
             <div
@@ -122,7 +121,7 @@ const ProductPreview = ({ product, width }: Props) => {
             draggable={false}
             name={`Add ${product.name} to Wishlist`}
             aria-label={`Add ${product.name} to Wishlist`}
-            className="bg-white p-2 shadow-md duration-500 hover:text-red-500"
+            className="h-8 w-8 bg-white p-1.5 shadow-md duration-500 hover:text-red-500 md:h-12 md:w-12 md:p-2"
             onClick={() => addToWishlist(convertToWishlistProduct(product))}
           >
             <div
@@ -191,7 +190,7 @@ const ProductPreview = ({ product, width }: Props) => {
           </h4>
         </div>
 
-        <div
+        {/* <div
           draggable={false}
           className="flex w-full flex-row-reverse justify-center gap-2 lg:hidden"
         >
@@ -223,7 +222,7 @@ const ProductPreview = ({ product, width }: Props) => {
               <Heart />
             </div>
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

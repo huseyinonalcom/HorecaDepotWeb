@@ -107,7 +107,7 @@ export default function Index({ collections, projects }) {
         {/* <h4 className="mb-4 mt-12 text-4xl font-bold">
           {t("Special Collections")}
         </h4> */}
-        <div className="mt-2 flex w-full flex-col items-center justify-start gap-3">
+        <div className="mt-6 flex w-full flex-col items-center justify-start gap-6">
           {collections &&
             collections.map((collection) => (
               <div
