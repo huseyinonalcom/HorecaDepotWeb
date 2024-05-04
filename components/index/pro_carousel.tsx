@@ -9,22 +9,22 @@ const ProCarousel = ({ projects }) => {
   const slider = useRef<HTMLDivElement>(null);
 
   const next = () => {
-    console.log(currentIndex);
-    console.log(slider.current.clientWidth);
-    console.log(slider.current.scrollLeft);
-    slider.current.scrollLeft = currentIndex * slider.current.clientWidth;
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % total);
+    const nextIndex = (currentIndex + 1) % total;
+    slider.current.scrollLeft = nextIndex * slider.current.clientWidth;
+    setCurrentIndex(nextIndex);
   };
 
   const prev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + total) % total);
+    const nextIndex = (currentIndex - 1 + total) % total;
+    slider.current.scrollLeft = nextIndex * slider.current.clientWidth;
+    setCurrentIndex(nextIndex);
   };
 
   return (
     <div className="relative mx-auto aspect-[15/13] w-[95%] overflow-hidden rounded-lg md:aspect-[24/15]">
       <div
         ref={slider}
-        className="flex aspect-[15/13] overflow-x-auto no-scrollbar snap-x flex-row transition-transform duration-500 ease-in-out md:aspect-[24/15] scroll-smooth"
+        className="no-scrollbar flex aspect-[15/13] snap-x flex-row overflow-x-auto scroll-smooth transition-transform duration-500 ease-in-out md:aspect-[24/15]"
       >
         {projects &&
           projects.map((project) => (
