@@ -95,7 +95,7 @@ export default function Index({ collections, projects }) {
                   {img.text}
                 </p>
                 <Link
-                  className="bg-black p-2 text-white duration-300 hover:bg-white hover:text-black md:text-2xl"
+                  className="bg-black px-4 py-2 text-white duration-300 hover:bg-white hover:text-black md:text-2xl"
                   href={img.url}
                 >
                   {img.buttontext}
@@ -107,13 +107,10 @@ export default function Index({ collections, projects }) {
         {/* <h4 className="mb-4 mt-12 text-4xl font-bold">
           {t("Special Collections")}
         </h4> */}
-        <div className="mt-6 flex w-full flex-col items-center justify-start gap-6">
+        <div className="mt-4 flex w-full max-w-[1400px] flex-col items-center justify-start gap-6">
           {collections &&
             collections.map((collection) => (
-              <div
-                key={collection.id}
-                className="w-full pb-2"
-              >
+              <div key={collection.id} className="mt-12 w-full pb-2">
                 <CollectionShowcase collection={collection} />
               </div>
             ))}
