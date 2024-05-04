@@ -142,7 +142,7 @@ const DesktopSearch = () => {
     <form
       name="Search"
       aria-label="Search"
-      className="relative hidden max-w-[500px] duration-300 md:flex"
+      className="relative hidden max-w-[500px] min-w-[250px] duration-300 md:flex"
       onSubmit={handleSearchSubmit}
     >
       <input
@@ -724,7 +724,7 @@ const Header = () => {
           </div>
 
           <div className="flex w-full flex-row md:hidden">
-            <div className="relative w-full">
+            <div className="relative w-full mt-3">
               <MobileSearch />
             </div>
           </div>
