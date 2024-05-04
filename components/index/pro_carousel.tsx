@@ -1,12 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 const ProCarousel = ({ projects }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const total = projects.length;
 
+  const slider = useRef<HTMLDivElement>(null);
+
   const next = () => {
+    console.log(currentIndex);
+    console.log(slider.current.clientWidth);
+    console.log(slider.current.scrollLeft);
+    slider.current.scrollLeft = currentIndex * slider.current.clientWidth;
     setCurrentIndex((prevIndex) => (prevIndex + 1) % total);
   };
 
@@ -17,8 +23,8 @@ const ProCarousel = ({ projects }) => {
   return (
     <div className="relative mx-auto aspect-[15/13] w-[95%] overflow-hidden rounded-lg md:aspect-[24/15]">
       <div
-        className="flex aspect-[15/13] transition-transform duration-500 ease-in-out md:aspect-[24/15]"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+        ref={slider}
+        className="flex aspect-[15/13] overflow-x-auto no-scrollbar snap-x flex-row transition-transform duration-500 ease-in-out md:aspect-[24/15] scroll-smooth"
       >
         {projects &&
           projects.map((project) => (
@@ -26,7 +32,7 @@ const ProCarousel = ({ projects }) => {
               href={`/projects/${project.id}`}
               draggable={false}
               key={project.id}
-              className="relative aspect-[15/13] w-[100%] transform transition-all duration-500 ease-in-out 
+              className="relative aspect-[15/13] h-full w-full transform snap-start transition-all duration-500 ease-in-out 
               md:aspect-[24/15]"
             >
               <Image
@@ -75,7 +81,7 @@ const ProCarousel = ({ projects }) => {
       </button>
 
       <button
-        onClick={next}
+        onClick={() => next()}
         className="group absolute right-2 top-1/2 -mt-2"
         type="button"
         aria-label="Next slide"
