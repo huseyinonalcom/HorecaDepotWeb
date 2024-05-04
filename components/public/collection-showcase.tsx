@@ -31,7 +31,7 @@ const CollectionShowcase = ({ collection }: Props) => {
       <p className={`mb-4 text-2xl font-bold`}>{collection.name}</p>
       <div
         id={`desktopRow-${collection.id}`}
-        className="no-scrollbar hidden snap-x gap-2 overflow-x-scroll pt-4 md:flex"
+        className="no-scrollbar hidden snap-x flex-row gap-2 overflow-x-scroll pt-4 md:flex"
       >
         {collection.products.map((prod) => (
           <div
@@ -45,7 +45,8 @@ const CollectionShowcase = ({ collection }: Props) => {
       </div>
       <div
         ref={mobileRow}
-        className="no-scrollbar flex snap-x overflow-x-scroll scroll-smooth py-2 md:hidden"
+        id={`desktopRow-${collection.id}`}
+        className="no-scrollbar flex snap-x flex-row overflow-x-scroll scroll-smooth py-2 md:hidden"
       >
         <div className="flex flex-row gap-2">
           {collection.products.map((prod) => (
