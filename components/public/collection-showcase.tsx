@@ -1,5 +1,4 @@
 import ProductPreview from "../products/product-preview";
-import { useDragScroll } from "../common/use-drag-scroll";
 import { useRef } from "react";
 import { ChevronLeft } from "react-feather";
 

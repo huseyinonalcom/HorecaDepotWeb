@@ -8,8 +8,6 @@ const ProCarousel = ({ projects }) => {
   const slider = useRef<HTMLDivElement>(null);
 
   const next = () => {
-    console.log(slider.current.clientWidth);
-    console.log(slider.current.scrollLeft);
     const maxScroll = slider.current.clientWidth * (total - 1);
     if (maxScroll - slider.current.scrollLeft < 50) {
       slider.current.scrollLeft = 0;
