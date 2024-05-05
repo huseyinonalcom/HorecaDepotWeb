@@ -100,12 +100,12 @@ const ProductImages = ({ product }) => {
         >
           <ArrowLeft className="rotate-180" />
         </div>
-      ) : null}{" "}
+      ) : null}
       {selectedImageIndex !== null && (
         <div className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-white/90">
-          <div className="flex w-full flex-row justify-end p-2">
+          <div className="flex w-full flex-row justify-end">
             <X
-              size={24}
+              size={38}
               className="text-black"
               color="black"
               onClick={handleCloseFullscreen}
@@ -132,7 +132,7 @@ const ProductImages = ({ product }) => {
                 sizes="100vw"
                 style={{ width: "100%", height: "auto" }}
                 alt={product.name}
-                onClick={(e) => {
+                onClick={() => {
                   setSelectedImageIndex(img.id);
                   scrollIntoViewOnClick(img.id.toString() + "-full");
                 }}
