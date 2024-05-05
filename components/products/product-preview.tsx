@@ -143,7 +143,7 @@ const ProductPreview = ({ product, width }: Props) => {
       <div
         draggable={false}
         id={`${product.id}-content`}
-        className={"flex flex-col items-start " + contentDimensions}
+        className={"flex flex-col items-start mt-2 " + contentDimensions}
       >
         <div draggable={false} className="flex flex-col items-start">
           <div className="duration-700">
@@ -199,7 +199,7 @@ const ProductPreview = ({ product, width }: Props) => {
               {product.priceBeforeDiscount ? (
                 <p
                   draggable={false}
-                  className="flex w-fit mb-0.5 flex-row items-center justify-center overflow-hidden border-t-0 bg-green-700 px-2 py-1 text-xs font-bold text-white"
+                  className="flex w-fit mb-0.5 flex-row items-center justify-center overflow-hidden border-t-0 bg-gray-200 px-2 py-1 text-xs"
                 >
                   -{discountPercentage}%
                 </p>
