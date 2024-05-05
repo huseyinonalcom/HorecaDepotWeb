@@ -17,6 +17,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useDragScroll } from "../../components/common/use-drag-scroll";
 import { AutoTextSize } from "auto-text-size";
+import ProductImages from "../../components/products/product-images";
 
 type Props = {
   relatedProducts: Product[];
@@ -35,30 +36,12 @@ const ProductPage = ({
 
   const [ref] = useDragScroll();
   const [cartAmount, setCartAmount] = useState(1);
-  const [currentImage, setCurrentImage] = useState(0);
-  const imageBase =
-    "z-20 absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000";
-  const imageVisible = "opacity-100 z-20";
-  const imageInvisible = "opacity-0";
+
 
   useEffect(() => {
-    setCurrentImage(0);
     handleCartAmountChange(1);
   }, [product]);
 
-  const slidePrevious = () => {
-    setCurrentImage((prevImage) => {
-      if (prevImage === 0) {
-        return product.images.length - 1;
-      } else {
-        return prevImage - 1;
-      }
-    });
-  };
-
-  const slideNext = () => {
-    setCurrentImage((prevImage) => (prevImage + 1) % product.images.length);
-  };
 
   let tagsArray: string[];
   let tags = "";
@@ -130,47 +113,7 @@ const ProductPage = ({
             })}
         </div>
         <div className="grid w-full grid-cols-1 items-center justify-center gap-2 md:grid-cols-2">
-          <div className="aspect-1/1 relative flex h-[90vw] w-[90vw] flex-shrink-0 flex-row items-center justify-center md:h-[45vw] md:w-[45vw]">
-            {product.images && product.images.length > 0 ? (
-              product.images.map((img, index) => (
-                <Image
-                  key={img.id}
-                  src={`https://hdapi.huseyinonalalpha.com${img.url}`}
-                  fill
-                  priority
-                  loading="eager"
-                  style={{ objectFit: "cover" }}
-                  alt={product.name}
-                  className={`${imageBase} ${currentImage === index ? imageVisible : imageInvisible}`}
-                />
-              ))
-            ) : (
-              <Image
-                key={1}
-                src={`/assets/img/placeholder.png`}
-                fill
-                style={{ objectFit: "cover" }}
-                alt={product.name}
-                className={`${imageBase}`}
-              />
-            )}
-            {product.images && product.images.length > 1 ? (
-              <div
-                className="absolute left-0 z-40 flex h-full w-[30%] flex-col items-start justify-center"
-                onClick={slidePrevious}
-              >
-                <ArrowLeft />
-              </div>
-            ) : null}
-            {product.images && product.images.length > 1 ? (
-              <div
-                className="absolute right-0 z-40 flex h-full w-[30%] flex-col items-end justify-center"
-                onClick={slideNext}
-              >
-                <ArrowLeft className="rotate-180" />
-              </div>
-            ) : null}
-          </div>
+          <ProductImages product={product} />
           <div className="flex h-full w-full flex-col items-start justify-start gap-2 px-1 md:px-4">
             <h2 className="text-xl font-bold">{product.name}</h2>
             <h3 className="text-lg font-semibold">
