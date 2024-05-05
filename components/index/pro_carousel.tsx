@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useRef } from "react";
+import { ChevronLeft } from "react-feather";
 
 const ProCarousel = ({ projects }) => {
   const total = projects.length;
@@ -65,57 +66,18 @@ const ProCarousel = ({ projects }) => {
       </div>
 
       <button
+        type="button"
+        className="absolute bottom-[35%] left-0 ml-2 rounded-full bg-white/30 p-1 group-hover:bg-white/50 text-white"
         onClick={prev}
-        className="group absolute left-2 top-1/2 -mt-2 rotate-180"
-        type="button"
-        aria-label="Next slide"
       >
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white sm:h-10 sm:w-10">
-          <svg
-            stroke="currentColor"
-            fill="none"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            className="h-5 w-5 text-white sm:h-6 sm:w-6"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M9 5l7 7-7 7"
-            ></path>
-          </svg>
-        </span>
+        <ChevronLeft size={32} />
       </button>
-
       <button
-        onClick={() => next()}
-        className="group absolute right-2 top-1/2 -mt-2"
         type="button"
-        aria-label="Next slide"
+        className="absolute bottom-[35%] right-0 mr-2 rotate-180 rounded-full bg-white/30 p-1 group-hover:bg-white/50 text-white"
+        onClick={next}
       >
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white sm:h-10 sm:w-10">
-          <svg
-            stroke="currentColor"
-            fill="none"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            className="h-5 w-5 text-white  sm:h-6 sm:w-6"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M9 5l7 7-7 7"
-            ></path>
-          </svg>
-        </span>
+        <ChevronLeft size={32} />
       </button>
     </div>
   );

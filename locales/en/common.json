@@ -211,5 +211,8 @@
   "location": "Store Location",
   "Username": "Username",
   "Password": "Password",
-  "Our Projects": "Our Projects"
+  "Our Projects": "Our Projects",
+  "in_stock": "In Stock",
+  "low_stock": "Low Stock",
+  "no_stock": "No Stock"
 }

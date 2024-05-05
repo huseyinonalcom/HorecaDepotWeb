@@ -106,19 +106,6 @@ const ProductPreview = ({ product, width }: Props) => {
             alt={product.name}
           />
         </Link>
-        {/* <div
-          draggable={false}
-          className="absolute left-2 top-2 flex flex-col gap-2"
-        >
-          {product.priceBeforeDiscount ? (
-            <p
-              draggable={false}
-              className="flex h-8 w-12 items-center justify-center overflow-hidden rounded-full border-t-0 bg-green-700 text-sm font-bold text-white"
-            >
-              <div className="flex flex-row items-center justify-center">{`-${discountPercentage}%`}</div>
-            </p>
-          ) : null}
-        </div> */}
         <div
           draggable={false}
           className="absolute right-2 top-2 flex flex-col gap-2 opacity-100 duration-500 group-hover:top-2 group-hover:opacity-100 lg:top-6 lg:opacity-0"
@@ -158,91 +145,97 @@ const ProductPreview = ({ product, width }: Props) => {
         id={`${product.id}-content`}
         className={"flex flex-col items-start " + contentDimensions}
       >
-        <div draggable={false} className="hidden flex-col items-start lg:flex">
-          <h3 className="h-[25px] text-base font-bold duration-700">
+        <div draggable={false} className="flex flex-col items-start">
+          <div className="h-[25px] text-base font-bold duration-700">
             <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={16}>
-              {`${product.name}`}
+              {product.name}
             </AutoTextSize>
-          </h3>
-          <h4
+          </div>
+          <div
             draggable={false}
             className="h-[19px] text-sm font-semibold duration-700 "
           >
             <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={13}>
-              {`${product.internalCode != "0" ? product.internalCode : ""}`}
+              {product.internalCode != "0" ? product.internalCode : ""}
             </AutoTextSize>
-          </h4>
-        </div>
-        <div draggable={false} className="flex flex-col items-start lg:hidden">
-          <h3
+          </div>
+          <div
             draggable={false}
-            className="h-[25px] justify-start text-base font-bold"
+            className="grid grid-cols-3 items-center gap-1"
           >
-            <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={16}>
-              {`${product.name}`}
-            </AutoTextSize>
-          </h3>
-          <h4
-            draggable={false}
-            className="h-[19px] w-full justify-start text-sm font-semibold"
-          >
-            <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={13}>
-              {`${product.internalCode != "0" ? product.internalCode : ""}`}
-            </AutoTextSize>
-          </h4>
-        </div>
-
-        <div
-          draggable={false}
-          className="flex flex-row items-end justify-center"
-        >
-          <p
-            draggable={false}
-            className="mb-0.5 mr-1 justify-end text-sm text-gray-700 line-through"
-          >
-            {product.priceBeforeDiscount > product.value
-              ? "€ " +
-                product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")
-              : ""}
-          </p>
-          <h4 draggable={false} className="text-lg font-bold">
-            € {product.value.toFixed(2).replaceAll(".", ",")}
-          </h4>
-        </div>
-
-        {/* <div
-          draggable={false}
-          className="flex w-full flex-row-reverse justify-center gap-2 lg:hidden"
-        >
-          <button
-            draggable={false}
-            name={`Add ${product.name} to Cart`}
-            aria-label={`Add ${product.name} to Cart`}
-            className="bg-white p-2 shadow-sm duration-500 hover:text-green-500"
-            onClick={() => addToCart(convertToCartProduct(product))}
-          >
-            <div
-              draggable={false}
-              className="flex h-full w-full flex-row items-center justify-center"
-            >
-              <ShoppingCart />
+            {product.priceBeforeDiscount > product.value && (
+              <div
+                draggable={false}
+                className="text-sm text-gray-700 line-through"
+              >
+                <AutoTextSize
+                  draggable={false}
+                  mode="oneline"
+                  maxFontSizePx={13}
+                >
+                  {"€ " +
+                    product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
+                </AutoTextSize>
+              </div>
+            )}
+            <div draggable={false} className="text-lg font-bold">
+              <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={13}>
+                {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
+              </AutoTextSize>
             </div>
-          </button>
-          <button
-            draggable={false}
-            name={`Add ${product.name} to Wishlist`}
-            aria-label={`Add ${product.name} to Wishlist`}
-            className="bg-white p-2 shadow-sm duration-500 hover:text-red-500"
-            onClick={() => addToWishlist(convertToWishlistProduct(product))}
-          >
-            <div
-              draggable={false}
-              className="flex h-full w-full flex-row items-center justify-center"
-            >
-              <Heart />
-            </div>
-          </button>
-        </div> */}
+            {product.priceBeforeDiscount ? (
+              <p
+                draggable={false}
+                className="flex w-fit flex-row items-center justify-center overflow-hidden border-t-0 bg-green-700 px-2 py-1 text-xs font-bold text-white"
+              >
+                -{discountPercentage}%
+              </p>
+            ) : null}
+            {product.shelves && product.shelves.length > 0 && (
+              <div draggable={false} className="text-sm font-semibold">
+                {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) >
+                  10 && (
+                  <AutoTextSize
+                    draggable={false}
+                    mode="oneline"
+                    maxFontSizePx={13}
+                  >
+                    {t("in_stock")}
+                  </AutoTextSize>
+                )}
+                {product.shelves?.reduce(
+                  (acc, shelf) => acc + shelf.stock,
+                  0,
+                ) <= 10 &&
+                  product.shelves?.reduce(
+                    (acc, shelf) => acc + shelf.stock,
+                    0,
+                  ) > 0 && (
+                    <AutoTextSize
+                      draggable={false}
+                      mode="oneline"
+                      maxFontSizePx={13}
+                      className="text-orange-500"
+                    >
+                      {t("low_stock")}
+                    </AutoTextSize>
+                  )}
+
+                {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) <
+                  1 && (
+                  <AutoTextSize
+                    draggable={false}
+                    mode="oneline"
+                    maxFontSizePx={13}
+                    className="text-red-500"
+                  >
+                    {t("no_stock")}
+                  </AutoTextSize>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

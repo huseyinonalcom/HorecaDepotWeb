@@ -16,6 +16,7 @@ import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 import { useDragScroll } from "../../components/common/use-drag-scroll";
+import { AutoTextSize } from "auto-text-size";
 
 type Props = {
   relatedProducts: Product[];
@@ -220,13 +221,61 @@ const ProductPage = ({
                 ))}
               </div>
             )}
-            <div className="flex w-full flex-row justify-center border-b border-gray-400 pb-3 sm:justify-start">
+            <div className="flex w-full flex-col justify-center gap-2 border-b border-gray-400 pb-2 sm:justify-start">
               <ProductButtons
                 product={product}
                 amount={cartAmount}
                 onChange={handleCartAmountChange}
               />
+              {product.shelves && product.shelves.length > 0 && (
+                <div draggable={false} className="text-md font-semibold">
+                  {product.shelves?.reduce(
+                    (acc, shelf) => acc + shelf.stock,
+                    0,
+                  ) > 10 && (
+                    <AutoTextSize
+                      draggable={false}
+                      mode="oneline"
+                      maxFontSizePx={18}
+                    >
+                      {t("in_stock")}
+                    </AutoTextSize>
+                  )}
+                  {product.shelves?.reduce(
+                    (acc, shelf) => acc + shelf.stock,
+                    0,
+                  ) <= 10 &&
+                    product.shelves?.reduce(
+                      (acc, shelf) => acc + shelf.stock,
+                      0,
+                    ) > 0 && (
+                      <AutoTextSize
+                        draggable={false}
+                        mode="oneline"
+                        maxFontSizePx={18}
+                        className="text-orange-500"
+                      >
+                        {t("low_stock")}
+                      </AutoTextSize>
+                    )}
+
+                  {product.shelves?.reduce(
+                    (acc, shelf) => acc + shelf.stock,
+                    0,
+                  ) < 1 && (
+                    <AutoTextSize
+                      draggable={false}
+                      mode="oneline"
+                      maxFontSizePx={18}
+                      className="text-red-500"
+                    >
+                      {t("no_stock")}
+                    </AutoTextSize>
+                  )}
+                </div>
+              )}
             </div>
+
             <div className="flex w-full flex-col gap-1">
               {product.height && product.height != 0 && (
                 <p>

@@ -34,7 +34,7 @@ const CollectionShowcase = ({ collection }: Props) => {
       >
         {collection.products.map((prod) => (
           <div
-            key={prod.id}
+            key={collection.id + "-" + prod.id}
             draggable={false}
             className="flex w-[300px] flex-shrink-0 snap-start bg-white last:mr-4"
           >
@@ -61,17 +61,17 @@ const CollectionShowcase = ({ collection }: Props) => {
       </div>
       <button
         type="button"
-        className="absolute bottom-[35%] left-0 ml-2 rounded-full bg-gray-800/30 hover:bg-gray-800/60"
+        className="absolute bottom-[35%] left-0 ml-2 rounded-full bg-gray-800/30 p-1 hover:bg-gray-800/60"
         onClick={() => scroll("left")}
       >
-        <ChevronLeft size={40} />
+        <ChevronLeft size={32} />
       </button>
       <button
         type="button"
-        className="absolute bottom-[35%] right-0 mr-2 rotate-180 rounded-full bg-gray-800/30 hover:bg-gray-800/60"
+        className="absolute bottom-[35%] right-0 mr-2 rotate-180 rounded-full bg-gray-800/30 p-1 hover:bg-gray-800/60"
         onClick={() => scroll("right")}
       >
-        <ChevronLeft size={40} />
+        <ChevronLeft size={32} />
       </button>
     </div>
   );
