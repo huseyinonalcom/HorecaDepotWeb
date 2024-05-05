@@ -105,34 +105,54 @@ const ProductPage = ({
           href={"https://horecadepot.be/products/" + product.id}
         />
       </Head>
-      <div className="flex w-full flex-col items-center pt-2">
-        <div className="flex w-[90vw] flex-col items-center justify-center gap-4 sm:flex-row">
-          <div className="relative flex h-[80vw] w-[80vw] flex-shrink-0 flex-row items-center justify-center sm:h-[40vw] sm:w-[40vw]">
-            <div className="relative mx-auto h-[90%] w-[90%]">
-              {product.images && product.images.length > 0 ? (
-                product.images.map((img, index) => (
-                  <Image
-                    key={img.id}
-                    src={`https://hdapi.huseyinonalalpha.com${img.url}`}
-                    fill
-                    priority
-                    loading="eager"
-                    style={{ objectFit: "cover" }}
-                    alt={product.name}
-                    className={`${imageBase} ${currentImage === index ? imageVisible : imageInvisible}`}
-                  />
-                ))
-              ) : (
+      <div className="flex w-full flex-col items-start px-2 pt-2">
+        <div className="flex flex-row gap-1 text-xs font-bold">
+          <Link key={1} href={"/"} className="text-gray-400">
+            {t("Home Page")}
+          </Link>
+          <Link key={2} href={"/products"} className="text-gray-400">
+            {"> "}
+            {t("Shop")}
+          </Link>
+          {breadCrumbs &&
+            breadCrumbs.map((crumb, index) => {
+              return (
+                <Link
+                  key={index + 2}
+                  href={`/products?category=${categories.find((cat) => cat.Name == crumb).id}`}
+                  className="text-gray-400 last:text-black"
+                >
+                  {"> "}
+                  {t(crumb)}
+                </Link>
+              );
+            })}
+        </div>
+        <div className="grid w-full grid-cols-1 items-center justify-center gap-2 md:grid-cols-2">
+          <div className="aspect-1/1 relative flex h-[90vw] w-[90vw] flex-shrink-0 flex-row items-center justify-center md:h-[45vw] md:w-[45vw]">
+            {product.images && product.images.length > 0 ? (
+              product.images.map((img, index) => (
                 <Image
-                  key={1}
-                  src={`/assets/img/placeholder.png`}
+                  key={img.id}
+                  src={`https://hdapi.huseyinonalalpha.com${img.url}`}
                   fill
+                  priority
+                  loading="eager"
                   style={{ objectFit: "cover" }}
                   alt={product.name}
-                  className={`${imageBase}`}
+                  className={`${imageBase} ${currentImage === index ? imageVisible : imageInvisible}`}
                 />
-              )}
-            </div>
+              ))
+            ) : (
+              <Image
+                key={1}
+                src={`/assets/img/placeholder.png`}
+                fill
+                style={{ objectFit: "cover" }}
+                alt={product.name}
+                className={`${imageBase}`}
+              />
+            )}
             {product.images && product.images.length > 1 ? (
               <div
                 className="absolute left-0 z-40 flex h-full w-[30%] flex-col items-start justify-center"
@@ -150,35 +170,11 @@ const ProductPage = ({
               </div>
             ) : null}
           </div>
-          <div className="flex w-full flex-col items-center gap-2 pl-2 sm:items-start">
-            <div className="flex flex-row gap-1 text-xs font-bold">
-              <Link key={1} href={"/"} className="text-gray-400">
-                {t("Home Page")}
-              </Link>
-
-              <Link key={2} href={"/products"} className="text-gray-400">
-                {"> "}
-                {t("Shop")}
-              </Link>
-              {breadCrumbs &&
-                breadCrumbs.map((crumb, index) => {
-                  return (
-                    <Link
-                      key={index + 2}
-                      href={`/products?category=${categories.find((cat) => cat.Name == crumb).id}`}
-                      className="text-gray-400 last:text-black"
-                    >
-                      {"> "}
-                      {t(crumb)}
-                    </Link>
-                  );
-                })}
-            </div>
-            <h2 className="text-xl font-bold">
-              {product.name +
-                " " +
-                (product.internalCode != "0" ? product.internalCode : "")}
-            </h2>
+          <div className="flex h-full w-full flex-col items-start justify-start gap-2 px-1 md:px-4">
+            <h2 className="text-xl font-bold">{product.name}</h2>
+            <h3 className="text-lg font-semibold">
+              {product.internalCode != "0" ? product.internalCode : ""}
+            </h3>
             {product.description && (
               <p className="mt-1 w-full border-t border-gray-400 pt-1">
                 {product.description}
@@ -188,16 +184,13 @@ const ProductPage = ({
               {product.priceBeforeDiscount <= product.value ? null : (
                 <h3 className="font-bold text-gray-800 line-through">
                   {"€ " +
-                    (cartAmount * product.priceBeforeDiscount)
-                      .toFixed(2)
-                      .replaceAll(".", ",")}
+                    product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
                 </h3>
               )}
               <h3 className="text-lg font-bold">
-                {"€ " +
-                  (cartAmount * product.value).toFixed(2).replaceAll(".", ",")}
+                {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
               </h3>
-              {product.priceBeforeDiscount <= product.value ? null : (
+              {/* {product.priceBeforeDiscount <= product.value ? null : (
                 <div className="bg-green-700 p-1 font-bold  text-white">
                   {(
                     ((product.value - product.priceBeforeDiscount) /
@@ -205,8 +198,28 @@ const ProductPage = ({
                     100
                   ).toFixed(0) + "%"}
                 </div>
-              )}
+              )} */}
             </div>
+            {product.color && (
+              <p>
+                <b>{t("Color")}:</b> {product.color}
+              </p>
+            )}
+            {breadCrumbs && (
+              <div className="flex flex-row gap-2">
+                <b>{t("Categories")}: </b>
+                {breadCrumbs.map((crumb, index) => (
+                  <Fragment key={index}>
+                    <Link
+                      href={`/products?category=${categories.find((cat) => cat.Name === crumb).id}`}
+                    >
+                      {t(crumb)}
+                      {index < breadCrumbs.length - 1 && ","}
+                    </Link>
+                  </Fragment>
+                ))}
+              </div>
+            )}
             <div className="flex w-full flex-row justify-center border-b border-gray-400 pb-3 sm:justify-start">
               <ProductButtons
                 product={product}
@@ -252,31 +265,12 @@ const ProductPage = ({
                     {product.product_extra.armrest_height} cm
                   </p>
                 )}
-              {product.color && (
-                <p>
-                  <b>{t("Color")}:</b> {product.color}
-                </p>
-              )}
               {product.material && (
                 <p>
                   <b>{t("Material")}:</b> {product.material}
                 </p>
               )}
-              {breadCrumbs && (
-                <div className="flex flex-row gap-2">
-                  <b>{t("Categories")}: </b>
-                  {breadCrumbs.map((crumb, index) => (
-                    <Fragment key={index}>
-                      <Link
-                        href={`/products?category=${categories.find((cat) => cat.Name === crumb).id}`}
-                      >
-                        {t(crumb)}
-                        {index < breadCrumbs.length - 1 && ","}
-                      </Link>
-                    </Fragment>
-                  ))}
-                </div>
-              )}
+
               <div className="flex flex-row items-center gap-2">
                 <b>{t("Share")}:</b>
                 <Link
