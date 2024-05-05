@@ -191,6 +191,18 @@ const ProductPage = ({
               <h3 className="text-lg font-bold">
                 {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
               </h3>
+              {product.priceBeforeDiscount ? (
+                <p
+                  draggable={false}
+                  className="flex w-fit flex-row items-center justify-center overflow-hidden border-t-0 bg-green-700 px-2 py-1 text-xs font-bold text-white"
+                >
+                  {(
+                    ((product.value - product.priceBeforeDiscount) /
+                      product.priceBeforeDiscount) *
+                    100
+                  ).toFixed(0) + "%"}
+                </p>
+              ) : null}
               {/* {product.priceBeforeDiscount <= product.value ? null : (
                 <div className="bg-green-700 p-1 font-bold  text-white">
                   {(
