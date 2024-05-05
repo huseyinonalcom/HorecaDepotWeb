@@ -44,8 +44,7 @@ const CollectionShowcase = ({ collection }: Props) => {
       </div>
       <div
         ref={mobileRow}
-        id={`desktopRow-${collection.id}`}
-        className="no-scrollbar flex snap-x flex-row overflow-x-scroll py-2 md:hidden"
+        className="no-scrollbar flex snap-x snap-mandatory scroll-smooth flex-row overflow-x-scroll py-2 md:hidden"
       >
         <div className="flex flex-row gap-2">
           {collection.products.map((prod) => (
