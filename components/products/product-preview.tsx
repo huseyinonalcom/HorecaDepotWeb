@@ -146,95 +146,104 @@ const ProductPreview = ({ product, width }: Props) => {
         className={"flex flex-col items-start " + contentDimensions}
       >
         <div draggable={false} className="flex flex-col items-start">
-          <div className="h-[25px] text-base font-bold duration-700">
+          <div className="duration-700">
             <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={16}>
               {product.name}
             </AutoTextSize>
           </div>
-          <div
-            draggable={false}
-            className="h-[19px] text-sm font-semibold duration-700 "
-          >
-            <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={13}>
-              {product.internalCode != "0" ? product.internalCode : ""}
+          <div className="duration-700">
+            <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={14}>
+              {product.category.Name}
             </AutoTextSize>
           </div>
+          {product.internalCode && (
+            <div
+              draggable={false}
+              className="text-sm duration-700 "
+            >
+              <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={13}>
+                {product.internalCode != "0" ? product.internalCode : ""}
+              </AutoTextSize>
+            </div>
+          )}
           <div
             draggable={false}
-            className="grid grid-cols-3 items-center gap-1"
+            className="items-end gap-1 flex flex-row"
           >
-            {product.priceBeforeDiscount > product.value && (
-              <div
-                draggable={false}
-                className="text-sm text-gray-700 line-through"
-              >
+              <div draggable={false} className="text-lg font-bold">
+                <AutoTextSize
+                  draggable={false}
+                  mode="oneline"
+                  maxFontSizePx={15}
+                >
+                  {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
+                </AutoTextSize>
+              </div>
+              {product.priceBeforeDiscount > product.value && (
+                <div
+                  draggable={false}
+                  className="text-sm text-gray-700 mb-0.5 line-through"
+                >
+                  <AutoTextSize
+                    draggable={false}
+                    mode="oneline"
+                    maxFontSizePx={12}
+                  >
+                    {"€ " +
+                      product.priceBeforeDiscount
+                        .toFixed(2)
+                        .replaceAll(".", ",")}
+                  </AutoTextSize>
+                </div>
+              )}
+              {product.priceBeforeDiscount ? (
+                <p
+                  draggable={false}
+                  className="flex w-fit mb-0.5 flex-row items-center justify-center overflow-hidden border-t-0 bg-green-700 px-2 py-1 text-xs font-bold text-white"
+                >
+                  -{discountPercentage}%
+                </p>
+              ) : null}
+          </div>
+          {product.shelves && product.shelves.length > 0 && (
+            <div draggable={false} className="text-sm font-semibold">
+              {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) >
+                10 && (
                 <AutoTextSize
                   draggable={false}
                   mode="oneline"
                   maxFontSizePx={13}
                 >
-                  {"€ " +
-                    product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
+                  {t("in_stock")}
                 </AutoTextSize>
-              </div>
-            )}
-            <div draggable={false} className="text-lg font-bold">
-              <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={13}>
-                {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
-              </AutoTextSize>
-            </div>
-            {product.priceBeforeDiscount ? (
-              <p
-                draggable={false}
-                className="flex w-fit flex-row items-center justify-center overflow-hidden border-t-0 bg-green-700 px-2 py-1 text-xs font-bold text-white"
-              >
-                -{discountPercentage}%
-              </p>
-            ) : null}
-            {product.shelves && product.shelves.length > 0 && (
-              <div draggable={false} className="text-sm font-semibold">
-                {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) >
-                  10 && (
+              )}
+              {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) <=
+                10 &&
+                product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) >
+                  0 && (
                   <AutoTextSize
                     draggable={false}
                     mode="oneline"
                     maxFontSizePx={13}
+                    className="text-orange-500"
                   >
-                    {t("in_stock")}
+                    {t("low_stock")}
                   </AutoTextSize>
                 )}
-                {product.shelves?.reduce(
-                  (acc, shelf) => acc + shelf.stock,
-                  0,
-                ) <= 10 &&
-                  product.shelves?.reduce(
-                    (acc, shelf) => acc + shelf.stock,
-                    0,
-                  ) > 0 && (
-                    <AutoTextSize
-                      draggable={false}
-                      mode="oneline"
-                      maxFontSizePx={13}
-                      className="text-orange-500"
-                    >
-                      {t("low_stock")}
-                    </AutoTextSize>
-                  )}
 
-                {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) <
-                  1 && (
-                  <AutoTextSize
-                    draggable={false}
-                    mode="oneline"
-                    maxFontSizePx={13}
-                    className="text-red-500"
-                  >
-                    {t("no_stock")}
-                  </AutoTextSize>
-                )}
-              </div>
-            )}
-          </div>
+              {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) <
+                1 && (
+                <AutoTextSize
+                  draggable={false}
+                  mode="oneline"
+                  maxFontSizePx={13}
+                  className="text-red-500"
+                >
+                  {t("no_stock")}
+                </AutoTextSize>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
