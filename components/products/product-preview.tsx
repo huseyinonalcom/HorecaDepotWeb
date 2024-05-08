@@ -4,7 +4,7 @@ import useTranslation from "next-translate/useTranslation";
 import { Product } from "../../api/interfaces/product";
 import { Heart, ShoppingCart } from "react-feather";
 import { CartContext } from "../../api/providers/cartProvider";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { CartProduct } from "../../api/interfaces/cartProduct";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import { WishlistProduct } from "../../api/interfaces/wishlistProduct";
@@ -69,7 +69,7 @@ const ProductPreview = ({ product, width }: Props) => {
       <div
         draggable={false}
         id={`${product.id}-image`}
-        className={`bg-stone-200 relative ${imgDimensions}`}
+        className={`relative bg-stone-200 ${imgDimensions}`}
       >
         <Link draggable={false} href={`/products/${product.id}`}>
           <Image
