@@ -33,9 +33,17 @@ export class ClientConversion {
         category: jsonObject.client_info?.category,
         company: jsonObject.client_info?.company,
         taxID: jsonObject.client_info?.taxID,
-        addresses: jsonObject.client_info?.addresses.map((ad) => AddressConversion.fromJson(ad)),
       },
     };
+
+    if (
+      jsonObject.client_info?.addresses &&
+      jsonObject.client_info?.addresses.length > 0
+    ) {
+      client.client_info.addresses = jsonObject.client_info.addresses.map(
+        (ad) => AddressConversion.fromJson(ad),
+      );
+    }
 
     return client;
   }

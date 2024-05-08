@@ -1,6 +1,6 @@
 import { CartContext } from "../../api/providers/cartProvider";
 import useTranslation from "next-translate/useTranslation";
-import { Minus, Plus, X } from "react-feather";
+import { Minus, Plus, Trash, Trash2, X } from "react-feather";
 import { AutoTextSize } from "auto-text-size";
 import React, { useContext } from "react";
 import Image from "next/image";
@@ -92,7 +92,7 @@ const CartDrawer = () => {
                     onClick={() => removeFromCart(product.id)}
                     className="mr-2.5"
                   >
-                    🗑
+                    <Trash2 />
                   </button>
                   <div className="mr-2 flex h-fit flex-row items-center justify-center rounded-md border-2 border-black bg-black p-0.5 text-white duration-300">
                     <Minus

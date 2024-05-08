@@ -7,7 +7,10 @@ const fetchUrl3 = `${process.env.API_URL}/api/users/me?populate[0]=client_info&p
 
 const validRoles = ["Client"];
 
-export default async function logInClient(req: NextApiRequest, res: NextApiResponse) {
+export default async function logInClient(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method === "POST") {
     const { identifier, password } = req.body;
 
@@ -45,7 +48,10 @@ export default async function logInClient(req: NextApiRequest, res: NextApiRespo
       if (validRoles.includes(answer2.role.description)) {
         const isProduction = process.env.NODE_ENV === "production";
 
-        res.setHeader("Set-Cookie", `cj=${answer.jwt}; HttpOnly; Path=/; Max-Age=36000; SameSite=Strict${isProduction ? "; Secure" : ""}`);
+        res.setHeader(
+          "Set-Cookie",
+          `cj=${answer.jwt}; HttpOnly; Path=/; Max-Age=36000; SameSite=Strict${isProduction ? "; Secure" : ""}`,
+        );
 
         const request3 = await fetch(fetchUrl3, {
           method: "GET",
@@ -57,6 +63,8 @@ export default async function logInClient(req: NextApiRequest, res: NextApiRespo
         });
 
         const answer3 = await request3.json();
+
+        console.log(answer3)
 
         return res.status(200).json(answer3);
       } else {

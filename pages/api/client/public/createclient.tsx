@@ -7,18 +7,13 @@ export default async function postClient(
   res: NextApiResponse,
 ) {
   function splitObject(obj) {
-    // Clone the original object to avoid modifying it
     let clone = JSON.parse(JSON.stringify(obj));
 
-    // Remove addresses from the clone
-    let addresses = clone.client_info.addresses;
     delete clone.client_info.addresses;
 
-    // The first object (without addresses)
     let objectWithoutAddresses = clone;
 
-    // The second object (only the first address, assuming there is at least one address)
-    let firstAddressObject = addresses.length > 0 ? addresses[0] : {};
+    let firstAddressObject = {};
 
     return [objectWithoutAddresses, firstAddressObject];
   }
@@ -30,7 +25,6 @@ export default async function postClient(
     let [clientData, addressData] = splitObject(userData);
     clientData = clientData.client_info;
 
-    clientData.establishment = 1;
     if (userData) {
       try {
         const fetchUrlClient = `${process.env.API_URL}/api/clients?fields=id`;
@@ -48,52 +42,41 @@ export default async function postClient(
           const clientID = answer["data"]["id"];
           addressData.client = clientID;
 
-          const fetchUrlAddress = `${process.env.API_URL}/api/addresses?fields=id`;
-          const requestAddress = await fetch(fetchUrlAddress, {
+          // set client_info to clientID !AFTER! posting address because clientData and addressData are references to parts in the userData object, ergo changes in one, affect all
+          userData.client_info = clientID;
+
+          const fetchUrlUser = `${process.env.API_URL}/api/users?fields=id`;
+          const requestUser = await fetch(fetchUrlUser, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
               Authorization: `Bearer ${process.env.API_KEY}`,
             },
-            body: JSON.stringify({ data: addressData }),
+            body: JSON.stringify(userData),
           });
-          if (requestAddress.ok) {
-            // set client_info to clientID !AFTER! posting address because clientData and addressData are references to parts in the userData object, ergo changes in one, affect all
-            userData.client_info = clientID;
+          if (requestUser.ok) {
+            const userID = await requestUser.json()["id"];
 
-            const fetchUrlUser = `${process.env.API_URL}/api/users?fields=id`;
-            const requestUser = await fetch(fetchUrlUser, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-                Authorization: `Bearer ${process.env.API_KEY}`,
+            const nodemailer = require("nodemailer");
+
+            // Create a transporter object using the custom SMTP transport
+            let transporter = nodemailer.createTransport({
+              host: process.env.MAIL_HOST, // Custom SMTP server
+              port: 587, // Common port for SMTP. Use 465 for SSL
+              secure: false, // True for 465, false for other ports
+              auth: {
+                user: process.env.MAIL_USER, // Your email or SMTP user
+                pass: process.env.MAIL_PASS, // Your password for SMTP authentication
               },
-              body: JSON.stringify(userData),
             });
-            if (requestUser.ok) {
-              const userID = await requestUser.json()["id"];
 
-              const nodemailer = require("nodemailer");
-
-              // Create a transporter object using the custom SMTP transport
-              let transporter = nodemailer.createTransport({
-                host: process.env.MAIL_HOST, // Custom SMTP server
-                port: 587, // Common port for SMTP. Use 465 for SSL
-                secure: false, // True for 465, false for other ports
-                auth: {
-                  user: process.env.MAIL_USER, // Your email or SMTP user
-                  pass: process.env.MAIL_PASS, // Your password for SMTP authentication
-                },
-              });
-
-              // Setup email data for Client
-              let mailOptionsClient = {
-                from: `"${process.env.MAIL_SENDER}" <${process.env.MAIL_USER}>`, // Sender address
-                to: userData.email, // List of recipients
-                subject: "Bienvenue dans la famille Horecadepot", // Subject line
-                html: `
+            // Setup email data for Client
+            let mailOptionsClient = {
+              from: `"${process.env.MAIL_SENDER}" <${process.env.MAIL_USER}>`, // Sender address
+              to: userData.email, // List of recipients
+              subject: "Bienvenue dans la famille Horecadepot", // Subject line
+              html: `
                 <!DOCTYPE html>
                 <html lang="en">
                   <head>
@@ -500,29 +483,29 @@ export default async function postClient(
                   </body>
                 </html>
                 `,
-              };
+            };
 
-              // Send mail client
-              transporter.sendMail(mailOptionsClient, (error, info) => {
-                if (error) {
-                  return res.status(500).json(statusText[500]);
-                } else {
-                  return res.status(200).json({ id: userID });
-                }
-              });
-            } else {
-              return res.status(500).json(statusText[500]);
-            }
+            // Send mail client
+            transporter.sendMail(mailOptionsClient, (error, info) => {
+              if (error) {
+                return res.status(500).json(statusText[500]);
+              } else {
+                return res.status(200).json({ id: userID });
+              }
+            });
           } else {
+            console.log('could not get created user');
             return res.status(500).json(statusText[500]);
           }
         } else {
+          console.log('could not create user');
           return res.status(500).json(statusText[500]);
         }
       } catch {
         return res.status(500).json(statusText[500]);
       }
     } else {
+      console.log('userdata missing');
       return res.status(400).json(statusText[400]);
     }
   } else {

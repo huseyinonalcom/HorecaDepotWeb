@@ -10,7 +10,7 @@
 
 * {
   scrollbar-width: 9px;
-  scrollbar-color: orange black;
+  scrollbar-color: white black;
 }
 
 .transition-height {
@@ -27,7 +27,7 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: orange;
+  background-color: white;
 }
 
 a {

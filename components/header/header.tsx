@@ -142,7 +142,7 @@ const DesktopSearch = () => {
     <form
       name="Search"
       aria-label="Search"
-      className="relative hidden max-w-[500px] min-w-[250px] duration-300 md:flex"
+      className="relative hidden min-w-[250px] max-w-[500px] duration-300 md:flex"
       onSubmit={handleSearchSubmit}
     >
       <input
@@ -150,14 +150,14 @@ const DesktopSearch = () => {
         aria-label="Search bar input"
         type="text"
         onChange={handleSearchChange}
-        className="w-full border-2 py-2 pl-4 pr-4 text-black outline-none focus:border-orange-400 focus:ring-transparent"
+        className="w-full border-2 py-2 pl-4 pr-4 text-black outline-none focus:border-black focus:ring-transparent"
         placeholder={t("Search Products")}
       />
       <div className="absolute inset-y-0 right-0 flex">
         <button
           aria-label="Search bar submit button"
           type="submit"
-          className="h-full w-[45px] cursor-pointer bg-orange-400"
+          className="h-full w-[45px] cursor-pointer bg-black"
         >
           <Search className="mx-auto my-auto h-6 w-6 pr-1" />
         </button>
@@ -201,14 +201,14 @@ const MobileSearch = () => {
         aria-label="Search bar input"
         type="text"
         onChange={handleSearchChange}
-        className="w-full border-2 py-2 pl-4 pr-4 text-black outline-none focus:border-orange-400 focus:ring-transparent"
+        className="w-full border-2 py-2 pl-4 pr-4 text-black outline-none focus:border-black focus:ring-transparent"
         placeholder={t("Search Products")}
       />
       <div className="absolute inset-y-0 right-0 flex">
         <button
           aria-label="Search bar submit button"
           type="submit"
-          className="h-full w-[45px] cursor-pointer bg-orange-400"
+          className="h-full w-[45px] cursor-pointer bg-black"
         >
           <Search className="mx-auto my-auto h-6 w-6 pr-1" />
         </button>
@@ -597,7 +597,7 @@ const HeaderButtons = ({ cartItems }) => {
   const { openDrawer } = useContext(CartContext);
   const { wishlist } = useContext(WishlistContext);
   const navButtonsClass =
-    "relative flex flex-col justify-center items-center p-1 duration-300 font-bold text-sm text-white hover:bg-orange-400 aspect-[1/1]";
+    "relative flex flex-col justify-center items-center p-1 duration-300 font-bold text-sm text-white hover:bg-black aspect-[1/1]";
 
   return (
     <>
@@ -624,7 +624,7 @@ const HeaderButtons = ({ cartItems }) => {
         href="/wishlist"
       >
         <Heart />
-        <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-orange-400 px-1 py-0.5 text-xs font-bold leading-none text-red-100">
+        <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-black px-1 py-0.5 text-xs font-bold leading-none">
           {wishlist.length}
         </span>
       </Link>
@@ -634,7 +634,7 @@ const HeaderButtons = ({ cartItems }) => {
         onClick={openDrawer}
       >
         <ShoppingBag />
-        <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-orange-400 px-1 py-0.5 text-xs font-bold leading-none text-red-100">
+        <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-black px-1 py-0.5 text-xs font-bold leading-none">
           {cartItems}
         </span>
       </button>
@@ -693,7 +693,7 @@ const Header = () => {
           <div className="flex w-full flex-row items-center justify-between gap-4">
             <button
               name="Mobile Navigation Menu"
-              className="relative flex flex-col items-center justify-center p-1 text-sm font-bold text-white duration-300 hover:text-orange-400 focus:outline-transparent lg:hidden"
+              className="relative flex flex-col items-center justify-center p-1 text-sm font-bold text-white duration-300 hover:bg-black focus:outline-transparent lg:hidden"
               style={{ WebkitTapHighlightColor: "transparent" }}
               aria-label="Mobile Navigation Menu"
               onClick={() => setIsHeaderDrawerOpen(!isHeaderDrawerOpen)}
@@ -724,7 +724,7 @@ const Header = () => {
           </div>
 
           <div className="flex w-full flex-row md:hidden">
-            <div className="relative w-full mt-3">
+            <div className="relative mt-3 w-full">
               <MobileSearch />
             </div>
           </div>
