@@ -13,7 +13,6 @@ import {
   Minus,
   PlusCircle,
   Search,
-  Trash,
   Upload,
   X,
 } from "react-feather";
@@ -1806,7 +1805,7 @@ export default function Products() {
                                     deleteReservation(res.id);
                                   }}
                                 >
-                                  <Trash />
+                                  <X color="red" />
                                 </button>
                               </div>
                             ))}
