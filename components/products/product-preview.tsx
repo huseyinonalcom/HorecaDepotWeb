@@ -49,26 +49,6 @@ const ProductPreview = ({ product, width }: Props) => {
     product.value,
   );
 
-  const [prodBg, setProdBG] = useState(false);
-
-  const handleKeyPress = (event) => {
-    if (event.key === "g") {
-      setProdBG(true);
-    } else if (event.key === "h") {
-      setProdBG(false);
-    }
-  };
-
-  useEffect(() => {
-    // Add event listener when component mounts
-    window.addEventListener("keydown", handleKeyPress);
-
-    // Remove event listener on cleanup
-    return () => {
-      window.removeEventListener("keydown", handleKeyPress);
-    };
-  }, []);
-
   var widthString: string;
 
   if (width == "full") {
@@ -89,7 +69,7 @@ const ProductPreview = ({ product, width }: Props) => {
       <div
         draggable={false}
         id={`${product.id}-image`}
-        className={`relative ${prodBg && "bg-stone-200"} ${imgDimensions}`}
+        className={`bg-stone-200 relative ${imgDimensions}`}
       >
         <Link draggable={false} href={`/products/${product.id}`}>
           <Image
@@ -143,7 +123,7 @@ const ProductPreview = ({ product, width }: Props) => {
       <div
         draggable={false}
         id={`${product.id}-content`}
-        className={"flex flex-col items-start mt-2 " + contentDimensions}
+        className={"mt-2 flex flex-col items-start " + contentDimensions}
       >
         <div draggable={false} className="flex flex-col items-start">
           <div className="duration-700">
@@ -157,53 +137,41 @@ const ProductPreview = ({ product, width }: Props) => {
             </AutoTextSize>
           </div>
           {product.internalCode && (
-            <div
-              draggable={false}
-              className="text-sm duration-700 "
-            >
+            <div draggable={false} className="text-sm duration-700 ">
               <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={13}>
                 {product.internalCode != "0" ? product.internalCode : ""}
               </AutoTextSize>
             </div>
           )}
-          <div
-            draggable={false}
-            className="items-end gap-1 flex flex-row"
-          >
-              <div draggable={false} className="text-lg font-bold">
+          <div draggable={false} className="flex flex-row items-end gap-1">
+            <div draggable={false} className="text-lg font-bold">
+              <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={15}>
+                {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
+              </AutoTextSize>
+            </div>
+            {product.priceBeforeDiscount > product.value && (
+              <div
+                draggable={false}
+                className="mb-0.5 text-sm text-gray-700 line-through"
+              >
                 <AutoTextSize
                   draggable={false}
                   mode="oneline"
-                  maxFontSizePx={15}
+                  maxFontSizePx={12}
                 >
-                  {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
+                  {"€ " +
+                    product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
                 </AutoTextSize>
               </div>
-              {product.priceBeforeDiscount > product.value && (
-                <div
-                  draggable={false}
-                  className="text-sm text-gray-700 mb-0.5 line-through"
-                >
-                  <AutoTextSize
-                    draggable={false}
-                    mode="oneline"
-                    maxFontSizePx={12}
-                  >
-                    {"€ " +
-                      product.priceBeforeDiscount
-                        .toFixed(2)
-                        .replaceAll(".", ",")}
-                  </AutoTextSize>
-                </div>
-              )}
-              {product.priceBeforeDiscount ? (
-                <p
-                  draggable={false}
-                  className="flex w-fit mb-0.5 flex-row items-center justify-center overflow-hidden border-t-0 bg-gray-200 px-2 py-1 text-xs"
-                >
-                  -{discountPercentage}%
-                </p>
-              ) : null}
+            )}
+            {product.priceBeforeDiscount ? (
+              <p
+                draggable={false}
+                className="mb-0.5 flex w-fit flex-row items-center justify-center overflow-hidden border-t-0 bg-gray-200 px-2 py-1 text-xs"
+              >
+                -{discountPercentage}%
+              </p>
+            ) : null}
           </div>
           {product.shelves && product.shelves.length > 0 && (
             <div draggable={false} className="text-sm font-semibold">
