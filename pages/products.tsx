@@ -472,7 +472,7 @@ export default function Products() {
                   onClick={() => {
                     setIsFilterDrawerOpen(!isFilterDrawerOpen);
                   }}
-                  className="ml-auto bg-orange-400 px-2 py-1 font-semibold lg:hidden"
+                  className="ml-auto border-2 border px-2 py-1 font-semibold lg:hidden"
                 >
                   {t("Filters")}
                 </button>

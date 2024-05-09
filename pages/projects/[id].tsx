@@ -30,13 +30,17 @@ const ProjectPage = ({ project }: Props) => {
             {t("Home")}
           </Link>
           <p className="mx-2 font-bold">/</p>
-          <p className="text-white underline decoration-orange-400 decoration-solid decoration-4 underline-offset-8">
+          <Link href="/projects" className="duration-700 hover:text-white">
+            {t("Our Projects")}
+          </Link>
+          <p className="mx-2 font-bold">/</p>
+          <p className="text-white underline decoration-white decoration-solid decoration-4 underline-offset-8">
             {project.title}
           </p>
         </div>
       </div>
       <div className="mx-auto mb-2 flex w-[95%] flex-col items-center justify-center bg-white p-3 shadow-md">
-        <div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+        <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
           {project.images.map((image, index) => (
             <div key={index} className="relative min-h-[200px] min-w-[200px]">
               <Image

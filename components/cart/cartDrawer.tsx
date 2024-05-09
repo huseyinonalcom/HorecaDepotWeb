@@ -5,6 +5,7 @@ import { AutoTextSize } from "auto-text-size";
 import React, { useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import CustomTheme from "../componentThemes";
 
 const CartDrawer = () => {
   const { t } = useTranslation("common");
@@ -94,16 +95,16 @@ const CartDrawer = () => {
                   >
                     <X color="red" />
                   </button>
-                  <div className="mr-2 flex h-fit flex-row items-center justify-center rounded-md border-2 border-black bg-black p-0.5 text-white duration-300">
+                  <div className="mr-2 flex h-fit flex-row items-center justify-center rounded-md border-2 border-black bg-black p-0.5 duration-300">
                     <Minus
-                      className="h-6 w-6 cursor-pointer rounded-md bg-orange-400 px-1 duration-300  hover:text-red-500"
+                      className="h-6 w-6 cursor-pointer rounded-md bg-white px-1 duration-300 hover:text-red-500"
                       onClick={() => decreaseQuantity(product.id)}
                     />
-                    <p className="mx-1.25 w-[40px] text-center">
+                    <p className="mx-1.25 w-[40px] text-center text-white">
                       {product.amount}
                     </p>
                     <Plus
-                      className="h-6 w-6 cursor-pointer rounded-md bg-orange-400 px-1 duration-300  hover:text-green-500"
+                      className="h-6 w-6 cursor-pointer rounded-md bg-white px-1 duration-300  hover:text-green-500"
                       onClick={() => increaseQuantity(product.id)}
                     />
                   </div>
@@ -159,7 +160,10 @@ const CartDrawer = () => {
           {cart.length > 0 && (
             <Link
               href="/checkout"
-              className="mt-1 flex w-full flex-row justify-center bg-green-700 py-1 font-medium text-white shadow-xl duration-500 hover:bg-orange-400"
+              className={
+                CustomTheme.outlinedButton +
+                " mt-1 flex w-full flex-row justify-center py-1 font-medium shadow-xl duration-500"
+              }
             >
               {t("Order")}
             </Link>

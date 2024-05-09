@@ -1152,7 +1152,7 @@ export default function Checkout() {
                           .replaceAll(".", ",")
                       : ""}
                   </p>
-                  <p className="text-lg font-bold text-orange-400">
+                  <p className="text-lg font-bold text-black">
                     €{" "}
                     {(product.value * product.amount)
                       .toFixed(2)

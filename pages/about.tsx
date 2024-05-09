@@ -22,7 +22,7 @@ export default function About() {
             {t("Home")}
           </Link>
           <p className="mx-2 font-bold">/</p>
-          <p className="text-white underline decoration-orange-400 decoration-solid decoration-4 underline-offset-8">
+          <p className="text-white underline decoration-white decoration-solid decoration-4 underline-offset-8">
             {t("Who we are")}
           </p>
         </div>
@@ -58,7 +58,7 @@ export default function About() {
                 produits et projets. Appelez pour un rendez-vous ou envoyez un
                 email.
               </p>
-              <p className="border-l-2 border-orange-500 pl-4 text-lg">
+              <p className="border-l-2 border-black pl-4 text-lg">
                 Meilleur prix pour hotel, restaurant, cafe et vous.
               </p>
             </div>

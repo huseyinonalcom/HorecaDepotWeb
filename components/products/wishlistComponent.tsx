@@ -13,11 +13,11 @@ const WishListComponent = () => {
   return (
     <>
       {wishlist.length === 0 ? (
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center gap-2 mb-2">
           <div className="text-gray-500">{t("Your wishlist is empty.")}</div>
           <Link
             href={"/products"}
-            className="bg-orange-400 px-4 py-2 font-bold text-black"
+            className="bg-black px-4 py-2 font-bold text-white"
           >
             SHOP
           </Link>
@@ -49,7 +49,7 @@ const WishListComponent = () => {
                   {product.name}
                 </h3>
                 <Link
-                  className="h-[0px] overflow-hidden text-left text-lg font-bold text-orange-400 duration-700 group-hover:h-[25px]"
+                  className="h-[0px] overflow-hidden text-left text-lg font-bold text-black duration-700 group-hover:h-[25px]"
                   href={"/products/" + product.id}
                 >
                   {t("+ View Details")}
@@ -82,7 +82,7 @@ const WishListComponent = () => {
                   onClick={() => removeFromWishlist(product.id)}
                 >
                   <div className="flex h-full w-full flex-row items-center justify-center">
-                    🗑
+                    <X color="red" />
                   </div>
                 </button>
               </div>

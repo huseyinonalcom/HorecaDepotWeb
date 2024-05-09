@@ -27,7 +27,7 @@ export default function References({ projects }: Props) {
             {t("Home")}
           </Link>
           <p className="mx-2 font-bold">/</p>
-          <p className="text-white underline decoration-orange-400 decoration-solid decoration-4 underline-offset-8">
+          <p className="text-white underline decoration-white decoration-solid decoration-4 underline-offset-8">
             {t("Our Projects")}
           </p>
         </div>
