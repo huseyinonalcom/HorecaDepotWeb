@@ -3,21 +3,21 @@ import areAllPropertiesNull from "../api/utils/input_validators/are_all_properti
 import validateEmpty from "../api/utils/input_validators/validate_empty";
 import validateEmail from "../api/utils/input_validators/validate_email";
 import { Client, ClientConversion } from "../api/interfaces/client";
+import { CartProduct } from "../api/interfaces/cartProduct";
 import useTranslation from "next-translate/useTranslation";
 import ButtonShadow1 from "../components/buttons/shadow_1";
 import InputOutlined from "../components/inputs/outlined";
 import CustomTheme from "../components/componentThemes";
-import { useEffect, useState } from "react";
 import { Document } from "../api/interfaces/document";
+import { Product } from "../api/interfaces/product";
 import { Address } from "../api/interfaces/address";
 import Layout from "../components/public/layout";
 import { AutoTextSize } from "auto-text-size";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
-import { CartProduct } from "../api/interfaces/cartProduct";
-import { Product } from "../api/interfaces/product";
 
 export default function Checkout() {
   const { t, lang } = useTranslation("common");
@@ -25,10 +25,22 @@ export default function Checkout() {
   const [loggedClient, setLoggedClient] = useState<Client>(null);
   const [cart, setCart] = useState<CartProduct[]>([]);
   const [needsValidation, setNeedsValidation] = useState(false);
+  const [showLoginForm, setShowLoginForm] = useState<boolean>(false);
+  const [showRegisterForm, setShowRegisterForm] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const options = ["Entreprise", "Particulier"];
+  const [errorLogin, setErrorLogin] = useState<string>("");
+  const [clientType, setClientType] = useState<string>(options.at(1));
 
   const updateCart = (newCart: CartProduct[]) => {
     setCart(newCart);
     localStorage.setItem("cart", JSON.stringify(newCart));
+  };
+
+  const clearCart = () => {
+    setCart(null);
+    localStorage.removeItem("cart");
   };
 
   useEffect(() => {
@@ -81,26 +93,6 @@ export default function Checkout() {
     return checkedCart;
   };
 
-  const addToCart = (newItem: CartProduct) => {
-    setCart((prevCart) => {
-      const existingItemIndex = prevCart.findIndex(
-        (item) => item.id === newItem.id,
-      );
-      let updatedCart = [...prevCart];
-      if (existingItemIndex !== -1) {
-        updatedCart[existingItemIndex] = {
-          ...updatedCart[existingItemIndex],
-          amount: updatedCart[existingItemIndex].amount + newItem.amount,
-        };
-      } else {
-        updatedCart = [...updatedCart, { ...newItem, amount: newItem.amount }];
-      }
-      updateCart(updatedCart);
-      setNeedsValidation(true);
-      return updatedCart;
-    });
-  };
-
   const increaseQuantity = (itemId: number) => {
     setCart((prevCart) => {
       const updatedCart = prevCart.map((item) =>
@@ -134,17 +126,6 @@ export default function Checkout() {
     });
   };
 
-  const setQuantity = (itemId: number, quantity: number) => {
-    setCart((prevCart) => {
-      const updatedCart = prevCart.map((item) =>
-        item.id === itemId ? { ...item, amount: quantity } : item,
-      );
-      updateCart(updatedCart);
-      setNeedsValidation(true);
-      return updatedCart;
-    });
-  };
-
   const calculateTotal = () => {
     const totalAfterDiscount = cart.reduce(
       (total, item) => total + item.amount * item.value,
@@ -159,9 +140,6 @@ export default function Checkout() {
     cart.forEach((product) => (amount += product.amount));
     return { totalAfterDiscount, totalBeforeDiscount, amount };
   };
-
-  const [showLoginForm, setShowLoginForm] = useState<boolean>(false);
-  const [showRegisterForm, setShowRegisterForm] = useState<boolean>(false);
 
   // check if user is logged in and still authorized otherwise clear client
   useEffect(() => {
@@ -188,16 +166,12 @@ export default function Checkout() {
     }, 200);
   }, []);
 
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const options = ["Entreprise", "Particulier"];
-  const [errorLogin, setErrorLogin] = useState<string>("");
-  const [clientType, setClientType] = useState<string>(options.at(1));
   const handleLogOut = async (event) => {
     event.preventDefault();
     setLoggedClient(null);
     await fetch("/api/client/client/logout").then(() => {});
   };
+
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
     setErrorLogin("");
@@ -348,6 +322,7 @@ export default function Checkout() {
       street: "",
       floor: "",
     });
+
   const [
     errorsNewAddressExistingClientForm,
     setErrorsNewAddressExistingClientForm,
@@ -359,6 +334,7 @@ export default function Checkout() {
     zipCode: null,
     city: null,
   });
+
   const handleNewAddressExistingClientFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -396,6 +372,7 @@ export default function Checkout() {
       city: validateEmpty(newAddressExistingClient.city),
     }));
   };
+
   useEffect(() => {
     if (
       areAllPropertiesNull(errorsNewAddressExistingClientForm) &&
@@ -433,13 +410,13 @@ export default function Checkout() {
   const [chosenInvoiceAddressId, setChosenInvoiceAddressId] = useState(null);
   const [totalAfterPromo, setTotalAfterPromo] = useState<number | null>(null);
   const [chosenDeliveryAddressId, setChosenDeliveryAddressId] = useState(null);
-  const [deliverySameAddressAsInvoice, setDeliverySameAddressAsInvoice] =
-    useState(true);
+
   useEffect(() => {
     if (usedPromoCode != "") {
       calculateTotalWithPromo(currentPromo);
     }
   }, [cart]);
+
   const validatePromo = async (e) => {
     e.preventDefault();
     try {
@@ -464,6 +441,7 @@ export default function Checkout() {
       setTotalAfterPromo(null);
     }
   };
+
   const calculateTotalWithPromo = async (promoDetails) => {
     const cartAfterPromo = JSON.parse(JSON.stringify(cart));
     const discountAmount = promoDetails.discount;
@@ -516,7 +494,7 @@ export default function Checkout() {
       setSubmitErrorDocument("Choissisez un address pour facturation!");
       return;
     }
-    if (!deliverySameAddressAsInvoice && !chosenDeliveryAddressId) {
+    if (!chosenDeliveryAddressId) {
       setSubmitErrorDocument("Choissisez un address pour livrasion!");
       return;
     }
@@ -535,7 +513,7 @@ export default function Checkout() {
       date: "",
       client: { id: 0 },
       note: null,
-      decisionMaker: null,
+      decisionMaker: `${loggedClient.client_info.firstName} ${loggedClient.client_info.lastName}`,
       document_products: cart.map((cartProduct) => {
         return {
           product: cartProduct.id,
@@ -545,18 +523,11 @@ export default function Checkout() {
       docAddress: loggedClient.client_info.addresses.find(
         (address) => address.id == chosenInvoiceAddressId,
       ),
-      delAddress: null,
-    };
-    documentToPost.decisionMaker = `${loggedClient.client_info.firstName} ${loggedClient.client_info.lastName}`;
-    if (deliverySameAddressAsInvoice == true) {
-      documentToPost.delAddress = loggedClient.client_info.addresses.find(
-        (address) => address.id == chosenInvoiceAddressId,
-      );
-    } else {
-      documentToPost.delAddress = loggedClient.client_info.addresses.find(
+      delAddress: loggedClient.client_info.addresses.find(
         (address) => address.id == chosenDeliveryAddressId,
-      );
-    }
+      ),
+    };
+
     const request = await fetch(
       "/api/checkout/client/postorder?final=true&promo=" + usedPromoCode,
       {
@@ -579,6 +550,7 @@ export default function Checkout() {
       );
       if (paymentReq.ok) {
         const response = await paymentReq.json();
+        clearCart();
         if (response.url != 0) {
           window.location.href = response.url;
         } else {
@@ -671,63 +643,32 @@ export default function Checkout() {
                       <h3 className="text-lg font-bold">
                         {t("Select an Address for delivery")}
                       </h3>
-                      {deliverySameAddressAsInvoice ? (
-                        <button
-                          className={CustomTheme.outlinedButton}
-                          onClick={() =>
-                            setDeliverySameAddressAsInvoice(
-                              !deliverySameAddressAsInvoice,
-                            )
-                          }
+                      {loggedClient.client_info.addresses?.map((address) => (
+                        <div
+                          key={"d" + address.id}
+                          className="mt-2 flex flex-row gap-2 bg-white p-4 shadow-lg"
                         >
-                          {t("Delivery to different address")}
-                        </button>
-                      ) : (
-                        <button
-                          className={CustomTheme.outlinedButton}
-                          onClick={() =>
-                            setDeliverySameAddressAsInvoice(
-                              !deliverySameAddressAsInvoice,
-                            )
-                          }
-                        >
-                          {t("Delivery to same address as invoice")}
-                        </button>
-                      )}
-                      {!deliverySameAddressAsInvoice && (
-                        <>
-                          {loggedClient.client_info.addresses?.map(
-                            (address) => (
-                              <div
-                                key={"d" + address.id}
-                                className="mt-2 flex flex-row gap-2 bg-white p-4 shadow-lg"
-                              >
-                                <input
-                                  type="radio"
-                                  id={`delivery-address-${address.id}`}
-                                  name="deliveryAddress"
-                                  value={address.id}
-                                  checked={
-                                    chosenDeliveryAddressId == address.id
-                                  }
-                                  onChange={(e) => {
-                                    e.preventDefault();
-                                    setChosenDeliveryAddressId(e.target.value);
-                                  }}
-                                />
-                                <label
-                                  htmlFor={`delivery-address-${address.id}`}
-                                  className="w-full"
-                                >
-                                  {address.street} {address.doorNumber}
-                                  <br />
-                                  {address.city} {address.zipCode}
-                                </label>
-                              </div>
-                            ),
-                          )}
-                        </>
-                      )}
+                          <input
+                            type="radio"
+                            id={`delivery-address-${address.id}`}
+                            name="deliveryAddress"
+                            value={address.id}
+                            checked={chosenDeliveryAddressId == address.id}
+                            onChange={(e) => {
+                              e.preventDefault();
+                              setChosenDeliveryAddressId(e.target.value);
+                            }}
+                          />
+                          <label
+                            htmlFor={`delivery-address-${address.id}`}
+                            className="w-full"
+                          >
+                            {address.street} {address.doorNumber}
+                            <br />
+                            {address.city} {address.zipCode}
+                          </label>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}
@@ -752,12 +693,12 @@ export default function Checkout() {
                       label="Country"
                       value={newAddressExistingClient.country}
                       error={errorsNewAddressExistingClientForm.country}
-                      onChange={(e) => {
+                      onChange={(e) =>
                         setNewAddressExistingClient({
                           ...newAddressExistingClient,
                           country: e.target.value,
-                        });
-                      }}
+                        })
+                      }
                     />
                   </div>
                   <div className="flex flex-col gap-2 sm:flex-row">
@@ -769,12 +710,12 @@ export default function Checkout() {
                         label="Street"
                         value={newAddressExistingClient.street}
                         error={errorsNewAddressExistingClientForm.street}
-                        onChange={(e) => {
+                        onChange={(e) =>
                           setNewAddressExistingClient({
                             ...newAddressExistingClient,
                             street: e.target.value,
-                          });
-                        }}
+                          })
+                        }
                       />
                     </div>
                     <div className="flex w-full flex-col sm:w-3/12">
@@ -785,12 +726,12 @@ export default function Checkout() {
                         label="Door"
                         value={newAddressExistingClient.doorNumber}
                         error={errorsNewAddressExistingClientForm.doorNumber}
-                        onChange={(e) => {
+                        onChange={(e) =>
                           setNewAddressExistingClient({
                             ...newAddressExistingClient,
                             doorNumber: e.target.value,
-                          });
-                        }}
+                          })
+                        }
                       />
                     </div>
                     <div className="flex w-full flex-col sm:w-2/12">
@@ -801,12 +742,12 @@ export default function Checkout() {
                         label="Floor"
                         value={newAddressExistingClient.floor}
                         error={errorsNewAddressExistingClientForm.floor}
-                        onChange={(e) => {
+                        onChange={(e) =>
                           setNewAddressExistingClient({
                             ...newAddressExistingClient,
                             floor: e.target.value,
-                          });
-                        }}
+                          })
+                        }
                       />
                     </div>
                   </div>
@@ -819,12 +760,12 @@ export default function Checkout() {
                         label="Zip Code"
                         value={newAddressExistingClient.zipCode}
                         error={errorsNewAddressExistingClientForm.zipCode}
-                        onChange={(e) => {
+                        onChange={(e) =>
                           setNewAddressExistingClient({
                             ...newAddressExistingClient,
                             zipCode: e.target.value,
-                          });
-                        }}
+                          })
+                        }
                       />
                     </div>
                     <div className="flex w-full flex-col sm:w-8/12">
@@ -835,12 +776,12 @@ export default function Checkout() {
                         label="City"
                         value={newAddressExistingClient.city}
                         error={errorsNewAddressExistingClientForm.city}
-                        onChange={(e) => {
+                        onChange={(e) =>
                           setNewAddressExistingClient({
                             ...newAddressExistingClient,
                             city: e.target.value,
-                          });
-                        }}
+                          })
+                        }
                       />
                     </div>
                   </div>
@@ -1003,15 +944,15 @@ export default function Checkout() {
                         label="The name of your company"
                         value={newClient.client_info.company}
                         error={errorsNewClientForm.company}
-                        onChange={(e) => {
+                        onChange={(e) =>
                           setNewClient({
                             ...newClient,
                             client_info: {
                               ...newClient.client_info,
                               company: e.target.value,
                             },
-                          });
-                        }}
+                          })
+                        }
                       />
                     </div>
                     <div className="flex w-full flex-col">
@@ -1022,15 +963,15 @@ export default function Checkout() {
                         label="VAT number"
                         value={newClient.client_info.taxID}
                         error={errorsNewClientForm.taxID}
-                        onChange={(e) => {
+                        onChange={(e) =>
                           setNewClient({
                             ...newClient,
                             client_info: {
                               ...newClient.client_info,
                               taxID: e.target.value,
                             },
-                          });
-                        }}
+                          })
+                        }
                       />
                     </div>
                   </>
@@ -1044,15 +985,15 @@ export default function Checkout() {
                       label="Your first name"
                       value={newClient.client_info.firstName}
                       error={errorsNewClientForm.firstName}
-                      onChange={(e) => {
+                      onChange={(e) =>
                         setNewClient({
                           ...newClient,
                           client_info: {
                             ...newClient.client_info,
                             firstName: e.target.value,
                           },
-                        });
-                      }}
+                        })
+                      }
                     />
                   </div>
                   <div className="flex w-full flex-col sm:w-1/2">
@@ -1063,15 +1004,15 @@ export default function Checkout() {
                       label="Your last name"
                       value={newClient.client_info.lastName}
                       error={errorsNewClientForm.lastName}
-                      onChange={(e) => {
+                      onChange={(e) =>
                         setNewClient({
                           ...newClient,
                           client_info: {
                             ...newClient.client_info,
                             lastName: e.target.value,
                           },
-                        });
-                      }}
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -1082,15 +1023,15 @@ export default function Checkout() {
                       name="Phone"
                       label="Your Phone"
                       value={newClient.client_info.phone}
-                      onChange={(e) => {
+                      onChange={(e) =>
                         setNewClient({
                           ...newClient,
                           client_info: {
                             ...newClient.client_info,
                             phone: e.target.value,
                           },
-                        });
-                      }}
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -1103,12 +1044,12 @@ export default function Checkout() {
                       label="E-mail"
                       value={newClient.email}
                       error={errorsNewClientForm.email}
-                      onChange={(e) => {
+                      onChange={(e) =>
                         setNewClient({
                           ...newClient,
                           email: e.target.value,
-                        });
-                      }}
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -1121,12 +1062,12 @@ export default function Checkout() {
                       label="Password"
                       value={newClient.password}
                       error={errorsNewClientForm.password}
-                      onChange={(e) => {
+                      onChange={(e) =>
                         setNewClient({
                           ...newClient,
                           password: e.target.value,
-                        });
-                      }}
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -1164,7 +1105,7 @@ export default function Checkout() {
                 </div>
                 <Link
                   href={"/products"}
-                  className={CustomTheme.outlinedButton + "  w-[60%]"}
+                  className={CustomTheme.outlinedButton + " w-[60%]"}
                 >
                   <p className="flex w-full flex-row justify-center">
                     {t("Shop")}
@@ -1253,7 +1194,7 @@ export default function Checkout() {
                 {t("Promo Code")}
               </label>
               <input
-                className="w-full border  border-gray-300 p-2"
+                className="w-full border border-gray-300 p-2"
                 type="text"
                 id="promo"
                 value={usedPromoCode}
