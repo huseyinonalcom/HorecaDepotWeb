@@ -105,8 +105,8 @@
   "My Orders": "My Orders",
   "Name": "Name",
   "New Collection": "New Collection",
-  "new_address_hide": "New Address Hide",
-  "new_address_show": "New Address Show",
+  "new_address_hide": "Cancel New Address",
+  "new_address_show": "Add New Address",
   "No orders found": "No orders found",
   "No products matching": "No products matching",
   "No products selected": "No products selected",
@@ -214,5 +214,10 @@
   "WISHLIST": "WISHLIST",
   "wrong_user": "Are you not {{userName}}?",
   "Your cart is empty": "Your cart is empty",
-  "Your wishlist is empty.": "Your wishlist is empty."
+  "Your wishlist is empty.": "Your wishlist is empty.",
+  "identification": "Identification",
+  "Accédez à votre compte existant.": "Login to your existing account.",
+  "Déjà inscrit": "Already registered",
+  "Créer un nouveau compte.": "Create a new account.",
+  "Inscrivez-vous": "Sign up"
 }

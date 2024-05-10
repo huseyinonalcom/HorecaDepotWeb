@@ -214,5 +214,10 @@
   "WISHLIST": "LISTE DE SOUHAITS",
   "wrong_user": "N'êtes-vous pas {{userName}} ?",
   "Your cart is empty": "Votre panier est vide",
-  "Your wishlist is empty.": "Votre liste de souhaits est vide."
+  "Your wishlist is empty.": "Votre liste de souhaits est vide.",
+  "identification": "Identification",
+  "Accédez à votre compte existant.": "Accédez à votre compte existant.",
+  "Déjà inscrit": "Déjà inscrit",
+  "Créer un nouveau compte.": "Créer un nouveau compte.",
+  "Inscrivez-vous": "Inscrivez-vous"
 }
