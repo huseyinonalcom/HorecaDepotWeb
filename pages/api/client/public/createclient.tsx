@@ -494,18 +494,15 @@ export default async function postClient(
               }
             });
           } else {
-            console.log('could not get created user');
             return res.status(500).json(statusText[500]);
           }
         } else {
-          console.log('could not create user');
           return res.status(500).json(statusText[500]);
         }
       } catch {
         return res.status(500).json(statusText[500]);
       }
     } else {
-      console.log('userdata missing');
       return res.status(400).json(statusText[400]);
     }
   } else {

@@ -31,19 +31,16 @@ export const ClientProvider = ({ children }: ClientProviderProps) => {
       storedClient != "null"
     ) {
       let clientLs = ClientConversion.fromJson(JSON.parse(storedClient));
-      console.log("client from local storage: ", clientLs);
       setClient(clientLs);
     }
   }, []);
 
   const updateClient = (newClient: Client) => {
-    console.log("client to set in local storage: ", newClient);
     setClient(newClient);
     localStorage.setItem("client", JSON.stringify(newClient));
   };
 
   const setCurrentClient = (newClient: Client) => {
-    console.log("client to set in local storage: ", newClient);
     setClient(newClient);
     localStorage.setItem("client", JSON.stringify(newClient));
   };

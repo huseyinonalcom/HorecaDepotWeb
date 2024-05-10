@@ -64,7 +64,6 @@ export default async function logInClient(
 
         const answer3 = await request3.json();
 
-        console.log(answer3)
 
         return res.status(200).json(answer3);
       } else {

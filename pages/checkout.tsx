@@ -151,7 +151,6 @@ export default function Checkout() {
       } else {
         const storedClient = localStorage.getItem("client");
 
-        console.log("client from local storage: ", storedClient);
         if (
           storedClient != "undefined" &&
           storedClient != undefined &&
@@ -159,7 +158,6 @@ export default function Checkout() {
           storedClient != "null"
         ) {
           let clientLs = ClientConversion.fromJson(JSON.parse(storedClient));
-          console.log("client from local storage: ", clientLs);
           setLoggedClient(clientLs);
         }
       }
@@ -187,7 +185,6 @@ export default function Checkout() {
       if (response.ok) {
         const answer = await response.json();
         const authedClient: Client = ClientConversion.fromJson(answer);
-        console.log("authed client: ", authedClient);
         setLoggedClient(authedClient);
 
         localStorage.setItem("client", JSON.stringify(authedClient));
@@ -307,7 +304,6 @@ export default function Checkout() {
       setPasswordRepeat("");
       setShowLoginForm(true);
     } else {
-      console.log("error creating user: ", answer);
     }
   };
 
