@@ -281,7 +281,7 @@ export default function Products() {
           <meta name="language" content={lang} />
         </Head>
         <div
-          id={t("Products")}
+          id={t("Shop")}
           className="flex w-full flex-col items-start text-[#084E97] lg:flex-row"
         >
           <div className="relative flex w-full flex-col gap-2 px-1 lg:w-[500px]">
@@ -447,7 +447,7 @@ export default function Products() {
             <div className="grid grid-cols-1 md:grid-cols-3">
               <p className="hidden md:flex"></p>
               <h2 className="mt-2 flex w-full justify-center text-5xl font-bold">
-                {t("Products")}
+                {t("Shop")}
               </h2>
               <div className="my-auto flex h-fit w-full flex-row justify-end gap-2 pl-4 pr-4">
                 <ArrowUp
@@ -472,7 +472,7 @@ export default function Products() {
                   onClick={() => {
                     setIsFilterDrawerOpen(!isFilterDrawerOpen);
                   }}
-                  className="ml-auto border-2 border px-2 py-1 font-semibold lg:hidden"
+                  className="ml-auto border-2 px-2 py-1 font-semibold lg:hidden"
                 >
                   {t("Filters")}
                 </button>
