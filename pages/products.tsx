@@ -282,7 +282,7 @@ export default function Products() {
         </Head>
         <div
           id={t("Shop")}
-          className="flex w-full flex-col items-start text-[#084E97] lg:flex-row"
+          className="flex w-full flex-col items-start text-black lg:flex-row"
         >
           <div className="relative flex w-full flex-col gap-2 px-1 lg:w-[500px]">
             <div
@@ -406,10 +406,10 @@ export default function Products() {
                   ) : null}
                 </div>
               ) : null}
-              <p className="mt-4 border-b pb-1 pl-3 text-lg font-semibold">
+              <p className="mt-4 border-b pb-1 pl-3 text-lg font-semibold text-black">
                 {t("Categories")}
               </p>
-              <div className="flex w-full flex-col bg-white py-2 text-gray-500 duration-300">
+              <div className="flex w-full flex-col bg-white py-2 text-gray-700 duration-300">
                 {allCategories.map((category) => (
                   <CategoryItem key={category.id} category={category} />
                 ))}
@@ -431,7 +431,7 @@ export default function Products() {
               </div>
               <div className="flex flex-row justify-between">
                 <button
-                  className={componentThemes.greenSubmitButton}
+                  className={componentThemes.outlinedButton}
                   onClick={() => {
                     fetchProductsFiltered();
                     setIsFilterDrawerOpen(false);
@@ -454,16 +454,16 @@ export default function Products() {
                   height={36}
                   width={36}
                   onClick={() => setCurrentSortDirection(!currentSortDirection)}
-                  className={`flex cursor-pointer flex-row items-center border-2 border-blue-500 bg-white p-1 duration-500 ${currentSortDirection ? "rotate-0" : "rotate-180"}`}
+                  className={`flex cursor-pointer flex-row items-center border-2 border-black bg-white p-1 duration-500 ${currentSortDirection ? "rotate-0" : "rotate-180"}`}
                 />
                 <div
-                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "id" && "border-blue-500"} cursor-pointer`}
+                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "id" && "border-black"} cursor-pointer`}
                   onClick={() => setCurrentSort("id")}
                 >
                   {t("Date")}
                 </div>
                 <div
-                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "value" && "border-blue-500"} cursor-pointer`}
+                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "value" && "border-black"} cursor-pointer`}
                   onClick={() => setCurrentSort("value")}
                 >
                   {t("Price")}

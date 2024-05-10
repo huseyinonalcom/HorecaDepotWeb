@@ -11,8 +11,10 @@ import { CategoryContext } from "../api/providers/categoryProvider";
 import { getProjects } from "./api/projects/public/getprojects";
 import CatCarousel from "../components/index/category_carousel";
 import ProCarousel from "../components/index/pro_carousel";
+import ProductPreview from "../components/products/product-preview";
+import { getProductByID } from "../api/calls/productCalls";
 
-export default function Index({ collections, projects }) {
+export default function Index({ collections, projects, producta, productb }) {
   const { t, lang } = useTranslation("common");
   const [currentImage, setCurrentImage] = useState(0);
   const { categories } = useContext(CategoryContext);
@@ -115,6 +117,34 @@ export default function Index({ collections, projects }) {
               </div>
             ))}
         </div>
+        <h3 className="mr-auto pl-4 text-xl font-bold md:hidden">
+          {t("Restaurant Chic")}
+        </h3>
+        <div className=" grid w-full max-w-[1400px] grid-cols-1 p-4 md:grid-cols-5">
+          <div className="relative col-span-1 aspect-[16/14] w-full md:col-span-2 md:aspect-auto md:h-auto">
+            <Image
+              src={
+                "https://hdapi.huseyinonalalpha.com/uploads/IMG_20230611_WA_0006_77d584d9fb.jpg"
+              }
+              fill
+              style={{ objectFit: "cover" }}
+              alt={"table with chairs in luxurious restaurant"}
+            />
+          </div>
+          <div className={`col-span-3 flex flex-col bg-stone-100`}>
+            <h3 className="hidden pl-4 pt-2 text-2xl font-bold md:flex">
+              {t("Restaurant Chic")}
+            </h3>
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              <div className="p-4">
+                <ProductPreview width={"full"} product={producta} />
+              </div>
+              <div className="p-4">
+                <ProductPreview width={"full"} product={productb} />
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div className="mb-6 grid w-[95vw] grid-cols-1 md:grid-cols-2">
           <div className="flex flex-col">
@@ -143,10 +173,14 @@ export const getStaticProps = async () => {
   // const imageStuff = await getIndexSliderImages();
   // const images = imageStuff.indexSliderImages;
   // const imageUrls = imageStuff.indexSliderImagesUrls;
+  let producta = await getProductByID(149);
+  let productb = await getProductByID(359);
   const projects = await getProjects();
   return {
     props: {
       collections,
+      producta,
+      productb,
       // images,
       // imageUrls,
       projects,

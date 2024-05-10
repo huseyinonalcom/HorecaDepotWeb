@@ -133,7 +133,7 @@ const ProductPreview = ({ product, width }: Props) => {
           </div>
           <div className="duration-700">
             <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={14}>
-              {product.category.Name}
+              {product.category?.Name ?? ''}
             </AutoTextSize>
           </div>
           {product.internalCode && (

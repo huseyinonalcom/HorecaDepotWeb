@@ -6,7 +6,7 @@ const API_URL = `${process.env.API_URL}/api/`;
 const API_KEY = process.env.API_KEY;
 
 export async function getProductByID(id: number): Promise<Product> {
-  const fetchUrl = `${API_URL}products/${id}?fields[0]=name&fields[1]=depth&fields[2]=productLine&fields[3]=internalCode&fields[4]=priceBeforeDiscount&fields[5]=value&fields[6]=width&fields[7]=height&fields[8]=description&fields[9]=material&fields[10]=color&fields[11]=supplierCode&&populate[shelves][populate][supplier_order_products][fields][0]=amountOrdered&populate[shelves][populate][supplier_order_products][fields][1]=amountDelivered&populate[images][fields][0]=url&populate[shelves][fields][0]=stock&populate[category][fields][0]=name&populate[document_products][fields][0]=amount&populate[product_extra][fields][0]=*`;
+  const fetchUrl = `${API_URL}products/${id}?fields[0]=name&fields[1]=depth&fields[2]=productLine&fields[3]=internalCode&fields[4]=priceBeforeDiscount&fields[5]=value&fields[6]=width&fields[7]=height&fields[8]=description&fields[9]=material&fields[10]=color&fields[11]=supplierCode&&populate[shelves][populate][supplier_order_products][fields][0]=amountOrdered&populate[shelves][populate][supplier_order_products][fields][1]=amountDelivered&populate[images][fields][0]=url&populate[shelves][fields][0]=stock&populate[category][fields][0]=Name&populate[document_products][fields][0]=amount&populate[product_extra][fields][0]=*`;
 
   const response = await fetch(fetchUrl, {
     headers: {
@@ -15,6 +15,8 @@ export async function getProductByID(id: number): Promise<Product> {
   });
 
   const answer = await response.json();
+
+  console.log(answer);
 
   return answer["data"] as Product;
 }
@@ -163,7 +165,7 @@ export async function getProducts({
   const data = await response.json();
 
   const sortedData: Product[] = data["data"].map(
-    (productData) => productData as Product
+    (productData) => productData as Product,
   );
   const totalPages = data["meta"]["pagination"]["pageCount"];
 
@@ -177,7 +179,7 @@ export async function getProducts({
         headers: {
           Authorization: `Bearer ${API_KEY}`,
         },
-      }
+      },
     );
 
     const answerMaxValue = await requestForMaxValue.json();
@@ -188,7 +190,7 @@ export async function getProducts({
         headers: {
           Authorization: `Bearer ${API_KEY}`,
         },
-      }
+      },
     );
     const answerMinValue = await requestForMinValue.json();
 
@@ -211,13 +213,13 @@ export function calculateProductStock(product: Product): number {
     if (product.shelves.some((shelf) => shelf.supplier_order_products)) {
       product.shelves.forEach(
         (shelf) =>
-          (totalReceieved += shelf.supplier_order_products["amountReceived"])
+          (totalReceieved += shelf.supplier_order_products["amountReceived"]),
       );
     }
     let totalSold: number = 0;
     if (product.document_products) {
       product.document_products.forEach(
-        (docProd) => (totalSold += docProd["amount"])
+        (docProd) => (totalSold += docProd["amount"]),
       );
     }
     calculatedStock = initialStock + totalReceieved - totalSold;
