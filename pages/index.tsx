@@ -76,40 +76,27 @@ export default function Index({ collections, projects, producta, productb }) {
         <meta name="language" content={lang} />
       </Head>
       <div
-        className={`mx-auto flex max-w-screen-2xl flex-col items-center justify-center gap-8 overflow-hidden pt-8`}
+        className={`mx-auto flex max-w-screen-2xl flex-col items-center justify-center gap-8 overflow-hidden py-8`}
       >
         <div className="flex w-full flex-col items-center">
           <div
             id="slider-1"
             className={`no-scrollbar flex w-[90vw] max-w-screen-2xl snap-x snap-mandatory flex-row overflow-x-scroll`}
           >
-            <div key={"slider1-1"} className={`snap-start px-4 2xl:w-1/3`}>
-              <div className="border-1 flex h-min flex-shrink-0 flex-col rounded-xl border border-black">
-                <div className="aspect-[15/8] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full"></div>
-                <div className="flex h-[150px] w-full flex-col gap-2 p-4">
-                  <p className="text-xl font-semibold">Başlık</p>
-                  <p>İlgili yazı</p>
+            {[1, 2, 3].map((item) => (
+              <div
+                key={`slider1-${item}`}
+                className={`snap-start px-4 2xl:w-1/3`}
+              >
+                <div className="border-1 flex h-min flex-shrink-0 flex-col overflow-hidden rounded-xl border border-black/30">
+                  <div className="aspect-[15/8] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full"></div>
+                  <div className="flex h-[150px] w-full flex-col gap-2 p-4">
+                    <p className="text-xl font-semibold">Başlık</p>
+                    <p>İlgili yazı</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div key={"slider1-2"} className={`snap-start px-4 2xl:w-1/3`}>
-              <div className="border-1 flex h-min flex-shrink-0 flex-col rounded-xl border border-black">
-                <div className="aspect-[15/8] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full"></div>
-                <div className="flex h-[150px] w-full flex-col gap-2 p-4">
-                  <p className="text-xl font-semibold">Başlık</p>
-                  <p>İlgili yazı</p>
-                </div>
-              </div>
-            </div>
-            <div key={"slider1-3"} className={`snap-start px-4 2xl:w-1/3`}>
-              <div className="border-1 flex h-min flex-shrink-0 flex-col rounded-xl border border-black">
-                <div className="aspect-[15/8] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full"></div>
-                <div className="flex h-[150px] w-full flex-col gap-2 p-4">
-                  <p className="text-xl font-semibold">Başlık</p>
-                  <p>İlgili yazı</p>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
           <div className="ml-4 mt-2 flex w-[90vw] max-w-screen-2xl flex-row justify-start gap-2 2xl:hidden">
             <ChevronLeft

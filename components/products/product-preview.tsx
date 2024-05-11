@@ -64,12 +64,12 @@ const ProductPreview = ({ product, width }: Props) => {
     <div
       draggable={false}
       id={`${product.id}-preview`}
-      className={`group flex w-full flex-col items-center text-black`}
+      className={`group flex w-full flex-col items-center text-black border-1 border border-black/30 rounded-xl p-2`}
     >
       <div
         draggable={false}
         id={`${product.id}-image`}
-        className={`relative bg-stone-200 ${imgDimensions}`}
+        className={`relative ${imgDimensions}`}
       >
         <Link draggable={false} href={`/products/${product.id}`}>
           <Image
