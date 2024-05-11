@@ -4,25 +4,36 @@ import { ChevronLeft } from "react-feather";
 
 type Props = {
   collection;
+  name: string;
 };
 
-const CollectionShowcase = ({ collection }: Props) => {
+const CollectionShowcase = ({ collection, name }: Props) => {
   const mobileRow = useRef(null);
 
+  let isThrottled = false;
+
   const scroll = (direction) => {
+    if (isThrottled) return;
+
     if (direction === "left") {
       mobileRow.current.scrollLeft -= 220;
-      document.getElementById(`desktopRow-${collection.id}`).scrollBy({
+      document.getElementById(`${name}-desktopRow-${collection.id}`).scrollBy({
         left: -320,
         behavior: "smooth",
       });
     } else {
       mobileRow.current.scrollLeft += 220;
-      document.getElementById(`desktopRow-${collection.id}`).scrollBy({
+      document.getElementById(`${name}-desktopRow-${collection.id}`).scrollBy({
         left: 320,
         behavior: "smooth",
       });
     }
+
+    isThrottled = true;
+
+    setTimeout(() => {
+      isThrottled = false;
+    }, 300);
   };
 
   return (
@@ -39,8 +50,8 @@ const CollectionShowcase = ({ collection }: Props) => {
         </div>
       </div>
       <div
-        id={`desktopRow-${collection.id}`}
-        className="no-scrollbar hidden snap-x flex-row gap-2 overflow-x-scroll pt-4 md:flex"
+        id={`${name}-desktopRow-${collection.id}`}
+        className="no-scrollbar hidden snap-x flex-row gap-4 overflow-x-scroll pt-4 sm:flex"
       >
         {collection.products.map((prod) => (
           <div
@@ -54,19 +65,17 @@ const CollectionShowcase = ({ collection }: Props) => {
       </div>
       <div
         ref={mobileRow}
-        className="no-scrollbar flex snap-x snap-mandatory flex-row overflow-x-scroll scroll-smooth py-2 md:hidden"
+        className="no-scrollbar flex snap-x snap-mandatory flex-row gap-4 overflow-x-scroll py-2 sm:hidden"
       >
-        <div className="flex flex-row gap-4">
-          {collection.products.map((prod) => (
-            <div
-              key={prod.id}
-              draggable={false}
-              className="flex w-[200px] flex-shrink-0 snap-start bg-white last:mr-4"
-            >
-              <ProductPreview width={"full"} product={prod} />
-            </div>
-          ))}
-        </div>
+        {collection.products.map((prod) => (
+          <div
+            key={prod.id}
+            draggable={false}
+            className="flex w-[200px] flex-shrink-0 snap-start bg-white last:mr-4"
+          >
+            <ProductPreview width={"full"} product={prod} />
+          </div>
+        ))}
       </div>
     </div>
   );

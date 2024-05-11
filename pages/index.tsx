@@ -147,7 +147,7 @@ export default function Index({ collections, projects, producta, productb }) {
         <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
           {collections && (
             <div key={"collection1"} className="w-full">
-              <CollectionShowcase collection={collections.at(0)} />
+              <CollectionShowcase name="1" collection={collections.at(0)} />
             </div>
           )}
         </div>
@@ -168,7 +168,7 @@ export default function Index({ collections, projects, producta, productb }) {
         <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
           {collections.length > 1 && (
             <div key={"collection2"} className="w-full">
-              <CollectionShowcase collection={collections.at(1)} />
+              <CollectionShowcase name="2" collection={collections.at(1)} />
             </div>
           )}
         </div>
@@ -176,7 +176,7 @@ export default function Index({ collections, projects, producta, productb }) {
         <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
           {collections.length > 1 && (
             <div key={"collection3"} className="w-full">
-              <CollectionShowcase collection={collections.at(0)} />
+              <CollectionShowcase name="3" collection={collections.at(0)} />
             </div>
           )}
         </div>
