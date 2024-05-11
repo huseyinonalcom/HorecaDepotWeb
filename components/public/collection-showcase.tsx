@@ -56,12 +56,12 @@ const CollectionShowcase = ({ collection }: Props) => {
         ref={mobileRow}
         className="no-scrollbar flex snap-x snap-mandatory flex-row overflow-x-scroll scroll-smooth py-2 md:hidden"
       >
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row gap-4">
           {collection.products.map((prod) => (
             <div
               key={prod.id}
               draggable={false}
-              className="flex w-[170px] flex-shrink-0 snap-start bg-white last:mr-4"
+              className="flex w-[200px] flex-shrink-0 snap-start bg-white last:mr-4"
             >
               <ProductPreview width={"full"} product={prod} />
             </div>
