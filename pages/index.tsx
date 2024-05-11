@@ -76,14 +76,14 @@ export default function Index({ collections, projects, producta, productb }) {
         <meta name="language" content={lang} />
       </Head>
       <div
-        className={`mx-auto flex max-w-screen-2xl flex-col items-center justify-center overflow-hidden pt-8`}
+        className={`mx-auto flex max-w-screen-2xl flex-col items-center justify-center gap-8 overflow-hidden pt-8`}
       >
         <div className="flex w-full flex-col items-center">
           <div
             id="slider-1"
             className={`no-scrollbar flex w-[90vw] max-w-screen-2xl snap-x snap-mandatory flex-row overflow-x-scroll`}
           >
-            <div key={"1-1"} className={`snap-start px-4 2xl:w-1/3`}>
+            <div key={"slider1-1"} className={`snap-start px-4 2xl:w-1/3`}>
               <div className="border-1 flex h-min flex-shrink-0 flex-col rounded-xl border border-black">
                 <div className="aspect-[15/8] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full"></div>
                 <div className="flex h-[150px] w-full flex-col gap-2 p-4">
@@ -92,7 +92,7 @@ export default function Index({ collections, projects, producta, productb }) {
                 </div>
               </div>
             </div>
-            <div key={"1-2"} className={`snap-start px-4 2xl:w-1/3`}>
+            <div key={"slider1-2"} className={`snap-start px-4 2xl:w-1/3`}>
               <div className="border-1 flex h-min flex-shrink-0 flex-col rounded-xl border border-black">
                 <div className="aspect-[15/8] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full"></div>
                 <div className="flex h-[150px] w-full flex-col gap-2 p-4">
@@ -101,7 +101,7 @@ export default function Index({ collections, projects, producta, productb }) {
                 </div>
               </div>
             </div>
-            <div key={"1-3"} className={`snap-start px-4 2xl:w-1/3`}>
+            <div key={"slider1-3"} className={`snap-start px-4 2xl:w-1/3`}>
               <div className="border-1 flex h-min flex-shrink-0 flex-col rounded-xl border border-black">
                 <div className="aspect-[15/8] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full"></div>
                 <div className="flex h-[150px] w-full flex-col gap-2 p-4">
@@ -111,7 +111,7 @@ export default function Index({ collections, projects, producta, productb }) {
               </div>
             </div>
           </div>
-          <div className="ml-4 mt-2 flex w-full flex-row justify-start gap-2 2xl:hidden">
+          <div className="ml-4 mt-2 flex w-[90vw] max-w-screen-2xl flex-row justify-start gap-2 2xl:hidden">
             <ChevronLeft
               onClick={() => {
                 document
@@ -130,6 +130,32 @@ export default function Index({ collections, projects, producta, productb }) {
             />
           </div>
         </div>
+
+        <div className="grid w-[90vw] max-w-screen-2xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
+          {[1, 2, 3, 4, 5, 6].map((item) => (
+            <div key={`grid1-${item}`} className={``}>
+              <div className="flex flex-col items-center gap-2">
+                <div className="aspect-[15/14] w-full overflow-hidden rounded-xl bg-orange-400"></div>
+                <p className="font-semibold">Başlık</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="aspect-[13/9] w-[90vw] max-w-screen-2xl bg-orange-400 md:aspect-[16/7] lg:aspect-[19/5]"></div>
+
+        <div className="grid w-[90vw] max-w-screen-2xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
+          {[1, 2, 3, 4, 5, 6].map((item) => (
+            <div key={`grid2-${item}`} className={``}>
+              <div className="flex flex-col items-center gap-2">
+                <div className="aspect-[15/14] w-full overflow-hidden rounded-xl bg-orange-400"></div>
+                <p className="font-semibold">Başlık</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="aspect-[13/9] w-[90vw] max-w-screen-2xl bg-orange-400 md:aspect-[16/7] lg:aspect-[19/5]"></div>
 
         <div className="mt-4 flex w-full max-w-[1400px] flex-col items-center justify-start gap-6">
           {collections &&
