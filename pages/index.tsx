@@ -13,6 +13,7 @@ import CatCarousel from "../components/index/category_carousel";
 import ProCarousel from "../components/index/pro_carousel";
 import ProductPreview from "../components/products/product-preview";
 import { getProductByID } from "../api/calls/productCalls";
+import { ChevronLeft } from "react-feather";
 
 export default function Index({ collections, projects, producta, productb }) {
   const { t, lang } = useTranslation("common");
@@ -74,41 +75,62 @@ export default function Index({ collections, projects, producta, productb }) {
         <meta name="description" content={t("main_description")} />
         <meta name="language" content={lang} />
       </Head>
-      <div className="flex flex-col items-center justify-center">
-        <div className="relative aspect-[3/4] w-full md:aspect-[23/10]">
-          {indexImages.map((img, index) => (
-            <>
-              <Image
-                fill
-                id="background-image"
-                style={{ objectFit: "cover" }}
-                priority={index == 0}
-                sizes="100vw"
-                key={`${index}-img`}
-                src={img.wpath}
-                alt={img.alt}
-                className={`${imageBase} z-20 flex ${currentImage === index ? imageVisible : imageInvisible}`}
-              />
-              <div
-                key={`${index}-cta`}
-                className={`absolute top-[40%] z-30 flex w-full flex-col items-center gap-2 p-4 font-semibold duration-300 ${currentImage === index ? "left-[0%]" : "-left-[200%]"}`}
-              >
-                <p className="mb-8 text-center text-xl font-black text-white md:text-3xl">
-                  {img.text}
-                </p>
-                <Link
-                  className="bg-black px-4 py-2 text-white duration-300 hover:bg-white hover:text-black md:text-2xl"
-                  href={img.url}
-                >
-                  {img.buttontext}
-                </Link>
+      <div
+        className={`mx-auto flex max-w-screen-2xl flex-col items-center justify-center overflow-hidden pt-8`}
+      >
+        <div className="flex w-full flex-col items-center">
+          <div
+            id="slider-1"
+            className={`no-scrollbar flex w-[90vw] max-w-screen-2xl snap-x snap-mandatory flex-row overflow-x-scroll`}
+          >
+            <div key={"1-1"} className={`snap-start px-4 2xl:w-1/3`}>
+              <div className="border-1 flex h-min flex-shrink-0 flex-col rounded-xl border border-black">
+                <div className="aspect-[15/8] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full"></div>
+                <div className="flex h-[150px] w-full flex-col gap-2 p-4">
+                  <p className="text-xl font-semibold">Başlık</p>
+                  <p>İlgili yazı</p>
+                </div>
               </div>
-            </>
-          ))}
+            </div>
+            <div key={"1-2"} className={`snap-start px-4 2xl:w-1/3`}>
+              <div className="border-1 flex h-min flex-shrink-0 flex-col rounded-xl border border-black">
+                <div className="aspect-[15/8] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full"></div>
+                <div className="flex h-[150px] w-full flex-col gap-2 p-4">
+                  <p className="text-xl font-semibold">Başlık</p>
+                  <p>İlgili yazı</p>
+                </div>
+              </div>
+            </div>
+            <div key={"1-3"} className={`snap-start px-4 2xl:w-1/3`}>
+              <div className="border-1 flex h-min flex-shrink-0 flex-col rounded-xl border border-black">
+                <div className="aspect-[15/8] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full"></div>
+                <div className="flex h-[150px] w-full flex-col gap-2 p-4">
+                  <p className="text-xl font-semibold">Başlık</p>
+                  <p>İlgili yazı</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="ml-4 mt-2 flex w-full flex-row justify-start gap-2 2xl:hidden">
+            <ChevronLeft
+              onClick={() => {
+                document
+                  .getElementById("slider-1")
+                  .scrollBy({ left: -100, behavior: "smooth" });
+              }}
+              className="h-8 w-8"
+            />
+            <ChevronLeft
+              onClick={() => {
+                document
+                  .getElementById("slider-1")
+                  .scrollBy({ left: 100, behavior: "smooth" });
+              }}
+              className="h-8 w-8 rotate-180"
+            />
+          </div>
         </div>
-        {/* <h4 className="mb-4 mt-12 text-4xl font-bold">
-          {t("Special Collections")}
-        </h4> */}
+
         <div className="mt-4 flex w-full max-w-[1400px] flex-col items-center justify-start gap-6">
           {collections &&
             collections.map((collection) => (

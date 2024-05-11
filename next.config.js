@@ -8,7 +8,7 @@ module.exports = nextTranslate({
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "hdapi.huseyinonalalpha.com"
+        hostname: "hdapi.huseyinonalalpha.com",
       },
     ],
   },

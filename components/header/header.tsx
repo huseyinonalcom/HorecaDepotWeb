@@ -648,17 +648,6 @@ const Header = () => {
   const [allCategories, setAllCategories] = useState([]);
   const { cart, calculateTotal } = useContext(CartContext);
 
-  const [offset, setOffset] = useState(0);
-
-  useEffect(() => {
-    if (router.asPath == "/") {
-      const onScroll = () => setOffset(window.scrollY);
-      window.removeEventListener("scroll", onScroll);
-      window.addEventListener("scroll", onScroll, { passive: true });
-      return () => window.removeEventListener("scroll", onScroll);
-    }
-  }, []);
-
   useEffect(() => {
     if (allCategories.length === 0 && categories.length > 0) {
       setAllCategories(categories);
@@ -669,8 +658,6 @@ const Header = () => {
     setCartItems(calculateTotal().amount);
   }, [cart]);
 
-  const router = useRouter();
-
   const [isHeaderDrawerOpen, setIsHeaderDrawerOpen] = useState(false);
 
   function onClickOutsideDrawer() {
@@ -679,7 +666,7 @@ const Header = () => {
 
   return (
     <div
-      className={`top-0 z-40 flex w-full flex-col items-center bg-black pt-3 text-white shadow-lg duration-300 print:hidden ${router.asPath == "/" ? "fixed" : "sticky"} ${router.asPath != "/" || offset > 100 ? "bg-opacity-100" : "bg-opacity-25"}`}
+      className={`sticky top-0 z-40 flex w-full flex-col items-center bg-black pt-3 text-white shadow-lg duration-300 print:hidden`}
     >
       <div className="flex w-full flex-col gap-2 pb-4">
         <HeaderDrawer
