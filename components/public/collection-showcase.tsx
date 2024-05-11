@@ -27,7 +27,17 @@ const CollectionShowcase = ({ collection }: Props) => {
 
   return (
     <div className={`relative flex w-full flex-col px-6`}>
-      <p className={`mb-4 text-2xl font-bold`}>{collection.name}</p>
+      <div className="flex flex-row justify-between">
+        <p className={`mb-4 text-2xl font-bold`}>{collection.name}</p>
+        <div className="flex flex-row">
+          <ChevronLeft size={32} onClick={() => scroll("left")} />
+          <ChevronLeft
+            size={32}
+            onClick={() => scroll("right")}
+            className="rotate-180"
+          />
+        </div>
+      </div>
       <div
         id={`desktopRow-${collection.id}`}
         className="no-scrollbar hidden snap-x flex-row gap-2 overflow-x-scroll pt-4 md:flex"
@@ -44,7 +54,7 @@ const CollectionShowcase = ({ collection }: Props) => {
       </div>
       <div
         ref={mobileRow}
-        className="no-scrollbar flex snap-x snap-mandatory scroll-smooth flex-row overflow-x-scroll py-2 md:hidden"
+        className="no-scrollbar flex snap-x snap-mandatory flex-row overflow-x-scroll scroll-smooth py-2 md:hidden"
       >
         <div className="flex flex-row gap-2">
           {collection.products.map((prod) => (
@@ -58,20 +68,6 @@ const CollectionShowcase = ({ collection }: Props) => {
           ))}
         </div>
       </div>
-      <button
-        type="button"
-        className="absolute bottom-[35%] left-0 ml-2 rounded-full bg-gray-800/30 p-1 hover:bg-gray-800/60"
-        onClick={() => scroll("left")}
-      >
-        <ChevronLeft size={32} />
-      </button>
-      <button
-        type="button"
-        className="absolute bottom-[35%] right-0 mr-2 rotate-180 rounded-full bg-gray-800/30 p-1 hover:bg-gray-800/60"
-        onClick={() => scroll("right")}
-      >
-        <ChevronLeft size={32} />
-      </button>
     </div>
   );
 };

@@ -142,7 +142,7 @@ export default function Index({ collections, projects, producta, productb }) {
           ))}
         </div>
 
-        <div className="aspect-[13/9] w-[90vw] max-w-screen-2xl bg-orange-400 md:aspect-[16/7] lg:aspect-[19/5]"></div>
+        <div className="aspect-[13/9] w-[90vw] max-w-screen-2xl rounded-xl bg-orange-400 md:aspect-[16/7] lg:aspect-[19/5]"></div>
 
         <div className="grid w-[90vw] max-w-screen-2xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {[1, 2, 3, 4, 5, 6].map((item) => (
@@ -155,60 +155,43 @@ export default function Index({ collections, projects, producta, productb }) {
           ))}
         </div>
 
-        <div className="aspect-[13/9] w-[90vw] max-w-screen-2xl bg-orange-400 md:aspect-[16/7] lg:aspect-[19/5]"></div>
+        <div className="aspect-[13/9] w-[90vw] max-w-screen-2xl rounded-xl bg-orange-400 md:aspect-[16/7] lg:aspect-[19/5]"></div>
 
-        <div className="mt-4 flex w-full max-w-[1400px] flex-col items-center justify-start gap-6">
-          {collections &&
-            collections.map((collection) => (
-              <div key={collection.id} className="mt-12 w-full pb-2">
-                <CollectionShowcase collection={collection} />
-              </div>
-            ))}
+        <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
+          {collections && (
+            <div key={"collection1"} className="w-full">
+              <CollectionShowcase collection={collections.at(0)} />
+            </div>
+          )}
         </div>
-        <h3 className="mr-auto pl-4 text-xl font-bold md:hidden">
-          {t("Restaurant Chic")}
-        </h3>
-        <div className=" grid w-full max-w-[1400px] grid-cols-1 p-4 md:grid-cols-5">
-          <div className="relative col-span-1 aspect-[16/14] w-full md:col-span-2 md:aspect-auto md:h-auto">
-            <Image
-              src={
-                "https://hdapi.huseyinonalalpha.com/uploads/IMG_20230611_WA_0006_77d584d9fb.jpg"
-              }
-              fill
-              style={{ objectFit: "cover" }}
-              alt={"table with chairs in luxurious restaurant"}
-            />
-          </div>
-          <div className={`col-span-3 flex flex-col bg-stone-100`}>
-            <h3 className="hidden pl-4 pt-2 text-2xl font-bold md:flex">
-              {t("Restaurant Chic")}
-            </h3>
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-              <div className="p-4">
-                <ProductPreview width={"full"} product={producta} />
-              </div>
-              <div className="p-4">
-                <ProductPreview width={"full"} product={productb} />
+
+        <div className="aspect-[13/9] w-[90vw] max-w-screen-2xl overflow-hidden rounded-xl bg-orange-400 md:aspect-[16/7] lg:aspect-[19/5]"></div>
+
+        <div className="grid w-[90vw] max-w-screen-2xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
+          {[1, 2, 3, 4, 5, 6].map((item) => (
+            <div key={`grid3-${item}`} className={``}>
+              <div className="flex flex-col items-center gap-2">
+                <div className="aspect-[15/14] w-full overflow-hidden rounded-xl bg-orange-400"></div>
+                <p className="font-semibold">Başlık</p>
               </div>
             </div>
-          </div>
+          ))}
         </div>
 
-        <div className="mb-6 grid w-[95vw] grid-cols-1 md:grid-cols-2">
-          <div className="flex flex-col">
-            <h4 className="mb-4 mt-12 pl-2 text-4xl font-bold">
-              {t("Our Projects")}
-            </h4>
-            <ProCarousel projects={projects} />
-          </div>
-          <div className="flex flex-col">
-            <h4 className="mb-4 mt-12 pl-2 text-4xl font-bold">
-              {t("Top Categories")}
-            </h4>
-            <CatCarousel
-              categories={allCategories.filter((cat) => cat.image?.url)}
-            />
-          </div>
+        <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
+          {collections.length > 1 && (
+            <div key={"collection2"} className="w-full">
+              <CollectionShowcase collection={collections.at(1)} />
+            </div>
+          )}
+        </div>
+
+        <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
+          {collections.length > 1 && (
+            <div key={"collection3"} className="w-full">
+              <CollectionShowcase collection={collections.at(0)} />
+            </div>
+          )}
         </div>
       </div>
     </Layout>
