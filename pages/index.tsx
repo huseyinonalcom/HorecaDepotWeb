@@ -14,8 +14,9 @@ import ProCarousel from "../components/index/pro_carousel";
 import ProductPreview from "../components/products/product-preview";
 import { getProductByID } from "../api/calls/productCalls";
 import { ChevronLeft } from "react-feather";
+import { getAllCategoriesFlattened } from "./api/categories/public/getallcategoriesflattened";
 
-export default function Index({ collections, projects, producta, productb }) {
+export default function Index({ collections, allCategories }) {
   const { t, lang } = useTranslation("common");
   const [currentImage, setCurrentImage] = useState(0);
   const { categories } = useContext(CategoryContext);
@@ -24,28 +25,6 @@ export default function Index({ collections, projects, producta, productb }) {
     "absolute top-0 flex flex-col items-center justify-center transition-opacity duration-1000";
   const imageVisible = "opacity-100 z-20";
   const imageInvisible = "opacity-0";
-
-  const [allCategories, setAllCategories] = useState([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const response = await fetch(
-        "/api/categories/public/getallcategoriesflattened",
-      );
-      const data = await response.json();
-      let cats = data;
-      let catsToDisplay = [];
-      catsToDisplay.push(cats.find((cat) => cat.id === 3));
-      catsToDisplay.push(cats.find((cat) => cat.id === 2));
-      catsToDisplay.push(cats.find((cat) => cat.id === 6));
-      catsToDisplay.push(cats.find((cat) => cat.id === 10));
-      catsToDisplay.push(cats.find((cat) => cat.id === 11));
-      catsToDisplay.push(cats.find((cat) => cat.id === 17));
-      console.log(catsToDisplay);
-      setAllCategories(catsToDisplay);
-    };
-    fetchCategories();
-  }, []);
 
   useEffect(() => {
     setCurrentImage(0);
@@ -145,7 +124,7 @@ export default function Index({ collections, projects, producta, productb }) {
                     <Image
                       fill
                       style={{ objectFit: "contain" }}
-                      sizes="45vw, (max-width: 640px) 30vw, (max-width: 1024px) 15vw"
+                      sizes="45vw, (max-width: 640px) 30vw, (max-width: 1024px) 15vw, (nax-width: 1536px) 250px"
                       src={
                         "https://hdapi.huseyinonalalpha.com" +
                         category.image.url
@@ -257,20 +236,24 @@ export default function Index({ collections, projects, producta, productb }) {
 export const getStaticProps = async () => {
   let collections = await getCollections();
   collections = collections.sort(() => Math.random() - 0.5);
-  // const imageStuff = await getIndexSliderImages();
+  const allCategoriesRaw = await getAllCategoriesFlattened();
+  let allCategories = [];
+  allCategories.push(allCategoriesRaw.find((cat) => cat.id === 3));
+  allCategories.push(allCategoriesRaw.find((cat) => cat.id === 2));
+  allCategories.push(allCategoriesRaw.find((cat) => cat.id === 6));
+  allCategories.push(allCategoriesRaw.find((cat) => cat.id === 10));
+  allCategories.push(allCategoriesRaw.find((cat) => cat.id === 11));
+  allCategories.push(allCategoriesRaw.find((cat) => cat.id === 17));
   // const images = imageStuff.indexSliderImages;
   // const imageUrls = imageStuff.indexSliderImagesUrls;
-  let producta = await getProductByID(149);
-  let productb = await getProductByID(359);
-  const projects = await getProjects();
+  // const projects = await getProjects();
   return {
     props: {
       collections,
-      producta,
-      productb,
+      allCategories,
       // images,
       // imageUrls,
-      projects,
+      // projects,
     },
     revalidate: 1800,
   };
