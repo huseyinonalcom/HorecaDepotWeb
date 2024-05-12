@@ -3,63 +3,14 @@ import { getCollections } from "./api/collections/public/getcollections";
 import useTranslation from "next-translate/useTranslation";
 import Layout from "../components/public/layout";
 import Meta from "../components/public/meta";
-import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
-import { CategoryContext } from "../api/providers/categoryProvider";
-import { getProjects } from "./api/projects/public/getprojects";
-import CatCarousel from "../components/index/category_carousel";
-import ProCarousel from "../components/index/pro_carousel";
-import ProductPreview from "../components/products/product-preview";
-import { getProductByID } from "../api/calls/productCalls";
 import { ChevronLeft } from "react-feather";
 import { getAllCategoriesFlattened } from "./api/categories/public/getallcategoriesflattened";
 
 export default function Index({ collections, allCategories }) {
   const { t, lang } = useTranslation("common");
-  const [currentImage, setCurrentImage] = useState(0);
-  const { categories } = useContext(CategoryContext);
-
-  const imageBase =
-    "absolute top-0 flex flex-col items-center justify-center transition-opacity duration-1000";
-  const imageVisible = "opacity-100 z-20";
-  const imageInvisible = "opacity-0";
-
-  useEffect(() => {
-    setCurrentImage(0);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      slideNext();
-    }, 8000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const slideNext = () => {
-    setCurrentImage((prevImage) => (prevImage + 1) % indexImages.length);
-  };
-
-  const indexImages = [
-    {
-      id: 1,
-      wpath: "/assets/projects/teddy/w-1.jpg",
-      alt: "Image of Le Teddy's Restaurant",
-      text: "Designs élégants pour restaurants haut de gamme.",
-      buttontext: "Voir les choix",
-      url: "/products?page=1&search=flora&category=1",
-    },
-    {
-      id: 3,
-      wpath: "/assets/projects/moon/w-1.jpg",
-      alt: "Image of Moon Lounge interior",
-      text: "Tout pour l'horeca.",
-      buttontext: "Commander maintenant",
-      url: "/products?page=1&search=BALLOON",
-    },
-  ];
 
   return (
     <Layout>
