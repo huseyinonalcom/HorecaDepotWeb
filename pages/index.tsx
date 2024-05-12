@@ -75,7 +75,7 @@ export default function Index({ collections, allCategories }) {
                     <Image
                       fill
                       style={{ objectFit: "contain" }}
-                      sizes="45vw, (max-width: 640px) 30vw, (max-width: 1024px) 15vw, (nax-width: 1536px) 250px"
+                      sizes="42vw, (max-width: 640px) 28vw, (max-width: 1024px) 13vw, (nax-width: 1536px) 236px"
                       src={
                         "https://hdapi.huseyinonalalpha.com" +
                         category.image.url
