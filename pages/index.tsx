@@ -98,7 +98,7 @@ export default function Index({ collections, allCategories }) {
               "https://hdapi.huseyinonalalpha.com/uploads/web_2_b54f79691c.jpg"
             }
             alt="promo 50%"
-            sizes="90vw"
+            sizes="90vw, (max-width: 1536px) 1536px"
             fill
             style={{ objectFit: "cover" }}
           />
@@ -124,7 +124,7 @@ export default function Index({ collections, allCategories }) {
               "https://hdapi.huseyinonalalpha.com/uploads/Web_Banner_1_2805ba7658.jpg"
             }
             alt="best furniture design"
-            sizes="90vw"
+            sizes="90vw, (max-width: 1536px) 1536px"
             fill
             style={{ objectFit: "cover" }}
           />
@@ -147,7 +147,7 @@ export default function Index({ collections, allCategories }) {
               "https://hdapi.huseyinonalalpha.com/uploads/cargo_9093a8c9b5.jpg"
             }
             alt="speedy delivery"
-            sizes="90vw"
+            sizes="90vw, (max-width: 1536px) 1536px"
             fill
             style={{ objectFit: "cover" }}
           />
