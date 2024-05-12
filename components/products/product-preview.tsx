@@ -8,7 +8,6 @@ import { useContext } from "react";
 import { CartProduct } from "../../api/interfaces/cartProduct";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import { WishlistProduct } from "../../api/interfaces/wishlistProduct";
-import { AutoTextSize } from "auto-text-size";
 
 type Props = {
   product: Product;
@@ -64,7 +63,7 @@ const ProductPreview = ({ product, width }: Props) => {
     <div
       draggable={false}
       id={`${product.id}-preview`}
-      className={`group flex w-full flex-col items-center text-black border-1 border border-black/30 rounded-xl p-2`}
+      className={`border-1 group flex w-full flex-col items-center rounded-xl border border-black/30 p-2 text-black`}
     >
       <div
         draggable={false}
@@ -127,47 +126,47 @@ const ProductPreview = ({ product, width }: Props) => {
       >
         <div draggable={false} className="flex flex-col items-start">
           <div className="duration-700">
-            <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={16}>
-              {product.name}
-            </AutoTextSize>
+            {/* <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={16}> */}
+            {product.name}
+            {/* </AutoTextSize> */}
           </div>
           <div className="duration-700">
-            <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={14}>
-              {product.category?.Name ?? ''}
-            </AutoTextSize>
+            {/* <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={14}> */}
+            {product.category?.Name ?? ""}
+            {/* </AutoTextSize> */}
           </div>
           {product.internalCode && (
             <div draggable={false} className="text-sm duration-700 ">
-              <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={13}>
-                {product.internalCode != "0" ? product.internalCode : ""}
-              </AutoTextSize>
+              {/* <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={13}> */}
+              {product.internalCode != "0" ? product.internalCode : ""}
+              {/* </AutoTextSize> */}
             </div>
           )}
           <div draggable={false} className="flex flex-row items-end gap-1">
-            <div draggable={false} className="text-lg font-bold">
-              <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={15}>
-                {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
-              </AutoTextSize>
+            <div draggable={false} className="font-bold">
+              {/* <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={15}> */}
+              {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
+              {/* </AutoTextSize> */}
             </div>
             {product.priceBeforeDiscount > product.value && (
               <div
                 draggable={false}
                 className="mb-0.5 text-sm text-gray-700 line-through"
               >
-                <AutoTextSize
+                {/* <AutoTextSize
                   draggable={false}
                   mode="oneline"
                   maxFontSizePx={12}
-                >
-                  {"€ " +
-                    product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
-                </AutoTextSize>
+                > */}
+                {"€ " +
+                  product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
+                {/* </AutoTextSize> */}
               </div>
             )}
             {product.priceBeforeDiscount ? (
               <p
                 draggable={false}
-                className="mb-0.5 flex w-fit flex-row items-center justify-center overflow-hidden border-t-0 bg-gray-200 px-2 py-1 text-xs"
+                className="mb-0.5 flex w-fit flex-row items-center justify-center overflow-hidden border-t-0 bg-gray-200 px-1.5 py-1 text-xs"
               >
                 -{discountPercentage}%
               </p>
@@ -177,38 +176,44 @@ const ProductPreview = ({ product, width }: Props) => {
             <div draggable={false} className="text-sm font-semibold">
               {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) >
                 10 && (
-                <AutoTextSize
-                  draggable={false}
-                  mode="oneline"
-                  maxFontSizePx={13}
-                >
+                <>
+                  {/* <AutoTextSize
+                    draggable={false}
+                    mode="oneline"
+                    maxFontSizePx={13}
+                  > */}
                   {t("in_stock")}
-                </AutoTextSize>
+                  {/* </AutoTextSize> */}
+                </>
               )}
               {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) <=
                 10 &&
                 product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) >
                   0 && (
-                  <AutoTextSize
-                    draggable={false}
-                    mode="oneline"
-                    maxFontSizePx={13}
-                    className="text-orange-500"
-                  >
+                  <>
+                    {/* <AutoTextSize
+                      draggable={false}
+                      mode="oneline"
+                      maxFontSizePx={13}
+                      className="text-orange-500"
+                    > */}
                     {t("low_stock")}
-                  </AutoTextSize>
+                    {/* </AutoTextSize> */}
+                  </>
                 )}
 
               {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) <
                 1 && (
-                <AutoTextSize
-                  draggable={false}
-                  mode="oneline"
-                  maxFontSizePx={13}
-                  className="text-red-600"
-                >
+                <>
+                  {/* <AutoTextSize
+                    draggable={false}
+                    mode="oneline"
+                    maxFontSizePx={13}
+                    className="text-red-600"
+                  > */}
                   {t("no_stock")}
-                </AutoTextSize>
+                  {/* </AutoTextSize> */}
+                </>
               )}
             </div>
           )}
