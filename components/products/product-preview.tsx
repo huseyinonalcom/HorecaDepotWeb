@@ -125,42 +125,24 @@ const ProductPreview = ({ product, width }: Props) => {
         className={"mt-2 flex flex-col items-start " + contentDimensions}
       >
         <div draggable={false} className="flex flex-col items-start">
-          <div className="duration-700">
-            {/* <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={16}> */}
-            {product.name}
-            {/* </AutoTextSize> */}
-          </div>
-          <div className="duration-700">
-            {/* <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={14}> */}
-            {product.category?.Name ?? ""}
-            {/* </AutoTextSize> */}
-          </div>
+          <div className="duration-700">{product.name}</div>
+          <div className="duration-700">{product.category?.Name ?? ""}</div>
           {product.internalCode && (
             <div draggable={false} className="text-sm duration-700 ">
-              {/* <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={13}> */}
               {product.internalCode != "0" ? product.internalCode : ""}
-              {/* </AutoTextSize> */}
             </div>
           )}
           <div draggable={false} className="flex flex-row items-end gap-1">
             <div draggable={false} className="font-bold">
-              {/* <AutoTextSize draggable={false} mode="oneline" maxFontSizePx={15}> */}
               {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
-              {/* </AutoTextSize> */}
             </div>
             {product.priceBeforeDiscount > product.value && (
               <div
                 draggable={false}
                 className="mb-0.5 text-sm text-gray-700 line-through"
               >
-                {/* <AutoTextSize
-                  draggable={false}
-                  mode="oneline"
-                  maxFontSizePx={12}
-                > */}
                 {"€ " +
                   product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
-                {/* </AutoTextSize> */}
               </div>
             )}
             {product.priceBeforeDiscount ? (
@@ -175,46 +157,13 @@ const ProductPreview = ({ product, width }: Props) => {
           {product.shelves && product.shelves.length > 0 && (
             <div draggable={false} className="text-sm font-semibold">
               {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) >
-                10 && (
-                <>
-                  {/* <AutoTextSize
-                    draggable={false}
-                    mode="oneline"
-                    maxFontSizePx={13}
-                  > */}
-                  {t("in_stock")}
-                  {/* </AutoTextSize> */}
-                </>
-              )}
+                10 && <>{t("in_stock")}</>}
               {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) <=
                 10 &&
                 product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) >
-                  0 && (
-                  <>
-                    {/* <AutoTextSize
-                      draggable={false}
-                      mode="oneline"
-                      maxFontSizePx={13}
-                      className="text-orange-500"
-                    > */}
-                    {t("low_stock")}
-                    {/* </AutoTextSize> */}
-                  </>
-                )}
-
+                  0 && <>{t("low_stock")}</>}
               {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) <
-                1 && (
-                <>
-                  {/* <AutoTextSize
-                    draggable={false}
-                    mode="oneline"
-                    maxFontSizePx={13}
-                    className="text-red-600"
-                  > */}
-                  {t("no_stock")}
-                  {/* </AutoTextSize> */}
-                </>
-              )}
+                1 && <>{t("no_stock")}</>}
             </div>
           )}
         </div>
