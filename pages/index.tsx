@@ -159,7 +159,10 @@ export default function Index({ collections, projects, producta, productb }) {
             ))}
         </div>
 
-        <div className="relative aspect-[13/9] w-[90vw] max-w-screen-2xl rounded-xl md:aspect-[16/7] lg:aspect-[19/5]">
+        <Link
+          href={"/products?page=1"}
+          className="relative aspect-[13/9] w-[90vw] max-w-screen-2xl rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
+        >
           <Image
             src={
               "https://hdapi.huseyinonalalpha.com/uploads/web_2_b54f79691c.jpg"
@@ -169,7 +172,7 @@ export default function Index({ collections, projects, producta, productb }) {
             fill
             style={{ objectFit: "cover" }}
           />
-        </div>
+        </Link>
 
         <div className="grid w-[90vw] max-w-screen-2xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {[1, 2, 3, 4, 5, 6].map((item) => (
@@ -182,7 +185,10 @@ export default function Index({ collections, projects, producta, productb }) {
           ))}
         </div>
 
-        <div className="relative aspect-[13/9] w-[90vw] max-w-screen-2xl rounded-xl md:aspect-[16/7] lg:aspect-[19/5]">
+        <Link
+          href={"/products?page=1"}
+          className="relative aspect-[13/9] w-[90vw] max-w-screen-2xl rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
+        >
           <Image
             src={
               "https://hdapi.huseyinonalalpha.com/uploads/Web_Banner_1_2805ba7658.jpg"
@@ -192,7 +198,7 @@ export default function Index({ collections, projects, producta, productb }) {
             fill
             style={{ objectFit: "cover" }}
           />
-        </div>
+        </Link>
 
         <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
           {collections && (
@@ -202,7 +208,10 @@ export default function Index({ collections, projects, producta, productb }) {
           )}
         </div>
 
-        <div className="relative aspect-[13/9] w-[90vw] max-w-screen-2xl overflow-hidden rounded-xl md:aspect-[16/7] lg:aspect-[19/5]">
+        <Link
+          href={"/products?page=1"}
+          className="relative aspect-[13/9] w-[90vw] max-w-screen-2xl rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
+        >
           <Image
             src={
               "https://hdapi.huseyinonalalpha.com/uploads/cargo_9093a8c9b5.jpg"
@@ -212,7 +221,7 @@ export default function Index({ collections, projects, producta, productb }) {
             fill
             style={{ objectFit: "cover" }}
           />
-        </div>
+        </Link>
 
         <div className="grid w-[90vw] max-w-screen-2xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {[1, 2, 3, 4, 5, 6].map((item) => (
