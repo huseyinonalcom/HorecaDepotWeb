@@ -161,7 +161,7 @@ export default function Index({ collections, projects, producta, productb }) {
 
         <Link
           href={"/products?page=1"}
-          className="relative aspect-[13/9] w-[90vw] max-w-screen-2xl rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
+          className="relative aspect-[13/9] w-[90vw] max-w-screen-2xl overflow-hidden rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
         >
           <Image
             src={
@@ -187,7 +187,7 @@ export default function Index({ collections, projects, producta, productb }) {
 
         <Link
           href={"/products?page=1"}
-          className="relative aspect-[13/9] w-[90vw] max-w-screen-2xl rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
+          className="relative aspect-[13/9] w-[90vw] max-w-screen-2xl overflow-hidden rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
         >
           <Image
             src={
@@ -210,7 +210,7 @@ export default function Index({ collections, projects, producta, productb }) {
 
         <Link
           href={"/products?page=1"}
-          className="relative aspect-[13/9] w-[90vw] max-w-screen-2xl rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
+          className="relative aspect-[13/9] w-[90vw] max-w-screen-2xl overflow-hidden rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
         >
           <Image
             src={
