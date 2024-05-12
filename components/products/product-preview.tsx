@@ -11,7 +11,6 @@ import { WishlistProduct } from "../../api/interfaces/wishlistProduct";
 
 type Props = {
   product: Product;
-  width: number | "full";
 };
 
 function convertToCartProduct(
@@ -38,7 +37,7 @@ function calculatePercentageDifference(originalPrice, currentPrice) {
   return percentageDifference.toFixed(0);
 }
 
-const ProductPreview = ({ product, width }: Props) => {
+const ProductPreview = ({ product }: Props) => {
   const { addToCart } = useContext(CartContext);
   const { addToWishlist } = useContext(WishlistContext);
   const { t } = useTranslation("common");
@@ -48,19 +47,9 @@ const ProductPreview = ({ product, width }: Props) => {
     product.value,
   );
 
-  var widthString: string;
-
-  if (width == "full") {
-    widthString = "w-full";
-  } else {
-    widthString = `w-[${width}px]`;
-  }
-
-  const imgDimensions = `${widthString} aspect-square`;
-  const contentDimensions = ` ${widthString}`;
-
   return (
-    <div
+    <Link
+      href={`/products/${product.id}`}
       draggable={false}
       id={`${product.id}-preview`}
       className={`border-1 group flex w-full flex-col items-center rounded-xl border border-black/30 p-2 text-black`}
@@ -68,23 +57,20 @@ const ProductPreview = ({ product, width }: Props) => {
       <div
         draggable={false}
         id={`${product.id}-image`}
-        className={`relative ${imgDimensions}`}
+        className={`relative aspect-square w-full`}
       >
-        <Link draggable={false} href={`/products/${product.id}`}>
-          <Image
-            draggable={false}
-            sizes="(max-width: 768px) 190px, 290px"
-            src={
-              product.images != null
-                ? "https://hdapi.huseyinonalalpha.com" +
-                  product.images.at(0).url
-                : "/assets/img/placeholder.png"
-            }
-            fill
-            style={{ objectFit: "contain", cursor: "pointer" }}
-            alt={product.name}
-          />
-        </Link>
+        <Image
+          draggable={false}
+          sizes="(max-width: 768px) 190px, 290px"
+          src={
+            product.images != null
+              ? "https://hdapi.huseyinonalalpha.com" + product.images.at(0).url
+              : "/assets/img/placeholder.png"
+          }
+          fill
+          style={{ objectFit: "contain", cursor: "pointer" }}
+          alt={product.name}
+        />
         <div
           draggable={false}
           className="absolute right-2 top-2 flex flex-col gap-2 opacity-100 duration-500 group-hover:top-2 group-hover:opacity-100 lg:top-6 lg:opacity-0"
@@ -96,12 +82,7 @@ const ProductPreview = ({ product, width }: Props) => {
             className="h-8 w-8 bg-white p-1.5 shadow-md duration-500 hover:text-green-500 md:h-12 md:w-12 md:p-2"
             onClick={() => addToCart(convertToCartProduct(product))}
           >
-            <div
-              draggable={false}
-              className="flex h-full w-full flex-row items-center justify-center"
-            >
-              <ShoppingCart />
-            </div>
+            <ShoppingCart className="mx-auto" />
           </button>
           <button
             draggable={false}
@@ -110,40 +91,35 @@ const ProductPreview = ({ product, width }: Props) => {
             className="h-8 w-8 bg-white p-1.5 shadow-md duration-500 hover:text-red-500 md:h-12 md:w-12 md:p-2"
             onClick={() => addToWishlist(convertToWishlistProduct(product))}
           >
-            <div
-              draggable={false}
-              className="flex h-full w-full flex-row items-center justify-center"
-            >
-              <Heart />
-            </div>
+            <Heart className="mx-auto" />
           </button>
         </div>
       </div>
       <div
         draggable={false}
         id={`${product.id}-content`}
-        className={"mt-2 flex flex-col items-start " + contentDimensions}
+        className={"mt-2 flex w-full flex-col items-start"}
       >
         <div draggable={false} className="flex flex-col items-start">
-          <div className="duration-700">{product.name}</div>
-          <div className="duration-700">{product.category?.Name ?? ""}</div>
+          <p>{product.name}</p>
+          <p>{product.category?.Name ?? ""}</p>
           {product.internalCode && (
-            <div draggable={false} className="text-sm duration-700 ">
+            <p className="text-sm">
               {product.internalCode != "0" ? product.internalCode : ""}
-            </div>
+            </p>
           )}
           <div draggable={false} className="flex flex-row items-end gap-1">
-            <div draggable={false} className="font-bold">
+            <p draggable={false} className="font-bold">
               {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
-            </div>
+            </p>
             {product.priceBeforeDiscount > product.value && (
-              <div
+              <p
                 draggable={false}
                 className="mb-0.5 text-sm text-gray-700 line-through"
               >
                 {"€ " +
                   product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
-              </div>
+              </p>
             )}
             {product.priceBeforeDiscount ? (
               <p
@@ -157,18 +133,18 @@ const ProductPreview = ({ product, width }: Props) => {
           {product.shelves && product.shelves.length > 0 && (
             <div draggable={false} className="text-sm font-semibold">
               {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) >
-                10 && <>{t("in_stock")}</>}
+                10 && <p>{t("in_stock")}</p>}
               {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) <=
                 10 &&
                 product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) >
-                  0 && <>{t("low_stock")}</>}
+                  0 && <p className="text-orange-700">{t("low_stock")}</p>}
               {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) <
-                1 && <>{t("no_stock")}</>}
+                1 && <p className="text-red-700">{t("no_stock")}</p>}
             </div>
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

@@ -56,7 +56,7 @@ const CollectionShowcase = ({ collection }: Props) => {
             draggable={false}
             className="flex w-[200px] flex-shrink-0 snap-start md:w-[300px]"
           >
-            <ProductPreview width={"full"} product={prod} />
+            <ProductPreview product={prod} />
           </div>
         ))}
       </div>

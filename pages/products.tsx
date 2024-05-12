@@ -486,7 +486,7 @@ export default function Products() {
               <div className="grid w-full grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                 {allProducts.map((product) => (
                   <div key={product.id} className="mb-2 mt-2 w-full px-4">
-                    <ProductPreview product={product} width={"full"} />
+                    <ProductPreview product={product} />
                   </div>
                 ))}
               </div>

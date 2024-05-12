@@ -316,7 +316,7 @@ const ProductPage = ({
                       key={prod.id}
                       className="flex w-[40vw] flex-shrink-0 items-center p-1 last:mr-4 md:w-[15vw]"
                     >
-                      <ProductPreview width={"full"} product={prod} />
+                      <ProductPreview product={prod} />
                     </div>
                   ))}
                 </div>
