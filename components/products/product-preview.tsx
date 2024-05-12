@@ -205,7 +205,7 @@ const ProductPreview = ({ product, width }: Props) => {
                   draggable={false}
                   mode="oneline"
                   maxFontSizePx={13}
-                  className="text-red-500"
+                  className="text-red-600"
                 >
                   {t("no_stock")}
                 </AutoTextSize>
