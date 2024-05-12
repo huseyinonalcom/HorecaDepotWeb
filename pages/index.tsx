@@ -25,12 +25,27 @@ export default function Index({ collections, projects, producta, productb }) {
   const imageVisible = "opacity-100 z-20";
   const imageInvisible = "opacity-0";
 
-  let allCategories = [];
+  const [allCategories, setAllCategories] = useState([]);
 
-  for (let i = 0; i < categories.length; i++) {
-    allCategories.push(categories[i]);
-    allCategories.push(...categories[i].subCategories);
-  }
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await fetch(
+        "/api/categories/public/getallcategoriesflattened",
+      );
+      const data = await response.json();
+      let cats = data;
+      let catsToDisplay = [];
+      catsToDisplay.push(cats.find((cat) => cat.id === 3));
+      catsToDisplay.push(cats.find((cat) => cat.id === 2));
+      catsToDisplay.push(cats.find((cat) => cat.id === 6));
+      catsToDisplay.push(cats.find((cat) => cat.id === 10));
+      catsToDisplay.push(cats.find((cat) => cat.id === 11));
+      catsToDisplay.push(cats.find((cat) => cat.id === 17));
+      console.log(catsToDisplay);
+      setAllCategories(catsToDisplay);
+    };
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
     setCurrentImage(0);
@@ -119,14 +134,29 @@ export default function Index({ collections, projects, producta, productb }) {
         </div>
 
         <div className="grid w-[90vw] max-w-screen-2xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
-          {[1, 2, 3, 4, 5, 6].map((item) => (
-            <div key={`grid1-${item}`} className={``}>
-              <div className="flex flex-col items-center gap-2">
-                <div className="aspect-[15/14] w-full overflow-hidden rounded-xl bg-orange-400"></div>
-                <p className="font-semibold">Başlık</p>
+          {allCategories.length > 0 &&
+            allCategories?.map((category) => (
+              <div key={`grid1-${category.id}`} className={``}>
+                <Link
+                  href={"/products?page=1&category=" + category.id}
+                  className="flex flex-col items-center gap-2"
+                >
+                  <div className="relative aspect-[15/14] w-full overflow-hidden rounded-xl">
+                    <Image
+                      fill
+                      style={{ objectFit: "contain" }}
+                      sizes="45vw, (max-width: 640px) 30vw, (max-width: 1024px) 15vw"
+                      src={
+                        "https://hdapi.huseyinonalalpha.com" +
+                        category.image.url
+                      }
+                      alt={category.Name + " image"}
+                    />
+                  </div>
+                  <p className="font-semibold">{t(category.Name)}</p>
+                </Link>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
 
         <div className="aspect-[13/9] w-[90vw] max-w-screen-2xl rounded-xl bg-orange-400 md:aspect-[16/7] lg:aspect-[19/5]"></div>

@@ -16,8 +16,6 @@ export async function getProductByID(id: number): Promise<Product> {
 
   const answer = await response.json();
 
-  console.log(answer);
-
   return answer["data"] as Product;
 }
 
