@@ -74,7 +74,7 @@ const ProductPreview = ({ product, width }: Props) => {
         <Link draggable={false} href={`/products/${product.id}`}>
           <Image
             draggable={false}
-            sizes="(max-width: 768px) 95vw, (max-width: 1024px) 48vw, 20vw"
+            sizes="(max-width: 768px) 190px, 290px"
             src={
               product.images != null
                 ? "https://hdapi.huseyinonalalpha.com" +
