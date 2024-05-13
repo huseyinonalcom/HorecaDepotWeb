@@ -52,17 +52,54 @@ const Layout = ({ children }: Props) => {
                   src={"/assets/img/wa.png"}
                 />
               </Link>
-              <div className="z-30 w-full border-t border-neutral-200 bg-neutral-100 pb-8 pt-4 print:hidden">
-                <div className="flex w-full flex-col">
-                  <div className="border-b border-neutral-200 bg-neutral-100 px-4 pb-4">
+              <div className="z-30 flex w-full flex-col items-center border-t border-neutral-200 bg-neutral-100 pb-8 pt-4 print:hidden">
+                <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
+                  <Link
+                    href={"/"}
+                    className="flex flex-col items-center justify-center"
+                    style={{
+                      WebkitTapHighlightColor: "transparent",
+                    }}
+                  >
+                    <Image
+                      color="black"
+                      width={221}
+                      height={58.5}
+                      src="/assets/header/logob.png"
+                      alt="Horeca Depot Logo"
+                    />
+                  </Link>
+                  <div className="flex flex-col items-center justify-center xl:order-4">
                     <Follow />
                   </div>
-                  <div className="mx-auto px-2 pt-6 text-sm">
-                    <AutoTextSize mode="oneline" maxFontSizePx={16}>
-                      © Horeca Depot. {new Date().getFullYear()}.{" "}
-                      {t("All Rights Reserved")}
-                    </AutoTextSize>
+                  <div className="flex flex-col items-center justify-center ">
+                    <p className="font-semibold">{t("Payment Partners")}</p>
+                    <Image
+                      src={
+                        "https://hdapi.huseyinonalalpha.com/uploads/payments_6796e94397.png"
+                      }
+                      alt="Payment Partners"
+                      width={303}
+                      height={24}
+                    />
                   </div>
+                  <div className="flex flex-col items-center justify-center ">
+                    <p className="font-semibold">{t("Logistics Partners")}</p>
+                    <Image
+                      src={
+                        "https://hdapi.huseyinonalalpha.com/uploads/deliveries_f1aeb61557.png"
+                      }
+                      alt="Logistics Partners"
+                      width={322}
+                      height={24}
+                    />
+                  </div>
+                </div>
+                <div className="flex w-fit flex-row">
+                  <p className="mx-auto whitespace-nowrap px-2 pt-6 text-sm">
+                    © Horeca Depot. {new Date().getFullYear()}.{" "}
+                    {t("All Rights Reserved")}
+                  </p>
                 </div>
               </div>
               <div className="sticky bottom-0 z-40 flex h-[50px] w-full flex-row justify-between bg-black px-5 md:hidden">
