@@ -15,7 +15,6 @@ export async function getAllCategoriesFlattened() {
     const allCategories = data.data.map(CategoryConversion.fromJson);
     return allCategories;
   } catch (e) {
-    // console.log(e);
     return null;
   }
 }
