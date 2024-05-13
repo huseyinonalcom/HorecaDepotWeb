@@ -81,7 +81,6 @@ export default function Products() {
   const [allCategoriesFlat, setCategoriesFlat] = useState([]);
   const [currentCategory, setCurrentCategory] = useState<number | null>(null);
   const [currentSearch, setCurrentSearch] = useState<string>("");
-  const [tempSearch, setTempSearch] = useState<string>("");
   const [currentSort, setCurrentSort] = useState<string | null>("id");
   const [currentSortDirection, setCurrentSortDirection] =
     useState<boolean>(false);
@@ -98,9 +97,6 @@ export default function Products() {
       setSliderMax(null);
       setCurrentPage(1);
       setFetchQueued(true);
-    }
-    if (currentSearch == "") {
-      setTempSearch("");
     }
   }, [currentSearch, currentCategory]);
 
