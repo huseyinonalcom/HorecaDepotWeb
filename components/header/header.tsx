@@ -668,7 +668,7 @@ const Header = () => {
     <div
       className={`sticky top-0 z-40 flex w-full flex-col items-center bg-black pt-3 text-white shadow-lg duration-300 print:hidden`}
     >
-      <div className="flex w-full flex-col gap-2 pb-4">
+      <div className="flex w-full max-w-screen-2xl flex-col gap-2 pb-4">
         <HeaderDrawer
           isOpen={isHeaderDrawerOpen}
           onClickOutside={onClickOutsideDrawer}

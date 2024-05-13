@@ -18,33 +18,42 @@ const ContactForm = () => {
       </h2>
       <div className="flex w-full flex-col gap-2 md:flex-row">
         <div className="w-full md:w-6/12">
-          <InputOutlined required type="text" name="Name" label="Your Name" />
+          <InputOutlined
+            required
+            type="text"
+            name="Name"
+            label={t("Your Name")}
+          />
         </div>
         <div className="w-full md:w-6/12">
           <InputOutlined
             required
             type="text"
             name="E-mail"
-            label="Your E-mail"
+            label={t("Your E-mail")}
           />
         </div>
       </div>
 
       <div className="flex w-full flex-col gap-2 md:flex-row">
         <div className="w-full md:w-6/12">
-          <InputOutlined type="text" name="Phone" label="Your phone number" />
+          <InputOutlined
+            type="text"
+            name="Phone"
+            label={t("Your phone number")}
+          />
         </div>
         <div className="w-full md:w-6/12">
           <InputOutlined
             type="text"
             name="Company"
-            label="The name of your company"
+            label={t("The name of your company")}
           />
         </div>
       </div>
 
       <div className="w-full">
-        <TextareaOutlined required name="Message" label="Your message" />
+        <TextareaOutlined required name="Message" label={t("Your message")} />
       </div>
 
       <input type="text" name="_honey" className="hidden" />

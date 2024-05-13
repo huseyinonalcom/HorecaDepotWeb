@@ -220,5 +220,12 @@
   "Déjà inscrit": "Bereits registriert",
   "Créer un nouveau compte.": "Ein neues Konto erstellen.",
   "Inscrivez-vous": "Registrieren Sie sich",
-  "add_to_cart": "In Warenkorb legen"
+  "add_to_cart": "In Warenkorb legen",
+  "Your Name": "Ihr Name",
+  "Your E-mail": "Ihre E-Mail",
+  "Your message": "Ihre Nachricht",
+  "Your phone number": "Ihre Telefonnummer",
+  "Message": "Nachricht",
+  "Company": "Firma",
+  "The name of your company": "Der Name Ihres Unternehmens"
 }

@@ -220,5 +220,12 @@
   "Déjà inscrit": "Already registered",
   "Créer un nouveau compte.": "Create a new account.",
   "Inscrivez-vous": "Sign up",
-  "add_to_cart": "Add to cart"
+  "add_to_cart": "Add to cart",
+  "Your Name": "Your Name",
+  "Your E-mail": "Your E-mail",
+  "Your message": "Your message",
+  "Your phone number": "Your phone number",
+  "Message": "Message",
+  "Company": "Company",
+  "The name of your company": "The name of your company"
 }

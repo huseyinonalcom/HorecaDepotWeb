@@ -104,7 +104,6 @@ export default function Index({ collections, allCategories }) {
           />
         </Link>
 
-        
         <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
           {collections && (
             <div key={"collection1"} className="w-full">
@@ -112,7 +111,7 @@ export default function Index({ collections, allCategories }) {
             </div>
           )}
         </div>
-{/* 
+        {/* 
         <div className="grid w-[90vw] max-w-screen-2xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {[1, 2, 3, 4, 5, 6].map((item) => (
             <div key={`grid2-${item}`} className={``}>
@@ -180,7 +179,7 @@ export default function Index({ collections, allCategories }) {
             </div>
           )}
         </div> */}
-{/* 
+        {/* 
         <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
           {collections.length > 1 && (
             <div key={"collection3"} className="w-full">

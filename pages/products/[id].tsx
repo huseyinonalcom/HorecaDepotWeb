@@ -37,11 +37,9 @@ const ProductPage = ({
   const [ref] = useDragScroll();
   const [cartAmount, setCartAmount] = useState(1);
 
-
   useEffect(() => {
     handleCartAmountChange(1);
   }, [product]);
-
 
   let tagsArray: string[];
   let tags = "";
@@ -112,9 +110,11 @@ const ProductPage = ({
               );
             })}
         </div>
-        <div className="grid w-full grid-cols-1 items-center justify-center gap-2 md:grid-cols-2">
-          <ProductImages product={product} />
-          <div className="flex h-full w-full flex-col items-start justify-start gap-2 px-1 md:px-4">
+        <div className="grid w-full grid-cols-1 items-center justify-center gap-2 md:grid-cols-5">
+          <div className="col-span-3">
+            <ProductImages product={product} />
+          </div>
+          <div className="col-span-2 flex h-full w-full flex-col items-start justify-start gap-2 px-1 md:px-4">
             <h2 className="text-xl font-bold">{product.name}</h2>
             <h3 className="text-lg font-semibold">
               {product.internalCode != "0" ? product.internalCode : ""}
@@ -137,7 +137,7 @@ const ProductPage = ({
               {product.priceBeforeDiscount ? (
                 <p
                   draggable={false}
-                  className="flex w-fit flex-row items-center justify-center overflow-hidden border-t-0 bg-green-700 px-2 py-1 text-xs font-bold text-white"
+                  className="flex w-fit flex-row items-center justify-center overflow-hidden border-t-0 bg-red-600 px-2 py-1 text-xs font-bold text-white"
                 >
                   {(
                     ((product.value - product.priceBeforeDiscount) /
