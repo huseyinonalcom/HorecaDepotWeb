@@ -104,6 +104,15 @@ export default function Index({ collections, allCategories }) {
           />
         </Link>
 
+        
+        <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
+          {collections && (
+            <div key={"collection1"} className="w-full">
+              <CollectionShowcase collection={collections.at(0)} />
+            </div>
+          )}
+        </div>
+{/* 
         <div className="grid w-[90vw] max-w-screen-2xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {[1, 2, 3, 4, 5, 6].map((item) => (
             <div key={`grid2-${item}`} className={``}>
@@ -113,7 +122,7 @@ export default function Index({ collections, allCategories }) {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
 
         <Link
           href={"/products?page=1"}
@@ -131,9 +140,9 @@ export default function Index({ collections, allCategories }) {
         </Link>
 
         <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
-          {collections && (
-            <div key={"collection1"} className="w-full">
-              <CollectionShowcase collection={collections.at(0)} />
+          {collections.length > 1 && (
+            <div key={"collection2"} className="w-full">
+              <CollectionShowcase collection={collections.at(1)} />
             </div>
           )}
         </div>
@@ -153,7 +162,7 @@ export default function Index({ collections, allCategories }) {
           />
         </Link>
 
-        <div className="grid w-[90vw] max-w-screen-2xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
+        {/* <div className="grid w-[90vw] max-w-screen-2xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {[1, 2, 3, 4, 5, 6].map((item) => (
             <div key={`grid3-${item}`} className={``}>
               <div className="flex flex-col items-center gap-2">
@@ -162,23 +171,23 @@ export default function Index({ collections, allCategories }) {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
 
-        <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
-          {collections.length > 1 && (
-            <div key={"collection2"} className="w-full">
-              <CollectionShowcase collection={collections.at(1)} />
+        {/* <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
+          {collections && (
+            <div key={"collection1"} className="w-full">
+              <CollectionShowcase collection={collections.at(0)} />
             </div>
           )}
-        </div>
-
+        </div> */}
+{/* 
         <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
           {collections.length > 1 && (
             <div key={"collection3"} className="w-full">
               <CollectionShowcase collection={collections.at(0)} />
             </div>
           )}
-        </div>
+        </div> */}
       </div>
     </Layout>
   );
@@ -186,7 +195,6 @@ export default function Index({ collections, allCategories }) {
 
 export const getStaticProps = async () => {
   let collections = await getCollections();
-  collections = collections.sort(() => Math.random() - 0.5);
   const allCategoriesRaw = await getAllCategoriesFlattened();
   let allCategories = [];
   allCategories.push(allCategoriesRaw.find((cat) => cat.id === 3));
