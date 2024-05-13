@@ -2,15 +2,13 @@ import Layout from "../components/public/layout";
 import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
 import useTranslation from "next-translate/useTranslation";
-import ProductPreview from "../components/products/product-preview";
+import ProductPreview2 from "../components/products/product-preview2";
 import { ArrowUp, ChevronLeft, X } from "react-feather";
 import { Product } from "../api/interfaces/product";
 import { CategoryContext } from "../api/providers/categoryProvider";
 import RangeSlider from "../components/common/rangeSlider";
 import { useRouter } from "next/router";
 import componentThemes from "../components/componentThemes";
-
-// on currentPage change => scroll to top
 
 export default function Products() {
   const { t, lang } = useTranslation("common");
@@ -118,19 +116,6 @@ export default function Products() {
       setFetchQueued(true);
     }
   }, [currentSort, currentSortDirection]);
-
-  const handleSearchChange = (e) => {
-    const value = e.target.value;
-    setTempSearch(value);
-    if (value == "") {
-      setCurrentSearch(null);
-    }
-  };
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    setCurrentSearch(tempSearch);
-  };
 
   useEffect(() => {
     if (fetchQueued) {
@@ -449,7 +434,7 @@ export default function Products() {
               <h2 className="mt-2 flex w-full justify-center text-5xl font-bold">
                 {t("Shop")}
               </h2>
-              <div className="my-auto flex h-fit w-full flex-row justify-end gap-2 pl-4 pr-4">
+              <div className="my-auto flex h-fit w-full flex-row gap-2 pl-4 pr-4">
                 <ArrowUp
                   height={36}
                   width={36}
@@ -472,7 +457,7 @@ export default function Products() {
                   onClick={() => {
                     setIsFilterDrawerOpen(!isFilterDrawerOpen);
                   }}
-                  className="ml-auto border-2 px-2 py-1 font-semibold lg:hidden"
+                  className="border-2 px-2 py-1 font-semibold lg:hidden"
                 >
                   {t("Filters")}
                 </button>
@@ -483,10 +468,10 @@ export default function Products() {
                 {t("No products matching")}
               </h3>
             ) : (
-              <div className="grid w-full grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+              <div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                 {allProducts.map((product) => (
                   <div key={product.id} className="mb-2 mt-2 w-full px-4">
-                    <ProductPreview product={product} />
+                    <ProductPreview2 product={product} />
                   </div>
                 ))}
               </div>
