@@ -91,13 +91,13 @@ export default function Index({ collections, allCategories }) {
 
         <Link
           href={"/products?page=1"}
-          className="relative aspect-[13/9] w-[90vw] max-w-screen-2xl overflow-hidden rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
+          className="relative aspect-[21/9] w-[90vw] max-w-screen-2xl overflow-hidden rounded-xl md:aspect-[205/7] lg:aspect-[205/78]"
         >
           <Image
             src={
-              "https://hdapi.huseyinonalalpha.com/uploads/web_2_b54f79691c.jpg"
+              "https://hdapi.huseyinonalalpha.com/uploads/banner_5083e5ad1d.jpg"
             }
-            alt="promo 50%"
+            alt="terrace promo"
             sizes="90vw, (max-width: 1536px) 1536px"
             fill
             style={{ objectFit: "cover" }}
@@ -117,11 +117,11 @@ export default function Index({ collections, allCategories }) {
 
         <Link
           href={"/products?page=1"}
-          className="relative aspect-[13/9] w-[90vw] max-w-screen-2xl overflow-hidden rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
+          className="relative aspect-[17/9] w-[90vw] max-w-screen-2xl overflow-hidden rounded-xl md:aspect-[32/9] lg:aspect-[32/9]"
         >
           <Image
             src={
-              "https://hdapi.huseyinonalalpha.com/uploads/Web_Banner_1_2805ba7658.jpg"
+              "https://hdapi.huseyinonalalpha.com/uploads/web_2_b54f79691c.jpg"
             }
             alt="best furniture design"
             sizes="90vw, (max-width: 1536px) 1536px"
@@ -140,7 +140,7 @@ export default function Index({ collections, allCategories }) {
 
         <Link
           href={"/products?page=1"}
-          className="relative aspect-[13/9] w-[90vw] max-w-screen-2xl overflow-hidden rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
+          className="relative aspect-[18/9] w-[90vw] max-w-screen-2xl overflow-hidden rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
         >
           <Image
             src={
