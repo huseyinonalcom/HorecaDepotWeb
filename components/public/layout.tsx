@@ -30,6 +30,7 @@ const Layout = ({ children }: Props) => {
   const navButtonsClass =
     "relative flex flex-col justify-center items-center p-1 duration-300 font-bold text-sm text-white hover:bg-black aspect-[1/1]";
   const router = useRouter();
+
   return (
     <>
       <ClientProvider>

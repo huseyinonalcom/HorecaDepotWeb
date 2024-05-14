@@ -45,7 +45,7 @@ export default function MyAccountDash() {
   }
 
   return (
-    <div className="flex min-h-[50vh] w-full max-w-screen-2xl flex-col items-center justify-start">
+    <div className="flex min-h-[50vh] px-4 w-full max-w-screen-2xl flex-col items-center justify-start">
       <div className="my-6 flex flex-col gap-4">
         <h2 className="text-3xl">{greeting}</h2>
         <p className="text-3xl font-semibold">{client.client_info.firstName}</p>
