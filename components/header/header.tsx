@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import useTranslation from "next-translate/useTranslation";
 import setLanguage from "next-translate/setLanguage";
-
 import {
   ChevronLeft,
   Globe,
@@ -19,7 +18,6 @@ import {
   User,
   Clipboard,
   X,
-  Divide,
 } from "react-feather";
 import { CategoryContext } from "../../api/providers/categoryProvider";
 import { CartContext } from "../../api/providers/cartProvider";
@@ -44,10 +42,8 @@ const CategoryItem = ({ category }) => {
         setisHovered(false);
       }}
     >
-      <p
-        onClick={() => {
-          router.push(`/products?page=1&category=${category.id}`);
-        }}
+      <Link
+        href={`/products?page=1&category=${category.id}`}
         className="flex w-full items-center justify-between px-3 py-2 text-left"
       >
         {t(category.Name)}
@@ -58,7 +54,7 @@ const CategoryItem = ({ category }) => {
             }
           />
         )}
-      </p>
+      </Link>
       {hasSubCategories && isHovered && (
         <div
           onMouseEnter={() => {
@@ -653,12 +649,12 @@ const HeaderButtons = ({ cartItems }) => {
   );
 };
 
-const CategoryDrawer = ({ isOpen, categories, closeDrawer }) => {
+const CategoryDrawerMobile = ({ isOpen, categories, closeDrawer }) => {
   const { t } = useTranslation("common");
 
   return (
     <div
-      className={`fixed inset-0 z-[99] flex w-full overflow-hidden text-black duration-300 ease-in-out ${isOpen ? "left-0" : "-left-[110%]"} flex flex-row`}
+      className={`fixed inset-0 z-[99] flex h-screen w-full overflow-hidden text-black duration-300 ease-in-out ${isOpen ? "left-0" : "-left-[110%]"} flex flex-row`}
     >
       <div className="flex-shrink-0 flex-col rounded-r-xl bg-white p-4">
         <div className="flex w-full min-w-[300px] flex-row items-center justify-between">
@@ -675,6 +671,50 @@ const CategoryDrawer = ({ isOpen, categories, closeDrawer }) => {
       </div>
       <div
         className={`w-full bg-black/50 ${isOpen ? "opacity-100 duration-[1500ms] ease-in-out" : "opacity-0"}`}
+        onClick={closeDrawer}
+      ></div>
+    </div>
+  );
+};
+
+const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
+  const { t } = useTranslation("common");
+
+  return (
+    <div
+      className={`fixed inset-0 z-[99] mx-auto flex h-fit w-full max-w-screen-2xl overflow-hidden text-black duration-300 ease-in-out ${isOpen ? "top-[140px] opacity-100" : "-top-[80%] opacity-0"} flex-col`}
+    >
+      <div className="z-[98] flex-shrink-0 rounded-xl bg-white p-4">
+        <div className="flex w-full flex-row items-center justify-between">
+          <h3 className="pl-2 pr-6 text-xl font-semibold">{t("Categories")}</h3>
+          <button onClick={closeDrawer}>
+            <X />
+          </button>
+        </div>
+        <div className="my-4 grid w-full grid-cols-4 gap-4 border-t bg-white py-2 text-gray-500 duration-300">
+          {categories.map((category) => (
+            <div key={category.id + "-column"}>
+              <Link
+                href={"/products?page=1&category=" + category.id}
+                className="font-semibold"
+              >
+                {t(category.Name)}
+              </Link>
+              <Link
+                href={"/products?page=1&category=" + category.id}
+                className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
+              >
+                {t("All")} {t(category.Name)}
+              </Link>
+              {category.subCategories.map((subCategory) => (
+                <CategoryItem key={subCategory.id} category={subCategory} />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+      <div
+        className={`fixed inset-0 z-[95] h-screen w-screen bg-black/50 ${isOpen ? "opacity-100 duration-300 ease-in-out" : "hidden opacity-0"}`}
         onClick={closeDrawer}
       ></div>
     </div>
@@ -704,11 +744,20 @@ const Header = () => {
     <div
       className={`sticky top-0 z-40 flex w-full flex-col items-center bg-black pt-3 text-white shadow-lg duration-300 print:hidden`}
     >
-      <CategoryDrawer
-        isOpen={showCategories}
-        categories={allCategories}
-        closeDrawer={() => setShowCategories(false)}
-      />
+      <div className="flex lg:hidden">
+        <CategoryDrawerMobile
+          isOpen={showCategories}
+          categories={allCategories}
+          closeDrawer={() => setShowCategories(false)}
+        />
+      </div>
+      <div className="hidden lg:flex">
+        <CategoryDrawerDesktop
+          isOpen={showCategories}
+          categories={allCategories}
+          closeDrawer={() => setShowCategories(false)}
+        />
+      </div>
       <div className="flex w-full max-w-screen-2xl flex-col gap-2 pb-4">
         <HeaderDrawer
           isOpen={isHeaderDrawerOpen}
