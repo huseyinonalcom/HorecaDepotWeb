@@ -19,6 +19,7 @@ import {
   User,
   Clipboard,
   X,
+  Divide,
 } from "react-feather";
 import { CategoryContext } from "../../api/providers/categoryProvider";
 import { CartContext } from "../../api/providers/cartProvider";
@@ -47,7 +48,7 @@ const CategoryItem = ({ category }) => {
         onClick={() => {
           router.push(`/products?page=1&category=${category.id}`);
         }}
-        className="flex w-full items-center justify-between px-4 py-2 text-left"
+        className="flex w-full items-center justify-between px-3 py-2 text-left"
       >
         {t(category.Name)}
         {hasSubCategories && (
@@ -77,13 +78,23 @@ const CategoryItem = ({ category }) => {
   );
 };
 
-const DesktopNavLinks = ({ allCategories }) => {
+const DesktopNavLinks = ({ allCategories, openDrawer }) => {
   const { t } = useTranslation("common");
   const navLinkClass =
-    "duration-300 font-semibold underline-animation-white whitespace-nowrap";
+    "duration-500 font-semibold hover:decoration-white decoration-transparent underline underline-offset-2 decoration-2 whitespace-nowrap";
   return (
     <div className="hidden flex-row items-center gap-4 md:flex">
-      <div className="group relative h-full flex-shrink-0">
+      <div className="flex flex-row gap-2">
+        <button onClick={openDrawer}></button>
+        <button
+          onClick={openDrawer}
+          className={navLinkClass + ` flex flex-row items-center gap-2`}
+        >
+          <Menu className="mb-[1px]" />
+          {t("Categories").toUpperCase()}
+        </button>
+      </div>
+      {/* <div className="group relative h-full flex-shrink-0">
         <Link
           href="/products?page=1"
           className="hidden h-full flex-row items-center px-2 py-2 font-bold lg:flex"
@@ -98,7 +109,7 @@ const DesktopNavLinks = ({ allCategories }) => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
       <Link className={navLinkClass} href="/projects">
         {t("PROJECTS")}
       </Link>
@@ -642,11 +653,40 @@ const HeaderButtons = ({ cartItems }) => {
   );
 };
 
+const CategoryDrawer = ({ isOpen, categories, closeDrawer }) => {
+  const { t } = useTranslation("common");
+
+  return (
+    <div
+      className={`fixed inset-0 z-[99] flex h-screen w-screen overflow-hidden text-black duration-300 ease-in-out ${isOpen ? "left-0" : "-left-[110%]"} flex flex-row `}
+    >
+      <div className="flex-shrink-0 flex-col rounded-r-xl bg-white p-4">
+        <div className="flex w-full min-w-[300px] flex-row items-center justify-between">
+          <h3 className="pl-2 pr-6 text-xl font-semibold">{t("Categories")}</h3>
+          <button onClick={closeDrawer}>
+            <X />
+          </button>
+        </div>
+        <div className="my-4 flex w-full flex-col border-b border-t bg-white py-2 text-gray-500 duration-300">
+          {categories.map((category) => (
+            <CategoryItem key={category.id} category={category} />
+          ))}
+        </div>
+      </div>
+      <div
+        className={`w-full bg-black/50 ${isOpen ? "opacity-100 duration-[1500ms] ease-in-out" : "opacity-0"}`}
+        onClick={closeDrawer}
+      ></div>
+    </div>
+  );
+};
+
 const Header = () => {
   const [cartItems, setCartItems] = useState(0);
   const { categories } = useContext(CategoryContext);
   const [allCategories, setAllCategories] = useState([]);
   const { cart, calculateTotal } = useContext(CartContext);
+  const [showCategories, setShowCategories] = useState(false);
 
   useEffect(() => {
     if (allCategories.length === 0 && categories.length > 0) {
@@ -660,18 +700,21 @@ const Header = () => {
 
   const [isHeaderDrawerOpen, setIsHeaderDrawerOpen] = useState(false);
 
-  function onClickOutsideDrawer() {
-    setIsHeaderDrawerOpen(false);
-  }
-
   return (
     <div
       className={`sticky top-0 z-40 flex w-full flex-col items-center bg-black pt-3 text-white shadow-lg duration-300 print:hidden`}
     >
+      <CategoryDrawer
+        isOpen={showCategories}
+        categories={allCategories}
+        closeDrawer={() => setShowCategories(false)}
+      />
       <div className="flex w-full max-w-screen-2xl flex-col gap-2 pb-4">
         <HeaderDrawer
           isOpen={isHeaderDrawerOpen}
-          onClickOutside={onClickOutsideDrawer}
+          onClickOutside={() => {
+            setIsHeaderDrawerOpen(false);
+          }}
         />
 
         <TopBar />
@@ -683,7 +726,7 @@ const Header = () => {
               className="relative flex flex-col items-center justify-center p-1 text-sm font-bold text-white duration-300 hover:bg-black focus:outline-transparent lg:hidden"
               style={{ WebkitTapHighlightColor: "transparent" }}
               aria-label="Mobile Navigation Menu"
-              onClick={() => setIsHeaderDrawerOpen(!isHeaderDrawerOpen)}
+              onClick={() => setIsHeaderDrawerOpen(true)}
             >
               <Menu />
             </button>
@@ -702,7 +745,10 @@ const Header = () => {
                   alt="Horeca Depot Logo"
                 />
               </Link>
-              <DesktopNavLinks allCategories={allCategories} />
+              <DesktopNavLinks
+                allCategories={allCategories}
+                openDrawer={() => setShowCategories(true)}
+              />
             </div>
             <div className="flex h-[45px] flex-shrink-0 flex-row gap-2">
               <DesktopSearch />
