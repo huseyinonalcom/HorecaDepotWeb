@@ -4,7 +4,6 @@ import useTranslation from "next-translate/useTranslation";
 import { CartProvider } from "../../api/providers/cartProvider";
 import { WishlistProvider } from "../../api/providers/wishlistProvider";
 import { ClientProvider } from "../../api/providers/clientProvider";
-import { AutoTextSize } from "auto-text-size";
 import Image from "next/image";
 import Link from "next/link";
 import CartDrawer from "../cart/cartDrawer";
@@ -26,7 +25,7 @@ type Props = {
 };
 
 const Layout = ({ children }: Props) => {
-  const { t, lang } = useTranslation("common");
+  const { t } = useTranslation("common");
   const navButtonsClass =
     "relative flex flex-col justify-center items-center p-1 duration-300 font-bold text-sm text-white hover:bg-black aspect-[1/1]";
   const router = useRouter();

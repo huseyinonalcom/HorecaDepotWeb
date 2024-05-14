@@ -25,9 +25,8 @@ import { ClientContext } from "../../api/providers/clientProvider";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 
 const CategoryItem = ({ category }) => {
-  const { t } = useTranslation("common");
+  const { t, lang } = useTranslation("common");
   const [isHovered, setisHovered] = useState(false);
-  const router = useRouter();
   const hasSubCategories =
     category.subCategories && category.subCategories.length > 0;
 
@@ -42,8 +41,8 @@ const CategoryItem = ({ category }) => {
         setisHovered(false);
       }}
     >
-      <Link
-        href={`/products?page=1&category=${category.id}`}
+      <a
+        href={`products?page=1&category=${category.id}`}
         className="flex w-full items-center justify-between px-3 py-2 text-left"
       >
         {t(category.Name)}
@@ -54,7 +53,7 @@ const CategoryItem = ({ category }) => {
             }
           />
         )}
-      </Link>
+      </a>
       {hasSubCategories && isHovered && (
         <div
           onMouseEnter={() => {
@@ -694,18 +693,18 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
         <div className="my-4 grid w-full grid-cols-4 gap-4 border-t bg-white py-2 text-gray-500 duration-300">
           {categories.map((category) => (
             <div key={category.id + "-column"}>
-              <Link
-                href={"/products?page=1&category=" + category.id}
+              <a
+                href={"products?page=1&category=" + category.id}
                 className="font-semibold"
               >
                 {t(category.Name)}
-              </Link>
-              <Link
-                href={"/products?page=1&category=" + category.id}
+              </a>
+              <a
+                href={"products?page=1&category=" + category.id}
                 className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
               >
                 {t("All")} {t(category.Name)}
-              </Link>
+              </a>
               {category.subCategories.map((subCategory) => (
                 <CategoryItem key={subCategory.id} category={subCategory} />
               ))}
