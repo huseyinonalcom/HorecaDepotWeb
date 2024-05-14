@@ -658,7 +658,7 @@ const CategoryDrawer = ({ isOpen, categories, closeDrawer }) => {
 
   return (
     <div
-      className={`fixed inset-0 z-[99] flex h-screen w-screen overflow-hidden text-black duration-300 ease-in-out ${isOpen ? "left-0" : "-left-[110%]"} flex flex-row `}
+      className={`fixed inset-0 z-[99] flex w-full overflow-hidden text-black duration-300 ease-in-out ${isOpen ? "left-0" : "-left-[110%]"} flex flex-row`}
     >
       <div className="flex-shrink-0 flex-col rounded-r-xl bg-white p-4">
         <div className="flex w-full min-w-[300px] flex-row items-center justify-between">
