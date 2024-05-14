@@ -228,5 +228,8 @@
   "Message": "Bericht",
   "Company": "Bedrijf",
   "The name of your company": "De naam van uw bedrijf",
-  "dashboard_intro": "Welkom op uw dashboard. Hier kunt u uw bestellingen en persoonlijke details beheren. Volg de onderstaande links om naar de verschillende secties te gaan."
+  "dashboard_intro": "Welkom op uw dashboard. Hier kunt u uw bestellingen en persoonlijke details beheren. Volg de onderstaande links om naar de verschillende secties te gaan.",
+  "Good Morning": "Goedemorgen",
+  "Good Afternoon": "Goedemiddag",
+  "Good Evening": "Goedenavond"
 }

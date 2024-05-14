@@ -228,5 +228,8 @@
   "Message": "Message",
   "Company": "Société",
   "The name of your company": "Le nom de votre société",
-  "dashboard_intro": "Bienvenue sur votre tableau de bord. Ici, vous pouvez gérer vos commandes et détails personnels. Suivez les liens ci-dessous pour accéder aux différentes sections."
+  "dashboard_intro": "Bienvenue sur votre tableau de bord. Ici, vous pouvez gérer vos commandes et détails personnels. Suivez les liens ci-dessous pour accéder aux différentes sections.",
+  "Good Morning": "Bonjour",
+  "Good Afternoon": "Bon après-midi",
+  "Good Evening": "Bonsoir"
 }

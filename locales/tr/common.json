@@ -228,5 +228,8 @@
   "Message": "Mesaj",
   "Company": "Şirket",
   "The name of your company": "Şirketinizin adı",
-  "dashboard_intro": "Dashboard'unuza hoş geldiniz. Burada siparişlerinizi ve kişisel bilgilerinizi yönetebilirsiniz. Farklı bölümlere gitmek için aşağıdaki bağlantıları takip edin."
+  "dashboard_intro": "Dashboard'unuza hoş geldiniz. Burada siparişlerinizi ve kişisel bilgilerinizi yönetebilirsiniz. Farklı bölümlere gitmek için aşağıdaki bağlantıları takip edin.",
+  "Good Morning": "Merhaba",
+  "Good Afternoon": "Merhaba",
+  "Good Evening": "Merhaba"
 }
