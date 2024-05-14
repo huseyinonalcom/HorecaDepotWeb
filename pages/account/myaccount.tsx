@@ -6,9 +6,6 @@ import useTranslation from "next-translate/useTranslation";
 
 import Layout from "../../components/public/layout";
 import Meta from "../../components/public/meta";
-import { useEffect } from "react";
-import router from "next/router";
-import MyAccountPagesNav from "../../components/client/myAccountPagesNav";
 import MyAccountDash from "../../components/client/myAccountDash";
 
 export default function MyAccount() {
@@ -23,8 +20,7 @@ export default function MyAccount() {
         <meta name="description" content={t("main_description")} />
         <meta name="language" content={lang} />
       </Head>
-      <div className="mx-auto flex w-[90vw] flex-row items-start justify-start">
-        <MyAccountPagesNav />
+      <div className="mx-auto flex min-h-[79vh] flex-row items-start justify-center">
         <MyAccountDash />
       </div>
     </Layout>

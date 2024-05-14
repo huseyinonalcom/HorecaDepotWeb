@@ -13,16 +13,16 @@ export default function About() {
         <meta name="language" content={lang} />
       </Head>
 
-      <h1 className="bg-black pt-2 text-center text-4xl font-bold text-white">
+      <h1 className="pt-2 text-center text-4xl font-bold">
         {t("Who are we?")}
       </h1>
-      <div className="flex h-[70px] flex-col justify-around bg-black shadow-lg">
-        <div className="text-md flex flex-row items-center justify-center font-bold text-gray-300">
-          <Link href="/" className="duration-700 hover:text-white">
+      <div className="flex h-[70px] flex-col justify-around">
+        <div className="text-md flex flex-row items-center justify-center font-bold text-black">
+          <Link href="/" className="duration-700">
             {t("Home")}
           </Link>
           <p className="mx-2 font-bold">/</p>
-          <p className="text-white underline decoration-white decoration-solid decoration-4 underline-offset-8">
+          <p className="underline decoration-black decoration-solid decoration-4 underline-offset-8">
             {t("Who we are")}
           </p>
         </div>

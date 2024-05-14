@@ -38,7 +38,7 @@ const Layout = ({ children }: Props) => {
             <Meta />
             <main className={`${nexa.className} min-h-[80dvh]`}>
               <Header />
-              {children}
+              <div className="mx-auto max-w-screen-2xl">{children}</div>
               <CartDrawer />
               <Link
                 target="_blank"
@@ -113,7 +113,7 @@ const Layout = ({ children }: Props) => {
                 <Link
                   aria-label="Link to User Account Dashboard"
                   className={navButtonsClass}
-                  href="/account/myorders"
+                  href="/account/myaccount"
                 >
                   <User />
                 </Link>

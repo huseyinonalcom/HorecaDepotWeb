@@ -36,7 +36,7 @@ const ClientLogin = () => {
         const answer = await response.json();
         const authedClient: Client = ClientConversion.fromJson(answer);
         updateClient(authedClient as Client);
-        router.push("/account/myorders");
+        router.push("/account/myaccount");
       } else {
         setError(t("user_pass_invalid"));
       }

@@ -7,7 +7,6 @@ import useTranslation from "next-translate/useTranslation";
 import Layout from "../../components/public/layout";
 import Meta from "../../components/public/meta";
 import { useEffect, useState } from "react";
-import MyAccountPagesNav from "../../components/client/myAccountPagesNav";
 import LoadingIndicator from "../../components/common/loadingIndicator";
 
 export default function MyDetails() {
@@ -44,7 +43,6 @@ export default function MyDetails() {
         <meta name="language" content={lang} />
       </Head>
       <div className="mx-auto flex w-[90vw] flex-row items-start justify-start">
-        <MyAccountPagesNav />
         <div className="ml-4 flex w-full flex-col gap-4">
           {isLoading ? (
             <LoadingIndicator />

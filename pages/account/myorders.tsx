@@ -7,7 +7,6 @@ import useTranslation from "next-translate/useTranslation";
 import Layout from "../../components/public/layout";
 import Meta from "../../components/public/meta";
 import { useEffect, useState } from "react";
-import MyAccountPagesNav from "../../components/client/myAccountPagesNav";
 import LoadingIndicator from "../../components/common/loadingIndicator";
 import OrderPreview from "../../components/orders/order-preview";
 
@@ -44,7 +43,6 @@ export default function MyOrders() {
         <meta name="language" content={lang} />
       </Head>
       <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
-        <MyAccountPagesNav />
         <div className="flex w-full flex-col items-center gap-2">
           <h1 className="text-3xl font-bold">{t("My Orders")}</h1>
           <div className="grid-cols grid w-full grid-cols-1 justify-between gap-2 xl:grid-cols-2 2xl:grid-cols-3">

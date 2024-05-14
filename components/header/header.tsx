@@ -616,7 +616,7 @@ const HeaderButtons = ({ cartItems }) => {
         <Link
           aria-label="Link to User Account Dashboard"
           className={`${navButtonsClass} hidden lg:flex`}
-          href="/account/myorders"
+          href="/account/myaccount"
         >
           <User />
         </Link>

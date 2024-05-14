@@ -9,7 +9,6 @@ import formatDateAPIToBe from "../../api/utils/formatdateapibe";
 import componentThemes from "../../components/componentThemes";
 import Image from "next/image";
 import TypeWriter from "../../components/common/typewriter";
-import MyAccountPagesNav from "../../components/client/myAccountPagesNav";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import PDFInvoice from "../../components/pdf/pdfinvoice";
 
@@ -64,7 +63,6 @@ export default function Order() {
             <meta name="language" content={lang} />
           </Head>
           <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
-            <MyAccountPagesNav />
             <div className=" mx-auto py-2">
               <LoadingIndicator />
             </div>
@@ -82,7 +80,6 @@ export default function Order() {
             <meta name="language" content={lang} />
           </Head>
           <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
-            <MyAccountPagesNav />
             <div className="mx-auto py-2">{t("An error has occurred.")}</div>
           </div>
         </Layout>
@@ -185,7 +182,6 @@ export default function Order() {
             <title>horecadepot</title>
           </Head>
           <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
-            <MyAccountPagesNav />
             <div className="ml-4 w-full bg-white p-4 shadow-lg print:shadow-none">
               <div className="flex flex-row justify-between">
                 <div
