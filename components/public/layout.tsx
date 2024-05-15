@@ -72,27 +72,31 @@ const Layout = ({ children }: Props) => {
                   <div className="flex flex-col items-center justify-center xl:order-4">
                     <Follow />
                   </div>
-                  <div className="flex flex-col items-center justify-center ">
-                    <p className="font-semibold">{t("Payment Partners")}</p>
-                    <Image
-                      src={
-                        "https://hdapi.huseyinonalalpha.com/uploads/payments_6796e94397.png"
-                      }
-                      alt="Payment Partners"
-                      width={303}
-                      height={24}
-                    />
+                  <div className="flex flex-col items-center justify-center">
+                    <p className="flex-shrink-0 font-semibold">
+                      {t("Payment Partners")}
+                    </p>
+                    <div className="relative flex aspect-[4488/268] h-full w-full flex-row">
+                      <Image
+                        src={"/assets/payment.png"}
+                        alt="Payment Partners Logos"
+                        fill
+                        style={{ objectFit: "contain" }}
+                      />
+                    </div>
                   </div>
-                  <div className="flex flex-col items-center justify-center ">
-                    <p className="font-semibold">{t("Logistics Partners")}</p>
-                    <Image
-                      src={
-                        "https://hdapi.huseyinonalalpha.com/uploads/deliveries_f1aeb61557.png"
-                      }
-                      alt="Logistics Partners"
-                      width={322}
-                      height={24}
-                    />
+                  <div className="flex flex-col items-center justify-center">
+                    <p className="flex-shrink-0 font-semibold">
+                      {t("Logistics Partners")}
+                    </p>
+                    <div className="relative flex aspect-[4488/268] h-full w-full flex-row">
+                      <Image
+                        src={"/assets/logistics.png"}
+                        alt="Logistics Partners Logos"
+                        fill
+                        style={{ objectFit: "contain" }}
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className="flex w-fit flex-row">
