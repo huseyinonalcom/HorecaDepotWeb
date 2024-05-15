@@ -231,5 +231,9 @@
   "dashboard_intro": "Bienvenue sur votre tableau de bord. Ici, vous pouvez gérer vos commandes et détails personnels. Suivez les liens ci-dessous pour accéder aux différentes sections.",
   "Good Morning": "Bonjour",
   "Good Afternoon": "Bon après-midi",
-  "Good Evening": "Bonsoir"
+  "Good Evening": "Bonsoir",
+  "CATEGORIES": "CATÉGORIES",
+  "Payment Partners": "Partenaires de paiement",
+  "Logistics Partners": "Partenaires logistiques",
+  "About Us": "À propos de nous"
 }

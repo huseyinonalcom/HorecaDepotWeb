@@ -231,5 +231,9 @@
   "dashboard_intro": "Welcome to your dashboard! Here you can manage your orders, wishlist, and personal details. Use the buttons below to navigate through the different sections.",
   "Good Morning": "Good Morning",
   "Good Afternoon": "Good Afternoon",
-  "Good Evening": "Good Evening"
+  "Good Evening": "Good Evening",
+  "CATEGORIES": "CATEGORIES",
+  "Payment Partners": "Payment Partners",
+  "Logistics Partners": "Logistics Partners",
+  "About Us": "About Us"
 }

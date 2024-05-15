@@ -231,5 +231,9 @@
   "dashboard_intro": "Willkommen in Ihrem Dashboard. Hier können Sie Ihre Bestellungen und persönliche Daten einsehen. Folgen Sie den Links unten, um zu den verschiedenen Abschnitten zu gelangen.",
   "Good Morning": "Guten Morgen",
   "Good Afternoon": "Guten Nachmittag",
-  "Good Evening": "Guten Abend"
+  "Good Evening": "Guten Abend",
+  "CATEGORIES": "KATEGORIEN",
+  "Payment Partners": "Zahlungspartner",
+  "Logistics Partners": "Logistikpartner",
+  "About Us": "Über uns"
 }
