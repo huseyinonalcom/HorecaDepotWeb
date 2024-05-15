@@ -740,7 +740,7 @@ const Header = () => {
         <TopBar />
 
         <div className="w-full max-w-screen-2xl  px-5">
-          <div className="flex w-full max-w-screen-2xl flex-row items-center justify-between gap-4">
+          <div className="flex w-full flex-row items-center justify-between gap-4">
             <button
               name="Mobile Navigation Menu"
               className="relative flex flex-col items-center justify-center p-1 text-sm font-bold text-white duration-300 hover:bg-black focus:outline-transparent lg:hidden"
@@ -766,14 +766,14 @@ const Header = () => {
                 />
               </Link>
               <button
-                className="flex flex-row items-center gap-2 rounded-lg border-2 py-2 pl-3.5 pr-5"
+                className="flex-row items-center gap-2 hidden lg:flex rounded-lg border-2 py-2 pl-3.5 pr-5"
                 onClick={() => setShowCategories(true)}
               >
                 <Menu className="mb-[1px]" />
                 <p className="font-semibold">{t("CATEGORIES")}</p>
               </button>
             </div>
-            <div className="flex ml-48 h-[45px] w-full flex-row gap-2">
+            <div className="flex md:ml-48 h-[45px] md:w-full flex-row gap-2">
               <DesktopSearch />
               <HeaderButtons cartItems={cartItems} />
             </div>
