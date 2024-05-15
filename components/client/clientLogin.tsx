@@ -86,7 +86,10 @@ const ClientLogin = () => {
           </form>
           <button
             type="button"
-            onClick={() => setForgotPasswordMode(false)}
+            onClick={() => {
+              setForgotPasswordMode(false);
+              setResetText("");
+            }}
             className={CustomTheme.outlinedButton}
           >
             {t("remembered_password")}
