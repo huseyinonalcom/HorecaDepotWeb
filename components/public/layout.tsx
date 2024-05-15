@@ -52,58 +52,60 @@ const Layout = ({ children }: Props) => {
                   src={"/assets/img/wa.png"}
                 />
               </Link>
-              <div className="z-30 flex w-full flex-col items-center border-t border-neutral-200 bg-neutral-100 pb-8 pt-4 px-4 print:hidden">
-                <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
-                  <Link
-                    href={"/"}
-                    className="flex flex-col items-center justify-center"
-                    style={{
-                      WebkitTapHighlightColor: "transparent",
-                    }}
-                  >
-                    <Image
-                      color="black"
-                      width={221}
-                      height={58.5}
-                      src="/assets/header/logob.png"
-                      alt="Horeca Depot Logo"
-                    />
-                  </Link>
-                  <div className="flex flex-col items-center justify-center xl:order-4">
-                    <Follow />
-                  </div>
-                  <div className="flex flex-col items-center justify-center">
-                    <p className="flex-shrink-0 font-semibold">
-                      {t("Payment Partners")}
-                    </p>
-                    <div className="relative flex aspect-[4488/268] h-full w-full flex-row">
+              <div className="z-30 flex w-full flex-col items-center border-t border-neutral-200 bg-neutral-100 px-3 pb-4 pt-4 print:hidden">
+                <div className="flex w-full max-w-screen-2xl flex-col items-center justify-center">
+                  <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
+                    <Link
+                      href={"/"}
+                      className="flex flex-col items-center justify-center"
+                      style={{
+                        WebkitTapHighlightColor: "transparent",
+                      }}
+                    >
                       <Image
-                        src={"/assets/payment.png"}
-                        alt="Payment Partners Logos"
-                        fill
-                        style={{ objectFit: "contain" }}
+                        color="black"
+                        width={221}
+                        height={58.5}
+                        src="/assets/header/logob.png"
+                        alt="Horeca Depot Logo"
                       />
+                    </Link>
+                    <div className="flex flex-col items-center justify-center xl:order-4">
+                      <Follow />
+                    </div>
+                    <div className="flex flex-col items-center justify-center">
+                      <p className="flex-shrink-0 font-semibold">
+                        {t("Payment Partners")}
+                      </p>
+                      <div className="relative flex aspect-[4488/268] h-full w-full flex-row">
+                        <Image
+                          src={"/assets/payment.png"}
+                          alt="Payment Partners Logos"
+                          fill
+                          style={{ objectFit: "contain" }}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-center justify-center">
+                      <p className="flex-shrink-0 font-semibold">
+                        {t("Logistics Partners")}
+                      </p>
+                      <div className="relative flex aspect-[4488/268] h-full w-full flex-row">
+                        <Image
+                          src={"/assets/logistics.png"}
+                          alt="Logistics Partners Logos"
+                          fill
+                          style={{ objectFit: "contain" }}
+                        />
+                      </div>
                     </div>
                   </div>
-                  <div className="flex flex-col items-center justify-center">
-                    <p className="flex-shrink-0 font-semibold">
-                      {t("Logistics Partners")}
+                  <div className="flex w-fit flex-row">
+                    <p className="mx-auto whitespace-nowrap px-2 pt-6 text-sm">
+                      © Horeca Depot. {new Date().getFullYear()}.{" "}
+                      {t("All Rights Reserved")}
                     </p>
-                    <div className="relative flex aspect-[4488/268] h-full w-full flex-row">
-                      <Image
-                        src={"/assets/logistics.png"}
-                        alt="Logistics Partners Logos"
-                        fill
-                        style={{ objectFit: "contain" }}
-                      />
-                    </div>
                   </div>
-                </div>
-                <div className="flex w-fit flex-row">
-                  <p className="mx-auto whitespace-nowrap px-2 pt-6 text-sm">
-                    © Horeca Depot. {new Date().getFullYear()}.{" "}
-                    {t("All Rights Reserved")}
-                  </p>
                 </div>
               </div>
               <div className="sticky bottom-0 z-40 flex h-[50px] w-full flex-row justify-between bg-black px-5 md:hidden">
