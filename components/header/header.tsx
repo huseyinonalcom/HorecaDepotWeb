@@ -100,7 +100,7 @@ const DesktopSearch = () => {
     <form
       name="Search"
       aria-label="Search"
-      className="relative ml-24 mr-12 hidden w-full duration-300 md:flex"
+      className="relative mr-12 hidden w-full duration-300 md:flex"
       onSubmit={handleSearchSubmit}
     >
       <input
@@ -710,8 +710,6 @@ const Header = () => {
   }, [cart]);
 
   const [isHeaderDrawerOpen, setIsHeaderDrawerOpen] = useState(false);
-  const navLinkClass =
-    "duration-500 font-semibold hover:decoration-white decoration-transparent underline underline-offset-2 decoration-2 whitespace-nowrap";
 
   return (
     <div
@@ -775,7 +773,7 @@ const Header = () => {
                 <p className="font-semibold">{t("CATEGORIES")}</p>
               </button>
             </div>
-            <div className="flex h-[45px] w-full flex-row gap-2">
+            <div className="flex ml-48 h-[45px] w-full flex-row gap-2">
               <DesktopSearch />
               <HeaderButtons cartItems={cartItems} />
             </div>
