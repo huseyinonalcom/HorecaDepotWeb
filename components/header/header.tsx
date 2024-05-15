@@ -210,17 +210,17 @@ const TopBar = () => {
           {t("About Us")}
         </Link>
       </div>
-      <div className="group relative z-50 hidden w-[50px] flex-shrink-0 lg:inline-block">
+      <div className="group relative z-50 hidden w-[55px] flex-shrink-0 lg:inline-block">
         <Image
           src={`/assets/header/${lang.toUpperCase()}.svg`}
           alt={t("locale")}
-          width={54}
-          height={36}
-          style={{ width: "54px", height: "36px" }}
+          width={43}
+          height={28}
+          style={{ width: "43px", height: "28px" }}
           className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
         />
 
-        <ul className="invisible absolute right-[5px] mx-auto block w-max items-center pt-1 text-gray-700 opacity-0 shadow-md duration-300 group-hover:visible group-hover:opacity-100">
+        <ul className="invisible absolute right-0 mx-auto block w-max items-center pt-1 text-gray-700 opacity-0 shadow-md duration-300 group-hover:visible group-hover:opacity-100">
           <li className="bg-black pb-1">
             <button
               onClick={async () => await setLanguage("en")}
@@ -229,9 +229,9 @@ const TopBar = () => {
               <Image
                 src={`/assets/header/EN.svg`}
                 alt={t("locale")}
-                width={44}
-                height={29.34}
-                style={{ width: "44px", height: "29.34px" }}
+                width={35}
+                height={23}
+                style={{ width: "35px", height: "23px" }}
                 className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
               />
             </button>
@@ -244,9 +244,9 @@ const TopBar = () => {
               <Image
                 src={`/assets/header/FR.svg`}
                 alt={t("locale")}
-                width={44}
-                height={29.34}
-                style={{ width: "44px", height: "29.34px" }}
+                width={35}
+                height={23}
+                style={{ width: "35px", height: "23px" }}
                 className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
               />
             </button>
@@ -259,9 +259,9 @@ const TopBar = () => {
               <Image
                 src={`/assets/header/NL.svg`}
                 alt={t("locale")}
-                width={44}
-                height={29.34}
-                style={{ width: "44px", height: "29.34px" }}
+                width={35}
+                height={23}
+                style={{ width: "35px", height: "23px" }}
                 className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
               />
             </button>
@@ -274,9 +274,9 @@ const TopBar = () => {
               <Image
                 src={`/assets/header/DE.svg`}
                 alt={t("locale")}
-                width={44}
-                height={29.34}
-                style={{ width: "44px", height: "29.34px" }}
+                width={35}
+                height={23}
+                style={{ width: "35px", height: "23px" }}
                 className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
               />
             </button>
@@ -289,9 +289,9 @@ const TopBar = () => {
               <Image
                 src={`/assets/header/TR.svg`}
                 alt={t("locale")}
-                width={44}
-                height={29.34}
-                style={{ width: "44px", height: "29.34px" }}
+                width={35}
+                height={23}
+                style={{ width: "35px", height: "23px" }}
                 className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
               />
             </button>
@@ -767,16 +767,13 @@ const Header = () => {
                   alt="Horeca Depot Logo"
                 />
               </Link>
-              <div className="flex flex-row gap-2 py-1 pl-2 pr-3">
-                <button onClick={() => setShowCategories(true)}></button>
-                <button
-                  onClick={() => setShowCategories(true)}
-                  className={navLinkClass + ` flex flex-row items-center gap-2`}
-                >
-                  <Menu className="mb-[1px]" />
-                  {t("Categories").toUpperCase()}
-                </button>
-              </div>
+              <button
+                className="flex flex-row items-center gap-2 rounded-lg border-2 py-2 pl-3.5 pr-5"
+                onClick={() => setShowCategories(true)}
+              >
+                <Menu className="mb-[1px]" />
+                <p className="font-semibold">{t("CATEGORIES")}</p>
+              </button>
             </div>
             <div className="flex h-[45px] w-full flex-row gap-2">
               <DesktopSearch />
