@@ -73,54 +73,6 @@ const CategoryItem = ({ category }) => {
   );
 };
 
-const DesktopNavLinks = ({ allCategories, openDrawer }) => {
-  const { t } = useTranslation("common");
-  const navLinkClass =
-    "duration-500 font-semibold hover:decoration-white decoration-transparent underline underline-offset-2 decoration-2 whitespace-nowrap";
-  return (
-    <div className="hidden flex-row items-center gap-4 md:flex">
-      <div className="flex flex-row gap-2">
-        <button onClick={openDrawer}></button>
-        <button
-          onClick={openDrawer}
-          className={navLinkClass + ` flex flex-row items-center gap-2`}
-        >
-          <Menu className="mb-[1px]" />
-          {t("Categories").toUpperCase()}
-        </button>
-      </div>
-      {/* <div className="group relative h-full flex-shrink-0">
-        <Link
-          href="/products?page=1"
-          className="hidden h-full flex-row items-center px-2 py-2 font-bold lg:flex"
-        >
-          <p className={navLinkClass}>{t("SHOP")}</p>
-          <ChevronLeft className="ml-1 h-4 w-4 rotate-90 transform duration-300 group-hover:rotate-270" />
-        </Link>
-        <div className="invisible absolute -left-5 z-50 w-[240px] pt-2 text-gray-500 opacity-0 duration-300 group-hover:visible group-hover:opacity-100">
-          <div className="bg-white shadow-lg">
-            {allCategories.map((category) => (
-              <CategoryItem key={category.id} category={category} />
-            ))}
-          </div>
-        </div>
-      </div> */}
-      <Link className={navLinkClass} href="/projects">
-        {t("PROJECTS")}
-      </Link>
-      <Link className={navLinkClass} href="/references">
-        {t("REFERENCES")}
-      </Link>
-      <Link className={navLinkClass} href="/contact">
-        {t("CONTACT")}
-      </Link>
-      <Link className={navLinkClass} href="/about">
-        {t("ABOUT US")}
-      </Link>
-    </div>
-  );
-};
-
 const DesktopSearch = () => {
   const router = useRouter();
   const { t } = useTranslation("common");
@@ -148,7 +100,7 @@ const DesktopSearch = () => {
     <form
       name="Search"
       aria-label="Search"
-      className="relative hidden min-w-[250px] max-w-[500px] duration-300 md:flex"
+      className="relative ml-24 mr-12 hidden w-full duration-300 md:flex"
       onSubmit={handleSearchSubmit}
     >
       <input
@@ -163,7 +115,7 @@ const DesktopSearch = () => {
         <button
           aria-label="Search bar submit button"
           type="submit"
-          className="h-full w-[45px] cursor-pointer bg-black"
+          className="h-full w-[45px] cursor-pointer text-black"
         >
           <Search className="mx-auto my-auto h-6 w-6 pr-1" />
         </button>
@@ -226,21 +178,39 @@ const MobileSearch = () => {
 const TopBar = () => {
   const { t, lang } = useTranslation("common");
   const flagButtonClass =
-    "px-4 py-1 duration-300 font-bold underline-animation-white whitespace-nowrap";
+    "px-4 duration-300 font-bold underline-animation-white whitespace-nowrap";
+  const navLinkClass =
+    "duration-500 font-semibold hover:decoration-white decoration-transparent underline underline-offset-2 decoration-2 whitespace-nowrap";
   return (
-    <div className="hidden w-full flex-row items-center justify-between gap-4 border-b border-gray-500 px-5 pb-3 md:flex">
+    <div className="hidden w-full flex-row items-center justify-between gap-4 border-b border-gray-500 px-5 pb-2 md:flex">
       <div className="flex flex-row items-center gap-4">
         <Link className="flex flex-row items-center gap-4" href="/contact">
           <MapPin className="h-4 w-4" />
-          {t("location")}
+          <p className={navLinkClass}>{t("location")}</p>
         </Link>
         <p className="text-gray-500">|</p>
         <a href="tel:+32499738373" className="flex flex-row items-center gap-4">
           <Phone className="h-4 w-4" />
-          <p>+32 499 73 83 73</p>
+          <p className={navLinkClass}>+32 499 73 83 73</p>
         </a>
+        <p className="text-gray-500">|</p>{" "}
+        <Link className={navLinkClass} href="/projects">
+          {t("Projects")}
+        </Link>
+        <p className="text-gray-500">|</p>{" "}
+        <Link className={navLinkClass} href="/references">
+          {t("References")}
+        </Link>
+        <p className="text-gray-500">|</p>{" "}
+        <Link className={navLinkClass} href="/contact">
+          {t("Contact")}
+        </Link>
+        <p className="text-gray-500">|</p>{" "}
+        <Link className={navLinkClass} href="/about">
+          {t("About Us")}
+        </Link>
       </div>
-      <div className="group relative z-50 hidden w-[70px] flex-shrink-0 lg:inline-block">
+      <div className="group relative z-50 hidden w-[50px] flex-shrink-0 lg:inline-block">
         <Image
           src={`/assets/header/${lang.toUpperCase()}.svg`}
           alt={t("locale")}
@@ -681,7 +651,7 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
 
   return (
     <div
-      className={`fixed inset-0 z-[99] mx-auto flex h-fit w-full max-w-screen-2xl overflow-hidden text-black duration-300 ease-in-out ${isOpen ? "top-[140px] opacity-100" : "-top-[80%] opacity-0"} flex-col`}
+      className={`fixed inset-0 z-[99] mx-auto flex h-fit w-full max-w-screen-2xl overflow-hidden text-black duration-300 ease-in-out ${isOpen ? "top-[140px] opacity-100" : "-top-[150%] opacity-40"} flex-col`}
     >
       <div className="z-[98] flex-shrink-0 rounded-xl bg-white p-4">
         <div className="flex w-full flex-row items-center justify-between">
@@ -727,6 +697,8 @@ const Header = () => {
   const { cart, calculateTotal } = useContext(CartContext);
   const [showCategories, setShowCategories] = useState(false);
 
+  const { t } = useTranslation("common");
+
   useEffect(() => {
     if (allCategories.length === 0 && categories.length > 0) {
       setAllCategories(categories);
@@ -738,10 +710,12 @@ const Header = () => {
   }, [cart]);
 
   const [isHeaderDrawerOpen, setIsHeaderDrawerOpen] = useState(false);
+  const navLinkClass =
+    "duration-500 font-semibold hover:decoration-white decoration-transparent underline underline-offset-2 decoration-2 whitespace-nowrap";
 
   return (
     <div
-      className={`sticky top-0 z-40 flex w-full flex-col items-center bg-black pt-3 text-white shadow-lg duration-300 print:hidden`}
+      className={`sticky top-0 z-40 flex w-full flex-col items-center bg-black pt-2 text-white shadow-lg duration-300 print:hidden`}
     >
       <div className="flex lg:hidden">
         <CategoryDrawerMobile
@@ -757,7 +731,7 @@ const Header = () => {
           closeDrawer={() => setShowCategories(false)}
         />
       </div>
-      <div className="flex w-full max-w-screen-2xl flex-col gap-2 pb-4">
+      <div className="flex w-full max-w-screen-2xl flex-col gap-2 pb-3">
         <HeaderDrawer
           isOpen={isHeaderDrawerOpen}
           onClickOutside={() => {
@@ -767,8 +741,8 @@ const Header = () => {
 
         <TopBar />
 
-        <div className="w-full px-5">
-          <div className="flex w-full flex-row items-center justify-between gap-4">
+        <div className="w-full max-w-screen-2xl  px-5">
+          <div className="flex w-full max-w-screen-2xl flex-row items-center justify-between gap-4">
             <button
               name="Mobile Navigation Menu"
               className="relative flex flex-col items-center justify-center p-1 text-sm font-bold text-white duration-300 hover:bg-black focus:outline-transparent lg:hidden"
@@ -793,12 +767,18 @@ const Header = () => {
                   alt="Horeca Depot Logo"
                 />
               </Link>
-              <DesktopNavLinks
-                allCategories={allCategories}
-                openDrawer={() => setShowCategories(true)}
-              />
+              <div className="flex flex-row gap-2 py-1 pl-2 pr-3">
+                <button onClick={() => setShowCategories(true)}></button>
+                <button
+                  onClick={() => setShowCategories(true)}
+                  className={navLinkClass + ` flex flex-row items-center gap-2`}
+                >
+                  <Menu className="mb-[1px]" />
+                  {t("Categories").toUpperCase()}
+                </button>
+              </div>
             </div>
-            <div className="flex h-[45px] flex-shrink-0 flex-row gap-2">
+            <div className="flex h-[45px] w-full flex-row gap-2">
               <DesktopSearch />
               <HeaderButtons cartItems={cartItems} />
             </div>
