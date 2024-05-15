@@ -47,9 +47,9 @@ const OrderPreview = ({ order }) => {
   };
 
   return (
-    <div className="flex flex-row bg-white p-1 shadow-md sm:min-w-[400px]">
-      <div className="relative flex h-[100px] w-[100px] flex-shrink-0 flex-row sm:h-[200px] sm:w-[200px]">
-        <div className="relative h-full w-full">
+    <div className="flex w-full flex-row bg-white p-1 shadow-md">
+      <div className="asepct-square relative flex w-1/3 flex-shrink-0 flex-row">
+        <div className="asepct-square relative w-full">
           {orderImages.length > 0 ? (
             orderImages.map((img, index) => (
               <Image
@@ -95,7 +95,7 @@ const OrderPreview = ({ order }) => {
           <div></div>
         )}
       </div>
-      <div className="grid w-full grid-cols-2 border-2 p-4">
+      <div className="grid w-full grid-cols-1 border-2 p-4 md:grid-cols-2">
         <div className="flex flex-col">
           <p className="font-bold">{t("Orders")}</p>
           <p>{order.prefix + order.number}</p>
@@ -136,7 +136,7 @@ const OrderPreview = ({ order }) => {
         </div>
         <Link
           href={`/account/order?id=${order.id}`}
-          className={`${componentThemes.greenSubmitButton} col-span-2 flex flex-col items-center justify-center`}
+          className={`${componentThemes.greenSubmitButton} md:col-span-2 flex flex-col items-center justify-center`}
         >
           {t("View Details")}
         </Link>
