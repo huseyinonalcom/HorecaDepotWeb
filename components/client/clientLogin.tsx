@@ -45,12 +45,61 @@ const ClientLogin = () => {
     }
   };
 
-  return (
-    <>
-      <div className="flex flex-col">
+  const [forgotPasswordMode, setForgotPasswordMode] = useState(false);
+  const [resetText, setResetText] = useState("");
+  const forgotPassword = async (e) => {
+    e.preventDefault();
+    await fetch("/api/auth/forgotpass", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: username }),
+    });
+    setResetText(t("forgot_sent"));
+  };
+
+  if (forgotPasswordMode) {
+    return (
+      <>
+        <div className="flex min-w-[350px] flex-col">
+          <form
+            onSubmit={forgotPassword}
+            className="mb-6 mt-4 w-full max-w-md space-y-4"
+          >
+            {resetText && <div className="p-2 text-center">{resetText}</div>}
+            {!resetText && (
+              <>
+                <InputOutlined
+                  required
+                  type="text"
+                  name="Username"
+                  label="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <button type="submit" className={CustomTheme.outlinedButton}>
+                  {t("send_reset")}
+                </button>
+              </>
+            )}
+          </form>
+          <button
+            type="button"
+            onClick={() => setForgotPasswordMode(false)}
+            className={CustomTheme.outlinedButton}
+          >
+            {t("remembered_password")}
+          </button>
+        </div>
+      </>
+    );
+  } else
+    return (
+      <div className="flex min-w-[350px] flex-col">
         <form
           onSubmit={handleSubmit}
-          className="mt-4 w-full max-w-md space-y-4"
+          className="mb-6 mt-4 w-full max-w-md space-y-4"
         >
           {error && (
             <div className="bg-red-100 p-2 text-center text-red-700 ">
@@ -73,13 +122,19 @@ const ClientLogin = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="submit" className={CustomTheme.greenSubmitButton}>
+          <button type="submit" className={CustomTheme.outlinedButton}>
             {t("Login")}
           </button>
         </form>
+        <button
+          type="button"
+          onClick={() => setForgotPasswordMode(true)}
+          className={CustomTheme.outlinedButton}
+        >
+          {t("forgot_password")}
+        </button>
       </div>
-    </>
-  );
+    );
 };
 
 export default ClientLogin;

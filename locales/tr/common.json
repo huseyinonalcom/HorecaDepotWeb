@@ -235,5 +235,12 @@
   "CATEGORIES": "KATEGORİLER",
   "Payment Partners": "Ödeme Ortakları",
   "Logistics Partners": "Lojistik Ortakları",
-  "About Us": "Hakkımızda"
+  "About Us": "Hakkımızda",
+  "forgot_password": "Şifrenizi mi unuttunuz?",
+  "forgot_sent": "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.",
+  "send_reset": "Sıfırla",
+  "remembered_password": "Geri dön",
+  "password_reset_error": "Şifreler uyuşmuyor veya hatalı",
+  "Password_repeat": "Şifre Tekrar",
+  "set_new_password": "Şifreyi Kaydet"
 }

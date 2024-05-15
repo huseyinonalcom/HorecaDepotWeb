@@ -30,7 +30,7 @@ const InputOutlined = ({
         <input
           required={required ?? false}
           type={type}
-          name={t(name)}
+          name={name}
           onSubmit={
             onSubmit ??
             ((e) => {

@@ -235,5 +235,12 @@
   "CATEGORIES": "KATEGORIEN",
   "Payment Partners": "Zahlungspartner",
   "Logistics Partners": "Logistikpartner",
-  "About Us": "Über uns"
+  "About Us": "Über uns",
+  "forgot_password": "Passwort vergessen?",
+  "forgot_sent": "Wenn die E-Mail-Adresse korrekt ist, haben wir eine E-Mail mit Anweisungen zum Zurücksetzen Ihres Passworts gesendet.",
+  "send_reset": "Passwort zurücksetzen",
+  "remembered_password": "Zurück zum Login",
+  "password_reset_error": "Passwörter müssen übereinstimmen",
+  "Password_repeat": "Passwort wiederholen",
+  "set_new_password": "Neues Passwort festlegen"
 }

@@ -235,5 +235,12 @@
   "CATEGORIES": "CATEGORIEËN",
   "Payment Partners": "Betalingspartners",
   "Logistics Partners": "Logistieke partners",
-  "About Us": "Over ons"
+  "About Us": "Over ons",
+  "forgot_password": "Wachtwoord vergeten?",
+  "forgot_sent": "Als het e-mailadres bestaat, is er een e-mail met instructies verzonden.",
+  "send_reset": "Stuur resetlink",
+  "remembered_password": "Wachtwoord weer herinnerd?",
+  "password_reset_error": "De wachtwoorden moeten overeenkomen.",
+  "Password_repeat": "Herhaal wachtwoord",
+  "set_new_password": "Stel nieuw wachtwoord in"
 }

@@ -235,5 +235,12 @@
   "CATEGORIES": "CATEGORIES",
   "Payment Partners": "Payment Partners",
   "Logistics Partners": "Logistics Partners",
-  "About Us": "About Us"
+  "About Us": "About Us",
+  "forgot_password": "Forgot your password?",
+  "forgot_sent": "An email has been sent to you with instructions on how to reset your password.",
+  "send_reset": "Reset Password",
+  "remembered_password": "Go back to login",
+  "password_reset_error": "Make sure your passwords match.",
+  "Password_repeat": "Repeat Password",
+  "set_new_password": "Set New Password"
 }
