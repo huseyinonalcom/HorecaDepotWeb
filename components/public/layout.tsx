@@ -52,7 +52,7 @@ const Layout = ({ children }: Props) => {
                   src={"/assets/img/wa.png"}
                 />
               </Link>
-              <div className="z-30 flex w-full flex-col items-center border-t border-neutral-200 bg-neutral-100 pb-8 pt-4 print:hidden">
+              <div className="z-30 flex w-full flex-col items-center border-t border-neutral-200 bg-neutral-100 pb-8 pt-4 px-4 print:hidden">
                 <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
                   <Link
                     href={"/"}
