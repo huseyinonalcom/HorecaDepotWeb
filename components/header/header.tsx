@@ -146,7 +146,7 @@ const DesktopSearch = () => {
                 .map((result, index) => (
                   <li
                     key={index}
-                    className="cursor-pointer px-4 py-2 hover:bg-gray-100"
+                    className="cursor-pointer rounded-xl px-4 py-2 hover:bg-gray-100"
                     onClick={() => {
                       if (result.Name) {
                         router.push("/products?page=1&category=" + result.id);
