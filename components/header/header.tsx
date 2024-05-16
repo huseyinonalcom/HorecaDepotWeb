@@ -42,7 +42,7 @@ const CategoryItem = ({ category }) => {
       }}
     >
       <a
-        href={`products?page=1&category=${category.id}`}
+        href={`/${lang}/products?page=1&category=` + category.id}
         className="flex w-full items-center justify-between px-3 py-2 text-left"
       >
         {t(category.Name)}
@@ -330,12 +330,12 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
         <div className="focus:overlay-none flex w-full items-center justify-between text-left hover:bg-gray-200">
           {hasSubCategories ? (
             <>
-              <Link
+              <a
+                href={`/${lang}/products?page=1&category=` + category.id}
                 className="h-full whitespace-nowrap px-4 py-2"
-                href={`/products?=${category.id}`}
               >
                 {t(category.Name)}
-              </Link>
+              </a>
               <div
                 className="w-full py-3 pr-4"
                 onClick={() => {
@@ -351,12 +351,12 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
               </div>
             </>
           ) : (
-            <Link
+            <a
+              href={`/${lang}/products?page=1&category=` + category.id}
               className="h-full w-full whitespace-nowrap px-4 py-2"
-              href={`/products?=${category.id}`}
             >
               {t(category.Name)}
-            </Link>
+            </a>
           )}
         </div>
         {hasSubCategories && (
@@ -647,7 +647,7 @@ const CategoryDrawerMobile = ({ isOpen, categories, closeDrawer }) => {
 };
 
 const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
-  const { t } = useTranslation("common");
+  const { t, lang } = useTranslation("common");
 
   return (
     <div
@@ -664,13 +664,13 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
           {categories.map((category) => (
             <div key={category.id + "-column"}>
               <a
-                href={"products?page=1&category=" + category.id}
+                href={`/${lang}/products?page=1&category=` + category.id}
                 className="font-semibold"
               >
                 {t(category.Name)}
               </a>
               <a
-                href={"products?page=1&category=" + category.id}
+                href={`/${lang}/products?page=1&category=` + category.id}
                 className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
               >
                 {t("All")} {t(category.Name)}
@@ -766,14 +766,14 @@ const Header = () => {
                 />
               </Link>
               <button
-                className="flex-row items-center gap-2 hidden lg:flex rounded-lg border-2 py-2 pl-3.5 pr-5"
+                className="hidden flex-row items-center gap-2 rounded-lg border-2 py-2 pl-3.5 pr-5 lg:flex"
                 onClick={() => setShowCategories(true)}
               >
                 <Menu className="mb-[1px]" />
                 <p className="font-semibold">{t("CATEGORIES")}</p>
               </button>
             </div>
-            <div className="flex md:ml-48 h-[45px] md:w-full flex-row gap-2">
+            <div className="flex h-[45px] flex-row gap-2 md:ml-48 md:w-full">
               <DesktopSearch />
               <HeaderButtons cartItems={cartItems} />
             </div>
