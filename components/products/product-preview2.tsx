@@ -119,7 +119,7 @@ const ProductPreview2 = ({ product }: Props) => {
               draggable={false}
               name={`Add ${product.name} to Cart`}
               aria-label={`Add ${product.name} to Cart`}
-              className="flex flex-row items-center gap-2 rounded-lg bg-black px-6 py-2 text-white shadow-md duration-500 hover:text-green-500"
+              className="flex flex-row items-center gap-2 rounded-lg bg-black px-3 py-2 text-white shadow-md duration-500 hover:text-green-500"
               onClick={() => addToCart(convertToCartProduct(product))}
             >
               <ShoppingCart />
