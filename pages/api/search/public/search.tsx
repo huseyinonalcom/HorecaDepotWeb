@@ -18,23 +18,21 @@ const SEARCH_CACHE_TTL = 20000 * 60 * 30;
 
 const options = {
   keys: [
-    "name", // name of a product
-    "internalCode", // internal code of a product
-    "category.translations.en", // english translation of a products category name
-    "category.translations.fr", // french translation of a products category name
-    "category.translations.de", // german translation of a products category name
-    "category.translations.nl", // dutch translation of a products category name
-    "category.translations.tr", // turkish translation of a products category name
-
-    "translations.en", // english translation of a category name
-    "translations.fr", // french translation of a category name
-    "translations.de", // german translation of a category name
-    "translations.nl", // dutch translation of a category name
-    "translations.tr", // turkish translation of a category name
-
-    "title", // title of a collection
+    { name: "name", weight: 0.3 },
+    { name: "internalCode", weight: 0.3 },
+    { name: "category.translations.en", weight: 0.1 },
+    { name: "category.translations.fr", weight: 0.1 },
+    { name: "category.translations.de", weight: 0.1 },
+    { name: "category.translations.nl", weight: 0.1 },
+    { name: "category.translations.tr", weight: 0.1 },
+    { name: "translations.en", weight: 0.3 },
+    { name: "translations.fr", weight: 0.3 },
+    { name: "translations.de", weight: 0.3 },
+    { name: "translations.nl", weight: 0.3 },
+    { name: "translations.tr", weight: 0.3 },
+    { name: "title", weight: 0.3 }
   ],
-  threshold: 0.5,
+  threshold: 0.5
 };
 
 const mergeTranslations = (categories) => {
