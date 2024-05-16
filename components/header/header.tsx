@@ -23,8 +23,6 @@ import { CategoryContext } from "../../api/providers/categoryProvider";
 import { CartContext } from "../../api/providers/cartProvider";
 import { ClientContext } from "../../api/providers/clientProvider";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
-import { fuzzySearch } from "../../pages/api/search/public/search";
-import ProductPreview from "../products/product-preview";
 import ProductPreview3 from "../products/product-preview3";
 
 const CategoryItem = ({ category }) => {
@@ -102,6 +100,7 @@ const DesktopSearch = () => {
       setSearchResults(data);
     }, 300);
   };
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery && searchQuery != "") {
@@ -114,60 +113,58 @@ const DesktopSearch = () => {
   };
 
   return (
-    <>
-      <form
-        name="Search"
-        aria-label="Search"
-        className="relative mr-12 hidden w-full duration-300 md:flex"
-        onSubmit={handleSearchSubmit}
-      >
-        <input
-          name="Search bar input"
-          aria-label="Search bar input"
-          type="text"
-          onChange={handleSearchChange}
-          className="w-full border-2 py-2 pl-4 pr-4 text-black outline-none focus:border-black focus:ring-transparent"
-          placeholder={t("Search Products")}
-        />
-        <div className="absolute inset-y-0 right-0 flex">
-          <button
-            aria-label="Search bar submit button"
-            type="submit"
-            className="h-full w-[45px] cursor-pointer text-black"
-          >
-            <Search className="mx-auto my-auto h-6 w-6 pr-1" />
-          </button>
-        </div>
-        {searchResults.length > 0 && (
-          <div className="absolute left-0 right-0 z-10 mx-auto mt-12 max-w-screen-2xl rounded-xl border border-gray-300 bg-white text-black shadow-lg">
-            <ul>
-              {searchResults
-                .filter((results) => !results.category && results.Name)
-                .map((result, index) => (
-                  <li
-                    key={index}
-                    className="cursor-pointer rounded-xl px-4 py-2 hover:bg-gray-100"
-                    onClick={() => {
-                      if (result.Name) {
-                        router.push("/products?page=1&category=" + result.id);
-                      }
-                    }}
-                  >
-                    {result.title || t(result.Name)}
-                  </li>
-                ))}
-            </ul>
-            <div className="grid grid-cols-5 gap-1">
-              {searchResults
-                .filter((results) => results.category && results.name)
-                .map((result, index) => (
-                  <ProductPreview3 key={index} product={result} />
-                ))}
-            </div>
+    <form
+      name="Search"
+      aria-label="Search"
+      className="relative mr-12 hidden w-full duration-300 md:flex"
+      onSubmit={handleSearchSubmit}
+    >
+      <input
+        name="Search bar input"
+        aria-label="Search bar input"
+        type="text"
+        onChange={handleSearchChange}
+        className="w-full border-2 py-2 pl-4 pr-4 text-black outline-none focus:border-black focus:ring-transparent"
+        placeholder={t("Search Products")}
+      />
+      <div className="absolute inset-y-0 right-0 flex">
+        <button
+          aria-label="Search bar submit button"
+          type="submit"
+          className="h-full w-[45px] cursor-pointer text-black"
+        >
+          <Search className="mx-auto my-auto h-6 w-6 pr-1" />
+        </button>
+      </div>
+      {searchResults.length > 0 && (
+        <div className="absolute left-0 right-0 z-10 mx-auto mt-12 max-w-screen-2xl rounded-xl border border-gray-300 bg-white text-black shadow-lg">
+          <ul>
+            {searchResults
+              .filter((results) => !results.category && results.Name)
+              .map((result, index) => (
+                <li
+                  key={index}
+                  className="cursor-pointer rounded-xl px-4 py-2 hover:bg-gray-100"
+                  onClick={() => {
+                    if (result.Name) {
+                      router.push("/products?page=1&category=" + result.id);
+                    }
+                  }}
+                >
+                  {result.title || t(result.Name)}
+                </li>
+              ))}
+          </ul>
+          <div className="grid grid-cols-5 gap-1">
+            {searchResults
+              .filter((results) => results.category && results.name)
+              .map((result, index) => (
+                <ProductPreview3 key={index} product={result} />
+              ))}
           </div>
-        )}
-      </form>
-    </>
+        </div>
+      )}
+    </form>
   );
 };
 
@@ -175,13 +172,27 @@ const MobileSearch = () => {
   const router = useRouter();
   const { t } = useTranslation("common");
   const [searchQuery, setSearchQuery] = useState<string>();
+  const [searchResults, setSearchResults] = useState([]);
+  const debounceTimeout = useRef(null);
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = async (e) => {
     const value = e.target.value;
+
     setSearchQuery(value);
+
     if (value == "" && router.pathname == "/products") {
       router.push(`/products?page=1`);
     }
+
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current);
+    }
+
+    debounceTimeout.current = setTimeout(async () => {
+      const answer = await fetch(`/api/search/public/search?search=${value}`);
+      const data = await answer.json();
+      setSearchResults(data);
+    }, 300);
   };
 
   const handleSearchSubmit = (e) => {
@@ -198,7 +209,7 @@ const MobileSearch = () => {
     <form
       name="Search"
       aria-label="Search"
-      className="flex w-full duration-300 md:hidden"
+      className="relative flex w-full duration-300 md:hidden"
       onSubmit={handleSearchSubmit}
     >
       <input
@@ -218,6 +229,34 @@ const MobileSearch = () => {
           <Search className="mx-auto my-auto h-6 w-6 pr-1" />
         </button>
       </div>
+      {searchResults.length > 0 && (
+        <div className="absolute left-0 right-0 z-10 mx-auto mt-12 max-w-screen-2xl rounded-xl border border-gray-300 bg-white text-black shadow-lg">
+          <ul>
+            {searchResults
+              .filter((results) => !results.category && results.Name).slice(0, 4)
+              .map((result, index) => (
+                <li
+                  key={index}
+                  className="cursor-pointer rounded-xl px-4 py-2 hover:bg-gray-100"
+                  onClick={() => {
+                    if (result.Name) {
+                      router.push("/products?page=1&category=" + result.id);
+                    }
+                  }}
+                >
+                  {result.title || t(result.Name)}
+                </li>
+              ))}
+          </ul>
+          <div className="grid grid-cols-2 gap-1">
+            {searchResults
+              .filter((results) => results.category && results.name).slice(0, 4)
+              .map((result, index) => (
+                <ProductPreview3 key={index} product={result} />
+              ))}
+          </div>
+        </div>
+      )}
     </form>
   );
 };
