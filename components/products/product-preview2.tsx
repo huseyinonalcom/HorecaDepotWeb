@@ -37,7 +37,7 @@ function calculatePercentageDifference(originalPrice, currentPrice) {
   return percentageDifference.toFixed(0);
 }
 
-const ProductPreview = ({ product }: Props) => {
+const ProductPreview2 = ({ product }: Props) => {
   const { addToCart } = useContext(CartContext);
   const { addToWishlist } = useContext(WishlistContext);
   const { t } = useTranslation("common");
@@ -153,4 +153,4 @@ const ProductPreview = ({ product }: Props) => {
   );
 };
 
-export default ProductPreview;
+export default ProductPreview2;

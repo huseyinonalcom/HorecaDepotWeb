@@ -97,7 +97,6 @@ function checkValues(minValue, maxValue) {
 }
 
 export interface GetProductsParams {
-  lang?: string;
   page: number;
   count?: number;
   category?: number;
@@ -108,7 +107,6 @@ export interface GetProductsParams {
 }
 
 export async function getProducts({
-  lang = "fr",
   page,
   inStock,
   category,

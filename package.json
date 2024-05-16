@@ -11,6 +11,7 @@
     "auto-text-size": "^0.2.2",
     "canvg": "^4.0.1",
     "formidable": "latest",
+    "fuse.js": "^7.0.0",
     "next": "latest",
     "next-translate": "latest",
     "nodemailer": "^6.9.9",
