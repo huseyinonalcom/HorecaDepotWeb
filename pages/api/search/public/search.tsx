@@ -30,9 +30,9 @@ const options = {
     { name: "translations.de", weight: 0.3 },
     { name: "translations.nl", weight: 0.3 },
     { name: "translations.tr", weight: 0.3 },
-    { name: "title", weight: 0.3 }
+    { name: "title", weight: 0.3 },
   ],
-  threshold: 0.5
+  threshold: 0.5,
 };
 
 const mergeTranslations = (categories) => {
