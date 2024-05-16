@@ -10,8 +10,6 @@ export default async function logInClient(
   if (req.method === "POST") {
     const { email } = req.body;
 
-    console.log(email);
-
     try {
       const request = await fetch(fetchUrl, {
         method: "POST",

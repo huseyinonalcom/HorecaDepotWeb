@@ -216,9 +216,9 @@
   "Your cart is empty": "Your cart is empty",
   "Your wishlist is empty.": "Your wishlist is empty.",
   "identification": "Identification",
-  "Accédez à votre compte existant.": "Login to your existing account.",
+  "exsting_customer": "Login to your existing account.",
   "Déjà inscrit": "Already registered",
-  "Créer un nouveau compte.": "Create a new account.",
+  "new_customer": "Create a new account.",
   "Inscrivez-vous": "Sign up",
   "add_to_cart": "Add to cart",
   "Your Name": "Your Name",
@@ -242,5 +242,16 @@
   "remembered_password": "Go back to login",
   "password_reset_error": "Make sure your passwords match.",
   "Password_repeat": "Repeat Password",
-  "set_new_password": "Set New Password"
+  "set_new_password": "Set New Password",
+
+  "Register an account": "Register an account",
+  "FirstName": "First Name",
+  "Your first name": "Your first name",
+  "LastName": "Last Name",
+  "Your last name": "Your last name",
+  "Your Phone": "Your Phone",
+  "E-mail": "E-mail",
+  "password_repeat": "Repeat Password",
+  "Repeat Password": "Repeat Password",
+  "Don't have an account yet?": "Don't have an account yet?"
 }

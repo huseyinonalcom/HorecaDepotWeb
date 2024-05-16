@@ -216,9 +216,9 @@
   "Your cart is empty": "Sepetiniz boş",
   "Your wishlist is empty.": "İstek listeniz boş.",
   "identification": "Kimlik Doğrulama",
-  "Accédez à votre compte existant.": "Mevcut hesabınıza giriş yapın.",
+  "exsting_customer": "Mevcut hesabınıza giriş yapın.",
   "Déjà inscrit": "Zaten kayıtlı",
-  "Créer un nouveau compte.": "Yeni hesap oluştur.",
+  "new_customer": "Yeni hesap oluştur.",
   "Inscrivez-vous": "Kaydolun",
   "add_to_cart": "Sepete Ekle",
   "Your Name": "Adınız",
@@ -242,5 +242,15 @@
   "remembered_password": "Geri dön",
   "password_reset_error": "Şifreler uyuşmuyor veya hatalı",
   "Password_repeat": "Şifre Tekrar",
-  "set_new_password": "Şifreyi Kaydet"
+  "set_new_password": "Şifreyi Kaydet",
+  "Register an account": "Bir hesap oluşturun",
+  "FirstName": "Ad",
+  "Your first name": "Adınız",
+  "LastName": "Soyad",
+  "Your last name": "Soyadınız",
+  "Your Phone": "Telefonunuz",
+  "E-mail": "E-posta",
+  "password_repeat": "Şifreyi tekrar et",
+  "Repeat Password": "Şifreyi tekrar et",
+  "Don't have an account yet?": "Henüz bir hesabınız yok mu?"
 }

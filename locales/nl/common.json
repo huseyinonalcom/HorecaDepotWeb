@@ -216,9 +216,9 @@
   "Your cart is empty": "Uw winkelwagen is leeg",
   "Your wishlist is empty.": "Uw verlanglijst is leeg.",
   "identification": "Identificatie",
-  "Accédez à votre compte existant.": "Log in op uw bestaande account.",
+  "exsting_customer": "Log in op uw bestaande account.",
   "Déjà inscrit": "Al geregistreerd",
-  "Créer un nouveau compte.": "Maak een nieuw account aan.",
+  "new_customer": "Maak een nieuw account aan.",
   "Inscrivez-vous": "Meld u aan",
   "add_to_cart": "Zet in winkelwagen",
   "Your Name": "Uw naam",
@@ -242,5 +242,15 @@
   "remembered_password": "Wachtwoord weer herinnerd?",
   "password_reset_error": "De wachtwoorden moeten overeenkomen.",
   "Password_repeat": "Herhaal wachtwoord",
-  "set_new_password": "Stel nieuw wachtwoord in"
+  "set_new_password": "Stel nieuw wachtwoord in",
+  "Register an account": "Een account registreren",
+  "FirstName": "Voornaam",
+  "Your first name": "Uw voornaam",
+  "LastName": "Achternaam",
+  "Your last name": "Uw achternaam",
+  "Your Phone": "Uw telefoon",
+  "E-mail": "E-mail",
+  "password_repeat": "Herhaal wachtwoord",
+  "Repeat Password": "Herhaal wachtwoord",
+  "Don't have an account yet?": "Heeft u nog geen account?"
 }

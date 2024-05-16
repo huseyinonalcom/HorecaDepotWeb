@@ -216,9 +216,9 @@
   "Your cart is empty": "Votre panier est vide",
   "Your wishlist is empty.": "Votre liste de souhaits est vide.",
   "identification": "Identification",
-  "Accédez à votre compte existant.": "Accédez à votre compte existant.",
+  "exsting_customer": "Accédez à votre compte existant.",
   "Déjà inscrit": "Déjà inscrit",
-  "Créer un nouveau compte.": "Créer un nouveau compte.",
+  "new_customer": "Créer un nouveau compte.",
   "Inscrivez-vous": "Inscrivez-vous",
   "add_to_cart": "Ajouter au panier",
   "Your Name": "Votre nom",
@@ -242,5 +242,15 @@
   "remembered_password": "Retourner",
   "password_reset_error": "Les mots de passe ne correspondent pas",
   "Password_repeat": "Répéter le mot de passe",
-  "set_new_password": "Sauvegarder"
+  "set_new_password": "Sauvegarder",
+  "Register an account": "Créer un compte",
+  "FirstName": "Prénom",
+  "Your first name": "Votre prénom",
+  "LastName": "Nom de famille",
+  "Your last name": "Votre nom de famille",
+  "Your Phone": "Votre téléphone",
+  "E-mail": "E-mail",
+  "password_repeat": "Répéter le mot de passe",
+  "Repeat Password": "Répéter le mot de passe",
+  "Don't have an account yet?": "Vous n'avez pas encore de compte ?"
 }

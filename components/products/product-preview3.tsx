@@ -16,7 +16,6 @@ function calculatePercentageDifference(originalPrice, currentPrice) {
 }
 
 const ProductPreview3 = ({ product }: Props) => {
-  console.log(product);
 
   const { t } = useTranslation("common");
 

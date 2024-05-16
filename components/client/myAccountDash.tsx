@@ -38,7 +38,6 @@ export default function MyAccountDash() {
   };
 
   const currentTimestamp = new Date().getTime().toLocaleString();
-  console.log("MyAccountDash.tsx", { client, currentTimestamp });
 
   if (!client) {
     return <div>...</div>;

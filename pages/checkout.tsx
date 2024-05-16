@@ -808,7 +808,7 @@ export default function Checkout() {
               <div className="grid grid-cols-2 gap-2">
                 <div className="flex w-full flex-col">
                   <p className="text-sm font-light">
-                    {t("Accédez à votre compte existant.")}
+                    {t("exsting_customer")}
                   </p>
                   <button
                     type="button"
@@ -823,7 +823,7 @@ export default function Checkout() {
                 </div>
                 <div className="flex w-full flex-col">
                   <p className="text-sm font-light">
-                    {t("Créer un nouveau compte.")}
+                    {t("new_customer")}
                   </p>
                   <button
                     type="button"
