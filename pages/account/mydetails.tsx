@@ -42,7 +42,7 @@ export default function MyDetails() {
         <meta name="description" content={t("main_description")} />
         <meta name="language" content={lang} />
       </Head>
-      <div className="mx-auto flex w-[90vw] flex-row items-start justify-start">
+      <div className="mx-auto flex w-full flex-row items-start justify-start">
         <div className="ml-4 flex w-full flex-col gap-4">
           {isLoading ? (
             <LoadingIndicator />

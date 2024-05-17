@@ -62,7 +62,7 @@ export default function Order() {
             <meta name="description" content="horecadepot" />
             <meta name="language" content={lang} />
           </Head>
-          <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
+          <div className="mx-auto flex w-full flex-row items-start justify-start">
             <div className=" mx-auto py-2">
               <LoadingIndicator />
             </div>
@@ -79,7 +79,7 @@ export default function Order() {
             <meta name="description" content="horecadepot" />
             <meta name="language" content={lang} />
           </Head>
-          <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
+          <div className="mx-auto flex w-full flex-row items-start justify-start">
             <div className="mx-auto py-2">{t("An error has occurred.")}</div>
           </div>
         </Layout>

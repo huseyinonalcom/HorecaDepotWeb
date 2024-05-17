@@ -3,7 +3,6 @@ import Image from "next/image";
 import useTranslation from "next-translate/useTranslation";
 import { ArrowLeft } from "react-feather";
 import { useEffect, useState } from "react";
-import { AutoTextSize } from "auto-text-size";
 import formatDateAPIToBe from "../../api/utils/formatdateapibe";
 import componentThemes from "../componentThemes";
 
@@ -14,7 +13,7 @@ const OrderPreview = ({ order }) => {
 
   const imageBase =
     "absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000";
-  const imageVisible = "opacity-100 z-40";
+  const imageVisible = "opacity-100 z-30";
   const imageInvisible = "opacity-0";
 
   useEffect(() => {
@@ -48,8 +47,8 @@ const OrderPreview = ({ order }) => {
 
   return (
     <div className="flex w-full flex-row bg-white p-1 shadow-md">
-      <div className="asepct-square relative flex w-1/3 flex-shrink-0 flex-row">
-        <div className="asepct-square relative w-full">
+      <div className="relative flex flex-shrink-0 flex-row">
+        <div className="aspect-square relative h-full">
           {orderImages.length > 0 ? (
             orderImages.map((img, index) => (
               <Image

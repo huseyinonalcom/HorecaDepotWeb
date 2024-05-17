@@ -13,7 +13,7 @@ export default function Login() {
         <title>Login</title>
         <meta name="language" content={lang} />
       </Head>
-      <div className="flex h-[50svh] min-w-[350px] items-center justify-center">
+      <div className="flex h-[50svh] w-full min-w-[350px] items-center justify-center">
         <ClientLogin />
       </div>
     </Layout>

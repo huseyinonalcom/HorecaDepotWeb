@@ -13,7 +13,7 @@ export default function Legal() {
           <meta name="language" content={lang} />
         </Head>
 
-        <div className="mx-auto w-[90vw] py-2">
+        <div className="mx-auto w-full py-2">
           <div className={` overflow-hidden bg-gray-100 p-4 shadow-lg`}>
             <p>Privacy Policy</p>
             <p>

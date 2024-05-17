@@ -38,7 +38,7 @@ const Layout = ({ children }: Props) => {
             <Meta />
             <main className={`${nexa.className} min-h-[80dvh]`}>
               <Header />
-              <div className="mx-auto">{children}</div>
+              <div className="mx-auto w-[95vw]">{children}</div>
               <CartDrawer />
               <Link
                 target="_blank"
