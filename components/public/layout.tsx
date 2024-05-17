@@ -37,7 +37,9 @@ const Layout = ({ children }: Props) => {
           <WishlistProvider>
             <Meta />
             <main className={`${nexa.className} min-h-[80dvh]`}>
-              <Header />
+              <div className="bg-black shadow-lg">
+                <Header />
+              </div>
               <div className="mx-auto w-[95vw]">{children}</div>
               <CartDrawer />
               <Link

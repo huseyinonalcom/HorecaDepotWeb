@@ -801,7 +801,7 @@ const Header = () => {
 
   return (
     <div
-      className={`sticky top-0 z-40 flex w-full flex-col items-center bg-black pt-2 text-white shadow-lg duration-300 print:hidden`}
+      className={`sticky top-0 z-40 flex mx-auto w-[95vw] flex-col items-center pt-2 text-white duration-300 print:hidden`}
     >
       <div className="flex lg:hidden">
         <CategoryDrawerMobile
