@@ -31,7 +31,7 @@ export default function Index({ collections, allCategories }) {
             {[1, 2, 3].map((item) => (
               <div
                 key={`slider1-${item}`}
-                className={`snap-start px-4 2xl:w-1/3`}
+                className={`snap-start px-3 2xl:w-1/3`}
               >
                 <div className="border-1 flex h-min flex-shrink-0 flex-col overflow-hidden rounded-xl border border-black/30">
                   <div className="aspect-[15/8] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full"></div>
@@ -48,7 +48,7 @@ export default function Index({ collections, allCategories }) {
               onClick={() => {
                 document
                   .getElementById("slider-1")
-                  .scrollBy({ left: -100, behavior: "smooth" });
+                  .scrollBy({ left: -350, behavior: "smooth" });
               }}
               className="h-8 w-8"
             />
@@ -56,7 +56,7 @@ export default function Index({ collections, allCategories }) {
               onClick={() => {
                 document
                   .getElementById("slider-1")
-                  .scrollBy({ left: 100, behavior: "smooth" });
+                  .scrollBy({ left: 350, behavior: "smooth" });
               }}
               className="h-8 w-8 rotate-180"
             />
