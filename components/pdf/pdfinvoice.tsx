@@ -38,11 +38,7 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
     flexGrow: 1,
-  },
-  header: {
-    fontSize: 24,
-    textAlign: "center",
-    marginBottom: 20,
+    gap: 5,
   },
   subHeader: {
     fontFamily: "Roboto",
@@ -52,7 +48,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   text: {
-    fontSize: 12,
+    fontSize: 11,
     textAlign: "left",
   },
   table: {
@@ -239,32 +235,152 @@ const PDFInvoice = ({ invoiceDocument }) => (
       <View style={styles.section}>
         <View style={styles.row_jb}>
           <View style={{ width: "45%" }}>
-            <Image src={"/assets/header/logo.png"} />
+            <Image src={"/assets/header/logob.png"} />
           </View>
           <View style={styles.col}>
             <Text style={styles.text}>Rue de Ribaucourt 154</Text>
             <Text style={styles.text}>1080 Bruxelles, Belgique</Text>
-            <Text style={styles.text}>+32 499 73 83 73</Text>
+            {/* <Text style={styles.text}>+32 499 73 83 73</Text> */}
+            <Text style={styles.text}>ING: BE72 3631 7422 9016</Text>
           </View>
-          <View style={styles.col}>
+          <View
+            style={{
+              flexDirection: "column",
+              border: "1",
+              paddingHorizontal: 15,
+              alignContent: "center",
+              justifyContent: "center",
+            }}
+          >
             <Text
               style={{
                 fontFamily: "Roboto",
                 fontWeight: "heavy",
-                fontSize: 16,
-                textAlign: "right",
+                fontSize: 13,
+                textAlign: "center",
                 marginBottom: 2,
               }}
             >
-              Commande
+              COMMANDE
             </Text>
             <Text
               style={{
                 fontFamily: "Roboto",
                 fontWeight: "heavy",
-                fontSize: 14,
-                textAlign: "right",
+                fontSize: 13,
+                textAlign: "center",
+              }}
+            >
+              BESTELLING
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            marginVertical: 2,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "column",
+              border: "1",
+              paddingHorizontal: 15,
+              alignContent: "center",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "Roboto",
+                fontWeight: "demibold",
+                fontSize: 13,
+                textAlign: "center",
                 marginBottom: 2,
+              }}
+            >
+              Heures d'ouverture:
+            </Text>
+            <Text
+              style={{
+                fontFamily: "Roboto",
+                fontWeight: "demibold",
+                fontSize: 13,
+                textAlign: "center",
+              }}
+            >
+              Du lundi au samedi:
+            </Text>
+            <Text
+              style={{
+                fontFamily: "Roboto",
+                fontWeight: "demibold",
+                fontSize: 13,
+                textAlign: "center",
+              }}
+            >
+              09H30 - 19H00
+            </Text>
+            <Text
+              style={{
+                fontFamily: "Roboto",
+                fontWeight: "demibold",
+                fontSize: 13,
+                textAlign: "center",
+              }}
+            >
+              Fermé le dimanche
+            </Text>
+          </View>
+          <View style={{ width: "7%" }}>
+            <Image
+              style={{
+                borderRadius: 10,
+                backgroundColor: "#56585c",
+                padding: 5,
+              }}
+              src={"/assets/header/whatsapp.png"}
+            />
+          </View>
+          <Text style={styles.text}>+32 (0) 499 73 83 73</Text>
+          <View style={styles.col}>
+            <Text style={styles.text}>Suivez votre commande sur WhatsApp</Text>
+            <Text style={styles.text}>Volg uw bestelling op WhatsApp</Text>
+            <Text style={styles.text}>Track your order on WhatsApp</Text>
+          </View>
+        </View>
+        <View style={styles.row_jb}>
+          <View
+            style={{
+              flexDirection: "column",
+              border: "1",
+              paddingHorizontal: 15,
+              alignContent: "center",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "Roboto",
+                fontWeight: "demibold",
+                fontSize: 11,
+                textAlign: "center",
+                marginBottom: 2,
+              }}
+            >
+              Commande:
+            </Text>
+            <Text
+              style={{
+                fontFamily: "Roboto",
+                fontWeight: "demibold",
+                fontSize: 11,
+                textAlign: "center",
               }}
             >
               {invoiceDocument.prefix + invoiceDocument.number}
@@ -272,21 +388,28 @@ const PDFInvoice = ({ invoiceDocument }) => (
             <Text
               style={{
                 fontFamily: "Roboto",
-                fontWeight: "heavy",
-                fontSize: 14,
-                textAlign: "right",
-                marginBottom: 2,
+                fontWeight: "demibold",
+                fontSize: 11,
+                textAlign: "center",
+              }}
+            >
+              Date:
+            </Text>
+            <Text
+              style={{
+                fontFamily: "Roboto",
+                fontWeight: "demibold",
+                fontSize: 11,
+                textAlign: "center",
               }}
             >
               {formatDateAPIToBe(invoiceDocument.date)}
             </Text>
           </View>
-        </View>
-        <View style={styles.row_jb}>
           <View style={styles.col}>
+            <Text style={styles.subHeader}>Facturation:</Text>
             {invoiceDocument.client.category == "Entreprise" ? (
               <>
-                <Text style={styles.subHeader}>Facturé à:</Text>
                 <Text style={styles.text}>
                   {invoiceDocument.client.company}
                 </Text>
@@ -298,7 +421,6 @@ const PDFInvoice = ({ invoiceDocument }) => (
               </>
             ) : (
               <>
-                <h4 className=" font-bold">Facturé à:</h4>
                 <Text style={styles.text}>
                   {`${invoiceDocument.client.firstName} ${invoiceDocument.client.lastName}`}{" "}
                 </Text>
@@ -307,7 +429,7 @@ const PDFInvoice = ({ invoiceDocument }) => (
             )}
           </View>
           <View style={styles.col}>
-            <Text style={styles.subHeader}>Addresse Facturation:</Text>
+            <Text style={styles.subHeader}>Adresse Facturation:</Text>
             <Text style={styles.text}>
               {invoiceDocument.docAddress.street}{" "}
               {invoiceDocument.docAddress.doorNumber}

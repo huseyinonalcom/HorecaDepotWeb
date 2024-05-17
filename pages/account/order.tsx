@@ -181,7 +181,7 @@ export default function Order() {
           <Head>
             <title>horecadepot</title>
           </Head>
-          <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
+          <div className="mx-auto flex w-full flex-row items-start justify-start">
             <div className="ml-4 w-full bg-white p-4 shadow-lg print:shadow-none">
               <div className="flex flex-row justify-between">
                 <div
@@ -246,15 +246,6 @@ export default function Order() {
                       📄 <p className="ml-1">{t("Download PDF")}</p>
                     </PDFDownloadLink>
                   )}
-                  <button
-                    onClick={() => {
-                      print();
-                    }}
-                    className={`${componentThemes.greenSubmitButton} flex flex-row items-center whitespace-nowrap text-xl`}
-                  >
-                    🖨️
-                    <p className="ml-1">{t("Print")}</p>
-                  </button>
                 </div>
               </div>
               <div className="flex flex-row gap-6 pt-2 print:justify-between">
