@@ -40,7 +40,7 @@ const Layout = ({ children }: Props) => {
               <div className="bg-black shadow-lg">
                 <Header />
               </div>
-              <div className="mx-auto w-[95vw]">{children}</div>
+              <div className="mx-auto w-[90vw]">{children}</div>
               <CartDrawer />
               <Link
                 target="_blank"
