@@ -12,6 +12,24 @@ import { getAllCategoriesFlattened } from "./api/categories/public/getallcategor
 export default function Index({ collections, allCategories }) {
   const { t, lang } = useTranslation("common");
 
+  const handleScrollSlider = (direction) => {
+    const slider = document.getElementById("slider-1");
+    const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
+
+    let scrollAmount = 350;
+    if (direction === "left") {
+      scrollAmount = -scrollAmount;
+    }
+
+    const newScrollLeft = slider.scrollLeft + scrollAmount;
+    const finalScrollLeft = Math.max(0, Math.min(newScrollLeft, maxScrollLeft));
+
+    slider.scrollTo({
+      left: finalScrollLeft,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <Layout>
       <Head>
@@ -45,19 +63,11 @@ export default function Index({ collections, allCategories }) {
           </div>
           <div className="ml-4 mt-2 flex w-[90vw] max-w-screen-2xl flex-row justify-start gap-2 2xl:hidden">
             <ChevronLeft
-              onClick={() => {
-                document
-                  .getElementById("slider-1")
-                  .scrollBy({ left: -350, behavior: "smooth" });
-              }}
+              onClick={() => handleScrollSlider("left")}
               className="h-8 w-8"
             />
             <ChevronLeft
-              onClick={() => {
-                document
-                  .getElementById("slider-1")
-                  .scrollBy({ left: 350, behavior: "smooth" });
-              }}
+              onClick={() => handleScrollSlider("right")}
               className="h-8 w-8 rotate-180"
             />
           </div>
