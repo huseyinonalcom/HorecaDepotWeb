@@ -116,7 +116,7 @@ const DesktopSearch = () => {
     <form
       name="Search"
       aria-label="Search"
-      className="relative max-w-[500px] ml-auto mr-12 hidden w-full duration-300 md:flex"
+      className="relative ml-auto mr-12 hidden w-full max-w-[500px] duration-300 md:flex"
       onSubmit={handleSearchSubmit}
     >
       <input
@@ -688,7 +688,7 @@ const HeaderButtons = ({ cartItems }) => {
         href="/wishlist"
       >
         <Heart />
-        <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-black px-1 py-0.5 text-xs font-bold leading-none">
+        <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-white px-1 py-0.5 text-xs font-bold leading-none text-black">
           {wishlist.length}
         </span>
       </Link>
@@ -698,7 +698,7 @@ const HeaderButtons = ({ cartItems }) => {
         onClick={openDrawer}
       >
         <ShoppingBag />
-        <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-black px-1 py-0.5 text-xs font-bold leading-none">
+        <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-red-600 px-1 py-0.5 text-xs font-bold leading-none">
           {cartItems}
         </span>
       </button>
