@@ -30,6 +30,21 @@ Font.register({
   ],
 });
 
+const addDaysToDate = (dateString, days) => {
+  // Parse the date string
+  const date = new Date(dateString);
+
+  // Add 14 days
+  date.setDate(date.getDate() + days);
+
+  // Format the new date back to yyyy-mm-dd
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
@@ -52,17 +67,16 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   table: {
-    marginVertical: 2,
+    marginTop: 2,
     display: "flex",
     width: "auto",
     borderStyle: "solid",
-    borderColor: "#bfbfbf",
     borderWidth: 1,
-    borderRightWidth: 0,
-    borderBottomWidth: 0,
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    minHeight: 400,
   },
   tableRow: {
-    margin: "auto",
     flexDirection: "row",
   },
   tableColHeader1: {
@@ -461,11 +475,11 @@ const PDFInvoice = ({ invoiceDocument }) => (
 
         <View style={styles.table}>
           <View style={styles.tableRow}>
-            <View style={styles.tableColHeader1}>
-              <Text style={styles.tableCell}>Nom</Text>
-            </View>
             <View style={styles.tableColHeader2}>
               <Text style={styles.tableCell}>Quantité</Text>
+            </View>
+            <View style={styles.tableColHeader1}>
+              <Text style={styles.tableCell}>Nom</Text>
             </View>
             <View style={styles.tableColHeader3}>
               <Text style={styles.tableCell}>Prix</Text>
@@ -479,11 +493,11 @@ const PDFInvoice = ({ invoiceDocument }) => (
           </View>
           {invoiceDocument.document_products.map((docprod) => (
             <View key={docprod.id} style={styles.tableRow}>
-              <View style={styles.tableCol1}>
-                <Text style={styles.tableCell}>{docprod.name}</Text>
-              </View>
               <View style={styles.tableCol2}>
                 <Text style={styles.tableCell}>{docprod.amount}</Text>
+              </View>
+              <View style={styles.tableCol1}>
+                <Text style={styles.tableCell}>{docprod.name}</Text>
               </View>
               <View style={styles.tableCol3}>
                 <Text style={styles.tableCellR}>
@@ -505,41 +519,136 @@ const PDFInvoice = ({ invoiceDocument }) => (
             </View>
           ))}
         </View>
-        <View key={0} style={styles.row_jb}>
-          <Text>Total</Text>
-          <View style={styles.tableCol3}>
-            <Text>
-              €{" "}
-              {invoiceDocument.document_products
-                .reduce((accumulator, currentItem) => {
-                  return accumulator + currentItem.subTotal;
-                }, 0)
-                .toFixed(2)
-                .replaceAll(".", ",")}
-            </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            border: 1,
+            paddingHorizontal: 5,
+            height: 50,
+          }}
+        >
+          <Text style={styles.text}>
+            Signature pour accord - Handtekening voor akkoord
+          </Text>
+        </View>
+        <View
+          style={{
+            marginVertical: 2,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            border: "1",
+            borderRadius: 10,
+            paddingHorizontal: 5,
+            marginTop: "auto",
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "column",
+              width: "50%",
+              borderRight: "1",
+              justifyContent: "center",
+              padding: 5,
+            }}
+          >
+            <View style={styles.row_jb}>
+              <Text style={styles.text}>Total TVA - BTW</Text>
+              <Text style={styles.text}>
+                €{" "}
+                {invoiceDocument.document_products
+                  .reduce((accumulator, currentItem) => {
+                    return accumulator + currentItem.taxSubTotal;
+                  }, 0)
+                  .toFixed(2)
+                  .replaceAll(".", ",")}
+              </Text>
+            </View>
+            <View style={styles.row_jb}>
+              <Text style={styles.text}>Total excl. TVA - BTW</Text>
+              <Text style={styles.text}>
+                €{" "}
+                {(
+                  invoiceDocument.document_products.reduce(
+                    (accumulator, currentItem) => {
+                      return accumulator + currentItem.subTotal;
+                    },
+                    0,
+                  ) -
+                  invoiceDocument.document_products.reduce(
+                    (accumulator, currentItem) => {
+                      return accumulator + currentItem.taxSubTotal;
+                    },
+                    0,
+                  )
+                )
+                  .toFixed(2)
+                  .replaceAll(".", ",")}
+              </Text>
+            </View>
           </View>
-          <View style={styles.tableCol4}>
-            <Text>A payer</Text>
-          </View>
-          <View style={styles.tableCol5}>
-            <Text>
-              €{" "}
-              {(
-                invoiceDocument.document_products.reduce(
-                  (accumulator, currentItem) => {
+
+          <View
+            style={{
+              flexDirection: "column",
+              width: "50%",
+              justifyContent: "center",
+              padding: 5,
+            }}
+          >
+            <View style={{ ...styles.row_jb, borderBottom: 1 }}>
+              <Text style={styles.text}>Total</Text>
+              <Text style={styles.text}>
+                €{" "}
+                {invoiceDocument.document_products
+                  .reduce((accumulator, currentItem) => {
                     return accumulator + currentItem.subTotal;
-                  },
-                  0,
-                ) -
-                invoiceDocument.payments
+                  }, 0)
+                  .toFixed(2)
+                  .replaceAll(".", ",")}
+              </Text>
+            </View>
+            <View style={{ ...styles.row_jb, borderBottom: 1 }}>
+              <Text style={styles.text}>Deja paye - Al betaald</Text>
+              <Text style={styles.text}>
+                €{" "}
+                {invoiceDocument.payments
                   .filter((payment) => !payment.deleted && payment.verified)
                   .reduce((accumulator, currentItem) => {
                     return accumulator + currentItem.value;
                   }, 0)
-              )
-                .toFixed(2)
-                .replaceAll(".", ",")}
-            </Text>
+                  .toFixed(2)
+                  .replaceAll(".", ",")}
+              </Text>
+            </View>
+
+            <View style={{ ...styles.row_jb, borderBottom: 1 }}>
+              <Text style={styles.text}>A payer - Te betalen</Text>
+              <Text style={styles.text}>
+                €{" "}
+                {(
+                  invoiceDocument.document_products.reduce(
+                    (accumulator, currentItem) => {
+                      return accumulator + currentItem.subTotal;
+                    },
+                    0,
+                  ) -
+                  invoiceDocument.payments
+                    .filter((payment) => !payment.deleted && payment.verified)
+                    .reduce((accumulator, currentItem) => {
+                      return accumulator + currentItem.value;
+                    }, 0)
+                )
+                  .toFixed(2)
+                  .replaceAll(".", ",")}
+              </Text>
+            </View>
+            <View style={styles.row_jb}>
+              <Text style={styles.text}>Date Echeance - Vervaldatum</Text>
+              <Text style={styles.text}>
+                {formatDateAPIToBe(addDaysToDate(invoiceDocument.date, 14))}
+              </Text>
+            </View>
           </View>
         </View>
       </View>
