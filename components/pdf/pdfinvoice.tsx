@@ -197,21 +197,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 10,
   },
-  tableCellBold: {
-    margin: "auto",
-    marginTop: 5,
-    fontSize: 10,
-    fontFamily: "Roboto",
-    fontWeight: "heavy",
-  },
-  tableCellBoldR: {
-    marginLeft: "auto",
-    marginRight: "1",
-    marginTop: 5,
-    fontSize: 10,
-    fontFamily: "Roboto",
-    fontWeight: "heavy",
-  },
   row: {
     flexDirection: "row",
   },
@@ -429,7 +414,7 @@ const PDFInvoice = ({ invoiceDocument }) => (
             )}
           </View>
           <View style={styles.col}>
-            <Text style={styles.subHeader}>Adresse Facturation:</Text>
+            <Text style={styles.subHeader}> </Text>
             <Text style={styles.text}>
               {invoiceDocument.docAddress.street}{" "}
               {invoiceDocument.docAddress.doorNumber}
@@ -519,47 +504,42 @@ const PDFInvoice = ({ invoiceDocument }) => (
               </View>
             </View>
           ))}
-          <View key={0} style={styles.tableRow}>
-            <View style={styles.tableCol1}>
-              <Text style={styles.tableCellBold}></Text>
-            </View>
-            <View style={styles.tableCol2}>
-              <Text style={styles.tableCellBold}>Total</Text>
-            </View>
-            <View style={styles.tableCol3}>
-              <Text style={styles.tableCellBoldR}>
-                €{" "}
-                {invoiceDocument.document_products
-                  .reduce((accumulator, currentItem) => {
+        </View>
+        <View key={0} style={styles.row_jb}>
+          <Text>Total</Text>
+          <View style={styles.tableCol3}>
+            <Text>
+              €{" "}
+              {invoiceDocument.document_products
+                .reduce((accumulator, currentItem) => {
+                  return accumulator + currentItem.subTotal;
+                }, 0)
+                .toFixed(2)
+                .replaceAll(".", ",")}
+            </Text>
+          </View>
+          <View style={styles.tableCol4}>
+            <Text>A payer</Text>
+          </View>
+          <View style={styles.tableCol5}>
+            <Text>
+              €{" "}
+              {(
+                invoiceDocument.document_products.reduce(
+                  (accumulator, currentItem) => {
                     return accumulator + currentItem.subTotal;
+                  },
+                  0,
+                ) -
+                invoiceDocument.payments
+                  .filter((payment) => !payment.deleted && payment.verified)
+                  .reduce((accumulator, currentItem) => {
+                    return accumulator + currentItem.value;
                   }, 0)
-                  .toFixed(2)
-                  .replaceAll(".", ",")}
-              </Text>
-            </View>
-            <View style={styles.tableCol4}>
-              <Text style={styles.tableCellBold}>A payer</Text>
-            </View>
-            <View style={styles.tableCol5}>
-              <Text style={styles.tableCellBoldR}>
-                €{" "}
-                {(
-                  invoiceDocument.document_products.reduce(
-                    (accumulator, currentItem) => {
-                      return accumulator + currentItem.subTotal;
-                    },
-                    0,
-                  ) -
-                  invoiceDocument.payments
-                    .filter((payment) => !payment.deleted && payment.verified)
-                    .reduce((accumulator, currentItem) => {
-                      return accumulator + currentItem.value;
-                    }, 0)
-                )
-                  .toFixed(2)
-                  .replaceAll(".", ",")}
-              </Text>
-            </View>
+              )
+                .toFixed(2)
+                .replaceAll(".", ",")}
+            </Text>
           </View>
         </View>
       </View>
