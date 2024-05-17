@@ -21,12 +21,12 @@ export default function Index({ collections, allCategories }) {
         <meta name="language" content={lang} />
       </Head>
       <div
-        className={`mx-auto flex max-w-screen-2xl flex-col items-center justify-center gap-8 overflow-hidden py-8`}
+        className={`mx-auto flex w-[90vw] flex-col items-center justify-center gap-8 overflow-hidden py-8`}
       >
         <div className="flex w-full flex-col items-center">
           <div
             id="slider-1"
-            className={`no-scrollbar flex w-[90vw] max-w-screen-2xl snap-x snap-mandatory flex-row overflow-x-scroll`}
+            className={`no-scrollbar flex w-full snap-x snap-mandatory flex-row overflow-x-scroll`}
           >
             {[1, 2, 3].map((item) => (
               <div
@@ -63,7 +63,7 @@ export default function Index({ collections, allCategories }) {
           </div>
         </div>
 
-        <div className="grid w-[90vw] max-w-screen-2xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="grid w-[90vw] grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {allCategories.length > 0 &&
             allCategories?.map((category) => (
               <div key={`grid1-${category.id}`} className={``}>
@@ -91,7 +91,7 @@ export default function Index({ collections, allCategories }) {
 
         <Link
           href={"/products?page=1"}
-          className="relative aspect-[21/9] w-[90vw] max-w-screen-2xl overflow-hidden rounded-xl md:aspect-[205/7] lg:aspect-[205/78]"
+          className="relative aspect-[21/9] w-[90vw] overflow-hidden rounded-xl md:aspect-[205/7] lg:aspect-[205/78]"
         >
           <Image
             src={
@@ -104,7 +104,7 @@ export default function Index({ collections, allCategories }) {
           />
         </Link>
 
-        <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
+        <div className="flex w-[90vw] flex-col items-center">
           {collections && (
             <div key={"collection1"} className="w-full">
               <CollectionShowcase collection={collections.at(0)} />
@@ -125,7 +125,7 @@ export default function Index({ collections, allCategories }) {
 
         <Link
           href={"/products?page=1"}
-          className="relative aspect-[17/9] w-[90vw] max-w-screen-2xl overflow-hidden rounded-xl md:aspect-[32/9] lg:aspect-[32/9]"
+          className="relative aspect-[17/9] w-[90vw] overflow-hidden rounded-xl md:aspect-[32/9] lg:aspect-[32/9]"
         >
           <Image
             src={
@@ -138,7 +138,7 @@ export default function Index({ collections, allCategories }) {
           />
         </Link>
 
-        <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
+        <div className="flex w-[90vw] flex-col items-center">
           {collections.length > 1 && (
             <div key={"collection2"} className="w-full">
               <CollectionShowcase collection={collections.at(1)} />
@@ -148,7 +148,7 @@ export default function Index({ collections, allCategories }) {
 
         <Link
           href={"/products?page=1"}
-          className="relative aspect-[18/9] w-[90vw] max-w-screen-2xl overflow-hidden rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
+          className="relative aspect-[18/9] w-[90vw] overflow-hidden rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
         >
           <Image
             src={

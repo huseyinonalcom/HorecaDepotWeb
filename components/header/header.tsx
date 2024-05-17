@@ -116,7 +116,7 @@ const DesktopSearch = () => {
     <form
       name="Search"
       aria-label="Search"
-      className="relative mr-12 hidden w-full duration-300 md:flex"
+      className="relative max-w-[500px] ml-auto mr-12 hidden w-full duration-300 md:flex"
       onSubmit={handleSearchSubmit}
     >
       <input
@@ -233,7 +233,8 @@ const MobileSearch = () => {
         <div className="absolute left-0 right-0 z-10 mx-auto mt-12 max-w-screen-2xl rounded-xl border border-gray-300 bg-white text-black shadow-lg">
           <ul>
             {searchResults
-              .filter((results) => !results.category && results.Name).slice(0, 4)
+              .filter((results) => !results.category && results.Name)
+              .slice(0, 4)
               .map((result, index) => (
                 <li
                   key={index}
@@ -250,7 +251,8 @@ const MobileSearch = () => {
           </ul>
           <div className="grid grid-cols-2 gap-1">
             {searchResults
-              .filter((results) => results.category && results.name).slice(0, 4)
+              .filter((results) => results.category && results.name)
+              .slice(0, 4)
               .map((result, index) => (
                 <ProductPreview3 key={index} product={result} />
               ))}
@@ -815,7 +817,7 @@ const Header = () => {
           closeDrawer={() => setShowCategories(false)}
         />
       </div>
-      <div className="flex w-full max-w-screen-2xl flex-col gap-2 pb-3">
+      <div className="flex w-full flex-col gap-2 pb-3">
         <HeaderDrawer
           isOpen={isHeaderDrawerOpen}
           onClickOutside={() => {
@@ -825,7 +827,7 @@ const Header = () => {
 
         <TopBar />
 
-        <div className="w-full max-w-screen-2xl  px-5">
+        <div className="w-full   px-5">
           <div className="flex w-full flex-row items-center justify-between gap-4">
             <button
               name="Mobile Navigation Menu"
