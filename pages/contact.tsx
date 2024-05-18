@@ -5,8 +5,6 @@ import Layout from "../components/public/layout";
 import Link from "next/link";
 import Head from "next/head";
 import {
-  LuClock,
-  LuClock1,
   LuClock2,
   LuMail,
   LuMapPin,
