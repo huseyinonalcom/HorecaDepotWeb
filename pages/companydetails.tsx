@@ -16,7 +16,14 @@ export default function Legal() {
         <div className="mx-auto w-full py-2">
           <div
             className={`flex flex-col gap-3 overflow-hidden bg-gray-100 p-4 shadow-lg`}
-          ></div>
+          >
+            <p>Détails de L’entreprise</p>
+            <p>ATK BVBA agissant sous la dénomination: HorecaDepot</p>
+            <p>Adresse: Rue de Ribaucourt 154, 1080, Bruxelles</p>
+            <p>TVA-BTW BE 0696.624.603</p>
+            <p>info@horecadepot.be</p>
+            <p>Téléphone: +32 489 67 92 65</p>
+          </div>
         </div>
       </Layout>
     </>
