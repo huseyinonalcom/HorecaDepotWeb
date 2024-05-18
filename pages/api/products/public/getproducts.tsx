@@ -60,18 +60,20 @@ export default async function getProducts(req, res) {
 
     let categoriesToSearch: number[] = [];
 
-    console.log(categoryParam);
-    console.log(typeof categoryParam);
-    console.log(decodeURIComponent(categoryParam));
+    if (typeof categoryParam === "string") {
+      const parsedCategoryParam = parseInt(categoryParam, 10);
 
-    if (typeof categoryParam == "string") {
-      categoryParam = parseInt(
-        await getAllCategoriesFlattened().then(
-          (data) =>
-            data.find((cat) => cat.Name === decodeURIComponent(categoryParam))
-              .id,
-        ),
-      );
+      if (isNaN(parsedCategoryParam)) {
+        categoryParam = parseInt(
+          await getAllCategoriesFlattened().then(
+            (data) =>
+              data.find((cat) => cat.Name === decodeURIComponent(categoryParam))
+                .id,
+          ),
+        );
+      } else {
+        categoryParam = parsedCategoryParam;
+      }
     }
 
     if (categoryParam) {
