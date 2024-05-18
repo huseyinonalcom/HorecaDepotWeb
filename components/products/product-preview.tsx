@@ -80,7 +80,11 @@ const ProductPreview = ({ product }: Props) => {
             name={`Add ${product.name} to Cart`}
             aria-label={`Add ${product.name} to Cart`}
             className="h-8 w-8 bg-white p-1.5 shadow-md duration-500 hover:text-green-500 md:h-12 md:w-12 md:p-2"
-            onClick={() => addToCart(convertToCartProduct(product))}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              addToCart(convertToCartProduct(product));
+            }}
           >
             <ShoppingCart className="mx-auto" />
           </button>
@@ -89,7 +93,11 @@ const ProductPreview = ({ product }: Props) => {
             name={`Add ${product.name} to Wishlist`}
             aria-label={`Add ${product.name} to Wishlist`}
             className="h-8 w-8 bg-white p-1.5 shadow-md duration-500 hover:text-red-500 md:h-12 md:w-12 md:p-2"
-            onClick={() => addToWishlist(convertToWishlistProduct(product))}
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              addToWishlist(convertToWishlistProduct(product));
+            }}
           >
             <Heart className="mx-auto" />
           </button>
