@@ -260,7 +260,6 @@
   "submit_success": "Kayıt başarılı",
   "opening_hours_a": "Pazartesi - Cumartesi: 09:30 - 19:00",
   "opening_hours_b": "Pazar: Kapalı (Randevu)",
-
   "Boutique": "Mağaza",
   "Information": "Bilgi",
   "Privacy Policy": "Gizlilik Politikası",
@@ -272,5 +271,7 @@
   "Monday": "Pazartesi",
   "Saturday": "Cumartesi",
   "Sunday": "Pazar",
-  "Closed": "Kapalı"
+  "Closed": "Kapalı",
+  "cookie_disclaimer": "Web sitemizde anonim istatistikler ve kullanıcı kimlik doğrulaması ile en popüler sayfaların görüntülenmesi gibi temel işlevleri sağlamak için minimal çerezler kullanıyoruz. Bu çerezler kişisel bilgileri saklamaz. Sitemizi kullanmaya devam ederek çerez kullanımımızı kabul etmiş olursunuz.",
+  "I understand": "Anladım"
 }

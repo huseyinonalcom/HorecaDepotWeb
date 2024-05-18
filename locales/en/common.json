@@ -260,7 +260,6 @@
   "submit_success": "Saved successfully.",
   "opening_hours_a": "Monday - Saturday: 09:30 - 19:00",
   "opening_hours_b": "Sunday: Closed (by appointment only)",
-
   "Boutique": "Shop",
   "Information": "Information",
   "Privacy Policy": "Privacy Policy",
@@ -272,5 +271,7 @@
   "Monday": "Monday",
   "Saturday": "Saturday",
   "Sunday": "Sunday",
-  "Closed": "Closed"
+  "Closed": "Closed",
+  "cookie_disclaimer": "We use minimal cookies on our website to facilitate anonymous statistics and basic functionality, such as user authentication and seeing which pages are the most popular. These cookies do not store any personal details. By continuing to use our site, you accept our use of cookies.",
+  "I understand": "I understand"
 }

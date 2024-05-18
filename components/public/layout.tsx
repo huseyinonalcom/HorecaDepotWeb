@@ -11,6 +11,7 @@ import Follow from "../common/follow";
 import { useRouter } from "next/router";
 import { Heart, ShoppingCart, User } from "react-feather";
 import localFont from "next/font/local";
+import { useEffect, useState } from "react";
 
 const nexa = localFont({
   src: [
@@ -30,6 +31,17 @@ const Layout = ({ children }: Props) => {
     "relative flex flex-col justify-center items-center p-1 duration-300 font-bold text-sm text-white hover:bg-black aspect-[1/1]";
   const router = useRouter();
   const footerIconsHeight = 17;
+
+  const [cookieDisclaimer, setCookieDisclaimer] = useState(false);
+
+  useEffect(() => {
+    if (
+      localStorage.getItem("cookie_disclaimer") == null ||
+      localStorage.getItem("cookie_disclaimer") == "true"
+    ) {
+      setCookieDisclaimer(true);
+    }
+  }, []);
 
   return (
     <>
@@ -361,6 +373,21 @@ const Layout = ({ children }: Props) => {
                   <Heart />
                 </Link>
               </div>
+              {cookieDisclaimer && (
+                <div className="fixed bottom-0 z-30 flex w-full flex-row items-center justify-center gap-3 bg-black py-2 text-center text-white">
+                  <p className="text-sm">{t("cookie_disclaimer")}</p>
+                  <button
+                    type="button"
+                    className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
+                    onClick={() => {
+                      localStorage.setItem("cookie_disclaimer", "false");
+                      setCookieDisclaimer(false);
+                    }}
+                  >
+                    {t("I understand")}
+                  </button>
+                </div>
+              )}
             </main>
           </WishlistProvider>
         </CartProvider>

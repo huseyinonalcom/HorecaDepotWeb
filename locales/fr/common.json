@@ -260,7 +260,6 @@
   "submit_success": "Enregistrement réussi",
   "opening_hours_a": "Lundi - Samedi: 09:30 - 19:00",
   "opening_hours_b": "Dimanche: Fermé (sur rendez-vous)",
-
   "Boutique": "Boutique",
   "Information": "Information",
   "Privacy Policy": "Politique de confidentialité",
@@ -272,5 +271,7 @@
   "Monday": "Lundi",
   "Saturday": "Samedi",
   "Sunday": "Dimanche",
-  "Closed": "Fermé"
+  "Closed": "Fermé",
+  "cookie_disclaimer": "Nous utilisons des cookies minimaux sur notre site web pour faciliter les statistiques anonymes et les fonctionnalités de base, telles que l'authentification des utilisateurs et la consultation des pages les plus populaires. Ces cookies ne stockent aucun détail personnel. En continuant à utiliser notre site, vous acceptez notre utilisation des cookies.",
+  "I understand": "J'ai compris"
 }
