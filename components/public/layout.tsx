@@ -58,7 +58,7 @@ const Layout = ({ children }: Props) => {
               <div className="z-30 flex w-full flex-col items-center border-t border-neutral-200 bg-neutral-100 px-3 pb-4 pt-4 print:hidden">
                 <div className="flex w-full max-w-screen-2xl flex-col items-center justify-center">
                   <div className="mb-4 grid w-full grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
-                    <div className="flex flex-col pl-2">
+                    <div className="flex flex-col gap-2 pl-2">
                       <h3 className="-ml-2 font-semibold">{t("Categories")}</h3>
                       <div>
                         <a
@@ -116,7 +116,7 @@ const Layout = ({ children }: Props) => {
                         </a>
                       </div>
                     </div>
-                    <div className="flex flex-col pl-2">
+                    <div className="flex flex-col gap-2 pl-2">
                       <h3 className="-ml-2 font-semibold">{t("Site Plan")}</h3>
                       <div>
                         <Link
@@ -159,7 +159,7 @@ const Layout = ({ children }: Props) => {
                         </Link>
                       </div>
                     </div>
-                    <div className="flex flex-col pl-2">
+                    <div className="flex flex-col gap-2 pl-2">
                       <h3 className="-ml-2 font-semibold">
                         {t("Information")}
                       </h3>
@@ -195,6 +195,35 @@ const Layout = ({ children }: Props) => {
                           {t("Company Details")}
                         </Link>
                       </div>
+                    </div>
+                    <div className="flex flex-col gap-2 pl-2 text-sm">
+                      <h3 className="-ml-2 text-base font-semibold">
+                        Horeca Depot
+                      </h3>
+                      <p>
+                        {t("Address")}:
+                        <br />
+                        Rue de Ribaucourt 154, 1080 Bruxelles
+                        <br />
+                        de Ribaucourtstraat 154, 1080 Brussel
+                      </p>
+                      <p>
+                        Tel:
+                        <br />
+                        +32 499 73 83 73
+                      </p>
+                      <p>
+                        E-mail:
+                        <br />
+                        info@horecadepot.be
+                      </p>
+                      <p>
+                        {t("Opening Hours")}:
+                        <br />
+                        {t("Monday")} - {t("Saturday")}: 09:30 - 19:00
+                        <br />
+                        {t("Sunday")}: {t("Closed")}
+                      </p>
                     </div>
                   </div>
                   <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
