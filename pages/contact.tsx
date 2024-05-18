@@ -1,15 +1,9 @@
-import { Briefcase, Clock, Mail, Phone } from "react-feather";
 import ContactForm from "../components/common/contactform";
 import useTranslation from "next-translate/useTranslation";
 import Layout from "../components/public/layout";
 import Link from "next/link";
 import Head from "next/head";
-import {
-  LuClock2,
-  LuMail,
-  LuMapPin,
-  LuPhone,
-} from "react-icons/lu";
+import { LuClock2, LuMail, LuMapPin, LuPhone } from "react-icons/lu";
 export default function Contact() {
   const { t, lang } = useTranslation("common");
   return (
@@ -17,7 +11,7 @@ export default function Contact() {
       <Layout>
         <Head>
           <title>Horeca Depot</title>
-          <meta name="description" content="" />
+          <meta name="description" />
           <meta name="language" content={lang} />
         </Head>
         <h1 className="pt-2 text-center text-4xl font-bold text-black">
@@ -68,7 +62,7 @@ export default function Contact() {
                 >
                   <LuMapPin className="h-9 w-9 p-1" color="black" />
                   <p>
-                    Rue de Ribaucourt - Ribaucourtstraat 154
+                    Rue de Ribaucourt - de Ribaucourtstraat 154
                     <br />
                     1080 Bruxelles - Brussel
                   </p>

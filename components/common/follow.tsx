@@ -1,4 +1,3 @@
-import { Facebook, Instagram, Youtube } from "react-feather";
 import Image from "next/image";
 import Link from "next/link";
 
