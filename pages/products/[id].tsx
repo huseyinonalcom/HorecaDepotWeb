@@ -101,7 +101,7 @@ const ProductPage = ({
               return (
                 <Link
                   key={index + 2}
-                  href={`/products?category=${categories.find((cat) => cat.Name == crumb).id}`}
+                  href={`/products?category=${encodeURIComponent(crumb)}`}
                   className="text-gray-400 last:text-black"
                 >
                   {"> "}
@@ -167,7 +167,7 @@ const ProductPage = ({
                 {breadCrumbs.map((crumb, index) => (
                   <Fragment key={index}>
                     <Link
-                      href={`/products?category=${categories.find((cat) => cat.Name === crumb).id}`}
+                      href={`/products?category=${encodeURIComponent(crumb)}`}
                     >
                       {t(crumb)}
                       {index < breadCrumbs.length - 1 && ","}

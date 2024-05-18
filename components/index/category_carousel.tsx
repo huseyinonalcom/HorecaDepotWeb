@@ -41,7 +41,7 @@ const CatCarousel = ({ categories }) => {
         {categories &&
           categories.map((category) => (
             <Link
-              href={`/products?category=${category.id}`}
+              href={`/products?category=${encodeURIComponent(category.Name)}`}
               draggable={false}
               key={category.id}
               className="relative aspect-[15/13] h-full w-full transform snap-start transition-all duration-500 ease-in-out md:aspect-[24/15]"
@@ -66,14 +66,14 @@ const CatCarousel = ({ categories }) => {
 
       <button
         type="button"
-        className="absolute bottom-[35%] p-1 left-0 ml-2 rounded-full bg-gray-800/30 hover:bg-gray-800/60"
+        className="absolute bottom-[35%] left-0 ml-2 rounded-full bg-gray-800/30 p-1 hover:bg-gray-800/60"
         onClick={prev}
       >
         <ChevronLeft size={32} />
       </button>
       <button
         type="button"
-        className="absolute bottom-[35%] p-1 right-0 mr-2 rotate-180 rounded-full bg-gray-800/30 hover:bg-gray-800/60"
+        className="absolute bottom-[35%] right-0 mr-2 rotate-180 rounded-full bg-gray-800/30 p-1 hover:bg-gray-800/60"
         onClick={next}
       >
         <ChevronLeft size={32} />
