@@ -252,5 +252,10 @@
   "E-mail": "E-Mail",
   "password_repeat": "Passwort wiederholen",
   "Repeat Password": "Passwort wiederholen",
-  "Don't have an account yet?": "Haben Sie noch kein Konto?"
+  "Don't have an account yet?": "Haben Sie noch kein Konto?",
+  "Back to Account": "Zurück zum Konto",
+  "Last Name": "Nachname",
+  "TaxID": "Steuernummer",
+  "submit_error": "Fehler beim Speichern",
+  "submit_success": "Erfolgreich gespeichert"
 }

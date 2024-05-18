@@ -252,5 +252,10 @@
   "E-mail": "E-mail",
   "password_repeat": "Répéter le mot de passe",
   "Repeat Password": "Répéter le mot de passe",
-  "Don't have an account yet?": "Vous n'avez pas encore de compte ?"
+  "Don't have an account yet?": "Vous n'avez pas encore de compte ?",
+  "Back to Account": "Retour au compte",
+  "Last Name": "Nom de famille",
+  "TaxID": "Numéro de TVA",
+  "submit_error": "Erreur lors de l'enregistrement",
+  "submit_success": "Enregistrement réussi"
 }

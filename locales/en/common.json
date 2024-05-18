@@ -243,7 +243,6 @@
   "password_reset_error": "Make sure your passwords match.",
   "Password_repeat": "Repeat Password",
   "set_new_password": "Set New Password",
-
   "Register an account": "Register an account",
   "FirstName": "First Name",
   "Your first name": "Your first name",
@@ -253,5 +252,10 @@
   "E-mail": "E-mail",
   "password_repeat": "Repeat Password",
   "Repeat Password": "Repeat Password",
-  "Don't have an account yet?": "Don't have an account yet?"
+  "Don't have an account yet?": "Don't have an account yet?",
+  "Back to Account": "Back to Account",
+  "Last Name": "Last Name",
+  "TaxID": "Tax ID",
+  "submit_error": "An error occurred while saving.",
+  "submit_success": "Saved successfully."
 }

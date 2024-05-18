@@ -252,5 +252,10 @@
   "E-mail": "E-posta",
   "password_repeat": "Şifreyi tekrar et",
   "Repeat Password": "Şifreyi tekrar et",
-  "Don't have an account yet?": "Henüz bir hesabınız yok mu?"
+  "Don't have an account yet?": "Henüz bir hesabınız yok mu?",
+  "Back to Account": "Hesaba Geri Dön",
+  "Last Name": "Soyad",
+  "TaxID": "Vergi Numarası",
+  "submit_error": "Kayıt edilirken hata oluştu",
+  "submit_success": "Kayıt başarılı"
 }

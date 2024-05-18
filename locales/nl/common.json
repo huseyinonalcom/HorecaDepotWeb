@@ -252,5 +252,10 @@
   "E-mail": "E-mail",
   "password_repeat": "Herhaal wachtwoord",
   "Repeat Password": "Herhaal wachtwoord",
-  "Don't have an account yet?": "Heeft u nog geen account?"
+  "Don't have an account yet?": "Heeft u nog geen account?",
+  "Back to Account": "Terug naar account",
+  "Last Name": "Achternaam",
+  "TaxID": "BTW-nummer",
+  "submit_error": "Er is een fout opgetreden tijdens het opslaan.",
+  "submit_success": "Uw gegevens zijn opgeslagen."
 }
