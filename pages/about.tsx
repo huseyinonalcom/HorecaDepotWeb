@@ -45,7 +45,7 @@ export default function About() {
               <p className="text-lg">
                 Depuis 1980, nous sommes une entreprise qui vend des produits en
                 gros ou au détail. Nous hébergeons deux sociétés différentes
-                nommées Horeca Depot et TK Architecture.
+                nommées Horeca Depot.
               </p>
               <p className="text-lg">
                 À partir de vos plans, nous fabriquons vos meubles en quelques

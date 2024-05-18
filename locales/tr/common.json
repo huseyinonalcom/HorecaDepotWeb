@@ -257,5 +257,7 @@
   "Last Name": "Soyad",
   "TaxID": "Vergi Numarası",
   "submit_error": "Kayıt edilirken hata oluştu",
-  "submit_success": "Kayıt başarılı"
+  "submit_success": "Kayıt başarılı",
+  "opening_hours_a": "Pazartesi - Cumartesi: 09:30 - 19:00",
+  "opening_hours_b": "Pazar: Kapalı (Randevu)"
 }

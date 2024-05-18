@@ -257,5 +257,7 @@
   "Last Name": "Nom de famille",
   "TaxID": "Numéro de TVA",
   "submit_error": "Erreur lors de l'enregistrement",
-  "submit_success": "Enregistrement réussi"
+  "submit_success": "Enregistrement réussi",
+  "opening_hours_a": "Lundi - Samedi: 09:30 - 19:00",
+  "opening_hours_b": "Dimanche: Fermé (sur rendez-vous)"
 }

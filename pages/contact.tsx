@@ -4,7 +4,14 @@ import useTranslation from "next-translate/useTranslation";
 import Layout from "../components/public/layout";
 import Link from "next/link";
 import Head from "next/head";
-
+import {
+  LuClock,
+  LuClock1,
+  LuClock2,
+  LuMail,
+  LuMapPin,
+  LuPhone,
+} from "react-icons/lu";
 export default function Contact() {
   const { t, lang } = useTranslation("common");
   return (
@@ -15,16 +22,16 @@ export default function Contact() {
           <meta name="description" content="" />
           <meta name="language" content={lang} />
         </Head>
-        <h1 className="bg-black pt-2 text-center text-4xl font-bold text-white">
+        <h1 className="pt-2 text-center text-4xl font-bold text-black">
           {t("CONTACT")}
         </h1>
-        <div className="flex h-[70px] flex-col justify-around bg-black shadow-lg">
-          <div className="text-md flex flex-row items-center justify-center font-bold text-gray-300">
+        <div className="flex h-[70px] flex-col justify-around">
+          <div className="text-md flex flex-row items-center justify-center font-bold text-black">
             <Link href="/" className="duration-700 hover:text-white">
               {t("Home")}
             </Link>
             <p className="mx-2 font-bold">/</p>
-            <p className="text-white underline decoration-white decoration-solid decoration-4 underline-offset-8">
+            <p className="text-black underline decoration-black decoration-solid decoration-4 underline-offset-8">
               {t("Contact")}
             </p>
           </div>
@@ -38,44 +45,42 @@ export default function Contact() {
           ></iframe>
           <div className="grid w-[95%] grid-cols-1 gap-2 md:grid-cols-2">
             <div className="flex flex-col items-start gap-2 border-b-4 border-black pb-4 md:border-none md:pb-0">
-              <h2 className="ml-4 text-5xl font-bold text-[#363332]">
+              <h2 className="ml-4 text-4xl font-bold text-[#363332]">
                 {t("Contact")}
               </h2>
               <div className="flex flex-col gap-2 pl-2">
-                <a href="tel:+32499738373" className="flex flex-row items-center gap-2 text-xl">
-                  <Phone
-                    className="h-10 w-10 border-2 border-[#6e6b6a] p-1"
-                    color="#6e6b6a"
-                  />
+                <a
+                  href="tel:+32499738373"
+                  className="flex flex-row items-center gap-2"
+                >
+                  <LuPhone className="h-9 w-9 p-1" color="black" />
                   <p>+32 499 73 83 73</p>
                 </a>
-                <a href="mailto:info@horecadepot.be" className="flex flex-row items-center gap-2 text-xl">
-                  <Mail
-                    className="h-10 w-10 border-2 border-[#6e6b6a] p-1"
-                    color="#6e6b6a"
-                  />
+                <a
+                  href="mailto:info@horecadepot.be"
+                  className="flex flex-row items-center gap-2"
+                >
+                  <LuMail className="h-9 w-9 p-1" color="black" />
                   <p>info@horecadepot.be</p>
                 </a>
-                <a target="blank" href="https://www.google.com/maps/dir//HorecaDepot+Rue+de+Ribaucourt+154+1080+Bruxelles/@50.8618074,4.3429586,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x47c3c32a1a2325c3:0x7594491cb3de795a!2m2!1d4.3429586!2d50.8618074?entry=ttu" className="flex flex-row items-center gap-2 text-xl">
-                  <Briefcase
-                    className="h-10 w-10 border-2 border-[#6e6b6a] p-1"
-                    color="#6e6b6a"
-                  />
+                <a
+                  target="blank"
+                  href="https://www.google.com/maps/dir//HorecaDepot+Rue+de+Ribaucourt+154+1080+Bruxelles/@50.8618074,4.3429586,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x47c3c32a1a2325c3:0x7594491cb3de795a!2m2!1d4.3429586!2d50.8618074?entry=ttu"
+                  className="flex flex-row items-center gap-2"
+                >
+                  <LuMapPin className="h-9 w-9 p-1" color="black" />
                   <p>
-                    Rue de Ribaucourt 154
+                    Rue de Ribaucourt - Ribaucourtstraat 154
                     <br />
-                    1080 Bruxelles
+                    1080 Bruxelles - Brussel
                   </p>
                 </a>
-                <div className="flex flex-row items-center gap-2 text-xl">
-                  <Clock
-                    className="h-10 w-10 border-2 border-[#6e6b6a] p-1"
-                    color="#6e6b6a"
-                  />
+                <div className="flex flex-row items-center gap-2">
+                  <LuClock2 className="h-9 w-9 p-1" color="black" />
                   <p>
-                    Lundi - Samedi: 09:30 - 19:00
+                    {t("opening_hours_a")}
                     <br />
-                    Dimanche fermé (sur rendez-vous)
+                    {t("opening_hours_b")}
                   </p>
                 </div>
               </div>

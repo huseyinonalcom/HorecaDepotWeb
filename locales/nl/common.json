@@ -257,5 +257,7 @@
   "Last Name": "Achternaam",
   "TaxID": "BTW-nummer",
   "submit_error": "Er is een fout opgetreden tijdens het opslaan.",
-  "submit_success": "Uw gegevens zijn opgeslagen."
+  "submit_success": "Uw gegevens zijn opgeslagen.",
+  "opening_hours_a": "Maandag - Zaterdag: 09:30 - 19:00",
+  "opening_hours_b": "Zondag: Gesloten (enkel op afspraak)"
 }

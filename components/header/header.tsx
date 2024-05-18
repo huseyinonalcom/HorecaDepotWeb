@@ -688,7 +688,7 @@ const HeaderButtons = ({ cartItems }) => {
         href="/wishlist"
       >
         <Heart />
-        <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-white px-1 py-0.5 text-xs font-bold leading-none text-black">
+        <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-red-600 px-1 py-0.5 text-xs font-bold leading-none text-white">
           {wishlist.length}
         </span>
       </Link>

@@ -257,5 +257,7 @@
   "Last Name": "Last Name",
   "TaxID": "Tax ID",
   "submit_error": "An error occurred while saving.",
-  "submit_success": "Saved successfully."
+  "submit_success": "Saved successfully.",
+  "opening_hours_a": "Monday - Saturday: 09:30 - 19:00",
+  "opening_hours_b": "Sunday: Closed (by appointment only)"
 }

@@ -257,5 +257,7 @@
   "Last Name": "Nachname",
   "TaxID": "Steuernummer",
   "submit_error": "Fehler beim Speichern",
-  "submit_success": "Erfolgreich gespeichert"
+  "submit_success": "Erfolgreich gespeichert",
+  "opening_hours_a": "Montag - Samstag: 09:30 - 19:00",
+  "opening_hours_b": "Sonntag: geschlossen (nur nach Vereinbarung)"
 }

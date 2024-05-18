@@ -12,7 +12,7 @@ const ContactForm = () => {
       encType="multipart/form-data"
       method="POST"
     >
-      <h2 className="flex flex-row items-center gap-2 text-3xl font-bold text-[#363332]">
+      <h2 className="flex flex-row items-center gap-2 text-4xl font-bold text-[#363332]">
         {t("Send us a message")}
         <MessageSquare />
       </h2>
