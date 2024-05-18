@@ -1,6 +1,7 @@
 import { getCategories } from "../../../../api/calls/categoryCalls";
 import { Category } from "../../../../api/interfaces/category";
 import { Product, ProductConversion } from "../../../../api/interfaces/product";
+import { getAllCategoriesFlattened } from "../../categories/public/getallcategoriesflattened";
 
 function getAllSubcategoryIds(categories: Category[], categoryId: number) {
   let ids: number[] = [];
@@ -47,7 +48,7 @@ function checkValues(minValue, maxValue) {
 
 export default async function getProducts(req, res) {
   const pageParam = req.query.page ?? 1;
-  const categoryParam = req.query.category ?? null;
+  let categoryParam = req.query.category ?? null;
   const minValueParam = Number(req.query.minprice) ?? null;
   const maxValueParam = Number(req.query.maxprice) ?? null;
   const searchParam = req.query.search ?? null;
@@ -58,6 +59,20 @@ export default async function getProducts(req, res) {
     let categories: Category[] = await getCategories();
 
     let categoriesToSearch: number[] = [];
+
+    console.log(categoryParam);
+    console.log(typeof categoryParam);
+    console.log(decodeURIComponent(categoryParam));
+
+    if (typeof categoryParam == "string") {
+      categoryParam = parseInt(
+        await getAllCategoriesFlattened().then(
+          (data) =>
+            data.find((cat) => cat.Name === decodeURIComponent(categoryParam))
+              .id,
+        ),
+      );
+    }
 
     if (categoryParam) {
       categoriesToSearch = getAllSubcategoryIds(categories, categoryParam);
@@ -139,7 +154,7 @@ export default async function getProducts(req, res) {
           headers: {
             Authorization: `Bearer ${process.env.API_KEY}`,
           },
-        }
+        },
       );
 
       const answerMaxValue = await requestForMaxValue.json();
@@ -150,7 +165,7 @@ export default async function getProducts(req, res) {
           headers: {
             Authorization: `Bearer ${process.env.API_KEY}`,
           },
-        }
+        },
       );
       const answerMinValue = await requestForMinValue.json();
 

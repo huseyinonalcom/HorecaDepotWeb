@@ -8,7 +8,6 @@ import Head from "next/head";
 import Link from "next/link";
 import { ChevronLeft } from "react-feather";
 import { getAllCategoriesFlattened } from "./api/categories/public/getallcategoriesflattened";
-import { title } from "process";
 
 export default function Index({ collections, allCategories }) {
   const { t, lang } = useTranslation("common");
@@ -35,6 +34,7 @@ export default function Index({ collections, allCategories }) {
     {
       id: 1,
       url: "/assets/homepage/1.jpg",
+      link: `/products?page=1&category=${encodeURIComponent("Chaises Extérieur")}`,
       alt: "Terrace Chair",
       title: "Terrace",
       text: "New terrace collection",
@@ -42,6 +42,7 @@ export default function Index({ collections, allCategories }) {
     {
       id: 2,
       url: "/assets/homepage/2.jpg",
+      link: `/products?page=1&category=${encodeURIComponent("Tables")}`,
       alt: "Terrace Table",
       title: "Terrace",
       text: "New terrace collection",
@@ -49,6 +50,7 @@ export default function Index({ collections, allCategories }) {
     {
       id: 3,
       url: "/assets/homepage/3.jpg",
+      link: `/products?page=1&category=${encodeURIComponent("Banquettes")}`,
       alt: "Banquette",
       title: "Banquette",
       text: "Banquette Promos",
@@ -72,7 +74,8 @@ export default function Index({ collections, allCategories }) {
             className={`no-scrollbar flex w-full snap-x snap-mandatory flex-row overflow-x-scroll`}
           >
             {[1, 2, 3].map((item) => (
-              <div
+              <Link
+                href={images[item - 1].link}
                 key={`slider1-${item}`}
                 className={`snap-start px-3 2xl:w-1/3`}
               >
@@ -94,7 +97,7 @@ export default function Index({ collections, allCategories }) {
                     <p>{images[item - 1].text}</p>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
           <div className="ml-4 mt-2 flex w-[90vw] max-w-screen-2xl flex-row justify-start gap-2 2xl:hidden">
@@ -114,7 +117,10 @@ export default function Index({ collections, allCategories }) {
             allCategories?.map((category) => (
               <div key={`grid1-${category.id}`} className={``}>
                 <Link
-                  href={"/products?page=1&category=" + category.id}
+                  href={
+                    "/products?page=1&category=" +
+                    encodeURIComponent(category.Name)
+                  }
                   className="flex flex-col items-center gap-2"
                 >
                   <div className="relative aspect-[15/14] w-full overflow-hidden rounded-xl">
@@ -136,7 +142,7 @@ export default function Index({ collections, allCategories }) {
         </div>
 
         <Link
-          href={"/products?page=1"}
+          href={`/products?page=1&category=${encodeURIComponent("Chaises Extérieur")}`}
           className="relative aspect-[21/9] w-full overflow-hidden rounded-xl md:aspect-[205/7] lg:aspect-[205/78]"
         >
           <Image
