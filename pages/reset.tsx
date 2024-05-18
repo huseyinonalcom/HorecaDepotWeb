@@ -28,7 +28,7 @@ export default function Reset() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          password: event.target.Password.value,
+          password: event.target.password.value,
           code: router.query.code,
         }),
       });
@@ -49,7 +49,7 @@ export default function Reset() {
         <title>Login</title>
         <meta name="language" content={lang} />
       </Head>
-      <div className="flex h-[50svh] min-w-[350px] w-full items-center justify-center">
+      <div className="flex h-[50svh] w-full min-w-[350px] items-center justify-center">
         <div className="flex min-w-[350px] flex-col">
           <form
             onSubmit={handleSubmit}
