@@ -29,6 +29,7 @@ const Layout = ({ children }: Props) => {
   const navButtonsClass =
     "relative flex flex-col justify-center items-center p-1 duration-300 font-bold text-sm text-white hover:bg-black aspect-[1/1]";
   const router = useRouter();
+  const footerIconsHeight = 19;
 
   return (
     <>
@@ -79,12 +80,66 @@ const Layout = ({ children }: Props) => {
                       <p className="flex-shrink-0 font-semibold">
                         {t("Payment Partners")}
                       </p>
-                      <div className="relative flex aspect-[4488/268] h-full w-full flex-row">
+                      <div className="flex h-[25px] w-full flex-row items-center justify-center gap-1.5">
                         <Image
-                          src={"/assets/payment.png"}
-                          alt="Payment Partners Logos"
-                          fill
-                          style={{ objectFit: "contain" }}
+                          src={"/assets/payment/wl.png"}
+                          alt="Worldline"
+                          height={footerIconsHeight}
+                          width={1000}
+                          style={{
+                            height: `${footerIconsHeight}px`,
+                            width: "auto",
+                          }}
+                        />
+                        <Image
+                          src={"/assets/payment/bc.svg"}
+                          alt="Bancontact"
+                          height={footerIconsHeight}
+                          width={1000}
+                          style={{
+                            height: `${footerIconsHeight}px`,
+                            width: "auto",
+                          }}
+                        />
+                        <Image
+                          src={"/assets/payment/visa.svg"}
+                          alt="Visa"
+                          height={footerIconsHeight}
+                          width={1000}
+                          style={{
+                            height: `${footerIconsHeight}px`,
+                            width: "auto",
+                          }}
+                        />
+                        <Image
+                          src={"/assets/payment/ma.svg"}
+                          alt="Maestro"
+                          height={footerIconsHeight}
+                          width={1000}
+                          style={{
+                            height: `${footerIconsHeight}px`,
+                            width: "auto",
+                          }}
+                        />
+                        <Image
+                          src={"/assets/payment/mc.svg"}
+                          alt="Mastercard"
+                          height={footerIconsHeight}
+                          width={1000}
+                          style={{
+                            height: `${footerIconsHeight}px`,
+                            width: "auto",
+                          }}
+                        />
+                        <Image
+                          src={"/assets/payment/amex.svg"}
+                          alt="American Express"
+                          height={footerIconsHeight}
+                          width={1000}
+                          style={{
+                            height: `${footerIconsHeight}px`,
+                            width: "auto",
+                          }}
                         />
                       </div>
                     </div>
