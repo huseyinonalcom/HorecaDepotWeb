@@ -8,6 +8,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { ChevronLeft } from "react-feather";
 import { getAllCategoriesFlattened } from "./api/categories/public/getallcategoriesflattened";
+import { title } from "process";
 
 export default function Index({ collections, allCategories }) {
   const { t, lang } = useTranslation("common");
@@ -29,6 +30,30 @@ export default function Index({ collections, allCategories }) {
       behavior: "smooth",
     });
   };
+
+  const images = [
+    {
+      id: 1,
+      url: "/assets/homepage/1.jpg",
+      alt: "Terrace Chair",
+      title: "Terrace",
+      text: "New terrace collection",
+    },
+    {
+      id: 2,
+      url: "/assets/homepage/2.jpg",
+      alt: "Terrace Table",
+      title: "Terrace",
+      text: "New terrace collection",
+    },
+    {
+      id: 3,
+      url: "/assets/homepage/3.jpg",
+      alt: "Banquette",
+      title: "Banquette",
+      text: "Banquette Promos",
+    },
+  ];
 
   return (
     <Layout>
@@ -52,10 +77,20 @@ export default function Index({ collections, allCategories }) {
                 className={`snap-start px-3 2xl:w-1/3`}
               >
                 <div className="border-1 flex h-min flex-shrink-0 flex-col overflow-hidden rounded-xl border border-black/30">
-                  <div className="aspect-[15/8] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full"></div>
+                  <div className="relative aspect-[320/171] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full">
+                    <Image
+                      src={images[item - 1].url}
+                      alt={images[item - 1].alt}
+                      sizes="90vw, md:42vw, 2xl:30vw"
+                      fill
+                      style={{ objectFit: "cover" }}
+                    />
+                  </div>
                   <div className="flex h-[150px] w-full flex-col gap-2 p-4">
-                    <p className="text-xl font-semibold">Başlık</p>
-                    <p>İlgili yazı</p>
+                    <p className="text-xl font-semibold">
+                      {images[item - 1].title}
+                    </p>
+                    <p>{images[item - 1].text}</p>
                   </div>
                 </div>
               </div>
