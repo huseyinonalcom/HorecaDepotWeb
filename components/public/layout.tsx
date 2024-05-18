@@ -29,7 +29,7 @@ const Layout = ({ children }: Props) => {
   const navButtonsClass =
     "relative flex flex-col justify-center items-center p-1 duration-300 font-bold text-sm text-white hover:bg-black aspect-[1/1]";
   const router = useRouter();
-  const footerIconsHeight = 19;
+  const footerIconsHeight = 17;
 
   return (
     <>
@@ -316,12 +316,16 @@ const Layout = ({ children }: Props) => {
                       <p className="flex-shrink-0 font-semibold">
                         {t("Logistics Partners")}
                       </p>
-                      <div className="relative flex aspect-[4488/268] h-full w-full flex-row">
+                      <div className="flex h-[25px] w-full flex-row items-center justify-center gap-1.5">
                         <Image
                           src={"/assets/logistics.png"}
                           alt="Logistics Partners Logos"
-                          fill
-                          style={{ objectFit: "contain" }}
+                          height={footerIconsHeight}
+                          width={1000}
+                          style={{
+                            height: `${footerIconsHeight}px`,
+                            width: "auto",
+                          }}
                         />
                       </div>
                     </div>
