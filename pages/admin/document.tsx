@@ -2,8 +2,6 @@ import useTranslation from "next-translate/useTranslation";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { Check, Search, Upload, X } from "react-feather";
-import Image from "next/image";
 import AdminLayout from "../../components/admin/adminLayout";
 import LoadingIndicator from "../../components/common/loadingIndicator";
 import componentThemes from "../../components/componentThemes";

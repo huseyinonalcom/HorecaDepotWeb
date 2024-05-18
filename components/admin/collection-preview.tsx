@@ -4,7 +4,6 @@ import useTranslation from "next-translate/useTranslation";
 import { ArrowLeft } from "react-feather";
 import { useEffect, useState } from "react";
 import componentThemes from "../componentThemes";
-import { useDragScroll } from "../common/use-drag-scroll";
 
 type Props = {
   collection;

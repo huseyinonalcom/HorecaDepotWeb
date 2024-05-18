@@ -2,13 +2,10 @@ import React, { useContext, useState } from "react";
 import { AdminDrawerContext } from "../../api/providers/adminDrawerProvider";
 import {
   ChevronLeft,
-  DollarSign,
   Globe,
-  Home,
   Lock,
   LogOut,
   Package,
-  Settings,
   Table,
 } from "react-feather";
 import Link from "next/link";

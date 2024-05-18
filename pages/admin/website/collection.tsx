@@ -7,7 +7,6 @@ import Head from "next/head";
 import componentThemes from "../../../components/componentThemes";
 import { Check, Search, Upload, X } from "react-feather";
 import Image from "next/image";
-import InputOutlined from "../../../components/inputs/outlined";
 
 const buttonClass =
   "flex flex-row items-center justify-start py-2  shadow-lg hover:bg-orange-400 overflow-hidden duration-500 cursor-pointer";

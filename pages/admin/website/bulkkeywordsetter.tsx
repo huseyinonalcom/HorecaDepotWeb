@@ -5,8 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import componentThemes from "../../../components/componentThemes";
-import { Check, Search, Upload, X } from "react-feather";
-import Image from "next/image";
+import { Check, Search, X } from "react-feather";
 
 const buttonClass =
   "flex flex-row items-center justify-start py-2  shadow-lg hover:bg-orange-400 overflow-hidden duration-500 cursor-pointer";
