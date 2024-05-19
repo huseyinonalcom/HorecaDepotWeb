@@ -86,6 +86,7 @@ export default function Index({ collections, allCategories }) {
                       alt={images[item - 1].alt}
                       sizes="90vw, md:42vw, 2xl:30vw"
                       fill
+                      priority
                       className="z-20"
                       style={{ objectFit: "cover" }}
                     />
