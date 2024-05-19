@@ -870,6 +870,7 @@ const Header = () => {
                 <Image
                   width={200}
                   height={42.19}
+                  priority
                   src="/assets/header/logo.svg"
                   alt="Horeca Depot Logo"
                 />
