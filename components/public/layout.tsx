@@ -53,7 +53,7 @@ const Layout = ({ children }: Props) => {
               <div className="sticky top-0 z-40 w-full bg-black shadow-lg">
                 <Header />
               </div>
-              <div className="mx-auto min-h-[75vh] w-[90vw]">{children}</div>
+              <div className="mx-auto min-h-[75vh] w-[95vw] md:w-[90vw]">{children}</div>
               <CartDrawer />
               <Link
                 target="_blank"
@@ -374,7 +374,7 @@ const Layout = ({ children }: Props) => {
                 </Link>
               </div>
               {cookieDisclaimer && (
-                <div className="fixed bottom-0 z-30 flex w-full flex-row items-center justify-center gap-3 bg-black py-2 text-center text-white">
+                <div className="fixed max-w-[100vw] bottom-24 z-30 flex w-full flex-row items-center justify-center gap-3 bg-black py-2 text-center text-white">
                   <p className="text-sm">{t("cookie_disclaimer")}</p>
                   <button
                     type="button"
