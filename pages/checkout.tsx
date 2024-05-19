@@ -594,6 +594,8 @@ export default function Checkout() {
                     })}
                   </p>
                   <button
+                    name="logOut"
+                    aria-label="Log Out"
                     onClick={handleLogOut}
                     className={CustomTheme.outlinedButton}
                   >
@@ -669,6 +671,8 @@ export default function Checkout() {
                   </div>
                 )}
               <button
+                name="showAddressForm"
+                aria-label="Show Address Form"
                 className={CustomTheme.outlinedButton}
                 onClick={() => setShowAddressForm(!showAddressForm)}
               >
@@ -783,6 +787,8 @@ export default function Checkout() {
                   </div>
                   <div className="flex w-full flex-row">
                     <button
+                      name="submitNewAddress"
+                      aria-label="Submit New Address"
                       type="submit"
                       className={CustomTheme.outlinedButton}
                     >
@@ -795,6 +801,8 @@ export default function Checkout() {
                 <p className="text-red-500">{submitErrorDocument}</p>
               )}
               <button
+                name="orderSubmit"
+                aria-label="Order Submit"
                 onClick={handleOrderSubmit}
                 className={CustomTheme.outlinedButton}
               >
@@ -811,6 +819,8 @@ export default function Checkout() {
                     {t("exsting_customer")}
                   </p>
                   <button
+                    name="showLoginForm"
+                    aria-label="Show Login Form"
                     type="button"
                     onClick={() => {
                       setShowLoginForm(true);
@@ -826,6 +836,8 @@ export default function Checkout() {
                     {t("new_customer")}
                   </p>
                   <button
+                    name="showRegisterForm"
+                    aria-label="Show Register Form" 
                     type="button"
                     onClick={() => {
                       setShowLoginForm(false);
@@ -866,12 +878,17 @@ export default function Checkout() {
                   error={errorLogin}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <button type="submit" className={CustomTheme.outlinedButton}>
+                <button
+                name="login"
+                aria-label="Login"
+                type="submit" className={CustomTheme.outlinedButton}>
                   {t("Login")}
                 </button>
               </form>
               <h3 className="mt-3">{t("Don't have an account yet?")}</h3>
               <button
+                name="closeLoginForm"
+                aria-label="Close Login Form"
                 type="button"
                 onClick={() => {
                   setShowLoginForm(false);
@@ -889,6 +906,8 @@ export default function Checkout() {
               <div className="flex flex-col">
                 <h3 className="mt-1">{t("Already have an account?")}</h3>
                 <button
+                name="closeRegisterForm"
+                aria-label="Close Registration Form"
                   type="button"
                   onClick={() => {
                     setShowLoginForm(false);
@@ -902,6 +921,8 @@ export default function Checkout() {
                 <div className="grid grid-cols-2 gap-2">
                   <div className="flex w-full flex-col">
                     <button
+                      name="setClientTypeToIndividual"
+                      aria-label="Set Client Type to Individual"
                       type="button"
                       onClick={() => setClientType(options.at(1))}
                       className={
@@ -914,6 +935,8 @@ export default function Checkout() {
                   </div>
                   <div className="flex w-full flex-col">
                     <button
+                      name="setClientTypeToBusiness"
+                      aria-label="Set Client Type to Business"
                       type="button"
                       onClick={() => setClientType(options.at(0))}
                       className={
@@ -1082,6 +1105,8 @@ export default function Checkout() {
                 </div>
                 <div className="flex w-full flex-row">
                   <button
+                    name="submitNewClient"
+                    aria-label="Submit New Client"
                     type="submit"
                     className={CustomTheme.greenSubmitButton}
                   >
@@ -1158,6 +1183,8 @@ export default function Checkout() {
 
                 <div className="flex flex-row items-end justify-center">
                   <button
+                    name="removeFromCart"
+                    aria-label="Remove from Cart"
                     onClick={() => removeFromCart(product.id)}
                     className="mr-2.5"
                   >
@@ -1199,6 +1226,8 @@ export default function Checkout() {
               />
               {promoError && <p className="text-red-400">{promoError}</p>}
               <button
+                name="validatePromo"
+                aria-label="Validate Promo"
                 onClick={validatePromo}
                 className={CustomTheme.outlinedButton}
               >

@@ -65,6 +65,8 @@ const CatCarousel = ({ categories }) => {
       </div>
 
       <button
+        name="prev"
+        aria-label="Previous Category"
         type="button"
         className="absolute bottom-[35%] left-0 ml-2 rounded-full bg-gray-800/30 p-1 hover:bg-gray-800/60"
         onClick={prev}
@@ -72,6 +74,8 @@ const CatCarousel = ({ categories }) => {
         <ChevronLeft size={32} />
       </button>
       <button
+        name="next"
+        aria-label="Next Category"
         type="button"
         className="absolute bottom-[35%] right-0 mr-2 rotate-180 rounded-full bg-gray-800/30 p-1 hover:bg-gray-800/60"
         onClick={next}

@@ -379,6 +379,8 @@ const Layout = ({ children }: Props) => {
                 <div className="fixed bottom-24 z-30 flex w-full max-w-[100vw] flex-row items-center justify-center gap-3 bg-black py-2 text-center text-white">
                   <p className="text-sm">{t("cookie_disclaimer")}</p>
                   <button
+                    name="cookieDisclaimer"
+                    aria-label="Close Cookie Disclaimer"
                     type="button"
                     className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
                     onClick={() => {

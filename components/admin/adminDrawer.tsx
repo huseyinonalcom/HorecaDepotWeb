@@ -39,6 +39,8 @@ const AdminDrawer = () => {
           <div className="flex flex-col gap-1">
             <button
               className="mb-2 ml-auto flex w-[30px] flex-row justify-center bg-black text-white shadow-lg  duration-500 hover:bg-orange-400"
+              name="closeAdminDrawer"
+              aria-label="Close Admin Drawer"
               onClick={isAdminDrawerOpen ? closeAdminDrawer : openAdminDrawer}
             >
               <ChevronLeft
@@ -85,7 +87,11 @@ const AdminDrawer = () => {
           </div>
           <div className="flex flex-col gap-1">
             <div className="relative mr-auto flex flex-row items-center justify-center pl-1 text-sm text-white duration-300">
-              <button onClick={() => setShowLanguages(!showLanguages)}>
+              <button
+                name="showLanguages"
+                aria-label="Show Languages"
+                onClick={() => setShowLanguages(!showLanguages)}
+              >
                 <Image
                   src={`/assets/header/${lang.toUpperCase()}.svg`}
                   alt={t("locale")}
@@ -103,6 +109,8 @@ const AdminDrawer = () => {
                 }`}
               >
                 <button
+                  name="setLanguageToEN"
+                  aria-label="Set Language to English"
                   onClick={async () => await setLanguage("en")}
                   className={`${navLinkClass} ${lang == "en" ? "hidden" : ""}`}
                 >
@@ -116,6 +124,8 @@ const AdminDrawer = () => {
                   />
                 </button>
                 <button
+                  name="setLanguageToFR"
+                  aria-label="Set Language to French"
                   onClick={async () => await setLanguage("fr")}
                   className={`${navLinkClass} ${lang == "fr" ? "hidden" : ""}`}
                 >
@@ -129,6 +139,8 @@ const AdminDrawer = () => {
                   />
                 </button>
                 <button
+                  name="setLanguageToNL"
+                  aria-label="Set Language to Dutch"
                   onClick={async () => await setLanguage("nl")}
                   className={`${navLinkClass} ${lang == "nl" ? "hidden" : ""}`}
                 >
@@ -142,6 +154,8 @@ const AdminDrawer = () => {
                   />
                 </button>
                 <button
+                  name="setLanguageToDE"
+                  aria-label="Set Language to German"
                   onClick={async () => await setLanguage("DE")}
                   className={`${navLinkClass} ${lang == "de" ? "hidden" : ""}`}
                 >
@@ -155,6 +169,8 @@ const AdminDrawer = () => {
                   />
                 </button>
                 <button
+                  name="setLanguageToTR"
+                  aria-label="Set Language to Turkish"
                   onClick={async () => await setLanguage("tr")}
                   className={`${navLinkClass} ${lang == "tr" ? "hidden" : ""}`}
                 >
@@ -170,6 +186,8 @@ const AdminDrawer = () => {
               </div>
             </div>
             <button
+              name="logout"
+              aria-label="Logout"
               className={buttonClass + ` mt-auto`}
               onClick={async () => {
                 await fetch("/api/admin/logout").then(() => {

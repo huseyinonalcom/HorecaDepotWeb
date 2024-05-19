@@ -138,6 +138,8 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
           {prefix} {minValue} - {prefix} {maxValue}
         </p>
         <button
+          name="resetRange"
+          aria-label="Reset Range"
           className="ml-4"
           onClick={() => {
             setMinValue(minLimit);

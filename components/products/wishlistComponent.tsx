@@ -70,6 +70,8 @@ const WishListComponent = () => {
               </div>
               <div className="flex flex-row gap-2">
                 <button
+                  name="moveToCart"
+                  aria-label="Move to Cart"
                   className="bg-white p-2 shadow-md duration-500 hover:text-green-500"
                   onClick={() => moveItemToCart(product)}
                 >
@@ -78,6 +80,8 @@ const WishListComponent = () => {
                   </div>
                 </button>
                 <button
+                  name="removeFromWishlist"
+                  aria-label="Remove from Wishlist"
                   className="bg-white p-2 shadow-md duration-500 hover:text-red-500"
                   onClick={() => removeFromWishlist(product.id)}
                 >

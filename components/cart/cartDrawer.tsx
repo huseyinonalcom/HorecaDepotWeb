@@ -33,7 +33,12 @@ const CartDrawer = () => {
       <div
         className={`${drawerClass} top-0 z-50 h-screen min-w-[250px] max-w-[290px] overflow-y-auto bg-gray-100 p-5 duration-500`}
       >
-        <button onClick={closeDrawer} className="mb-2 w-full duration-700">
+        <button
+          name="closeCartDrawer"
+          aria-label="Close Cart Drawer"
+          onClick={closeDrawer}
+          className="mb-2 w-full duration-700"
+        >
           <div className="group flex w-full flex-row justify-between border-b border-gray-300 py-1 pl-2 pr-1">
             <p className="font-bold">{t("Cart")}</p>
             <X className="-rotate-180 duration-700 group-hover:rotate-180" />
@@ -90,6 +95,8 @@ const CartDrawer = () => {
                 </div>
                 <div className="flex flex-row items-center justify-center">
                   <button
+                    name="removeFromCart"
+                    aria-label="Remove from Cart"
                     onClick={() => removeFromCart(product.id)}
                     className="mr-2.5"
                   >
@@ -97,6 +104,8 @@ const CartDrawer = () => {
                   </button>
                   <div className="mr-2 flex h-fit flex-row items-center justify-center rounded-md border-2 border-black bg-black p-0.5 duration-300">
                     <Minus
+                      name="decreaseQuantity"
+                      aria-label="Decrease Quantity"
                       className="h-6 w-6 cursor-pointer rounded-md bg-white px-1 duration-300 hover:text-red-500"
                       onClick={() => decreaseQuantity(product.id)}
                     />
@@ -104,6 +113,8 @@ const CartDrawer = () => {
                       {product.amount}
                     </p>
                     <Plus
+                      name="increaseQuantity"
+                      aria-label="Increase Quantity"
                       className="h-6 w-6 cursor-pointer rounded-md bg-white px-1 duration-300  hover:text-green-500"
                       onClick={() => increaseQuantity(product.id)}
                     />

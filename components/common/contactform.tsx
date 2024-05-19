@@ -61,6 +61,8 @@ const ContactForm = () => {
       <input type="hidden" name="_template" value="box" />
 
       <button
+        name="Send"
+        aria-label="Send"
         type="submit"
         className="w-full bg-[#524f4e] py-2 font-bold text-white duration-500 hover:bg-[#363332]"
       >

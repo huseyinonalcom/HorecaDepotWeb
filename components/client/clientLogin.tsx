@@ -78,7 +78,12 @@ const ClientLogin = () => {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
-                <button type="submit" className={CustomTheme.outlinedButton}>
+                <button
+                  name="requestPasswordReset"
+                  aria-label="Request Password Reset"
+                  type="submit"
+                  className={CustomTheme.outlinedButton}
+                >
                   {t("send_reset")}
                 </button>
               </>
@@ -86,6 +91,8 @@ const ClientLogin = () => {
           </form>
           <button
             type="button"
+            name="cancelResetPassword"
+            aria-label="Cancel Reset Password"
             onClick={() => {
               setForgotPasswordMode(false);
               setResetText("");
@@ -125,12 +132,19 @@ const ClientLogin = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="submit" className={CustomTheme.outlinedButton}>
+          <button
+            name="login"
+            aria-label="Login"
+            type="submit"
+            className={CustomTheme.outlinedButton}
+          >
             {t("Login")}
           </button>
         </form>
         <button
           type="button"
+          name="forgotPassword"
+          aria-label="Forgot Password"
           onClick={() => setForgotPasswordMode(true)}
           className={CustomTheme.outlinedButton}
         >

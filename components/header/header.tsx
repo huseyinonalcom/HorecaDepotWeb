@@ -320,6 +320,8 @@ const TopBar = () => {
         <ul className="invisible absolute right-0 mx-auto block w-max items-center pt-1 text-gray-700 opacity-0 shadow-md duration-300 group-hover:visible group-hover:opacity-100">
           <li className="bg-black pb-1">
             <button
+              name="setLanguageToEN"
+              aria-label="Set Language to English"
               onClick={async () => await setLanguage("en")}
               className={`${flagButtonClass} ${lang == "en" ? "hidden" : ""}`}
             >
@@ -335,6 +337,8 @@ const TopBar = () => {
           </li>
           <li className="bg-black pb-1">
             <button
+              name="setLanguageToFR"
+              aria-label="Set Language to French"
               onClick={async () => await setLanguage("fr")}
               className={`${flagButtonClass} ${lang == "fr" ? "hidden" : ""}`}
             >
@@ -350,6 +354,8 @@ const TopBar = () => {
           </li>
           <li className="bg-black pb-1">
             <button
+              name="setLanguageToNL"
+              aria-label="Set Language to Dutch"
               onClick={async () => await setLanguage("nl")}
               className={`${flagButtonClass} ${lang == "nl" ? "hidden" : ""}`}
             >
@@ -365,6 +371,8 @@ const TopBar = () => {
           </li>
           <li className="bg-black pb-1">
             <button
+              name="setLanguageToDE"
+              aria-label="Set Language to German"
               onClick={async () => await setLanguage("de")}
               className={`${flagButtonClass} ${lang == "de" ? "hidden" : ""}`}
             >
@@ -380,6 +388,8 @@ const TopBar = () => {
           </li>
           <li className="bg-black pb-1">
             <button
+              name="setLanguageToTR"
+              aria-label="Set Language to Turkish"
               onClick={async () => await setLanguage("tr")}
               className={`${flagButtonClass} ${lang == "tr" ? "hidden" : ""}`}
             >
@@ -525,6 +535,8 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
               }`}
             >
               <button
+                name="setLanguageToEN"
+                aria-label="Set Language to English"
                 onClick={async () => await setLanguage("en")}
                 className={`${flagButtonsClass} ${
                   lang == "en" ? "hidden" : ""
@@ -540,6 +552,8 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
                 />
               </button>
               <button
+                name="setLanguageToFR"
+                aria-label="Set Language to French"
                 onClick={async () => await setLanguage("fr")}
                 className={`${flagButtonsClass} ${
                   lang == "fr" ? "hidden" : ""
@@ -555,6 +569,8 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
                 />
               </button>
               <button
+                name="setLanguageToNL"
+                aria-label="Set Language to Dutch"
                 onClick={async () => await setLanguage("nl")}
                 className={`${flagButtonsClass} ${
                   lang == "nl" ? "hidden" : ""
@@ -570,6 +586,8 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
                 />
               </button>
               <button
+                name="setLanguageToDE"
+                aria-label="Set Language to German"
                 onClick={async () => await setLanguage("de")}
                 className={`${flagButtonsClass} ${
                   lang == "de" ? "hidden" : ""
@@ -585,6 +603,8 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
                 />
               </button>
               <button
+                name="setLanguageToTR"
+                aria-label="Set Language to Turkish"
                 onClick={async () => await setLanguage("tr")}
                 className={`${flagButtonsClass} ${
                   lang == "tr" ? "hidden" : ""
@@ -611,6 +631,8 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             <ShoppingCart /> {t("Shop")}
           </Link>
           <button
+            name="showCategories"
+            aria-label="Show Categories"
             className={navButtonsClass}
             onClick={() => setShowCategories(!showCategories)}
           >
@@ -709,6 +731,7 @@ const HeaderButtons = ({ cartItems }) => {
       </Link>
       <button
         name="Shopping cart"
+        aria-label="Shopping cart"
         className={navButtonsClass}
         onClick={openDrawer}
       >
@@ -731,7 +754,11 @@ const CategoryDrawerMobile = ({ isOpen, categories, closeDrawer }) => {
       <div className="flex-shrink-0 flex-col rounded-r-xl bg-white p-4">
         <div className="flex w-full min-w-[300px] flex-row items-center justify-between">
           <h3 className="pl-2 pr-6 text-xl font-semibold">{t("Categories")}</h3>
-          <button onClick={closeDrawer}>
+          <button
+            name="closeCategories"
+            aria-label="Close Categoires"
+            onClick={closeDrawer}
+          >
             <X />
           </button>
         </div>
@@ -759,7 +786,11 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
       <div className="z-[98] flex-shrink-0 rounded-xl bg-white p-4">
         <div className="flex w-full flex-row items-center justify-between">
           <h3 className="pl-2 pr-6 text-xl font-semibold">{t("Categories")}</h3>
-          <button onClick={closeDrawer}>
+          <button
+            name="closeCategories"
+            aria-label="Close Categoires"
+            onClick={closeDrawer}
+          >
             <X />
           </button>
         </div>
@@ -876,6 +907,8 @@ const Header = () => {
                 />
               </Link>
               <button
+                name="Show Categories"
+                aria-label="Show Categories"
                 className="hidden flex-row items-center gap-2 rounded-lg border-2 py-2 pl-3.5 pr-5 lg:flex"
                 onClick={() => setShowCategories(true)}
               >
