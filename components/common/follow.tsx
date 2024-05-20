@@ -11,7 +11,7 @@ const Follow = () => {
         target="_blank"
       >
         <Image
-          src={"/assets/header/facebook.png"}
+          src={"/assets/header/fb.svg"}
           alt="Facebook"
           width={iconSize}
           height={iconSize}
@@ -23,7 +23,7 @@ const Follow = () => {
         target="_blank"
       >
         <Image
-          src={"/assets/header/instagram.png"}
+          src={"/assets/header/ig.svg"}
           alt="Instagram"
           width={iconSize}
           height={iconSize}
@@ -35,7 +35,7 @@ const Follow = () => {
         target="_blank"
       >
         <Image
-          src={"/assets/header/youtube.png"}
+          src={"/assets/header/yt.svg"}
           alt="Youtube"
           width={iconSize}
           height={iconSize}
@@ -47,7 +47,7 @@ const Follow = () => {
         target="_blank"
       >
         <Image
-          src={"/assets/header/pinterest.png"}
+          src={"/assets/header/pt.svg"}
           alt="Pinterest"
           width={iconSize}
           height={iconSize}
