@@ -4,7 +4,7 @@ import Link from "next/link";
 const Follow = () => {
   const iconSize: number = 36;
   return (
-    <div className="grid grid-cols-4 gap-8 items-center">
+    <div className="grid grid-cols-4 items-center gap-8">
       <Link
         href={"https://www.facebook.com/HorecaDepotBelgium/"}
         aria-label="Link to Facebook"
