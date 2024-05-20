@@ -215,22 +215,11 @@ const Layout = ({ children }: Props) => {
                         Horeca Depot
                       </h3>
                       <p>
-                        {t("Address")}:
-                        <br />
-                        Rue de Ribaucourt 154, 1080 Bruxelles
-                        <br />
-                        de Ribaucourtstraat 154, 1080 Brussel
+                        {t("Address")}: Rue de Ribaucourtstraat 154, 1080
+                        Bruxelles
                       </p>
-                      <p>
-                        Tel:
-                        <br />
-                        +32 499 73 83 73
-                      </p>
-                      <p>
-                        E-mail:
-                        <br />
-                        info@horecadepot.be
-                      </p>
+                      <p>Tel: +32 499 73 83 73</p>
+                      <p>E-mail: info@horecadepot.be</p>
                       <p>
                         {t("Opening Hours")}:
                         <br />

@@ -62,7 +62,7 @@ export default function Contact() {
                 >
                   <LuMapPin className="h-9 w-9 p-1" color="black" />
                   <p>
-                    Rue de Ribaucourt - de Ribaucourtstraat 154
+                    Rue de Ribaucourtstraat 154
                     <br />
                     1080 Bruxelles - Brussel
                   </p>
