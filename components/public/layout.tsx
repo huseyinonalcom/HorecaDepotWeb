@@ -240,7 +240,7 @@ const Layout = ({ children }: Props) => {
                       <Image
                         color="black"
                         width={221}
-                        height={58.5}
+                        height={39.7}
                         src="/assets/header/logob.png"
                         alt="Horeca Depot Logo"
                       />
