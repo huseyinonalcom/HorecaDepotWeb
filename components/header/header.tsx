@@ -230,7 +230,7 @@ const MobileSearch = () => {
         <button
           aria-label="Search bar submit button"
           type="submit"
-          className="h-full w-[45px] cursor-pointer bg-black"
+          className="h-full w-[45px] cursor-pointer text-black"
         >
           <Search className="mx-auto my-auto h-6 w-6 pr-1" />
         </button>
