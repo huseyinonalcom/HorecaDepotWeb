@@ -324,7 +324,7 @@ const Layout = ({ children }: Props) => {
                           src={"/assets/logistics.png"}
                           alt="Logistics Partners Logos"
                           height={footerIconsHeight}
-                          width={1000}
+                          width={232.39}
                           style={{
                             height: `${footerIconsHeight}px`,
                             width: "auto",
