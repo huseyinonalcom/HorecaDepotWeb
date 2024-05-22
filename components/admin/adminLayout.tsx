@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { AdminDrawerProvider } from "../../api/providers/adminDrawerProvider";
 import AdminDrawer from "./adminDrawer";
 import { useRouter } from "next/navigation";
 
@@ -20,15 +19,13 @@ const AdminLayout = ({ children }: Props) => {
     validateSession();
   }, []);
 
-  return (
-    <AdminDrawerProvider>
+    return (
       <main>
         <div className="flex flex-row">
           <AdminDrawer />
           <div className="flex-shrink-1 overflow-x-hidden px-2">{children}</div>
         </div>
       </main>
-    </AdminDrawerProvider>
   );
 };
 

@@ -3,17 +3,21 @@ import statusText from "../../../../api/statustexts";
 export async function getWebsite() {
   const qs = require("qs");
   const query = qs.stringify({
-    fields: [
-      "name",
-      "description",
-      "order",
-      "fetch_from",
-      "is_fetched_from_api",
-    ],
     populate: {
-      image_with_link: {
-        fields: ["name", "linked_url", "order"],
-        populate: { image: { fields: ["url", "name"] } },
+      media_groups: {
+        fields: [
+          "name",
+          "order",
+          "description",
+          "fetch_from",
+          "is_fetched_from_api",
+        ],
+        populate: {
+          image_with_link: {
+            fields: ["name", "linked_url", "order", "description"],
+            populate: { image: { fields: ["url", "name"] } },
+          },
+        },
       },
     },
   });

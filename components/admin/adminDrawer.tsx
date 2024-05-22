@@ -214,4 +214,3 @@ const AdminDrawer = () => {
 };
 
 export default AdminDrawer;
-<div className="ml-auto cursor-pointer bg-black p-[5px] text-white duration-500 hover:bg-orange-400"></div>;

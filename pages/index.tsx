@@ -8,8 +8,10 @@ import Head from "next/head";
 import Link from "next/link";
 import { ChevronLeft } from "react-feather";
 import { getAllCategoriesFlattened } from "./api/categories/public/getallcategoriesflattened";
+import { getWebsite } from "./api/website/public/getwebsite";
+import getT from "next-translate/getT";
 
-export default function Index({ collections, allCategories }) {
+export default function Index({ mediaGroups }) {
   const { t, lang } = useTranslation("common");
 
   const handleScrollSlider = (direction) => {
@@ -73,33 +75,35 @@ export default function Index({ collections, allCategories }) {
             id="slider-1"
             className={`no-scrollbar flex w-full snap-x snap-mandatory flex-row overflow-x-scroll`}
           >
-            {[1, 2, 3].map((item) => (
-              <Link
-                href={images[item - 1].link}
-                key={`slider1-${item}`}
-                className={`snap-start px-3 2xl:w-1/3`}
-              >
-                <div className="border-1 flex h-min flex-shrink-0 flex-col overflow-hidden rounded-xl border border-black/30">
-                  <div className="relative z-20 aspect-[320/171] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full">
-                    <Image
-                      src={images[item - 1].url}
-                      alt={images[item - 1].alt}
-                      sizes="90vw, md:42vw, 2xl:30vw"
-                      fill
-                      priority
-                      className="z-20"
-                      style={{ objectFit: "cover" }}
-                    />
+            {mediaGroups
+              .find((mg) => mg.order == 1)
+              .image_with_link.map((item) => (
+                <Link
+                  href={item.linked_url}
+                  key={`slider1-${item.order}`}
+                  className={`snap-start px-3 2xl:w-1/3`}
+                >
+                  <div className="border-1 flex h-min flex-shrink-0 flex-col overflow-hidden rounded-xl border border-black/30">
+                    <div className="relative z-20 aspect-[320/171] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full">
+                      <Image
+                        src={
+                          "https://hdapi.huseyinonalalpha.com" + item.image.url
+                        }
+                        alt={item.name}
+                        sizes="90vw, md:42vw, 2xl:30vw"
+                        fill
+                        priority
+                        className="z-20"
+                        style={{ objectFit: "cover" }}
+                      />
+                    </div>
+                    <div className="flex h-[150px] w-full flex-col gap-2 p-4">
+                      <p className="text-xl font-semibold">{item.name}</p>
+                      <p>{item.description}</p>
+                    </div>
                   </div>
-                  <div className="flex h-[150px] w-full flex-col gap-2 p-4">
-                    <p className="text-xl font-semibold">
-                      {images[item - 1].title}
-                    </p>
-                    <p>{images[item - 1].text}</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
           </div>
           <div className="ml-4 mt-2 flex w-[90vw] max-w-screen-2xl flex-row justify-start gap-2 2xl:hidden">
             <ChevronLeft
@@ -113,7 +117,7 @@ export default function Index({ collections, allCategories }) {
           </div>
         </div>
 
-        <div className="grid w-full grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
+        {/* <div className="grid w-full grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {allCategories.length > 0 &&
             allCategories?.map((category) => (
               <div key={`grid1-${category.id}`} className={``}>
@@ -140,7 +144,7 @@ export default function Index({ collections, allCategories }) {
                 </Link>
               </div>
             ))}
-        </div>
+        </div> */}
 
         <Link
           href={`/products?page=1&category=${encodeURIComponent("Chaises Extérieur")}`}
@@ -157,13 +161,13 @@ export default function Index({ collections, allCategories }) {
           />
         </Link>
 
-        <div className="flex w-full flex-col items-center">
+        {/* <div className="flex w-full flex-col items-center">
           {collections && (
             <div key={"collection1"} className="w-full">
               <CollectionShowcase collection={collections.at(0)} />
             </div>
           )}
-        </div>
+        </div> */}
         {/* 
         <div className="grid w-[90vw] max-w-screen-2xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {[1, 2, 3, 4, 5, 6].map((item) => (
@@ -191,13 +195,13 @@ export default function Index({ collections, allCategories }) {
           />
         </Link>
 
-        <div className="flex w-full flex-col items-center">
+        {/* <div className="flex w-full flex-col items-center">
           {collections.length > 1 && (
             <div key={"collection2"} className="w-full">
               <CollectionShowcase collection={collections.at(1)} />
             </div>
           )}
-        </div>
+        </div> */}
 
         <Link
           href={"/products?page=1"}
@@ -245,9 +249,38 @@ export default function Index({ collections, allCategories }) {
   );
 }
 
-export const getStaticProps = async () => {
+export const getStaticProps = async ({ locale }) => {
+  const t = await getT(locale, "common");
   let collections = await getCollections();
   const allCategoriesRaw = await getAllCategoriesFlattened();
+  const website = await getWebsite();
+  let mediaGroups = [];
+
+  for (let i = 0; i < website.media_groups.length; i++) {
+    if (!website.media_groups[i].is_fetched_from_api) {
+      console.log(website.media_groups[i].image_with_link[0].linked_url);
+      for (let j = 0; j < website.media_groups[i].image_with_link.length; j++) {
+        console.log(website.media_groups[i].image_with_link[j].linked_url);
+        const evaluated = new Function(
+          "t",
+          "encodeURIComponent",
+          `return ${website.media_groups[i].image_with_link[j].linked_url}`,
+        )(t, encodeURIComponent);
+        console.log(evaluated);
+        website.media_groups[i].image_with_link[j].linked_url = evaluated;
+      }
+      mediaGroups.push({
+        key: i,
+        order: website.media_groups[i].order,
+        image_with_link: website.media_groups[i].image_with_link,
+      });
+      continue;
+    } else {
+      console.log(!website.media_groups[i].fetch_from);
+    }
+    mediaGroups.push(website.media_groups.find((mg) => mg.order == i));
+  }
+
   let allCategories = [];
   allCategories.push(allCategoriesRaw.find((cat) => cat.id === 3));
   allCategories.push(allCategoriesRaw.find((cat) => cat.id === 2));
@@ -255,16 +288,10 @@ export const getStaticProps = async () => {
   allCategories.push(allCategoriesRaw.find((cat) => cat.id === 10));
   allCategories.push(allCategoriesRaw.find((cat) => cat.id === 11));
   allCategories.push(allCategoriesRaw.find((cat) => cat.id === 17));
-  // const images = imageStuff.indexSliderImages;
-  // const imageUrls = imageStuff.indexSliderImagesUrls;
   // const projects = await getProjects();
   return {
     props: {
-      collections,
-      allCategories,
-      // images,
-      // imageUrls,
-      // projects,
+      mediaGroups,
     },
     revalidate: 1800,
   };

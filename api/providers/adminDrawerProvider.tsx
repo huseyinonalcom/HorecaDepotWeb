@@ -7,7 +7,7 @@ type AdminDrawerContextType = {
 };
 
 export const AdminDrawerContext = createContext<AdminDrawerContextType>({
-  isAdminDrawerOpen: false,
+  isAdminDrawerOpen: true,
   openAdminDrawer: () => {},
   closeAdminDrawer: () => {},
 });
