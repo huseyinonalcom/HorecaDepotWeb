@@ -257,7 +257,7 @@ const Layout = ({ children }: Props) => {
                           src={"/assets/payment/wl.png"}
                           alt="Worldline"
                           height={footerIconsHeight}
-                          width={1000}
+                          width={168.44}
                           style={{
                             height: `${footerIconsHeight}px`,
                             width: "auto",
@@ -267,7 +267,7 @@ const Layout = ({ children }: Props) => {
                           src={"/assets/payment/bc.svg"}
                           alt="Bancontact"
                           height={footerIconsHeight}
-                          width={1000}
+                          width={24.08}
                           style={{
                             height: `${footerIconsHeight}px`,
                             width: "auto",
@@ -277,7 +277,7 @@ const Layout = ({ children }: Props) => {
                           src={"/assets/payment/visa.svg"}
                           alt="Visa"
                           height={footerIconsHeight}
-                          width={1000}
+                          width={52.38}
                           style={{
                             height: `${footerIconsHeight}px`,
                             width: "auto",
@@ -287,7 +287,7 @@ const Layout = ({ children }: Props) => {
                           src={"/assets/payment/ma.svg"}
                           alt="Maestro"
                           height={footerIconsHeight}
-                          width={1000}
+                          width={22.02}
                           style={{
                             height: `${footerIconsHeight}px`,
                             width: "auto",
@@ -297,7 +297,7 @@ const Layout = ({ children }: Props) => {
                           src={"/assets/payment/mc.svg"}
                           alt="Mastercard"
                           height={footerIconsHeight}
-                          width={1000}
+                          width={21.25}
                           style={{
                             height: `${footerIconsHeight}px`,
                             width: "auto",
@@ -307,7 +307,7 @@ const Layout = ({ children }: Props) => {
                           src={"/assets/payment/amex.svg"}
                           alt="American Express"
                           height={footerIconsHeight}
-                          width={1000}
+                          width={17}
                           style={{
                             height: `${footerIconsHeight}px`,
                             width: "auto",
