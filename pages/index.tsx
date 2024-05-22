@@ -11,7 +11,7 @@ import { getAllCategoriesFlattened } from "./api/categories/public/getallcategor
 import { getWebsite } from "./api/website/public/getwebsite";
 import getT from "next-translate/getT";
 
-export default function Index({ mediaGroups }) {
+export default function Index({ mediaGroups, collections }) {
   const { t, lang } = useTranslation("common");
 
   const handleScrollSlider = (direction) => {
@@ -31,33 +31,6 @@ export default function Index({ mediaGroups }) {
       behavior: "smooth",
     });
   };
-
-  const images = [
-    {
-      id: 1,
-      url: "/assets/homepage/1.jpg",
-      link: `/products?page=1&category=${encodeURIComponent("Chaises Extérieur")}`,
-      alt: "Terrace Chair",
-      title: "Terrace",
-      text: "New terrace collection",
-    },
-    {
-      id: 2,
-      url: "/assets/homepage/2.jpg",
-      link: `/products?page=1&category=${encodeURIComponent("Tables")}`,
-      alt: "Terrace Table",
-      title: "Terrace",
-      text: "New terrace collection",
-    },
-    {
-      id: 3,
-      url: "/assets/homepage/3.jpg",
-      link: `/products?page=1&category=${encodeURIComponent("Banquettes")}`,
-      alt: "Banquette",
-      title: "Banquette",
-      text: "Banquette Promos",
-    },
-  ];
 
   return (
     <Layout>
@@ -117,15 +90,13 @@ export default function Index({ mediaGroups }) {
           </div>
         </div>
 
-        {/* <div className="grid w-full grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
-          {allCategories.length > 0 &&
-            allCategories?.map((category) => (
+        <div className="grid w-full grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
+          {mediaGroups
+            .find((mg) => mg.order == 2)
+            .image_with_link.map((category) => (
               <div key={`grid1-${category.id}`} className={``}>
                 <Link
-                  href={
-                    "/products?page=1&category=" +
-                    encodeURIComponent(category.Name)
-                  }
+                  href={category.linked_url}
                   className="flex flex-col items-center gap-2"
                 >
                   <div className="relative aspect-[15/14] w-full overflow-hidden rounded-xl">
@@ -137,113 +108,100 @@ export default function Index({ mediaGroups }) {
                         "https://hdapi.huseyinonalalpha.com" +
                         category.image.url
                       }
-                      alt={category.Name + " image"}
+                      alt={category.name + " image"}
                     />
                   </div>
-                  <p className="font-semibold">{t(category.Name)}</p>
+                  <p className="font-semibold">{t(category.name)}</p>
                 </Link>
               </div>
             ))}
-        </div> */}
-
-        <Link
-          href={`/products?page=1&category=${encodeURIComponent("Chaises Extérieur")}`}
-          className="relative aspect-[21/9] w-full overflow-hidden rounded-xl md:aspect-[205/7] lg:aspect-[205/78]"
-        >
-          <Image
-            src={
-              "https://hdapi.huseyinonalalpha.com/uploads/banner_5083e5ad1d.jpg"
+        </div>
+        {mediaGroups.find((mg) => mg.order == 3) && (
+          <Link
+            href={
+              mediaGroups.find((mg) => mg.order == 3).image_with_link[0]
+                .linked_url
             }
-            alt="terrace promo"
-            sizes="90vw, (max-width: 1536px) 1536px"
-            fill
-            style={{ objectFit: "cover" }}
-          />
-        </Link>
+            className="relative aspect-[21/9] w-full overflow-hidden rounded-xl md:aspect-[205/7] lg:aspect-[205/78]"
+          >
+            <Image
+              src={
+                "https://hdapi.huseyinonalalpha.com" +
+                mediaGroups.find((mg) => mg.order == 3).image_with_link[0].image
+                  .url
+              }
+              alt={
+                mediaGroups.find((mg) => mg.order == 3).image_with_link[0].name
+              }
+              sizes="90vw, (max-width: 1536px) 1536px"
+              fill
+              style={{ objectFit: "cover" }}
+            />
+          </Link>
+        )}
 
-        {/* <div className="flex w-full flex-col items-center">
+        <div className="flex w-full flex-col items-center">
           {collections && (
             <div key={"collection1"} className="w-full">
               <CollectionShowcase collection={collections.at(0)} />
             </div>
           )}
-        </div> */}
-        {/* 
-        <div className="grid w-[90vw] max-w-screen-2xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
-          {[1, 2, 3, 4, 5, 6].map((item) => (
-            <div key={`grid2-${item}`} className={``}>
-              <div className="flex flex-col items-center gap-2">
-                <div className="aspect-[15/14] w-full overflow-hidden rounded-xl bg-orange-400"></div>
-                <p className="font-semibold">Başlık</p>
-              </div>
-            </div>
-          ))}
-        </div> */}
-
-        <Link
-          href={"/products?page=1"}
-          className="relative aspect-[17/9] w-full overflow-hidden rounded-xl md:aspect-[32/9] lg:aspect-[32/9]"
-        >
-          <Image
-            src={
-              "https://hdapi.huseyinonalalpha.com/uploads/web_2_b54f79691c.jpg"
+        </div>
+        {mediaGroups.find((mg) => mg.order == 4) && (
+          <Link
+            href={
+              mediaGroups.find((mg) => mg.order == 4).image_with_link[0]
+                .linked_url
             }
-            alt="best furniture design"
-            sizes="90vw, (max-width: 1536px) 1536px"
-            fill
-            style={{ objectFit: "cover" }}
-          />
-        </Link>
+            className="relative aspect-[17/9] w-full overflow-hidden rounded-xl md:aspect-[32/9] lg:aspect-[32/9]"
+          >
+            <Image
+              src={
+                "https://hdapi.huseyinonalalpha.com" +
+                mediaGroups.find((mg) => mg.order == 4).image_with_link[0].image
+                  .url
+              }
+              alt={
+                mediaGroups.find((mg) => mg.order == 4).image_with_link[0].name
+              }
+              sizes="90vw, (max-width: 1536px) 1536px"
+              fill
+              style={{ objectFit: "cover" }}
+            />
+          </Link>
+        )}
 
-        {/* <div className="flex w-full flex-col items-center">
+        <div className="flex w-full flex-col items-center">
           {collections.length > 1 && (
             <div key={"collection2"} className="w-full">
               <CollectionShowcase collection={collections.at(1)} />
             </div>
           )}
-        </div> */}
+        </div>
 
-        <Link
-          href={"/products?page=1"}
-          className="relative aspect-[18/9] w-full overflow-hidden rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
-        >
-          <Image
-            src={
-              "https://hdapi.huseyinonalalpha.com/uploads/cargo_9093a8c9b5.jpg"
+        {mediaGroups.find((mg) => mg.order == 5) && (
+          <Link
+            href={
+              mediaGroups.find((mg) => mg.order == 5).image_with_link[0]
+                .linked_url
             }
-            alt="speedy delivery"
-            sizes="90vw, (max-width: 1536px) 1536px"
-            fill
-            style={{ objectFit: "cover" }}
-          />
-        </Link>
-
-        {/* <div className="grid w-[90vw] max-w-screen-2xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
-          {[1, 2, 3, 4, 5, 6].map((item) => (
-            <div key={`grid3-${item}`} className={``}>
-              <div className="flex flex-col items-center gap-2">
-                <div className="aspect-[15/14] w-full overflow-hidden rounded-xl bg-orange-400"></div>
-                <p className="font-semibold">Başlık</p>
-              </div>
-            </div>
-          ))}
-        </div> */}
-
-        {/* <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
-          {collections && (
-            <div key={"collection1"} className="w-full">
-              <CollectionShowcase collection={collections.at(0)} />
-            </div>
-          )}
-        </div> */}
-        {/* 
-        <div className="flex w-[90vw] max-w-screen-2xl flex-col items-center">
-          {collections.length > 1 && (
-            <div key={"collection3"} className="w-full">
-              <CollectionShowcase collection={collections.at(0)} />
-            </div>
-          )}
-        </div> */}
+            className="relative aspect-[18/9] w-full overflow-hidden rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
+          >
+            <Image
+              src={
+                "https://hdapi.huseyinonalalpha.com" +
+                mediaGroups.find((mg) => mg.order == 5).image_with_link[0].image
+                  .url
+              }
+              alt={
+                mediaGroups.find((mg) => mg.order == 5).image_with_link[0].name
+              }
+              sizes="90vw, (max-width: 1536px) 1536px"
+              fill
+              style={{ objectFit: "cover" }}
+            />
+          </Link>
+        )}
       </div>
     </Layout>
   );
@@ -257,18 +215,15 @@ export const getStaticProps = async ({ locale }) => {
   let mediaGroups = [];
 
   for (let i = 0; i < website.media_groups.length; i++) {
+    for (let j = 0; j < website.media_groups[i].image_with_link.length; j++) {
+      const evaluated = new Function(
+        "t",
+        "encodeURIComponent",
+        `return ${website.media_groups[i].image_with_link[j].linked_url}`,
+      )(t, encodeURIComponent);
+      website.media_groups[i].image_with_link[j].linked_url = evaluated;
+    }
     if (!website.media_groups[i].is_fetched_from_api) {
-      console.log(website.media_groups[i].image_with_link[0].linked_url);
-      for (let j = 0; j < website.media_groups[i].image_with_link.length; j++) {
-        console.log(website.media_groups[i].image_with_link[j].linked_url);
-        const evaluated = new Function(
-          "t",
-          "encodeURIComponent",
-          `return ${website.media_groups[i].image_with_link[j].linked_url}`,
-        )(t, encodeURIComponent);
-        console.log(evaluated);
-        website.media_groups[i].image_with_link[j].linked_url = evaluated;
-      }
       mediaGroups.push({
         key: i,
         order: website.media_groups[i].order,
@@ -276,7 +231,27 @@ export const getStaticProps = async ({ locale }) => {
       });
       continue;
     } else {
-      console.log(!website.media_groups[i].fetch_from);
+      let image_with_link = [];
+      for (
+        let j = 0;
+        j < website.media_groups[i].fetch_from.categories.length;
+        j++
+      ) {
+        const category = allCategoriesRaw.find(
+          (cat) => cat.id === website.media_groups[i].fetch_from.categories[j],
+        );
+        image_with_link.push({
+          order: j,
+          linked_url: `/products?page=1&category=${encodeURIComponent(category.Name)}`,
+          image: category.image,
+          name: category.Name,
+        });
+      }
+      mediaGroups.push({
+        key: i,
+        order: website.media_groups[i].order,
+        image_with_link,
+      });
     }
     mediaGroups.push(website.media_groups.find((mg) => mg.order == i));
   }
@@ -292,6 +267,7 @@ export const getStaticProps = async ({ locale }) => {
   return {
     props: {
       mediaGroups,
+      collections,
     },
     revalidate: 1800,
   };
