@@ -795,31 +795,67 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
           </button>
         </div>
         <div className="my-4 grid w-full grid-cols-4 gap-4 border-t bg-white py-2 text-gray-500 duration-300">
-          {categories.map((category) => (
-            <div key={category.id + "-column"}>
-              <a
-                href={
-                  `/${lang}/products?page=1&category=` +
-                  encodeURIComponent(category.Name)
-                }
-                className="font-semibold"
-              >
-                {t(category.Name)}
-              </a>
-              <a
-                href={
-                  `/${lang}/products?page=1&category=` +
-                  encodeURIComponent(category.Name)
-                }
-                className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
-              >
-                {t("All")} {t(category.Name)}
-              </a>
-              {category.subCategories.map((subCategory) => (
-                <CategoryItem key={subCategory.id} category={subCategory} />
-              ))}
+          {categories
+            .filter((cat) => cat.subCategories.length > 0)
+            .map((category) => (
+              <div key={category.id + "-column"}>
+                <a
+                  href={
+                    `/${lang}/products?page=1&category=` +
+                    encodeURIComponent(category.Name)
+                  }
+                  className="font-semibold"
+                >
+                  {t(category.Name)}
+                </a>
+                <a
+                  href={
+                    `/${lang}/products?page=1&category=` +
+                    encodeURIComponent(category.Name)
+                  }
+                  className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
+                >
+                  {t("All")} {t(category.Name)}
+                </a>
+                {category.subCategories.map((subCategory) => (
+                  <CategoryItem key={subCategory.id} category={subCategory} />
+                ))}
+              </div>
+            ))}
+          {categories.filter((cat) => cat.subCategories.length == 0) && (
+            <div key={99999} className="grid grid-cols-1">
+              {categories
+                .filter((cat) => cat.subCategories.length == 0)
+                .map((category) => (
+                  <div key={category.id + "-column"}>
+                    <a
+                      href={
+                        `/${lang}/products?page=1&category=` +
+                        encodeURIComponent(category.Name)
+                      }
+                      className="font-semibold"
+                    >
+                      {t(category.Name)}
+                    </a>
+                    <a
+                      href={
+                        `/${lang}/products?page=1&category=` +
+                        encodeURIComponent(category.Name)
+                      }
+                      className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
+                    >
+                      {t("All")} {t(category.Name)}
+                    </a>
+                    {category.subCategories.map((subCategory) => (
+                      <CategoryItem
+                        key={subCategory.id}
+                        category={subCategory}
+                      />
+                    ))}
+                  </div>
+                ))}
             </div>
-          ))}
+          )}
         </div>
       </div>
       <div
