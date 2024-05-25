@@ -62,7 +62,7 @@ export default function Index({ mediaGroups, collections }) {
                         src={
                           "https://hdapi.huseyinonalalpha.com" + item.image.url
                         }
-                        alt={item.name}
+                        alt={t(item.name)}
                         sizes="90vw, md:42vw, 2xl:30vw"
                         fill
                         priority
@@ -71,8 +71,8 @@ export default function Index({ mediaGroups, collections }) {
                       />
                     </div>
                     <div className="flex h-[150px] w-full flex-col gap-2 p-4">
-                      <p className="text-xl font-semibold">{item.name}</p>
-                      <p>{item.description}</p>
+                      <p className="text-xl font-semibold">{t(item.name)}</p>
+                      <p>{t(item.description)}</p>
                     </div>
                   </div>
                 </Link>
