@@ -178,7 +178,7 @@ export default function Products() {
                   setisHovered(!isHovered);
                 }}
               >
-                {t(category.Name)}
+                {t(category?.Name)}
               </div>
               <div
                 onClick={() => {
@@ -204,7 +204,7 @@ export default function Products() {
                 setCurrentCategory(category.id);
               }}
             >
-              {t(category.Name)}
+              {t(category?.Name)}
             </div>
           )}
         </div>
@@ -493,7 +493,7 @@ export default function Products() {
     let groupedData = {};
 
     data.data.forEach((prod) => {
-      const categoryName = prod.category.Name;
+      const categoryName = prod.category?.Name;
 
       if (!groupedData.hasOwnProperty(categoryName)) {
         groupedData[categoryName] = [];
@@ -905,7 +905,7 @@ export default function Products() {
     console.log(
       imagelessSorted.map(
         (imgl) =>
-          imgl.category.Name +
+          imgl.category?.Name +
           "," +
           imgl.internalCode +
           "," +
@@ -959,7 +959,7 @@ export default function Products() {
                 {t(
                   currentCategory
                     ? allCategories.find((cat) => cat.id == currentCategory)
-                        .Name
+                        ?.Name
                     : "Tout",
                 )}
                 <ChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />
@@ -1149,7 +1149,7 @@ export default function Products() {
                         e.currentTarget.classList.remove("hover:bg-slate-500")
                       }
                     >
-                      <td>{product.category.Name}</td>
+                      <td>{product.category?.Name}</td>
                       <td>{product.product_extra.barcode}</td>
                       <td>{product.internalCode}</td>
                       <td>{product.name}</td>
@@ -1344,7 +1344,7 @@ export default function Products() {
                           </option>
                           {allCategories.map((category) => (
                             <option key={category.id} value={category.id}>
-                              {category.Name}
+                              {category?.Name}
                             </option>
                           ))}
                         </select>

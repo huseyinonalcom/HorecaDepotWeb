@@ -280,14 +280,14 @@ const ProductPage = ({
                 <Link
                   target="_blank"
                   aria-label="Share via Facebook"
-                  href={`https://www.facebook.com/sharer/sharer.php?u=https://horecadepot.meubelweb.com/products/${product.id}`}
+                  href={`https://www.facebook.com/sharer/sharer.php?u=https://horecadepot.be/products/${product.id}`}
                 >
                   <Facebook />
                 </Link>
                 <Link
                   target="_blank"
                   aria-label="Share via Whatsapp"
-                  href={`https://api.whatsapp.com/send?text=https://horecadepot.meubelweb.com/products/${product.id}`}
+                  href={`https://api.whatsapp.com/send?text=https://horecadepot.be/products/${product.id}`}
                 >
                   <Image
                     src={"/assets/img/whatsapp.svg"}
