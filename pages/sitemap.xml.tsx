@@ -1,8 +1,9 @@
 import { getAllProductIDs } from "../api/calls/productCalls";
+import { getAllCategoriesFlattened } from "./api/categories/public/getallcategoriesflattened";
 
 const URL = "horecadepot.be";
 
-function generateSiteMap(productIDs: number[]) {
+function generateSiteMap(productIDs, allCategoriesRaw) {
   return `<?xml version="1.0" encoding="UTF-8"?>
    <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
       <url><loc>https://${URL}</loc></url>
@@ -12,6 +13,15 @@ function generateSiteMap(productIDs: number[]) {
       <url><loc>https://${URL}/shop/tous</loc></url>
       <url><loc>https://${URL}/projects</loc></url>
       <url><loc>https://${URL}/references</loc></url>
+      ${allCategoriesRaw
+        .map((cat) => {
+          return `
+      <url>
+          <loc>https://${URL}/shop/${cat.Name}?page=1</loc>
+      </url>
+    `;
+        })
+        .join("")}
      ${productIDs
        .map((ID) => {
          return `
@@ -21,19 +31,19 @@ function generateSiteMap(productIDs: number[]) {
     `;
        })
        .join("")}
+       
    </urlset>
  `;
 }
 
 export async function getServerSideProps({ res }) {
   var productIDs = await getAllProductIDs();
-  const sitemap = generateSiteMap(productIDs);
+  const allCategoriesRaw = await getAllCategoriesFlattened();
+  const sitemap = generateSiteMap(productIDs, allCategoriesRaw);
   res.setHeader("Content-Type", "text/xml");
   res.write(sitemap);
   res.end();
-  return {
-    props: {},
-  };
+  return {};
 }
 
 export default function SiteMap() {}

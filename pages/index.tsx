@@ -212,49 +212,7 @@ export const getStaticProps = async ({ locale }) => {
   let collections = await getCollections();
   const allCategoriesRaw = await getAllCategoriesFlattened();
   const website = await getWebsite();
-  let mediaGroups = [];
-
-  for (let i = 0; i < website.media_groups.length; i++) {
-    for (let j = 0; j < website.media_groups[i].image_with_link.length; j++) {
-      const evaluated = new Function(
-        "t",
-        "encodeURIComponent",
-        `return ${website.media_groups[i].image_with_link[j].linked_url}`,
-      )(t, encodeURIComponent);
-      website.media_groups[i].image_with_link[j].linked_url = evaluated;
-    }
-    if (!website.media_groups[i].is_fetched_from_api) {
-      mediaGroups.push({
-        key: i,
-        order: website.media_groups[i].order,
-        image_with_link: website.media_groups[i].image_with_link,
-      });
-      continue;
-    } else {
-      let image_with_link = [];
-      for (
-        let j = 0;
-        j < website.media_groups[i].fetch_from.categories.length;
-        j++
-      ) {
-        const category = allCategoriesRaw.find(
-          (cat) => cat.id === website.media_groups[i].fetch_from.categories[j],
-        );
-        image_with_link.push({
-          order: j,
-          linked_url: `/shop/tous?page=1`,
-          image: category.image,
-          name: category.Name,
-        });
-      }
-      mediaGroups.push({
-        key: i,
-        order: website.media_groups[i].order,
-        image_with_link,
-      });
-    }
-    mediaGroups.push(website.media_groups.find((mg) => mg.order == i));
-  }
+  let mediaGroups = website.media_groups;
 
   let allCategories = [];
   allCategories.push(allCategoriesRaw.find((cat) => cat.id === 3));
