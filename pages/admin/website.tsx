@@ -18,9 +18,9 @@ export default function Website() {
         <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
           <Link
             className={componentThemes.greenSubmitButton + " text-center"}
-            href={"/admin/website/indexslider"}
+            href={"/admin/website/homepage"}
           >
-            {t("Images promo")}
+            {t("Homepage")}
           </Link>
           <Link
             className={componentThemes.greenSubmitButton + " text-center"}
