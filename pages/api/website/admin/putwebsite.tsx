@@ -35,10 +35,9 @@ export default async function handler(req, res) {
     if (!response) {
       return res.status(400).json(statusText[400]);
     }
-
-    await fetch(
-      `${process.env.API_URL}/api/isr/revalidate?path=/&secret=${process.env.REVALIDATE_SECRET}`,
-    );
+    try {
+      res.revalidate("/");
+    } catch (_) {}
 
     return res.status(200).json(statusText[200]);
   } catch (e) {
