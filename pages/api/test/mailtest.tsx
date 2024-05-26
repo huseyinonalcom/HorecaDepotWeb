@@ -972,7 +972,7 @@ export default async function mailTest(req, res) {
                                       <!--[if (mso)|(IE)]><td style="padding:5px 15px"><![endif]-->
     
                                       <a
-                                        href="https://horecadepot.meubelweb.com/products"
+                                        href="https://horecadepot.meubelweb.com/shop/tous?page=1"
                                         target="_self"
                                         style="
                                           padding: 5px 15px;

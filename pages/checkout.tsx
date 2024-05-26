@@ -815,9 +815,7 @@ export default function Checkout() {
               <h2 className="text-xl font-bold">{t("identification")}</h2>
               <div className="grid grid-cols-2 gap-2">
                 <div className="flex w-full flex-col">
-                  <p className="text-sm font-light">
-                    {t("exsting_customer")}
-                  </p>
+                  <p className="text-sm font-light">{t("exsting_customer")}</p>
                   <button
                     name="showLoginForm"
                     aria-label="Show Login Form"
@@ -832,12 +830,10 @@ export default function Checkout() {
                   </button>
                 </div>
                 <div className="flex w-full flex-col">
-                  <p className="text-sm font-light">
-                    {t("new_customer")}
-                  </p>
+                  <p className="text-sm font-light">{t("new_customer")}</p>
                   <button
                     name="showRegisterForm"
-                    aria-label="Show Register Form" 
+                    aria-label="Show Register Form"
                     type="button"
                     onClick={() => {
                       setShowLoginForm(false);
@@ -879,9 +875,11 @@ export default function Checkout() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <button
-                name="login"
-                aria-label="Login"
-                type="submit" className={CustomTheme.outlinedButton}>
+                  name="login"
+                  aria-label="Login"
+                  type="submit"
+                  className={CustomTheme.outlinedButton}
+                >
                   {t("Login")}
                 </button>
               </form>
@@ -906,8 +904,8 @@ export default function Checkout() {
               <div className="flex flex-col">
                 <h3 className="mt-1">{t("Already have an account?")}</h3>
                 <button
-                name="closeRegisterForm"
-                aria-label="Close Registration Form"
+                  name="closeRegisterForm"
+                  aria-label="Close Registration Form"
                   type="button"
                   onClick={() => {
                     setShowLoginForm(false);
@@ -1125,7 +1123,7 @@ export default function Checkout() {
                   <p>{t("Your cart is empty")}</p>
                 </div>
                 <Link
-                  href={"/products"}
+                  href={"/shop/tous?page=1"}
                   className={CustomTheme.outlinedButton + " w-[60%]"}
                 >
                   <p className="flex w-full flex-row justify-center">

@@ -242,7 +242,7 @@ export const getStaticProps = async ({ locale }) => {
         );
         image_with_link.push({
           order: j,
-          linked_url: `/products?page=1&category=${encodeURIComponent(category.Name)}`,
+          linked_url: `/shop/tous?page=1`,
           image: category.image,
           name: category.Name,
         });

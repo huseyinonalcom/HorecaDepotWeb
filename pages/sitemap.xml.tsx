@@ -9,7 +9,7 @@ function generateSiteMap(productIDs: number[]) {
       <url><loc>https://${URL}/about</loc></url>
       <url><loc>https://${URL}/contact</loc></url>
       <url><loc>https://${URL}/legal</loc></url>
-      <url><loc>https://${URL}/products</loc></url>
+      <url><loc>https://${URL}/shop/tous</loc></url>
       <url><loc>https://${URL}/projects</loc></url>
       <url><loc>https://${URL}/references</loc></url>
      ${productIDs

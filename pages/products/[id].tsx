@@ -92,7 +92,7 @@ const ProductPage = ({
           <Link key={1} href={"/"} className="text-gray-400">
             {t("Home Page")}
           </Link>
-          <Link key={2} href={"/products"} className="text-gray-400">
+          <Link key={2} href={"/shop/tous?page=1"} className="text-gray-400">
             {"> "}
             {t("Shop")}
           </Link>
@@ -101,7 +101,7 @@ const ProductPage = ({
               return (
                 <Link
                   key={index + 2}
-                  href={`/products?category=${encodeURIComponent(crumb)}`}
+                  href={`/shop/${encodeURIComponent(crumb)}`}
                   className="text-gray-400 last:text-black"
                 >
                   {"> "}
@@ -166,9 +166,7 @@ const ProductPage = ({
                 <b>{t("Categories")}: </b>
                 {breadCrumbs.map((crumb, index) => (
                   <Fragment key={index}>
-                    <Link
-                      href={`/products?category=${encodeURIComponent(crumb)}`}
-                    >
+                    <Link href={`/shop/${encodeURIComponent(crumb)}`}>
                       {t(crumb)}
                       {index < breadCrumbs.length - 1 && ","}
                     </Link>

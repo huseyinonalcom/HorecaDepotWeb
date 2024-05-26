@@ -43,10 +43,7 @@ const CategoryItem = ({ category }) => {
       }}
     >
       <a
-        href={
-          `/${lang}/products?page=1&category=` +
-          encodeURIComponent(category.Name)
-        }
+        href={`/${lang}/shop/${encodeURIComponent(category.Name)}?page=1`}
         className="flex w-full items-center justify-between px-3 py-2 text-left"
       >
         {t(category.Name)}
@@ -89,8 +86,8 @@ const DesktopSearch = () => {
 
     setSearchQuery(value);
 
-    if (value == "" && router.pathname == "/products") {
-      router.push(`/products?page=1`);
+    if (value == "" && router.pathname == "/shop") {
+      router.push(`/shop/tous?page=1`);
     }
 
     if (debounceTimeout.current) {
@@ -107,11 +104,11 @@ const DesktopSearch = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery && searchQuery != "") {
-      var url = "/products?page=1";
+      var url = "/shop/tous?page=1";
       url += "&search=" + searchQuery;
       router.push(url);
     } else {
-      router.push(`/products?page=1`);
+      router.push(`/shop/tous?page=1`);
     }
   };
 
@@ -151,8 +148,7 @@ const DesktopSearch = () => {
                   onClick={() => {
                     if (result.Name) {
                       router.push(
-                        "/products?page=1&category=" +
-                          encodeURIComponent(result.Name),
+                        `/shop/${encodeURIComponent(result.Name)}?page=1`,
                       );
                     }
                   }}
@@ -186,8 +182,8 @@ const MobileSearch = () => {
 
     setSearchQuery(value);
 
-    if (value == "" && router.pathname == "/products") {
-      router.push(`/products?page=1`);
+    if (value == "" && router.pathname == "/shop") {
+      router.push(`/shop/tous?page=1`);
     }
 
     if (debounceTimeout.current) {
@@ -204,11 +200,11 @@ const MobileSearch = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery && searchQuery != "") {
-      var url = "/products?page=1";
+      var url = "/shop/tous?page=1";
       url += "&search=" + searchQuery;
       router.push(url);
     } else {
-      router.push(`/products?page=1`);
+      router.push(`/shop/tous?page=1`);
     }
   };
   return (
@@ -248,8 +244,7 @@ const MobileSearch = () => {
                   onClick={() => {
                     if (result.Name) {
                       router.push(
-                        "/products?page=1&category=" +
-                          encodeURIComponent(result.Name),
+                        `/shop/${encodeURIComponent(result.Name)}?page=1`,
                       );
                     }
                   }}
@@ -438,10 +433,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
           {hasSubCategories ? (
             <>
               <a
-                href={
-                  `/${lang}/products?page=1&category=` +
-                  encodeURIComponent(category.Name)
-                }
+                href={`/${lang}/shop/${encodeURIComponent(category.Name)}?page=1`}
                 className="h-full whitespace-nowrap px-4 py-2"
               >
                 {t(category.Name)}
@@ -462,10 +454,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             </>
           ) : (
             <a
-              href={
-                `/${lang}/products?page=1&category=` +
-                encodeURIComponent(category.Name)
-              }
+              href={`/${lang}/shop/${encodeURIComponent(category.Name)}?page=1`}
               className="h-full w-full whitespace-nowrap px-4 py-2"
             >
               {t(category.Name)}
@@ -626,7 +615,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
           <Link
             aria-label="Link to Shop"
             className={navButtonsClass}
-            href="/products?page=1"
+            href="/shop/tous?page=1"
           >
             <ShoppingCart /> {t("Shop")}
           </Link>
@@ -800,19 +789,13 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
             .map((category) => (
               <div key={category.id + "-column"}>
                 <a
-                  href={
-                    `/${lang}/products?page=1&category=` +
-                    encodeURIComponent(category.Name)
-                  }
+                  href={`/${lang}/shop/${encodeURIComponent(category.Name)}?page=1`}
                   className="font-semibold"
                 >
                   {t(category.Name)}
                 </a>
                 <a
-                  href={
-                    `/${lang}/products?page=1&category=` +
-                    encodeURIComponent(category.Name)
-                  }
+                  href={`/${lang}/shop/${encodeURIComponent(category.Name)}?page=1`}
                   className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
                 >
                   {t("All")} {t(category.Name)}
@@ -829,19 +812,13 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
                 .map((category) => (
                   <div key={category.id + "-column"}>
                     <a
-                      href={
-                        `/${lang}/products?page=1&category=` +
-                        encodeURIComponent(category.Name)
-                      }
+                      href={`/${lang}/shop/${encodeURIComponent(category.Name)}?page=1`}
                       className="font-semibold"
                     >
                       {t(category.Name)}
                     </a>
                     <a
-                      href={
-                        `/${lang}/products?page=1&category=` +
-                        encodeURIComponent(category.Name)
-                      }
+                      href={`/${lang}/shop/${encodeURIComponent(category.Name)}?page=1`}
                       className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
                     >
                       {t("All")} {t(category.Name)}

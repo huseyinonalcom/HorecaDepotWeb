@@ -76,10 +76,7 @@ const Layout = ({ children }: Props) => {
                       <h3 className="-ml-2 font-semibold">{t("Categories")}</h3>
                       <div>
                         <a
-                          href={
-                            `/${lang}/products?page=1&category=` +
-                            encodeURIComponent("Chaises")
-                          }
+                          href={`/${lang}/${encodeURIComponent("Chaises")}?page=1`}
                           className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
                         >
                           {t("Chaises")}
@@ -87,10 +84,7 @@ const Layout = ({ children }: Props) => {
                       </div>
                       <div>
                         <a
-                          href={
-                            `/${lang}/products?page=1&category=` +
-                            encodeURIComponent("Tables")
-                          }
+                          href={`/${lang}/${encodeURIComponent("Tables")}?page=1`}
                           className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
                         >
                           {t("Tables")}
@@ -98,10 +92,7 @@ const Layout = ({ children }: Props) => {
                       </div>
                       <div>
                         <a
-                          href={
-                            `/${lang}/products?page=1&category=` +
-                            encodeURIComponent("Banquettes")
-                          }
+                          href={`/${lang}/${encodeURIComponent("Banquettes")}?page=1`}
                           className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
                         >
                           {t("Banquettes")}
@@ -109,10 +100,7 @@ const Layout = ({ children }: Props) => {
                       </div>
                       <div>
                         <a
-                          href={
-                            `/${lang}/products?page=1&category=` +
-                            encodeURIComponent("Tabourets de Bar")
-                          }
+                          href={`/${lang}/${encodeURIComponent("Tabourets de Bar")}?page=1`}
                           className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
                         >
                           {t("Tabourets de Bar")}
@@ -120,10 +108,7 @@ const Layout = ({ children }: Props) => {
                       </div>
                       <div>
                         <a
-                          href={
-                            `/${lang}/products?page=1&category=` +
-                            encodeURIComponent("Événement")
-                          }
+                          href={`/${lang}/${encodeURIComponent("Événement")}?page=1`}
                           className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
                         >
                           {t("Événement")}
@@ -134,7 +119,7 @@ const Layout = ({ children }: Props) => {
                       <h3 className="-ml-2 font-semibold">{t("Site Plan")}</h3>
                       <div>
                         <Link
-                          href={`/products`}
+                          href={`/shop/tous?page=1`}
                           className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
                         >
                           {t("Boutique")}
@@ -345,7 +330,7 @@ const Layout = ({ children }: Props) => {
                 <Link
                   aria-label="Link to Shop"
                   className={navButtonsClass}
-                  href="/products?page=1"
+                  href="/shop/tous?page=1"
                 >
                   <ShoppingCart />
                 </Link>

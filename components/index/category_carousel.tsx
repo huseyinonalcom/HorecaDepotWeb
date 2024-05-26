@@ -41,7 +41,7 @@ const CatCarousel = ({ categories }) => {
         {categories &&
           categories.map((category) => (
             <Link
-              href={`/products?category=${encodeURIComponent(category.Name)}`}
+              href={`/shop/${encodeURIComponent(category.Name)}`}
               draggable={false}
               key={category.id}
               className="relative aspect-[15/13] h-full w-full transform snap-start transition-all duration-500 ease-in-out md:aspect-[24/15]"

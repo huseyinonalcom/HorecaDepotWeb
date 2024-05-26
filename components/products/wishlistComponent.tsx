@@ -16,7 +16,7 @@ const WishListComponent = () => {
         <div className="flex flex-col items-center gap-2 mb-2">
           <div className="text-gray-500">{t("Your wishlist is empty.")}</div>
           <Link
-            href={"/products"}
+            href={"/shop/tous?page=1"}
             className="bg-black px-4 py-2 font-bold text-white"
           >
             SHOP

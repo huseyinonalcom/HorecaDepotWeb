@@ -756,7 +756,7 @@ export default async function sendOrderNotifications(req, res) {
                                   <!--[if (mso)|(IE)]><td><![endif]-->
 
                                   <a
-                                    href="https://horecadepot.meubelweb.com/products"
+                                    href="https://horecadepot.meubelweb.com/shop/tous?page=1"
                                     target="_self"
                                    
                                     class="v-padding v-font-size"

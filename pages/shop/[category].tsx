@@ -1,14 +1,14 @@
-import Layout from "../components/public/layout";
+import Layout from "../../components/public/layout";
 import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
 import useTranslation from "next-translate/useTranslation";
-import ProductPreview2 from "../components/products/product-preview2";
+import ProductPreview2 from "../../components/products/product-preview2";
 import { ArrowUp, ChevronLeft, X } from "react-feather";
-import { Product } from "../api/interfaces/product";
-import { CategoryContext } from "../api/providers/categoryProvider";
-import RangeSlider from "../components/common/rangeSlider";
+import { Product } from "../../api/interfaces/product";
+import { CategoryContext } from "../../api/providers/categoryProvider";
+import RangeSlider from "../../components/common/rangeSlider";
 import { useRouter } from "next/router";
-import componentThemes from "../components/componentThemes";
+import componentThemes from "../../components/componentThemes";
 
 export default function Products() {
   const { t, lang } = useTranslation("common");
@@ -128,9 +128,16 @@ export default function Products() {
   }, [router.isReady, router.query.search]);
 
   const initPage = async () => {
-    var fetchUrl: string = `/api/products/public/getproducts?page=${router.query.page ? router.query.page : "1"}${
-      router.query.category ? `&category=${router.query.category}` : ``
-    }${router.query.search ? `&search=${router.query.search}` : ``}`;
+    let category = router.query.category;
+    let fetchUrl: string;
+    if (category == "tous") {
+      fetchUrl = `/api/products/public/getproducts?page=${router.query.page ? router.query.page : "1"}${router.query.search ? `&search=${router.query.search}` : ``}`;
+    } else {
+      fetchUrl = `/api/products/public/getproducts?page=${router.query.page ? router.query.page : "1"}${
+        router.query.category ? `&category=${router.query.category}` : ``
+      }${router.query.search ? `&search=${router.query.search}` : ``}`;
+    }
+
     // router.push(
     //   {
     //     pathname: "/products",
@@ -459,7 +466,7 @@ export default function Products() {
                 </button>
               </div>
             </div>
-            {allProducts.length <= 0 ? (
+            {allProducts.length <= 0 && pageInitialized ? (
               <h3 className="flex w-full justify-center text-xl font-bold text-red-700">
                 {t("No products matching")}
               </h3>
