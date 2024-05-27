@@ -11,8 +11,24 @@ import { useRouter } from "next/router";
 export default function HomePageAdmin() {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
+  const [categories, setCategories] = useState(null);
 
   const [mediaGroups, setMediaGroups] = useState(null);
+
+  const fetchCategories = async () => {
+    const fetchWebsiteRequest = await fetch(
+      `/api/categories/public/getallcategoriesflattened`,
+      {
+        method: "GET",
+      },
+    );
+    if (fetchWebsiteRequest.ok) {
+      const fetchWebsiteRequestAnswer = await fetchWebsiteRequest.json();
+      return fetchWebsiteRequestAnswer;
+    } else {
+      return null;
+    }
+  };
 
   const fetchMediagroups = async () => {
     const fetchWebsiteRequest = await fetch("/api/website/admin/getwebsite", {
@@ -27,13 +43,9 @@ export default function HomePageAdmin() {
   };
 
   const putMediagroups = async () => {
-    console.log("set the names");
     for (let i = 0; i < mediaGroups.length; i++) {
-      console.log(mediaGroups[i].name);
       mediaGroups[i].name = `${i}${Date.now()}`;
-      console.log(mediaGroups[i].name);
     }
-    console.log("names set");
     const putWebsiteRequest = await fetch("/api/website/admin/putwebsite", {
       method: "PUT",
       body: JSON.stringify(mediaGroups),
@@ -50,6 +62,8 @@ export default function HomePageAdmin() {
       const fetchAndSetMediagroups = async () => {
         const mediaGroups = await fetchMediagroups();
         setMediaGroups(mediaGroups.sort((a, b) => a.order - b.order));
+        const categories = await fetchCategories();
+        setCategories(categories);
       };
       fetchAndSetMediagroups();
     }
@@ -99,7 +113,7 @@ export default function HomePageAdmin() {
                     type={"text"}
                   />
                 </div>
-                {!mediaGroup.is_fetched_from_api && (
+                {!mediaGroup.is_fetched_from_api ? (
                   <div className="flex flex-row gap-2">
                     <div className="w-[250px]">
                       <InputOutlined
@@ -228,6 +242,66 @@ export default function HomePageAdmin() {
                         </div>
                       ))}
                     </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-row gap-2">
+                    {categories && (
+                      <div className="grid grid-cols-2">
+                        <div className="flex h-[250px] flex-col overflow-y-auto">
+                          {categories.map((category) => (
+                            <button
+                              className="flex w-full flex-row"
+                              onClick={() =>
+                                setMediaGroups((prev) => {
+                                  const newMediaGroups = [...prev];
+                                  newMediaGroups.find(
+                                    (mg) => mg.id == mediaGroup.id,
+                                  ).fetch_from.ids = [
+                                    ...newMediaGroups.find(
+                                      (mg) => mg.id == mediaGroup.id,
+                                    ).fetch_from.ids,
+                                    category.id,
+                                  ];
+
+                                  return newMediaGroups;
+                                })
+                              }
+                            >
+                              {category.Name}
+                            </button>
+                          ))}
+                        </div>
+                        <div className="flex h-[250px] flex-col overflow-y-auto">
+                          {categories
+                            .filter((cat) =>
+                              mediaGroups
+                                .find((mg) => mg.id == mediaGroup.id)
+                                .fetch_from.ids.includes(cat.id),
+                            )
+                            .map((category) => (
+                              <button
+                                className="flex w-full flex-row"
+                                onClick={() =>
+                                  setMediaGroups((prev) => {
+                                    const newMediaGroups = [...prev];
+                                    newMediaGroups.find(
+                                      (mg) => mg.id == mediaGroup.id,
+                                    ).fetch_from.ids = newMediaGroups
+                                      .find((mg) => mg.id == mediaGroup.id)
+                                      .fetch_from.ids.filter(
+                                        (cat) => cat != category.id,
+                                      );
+
+                                    return newMediaGroups;
+                                  })
+                                }
+                              >
+                                {category.Name}
+                              </button>
+                            ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

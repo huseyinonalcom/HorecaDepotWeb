@@ -207,20 +207,46 @@ export default function Index({ mediaGroups, collections }) {
   );
 }
 
-export const getStaticProps = async ({ locale }) => {
-  const t = await getT(locale, "common");
+export const getStaticProps = async () => {
   let collections = await getCollections();
-  const allCategoriesRaw = await getAllCategoriesFlattened();
   const website = await getWebsite();
   let mediaGroups = website.media_groups;
 
-  let allCategories = [];
-  allCategories.push(allCategoriesRaw.find((cat) => cat.id === 3));
-  allCategories.push(allCategoriesRaw.find((cat) => cat.id === 2));
-  allCategories.push(allCategoriesRaw.find((cat) => cat.id === 6));
-  allCategories.push(allCategoriesRaw.find((cat) => cat.id === 10));
-  allCategories.push(allCategoriesRaw.find((cat) => cat.id === 11));
-  allCategories.push(allCategoriesRaw.find((cat) => cat.id === 17));
+  for (let i = 0; i < mediaGroups.length; i++) {
+    if (mediaGroups[i].is_fetched_from_api) {
+      if (mediaGroups[i].fetch_from.collection.toLowerCase() == "categories") {
+        console.log(mediaGroups[i].fetch_from.ids);
+        const allCategoriesRaw = await getAllCategoriesFlattened();
+        mediaGroups[i].image_with_link = allCategoriesRaw
+          .filter((cat) => mediaGroups[i].fetch_from.ids.includes(cat.id))
+          .map((category) => {
+            return {
+              id: category.id,
+              name: category.Name,
+              image: category.image,
+              linked_url: "/shop/" + category.Name + "?page=1",
+            };
+          });
+      }
+      // else if (
+      //   mediaGroups[i].fetch_from.collection.toLowerCase() == "collections"
+      // ) {
+      //   console.log(mediaGroups[i].fetch_from.ids);
+      //   const allCategoriesRaw = await getAllCategoriesFlattened();
+      //   mediaGroups[i].image_with_link = allCategoriesRaw
+      //     .filter((cat) => mediaGroups[i].fetch_from.ids.includes(cat.id))
+      //     .map((category) => {
+      //       return {
+      //         id: category.id,
+      //         name: category.Name,
+      //         image: category.image,
+      //         linked_url: "/shop/" + category.Name + "?page=1",
+      //       };
+      //     });
+      // }
+    }
+  }
+
   // const projects = await getProjects();
   return {
     props: {
