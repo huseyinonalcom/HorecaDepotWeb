@@ -282,5 +282,11 @@
   "Nouvelle Collection Terrace": "New Terrace Collection",
   "Tables de Terrace": "Terrace Tables",
   "Banquette": "Bench",
-  "Banquette promos": "Bench promos"
+  "Banquette promos": "Bench promos",
+  "save": "Save",
+  "linked_url": "Linked URL",
+  "name": "Name",
+  "add image": "Add Image",
+  "description": "Description",
+  "order": "Order"
 }

@@ -282,5 +282,11 @@
   "Nouvelle Collection Terrace": "Nouvelle Collection Terrace",
   "Tables de Terrace": "Tables de Terrace",
   "Banquette": "Banquette",
-  "Banquette promos": "Banquette promos"
+  "Banquette promos": "Banquette promos",
+  "save": "Enregistrer",
+  "linked_url": "URL liée",
+  "name": "Nom",
+  "add image": "Ajouter une image",
+  "description": "Description",
+  "order": "ordre"
 }

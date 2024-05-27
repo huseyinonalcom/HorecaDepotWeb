@@ -79,10 +79,13 @@ export default function HomePageAdmin() {
         {mediaGroups && (
           <div className="grid w-full grid-cols-1 gap-2">
             {mediaGroups.map((mediaGroup) => (
-              <div className="flex w-full flex-row gap-3 border-b-2 py-1">
+              <div
+                key={mediaGroup.id}
+                className="flex w-full flex-row gap-3 border-b-2 py-1"
+              >
                 <div className="flex flex-shrink-0 flex-col gap-2">
                   <InputOutlined
-                    label={t("order")}
+                    label="order"
                     value={mediaGroup.order}
                     onChange={(e) => {
                       setMediaGroups((prev) => {
@@ -94,12 +97,12 @@ export default function HomePageAdmin() {
                       });
                     }}
                     min={1}
-                    name={"order"}
+                    name="order"
                     type="number"
                   />
                   <InputOutlined
-                    label={t("description")}
-                    value={mediaGroup.description}
+                    label="description"
+                    value={mediaGroup.description ?? ""}
                     onChange={(e) => {
                       setMediaGroups((prev) => {
                         const newMediaGroups = [...prev];
@@ -109,15 +112,15 @@ export default function HomePageAdmin() {
                         return newMediaGroups;
                       });
                     }}
-                    name={"description"}
-                    type={"text"}
+                    name="description"
+                    type="text"
                   />
                 </div>
                 {!mediaGroup.is_fetched_from_api ? (
                   <div className="flex flex-row gap-2">
                     <div className="w-[250px]">
                       <InputOutlined
-                        label={t("add image")}
+                        label="add image"
                         type="file"
                         name="image"
                         onChange={async (e) => {
@@ -157,7 +160,10 @@ export default function HomePageAdmin() {
                     </div>
                     <div className="flex w-full flex-wrap gap-2">
                       {mediaGroup.image_with_link.map((img) => (
-                        <div className="flex max-w-[300px] flex-col gap-2 border p-1">
+                        <div
+                          key={img.id}
+                          className="flex max-w-[300px] flex-col gap-2 border p-1"
+                        >
                           <div className="flex flex-row">
                             <button
                               className={
@@ -189,7 +195,7 @@ export default function HomePageAdmin() {
                             alt=""
                           />
                           <InputOutlined
-                            label={t("name")}
+                            label="name"
                             type="text"
                             name="image with link name"
                             value={img.name}
@@ -206,10 +212,10 @@ export default function HomePageAdmin() {
                             }
                           />
                           <InputOutlined
-                            label={t("description")}
+                            label="description"
                             type="text"
                             name="image with link description"
-                            value={img.description}
+                            value={img.description ?? ""}
                             onChange={(e) =>
                               setMediaGroups((prev) => {
                                 const newMediaGroups = [...prev];
@@ -223,7 +229,7 @@ export default function HomePageAdmin() {
                             }
                           />
                           <InputOutlined
-                            label={t("linked_url")}
+                            label="linked_url"
                             type="text"
                             name="image with link linked_url"
                             value={img.linked_url}
@@ -246,30 +252,39 @@ export default function HomePageAdmin() {
                 ) : (
                   <div className="flex flex-row gap-2">
                     {categories && (
-                      <div className="grid grid-cols-2">
+                      <div className="grid grid-cols-2 gap-2">
                         <div className="flex h-[250px] flex-col overflow-y-auto">
-                          {categories.map((category) => (
-                            <button
-                              className="flex w-full flex-row"
-                              onClick={() =>
-                                setMediaGroups((prev) => {
-                                  const newMediaGroups = [...prev];
-                                  newMediaGroups.find(
-                                    (mg) => mg.id == mediaGroup.id,
-                                  ).fetch_from.ids = [
-                                    ...newMediaGroups.find(
+                          {categories
+                            .filter(
+                              (cat) =>
+                                !mediaGroups
+                                  .find((mg) => mg.id == mediaGroup.id)
+                                  .fetch_from.ids.includes(cat.id),
+                            )
+                            .map((category) => (
+                              <button
+                                key={category.id + "-add"}
+                                className="flex w-full flex-row hover:bg-slate-200"
+                                onClick={() =>
+                                  setMediaGroups((prev) => {
+                                    const newMediaGroups = [...prev];
+                                    newMediaGroups.find(
                                       (mg) => mg.id == mediaGroup.id,
-                                    ).fetch_from.ids,
-                                    category.id,
-                                  ];
+                                    ).fetch_from.ids = [
+                                      ...newMediaGroups.find(
+                                        (mg) => mg.id == mediaGroup.id,
+                                      ).fetch_from.ids,
+                                      category.id,
+                                    ];
 
-                                  return newMediaGroups;
-                                })
-                              }
-                            >
-                              {category.Name}
-                            </button>
-                          ))}
+                                    return newMediaGroups;
+                                  })
+                                }
+                              >
+                                {"+ "}
+                                {category.Name}
+                              </button>
+                            ))}
                         </div>
                         <div className="flex h-[250px] flex-col overflow-y-auto">
                           {categories
@@ -280,7 +295,8 @@ export default function HomePageAdmin() {
                             )
                             .map((category) => (
                               <button
-                                className="flex w-full flex-row"
+                                key={category.id + "-remove"}
+                                className="flex w-full flex-row hover:bg-slate-200"
                                 onClick={() =>
                                   setMediaGroups((prev) => {
                                     const newMediaGroups = [...prev];
@@ -296,6 +312,7 @@ export default function HomePageAdmin() {
                                   })
                                 }
                               >
+                                {"- "}
                                 {category.Name}
                               </button>
                             ))}
@@ -319,13 +336,13 @@ export default function HomePageAdmin() {
             </button>
           </div>
         )}
-        {/* {mediaGroups && (
+        {mediaGroups && (
           <div className="flex flex-col gap-3">
-            {mediaGroups.map((mg) => (
-              <p>{JSON.stringify(mg)}</p>
+            {mediaGroups.map((mg, index) => (
+              <p key={index}>{JSON.stringify(mg)}</p>
             ))}
           </div>
-        )} */}
+        )}
       </div>
     </AdminLayout>
   );
