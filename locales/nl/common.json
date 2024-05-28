@@ -289,5 +289,7 @@
   "add image": "Afbeelding toevoegen",
   "description": "Beschrijving",
   "order": "volgorde",
-  "delete_image": "Afbeelding verwijderen"
+  "delete_image": "Afbeelding verwijderen",
+  "parent_category": "Hoofdcategorie",
+  "no_parent_category": "Geen hoofdcategorie"
 }

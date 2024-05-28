@@ -90,36 +90,71 @@ export default function HomePageAdmin() {
                 className="flex w-full flex-row gap-3 border-b-2 py-1"
               >
                 <div className="flex flex-shrink-0 flex-row gap-2">
-                  <InputOutlined
-                    label="name"
-                    value={category.Name}
-                    onChange={(e) => {
-                      setCategories((prev) => {
-                        const newMediaGroups = [...prev];
-                        newMediaGroups.find((mg) => mg.id == category.id).Name =
-                          e.target.value;
-                        return newMediaGroups;
-                      });
-                    }}
-                    name="name"
-                    type="text"
-                  />
-                  <InputOutlined
-                    label="order"
-                    value={category.priority}
-                    onChange={(e) => {
-                      setCategories((prev) => {
-                        const newCategories = [...prev];
-                        newCategories.find(
-                          (cat) => cat.id == category.id,
-                        ).priority = e.target.value;
-                        return newCategories;
-                      });
-                    }}
-                    name="priority"
-                    min={1}
-                    type="number"
-                  />
+                  <div className="flex w-[250px] flex-shrink-0 flex-col gap-2">
+                    <InputOutlined
+                      label="name"
+                      value={category.Name}
+                      onChange={(e) => {
+                        setCategories((prev) => {
+                          const newMediaGroups = [...prev];
+                          newMediaGroups.find(
+                            (mg) => mg.id == category.id,
+                          ).Name = e.target.value;
+                          return newMediaGroups;
+                        });
+                      }}
+                      name="name"
+                      type="text"
+                    />
+                    <InputOutlined
+                      label="order"
+                      value={category.priority}
+                      onChange={(e) => {
+                        setCategories((prev) => {
+                          const newCategories = [...prev];
+                          newCategories.find(
+                            (cat) => cat.id == category.id,
+                          ).priority = e.target.value;
+                          return newCategories;
+                        });
+                      }}
+                      name="priority"
+                      min={1}
+                      type="number"
+                    />
+                    <div className="flex flex-col gap-1 border bg-slate-100 p-1">
+                      <p>{t("parent_category")}</p>
+                      <select
+                        value={category.headCategory?.id ?? null}
+                        name="headCategory"
+                        id={`${category.id}-headCategory`}
+                        onChange={(e) => {
+                          setCategories((prev) => {
+                            const newCategories = [...prev];
+                            newCategories.find(
+                              (cat) => cat.id == category.id,
+                            ).headCategory = newCategories.find(
+                              (cat) => cat.id == e.target.value,
+                            );
+                            return newCategories;
+                          });
+                        }}
+                      >
+                        <option value={null}>{t("no_parent_category")}</option>
+                        {categories
+                          .filter((cat) => cat.id != category.id)
+                          .map((cat) => (
+                            <option
+                              key={cat.id + "-" + category.id + "-headCategory"}
+                              value={cat.id}
+                            >
+                              {cat.Name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                  </div>
+
                   <InputOutlined
                     label="add image"
                     type="file"

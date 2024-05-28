@@ -289,5 +289,7 @@
   "add image": "Ajouter une image",
   "description": "Description",
   "order": "ordre",
-  "delete_image": "Supprimer l'image"
+  "delete_image": "Supprimer l'image",
+  "parent_category": "Catégorie parent",
+  "no_parent_category": "Pas de catégorie parent"
 }

@@ -289,5 +289,7 @@
   "add image": "Resim Ekle",
   "description": "Açıklama",
   "order": "Sıra",
-  "delete_image": "Resmi Sil"
+  "delete_image": "Resmi Sil",
+  "parent_category": "Ana Kategori",
+  "no_parent_category": "Ana Kategori Yok"
 }
