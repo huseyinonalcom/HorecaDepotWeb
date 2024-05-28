@@ -24,6 +24,12 @@ export default function Website() {
           </Link>
           <Link
             className={componentThemes.greenSubmitButton + " text-center"}
+            href={"/admin/website/categories"}
+          >
+            {t("Categories")}
+          </Link>
+          <Link
+            className={componentThemes.greenSubmitButton + " text-center"}
             href={"/admin/website/collections"}
           >
             {t("Collections")}

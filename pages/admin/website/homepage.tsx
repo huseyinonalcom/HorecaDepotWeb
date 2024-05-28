@@ -138,12 +138,12 @@ export default function HomePageAdmin() {
                                   newMediaGroups
                                     .find((mg) => mg.id == mediaGroup.id)
                                     .image_with_link.push({
-                                      id: Date.now(),
                                       name: "",
                                       description: "",
                                       linked_url: "",
                                       order: 1,
                                       image: {
+                                        id: res.id,
                                         url: res.url,
                                         alt: "",
                                       },
@@ -159,9 +159,9 @@ export default function HomePageAdmin() {
                       />
                     </div>
                     <div className="flex w-full flex-wrap gap-2">
-                      {mediaGroup.image_with_link.map((img) => (
+                      {mediaGroup.image_with_link.map((img, i) => (
                         <div
-                          key={img.id}
+                          key={i}
                           className="flex max-w-[300px] flex-col gap-2 border p-1"
                         >
                           <div className="flex flex-row">
