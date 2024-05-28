@@ -174,13 +174,13 @@ export default function HomePageAdmin() {
             </button>
           </div>
         )}
-        {categories && (
+        {/* {categories && (
           <div className="flex flex-col gap-3">
             {categories.map((mg, index) => (
               <p key={index}>{JSON.stringify(mg)}</p>
             ))}
           </div>
-        )}
+        )} */}
       </div>
     </AdminLayout>
   );
