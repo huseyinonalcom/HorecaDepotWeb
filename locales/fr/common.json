@@ -288,5 +288,6 @@
   "name": "Nom",
   "add image": "Ajouter une image",
   "description": "Description",
-  "order": "ordre"
+  "order": "ordre",
+  "delete_image": "Supprimer l'image"
 }

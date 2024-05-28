@@ -8,10 +8,23 @@ import { uploadFileToAPI } from "../../api/files/uploadfile";
 import ImageWithURL from "../../../components/common/image";
 import { useRouter } from "next/router";
 
+function compareArrays(arr1, arr2) {
+  const isEqual = (obj1, obj2) => JSON.stringify(obj1) === JSON.stringify(obj2);
+
+  const onlyInArr1 = arr1.filter(
+    (obj1) => !arr2.some((obj2) => isEqual(obj1, obj2)),
+  );
+
+  const differences = [...onlyInArr1];
+
+  return differences;
+}
+
 export default function HomePageAdmin() {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
   const [categories, setCategories] = useState(null);
+  const [categoriesOriginal, setCategoriesOriginal] = useState(null);
 
   const fetchCategories = async () => {
     const fetchWebsiteRequest = await fetch(
@@ -29,16 +42,34 @@ export default function HomePageAdmin() {
   };
 
   const putCategories = async () => {
-    console.log(categories);
+    const changedCategories = compareArrays(categories, categoriesOriginal);
 
-    return false;
+    const putWebsiteRequest = await fetch(
+      "/api/categories/admin/putcategories",
+      {
+        method: "PUT",
+        body: JSON.stringify(changedCategories),
+      },
+    );
+    if (putWebsiteRequest.ok) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   useEffect(() => {
     if (!categories) {
       const fetchAndSetCategories = async () => {
-        const categories = await fetchCategories();
-        setCategories(categories);
+        await fetchCategories()
+          .then((res) => {
+            setCategories(res);
+            return res;
+          })
+          .then((res) => {
+            setCategoriesOriginal(structuredClone(res));
+            return res;
+          });
       };
       fetchAndSetCategories();
     }
@@ -58,7 +89,7 @@ export default function HomePageAdmin() {
                 key={category.id}
                 className="flex w-full flex-row gap-3 border-b-2 py-1"
               >
-                <div className="flex flex-shrink-0 flex-col gap-2">
+                <div className="flex flex-shrink-0 flex-row gap-2">
                   <InputOutlined
                     label="name"
                     value={category.Name}
@@ -104,6 +135,26 @@ export default function HomePageAdmin() {
                           });
                       }
                     }}
+                  />
+                  <button
+                    onClick={() => {
+                      setCategories((prev) => {
+                        const newMediaGroups = [...prev];
+                        newMediaGroups.find(
+                          (mg) => mg.id == category.id,
+                        ).image = null;
+                        return newMediaGroups;
+                      });
+                    }}
+                  >
+                    {t("delete_image")}
+                  </button>
+                  <ImageWithURL
+                    src={category.image?.url ?? ""}
+                    alt={category.image?.alt ?? ""}
+                    height={500}
+                    width={500}
+                    className="h-[250px] w-auto"
                   />
                 </div>
               </div>

@@ -288,5 +288,6 @@
   "name": "Naam",
   "add image": "Afbeelding toevoegen",
   "description": "Beschrijving",
-  "order": "volgorde"
+  "order": "volgorde",
+  "delete_image": "Afbeelding verwijderen"
 }

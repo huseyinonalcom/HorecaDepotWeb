@@ -288,5 +288,6 @@
   "name": "Name",
   "add image": "Bild hinzufügen",
   "description": "Beschreibung",
-  "order": "Reihenfolge"
+  "order": "Reihenfolge",
+  "delete_image": "Bild löschen"
 }

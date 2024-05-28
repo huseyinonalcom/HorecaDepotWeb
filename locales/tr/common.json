@@ -288,5 +288,6 @@
   "name": "İsim",
   "add image": "Resim Ekle",
   "description": "Açıklama",
-  "order": "Sıra"
+  "order": "Sıra",
+  "delete_image": "Resmi Sil"
 }
