@@ -336,13 +336,13 @@ export default function HomePageAdmin() {
             </button>
           </div>
         )}
-        {mediaGroups && (
+        {/* {mediaGroups && (
           <div className="flex flex-col gap-3">
             {mediaGroups.map((mg, index) => (
               <p key={index}>{JSON.stringify(mg)}</p>
             ))}
           </div>
-        )}
+        )} */}
       </div>
     </AdminLayout>
   );
