@@ -105,6 +105,22 @@ export default function HomePageAdmin() {
                     type="text"
                   />
                   <InputOutlined
+                    label="order"
+                    value={category.priority}
+                    onChange={(e) => {
+                      setCategories((prev) => {
+                        const newCategories = [...prev];
+                        newCategories.find(
+                          (cat) => cat.id == category.id,
+                        ).priority = e.target.value;
+                        return newCategories;
+                      });
+                    }}
+                    name="priority"
+                    min={1}
+                    type="number"
+                  />
+                  <InputOutlined
                     label="add image"
                     type="file"
                     name="image"
@@ -174,13 +190,13 @@ export default function HomePageAdmin() {
             </button>
           </div>
         )}
-        {/* {categories && (
+        {categories && (
           <div className="flex flex-col gap-3">
             {categories.map((mg, index) => (
               <p key={index}>{JSON.stringify(mg)}</p>
             ))}
           </div>
-        )} */}
+        )}
       </div>
     </AdminLayout>
   );

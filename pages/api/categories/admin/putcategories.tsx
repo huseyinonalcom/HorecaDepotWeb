@@ -7,24 +7,28 @@ export async function putCategories({ req, res }) {
   const categories = JSON.parse(req.body);
 
   for (let i = 0; i < categories.length; i++) {
-    const response = await fetch(`${process.env.API_URL}/api/categories/${categories[i].id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${authToken}`,
-      },
-      body: JSON.stringify({
-        data: {
-          Name: categories[i].Name,
-          headCategory: categories[i].headCategory?.id ?? null,
-          subCategories:
-            categories[i].subCategories?.map((subCategory) => {
-              subCategory.id;
-            }) ?? null,
-          image: categories[i].image?.id ?? null,
+    const response = await fetch(
+      `${process.env.API_URL}/api/categories/${categories[i].id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
         },
-      }),
-    });
+        body: JSON.stringify({
+          data: {
+            Name: categories[i].Name,
+            headCategory: categories[i].headCategory?.id ?? null,
+            priority: categories[i].priority,
+            subCategories:
+              categories[i].subCategories?.map((subCategory) => {
+                subCategory.id;
+              }) ?? null,
+            image: categories[i].image?.id ?? null,
+          },
+        }),
+      },
+    );
     const ans = await response.json();
     console.log(ans);
   }
