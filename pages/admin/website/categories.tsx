@@ -149,13 +149,15 @@ export default function HomePageAdmin() {
                   >
                     {t("delete_image")}
                   </button>
-                  <ImageWithURL
-                    src={category.image?.url ?? ""}
-                    alt={category.image?.alt ?? ""}
-                    height={500}
-                    width={500}
-                    className="h-[250px] w-auto"
-                  />
+                  {category.image && (
+                    <ImageWithURL
+                      src={category.image.url}
+                      alt={category.image.alt}
+                      height={500}
+                      width={500}
+                      className="h-[250px] w-auto"
+                    />
+                  )}
                 </div>
               </div>
             ))}
