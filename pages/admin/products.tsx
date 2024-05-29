@@ -29,6 +29,7 @@ import validateInteger from "../../api/utils/input_validators/validate_integer";
 import validateEmpty from "../../api/utils/input_validators/validate_empty";
 import validateDecimal from "../../api/utils/input_validators/validate_decimal";
 import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
+import InputOutlined from "../../components/inputs/outlined";
 
 export default function Products() {
   const { t, lang } = useTranslation("common");
@@ -1202,6 +1203,7 @@ export default function Products() {
                         setNewProduct(false);
                         setCurrentProduct(null);
                         setChosenProductID(null);
+                        setSubmitError(null);
                       }}
                     >
                       <div className="bg-white p-2">
@@ -1209,123 +1211,55 @@ export default function Products() {
                       </div>
                     </ButtonShadow1>
                   </div>
+                  <div className="flex w-full flex-row text-3xl font-semibold">
+                    {t("Primary Details")}
+                  </div>
                   <div className="flex flex-wrap items-center justify-center gap-2">
-                    <div className={inputDivClass}>
-                      <p>{t("No")}</p>
-                      <input
-                        type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={currentProduct?.id ?? ""}
-                        placeholder={t("No")}
-                        className={inputClass}
-                        onChange={() => {}}
-                      />
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Category")}</p>
-                      <select
-                        className="w-full"
-                        value={
-                          currentProduct != null &&
-                          currentProduct.categories != null &&
-                          currentProduct.categories[0].id != null
-                            ? currentProduct.categories[0].id
-                            : 0
-                        }
-                        onChange={(e) =>
-                          handleChange(
-                            "category",
-                            allCategories.find(
-                              (cat) => cat.id == e.target.value,
-                            ),
-                          )
-                        }
-                      >
-                        <option key={0} value={0}>
-                          Select a category
-                        </option>
-                        {allCategories.map((category) => (
-                          <option key={category.id} value={category.id}>
-                            {category?.Name}
-                          </option>
-                        ))}
-                      </select>
-                      {errors.category && (
-                        <div className="error-message">{errors.category}</div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("EAN")}</p>
-                      <input
-                        type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={currentProduct?.product_extra.barcode ?? ""}
-                        onChange={(e) =>
-                          handleChange("barcode", e.target.value, true, [
-                            validateEmpty,
-                          ])
-                        }
-                        placeholder={t("EAN")}
-                        className={inputClass}
-                      />
-                      {errors.barcode && (
-                        <div className="error-message">{errors.barcode}</div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Code Model")}</p>
-                      <input
+                    <BarcodeToPng value={currentProduct.supplierCode} />
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("Name")}
                         type="text"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        value={currentProduct?.internalCode ?? ""}
-                        onChange={(e) =>
-                          handleChange("internalCode", e.target.value, false, [
-                            validateEmpty,
-                          ])
-                        }
-                        placeholder={t("Code Model")}
-                        className={inputClass}
-                      />
-
-                      {errors.internalCode && (
-                        <div className="error-message">
-                          {errors.internalCode}
-                        </div>
-                      )}
-                    </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Name")}</p>
-                      <input
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
-                        type="text"
+                        error={errors.name}
                         value={currentProduct?.name ?? ""}
                         onChange={(e) =>
                           handleChange("name", e.target.value, false, [
                             validateEmpty,
                           ])
                         }
-                        placeholder={t("Name")}
-                        className={inputClass}
                       />
-                      {errors.name && (
-                        <div className="error-message">{errors.name}</div>
-                      )}
                     </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Price Before Discount")}</p>
-                      <input
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("Code Model")}
+                        type="text"
+                        error={errors.internalCode}
+                        value={currentProduct?.internalCode ?? ""}
+                        onChange={(e) =>
+                          handleChange("internalCode", e.target.value, false, [
+                            validateEmpty,
+                          ])
+                        }
+                      />
+                    </div>
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("EAN")}
                         type="number"
+                        error={errors.barcode}
+                        value={currentProduct?.product_extra.barcode ?? ""}
+                        onChange={(e) =>
+                          handleChange("barcode", e.target.value, true, [
+                            validateEmpty,
+                          ])
+                        }
+                      />
+                    </div>
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("Price Before Discount")}
+                        type="number"
+                        error={errors.priceBeforeDiscount}
                         value={currentProduct?.priceBeforeDiscount ?? ""}
                         onChange={(e) =>
                           handleChange(
@@ -1335,91 +1269,58 @@ export default function Products() {
                             [validateDecimal],
                           )
                         }
-                        placeholder={t("Selling Price")}
-                        className={inputClass}
                       />
-                      {errors.priceBeforeDiscount && (
-                        <div className="error-message">
-                          {errors.priceBeforeDiscount}
-                        </div>
-                      )}
                     </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Selling Price")}</p>
-                      <input
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("Selling Price")}
                         type="number"
                         value={currentProduct?.value ?? ""}
+                        error={errors.value}
                         onChange={(e) =>
                           handleChange("value", e.target.value, false, [
                             validateDecimal,
                             validateEmpty,
                           ])
                         }
-                        placeholder={t("Selling Price")}
-                        className={inputClass}
                       />
-                      {errors.value && (
-                        <div className="error-message">{errors.value}</div>
-                      )}
                     </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Material")}</p>
-                      <input
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("Material")}
                         type="text"
                         value={currentProduct?.material ?? ""}
                         onChange={(e) =>
                           handleChange("material", e.target.value)
                         }
-                        placeholder={t("Material")}
-                        className={inputClass}
                       />
                     </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Color")}</p>
-                      <input
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("Color")}
                         type="text"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
                         value={currentProduct?.color ?? ""}
                         onChange={(e) => handleChange("color", e.target.value)}
-                        placeholder={t("Color")}
-                        className={inputClass}
                       />
                     </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Weight")}</p>
-                      <input
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("Weight")}
                         type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
                         value={currentProduct?.product_extra?.weight ?? ""}
+                        error={errors.weight}
                         onChange={(e) =>
                           handleChange("weight", e.target.value, true, [
                             validateInteger,
                           ])
                         }
-                        placeholder={t("Weight")}
-                        className={inputClass}
                       />
-                      {errors.weight && (
-                        <div className="error-message">{errors.weight}</div>
-                      )}
                     </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Packaged Weight Net")}</p>
-                      <input
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("Packaged Weight Net")}
                         type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
+                        error={errors.packaged_weight_net}
                         value={
                           currentProduct?.product_extra?.packaged_weight_net ??
                           ""
@@ -1432,15 +1333,9 @@ export default function Products() {
                             [validateDecimal],
                           )
                         }
-                        placeholder={t("Packaged Weight Net")}
-                        className={inputClass}
                       />
-                      {errors.packaged_weight_net && (
-                        <div className="error-message">
-                          {errors.packaged_weight_net}
-                        </div>
-                      )}
                     </div>
+
                     <div className={inputDivClass}>
                       <p>{t("Packaged Weight")}</p>
                       <input
@@ -1706,6 +1601,38 @@ export default function Products() {
                       </div>
                     </div>
                   </div>
+                  <div>{t("Categories")}</div>
+                  <div className={inputDivClass}>
+                    <p>{t("Category")}</p>
+                    <select
+                      className="w-full"
+                      value={
+                        currentProduct != null &&
+                        currentProduct.categories != null &&
+                        currentProduct.categories[0].id != null
+                          ? currentProduct.categories[0].id
+                          : 0
+                      }
+                      onChange={(e) =>
+                        handleChange(
+                          "category",
+                          allCategories.find((cat) => cat.id == e.target.value),
+                        )
+                      }
+                    >
+                      <option key={0} value={0}>
+                        Select a category
+                      </option>
+                      {allCategories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category?.Name}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.category && (
+                      <div className="error-message">{errors.category}</div>
+                    )}
+                  </div>
                   <div className="flex flex-wrap items-center justify-center gap-2">
                     <div className={inputDivClass}>
                       <p>{t("Tags")}</p>
@@ -1833,7 +1760,6 @@ export default function Products() {
                             </div>
                           )}
                         </div>
-                        <BarcodeToPng value={currentProduct.supplierCode} />
                       </>
                     )}
                     <div className="flex flex-col gap-2">
