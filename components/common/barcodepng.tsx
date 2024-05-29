@@ -3,6 +3,10 @@ import Barcode from "react-jsbarcode";
 import { Canvg } from "canvg";
 
 const BarcodeToPng = ({ value }) => {
+  if (value.length !== 13) {
+    return <div></div>;
+  }
+
   const barcodeRef = useRef(null);
 
   useEffect(() => {
@@ -41,7 +45,7 @@ const BarcodeToPng = ({ value }) => {
           options={{ format: "EAN13", height: 45 }}
         />
       </div>
-      <img id="barcodePng" alt="Barcode" />
+      <img id="barcodePng" alt="Barcode as PNG" />
     </>
   );
 };

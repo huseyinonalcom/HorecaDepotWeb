@@ -5,7 +5,7 @@ import statusText from "../../../../api/statustexts";
 
 export default async function putProduct(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   const cookies = req.cookies;
   const authToken = cookies.j;
@@ -22,11 +22,13 @@ export default async function putProduct(
       const fetchUrl = `${process.env.API_URL}/api/products/${prodID}`;
       let body;
 
+      console.log(prodToPost);
+
       if (req.query.batch && req.query.batch == "false") {
         body = {
           data: {
             name: prodToPost.name,
-            category: prodToPost.categories[0].id,
+            categories: prodToPost.categories.map((cat) => cat.id),
             description: prodToPost.description,
             supplierCode: prodToPost.supplierCode.toString() ?? "0",
             internalCode: prodToPost.internalCode ?? "0",
@@ -49,7 +51,7 @@ export default async function putProduct(
         body = {
           data: {
             name: prodToPost.name,
-            category: prodToPost.categories[0].id,
+            categories: prodToPost.categories.map((cat) => cat.id),
             description: prodToPost.description,
             supplierCode: prodToPost.supplierCode.toString() ?? "0",
             internalCode: prodToPost.internalCode ?? "0",

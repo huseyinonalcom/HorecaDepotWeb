@@ -4,7 +4,7 @@ import { Product } from "../../../../api/interfaces/product";
 
 export default async function postProduct(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   const cookies = req.cookies;
   const authToken = cookies.j;
@@ -25,7 +25,7 @@ export default async function postProduct(
             name: prodToPost.name,
             active: true,
             deleted: false,
-            category: prodToPost.categories[0].id,
+            categories: prodToPost.categories.map((cat) => cat.id),
             description: prodToPost.description,
             supplier: 1,
             supplierCode: prodToPost.supplierCode.toString() ?? "0",
@@ -94,7 +94,7 @@ export default async function postProduct(
             body: JSON.stringify({
               data: {
                 product: prodToPost.id,
-                stock: prodToPost.shelves.find((shelf) => shelf.establishment.id == 1).stock ?? 0,
+                stock: 0,
                 establishment: 1,
               },
             }),
@@ -109,7 +109,7 @@ export default async function postProduct(
             body: JSON.stringify({
               data: {
                 product: prodToPost.id,
-                stock: prodToPost.shelves.find((shelf) => shelf.establishment.id == 3).stock ?? 0,
+                stock: 0,
                 establishment: 3,
               },
             }),
@@ -120,6 +120,7 @@ export default async function postProduct(
         }
       }
     } catch (error) {
+      console.log(error);
       return res.status(500).json("error outside of requests");
     }
 

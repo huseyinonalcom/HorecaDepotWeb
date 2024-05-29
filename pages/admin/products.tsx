@@ -57,7 +57,9 @@ export default function Products() {
     "flex flex-col items-center shadow-lg gap-2 w-[230px] bg-neutral-300 p-1 h-min";
 
   useEffect(() => {
-    setNewProduct(false);
+    if (currentProduct && currentProduct?.id != 0) {
+      setNewProduct(false);
+    }
   }, [currentProduct]);
 
   const toggleProductActive = () => {
@@ -262,7 +264,6 @@ export default function Products() {
       setChosenProductID(null);
       setErrors({
         internalCode: "Champs requis",
-        category: "Champs requis",
         supplierCode: "Champs requis",
         name: "Champs requis",
         value: "Champs requis",
@@ -525,11 +526,14 @@ export default function Products() {
     setSubmitError(null);
     if (inProgress) return;
     setInProgress(true);
-    if (Object.values(errors).some((error) => error !== "")) {
+
+    console.log("currentProduct: ", currentProduct);
+
+    if (
+      Object.values(errors).some((error) => error != null) ||
+      currentProduct.categories.length == 0
+    ) {
       setSubmitError(t("Fill all the required fields correctly!"));
-      setInProgress(false);
-    } else if (currentProduct.categories[0].id == 0) {
-      setSubmitError(t("Choose a category!"));
       setInProgress(false);
     } else {
       if (
@@ -560,6 +564,7 @@ export default function Products() {
         }
       } else {
         try {
+          console.log("posting: ", currentProduct);
           const request = await fetch("/api/products/admin/postproduct", {
             method: "POST",
             headers: {
@@ -700,7 +705,6 @@ export default function Products() {
 
   const [errors, setErrors] = useState<FormErrors>({
     internalCode: "Champs requis",
-    category: "Champs requis",
     supplierCode: "Champs requis",
     name: "Champs requis",
     value: "Champs requis",
@@ -1123,6 +1127,19 @@ export default function Products() {
                       value={currentProduct?.product_extra.barcode ?? ""}
                       onChange={(e) =>
                         handleChange("barcode", e.target.value, true, [
+                          validateEmpty,
+                        ])
+                      }
+                    />
+                  </div>
+                  <div className="w-[200px]">
+                    <InputOutlined
+                      label={t("Supplier Code")}
+                      type="number"
+                      error={errors.supplierCode}
+                      value={currentProduct?.supplierCode ?? ""}
+                      onChange={(e) =>
+                        handleChange("supplierCode", e.target.value, false, [
                           validateEmpty,
                         ])
                       }
