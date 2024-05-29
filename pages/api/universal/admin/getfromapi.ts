@@ -2,25 +2,29 @@ import statusText from "../../../../api/statustexts";
 import getAuthCookie from "../../cookies";
 
 export async function getFromApi({ req, res }) {
-  const authToken = getAuthCookie({ type: "admin", req });
-  const collection = req.query.collectiontoput;
-  const id = req.query.idtoput;
-  const qs = req.query.qs;
+  try {
+    const authToken = getAuthCookie({ type: "admin", req });
+    const collection = req.query.collectiontoput;
+    const id = req.query.idtoput;
+    const qs = req.query.qs;
 
-  const request = await fetch(
-    `${process.env.API_URL}/api/${collection}${id ? `/${id}` : ""}${qs ? `?${qs}` : ""}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${authToken}`,
+    const request = await fetch(
+      `${process.env.API_URL}/api/${collection}${id ? `/${id}` : ""}${qs ? `?${qs}` : ""}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
       },
-    },
-  );
+    );
 
-  if (request.ok) {
-    return true;
-  } else {
+    if (request.ok) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (_) {
     return false;
   }
 }
