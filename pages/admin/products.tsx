@@ -1190,6 +1190,42 @@ export default function Products() {
                   onSubmit={handleFormSubmit}
                 >
                   <div className="mb-2 flex flex-row items-center justify-end gap-2">
+                    <div className="flex flex-row gap-2">
+                      {currentProduct && currentProduct.id != 0 ? (
+                        currentProduct.product_extra.new ? (
+                          <div
+                            className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-green-300 p-1`}
+                            onClick={toggleProductNew}
+                          >
+                            {t("Featured")}
+                          </div>
+                        ) : (
+                          <div
+                            className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-red-300 p-1`}
+                            onClick={toggleProductNew}
+                          >
+                            {t("Not Featured")}
+                          </div>
+                        )
+                      ) : null}
+                      {currentProduct && currentProduct.id != 0 ? (
+                        currentProduct.active ? (
+                          <div
+                            className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-green-300 p-1`}
+                            onClick={toggleProductActive}
+                          >
+                            {t("Active")}
+                          </div>
+                        ) : (
+                          <div
+                            className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-red-300 p-1`}
+                            onClick={toggleProductActive}
+                          >
+                            {t("Inactive")}
+                          </div>
+                        )
+                      ) : null}
+                    </div>
                     {submitError && (
                       <p className="bg-white p-1 text-red-400">{submitError}</p>
                     )}
@@ -1650,7 +1686,7 @@ export default function Products() {
                     >
                       <p>{t("Description")}</p>
                       <textarea
-                        className="h-full w-full" 
+                        className="h-full w-full"
                         value={currentProduct?.description ?? ""}
                         onChange={(e) =>
                           handleChange("description", e.target.value, false, [])
@@ -1762,42 +1798,6 @@ export default function Products() {
                         </div>
                       </>
                     )}
-                    <div className="flex flex-col gap-2">
-                      {currentProduct && currentProduct.id != 0 ? (
-                        currentProduct.product_extra.new ? (
-                          <div
-                            className={`border-1 flex  cursor-pointer flex-col items-center justify-center border-black bg-green-300`}
-                            onClick={toggleProductNew}
-                          >
-                            {t("Featured")}
-                          </div>
-                        ) : (
-                          <div
-                            className={`border-1 flex  cursor-pointer flex-col items-center justify-center border-black bg-red-300`}
-                            onClick={toggleProductNew}
-                          >
-                            {t("Not Featured")}
-                          </div>
-                        )
-                      ) : null}
-                      {currentProduct && currentProduct.id != 0 ? (
-                        currentProduct.active ? (
-                          <div
-                            className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-green-300`}
-                            onClick={toggleProductActive}
-                          >
-                            {t("Active")}
-                          </div>
-                        ) : (
-                          <div
-                            className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-red-300`}
-                            onClick={toggleProductActive}
-                          >
-                            {t("Inactive")}
-                          </div>
-                        )
-                      ) : null}
-                    </div>
                   </div>
                 </form>
               </div>

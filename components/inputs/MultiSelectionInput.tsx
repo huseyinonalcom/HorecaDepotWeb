@@ -61,6 +61,7 @@ const MultiSelectionInput = ({
                 key={id}
                 type="button"
                 onClick={() => onClickRemove(id)}
+                className="hover:bg-blue-300"
                 style={{
                   display: "flex",
                   flexDirection: "row",
@@ -98,6 +99,7 @@ const MultiSelectionInput = ({
                   key={id}
                   type="button"
                   onClick={() => onClickAdd(id)}
+                  className="hover:bg-blue-300"
                   style={{
                     display: "flex",
                     flexDirection: "row",
