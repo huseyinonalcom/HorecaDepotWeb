@@ -304,7 +304,7 @@ export default function Products() {
     fetchProducts();
   }, [currentPage, currentSort, currentSortDirection]);
 
-  const fetchProductByID = async () => {
+  const fetchProductByID = async (): Promise<boolean> => {
     if (chosenProductID && chosenProductID != 0) {
       const answer = await fetch(
         `/api/products/admin/getproductbyid?id=${chosenProductID}`,
@@ -313,7 +313,9 @@ export default function Products() {
       setErrors({});
       setCurrentProduct(data);
       setNewProduct(false);
+      return true;
     }
+    return false;
   };
 
   useEffect(() => {
@@ -326,88 +328,56 @@ export default function Products() {
     setCurrentPage(pageNumber);
   };
 
-  const handleRowClick = (
-    index: number,
-    event: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
-  ) => {
-    const newSelectedRows = new Set(selectedRows);
-
-    if (event.shiftKey && lastSelectedRow.current !== null) {
-      const start = Math.min(lastSelectedRow.current, index);
-      const end = Math.max(lastSelectedRow.current, index);
-      for (let i = start; i <= end; i++) {
-        newSelectedRows.add(i);
-      }
-    } else if (event.ctrlKey || event.metaKey) {
-      if (newSelectedRows.has(index)) {
-        newSelectedRows.delete(index);
-      } else {
-        newSelectedRows.add(index);
-      }
-    } else {
-      newSelectedRows.clear();
-      newSelectedRows.add(index);
-    }
-
-    lastSelectedRow.current = index;
-    setSelectedRows(newSelectedRows);
-  };
-
-  const uploadFile = async (e) => {
+  const uploadFiles = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      await sendFile(file).then((res) => (e.target.value = ""));
+      const files = e.target.files;
+      await sendFile(files).then((res) => (e.target.value = ""));
     }
   };
 
-  const sendFile = async (file: File) => {
-    const formData = new FormData();
-    formData.append("file", file);
+  const sendFile = async (files: File[]) => {
+    const imgIDs: number[] = [...currentProduct.images?.map((img) => img.id)];
 
-    try {
-      const request = await fetch("/api/files/admin/sendfile", {
-        method: "POST",
-        body: formData,
-      });
+    for (let i = 0; i < files.length; i++) {
+      const formData = new FormData();
+      formData.append("file", files[i]);
+      try {
+        const request = await fetch("/api/files/admin/sendfile", {
+          method: "POST",
+          body: formData,
+        });
 
-      if (request.status == 201) {
-        const result = await request.json();
-
-        const imgIDs: number[] = [];
-        imgIDs.push(result.id);
-        if (currentProduct.images != null) {
-          currentProduct.images.forEach((img) => {
-            imgIDs.push(img.id);
-          });
+        if (request.status == 201) {
+          const result = await request.json();
+          imgIDs.push(result.id);
         }
-        let json = '{"data": {"images": [';
-        for (let i = 0; i < imgIDs.length; i++) {
-          json += `{"id":${imgIDs[i]}},`;
-        }
-        json = json.slice(0, json.length - 1);
-        json += "]}}";
+      } catch (error) {}
+    }
 
-        const request2 = await fetch(
-          "/api/products/admin/putproductimages?id=" + currentProduct.id,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: json,
-          },
-        );
+    const json = {
+      data: {
+        images: imgIDs.map((id) => ({ id: id })),
+      },
+    };
 
-        if (request2.status == 200) {
-          fetchProductByID();
-        } else {
-        }
-      } else {
-      }
-    } catch (error) {}
+    const request2 = await fetch(
+      "/api/products/admin/putproductimages?id=" + currentProduct.id,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(json),
+      },
+    );
+
+    if (request2.status == 200) {
+      await fetchProductByID();
+    } else {
+    }
   };
 
   const handleImageDelete = async (e) => {
@@ -1251,7 +1221,7 @@ export default function Products() {
                     {currentProduct &&
                       currentProduct.id != 0 &&
                       !newProduct && (
-                        <>
+                        <div onDrop={uploadFiles}>
                           <label
                             htmlFor="uploadimg"
                             className={
@@ -1271,10 +1241,12 @@ export default function Products() {
                             placeholder={t("Upload Image")}
                             type="file"
                             name="uploadimg"
+                            multiple={true}
                             id="uploadimg"
-                            onChange={uploadFile}
-                          />
-                        </>
+                            onDrop={uploadFiles}
+                            onChange={uploadFiles}
+                          ></input>
+                        </div>
                       )}
                     {currentProduct &&
                       currentProduct.id != 0 &&
