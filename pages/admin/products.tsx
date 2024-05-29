@@ -68,7 +68,7 @@ export default function Products() {
     const toggleActive = async () => {
       try {
         const request = await fetch(
-          `/api/products/admin/toggleactive?id=` + currentProduct.id,
+          `/api/universal/admin/puttoapi?collectiontoput=products&idtoput=${currentProduct.id}`,
           {
             method: "PUT",
             headers: {
@@ -77,10 +77,12 @@ export default function Products() {
             body: JSON.stringify({ active: !currentProduct.active }),
           },
         );
-        const answer = await request.json();
         if (!request.ok) {
         } else {
-          setCurrentProduct({ ...currentProduct, active: answer });
+          setCurrentProduct({
+            ...currentProduct,
+            active: !currentProduct.active,
+          });
         }
       } catch {}
     };
@@ -1968,14 +1970,14 @@ export default function Products() {
                         {currentProduct && currentProduct.id != 0 ? (
                           currentProduct.active ? (
                             <div
-                              className={`border-1 flex  cursor-pointer flex-col items-center justify-center border-black bg-green-300`}
+                              className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-green-300`}
                               onClick={toggleProductActive}
                             >
                               {t("Active")}
                             </div>
                           ) : (
                             <div
-                              className={`border-1 flex  cursor-pointer flex-col items-center justify-center border-black bg-red-300`}
+                              className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-red-300`}
                               onClick={toggleProductActive}
                             >
                               {t("Inactive")}
