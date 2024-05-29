@@ -1180,6 +1180,7 @@ export default function Products() {
               </>
             </div>
           </div>
+
           <div
             className={`fixed top-0 overflow-y-auto p-2 shadow-md transition-transform duration-500 ${currentProduct || newProduct ? "h-full bg-gray-400" : "h-0"}`}
           >
@@ -1210,6 +1211,64 @@ export default function Products() {
                         <X color="red" />
                       </div>
                     </ButtonShadow1>
+                  </div>
+                  <div className="flex flex-row">
+                    {currentProduct &&
+                      currentProduct.id != 0 &&
+                      !newProduct && (
+                        <>
+                          <label
+                            htmlFor="uploadimg"
+                            className={
+                              "hover:bg flex cursor-pointer flex-row items-center justify-start overflow-hidden bg-white py-2 shadow-lg duration-500"
+                            }
+                          >
+                            <div className={navIconDivClass}>
+                              <Upload className={iconClass} />
+                            </div>
+                            <span className={textClass}>
+                              {t("Upload Image")}
+                            </span>
+                          </label>
+                          <input
+                            title={t("Upload Image")}
+                            className="absolute h-0 w-0 opacity-0"
+                            placeholder={t("Upload Image")}
+                            type="file"
+                            name="uploadimg"
+                            id="uploadimg"
+                            onChange={uploadFile}
+                          />
+                        </>
+                      )}
+                    {currentProduct &&
+                      currentProduct.id != 0 &&
+                      currentProduct.images?.map((img) => (
+                        <div className="image_parent relative" key={img.id}>
+                          <Image
+                            alt={""}
+                            src={"https://hdapi.huseyinonalalpha.com" + img.url}
+                            id={img.id.toString()}
+                            width={160}
+                            height={160}
+                          />
+                          <div
+                            className="absolute right-2 top-2 z-50"
+                            onClick={handleImageDelete}
+                          >
+                            <X className="h-4 w-4" color="red" />
+                          </div>
+                          <Link
+                            target="_blank"
+                            className="absolute right-2 top-6"
+                            href={
+                              "https://hdapi.huseyinonalalpha.com" + img.url
+                            }
+                          >
+                            <Download className="h-4 w-4" color="green" />
+                          </Link>
+                        </div>
+                      ))}
                   </div>
                   <div className="flex w-full flex-row text-3xl font-semibold">
                     {t("Primary Details")}
@@ -1285,6 +1344,45 @@ export default function Products() {
                         }
                       />
                     </div>
+                  </div>
+                  <div className="flex w-full flex-row text-3xl font-semibold">
+                    {t("Categories")}
+                  </div>
+                  <div className={inputDivClass}>
+                    <p>{t("Category")}</p>
+                    <select
+                      className="w-full"
+                      value={
+                        currentProduct != null &&
+                        currentProduct.categories != null &&
+                        currentProduct.categories[0].id != null
+                          ? currentProduct.categories[0].id
+                          : 0
+                      }
+                      onChange={(e) =>
+                        handleChange(
+                          "category",
+                          allCategories.find((cat) => cat.id == e.target.value),
+                        )
+                      }
+                    >
+                      <option key={0} value={0}>
+                        Select a category
+                      </option>
+                      {allCategories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category?.Name}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.category && (
+                      <div className="error-message">{errors.category}</div>
+                    )}
+                  </div>
+                  <div className="flex w-full flex-row text-3xl font-semibold">
+                    {t("Secondary Details")}
+                  </div>
+                  <div className="flex flex-wrap items-center justify-center gap-2">
                     <div className="w-[200px]">
                       <InputOutlined
                         label={t("Material")}
@@ -1601,38 +1699,7 @@ export default function Products() {
                       </div>
                     </div>
                   </div>
-                  <div>{t("Categories")}</div>
-                  <div className={inputDivClass}>
-                    <p>{t("Category")}</p>
-                    <select
-                      className="w-full"
-                      value={
-                        currentProduct != null &&
-                        currentProduct.categories != null &&
-                        currentProduct.categories[0].id != null
-                          ? currentProduct.categories[0].id
-                          : 0
-                      }
-                      onChange={(e) =>
-                        handleChange(
-                          "category",
-                          allCategories.find((cat) => cat.id == e.target.value),
-                        )
-                      }
-                    >
-                      <option key={0} value={0}>
-                        Select a category
-                      </option>
-                      {allCategories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category?.Name}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.category && (
-                      <div className="error-message">{errors.category}</div>
-                    )}
-                  </div>
+
                   <div className="flex flex-wrap items-center justify-center gap-2">
                     <div className={inputDivClass}>
                       <p>{t("Tags")}</p>
@@ -1797,61 +1864,7 @@ export default function Products() {
                           </div>
                         )
                       ) : null}
-                      {currentProduct &&
-                        currentProduct.id != 0 &&
-                        !newProduct && (
-                          <>
-                            <label htmlFor="uploadimg" className={buttonClass}>
-                              <div className={navIconDivClass}>
-                                <Upload className={iconClass} />
-                              </div>
-                              <span className={textClass}>
-                                {t("Upload Image")}
-                              </span>
-                            </label>
-                            <input
-                              title={t("Upload Image")}
-                              className="absolute h-0 w-0 opacity-0"
-                              placeholder={t("Upload Image")}
-                              type="file"
-                              name="uploadimg"
-                              id="uploadimg"
-                              onChange={uploadFile}
-                            />
-                          </>
-                        )}
                     </div>
-                    <div className="flex flex-col"></div>
-                  </div>
-                  <div className="flex flex-row">
-                    {currentProduct &&
-                      currentProduct.id != 0 &&
-                      currentProduct.images?.map((img) => (
-                        <div className="image_parent relative" key={img.id}>
-                          <Image
-                            alt={""}
-                            src={"https://hdapi.huseyinonalalpha.com" + img.url}
-                            id={img.id.toString()}
-                            width={160}
-                            height={160}
-                          />
-                          <div
-                            className="absolute right-2 top-2 z-50"
-                            onClick={handleImageDelete}
-                          >
-                            <X className="h-4 w-4" color="red" />
-                          </div>
-                          <Link
-                            target="_blank"
-                            className="absolute right-2 top-6"
-                            href={
-                              "https://hdapi.huseyinonalalpha.com" + img.url
-                            }
-                          >
-                            <Download className="h-4 w-4" color="green" />
-                          </Link>
-                        </div>
-                      ))}
                   </div>
                 </form>
               </div>
