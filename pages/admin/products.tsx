@@ -1650,7 +1650,7 @@ export default function Products() {
                     >
                       <p>{t("Description")}</p>
                       <textarea
-                        className="h-full w-full"
+                        className="h-full w-full" 
                         value={currentProduct?.description ?? ""}
                         onChange={(e) =>
                           handleChange("description", e.target.value, false, [])
