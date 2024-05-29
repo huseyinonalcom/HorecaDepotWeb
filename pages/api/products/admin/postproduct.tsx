@@ -25,7 +25,7 @@ export default async function postProduct(
             name: prodToPost.name,
             active: true,
             deleted: false,
-            category: prodToPost.category.id,
+            category: prodToPost.categories[0].id,
             description: prodToPost.description,
             supplier: 1,
             supplierCode: prodToPost.supplierCode.toString() ?? "0",

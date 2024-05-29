@@ -26,7 +26,7 @@ export default async function putProduct(
         body = {
           data: {
             name: prodToPost.name,
-            category: prodToPost.category.id,
+            category: prodToPost.categories[0].id,
             description: prodToPost.description,
             supplierCode: prodToPost.supplierCode.toString() ?? "0",
             internalCode: prodToPost.internalCode ?? "0",
@@ -49,7 +49,7 @@ export default async function putProduct(
         body = {
           data: {
             name: prodToPost.name,
-            category: prodToPost.category.id,
+            category: prodToPost.categories[0].id,
             description: prodToPost.description,
             supplierCode: prodToPost.supplierCode.toString() ?? "0",
             internalCode: prodToPost.internalCode ?? "0",
