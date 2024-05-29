@@ -6,7 +6,6 @@ import { Product, ProductTransformer } from "../../api/interfaces/product";
 import {
   ArrowUp,
   Check,
-  CheckCircle,
   ChevronLeft,
   ChevronRight,
   ChevronUp,
@@ -30,6 +29,7 @@ import validateEmpty from "../../api/utils/input_validators/validate_empty";
 import validateDecimal from "../../api/utils/input_validators/validate_decimal";
 import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 import InputOutlined from "../../components/inputs/outlined";
+import MultiSelectionInput from "../../components/inputs/MultiSelectionInput";
 
 export default function Products() {
   const { t, lang } = useTranslation("common");
@@ -53,13 +53,12 @@ export default function Products() {
   const [currentCategory, setCurrentCategory] = useState(0);
 
   const buttonClass =
-    "flex flex-row items-center justify-start py-2  shadow-lg hover:bg-orange-400 overflow-hidden duration-500 cursor-pointer";
+    "flex flex-row items-center justify-start py-2 shadow-lg hover:bg-orange-400 overflow-hidden duration-500 cursor-pointer";
   const navIconDivClass = "flex flex-row justify-center flex-shrink-0 w-[35px]";
   const iconClass = "flex-shrink-0";
   const textClass = "mx-2 font-bold text-left";
   const inputDivClass =
     "flex flex-col items-center shadow-lg gap-2 w-[230px] bg-neutral-300 p-1 h-min";
-  const inputClass = "w-full";
 
   useEffect(() => {
     setNewProduct(false);
@@ -1348,37 +1347,34 @@ export default function Products() {
                   <div className="flex w-full flex-row text-3xl font-semibold">
                     {t("Categories")}
                   </div>
-                  <div className={inputDivClass}>
-                    <p>{t("Category")}</p>
-                    <select
-                      className="w-full"
-                      value={
-                        currentProduct != null &&
-                        currentProduct.categories != null &&
-                        currentProduct.categories[0].id != null
-                          ? currentProduct.categories[0].id
-                          : 0
-                      }
-                      onChange={(e) =>
-                        handleChange(
-                          "category",
-                          allCategories.find((cat) => cat.id == e.target.value),
-                        )
-                      }
-                    >
-                      <option key={0} value={0}>
-                        Select a category
-                      </option>
-                      {allCategories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category?.Name}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.category && (
-                      <div className="error-message">{errors.category}</div>
+                  <MultiSelectionInput
+                    selectionList={allCategories}
+                    selectableList={allCategories.map((cat) => cat.id)}
+                    selectedList={currentProduct.categories.map(
+                      (cat) => cat.id,
                     )}
-                  </div>
+                    onClickAdd={(id) => {
+                      const category = allCategories.find(
+                        (cat) => cat.id === id,
+                      );
+                      if (category) {
+                        setCurrentProduct({
+                          ...currentProduct,
+                          categories: [...currentProduct.categories, category],
+                        });
+                      }
+                    }}
+                    onClickRemove={(id) => {
+                      setCurrentProduct({
+                        ...currentProduct,
+                        categories: currentProduct.categories.filter(
+                          (cat) => cat.id !== id,
+                        ),
+                      });
+                    }}
+                    labelKey="Name"
+                    valueKey="id"
+                  />
                   <div className="flex w-full flex-row text-3xl font-semibold">
                     {t("Secondary Details")}
                   </div>
@@ -1433,14 +1429,11 @@ export default function Products() {
                         }
                       />
                     </div>
-
-                    <div className={inputDivClass}>
-                      <p>{t("Packaged Weight")}</p>
-                      <input
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("Packaged Weight")}
                         type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
+                        error={errors.packaged_weight}
                         value={
                           currentProduct?.product_extra?.packaged_weight ?? ""
                         }
@@ -1452,22 +1445,12 @@ export default function Products() {
                             [validateDecimal],
                           )
                         }
-                        placeholder={t("Packaged Weight")}
-                        className={inputClass}
                       />
-                      {errors.packaged_weight && (
-                        <div className="error-message">
-                          {errors.packaged_weight}
-                        </div>
-                      )}
                     </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Packaged Dimensions")}</p>
-                      <input
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("Packaged Dimensions")}
                         type="text"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
                         value={
                           currentProduct?.product_extra?.packaged_dimensions ??
                           ""
@@ -1479,139 +1462,91 @@ export default function Products() {
                             true,
                           )
                         }
-                        placeholder={t("Packaged Dimensions")}
-                        className={inputClass}
                       />
                     </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Per Box")}</p>
-                      <input
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("Per Box")}
                         type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
+                        error={errors.per_box}
                         value={currentProduct?.product_extra?.per_box ?? ""}
                         onChange={(e) =>
                           handleChange("per_box", e.target.value, true, [
                             validateInteger,
                           ])
                         }
-                        placeholder={t("Per Box")}
-                        className={inputClass}
                       />
-                      {errors.per_box && (
-                        <div className="error-message">{errors.per_box}</div>
-                      )}
                     </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Height")}</p>
-                      <input
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("Height")}
                         type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
+                        error={errors.height}
                         value={currentProduct?.height ?? ""}
                         onChange={(e) =>
                           handleChange("height", e.target.value, false, [
                             validateInteger,
                           ])
                         }
-                        placeholder={t("Height")}
-                        className={inputClass}
                       />
-                      {errors.height && (
-                        <div className="error-message">{errors.height}</div>
-                      )}
                     </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Width")}</p>
-                      <input
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("Width")}
                         type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
+                        error={errors.width}
                         value={currentProduct?.width ?? ""}
                         onChange={(e) =>
                           handleChange("width", e.target.value, false, [
                             validateInteger,
                           ])
                         }
-                        placeholder={t("Width")}
-                        className={inputClass}
                       />
-                      {errors.width && (
-                        <div className="error-message">{errors.width}</div>
-                      )}
                     </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Depth")}</p>
-                      <input
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("Depth")}
                         type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
+                        error={errors.depth}
                         value={currentProduct?.depth ?? ""}
                         onChange={(e) =>
                           handleChange("depth", e.target.value, false, [
                             validateInteger,
                           ])
                         }
-                        placeholder={t("Depth")}
-                        className={inputClass}
                       />
-                      {errors.depth && (
-                        <div className="error-message">{errors.depth}</div>
-                      )}
                     </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Diameter")}</p>
-                      <input
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("Diameter")}
                         type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
+                        error={errors.diameter}
                         value={currentProduct?.product_extra?.diameter ?? ""}
                         onChange={(e) =>
                           handleChange("diameter", e.target.value, true, [
                             validateInteger,
                           ])
                         }
-                        placeholder={t("Diameter")}
-                        className={inputClass}
                       />
-                      {errors.diameter && (
-                        <div className="error-message">{errors.diameter}</div>
-                      )}
                     </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Seat Height")}</p>
-                      <input
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("Seat Height")}
                         type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
+                        error={errors.seat_height}
                         value={currentProduct?.product_extra?.seat_height ?? ""}
                         onChange={(e) =>
                           handleChange("seat_height", e.target.value, true, [
                             validateInteger,
                           ])
                         }
-                        placeholder={t("Seat Height")}
-                        className={inputClass}
                       />
-                      {errors.seat_height && (
-                        <div className="error-message">
-                          {errors.seat_height}
-                        </div>
-                      )}
                     </div>
-                    <div className={inputDivClass}>
-                      <p>{t("Armrest Height")}</p>
-                      <input
+                    <div className="w-[200px]">
+                      <InputOutlined
+                        label={t("Armrest Height")}
                         type="number"
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                        }}
+                        error={errors.armrest_height}
                         value={
                           currentProduct?.product_extra?.armrest_height ?? ""
                         }
@@ -1620,15 +1555,9 @@ export default function Products() {
                             validateInteger,
                           ])
                         }
-                        placeholder={t("Armrest Height")}
-                        className={inputClass}
                       />
-                      {errors.armrest_height && (
-                        <div className="error-message">
-                          {errors.armrest_height}
-                        </div>
-                      )}
                     </div>
+
                     <div className={inputDivClass}>
                       <p>{t("reservation_new")}</p>
                       <input
@@ -1646,7 +1575,6 @@ export default function Products() {
                             }));
                         }}
                         placeholder={t("Amount")}
-                        className={inputClass}
                       />
                       <input
                         type="text"
@@ -1661,7 +1589,6 @@ export default function Products() {
                           }))
                         }
                         placeholder={t("Client")}
-                        className={inputClass}
                       />
                       <button
                         type="button"
@@ -1701,26 +1628,34 @@ export default function Products() {
                   </div>
 
                   <div className="flex flex-wrap items-center justify-center gap-2">
-                    <div className={inputDivClass}>
+                    <div
+                      className={
+                        "flex h-[250px] w-[350px] flex-col items-center gap-2 bg-neutral-300 p-1 shadow-lg"
+                      }
+                    >
                       <p>{t("Tags")}</p>
                       <textarea
+                        className="h-full w-full"
                         value={currentProduct?.product_extra?.tags ?? ""}
                         onChange={(e) =>
                           handleChange("tags", e.target.value, true, [])
                         }
                         placeholder={t("Tags")}
-                        className={inputClass}
                       />
                     </div>
-                    <div className={inputDivClass}>
+                    <div
+                      className={
+                        "flex h-[250px] w-[350px] flex-col items-center gap-2 bg-neutral-300 p-1 shadow-lg"
+                      }
+                    >
                       <p>{t("Description")}</p>
                       <textarea
+                        className="h-full w-full"
                         value={currentProduct?.description ?? ""}
                         onChange={(e) =>
                           handleChange("description", e.target.value, false, [])
                         }
                         placeholder={t("Description")}
-                        className={inputClass}
                       />
                     </div>
                     {chosenProductID != 0 && chosenProductID != null && (
@@ -1768,7 +1703,6 @@ export default function Products() {
                               }
                             }}
                             placeholder={t("Stock Warehouse")}
-                            className={inputClass}
                           />
                           {errors.stock_depot && (
                             <div className="error-message">
@@ -1819,7 +1753,6 @@ export default function Products() {
                               }
                             }}
                             placeholder={t("Stock Store")}
-                            className={inputClass}
                           />
                           {errors.stock_store && (
                             <div className="error-message">
