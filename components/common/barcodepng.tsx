@@ -41,7 +41,7 @@ const BarcodeToPng = ({ value }) => {
           options={{ format: "EAN13", height: 45 }}
         />
       </div>
-      <img id="barcodePng" alt="Barcode as PNG" />
+      <img id="barcodePng" alt="Barcode" />
     </>
   );
 };

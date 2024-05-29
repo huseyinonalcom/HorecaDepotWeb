@@ -52,29 +52,30 @@ const MultiSelectionInput = ({
             backgroundColor: "lightgray",
           }}
         >
-          {selectedList.map((id) => {
-            const selectedItem = selectionList.find(
-              (el) => el[valueKey] === id,
-            );
-            return (
-              <button
-                key={id}
-                type="button"
-                onClick={() => onClickRemove(id)}
-                className="hover:bg-blue-300"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <p>
-                  {"- "}
-                  {selectedItem[labelKey]}
-                </p>
-              </button>
-            );
-          })}
+          {selectedList.length > 0 &&
+            selectedList?.map((id) => {
+              const selectedItem = selectionList.find(
+                (el) => el[valueKey] === id,
+              );
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => onClickRemove(id)}
+                  className="hover:bg-blue-300"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <p>
+                    {"- "}
+                    {selectedItem[labelKey]}
+                  </p>
+                </button>
+              );
+            })}
         </div>
         <div
           style={{
