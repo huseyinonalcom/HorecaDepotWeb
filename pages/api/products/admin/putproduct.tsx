@@ -20,56 +20,27 @@ export default async function putProduct(
     prodToPost.images?.forEach((img) => imagesArray.push({ id: img.id }));
     try {
       const fetchUrl = `${process.env.API_URL}/api/products/${prodID}`;
-      let body;
-
-      console.log(prodToPost);
-
-      if (req.query.batch && req.query.batch == "false") {
-        body = {
-          data: {
-            name: prodToPost.name,
-            categories: prodToPost.categories.map((cat) => cat.id),
-            description: prodToPost.description,
-            supplierCode: prodToPost.supplierCode.toString() ?? "0",
-            internalCode: prodToPost.internalCode ?? "0",
-            value: prodToPost.value ?? 0,
-            tax: 21,
-            width: prodToPost.width ?? 0,
-            depth: prodToPost.depth ?? 0,
-            minStock: 0,
-            minOrder: 0,
-            height: prodToPost.height ?? 0,
-            color: prodToPost.color,
-            material: prodToPost.material,
-            discountRange: prodToPost.discountRange ?? 0,
-            images: imagesArray,
-            priceBeforeDiscount:
-              prodToPost.priceBeforeDiscount ?? prodToPost.value ?? 0,
-          },
-        };
-      } else {
-        body = {
-          data: {
-            name: prodToPost.name,
-            categories: prodToPost.categories.map((cat) => cat.id),
-            description: prodToPost.description,
-            supplierCode: prodToPost.supplierCode.toString() ?? "0",
-            internalCode: prodToPost.internalCode ?? "0",
-            value: prodToPost.value ?? 0,
-            tax: 21,
-            width: prodToPost.width ?? 0,
-            depth: prodToPost.depth ?? 0,
-            minStock: 0,
-            minOrder: 0,
-            height: prodToPost.height ?? 0,
-            color: prodToPost.color,
-            material: prodToPost.material,
-            discountRange: prodToPost.discountRange ?? 0,
-            priceBeforeDiscount:
-              prodToPost.priceBeforeDiscount ?? prodToPost.value ?? 0,
-          },
-        };
-      }
+      let body = {
+        data: {
+          name: prodToPost.name,
+          categories: prodToPost.categories.map((cat) => cat.id),
+          description: prodToPost.description,
+          supplierCode: prodToPost.supplierCode.toString() ?? "0",
+          internalCode: prodToPost.internalCode ?? "0",
+          value: prodToPost.value ?? 0,
+          tax: 21,
+          width: prodToPost.width ?? 0,
+          depth: prodToPost.depth ?? 0,
+          minStock: 0,
+          minOrder: 0,
+          height: prodToPost.height ?? 0,
+          color: prodToPost.color,
+          material: prodToPost.material,
+          discountRange: prodToPost.discountRange ?? 0,
+          priceBeforeDiscount:
+            prodToPost.priceBeforeDiscount ?? prodToPost.value ?? 0,
+        },
+      };
       const response = await fetch(fetchUrl, {
         method: "PUT",
         headers: {
