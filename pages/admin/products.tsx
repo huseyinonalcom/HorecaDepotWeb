@@ -5,12 +5,12 @@ import AdminLayout from "../../components/admin/adminLayout";
 import { Product, ProductTransformer } from "../../api/interfaces/product";
 import {
   ArrowUp,
+  Check,
   CheckCircle,
   ChevronLeft,
   ChevronRight,
   ChevronUp,
   Download,
-  Minus,
   PlusCircle,
   Search,
   Upload,
@@ -28,6 +28,7 @@ import { read, utils, write } from "xlsx";
 import validateInteger from "../../api/utils/input_validators/validate_integer";
 import validateEmpty from "../../api/utils/input_validators/validate_empty";
 import validateDecimal from "../../api/utils/input_validators/validate_decimal";
+import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 
 export default function Products() {
   const { t, lang } = useTranslation("common");
@@ -60,7 +61,6 @@ export default function Products() {
   const inputClass = "w-full";
 
   useEffect(() => {
-    setIsProductExpanded(true);
     setNewProduct(false);
   }, [currentProduct]);
 
@@ -918,8 +918,6 @@ export default function Products() {
     );
   };
 
-  const [isProductExpanded, setIsProductExpanded] = useState(true);
-
   useEffect(() => {
     if (count == categoriesTotal) {
       window.location.reload();
@@ -954,120 +952,121 @@ export default function Products() {
           <title>Produits</title>
           <meta name="language" content={lang} />
         </Head>
-        <div className="flex max-h-[100vh] flex-1 flex-col items-center pb-1 pt-1">
-          <div className="mb-1 flex flex-row items-center gap-2">
-            <div className="group relative h-full">
-              <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-4 pl-3 pr-2 font-bold text-black">
-                {t(
-                  currentCategory
-                    ? allCategories.find((cat) => cat.id == currentCategory)
-                        ?.Name
-                    : "Tout",
-                )}
-                <ChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />
-              </div>
-              <div className="invisible absolute -left-5 top-8 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
-                <div className="flex w-full cursor-pointer items-center justify-between text-left hover:bg-gray-200">
-                  <div
-                    className="h-full w-full whitespace-nowrap px-4 py-2"
-                    onClick={() => {
-                      setCurrentCategory(null);
-                    }}
-                  >
-                    {t("All")}
-                  </div>
+        <div className="flex w-full flex-row items-center">
+          <div className="flex w-full flex-col items-center pb-1 pt-1">
+            <div className="mb-1 flex flex-row items-center gap-2">
+              <div className="group relative h-full">
+                <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-4 pl-3 pr-2 font-bold text-black">
+                  {t(
+                    currentCategory
+                      ? allCategories.find((cat) => cat.id == currentCategory)
+                          ?.Name
+                      : "Tout",
+                  )}
+                  <ChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />
                 </div>
-                {allCategoriesHierarchy.map((category) => (
-                  <CategoryItem key={category.id} category={category} />
-                ))}
+                <div className="invisible absolute -left-5 top-8 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
+                  <div className="flex w-full cursor-pointer items-center justify-between text-left hover:bg-gray-200">
+                    <div
+                      className="h-full w-full whitespace-nowrap px-4 py-2"
+                      onClick={() => {
+                        setCurrentCategory(null);
+                      }}
+                    >
+                      {t("All")}
+                    </div>
+                  </div>
+                  {allCategoriesHierarchy.map((category) => (
+                    <CategoryItem key={category.id} category={category} />
+                  ))}
+                </div>
               </div>
-            </div>
-            <div
-              style={{
-                borderRadius: "0.25rem",
-                boxShadow:
-                  "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                backgroundColor: "#f3f4f6",
-                padding: "8px",
-              }}
-            >
-              <form
-                style={{ position: "relative" }}
-                onSubmit={handleSearchSubmit}
-                role="search"
+              <div
+                style={{
+                  borderRadius: "0.25rem",
+                  boxShadow:
+                    "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                  backgroundColor: "#f3f4f6",
+                  padding: "8px",
+                }}
               >
-                <label htmlFor="searchInput" style={{ display: "none" }}>
-                  {t("Search Products")}
-                </label>
-                <input
-                  id="searchInput"
-                  className="placeholder-blue"
-                  value={tempSearch}
-                  onChange={(e) => setTempSearch(e.target.value)}
+                <form
+                  style={{ position: "relative" }}
                   onSubmit={handleSearchSubmit}
-                  type="text"
-                  style={{
-                    width: "100%",
-                    paddingLeft: "16px",
-                    paddingRight: "16px",
-                    paddingTop: "8px",
-                    paddingBottom: "8px",
-                    border: "2px solid",
-                    borderColor: "rgba(0, 0, 0, 0.1)",
-                    outline: "none",
-                  }}
-                  placeholder={t("Search Products")}
-                  aria-label="Search"
+                  role="search"
+                >
+                  <label htmlFor="searchInput" style={{ display: "none" }}>
+                    {t("Search Products")}
+                  </label>
+                  <input
+                    id="searchInput"
+                    className="placeholder-blue"
+                    value={tempSearch}
+                    onChange={(e) => setTempSearch(e.target.value)}
+                    onSubmit={handleSearchSubmit}
+                    type="text"
+                    style={{
+                      width: "100%",
+                      paddingLeft: "16px",
+                      paddingRight: "16px",
+                      paddingTop: "8px",
+                      paddingBottom: "8px",
+                      border: "2px solid",
+                      borderColor: "rgba(0, 0, 0, 0.1)",
+                      outline: "none",
+                    }}
+                    placeholder={t("Search Products")}
+                    aria-label="Search"
+                  />
+                  <div
+                    onSubmit={handleSearchSubmit}
+                    style={{
+                      cursor: "pointer",
+                      position: "absolute",
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                    }}
+                    role="button"
+                    aria-label="Submit search"
+                  >
+                    <Search
+                      style={{
+                        height: "100%",
+                        width: "28px",
+                        margin: "auto 8px",
+                      }}
+                    />
+                  </div>
+                </form>
+              </div>
+              <div className="flex flex-row gap-2 bg-gray-100 p-2 shadow-lg">
+                <ArrowUp
+                  height={36}
+                  width={36}
+                  onClick={() => setCurrentSortDirection(!currentSortDirection)}
+                  className={` border-2 border-blue-500 bg-white p-1 duration-500 ${
+                    currentSortDirection ? "rotate-0" : "rotate-180"
+                  }`}
                 />
                 <div
-                  onSubmit={handleSearchSubmit}
-                  style={{
-                    cursor: "pointer",
-                    position: "absolute",
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                  }}
-                  role="button"
-                  aria-label="Submit search"
+                  className={` border-2 bg-white px-2 py-1 ${
+                    currentSort == "id" ? "border-blue-500" : ""
+                  }`}
+                  onClick={() => setCurrentSort("id")}
                 >
-                  <Search
-                    style={{
-                      height: "100%",
-                      width: "28px",
-                      margin: "auto 8px",
-                    }}
-                  />
+                  {t("Date")}
                 </div>
-              </form>
-            </div>
-            <div className="flex flex-row gap-2 bg-gray-100 p-2 shadow-lg">
-              <ArrowUp
-                height={36}
-                width={36}
-                onClick={() => setCurrentSortDirection(!currentSortDirection)}
-                className={` border-2 border-blue-500 bg-white p-1 duration-500 ${
-                  currentSortDirection ? "rotate-0" : "rotate-180"
-                }`}
-              />
-              <div
-                className={` border-2 bg-white px-2 py-1 ${
-                  currentSort == "id" ? "border-blue-500" : ""
-                }`}
-                onClick={() => setCurrentSort("id")}
-              >
-                {t("Date")}
+                <div
+                  className={` border-2 bg-white px-2 py-1 ${
+                    currentSort == "value" ? "border-blue-500" : ""
+                  }`}
+                  onClick={() => setCurrentSort("value")}
+                >
+                  {t("Price")}
+                </div>
               </div>
-              <div
-                className={` border-2 bg-white px-2 py-1 ${
-                  currentSort == "value" ? "border-blue-500" : ""
-                }`}
-                onClick={() => setCurrentSort("value")}
-              >
-                {t("Price")}
-              </div>
-            </div>
-            <form
+              {/* <form
               onDragOver={(e) => e.preventDefault()}
               onDrop={handleFileDrop}
             >
@@ -1086,991 +1085,116 @@ export default function Products() {
                 id="upload"
                 onChange={excelUpload}
               />
-            </form>
+            </form> */}
 
-            <button
-              className={buttonClass + " flex-shrink-0 bg-green-400"}
-              onClick={() => generateXlsx()}
-            >
-              <div className={navIconDivClass}>
-                <Download className={iconClass} />
-              </div>
-              <span className={textClass}>{t("Download Excel")}</span>
-            </button>
-
-            <button className={buttonClass} onClick={() => setNewProduct(true)}>
-              <div className={navIconDivClass}>
-                <PlusCircle className={iconClass} />
-              </div>
-              <span className={textClass}>{t("Create New Product")}</span>
-            </button>
-          </div>
-          <div className="flex-shrink-1 flex w-full flex-col items-center overflow-y-hidden pt-1">
-            <div className="flex max-w-full flex-col overflow-x-auto overflow-y-auto">
-              <table className="relative w-full bg-gray-100 p-2 shadow-lg">
-                <thead className="sticky top-0 bg-[#c0c1c3]">
-                  <tr>
-                    <th>{t("Category")}</th>
-                    <th>{t("EAN")}</th>
-                    <th>{t("Code Model")}</th>
-                    <th>{t("Name")}</th>
-                    <th>{t("Color")}</th>
-                    <th>{t("Material")}</th>
-                    <th>{t("Price Before Discount")}</th>
-                    <th>{t("Selling Price")}</th>
-                    <th>{t("Stock Warehouse")}</th>
-                    <th>{t("Stock Store")}</th>
-                    <th>{t("Reserved")}</th>
-                    <th>{t("Weight")}</th>
-                    <th>{t("Packaged Weight Net")}</th>
-                    <th>{t("Packaged Weight")}</th>
-                    <th>{t("Packaged Dimensions")}</th>
-                    <th>{t("Per Box")}</th>
-                    <th>{t("Seat Height")}</th>
-                    <th>{t("Height")}</th>
-                    <th>{t("Width")}</th>
-                    <th>{t("Depth")}</th>
-                    <th>{t("Diameter")}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {allProducts.map((product, index) => (
-                    <tr
-                      key={index}
-                      className={`cursor-pointer ${
-                        !selectedRows.has(index) && index % 2 === 0
-                          ? "bg-slate-300"
-                          : ""
-                      } ${selectedRows.has(index) ? "bg-orange-300" : ""}`}
-                      onDoubleClick={() => setChosenProductID(product.id)}
-                      onClick={(e) => handleRowClick(index, e)}
-                      onMouseOver={(e) =>
-                        e.currentTarget.classList.add("hover:bg-slate-500")
-                      }
-                      onMouseOut={(e) =>
-                        e.currentTarget.classList.remove("hover:bg-slate-500")
-                      }
-                    >
-                      <td>{product.categories[0]?.Name}</td>
-                      <td>{product.product_extra.barcode}</td>
-                      <td>{product.internalCode}</td>
-                      <td>{product.name}</td>
-                      <td>{product.color}</td>
-                      <td>{product.material}</td>
-                      <td>
-                        {product.priceBeforeDiscount != undefined
-                          ? "€ " +
-                            product.priceBeforeDiscount
-                              .toFixed(2)
-                              .replaceAll(".", ",")
-                          : ""}
-                      </td>
-                      <td>
-                        {product.value != undefined
-                          ? "€ " + product.value.toFixed(2).replaceAll(".", ",")
-                          : ""}
-                      </td>
-                      <td>
-                        {
-                          product.shelves.find(
-                            (shelf) => shelf.establishment.id == 3,
-                          ).stock
-                        }
-                      </td>
-                      <td>
-                        {
-                          product.shelves.find(
-                            (shelf) => shelf.establishment.id == 1,
-                          ).stock
-                        }
-                      </td>
-                      <td>{calculateReserved(product.reservations)}</td>
-                      <td>
-                        {product.product_extra.weight != 0
-                          ? product.product_extra.weight
-                              .toString()
-                              .replaceAll(".", ",") + " kg"
-                          : ""}
-                      </td>
-                      <td>
-                        {product.product_extra.packaged_weight_net != 0
-                          ? product.product_extra.packaged_weight_net
-                              .toString()
-                              .replaceAll(".", ",") + " kg"
-                          : ""}
-                      </td>
-                      <td>
-                        {product.product_extra.packaged_weight != 0
-                          ? product.product_extra.packaged_weight
-                              .toString()
-                              .replaceAll(".", ",") + " kg"
-                          : ""}
-                      </td>
-                      <td>{product.product_extra.packaged_dimensions}</td>
-                      <td>
-                        {product.product_extra.per_box != 0
-                          ? product.product_extra.per_box
-                          : ""}
-                      </td>
-                      <td>
-                        {product.product_extra.seat_height != 0
-                          ? product.product_extra.seat_height
-                              .toString()
-                              .replaceAll(".", ",") + " cm"
-                          : ""}
-                      </td>
-                      <td>
-                        {product.height != 0
-                          ? product.height.toString().replaceAll(".", ",") +
-                            " cm"
-                          : ""}
-                      </td>
-                      <td>
-                        {product.width != 0
-                          ? product.width.toString().replaceAll(".", ",") +
-                            " cm"
-                          : ""}
-                      </td>
-                      <td>
-                        {product.depth != 0
-                          ? product.depth.toString().replaceAll(".", ",") +
-                            " cm"
-                          : ""}
-                      </td>
-                      <td>
-                        {product.product_extra.diameter != 0
-                          ? product.product_extra.diameter
-                              .toString()
-                              .replaceAll(".", ",") + " cm"
-                          : ""}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <>
-              {allProducts.length > 0 ? (
-                <div className="mb-2 mt-2 flex flex-row justify-center px-6">
-                  <div className="flex items-center justify-center space-x-1">
-                    <button
-                      className="border p-2 hover:bg-gray-200"
-                      onClick={() => goToPage(currentPage - 1)}
-                      disabled={currentPage === 1}
-                    >
-                      <ChevronLeft />
-                    </button>
-                    {getPageNumbers().map((page, index) =>
-                      page === "..." ? (
-                        <span key={index} className="p-2">
-                          ...
-                        </span>
-                      ) : (
-                        <button
-                          key={index}
-                          className={`border p-2 hover:bg-gray-200 ${
-                            currentPage === page ? "bg-gray-300" : ""
-                          }`}
-                          onClick={() => goToPage(page)}
-                        >
-                          {page}
-                        </button>
-                      ),
-                    )}
-                    <button
-                      className="border p-2 hover:bg-gray-200"
-                      onClick={() => goToPage(currentPage + 1)}
-                      disabled={currentPage === totalPages}
-                    >
-                      <ChevronRight />
-                    </button>
-                  </div>
+              <button
+                className={buttonClass + " flex-shrink-0 bg-green-400"}
+                onClick={() => generateXlsx()}
+              >
+                <div className={navIconDivClass}>
+                  <Download className={iconClass} />
                 </div>
-              ) : (
-                <p></p>
-              )}
-            </>
+                <span className={textClass}>{t("Download Excel")}</span>
+              </button>
+
+              <button
+                className={buttonClass}
+                onClick={() => setNewProduct(true)}
+              >
+                <div className={navIconDivClass}>
+                  <PlusCircle className={iconClass} />
+                </div>
+                <span className={textClass}>{t("Create New Product")}</span>
+              </button>
+            </div>
+            <div className="flex-shrink-1 flex w-full flex-col items-center overflow-y-auto pt-1">
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                {allProducts?.map((product) => (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setChosenProductID(product.id);
+                    }}
+                    key={product.id}
+                    className="h-[300px] w-[190px] bg-slate-200"
+                  >
+                    <img
+                      src={
+                        "https://hdapi.huseyinonalalpha.com" +
+                        product.images?.at(0).url
+                      }
+                      alt={product.name}
+                      className="aspect-square w-full object-cover"
+                    />
+                    <div className="flex flex-col">
+                      <div className="flex flex-col p-2">
+                        <div className="font-bold">{product.name}</div>
+                        <div>{product.color}</div>
+                        <div>{formatCurrency(product.value)}</div>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+              <>
+                {allProducts.length > 0 ? (
+                  <div className="mb-2 mt-2 flex flex-row justify-center px-6">
+                    <div className="flex items-center justify-center space-x-1">
+                      <button
+                        className="border p-2 hover:bg-gray-200"
+                        onClick={() => goToPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                      >
+                        <ChevronLeft />
+                      </button>
+                      {getPageNumbers().map((page, index) =>
+                        page === "..." ? (
+                          <span key={index} className="p-2">
+                            ...
+                          </span>
+                        ) : (
+                          <button
+                            key={index}
+                            className={`border p-2 hover:bg-gray-200 ${
+                              currentPage === page ? "bg-gray-300" : ""
+                            }`}
+                            onClick={() => goToPage(page)}
+                          >
+                            {page}
+                          </button>
+                        ),
+                      )}
+                      <button
+                        className="border p-2 hover:bg-gray-200"
+                        onClick={() => goToPage(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                      >
+                        <ChevronRight />
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <p></p>
+                )}
+              </>
+            </div>
           </div>
           <div
-            className={`transition-height flex w-full flex-shrink-0 flex-grow flex-row overflow-y-hidden bg-gray-400 p-2 shadow-md duration-500 `}
+            className={`fixed top-0 overflow-y-auto p-2 shadow-md transition-transform duration-500 ${currentProduct || newProduct ? "h-full bg-gray-400" : "h-0"}`}
           >
-            {currentProduct || newProduct ? (
-              <>
-                <div
-                  className="grid"
-                  style={{
-                    gridTemplateRows: isProductExpanded ? "1fr" : "0fr",
-                    transition: "grid-template-rows 0.4s",
-                  }}
+            {(currentProduct || newProduct) && (
+              <div className={`flex flex-col`}>
+                <form
+                  className={`flex flex-col items-center justify-center gap-2 overflow-hidden`}
+                  onSubmit={handleFormSubmit}
                 >
-                  <form
-                    className={`flex w-full flex-col items-center justify-center gap-2 overflow-hidden`}
-                    onSubmit={handleFormSubmit}
-                  >
-                    <div className="flex flex-wrap items-center justify-center gap-2">
-                      <div className={inputDivClass}>
-                        <p>{t("No")}</p>
-                        <input
-                          type="number"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={currentProduct?.id ?? ""}
-                          placeholder={t("No")}
-                          className={inputClass}
-                          onChange={() => {}}
-                        />
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Category")}</p>
-                        <select
-                          className="w-full"
-                          value={
-                            currentProduct != null &&
-                            currentProduct.categories != null &&
-                            currentProduct.categories[0].id != null
-                              ? currentProduct.categories[0].id
-                              : 0
-                          }
-                          onChange={(e) =>
-                            handleChange(
-                              "category",
-                              allCategories.find(
-                                (cat) => cat.id == e.target.value,
-                              ),
-                            )
-                          }
-                        >
-                          <option key={0} value={0}>
-                            Select a category
-                          </option>
-                          {allCategories.map((category) => (
-                            <option key={category.id} value={category.id}>
-                              {category?.Name}
-                            </option>
-                          ))}
-                        </select>
-                        {errors.category && (
-                          <div className="error-message">{errors.category}</div>
-                        )}
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("EAN")}</p>
-                        <input
-                          type="number"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={currentProduct?.product_extra.barcode ?? ""}
-                          onChange={(e) =>
-                            handleChange("barcode", e.target.value, true, [
-                              validateEmpty,
-                            ])
-                          }
-                          placeholder={t("EAN")}
-                          className={inputClass}
-                        />
-                        {errors.barcode && (
-                          <div className="error-message">{errors.barcode}</div>
-                        )}
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Code Model")}</p>
-                        <input
-                          type="text"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={currentProduct?.internalCode ?? ""}
-                          onChange={(e) =>
-                            handleChange(
-                              "internalCode",
-                              e.target.value,
-                              false,
-                              [validateEmpty],
-                            )
-                          }
-                          placeholder={t("Code Model")}
-                          className={inputClass}
-                        />
-
-                        {errors.internalCode && (
-                          <div className="error-message">
-                            {errors.internalCode}
-                          </div>
-                        )}
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Name")}</p>
-                        <input
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          type="text"
-                          value={currentProduct?.name ?? ""}
-                          onChange={(e) =>
-                            handleChange("name", e.target.value, false, [
-                              validateEmpty,
-                            ])
-                          }
-                          placeholder={t("Name")}
-                          className={inputClass}
-                        />
-                        {errors.name && (
-                          <div className="error-message">{errors.name}</div>
-                        )}
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Price Before Discount")}</p>
-                        <input
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          type="number"
-                          value={currentProduct?.priceBeforeDiscount ?? ""}
-                          onChange={(e) =>
-                            handleChange(
-                              "priceBeforeDiscount",
-                              e.target.value,
-                              false,
-                              [validateDecimal],
-                            )
-                          }
-                          placeholder={t("Selling Price")}
-                          className={inputClass}
-                        />
-                        {errors.priceBeforeDiscount && (
-                          <div className="error-message">
-                            {errors.priceBeforeDiscount}
-                          </div>
-                        )}
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Selling Price")}</p>
-                        <input
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          type="number"
-                          value={currentProduct?.value ?? ""}
-                          onChange={(e) =>
-                            handleChange("value", e.target.value, false, [
-                              validateDecimal,
-                              validateEmpty,
-                            ])
-                          }
-                          placeholder={t("Selling Price")}
-                          className={inputClass}
-                        />
-                        {errors.value && (
-                          <div className="error-message">{errors.value}</div>
-                        )}
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Material")}</p>
-                        <input
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          type="text"
-                          value={currentProduct?.material ?? ""}
-                          onChange={(e) =>
-                            handleChange("material", e.target.value)
-                          }
-                          placeholder={t("Material")}
-                          className={inputClass}
-                        />
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Color")}</p>
-                        <input
-                          type="text"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={currentProduct?.color ?? ""}
-                          onChange={(e) =>
-                            handleChange("color", e.target.value)
-                          }
-                          placeholder={t("Color")}
-                          className={inputClass}
-                        />
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Weight")}</p>
-                        <input
-                          type="number"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={currentProduct?.product_extra?.weight ?? ""}
-                          onChange={(e) =>
-                            handleChange("weight", e.target.value, true, [
-                              validateInteger,
-                            ])
-                          }
-                          placeholder={t("Weight")}
-                          className={inputClass}
-                        />
-                        {errors.weight && (
-                          <div className="error-message">{errors.weight}</div>
-                        )}
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Packaged Weight Net")}</p>
-                        <input
-                          type="number"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={
-                            currentProduct?.product_extra
-                              ?.packaged_weight_net ?? ""
-                          }
-                          onChange={(e) =>
-                            handleChange(
-                              "packaged_weight_net",
-                              e.target.value,
-                              true,
-                              [validateDecimal],
-                            )
-                          }
-                          placeholder={t("Packaged Weight Net")}
-                          className={inputClass}
-                        />
-                        {errors.packaged_weight_net && (
-                          <div className="error-message">
-                            {errors.packaged_weight_net}
-                          </div>
-                        )}
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Packaged Weight")}</p>
-                        <input
-                          type="number"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={
-                            currentProduct?.product_extra?.packaged_weight ?? ""
-                          }
-                          onChange={(e) =>
-                            handleChange(
-                              "packaged_weight",
-                              e.target.value,
-                              true,
-                              [validateDecimal],
-                            )
-                          }
-                          placeholder={t("Packaged Weight")}
-                          className={inputClass}
-                        />
-                        {errors.packaged_weight && (
-                          <div className="error-message">
-                            {errors.packaged_weight}
-                          </div>
-                        )}
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Packaged Dimensions")}</p>
-                        <input
-                          type="text"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={
-                            currentProduct?.product_extra
-                              ?.packaged_dimensions ?? ""
-                          }
-                          onChange={(e) =>
-                            handleChange(
-                              "packaged_dimension",
-                              e.target.value,
-                              true,
-                            )
-                          }
-                          placeholder={t("Packaged Dimensions")}
-                          className={inputClass}
-                        />
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Per Box")}</p>
-                        <input
-                          type="number"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={currentProduct?.product_extra?.per_box ?? ""}
-                          onChange={(e) =>
-                            handleChange("per_box", e.target.value, true, [
-                              validateInteger,
-                            ])
-                          }
-                          placeholder={t("Per Box")}
-                          className={inputClass}
-                        />
-                        {errors.per_box && (
-                          <div className="error-message">{errors.per_box}</div>
-                        )}
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Height")}</p>
-                        <input
-                          type="number"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={currentProduct?.height ?? ""}
-                          onChange={(e) =>
-                            handleChange("height", e.target.value, false, [
-                              validateInteger,
-                            ])
-                          }
-                          placeholder={t("Height")}
-                          className={inputClass}
-                        />
-                        {errors.height && (
-                          <div className="error-message">{errors.height}</div>
-                        )}
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Width")}</p>
-                        <input
-                          type="number"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={currentProduct?.width ?? ""}
-                          onChange={(e) =>
-                            handleChange("width", e.target.value, false, [
-                              validateInteger,
-                            ])
-                          }
-                          placeholder={t("Width")}
-                          className={inputClass}
-                        />
-                        {errors.width && (
-                          <div className="error-message">{errors.width}</div>
-                        )}
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Depth")}</p>
-                        <input
-                          type="number"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={currentProduct?.depth ?? ""}
-                          onChange={(e) =>
-                            handleChange("depth", e.target.value, false, [
-                              validateInteger,
-                            ])
-                          }
-                          placeholder={t("Depth")}
-                          className={inputClass}
-                        />
-                        {errors.depth && (
-                          <div className="error-message">{errors.depth}</div>
-                        )}
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Diameter")}</p>
-                        <input
-                          type="number"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={currentProduct?.product_extra?.diameter ?? ""}
-                          onChange={(e) =>
-                            handleChange("diameter", e.target.value, true, [
-                              validateInteger,
-                            ])
-                          }
-                          placeholder={t("Diameter")}
-                          className={inputClass}
-                        />
-                        {errors.diameter && (
-                          <div className="error-message">{errors.diameter}</div>
-                        )}
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Seat Height")}</p>
-                        <input
-                          type="number"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={
-                            currentProduct?.product_extra?.seat_height ?? ""
-                          }
-                          onChange={(e) =>
-                            handleChange("seat_height", e.target.value, true, [
-                              validateInteger,
-                            ])
-                          }
-                          placeholder={t("Seat Height")}
-                          className={inputClass}
-                        />
-                        {errors.seat_height && (
-                          <div className="error-message">
-                            {errors.seat_height}
-                          </div>
-                        )}
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Armrest Height")}</p>
-                        <input
-                          type="number"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={
-                            currentProduct?.product_extra?.armrest_height ?? ""
-                          }
-                          onChange={(e) =>
-                            handleChange(
-                              "armrest_height",
-                              e.target.value,
-                              true,
-                              [validateInteger],
-                            )
-                          }
-                          placeholder={t("Armrest Height")}
-                          className={inputClass}
-                        />
-                        {errors.armrest_height && (
-                          <div className="error-message">
-                            {errors.armrest_height}
-                          </div>
-                        )}
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("reservation_new")}</p>
-                        <input
-                          type="number"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={newReservation.amount}
-                          onChange={(e) => {
-                            const validIntegerRegex = /^\d+$/;
-                            if (validIntegerRegex.test(e.target.value))
-                              setNewReservation((nr) => ({
-                                ...nr,
-                                amount: parseInt(e.target.value, 10),
-                              }));
-                          }}
-                          placeholder={t("Amount")}
-                          className={inputClass}
-                        />
-                        <input
-                          type="text"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={newReservation.client_name}
-                          onChange={(e) =>
-                            setNewReservation((nr) => ({
-                              ...nr,
-                              client_name: e.target.value,
-                            }))
-                          }
-                          placeholder={t("Client")}
-                          className={inputClass}
-                        />
-                        <button
-                          type="button"
-                          className={componentThemes.greenSubmitButton}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            sendNewReservation();
-                          }}
-                        >
-                          {t("reservation_create")}
-                        </button>
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("reservations")}</p>
-                        <div className="flex flex-wrap gap-2">
-                          {currentProduct.reservations &&
-                            currentProduct.reservations.length > 0 &&
-                            currentProduct.reservations.map((res, index) => (
-                              <div key={index}>
-                                {res.client_name}
-                                {": x"}
-                                {res.amount}
-                                {"  "}
-                                <button
-                                  type="button"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    deleteReservation(res.id);
-                                  }}
-                                >
-                                  <X color="red" />
-                                </button>
-                              </div>
-                            ))}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap items-center justify-center gap-2">
-                      <div className={inputDivClass}>
-                        <p>{t("Tags")}</p>
-                        <textarea
-                          value={currentProduct?.product_extra?.tags ?? ""}
-                          onChange={(e) =>
-                            handleChange("tags", e.target.value, true, [])
-                          }
-                          placeholder={t("Tags")}
-                          className={inputClass}
-                        />
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("Description")}</p>
-                        <textarea
-                          value={currentProduct?.description ?? ""}
-                          onChange={(e) =>
-                            handleChange(
-                              "description",
-                              e.target.value,
-                              false,
-                              [],
-                            )
-                          }
-                          placeholder={t("Description")}
-                          className={inputClass}
-                        />
-                      </div>
-                      {chosenProductID != 0 && chosenProductID != null && (
-                        <>
-                          <div className={inputDivClass}>
-                            <div className="flex flex-row items-center gap-2">
-                              <p className="whitespace-nowrap">
-                                {t("Stock Warehouse")}
-                              </p>
-                              <button
-                                onClick={() => submitStock(3)}
-                                className={componentThemes.greenSubmitButton}
-                              >
-                                {t("Save")}
-                              </button>
-                            </div>
-                            <input
-                              type="number"
-                              value={
-                                currentProduct?.shelves?.find(
-                                  (shelf) => shelf.establishment.id == 3,
-                                ).stock
-                              }
-                              onSubmit={(e) => {
-                                e.preventDefault();
-                                submitStock(3);
-                              }}
-                              onChange={(e) => {
-                                if (validateInteger(e.target.value) == "") {
-                                  const updatedProduct = { ...currentProduct };
-                                  const shelfIndex =
-                                    updatedProduct.shelves.findIndex(
-                                      (shelf) => shelf.establishment.id === 3,
-                                    );
-                                  if (shelfIndex !== -1) {
-                                    updatedProduct.shelves[shelfIndex].stock =
-                                      Number(e.target.value);
-                                    setCurrentProduct(updatedProduct);
-                                  }
-                                  errors.stock_depot = "";
-                                } else {
-                                  errors.stock_depot = validateInteger(
-                                    e.target.value,
-                                  );
-                                }
-                              }}
-                              placeholder={t("Stock Warehouse")}
-                              className={inputClass}
-                            />
-                            {errors.stock_depot && (
-                              <div className="error-message">
-                                {errors.stock_depot}
-                              </div>
-                            )}
-                          </div>
-                          <div className={inputDivClass}>
-                            <div className="flex flex-row items-center gap-2">
-                              <p className="whitespace-nowrap">
-                                {t("Stock Store")}
-                              </p>
-                              <button
-                                onClick={() => submitStock(1)}
-                                className={componentThemes.greenSubmitButton}
-                              >
-                                {t("Save")}
-                              </button>
-                            </div>
-                            <input
-                              type="number"
-                              value={
-                                currentProduct?.shelves?.find(
-                                  (shelf) => shelf.establishment.id == 1,
-                                ).stock
-                              }
-                              onSubmit={(e) => {
-                                e.preventDefault();
-                                submitStock(1);
-                              }}
-                              onChange={(e) => {
-                                if (validateInteger(e.target.value) == "") {
-                                  const updatedProduct = { ...currentProduct };
-                                  const shelfIndex =
-                                    updatedProduct.shelves.findIndex(
-                                      (shelf) => shelf.establishment.id === 1,
-                                    );
-                                  if (shelfIndex !== -1) {
-                                    updatedProduct.shelves[shelfIndex].stock =
-                                      Number(e.target.value);
-                                    setCurrentProduct(updatedProduct);
-                                  }
-                                  errors.stock_store = "";
-                                } else {
-                                  errors.stock_store = validateInteger(
-                                    e.target.value,
-                                  );
-                                }
-                              }}
-                              placeholder={t("Stock Store")}
-                              className={inputClass}
-                            />
-                            {errors.stock_store && (
-                              <div className="error-message">
-                                {errors.stock_store}
-                              </div>
-                            )}
-                          </div>
-                          <BarcodeToPng value={currentProduct.supplierCode} />
-                        </>
-                      )}
-                      <div className="flex flex-col gap-2">
-                        {currentProduct && currentProduct.id != 0 ? (
-                          currentProduct.product_extra.new ? (
-                            <div
-                              className={`border-1 flex  cursor-pointer flex-col items-center justify-center border-black bg-green-300`}
-                              onClick={toggleProductNew}
-                            >
-                              {t("Featured")}
-                            </div>
-                          ) : (
-                            <div
-                              className={`border-1 flex  cursor-pointer flex-col items-center justify-center border-black bg-red-300`}
-                              onClick={toggleProductNew}
-                            >
-                              {t("Not Featured")}
-                            </div>
-                          )
-                        ) : null}
-                        {currentProduct && currentProduct.id != 0 ? (
-                          currentProduct.active ? (
-                            <div
-                              className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-green-300`}
-                              onClick={toggleProductActive}
-                            >
-                              {t("Active")}
-                            </div>
-                          ) : (
-                            <div
-                              className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-red-300`}
-                              onClick={toggleProductActive}
-                            >
-                              {t("Inactive")}
-                            </div>
-                          )
-                        ) : null}
-                        {currentProduct &&
-                          currentProduct.id != 0 &&
-                          !newProduct && (
-                            <>
-                              <label
-                                htmlFor="uploadimg"
-                                className={buttonClass}
-                              >
-                                <div className={navIconDivClass}>
-                                  <Upload className={iconClass} />
-                                </div>
-                                <span className={textClass}>
-                                  {t("Upload Image")}
-                                </span>
-                              </label>
-                              <input
-                                title={t("Upload Image")}
-                                className="absolute h-0 w-0 opacity-0"
-                                placeholder={t("Upload Image")}
-                                type="file"
-                                name="uploadimg"
-                                id="uploadimg"
-                                onChange={uploadFile}
-                              />
-                            </>
-                          )}
-                      </div>
-                      <div className="flex flex-col">
-                        <button
-                          onClick={handleFormSubmit}
-                          className={buttonClass + " col-span-2 bg-white"}
-                        >
-                          <div className={navIconDivClass}>
-                            <CheckCircle className={iconClass} />
-                          </div>
-                          <span className={textClass}>
-                            {newProduct
-                              ? t("Create New Product")
-                              : t("Modify Product")}
-                          </span>
-                        </button>
-                        {submitError && (
-                          <p className="text-red-400">{submitError}</p>
-                        )}
-                      </div>
-                    </div>
-                    <div className="flex flex-row">
-                      {currentProduct &&
-                        currentProduct.id != 0 &&
-                        currentProduct.images?.map((img) => (
-                          <div className="image_parent relative" key={img.id}>
-                            <Image
-                              alt={""}
-                              src={
-                                "https://hdapi.huseyinonalalpha.com" + img.url
-                              }
-                              id={img.id.toString()}
-                              width={160}
-                              height={160}
-                            />
-                            <div
-                              className="absolute right-2 top-2 z-50"
-                              onClick={handleImageDelete}
-                            >
-                              <X className="h-4 w-4" color="red" />
-                            </div>
-                            <Link
-                              target="_blank"
-                              className="absolute right-2 top-6"
-                              href={
-                                "https://hdapi.huseyinonalalpha.com" + img.url
-                              }
-                            >
-                              <Download className="h-4 w-4" color="green" />
-                            </Link>
-                          </div>
-                        ))}
-                    </div>
-                  </form>
-                </div>
-                <div className={`ml-auto flex flex-col`}>
-                  <div className="mb-2 flex flex-row justify-end gap-2">
-                    <ButtonShadow1
-                      onClick={() => setIsProductExpanded(!isProductExpanded)}
-                    >
+                  <div className="mb-2 flex flex-row items-center justify-end gap-2">
+                    {submitError && (
+                      <p className="bg-white p-1 text-red-400">{submitError}</p>
+                    )}
+                    <ButtonShadow1 type="submit">
                       <div className="bg-white p-2">
-                        <Minus color="black" />
+                        <Check color="green" />
                       </div>
                     </ButtonShadow1>
                     <ButtonShadow1
@@ -2085,11 +1209,725 @@ export default function Products() {
                       </div>
                     </ButtonShadow1>
                   </div>
-                </div>
-              </>
-            ) : (
-              <div className="flex w-full items-center justify-center text-2xl font-bold">
-                {t("No products selected")}
+                  <div className="flex flex-wrap items-center justify-center gap-2">
+                    <div className={inputDivClass}>
+                      <p>{t("No")}</p>
+                      <input
+                        type="number"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        value={currentProduct?.id ?? ""}
+                        placeholder={t("No")}
+                        className={inputClass}
+                        onChange={() => {}}
+                      />
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Category")}</p>
+                      <select
+                        className="w-full"
+                        value={
+                          currentProduct != null &&
+                          currentProduct.categories != null &&
+                          currentProduct.categories[0].id != null
+                            ? currentProduct.categories[0].id
+                            : 0
+                        }
+                        onChange={(e) =>
+                          handleChange(
+                            "category",
+                            allCategories.find(
+                              (cat) => cat.id == e.target.value,
+                            ),
+                          )
+                        }
+                      >
+                        <option key={0} value={0}>
+                          Select a category
+                        </option>
+                        {allCategories.map((category) => (
+                          <option key={category.id} value={category.id}>
+                            {category?.Name}
+                          </option>
+                        ))}
+                      </select>
+                      {errors.category && (
+                        <div className="error-message">{errors.category}</div>
+                      )}
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("EAN")}</p>
+                      <input
+                        type="number"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        value={currentProduct?.product_extra.barcode ?? ""}
+                        onChange={(e) =>
+                          handleChange("barcode", e.target.value, true, [
+                            validateEmpty,
+                          ])
+                        }
+                        placeholder={t("EAN")}
+                        className={inputClass}
+                      />
+                      {errors.barcode && (
+                        <div className="error-message">{errors.barcode}</div>
+                      )}
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Code Model")}</p>
+                      <input
+                        type="text"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        value={currentProduct?.internalCode ?? ""}
+                        onChange={(e) =>
+                          handleChange("internalCode", e.target.value, false, [
+                            validateEmpty,
+                          ])
+                        }
+                        placeholder={t("Code Model")}
+                        className={inputClass}
+                      />
+
+                      {errors.internalCode && (
+                        <div className="error-message">
+                          {errors.internalCode}
+                        </div>
+                      )}
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Name")}</p>
+                      <input
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        type="text"
+                        value={currentProduct?.name ?? ""}
+                        onChange={(e) =>
+                          handleChange("name", e.target.value, false, [
+                            validateEmpty,
+                          ])
+                        }
+                        placeholder={t("Name")}
+                        className={inputClass}
+                      />
+                      {errors.name && (
+                        <div className="error-message">{errors.name}</div>
+                      )}
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Price Before Discount")}</p>
+                      <input
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        type="number"
+                        value={currentProduct?.priceBeforeDiscount ?? ""}
+                        onChange={(e) =>
+                          handleChange(
+                            "priceBeforeDiscount",
+                            e.target.value,
+                            false,
+                            [validateDecimal],
+                          )
+                        }
+                        placeholder={t("Selling Price")}
+                        className={inputClass}
+                      />
+                      {errors.priceBeforeDiscount && (
+                        <div className="error-message">
+                          {errors.priceBeforeDiscount}
+                        </div>
+                      )}
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Selling Price")}</p>
+                      <input
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        type="number"
+                        value={currentProduct?.value ?? ""}
+                        onChange={(e) =>
+                          handleChange("value", e.target.value, false, [
+                            validateDecimal,
+                            validateEmpty,
+                          ])
+                        }
+                        placeholder={t("Selling Price")}
+                        className={inputClass}
+                      />
+                      {errors.value && (
+                        <div className="error-message">{errors.value}</div>
+                      )}
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Material")}</p>
+                      <input
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        type="text"
+                        value={currentProduct?.material ?? ""}
+                        onChange={(e) =>
+                          handleChange("material", e.target.value)
+                        }
+                        placeholder={t("Material")}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Color")}</p>
+                      <input
+                        type="text"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        value={currentProduct?.color ?? ""}
+                        onChange={(e) => handleChange("color", e.target.value)}
+                        placeholder={t("Color")}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Weight")}</p>
+                      <input
+                        type="number"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        value={currentProduct?.product_extra?.weight ?? ""}
+                        onChange={(e) =>
+                          handleChange("weight", e.target.value, true, [
+                            validateInteger,
+                          ])
+                        }
+                        placeholder={t("Weight")}
+                        className={inputClass}
+                      />
+                      {errors.weight && (
+                        <div className="error-message">{errors.weight}</div>
+                      )}
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Packaged Weight Net")}</p>
+                      <input
+                        type="number"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        value={
+                          currentProduct?.product_extra?.packaged_weight_net ??
+                          ""
+                        }
+                        onChange={(e) =>
+                          handleChange(
+                            "packaged_weight_net",
+                            e.target.value,
+                            true,
+                            [validateDecimal],
+                          )
+                        }
+                        placeholder={t("Packaged Weight Net")}
+                        className={inputClass}
+                      />
+                      {errors.packaged_weight_net && (
+                        <div className="error-message">
+                          {errors.packaged_weight_net}
+                        </div>
+                      )}
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Packaged Weight")}</p>
+                      <input
+                        type="number"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        value={
+                          currentProduct?.product_extra?.packaged_weight ?? ""
+                        }
+                        onChange={(e) =>
+                          handleChange(
+                            "packaged_weight",
+                            e.target.value,
+                            true,
+                            [validateDecimal],
+                          )
+                        }
+                        placeholder={t("Packaged Weight")}
+                        className={inputClass}
+                      />
+                      {errors.packaged_weight && (
+                        <div className="error-message">
+                          {errors.packaged_weight}
+                        </div>
+                      )}
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Packaged Dimensions")}</p>
+                      <input
+                        type="text"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        value={
+                          currentProduct?.product_extra?.packaged_dimensions ??
+                          ""
+                        }
+                        onChange={(e) =>
+                          handleChange(
+                            "packaged_dimension",
+                            e.target.value,
+                            true,
+                          )
+                        }
+                        placeholder={t("Packaged Dimensions")}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Per Box")}</p>
+                      <input
+                        type="number"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        value={currentProduct?.product_extra?.per_box ?? ""}
+                        onChange={(e) =>
+                          handleChange("per_box", e.target.value, true, [
+                            validateInteger,
+                          ])
+                        }
+                        placeholder={t("Per Box")}
+                        className={inputClass}
+                      />
+                      {errors.per_box && (
+                        <div className="error-message">{errors.per_box}</div>
+                      )}
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Height")}</p>
+                      <input
+                        type="number"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        value={currentProduct?.height ?? ""}
+                        onChange={(e) =>
+                          handleChange("height", e.target.value, false, [
+                            validateInteger,
+                          ])
+                        }
+                        placeholder={t("Height")}
+                        className={inputClass}
+                      />
+                      {errors.height && (
+                        <div className="error-message">{errors.height}</div>
+                      )}
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Width")}</p>
+                      <input
+                        type="number"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        value={currentProduct?.width ?? ""}
+                        onChange={(e) =>
+                          handleChange("width", e.target.value, false, [
+                            validateInteger,
+                          ])
+                        }
+                        placeholder={t("Width")}
+                        className={inputClass}
+                      />
+                      {errors.width && (
+                        <div className="error-message">{errors.width}</div>
+                      )}
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Depth")}</p>
+                      <input
+                        type="number"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        value={currentProduct?.depth ?? ""}
+                        onChange={(e) =>
+                          handleChange("depth", e.target.value, false, [
+                            validateInteger,
+                          ])
+                        }
+                        placeholder={t("Depth")}
+                        className={inputClass}
+                      />
+                      {errors.depth && (
+                        <div className="error-message">{errors.depth}</div>
+                      )}
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Diameter")}</p>
+                      <input
+                        type="number"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        value={currentProduct?.product_extra?.diameter ?? ""}
+                        onChange={(e) =>
+                          handleChange("diameter", e.target.value, true, [
+                            validateInteger,
+                          ])
+                        }
+                        placeholder={t("Diameter")}
+                        className={inputClass}
+                      />
+                      {errors.diameter && (
+                        <div className="error-message">{errors.diameter}</div>
+                      )}
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Seat Height")}</p>
+                      <input
+                        type="number"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        value={currentProduct?.product_extra?.seat_height ?? ""}
+                        onChange={(e) =>
+                          handleChange("seat_height", e.target.value, true, [
+                            validateInteger,
+                          ])
+                        }
+                        placeholder={t("Seat Height")}
+                        className={inputClass}
+                      />
+                      {errors.seat_height && (
+                        <div className="error-message">
+                          {errors.seat_height}
+                        </div>
+                      )}
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Armrest Height")}</p>
+                      <input
+                        type="number"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        value={
+                          currentProduct?.product_extra?.armrest_height ?? ""
+                        }
+                        onChange={(e) =>
+                          handleChange("armrest_height", e.target.value, true, [
+                            validateInteger,
+                          ])
+                        }
+                        placeholder={t("Armrest Height")}
+                        className={inputClass}
+                      />
+                      {errors.armrest_height && (
+                        <div className="error-message">
+                          {errors.armrest_height}
+                        </div>
+                      )}
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("reservation_new")}</p>
+                      <input
+                        type="number"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        value={newReservation.amount}
+                        onChange={(e) => {
+                          const validIntegerRegex = /^\d+$/;
+                          if (validIntegerRegex.test(e.target.value))
+                            setNewReservation((nr) => ({
+                              ...nr,
+                              amount: parseInt(e.target.value, 10),
+                            }));
+                        }}
+                        placeholder={t("Amount")}
+                        className={inputClass}
+                      />
+                      <input
+                        type="text"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        value={newReservation.client_name}
+                        onChange={(e) =>
+                          setNewReservation((nr) => ({
+                            ...nr,
+                            client_name: e.target.value,
+                          }))
+                        }
+                        placeholder={t("Client")}
+                        className={inputClass}
+                      />
+                      <button
+                        type="button"
+                        className={componentThemes.greenSubmitButton}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          sendNewReservation();
+                        }}
+                      >
+                        {t("reservation_create")}
+                      </button>
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("reservations")}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {currentProduct.reservations &&
+                          currentProduct.reservations.length > 0 &&
+                          currentProduct.reservations.map((res, index) => (
+                            <div key={index}>
+                              {res.client_name}
+                              {": x"}
+                              {res.amount}
+                              {"  "}
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  deleteReservation(res.id);
+                                }}
+                              >
+                                <X color="red" />
+                              </button>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap items-center justify-center gap-2">
+                    <div className={inputDivClass}>
+                      <p>{t("Tags")}</p>
+                      <textarea
+                        value={currentProduct?.product_extra?.tags ?? ""}
+                        onChange={(e) =>
+                          handleChange("tags", e.target.value, true, [])
+                        }
+                        placeholder={t("Tags")}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div className={inputDivClass}>
+                      <p>{t("Description")}</p>
+                      <textarea
+                        value={currentProduct?.description ?? ""}
+                        onChange={(e) =>
+                          handleChange("description", e.target.value, false, [])
+                        }
+                        placeholder={t("Description")}
+                        className={inputClass}
+                      />
+                    </div>
+                    {chosenProductID != 0 && chosenProductID != null && (
+                      <>
+                        <div className={inputDivClass}>
+                          <div className="flex flex-row items-center gap-2">
+                            <p className="whitespace-nowrap">
+                              {t("Stock Warehouse")}
+                            </p>
+                            <button
+                              onClick={() => submitStock(3)}
+                              className={componentThemes.greenSubmitButton}
+                            >
+                              {t("Save")}
+                            </button>
+                          </div>
+                          <input
+                            type="number"
+                            value={
+                              currentProduct?.shelves?.find(
+                                (shelf) => shelf.establishment.id == 3,
+                              ).stock
+                            }
+                            onSubmit={(e) => {
+                              e.preventDefault();
+                              submitStock(3);
+                            }}
+                            onChange={(e) => {
+                              if (validateInteger(e.target.value) == "") {
+                                const updatedProduct = { ...currentProduct };
+                                const shelfIndex =
+                                  updatedProduct.shelves.findIndex(
+                                    (shelf) => shelf.establishment.id === 3,
+                                  );
+                                if (shelfIndex !== -1) {
+                                  updatedProduct.shelves[shelfIndex].stock =
+                                    Number(e.target.value);
+                                  setCurrentProduct(updatedProduct);
+                                }
+                                errors.stock_depot = "";
+                              } else {
+                                errors.stock_depot = validateInteger(
+                                  e.target.value,
+                                );
+                              }
+                            }}
+                            placeholder={t("Stock Warehouse")}
+                            className={inputClass}
+                          />
+                          {errors.stock_depot && (
+                            <div className="error-message">
+                              {errors.stock_depot}
+                            </div>
+                          )}
+                        </div>
+                        <div className={inputDivClass}>
+                          <div className="flex flex-row items-center gap-2">
+                            <p className="whitespace-nowrap">
+                              {t("Stock Store")}
+                            </p>
+                            <button
+                              onClick={() => submitStock(1)}
+                              className={componentThemes.greenSubmitButton}
+                            >
+                              {t("Save")}
+                            </button>
+                          </div>
+                          <input
+                            type="number"
+                            value={
+                              currentProduct?.shelves?.find(
+                                (shelf) => shelf.establishment.id == 1,
+                              ).stock
+                            }
+                            onSubmit={(e) => {
+                              e.preventDefault();
+                              submitStock(1);
+                            }}
+                            onChange={(e) => {
+                              if (validateInteger(e.target.value) == "") {
+                                const updatedProduct = { ...currentProduct };
+                                const shelfIndex =
+                                  updatedProduct.shelves.findIndex(
+                                    (shelf) => shelf.establishment.id === 1,
+                                  );
+                                if (shelfIndex !== -1) {
+                                  updatedProduct.shelves[shelfIndex].stock =
+                                    Number(e.target.value);
+                                  setCurrentProduct(updatedProduct);
+                                }
+                                errors.stock_store = "";
+                              } else {
+                                errors.stock_store = validateInteger(
+                                  e.target.value,
+                                );
+                              }
+                            }}
+                            placeholder={t("Stock Store")}
+                            className={inputClass}
+                          />
+                          {errors.stock_store && (
+                            <div className="error-message">
+                              {errors.stock_store}
+                            </div>
+                          )}
+                        </div>
+                        <BarcodeToPng value={currentProduct.supplierCode} />
+                      </>
+                    )}
+                    <div className="flex flex-col gap-2">
+                      {currentProduct && currentProduct.id != 0 ? (
+                        currentProduct.product_extra.new ? (
+                          <div
+                            className={`border-1 flex  cursor-pointer flex-col items-center justify-center border-black bg-green-300`}
+                            onClick={toggleProductNew}
+                          >
+                            {t("Featured")}
+                          </div>
+                        ) : (
+                          <div
+                            className={`border-1 flex  cursor-pointer flex-col items-center justify-center border-black bg-red-300`}
+                            onClick={toggleProductNew}
+                          >
+                            {t("Not Featured")}
+                          </div>
+                        )
+                      ) : null}
+                      {currentProduct && currentProduct.id != 0 ? (
+                        currentProduct.active ? (
+                          <div
+                            className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-green-300`}
+                            onClick={toggleProductActive}
+                          >
+                            {t("Active")}
+                          </div>
+                        ) : (
+                          <div
+                            className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-red-300`}
+                            onClick={toggleProductActive}
+                          >
+                            {t("Inactive")}
+                          </div>
+                        )
+                      ) : null}
+                      {currentProduct &&
+                        currentProduct.id != 0 &&
+                        !newProduct && (
+                          <>
+                            <label htmlFor="uploadimg" className={buttonClass}>
+                              <div className={navIconDivClass}>
+                                <Upload className={iconClass} />
+                              </div>
+                              <span className={textClass}>
+                                {t("Upload Image")}
+                              </span>
+                            </label>
+                            <input
+                              title={t("Upload Image")}
+                              className="absolute h-0 w-0 opacity-0"
+                              placeholder={t("Upload Image")}
+                              type="file"
+                              name="uploadimg"
+                              id="uploadimg"
+                              onChange={uploadFile}
+                            />
+                          </>
+                        )}
+                    </div>
+                    <div className="flex flex-col"></div>
+                  </div>
+                  <div className="flex flex-row">
+                    {currentProduct &&
+                      currentProduct.id != 0 &&
+                      currentProduct.images?.map((img) => (
+                        <div className="image_parent relative" key={img.id}>
+                          <Image
+                            alt={""}
+                            src={"https://hdapi.huseyinonalalpha.com" + img.url}
+                            id={img.id.toString()}
+                            width={160}
+                            height={160}
+                          />
+                          <div
+                            className="absolute right-2 top-2 z-50"
+                            onClick={handleImageDelete}
+                          >
+                            <X className="h-4 w-4" color="red" />
+                          </div>
+                          <Link
+                            target="_blank"
+                            className="absolute right-2 top-6"
+                            href={
+                              "https://hdapi.huseyinonalalpha.com" + img.url
+                            }
+                          >
+                            <Download className="h-4 w-4" color="green" />
+                          </Link>
+                        </div>
+                      ))}
+                  </div>
+                </form>
               </div>
             )}
           </div>

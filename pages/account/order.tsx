@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import LoadingIndicator from "../../components/common/loadingIndicator";
 import { useRouter } from "next/router";
 import CustomTheme from "../../components/componentThemes";
-import formatDateAPIToBe from "../../api/utils/formatdateapibe";
+import formatDateAPIToBe from "../../api/utils/formatters/formatdateapibe";
 import componentThemes from "../../components/componentThemes";
 import Image from "next/image";
 import TypeWriter from "../../components/common/typewriter";

@@ -13,10 +13,6 @@
   scrollbar-color: white black;
 }
 
-.transition-height {
-  transition-property: height;
-}
-
 *::-webkit-scrollbar {
   width: 9px;
   height: 9px;
@@ -127,49 +123,6 @@ tr:last-child {
   --theme-color-main: #0000003f;
 }
 
-.inverted-border-radius-tl {
-  isolation: isolate;
-  position: relative;
-  height: 0px;
-  width: 325px;
-  z-index: 10;
-  background-color: var(--theme-color-main);
-  border-radius: 25px 25px 25px 0;
-}
-
-.inverted-border-radius-tl::before {
-  isolation: isolate;
-  content: "";
-  position: absolute;
-
-  background-color: transparent;
-  bottom: -40px;
-  height: 40px;
-  width: 25px;
-  border-top-left-radius: 15px;
-  box-shadow: 0 -15px 0 0 var(--theme-color-main);
-}
-
-.inverted-border-radius-tr {
-  position: relative;
-  right: 0;
-  height: 0px;
-  width: 325px;
-  background-color: var(--theme-color-main);
-  border-radius: 25px 25px 25px 0;
-}
-
-.inverted-border-radius-tr::before {
-  content: "";
-  position: absolute;
-  right: 0;
-  background-color: transparent;
-  bottom: -40px;
-  height: 40px;
-  width: 25px;
-  border-top-right-radius: 15px;
-  box-shadow: 0 -15px 0 0 var(--theme-color-main);
-}
 html {
   overflow-y: scroll;
 }

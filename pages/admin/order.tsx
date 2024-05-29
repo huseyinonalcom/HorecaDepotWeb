@@ -3,7 +3,7 @@ import useTranslation from "next-translate/useTranslation";
 import { useEffect, useState } from "react";
 import LoadingIndicator from "../../components/common/loadingIndicator";
 import { useRouter } from "next/router";
-import formatDateAPIToBe from "../../api/utils/formatdateapibe";
+import formatDateAPIToBe from "../../api/utils/formatters/formatdateapibe";
 import AdminLayout from "../../components/admin/adminLayout";
 import Image from "next/image";
 import componentThemes from "../../components/componentThemes";

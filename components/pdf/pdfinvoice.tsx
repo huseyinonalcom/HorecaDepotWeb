@@ -7,7 +7,7 @@ import {
   Image,
   Font,
 } from "@react-pdf/renderer";
-import formatDateAPIToBe from "../../api/utils/formatdateapibe";
+import formatDateAPIToBe from "../../api/utils/formatters/formatdateapibe";
 
 Font.register({
   family: "Roboto",
