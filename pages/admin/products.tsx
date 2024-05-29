@@ -251,7 +251,7 @@ export default function Products() {
         width: 0,
         height: 0,
         depth: 0,
-        category: { id: 0 },
+        categories: [{ id: 0 }],
         product_extra: {
           weight: 0,
           armrest_height: 0,
@@ -604,7 +604,7 @@ export default function Products() {
           const json = utils.sheet_to_json(worksheet);
           const excelProds = ProductTransformer.fromXLSX(JSON.stringify(json));
           excelProds.forEach((prod) => {
-            prod.category = { id: categoryID } as Category;
+            prod.categories[0] = { id: categoryID } as Category;
           });
           setCategoriesTotal((c) => c + 1);
           sendProductsToAPI(excelProds);
@@ -703,7 +703,7 @@ export default function Products() {
     if (Object.values(errors).some((error) => error !== "")) {
       setSubmitError(t("Fill all the required fields correctly!"));
       setInProgress(false);
-    } else if (currentProduct.category.id == 0) {
+    } else if (currentProduct.categories[0].id == 0) {
       setSubmitError(t("Choose a category!"));
       setInProgress(false);
     } else {
@@ -1149,7 +1149,7 @@ export default function Products() {
                         e.currentTarget.classList.remove("hover:bg-slate-500")
                       }
                     >
-                      <td>{product.category?.Name}</td>
+                      <td>{product.categories[0]?.Name}</td>
                       <td>{product.product_extra.barcode}</td>
                       <td>{product.internalCode}</td>
                       <td>{product.name}</td>
@@ -1325,9 +1325,9 @@ export default function Products() {
                           className="w-full"
                           value={
                             currentProduct != null &&
-                            currentProduct.category != null &&
-                            currentProduct.category.id != null
-                              ? currentProduct.category.id
+                            currentProduct.categories != null &&
+                            currentProduct.categories[0].id != null
+                              ? currentProduct.categories[0].id
                               : 0
                           }
                           onChange={(e) =>

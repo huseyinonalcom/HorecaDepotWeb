@@ -12,7 +12,7 @@ export async function getCollections(collectionID?, filterFeatured?) {
       collectionID ?? ""
     }?populate[products][fields][0]=name${
       filterFeatured ?? "&filters[featured][$eq]=true"
-    }&populate[products][fields][1]=supplierCode&populate[products][fields][2]=color&populate[products][populate][shelves][fields][0]=stock&populate[products][fields][4]=material&populate[products][fields][5]=priceBeforeDiscount&populate[products][fields][6]=value&populate[image][fields][0]=url&populate[products][populate][images][fields][0]=url&populate[products][populate][category][fields][0]=Name`;
+    }&populate[products][fields][1]=supplierCode&populate[products][fields][2]=color&populate[products][populate][shelves][fields][0]=stock&populate[products][fields][4]=material&populate[products][fields][5]=priceBeforeDiscount&populate[products][fields][6]=value&populate[image][fields][0]=url&populate[products][populate][images][fields][0]=url&populate[products][populate][categories][fields][0]=Name`;
     const fetchCollectionsRequest = await fetch(fetchCollectionsUrl, {
       method: "GET",
       headers: {

@@ -79,7 +79,7 @@ const ProductPage = ({
         <meta name="language" content={lang} />
         <meta
           name="description"
-          content={product.name + " " + t(product.category.Name)}
+          content={product.name + " " + t(product.categories[0].Name)}
         />
         <meta name="subject" content={"" + product.name + ""} />
         <link
@@ -337,7 +337,7 @@ export const getStaticProps = async ({ params }: Params) => {
   const product = await getProductByID(Number.parseInt(params.id));
   const result = await getProducts({
     page: 1,
-    category: product.category.id,
+    category: product.categories[0].id,
     count: 10,
     inStock: true,
   });
@@ -360,8 +360,8 @@ export const getStaticProps = async ({ params }: Params) => {
       }
     }
   };
-  if (product.id && product.category) {
-    buildBreadcrumbs(product.category.id);
+  if (product.id && product.categories[0]) {
+    buildBreadcrumbs(product.categories[0].id);
   }
 
   return {

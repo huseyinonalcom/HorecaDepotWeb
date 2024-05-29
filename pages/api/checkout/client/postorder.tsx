@@ -51,7 +51,7 @@ const calculateTotalWithPromo = (promoDetails, cart) => {
 
 export default async function postOrder(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   if (req.method === "POST") {
     const cookies = req.cookies;
@@ -77,7 +77,7 @@ export default async function postOrder(
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
-        }
+        },
       );
 
       const answer = await request.json();
@@ -97,7 +97,7 @@ export default async function postOrder(
       for (let i = 0; i < productsFromCart.length; i++) {
         const productID = productsFromCart[i].product;
 
-        const fetchUrl = `${process.env.API_URL}/api/products/${productID}?fields[0]=name&fields[1]=productLine&fields[2]=internalCode&fields[3]=priceBeforeDiscount&fields[4]=value&fields[5]=tax&populate[category][fields][0]=id`;
+        const fetchUrl = `${process.env.API_URL}/api/products/${productID}?fields[0]=name&fields[1]=productLine&fields[2]=internalCode&fields[3]=priceBeforeDiscount&fields[4]=value&fields[5]=tax&populate[categories][fields][0]=id`;
 
         const response = await fetch(fetchUrl, {
           headers: {
@@ -108,7 +108,7 @@ export default async function postOrder(
         const answer = await response.json();
         const productFromAPI: Product = answer.data;
         let productCalculated: DocumentProduct = { category: {} };
-        productCalculated.category.id = productFromAPI.category.id;
+        productCalculated.category.id = productFromAPI.categories[0].id;
         productCalculated.product = productID;
         productCalculated.name = productFromAPI.name;
         productCalculated.amount = productsFromCart[i].amount;
@@ -144,14 +144,14 @@ export default async function postOrder(
               Authorization: `Bearer ${authToken}`,
             },
             method: "GET",
-          }
+          },
         );
 
         const answer = await response.json();
         if (response.ok) {
           productsToPost = await calculateTotalWithPromo(
             answer.data[0],
-            productsToPost
+            productsToPost,
           );
         } else {
           return res.status(404).json("Promo could not be found!");
@@ -169,7 +169,7 @@ export default async function postOrder(
           headers: {
             Authorization: `Bearer ${process.env.API_KEY}`,
           },
-        }
+        },
       );
 
       if (requestLastOrder.ok) {
