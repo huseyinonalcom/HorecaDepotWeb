@@ -46,6 +46,61 @@ function checkValues(minValue, maxValue) {
   return isMinValueValid && isMaxValueValid && isMinLessThanMax;
 }
 
+const en = require("../../../../locales/en/common.json");
+const fr = require("../../../../locales/fr/common.json");
+const tr = require("../../../../locales/tr/common.json");
+const nl = require("../../../../locales/nl/common.json");
+const de = require("../../../../locales/de/common.json");
+
+// Function to read JSON file
+const loadJSON = (name) => {
+  switch (name) {
+    case "en":
+      return en;
+    case "fr":
+      return fr;
+    case "tr":
+      return tr;
+    case "nl":
+      return nl;
+    case "de":
+      return de;
+    default:
+      return fr;
+  }
+};
+
+// Load all JSON files
+const locales = {
+  en: loadJSON("en"),
+  fr: loadJSON("fr"),
+  tr: loadJSON("tr"),
+  nl: loadJSON("nl"),
+  de: loadJSON("de"),
+};
+
+// Cache object to store results
+const cache = {};
+
+// Function to find a category parameter, with caching
+const findCategoryParam = (categoryParam) => {
+  if (cache[categoryParam]) {
+    return cache[categoryParam];
+  }
+
+  for (const locale in locales) {
+    for (const key in locales[locale]) {
+      if (locales[locale][key] === categoryParam) {
+        cache[categoryParam] = key; // Cache the result
+        return key;
+      }
+    }
+  }
+
+  cache[categoryParam] = categoryParam; // Cache the result as it is if not found
+  return categoryParam;
+};
+
 export default async function getProducts(req, res) {
   const pageParam = req.query.page ?? 1;
   let categoryParam = req.query.category ?? null;
@@ -60,15 +115,16 @@ export default async function getProducts(req, res) {
 
     let categoriesToSearch: number[] = [];
 
+    categoryParam ? (categoryParam = decodeURIComponent(categoryParam)) : null;
+
     if (typeof categoryParam === "string") {
       const parsedCategoryParam = parseInt(categoryParam, 10);
 
       if (isNaN(parsedCategoryParam)) {
+        const param = findCategoryParam(categoryParam);
         categoryParam = parseInt(
           await getAllCategoriesFlattened().then(
-            (data) =>
-              data.find((cat) => cat.Name === decodeURIComponent(categoryParam))
-                .id,
+            (data) => data.find((cat) => cat.Name === param).id,
           ),
         );
       } else {

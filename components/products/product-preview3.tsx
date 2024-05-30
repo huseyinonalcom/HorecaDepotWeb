@@ -1,29 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
-import useTranslation from "next-translate/useTranslation";
 import { Product } from "../../api/interfaces/product";
 
 type Props = {
   product: Product;
 };
 
-function calculatePercentageDifference(originalPrice, currentPrice) {
-  if (originalPrice <= 0) return 0;
-
-  const difference = originalPrice - currentPrice;
-  const percentageDifference = (difference / originalPrice) * 100;
-  return percentageDifference.toFixed(0);
-}
-
 const ProductPreview3 = ({ product }: Props) => {
-
-  const { t } = useTranslation("common");
-
-  const discountPercentage = calculatePercentageDifference(
-    product.priceBeforeDiscount,
-    product.value,
-  );
-
   try {
     return (
       <Link

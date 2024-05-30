@@ -207,7 +207,9 @@ export default function Index({ mediaGroups, collections }) {
   );
 }
 
-export const getStaticProps = async () => {
+export const getStaticProps = async ({ locale }) => {
+  console.log(locale);
+  const t = await getT(locale, "common");
   let collections = await getCollections();
   const website = await getWebsite();
   let mediaGroups = website.media_groups;
@@ -224,7 +226,7 @@ export const getStaticProps = async () => {
               id: category.id,
               name: category.Name,
               image: category.image,
-              linked_url: "/shop/" + category.Name + "?page=1",
+              linked_url: "/shop/" + t(category.Name) + "?page=1",
             };
           });
       }
@@ -244,6 +246,23 @@ export const getStaticProps = async () => {
       //       };
       //     });
       // }
+    } else {
+      mediaGroups[i].image_with_link = mediaGroups[i].image_with_link.map(
+        (item) => {
+          const url = item.linked_url; // "/shop/category-name?page=1"
+          console.log(url);
+          const category = url.split("/").pop();
+          console.log(category);
+          const translatedCategory = t(
+            decodeURIComponent(category.split("?")[0]),
+          );
+          console.log(translatedCategory); // "/shop/category-name-in-current-locale?page=1"
+          return {
+            ...item,
+            linked_url: `/shop/${translatedCategory}?page=1`,
+          };
+        },
+      );
     }
   }
 

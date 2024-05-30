@@ -110,7 +110,7 @@ const ProductPreview = ({ product }: Props) => {
       >
         <div draggable={false} className="flex flex-col items-start">
           <p>{product.name}</p>
-          <p>{product.categories[0]?.Name ?? ""}</p>
+          <p>{t(product.categories[0]?.Name) ?? ""}</p>
           {product.internalCode && (
             <p className="text-sm">
               {product.internalCode != "0" ? product.internalCode : ""}

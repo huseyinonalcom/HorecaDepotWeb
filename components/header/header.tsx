@@ -43,7 +43,7 @@ const CategoryItem = ({ category }) => {
       }}
     >
       <a
-        href={`/${lang}/shop/${encodeURIComponent(category.Name)}?page=1`}
+        href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
         className="flex w-full items-center justify-between px-3 py-2 text-left"
       >
         {t(category.Name)}
@@ -148,7 +148,7 @@ const DesktopSearch = () => {
                   onClick={() => {
                     if (result.Name) {
                       router.push(
-                        `/shop/${encodeURIComponent(result.Name)}?page=1`,
+                        `/shop/${encodeURIComponent(t(result.Name))}?page=1`,
                       );
                     }
                   }}
@@ -244,7 +244,7 @@ const MobileSearch = () => {
                   onClick={() => {
                     if (result.Name) {
                       router.push(
-                        `/shop/${encodeURIComponent(result.Name)}?page=1`,
+                        `/shop/${encodeURIComponent(t(result.Name))}?page=1`,
                       );
                     }
                   }}
@@ -433,7 +433,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
           {hasSubCategories ? (
             <>
               <a
-                href={`/${lang}/shop/${encodeURIComponent(category.Name)}?page=1`}
+                href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                 className="h-full whitespace-nowrap px-4 py-2"
               >
                 {t(category.Name)}
@@ -454,7 +454,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             </>
           ) : (
             <a
-              href={`/${lang}/shop/${encodeURIComponent(category.Name)}?page=1`}
+              href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
               className="h-full w-full whitespace-nowrap px-4 py-2"
             >
               {t(category.Name)}
@@ -789,13 +789,13 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
             .map((category) => (
               <div key={category.id + "-column"}>
                 <a
-                  href={`/${lang}/shop/${encodeURIComponent(category.Name)}?page=1`}
+                  href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                   className="font-semibold"
                 >
                   {t(category.Name)}
                 </a>
                 <a
-                  href={`/${lang}/shop/${encodeURIComponent(category.Name)}?page=1`}
+                  href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                   className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
                 >
                   {t("All")} {t(category.Name)}
@@ -812,13 +812,13 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
                 .map((category) => (
                   <div key={category.id + "-column"}>
                     <a
-                      href={`/${lang}/shop/${encodeURIComponent(category.Name)}?page=1`}
+                      href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                       className="font-semibold"
                     >
                       {t(category.Name)}
                     </a>
                     <a
-                      href={`/${lang}/shop/${encodeURIComponent(category.Name)}?page=1`}
+                      href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                       className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
                     >
                       {t("All")} {t(category.Name)}
