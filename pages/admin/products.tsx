@@ -1092,9 +1092,6 @@ export default function Products() {
                   {t("Primary Details")}
                 </div>
                 <div className="flex w-full flex-wrap items-center justify-start gap-2">
-                  {!newProduct && (
-                    <BarcodeToPng value={currentProduct.supplierCode} />
-                  )}
                   <div className="w-[200px]">
                     <InputOutlined
                       label={t("Name")}
@@ -1177,6 +1174,11 @@ export default function Products() {
                       }
                     />
                   </div>
+                </div>
+                <div className="w-full flex-row">
+                  {!newProduct && (
+                    <BarcodeToPng value={currentProduct.supplierCode} />
+                  )}
                 </div>
                 <div className="flex w-full flex-row text-3xl font-semibold">
                   {t("Categories")}
@@ -1378,81 +1380,9 @@ export default function Products() {
                       }
                     />
                   </div>
-
-                  {!newProduct && (
-                    <>
-                      <div className={inputDivClass}>
-                        <p>{t("reservation_new")}</p>
-                        <input
-                          type="number"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={newReservation.amount}
-                          onChange={(e) => {
-                            const validIntegerRegex = /^\d+$/;
-                            if (validIntegerRegex.test(e.target.value))
-                              setNewReservation((nr) => ({
-                                ...nr,
-                                amount: parseInt(e.target.value, 10),
-                              }));
-                          }}
-                          placeholder={t("Amount")}
-                        />
-                        <input
-                          type="text"
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                          }}
-                          value={newReservation.client_name}
-                          onChange={(e) =>
-                            setNewReservation((nr) => ({
-                              ...nr,
-                              client_name: e.target.value,
-                            }))
-                          }
-                          placeholder={t("Client")}
-                        />
-                        <button
-                          type="button"
-                          className={componentThemes.greenSubmitButton}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            sendNewReservation();
-                          }}
-                        >
-                          {t("reservation_create")}
-                        </button>
-                      </div>
-                      <div className={inputDivClass}>
-                        <p>{t("reservations")}</p>
-                        <div className="flex flex-wrap gap-2">
-                          {currentProduct.reservations &&
-                            currentProduct.reservations.length > 0 &&
-                            currentProduct.reservations.map((res, index) => (
-                              <div key={index}>
-                                {res.client_name}
-                                {": x"}
-                                {res.amount}
-                                {"  "}
-                                <button
-                                  type="button"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    deleteReservation(res.id);
-                                  }}
-                                >
-                                  <X color="red" />
-                                </button>
-                              </div>
-                            ))}
-                        </div>
-                      </div>
-                    </>
-                  )}
                 </div>
 
-                <div className="flex flex-wrap items-center w-full justify-start gap-2">
+                <div className="flex w-full flex-wrap items-center justify-start gap-2">
                   <div
                     className={
                       "flex h-[250px] w-[350px] flex-col items-center gap-2 bg-neutral-300 p-1 shadow-lg"
@@ -1585,6 +1515,79 @@ export default function Products() {
                           </div>
                         )}
                       </div>
+                      {!newProduct && (
+                        <>
+                          <div className={inputDivClass}>
+                            <p>{t("reservation_new")}</p>
+                            <input
+                              type="number"
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                              }}
+                              value={newReservation.amount}
+                              onChange={(e) => {
+                                const validIntegerRegex = /^\d+$/;
+                                if (validIntegerRegex.test(e.target.value))
+                                  setNewReservation((nr) => ({
+                                    ...nr,
+                                    amount: parseInt(e.target.value, 10),
+                                  }));
+                              }}
+                              placeholder={t("Amount")}
+                            />
+                            <input
+                              type="text"
+                              onSubmit={(e) => {
+                                e.preventDefault();
+                              }}
+                              value={newReservation.client_name}
+                              onChange={(e) =>
+                                setNewReservation((nr) => ({
+                                  ...nr,
+                                  client_name: e.target.value,
+                                }))
+                              }
+                              placeholder={t("Client")}
+                            />
+                            <button
+                              type="button"
+                              className={componentThemes.greenSubmitButton}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                sendNewReservation();
+                              }}
+                            >
+                              {t("reservation_create")}
+                            </button>
+                          </div>
+                          <div className={inputDivClass}>
+                            <p>{t("reservations")}</p>
+                            <div className="flex flex-wrap gap-2">
+                              {currentProduct.reservations &&
+                                currentProduct.reservations.length > 0 &&
+                                currentProduct.reservations.map(
+                                  (res, index) => (
+                                    <div key={index}>
+                                      {res.client_name}
+                                      {": x"}
+                                      {res.amount}
+                                      {"  "}
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          deleteReservation(res.id);
+                                        }}
+                                      >
+                                        <X color="red" />
+                                      </button>
+                                    </div>
+                                  ),
+                                )}
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </>
                   )}
                 </div>
