@@ -1,6 +1,5 @@
-import { NextApiRequest, NextApiResponse } from "next";
-
 import { Product } from "../../../../api/interfaces/product";
+import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
 
 export default async function putProduct(
@@ -53,7 +52,6 @@ export default async function putProduct(
       });
 
       if (!response.ok) {
-        const ans = await response.json();
         return res.status(400).json(statusText[400]);
       } else {
         const fetchUrl2 = `${process.env.API_URL}/api/product-extras/${prodExtraID}`;
@@ -84,7 +82,6 @@ export default async function putProduct(
         });
 
         if (!response2.ok) {
-          const ans2 = await response2.json();
           return res.status(400).json(statusText[400]);
         } else {
           // post stock to shelves
@@ -105,17 +102,12 @@ export default async function putProduct(
               }),
             });
             if (!reqShelf.ok) {
-              // console.log("shelf error 2");
-              const resShelf = await reqShelf.json();
-              // console.log(resShelf);
               return res.status(500).json("error in shelf requests");
             }
           });
         }
       }
     } catch (error) {
-      // console.log("shelf error 3");
-      // console.log(error);
       return res.status(500).json(statusText[500]);
     }
 

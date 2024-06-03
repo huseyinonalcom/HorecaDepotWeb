@@ -336,7 +336,9 @@ export default function Products() {
   };
 
   const sendFile = async (files: File[]) => {
-    const imgIDs: number[] = [...currentProduct.images?.map((img) => img.id)];
+    const imgIDs: number[] = [
+      ...(currentProduct.images?.map((img) => img.id) ?? []),
+    ];
 
     for (let i = 0; i < files.length; i++) {
       const formData = new FormData();
