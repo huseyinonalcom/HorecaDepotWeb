@@ -1091,7 +1091,7 @@ export default function Products() {
                 <div className="flex w-full flex-row text-3xl font-semibold">
                   {t("Primary Details")}
                 </div>
-                <div className="flex flex-wrap items-center justify-center gap-2">
+                <div className="flex w-full flex-wrap items-center justify-start gap-2">
                   {!newProduct && (
                     <BarcodeToPng value={currentProduct.supplierCode} />
                   )}
@@ -1134,7 +1134,7 @@ export default function Products() {
                       }
                     />
                   </div>
-                  <div className="w-[200px]">
+                  <div className="hidden w-[200px]">
                     <InputOutlined
                       label={t("Supplier Code")}
                       type="number"
@@ -1210,7 +1210,7 @@ export default function Products() {
                 <div className="flex w-full flex-row text-3xl font-semibold">
                   {t("Secondary Details")}
                 </div>
-                <div className="flex flex-wrap items-center justify-center gap-2">
+                <div className="flex w-full flex-wrap items-center justify-start gap-2">
                   <div className="w-[200px]">
                     <InputOutlined
                       label={t("Material")}
@@ -1452,7 +1452,7 @@ export default function Products() {
                   )}
                 </div>
 
-                <div className="flex flex-wrap items-center justify-center gap-2">
+                <div className="flex flex-wrap items-center w-full justify-start gap-2">
                   <div
                     className={
                       "flex h-[250px] w-[350px] flex-col items-center gap-2 bg-neutral-300 p-1 shadow-lg"
