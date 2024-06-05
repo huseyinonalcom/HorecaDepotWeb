@@ -45,11 +45,11 @@ const ProductPreview3 = ({ product }: Props) => {
         >
           <div draggable={false} className="flex flex-col items-start">
             <p>{product.name}</p>
-            {product.internalCode && (
+            {/* {product.internalCode && (
               <p className="text-sm">
                 {product.internalCode != "0" ? product.internalCode : ""}
               </p>
-            )}
+            )} */}
             <div draggable={false} className="flex flex-row items-end gap-1">
               <p draggable={false} className="font-bold">
                 {"€ " + product.value.toFixed(2).replaceAll(".", ",")}

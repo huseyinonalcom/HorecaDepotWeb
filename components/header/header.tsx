@@ -103,6 +103,7 @@ const DesktopSearch = () => {
       const answer = await fetch(`/api/search/public/search?search=${value}`);
       const data = await answer.json();
       setSearchResults(data);
+      console.log(data);
     }, 300);
   };
 
@@ -162,9 +163,9 @@ const DesktopSearch = () => {
                 </li>
               ))}
           </ul>
-          <div className="grid grid-cols-5 gap-1">
+          <div className="grid grid-cols-4 gap-1">
             {searchResults
-              .filter((results) => results.category && results.name)
+              .filter((results) => results.categories && results.name)
               .map((result, index) => (
                 <ProductPreview3 key={index} product={result} />
               ))}
@@ -240,7 +241,7 @@ const MobileSearch = () => {
         <div className="absolute left-0 right-0 z-10 mx-auto mt-12 max-w-screen-2xl rounded-xl border border-gray-300 bg-white text-black shadow-lg">
           <ul>
             {searchResults
-              .filter((results) => !results.category && results.Name)
+              .filter((results) => !results.categories && results.Name)
               .slice(0, 4)
               .map((result, index) => (
                 <li
@@ -258,9 +259,9 @@ const MobileSearch = () => {
                 </li>
               ))}
           </ul>
-          <div className="grid grid-cols-2 gap-1">
+          <div className="grid grid-cols-4 gap-1">
             {searchResults
-              .filter((results) => results.category && results.name)
+              .filter((results) => results.categories && results.name)
               .slice(0, 4)
               .map((result, index) => (
                 <ProductPreview3 key={index} product={result} />
