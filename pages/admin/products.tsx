@@ -30,6 +30,7 @@ import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 import InputOutlined from "../../components/inputs/outlined";
 import MultiSelectionInput from "../../components/inputs/MultiSelectionInput";
 import { LuDot } from "react-icons/lu";
+import { Router } from "next/router";
 
 export default function Products() {
   const { t, lang } = useTranslation("common");
@@ -118,6 +119,34 @@ export default function Products() {
     };
 
     toggleNew();
+  };
+
+  const deleteProduct = () => {
+    const deleteProd = async () => {
+      try {
+        const request = await fetch(
+          `/api/products/admin/deleteproduct?id=` + currentProduct.id,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        );
+        if (!request.ok) {
+        } else {
+          window.location.reload();
+        }
+      } catch {}
+    };
+
+    let confirmDelete = confirm(
+      t("Are you sure you want to delete this product?"),
+    );
+
+    if (confirmDelete) {
+      deleteProd();
+    }
   };
 
   const getPageNumbers = () => {
@@ -977,6 +1006,14 @@ export default function Products() {
               >
                 <div className="mb-2 flex flex-row items-center justify-end gap-2">
                   <div className="flex flex-row gap-2">
+                    {
+                      <div
+                        className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-red-600 p-1`}
+                        onClick={deleteProduct}
+                      >
+                        {t("Delete")}
+                      </div>
+                    }
                     {currentProduct && currentProduct.id != 0 ? (
                       currentProduct.product_extra.new ? (
                         <div
