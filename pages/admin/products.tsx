@@ -529,10 +529,9 @@ export default function Products() {
     setInProgress(true);
 
     currentProduct.supplierCode = currentProduct.product_extra.barcode;
-    console.log("posting: ", currentProduct);
-console.log(errors);
+    console.log(errors);
     if (
-      Object.values(errors).some((error) => error != null) ||
+      Object.values(errors).some((error) => error != null && error != "") ||
       currentProduct.categories.length == 0
     ) {
       setSubmitError(t("Fill all the required fields correctly!"));
@@ -1131,8 +1130,7 @@ console.log(errors);
                       error={errors.supplierCode}
                       value={currentProduct?.supplierCode ?? ""}
                       onChange={(e) =>
-                        handleChange("supplierCode", e.target.value, false, [
-                        ])
+                        handleChange("supplierCode", e.target.value, false, [])
                       }
                     />
                   </div>
