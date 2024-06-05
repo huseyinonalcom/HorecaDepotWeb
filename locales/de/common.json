@@ -290,5 +290,6 @@
   "order": "Reihenfolge",
   "delete_image": "Bild löschen",
   "parent_category": "Übergeordnete Kategorie",
-  "no_parent_category": "Keine übergeordnete Kategorie"
+  "no_parent_category": "Keine übergeordnete Kategorie",
+  "confirm_delete": "Möchten Sie dieses Bild wirklich löschen?"
 }

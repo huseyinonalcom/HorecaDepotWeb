@@ -290,5 +290,6 @@
   "order": "ordre",
   "delete_image": "Supprimer l'image",
   "parent_category": "Catégorie parent",
-  "no_parent_category": "Pas de catégorie parent"
+  "no_parent_category": "Pas de catégorie parent",
+  "confirm_delete": "Confirmer la suppression"
 }

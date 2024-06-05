@@ -141,7 +141,7 @@ export default function Products() {
     };
 
     let confirmDelete = confirm(
-      t("Are you sure you want to delete this product?"),
+      t("confirm_delete"),
     );
 
     if (confirmDelete) {

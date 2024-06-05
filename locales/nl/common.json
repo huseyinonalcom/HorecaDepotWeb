@@ -290,5 +290,6 @@
   "order": "volgorde",
   "delete_image": "Afbeelding verwijderen",
   "parent_category": "Hoofdcategorie",
-  "no_parent_category": "Geen hoofdcategorie"
+  "no_parent_category": "Geen hoofdcategorie",
+  "confirm_delete": "Weet u zeker dat u deze product wilt verwijderen?"
 }
