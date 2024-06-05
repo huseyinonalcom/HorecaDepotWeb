@@ -25,7 +25,7 @@ import { ClientContext } from "../../api/providers/clientProvider";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import ProductPreview3 from "../products/product-preview3";
 
-const CategoryItem = ({ category }) => {
+const CategoryItem = ({ category, onClick }) => {
   const { t, lang } = useTranslation("common");
   const [isHovered, setisHovered] = useState(false);
   const hasSubCategories =
@@ -34,7 +34,7 @@ const CategoryItem = ({ category }) => {
   return (
     <div
       key={category.Name}
-      className="relative cursor-pointer hover:bg-gray-200"
+      className="hover:bg-gray-20 relative cursor-pointer"
       onMouseEnter={() => {
         setisHovered(true);
       }}
@@ -42,7 +42,8 @@ const CategoryItem = ({ category }) => {
         setisHovered(false);
       }}
     >
-      <a
+      <Link
+        onClick={() => onClick()}
         href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
         className="flex w-full items-center justify-between px-3 py-2 text-left"
       >
@@ -54,7 +55,7 @@ const CategoryItem = ({ category }) => {
             }
           />
         )}
-      </a>
+      </Link>
       {hasSubCategories && isHovered && (
         <div
           onMouseEnter={() => {
@@ -66,7 +67,11 @@ const CategoryItem = ({ category }) => {
           className="absolute left-full top-0 min-w-[200px] bg-white shadow-lg"
         >
           {category.subCategories.map((subCategory) => (
-            <CategoryItem key={subCategory.id} category={subCategory} />
+            <CategoryItem
+              key={subCategory.id}
+              category={subCategory}
+              onClick={() => onClick()}
+            />
           ))}
         </div>
       )}
@@ -405,7 +410,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
     setCategories(categories);
   }, [categories]);
 
-  const CategoryItem = ({ category }) => {
+  const CategoryItem = ({ category, onClick }) => {
     const [isHovered, setisHovered] = useState(false);
     const hasSubCategories =
       category.subCategories && category.subCategories.length > 0;
@@ -415,12 +420,13 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
         <div className="focus:overlay-none flex w-full items-center justify-between text-left hover:bg-gray-200">
           {hasSubCategories ? (
             <>
-              <a
+              <Link
                 href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                 className="h-full whitespace-nowrap px-4 py-2"
+                onClick={() => onClick()}
               >
                 {t(category.Name)}
-              </a>
+              </Link>
               <div
                 className="w-full py-3 pr-4"
                 onClick={() => {
@@ -436,12 +442,12 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
               </div>
             </>
           ) : (
-            <a
+            <Link
               href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
               className="h-full w-full whitespace-nowrap px-4 py-2"
             >
               {t(category.Name)}
-            </a>
+            </Link>
           )}
         </div>
         {hasSubCategories && (
@@ -452,7 +458,11 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             }
           >
             {category.subCategories.map((subCategory) => (
-              <CategoryItem key={subCategory.id} category={subCategory} />
+              <CategoryItem
+                key={subCategory.id}
+                category={subCategory}
+                onClick={() => onClick()}
+              />
             ))}
           </div>
         )}
@@ -602,7 +612,11 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             className={`fixed right-0 flex flex-col bg-gray-100 py-2 text-gray-500 duration-300 ${showCategories ? `w-[310px]` : `w-0`}`}
           >
             {allCategories.map((category) => (
-              <CategoryItem key={category.id} category={category} />
+              <CategoryItem
+                key={category.id}
+                category={category}
+                onClick={() => onClickOutside()}
+              />
             ))}
           </div>
 
@@ -719,7 +733,11 @@ const CategoryDrawerMobile = ({ isOpen, categories, closeDrawer }) => {
         </div>
         <div className="my-4 flex w-full flex-col border-b border-t bg-white py-2 text-gray-500 duration-300">
           {categories.map((category) => (
-            <CategoryItem key={category.id} category={category} />
+            <CategoryItem
+              key={category.id}
+              category={category}
+              onClick={() => closeDrawer()}
+            />
           ))}
         </div>
       </div>
@@ -756,6 +774,7 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
               <div key={category.id + "-column"}>
                 <Link
                   href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
+                  onClick={() => closeDrawer()}
                   className="font-semibold"
                 >
                   {t(category.Name)}
@@ -767,7 +786,8 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
                   {t("All")} {t(category.Name)}
                 </a> */}
                 {category.subCategories.map((subCategory) => (
-                  <CategoryItem key={subCategory.id} category={subCategory} />
+                  <CategoryItem key={subCategory.id} category={subCategory} 
+                  onClick={() => closeDrawer()}/>
                 ))}
               </div>
             ))}
@@ -778,12 +798,14 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
                 .map((category) => (
                   <div key={category.id + "-column"}>
                     <Link
+                      onClick={() => closeDrawer()}
                       href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                       className="font-semibold"
                     >
                       {t(category.Name)}
                     </Link>
                     <Link
+                      onClick={() => closeDrawer()}
                       href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                       className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
                     >
@@ -793,6 +815,7 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
                       <CategoryItem
                         key={subCategory.id}
                         category={subCategory}
+                        onClick={() => closeDrawer()}
                       />
                     ))}
                   </div>
@@ -873,6 +896,7 @@ const Header = () => {
               <Link
                 href={"/"}
                 className="flex-shrink-0"
+                onClick={() => setIsHeaderDrawerOpen(false)}
                 style={{
                   WebkitTapHighlightColor: "transparent",
                 }}
