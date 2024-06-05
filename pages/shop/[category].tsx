@@ -1,13 +1,11 @@
 import Layout from "../../components/public/layout";
 import Head from "next/head";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useTranslation from "next-translate/useTranslation";
 import ProductPreview2 from "../../components/products/product-preview2";
 import { ArrowUp, ChevronLeft, X } from "react-feather";
 import { Product } from "../../api/interfaces/product";
-import { CategoryContext } from "../../api/providers/categoryProvider";
 import RangeSlider from "../../components/common/rangeSlider";
-import { useRouter } from "next/router";
 import componentThemes from "../../components/componentThemes";
 import { getProducts } from "../api/products/public/getproducts";
 import { getAllCategoriesFlattened } from "../api/categories/public/getallcategoriesflattened";
@@ -17,12 +15,8 @@ import Image from "next/image";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");
-  const router = useRouter();
 
-  const [pageInitialized, setPageInitialized] = useState<boolean>(false);
-
-  const [currentPage, setCurrentPage] = useState<number>(1);
-
+  const currentPage = props.currentPage;
   const totalPages = props.totalPages;
   const allProducts = props.products;
   const minValueFromAPI = props.minValueFromAPI;
@@ -30,6 +24,8 @@ export default function Products(props) {
   const allCategories = props.categories;
   const allCategoriesFlat = props.categoriesFlat;
   const currentCategory = props.currentCategory;
+  const currentSort = props.currentSort;
+  const currentSortDirection = props.currentSortDirection;
 
   const getPageNumbers = () => {
     let pages = [];
@@ -41,15 +37,15 @@ export default function Products(props) {
       endPage = totalPages;
     } else {
       // More than 6 total pages, calculate start and end pages
-      if (currentPage <= 4) {
+      if (Number(currentPage) <= 4) {
         startPage = 1;
         endPage = 5;
-      } else if (currentPage + 2 >= totalPages) {
+      } else if (Number(currentPage) + 2 >= totalPages) {
         startPage = totalPages - 4;
         endPage = totalPages;
       } else {
-        startPage = currentPage - 2;
-        endPage = currentPage + 2;
+        startPage = Number(currentPage) - 2;
+        endPage = Number(currentPage) + 2;
       }
     }
 
@@ -77,8 +73,12 @@ export default function Products(props) {
     return pages;
   };
 
-  const [sliderMin, setSliderMin] = useState<number | null>(null);
-  const [sliderMax, setSliderMax] = useState<number | null>(null);
+  const [sliderMin, setSliderMin] = useState<number | null>(
+    props.minValueFromAPI,
+  );
+  const [sliderMax, setSliderMax] = useState<number | null>(
+    props.maxValueFromAPI,
+  );
 
   const handleSliderChange = (minValue: number, maxValue: number) => {
     setSliderMin(minValue);
@@ -86,66 +86,6 @@ export default function Products(props) {
   };
 
   const [currentSearch, setCurrentSearch] = useState<string>("");
-  const [currentSort, setCurrentSort] = useState<string | null>("id");
-  const [currentSortDirection, setCurrentSortDirection] =
-    useState<boolean>(false);
-
-  useEffect(() => {
-    if (pageInitialized) {
-      setSliderMin(null);
-      setSliderMax(null);
-      setCurrentPage(1);
-    }
-  }, [currentSearch, currentCategory]);
-
-  useEffect(() => {
-    if (pageInitialized) {
-      setCurrentPage(1);
-    }
-  }, [currentSort, currentSortDirection]);
-
-  useEffect(() => {
-    if (router.isReady) {
-      initPage();
-    }
-  }, [router.isReady, router.query.search]);
-
-  const initPage = async () => {
-    let category = router.query.category;
-    let fetchUrl: string;
-    if (category == "tous") {
-      fetchUrl = `/api/products/public/getproducts?page=${router.query.page ? router.query.page : "1"}${router.query.search ? `&search=${router.query.search}` : ``}`;
-    } else {
-      fetchUrl = `/api/products/public/getproducts?page=${router.query.page ? router.query.page : "1"}${
-        router.query.category ? `&category=${router.query.category}` : ``
-      }${router.query.search ? `&search=${router.query.search}` : ``}`;
-    }
-
-    // router.push(
-    //   {
-    //     pathname: "/products",
-    //     query: {
-    //       page: router.query.page ?? 1,
-    //       category: "",
-    //       search: router.query.search ?? "",
-    //     },
-    //   },
-    //   undefined,
-    //   { shallow: true },
-    // );
-    const request = await fetch(fetchUrl);
-    const result = await request.json();
-    router.query.search && setCurrentSearch(router.query.search as string);
-    if (!router.query.search) {
-      setCurrentSearch("");
-    }
-    // router.query.category && setCurrentCategory(Number(router.query.category));
-    setSliderMin(result.minValueFromAPI as number);
-    setSliderMax(result.maxValueFromAPI as number);
-
-    setPageInitialized(true);
-  };
-
   const CategoryItem = ({ category }) => {
     const [isHovered, setisHovered] = useState(false);
     const hasSubCategories =
@@ -201,11 +141,26 @@ export default function Products(props) {
     );
   };
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [currentPage]);
-
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+
+  const createLink = (props) => {
+    let link = "/shop/";
+    if (props.currentCategory) {
+      link += t(props.currentCategory.Name) + "?";
+    } else {
+      link += "tous?";
+    }
+    if (props.page) {
+      link += "page=" + props.page;
+    }
+    if (props.currentSort && props.currentSortDirection) {
+      link += "&sort=" + props.currentSort + ":" + props.currentSortDirection;
+    }
+    if (props.search) {
+      link += "&search=" + props.search;
+    }
+    return link;
+  };
 
   return (
     <>
@@ -376,24 +331,40 @@ export default function Products(props) {
                 {t(currentCategory?.Name ?? "Shop")}
               </h2>
               <div className="my-auto flex h-fit w-full flex-row gap-2 pl-4 pr-4">
-                <ArrowUp
-                  height={36}
-                  width={36}
-                  onClick={() => setCurrentSortDirection(!currentSortDirection)}
-                  className={`flex cursor-pointer flex-row items-center border-2 border-black bg-white p-1 duration-500 ${currentSortDirection ? "rotate-0" : "rotate-180"}`}
-                />
-                <div
+                <Link
+                  href={createLink({
+                    ...props,
+                    page: 1,
+                    currentSortDirection:
+                      currentSortDirection == "asc" ? "desc" : "asc",
+                  })}
+                >
+                  <ArrowUp
+                    height={36}
+                    width={36}
+                    className={`flex cursor-pointer flex-row items-center border-2 border-black bg-white p-1 duration-500 ${currentSortDirection == "asc" ? "rotate-0" : "rotate-180"}`}
+                  />
+                </Link>
+                <Link
+                  href={createLink({
+                    ...props,
+                    page: 1,
+                    currentSort: "id",
+                  })}
                   className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "id" && "border-black"} cursor-pointer`}
-                  onClick={() => setCurrentSort("id")}
                 >
                   {t("Date")}
-                </div>
-                <div
+                </Link>
+                <Link
+                  href={createLink({
+                    ...props,
+                    page: 1,
+                    currentSort: "value",
+                  })}
                   className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "value" && "border-black"} cursor-pointer`}
-                  onClick={() => setCurrentSort("value")}
                 >
                   {t("Price")}
-                </div>
+                </Link>
                 <button
                   onClick={() => {
                     setIsFilterDrawerOpen(!isFilterDrawerOpen);
@@ -404,7 +375,7 @@ export default function Products(props) {
                 </button>
               </div>
             </div>
-            {allProducts.length <= 0 && pageInitialized ? (
+            {allProducts.length <= 0 ? (
               <h3 className="flex w-full justify-center text-xl font-bold text-red-700">
                 {t("No products matching")}
               </h3>
@@ -421,39 +392,49 @@ export default function Products(props) {
               <div className="mb-4 flex flex-row justify-center px-6">
                 <div className="mt-2">
                   <div className="flex items-center justify-center space-x-1">
-                    <button
-                      className="border p-2  hover:bg-gray-200"
-                      onClick={() => setCurrentPage(currentPage - 1)}
-                      disabled={currentPage === 1}
-                      name="Previous page"
+                    <Link
+                      href={
+                        currentPage == 1
+                          ? "#"
+                          : createLink({
+                              ...props,
+                              page: Number(currentPage) - 1,
+                            })
+                      }
+                      className="border p-2 hover:bg-gray-200"
                       aria-label="Previous page"
                     >
                       <ChevronLeft />
-                    </button>
+                    </Link>
                     {getPageNumbers().map((page, index) =>
                       page === "..." ? (
                         <span key={index} className="p-2">
                           ...
                         </span>
                       ) : (
-                        <button
+                        <Link
                           key={index}
-                          className={`border p-2 hover:bg-gray-200 ${currentPage === page && "bg-gray-300"}`}
-                          onClick={() => setCurrentPage(page)}
+                          className={`border p-2 hover:bg-gray-200 ${currentPage == page && "bg-gray-300"}`}
+                          href={createLink({ ...props, page })}
                         >
                           {page}
-                        </button>
+                        </Link>
                       ),
                     )}
-                    <button
+                    <Link
+                      href={
+                        currentPage == totalPages
+                          ? "#"
+                          : createLink({
+                              ...props,
+                              page: Number(currentPage) + 1,
+                            })
+                      }
                       className="border p-2 hover:bg-gray-200"
-                      onClick={() => setCurrentPage(currentPage + 1)}
-                      disabled={currentPage === totalPages}
-                      name="Next page"
                       aria-label="Next page"
                     >
                       <ChevronLeft className="rotate-180" />
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -481,18 +462,23 @@ export async function getServerSideProps(context) {
   const currentCategory = categoriesFlat.find(
     (cat) => cat.id == productsReq.currentCategoryID,
   );
+  const currentSort = context.query?.sort?.split(":").at(0) ?? "id";
+  const currentSortDirection = context.query?.sort?.split(":").at(1) ?? "desc";
 
-  console.log(currentCategory);
+  const currentPage = context.query.page ?? 1;
 
   return {
     props: {
       products,
       totalPages,
+      currentPage,
       minValueFromAPI,
       maxValueFromAPI,
       categories,
       categoriesFlat,
       currentCategory,
+      currentSort,
+      currentSortDirection,
     },
   };
 }
