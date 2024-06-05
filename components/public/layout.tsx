@@ -122,7 +122,7 @@ const Layout = ({ children }: Props) => {
                           href={`/shop/tous?page=1`}
                           className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
                         >
-                          {t("Boutique")}
+                          {t("Products")}
                         </Link>
                       </div>
                       <div>
