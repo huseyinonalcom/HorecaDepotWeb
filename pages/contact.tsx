@@ -36,7 +36,7 @@ export default function Contact() {
             loading="lazy"
           ></iframe>
           <div className="grid w-[95%] grid-cols-1 gap-2 md:grid-cols-2">
-            <div className="flex flex-col items-start gap-2 border-b-4 border-black pb-4 md:border-none md:pb-0">
+            <div className="flex flex-col items-start gap-2 pb-4 md:pb-0">
               <h2 className="ml-4 text-4xl font-bold text-[#363332]">
                 {t("Contact")}
               </h2>
