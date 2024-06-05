@@ -79,7 +79,7 @@ const Layout = ({ children }: Props) => {
                         </h3>
                         <div>
                           <a
-                            href={`/${lang}/${encodeURIComponent("Chaises")}?page=1`}
+                            href={`/${lang}/shop/${encodeURIComponent(t("Chaises"))}?page=1`}
                             className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
                           >
                             {t("Chaises")}
@@ -87,7 +87,7 @@ const Layout = ({ children }: Props) => {
                         </div>
                         <div>
                           <a
-                            href={`/${lang}/${encodeURIComponent("Tables")}?page=1`}
+                            href={`/${lang}/shop/${encodeURIComponent(t("Tables"))}?page=1`}
                             className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
                           >
                             {t("Tables")}
@@ -95,7 +95,7 @@ const Layout = ({ children }: Props) => {
                         </div>
                         <div>
                           <a
-                            href={`/${lang}/${encodeURIComponent("Banquettes")}?page=1`}
+                            href={`/${lang}/shop/${encodeURIComponent(t("Banquettes"))}?page=1`}
                             className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
                           >
                             {t("Banquettes")}
@@ -103,7 +103,7 @@ const Layout = ({ children }: Props) => {
                         </div>
                         <div>
                           <a
-                            href={`/${lang}/${encodeURIComponent("Tabourets de Bar")}?page=1`}
+                            href={`/${lang}/shop/${encodeURIComponent(t("Tabourets de Bar"))}?page=1`}
                             className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
                           >
                             {t("Tabourets de Bar")}
@@ -111,7 +111,7 @@ const Layout = ({ children }: Props) => {
                         </div>
                         <div>
                           <a
-                            href={`/${lang}/${encodeURIComponent("Événement")}?page=1`}
+                            href={`/${lang}/shop/${encodeURIComponent(t("Événement"))}?page=1`}
                             className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
                           >
                             {t("Événement")}
