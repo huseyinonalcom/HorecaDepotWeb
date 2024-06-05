@@ -264,7 +264,6 @@ export default function Products() {
       setChosenProductID(null);
       setErrors({
         internalCode: "Champs requis",
-        supplierCode: "Champs requis",
         name: "Champs requis",
         value: "Champs requis",
         barcode: "Champs requis",
@@ -529,8 +528,9 @@ export default function Products() {
     if (inProgress) return;
     setInProgress(true);
 
-    console.log("currentProduct: ", currentProduct);
-
+    currentProduct.supplierCode = currentProduct.product_extra.barcode;
+    console.log("posting: ", currentProduct);
+console.log(errors);
     if (
       Object.values(errors).some((error) => error != null) ||
       currentProduct.categories.length == 0
@@ -566,7 +566,6 @@ export default function Products() {
         }
       } else {
         try {
-          console.log("posting: ", currentProduct);
           const request = await fetch("/api/products/admin/postproduct", {
             method: "POST",
             headers: {
@@ -707,7 +706,6 @@ export default function Products() {
 
   const [errors, setErrors] = useState<FormErrors>({
     internalCode: "Champs requis",
-    supplierCode: "Champs requis",
     name: "Champs requis",
     value: "Champs requis",
   });
@@ -725,12 +723,7 @@ export default function Products() {
     const imagelessSorted = data.sortedData.filter((prod) => !prod.images);
     console.log(
       imagelessSorted.map(
-        (imgl) =>
-          imgl.internalCode +
-          "," +
-          imgl.name +
-          "," +
-          imgl.color,
+        (imgl) => imgl.internalCode + "," + imgl.name + "," + imgl.color,
       ),
     );
   };
@@ -1139,7 +1132,6 @@ export default function Products() {
                       value={currentProduct?.supplierCode ?? ""}
                       onChange={(e) =>
                         handleChange("supplierCode", e.target.value, false, [
-                          validateEmpty,
                         ])
                       }
                     />
