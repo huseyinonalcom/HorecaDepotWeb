@@ -155,15 +155,6 @@ export default function Order() {
                       📄 <p className="ml-1">{t("Download PDF")}</p>
                     </PDFDownloadLink>
                   )}
-                  <button
-                    onClick={() => {
-                      print();
-                    }}
-                    className={`${componentThemes.greenSubmitButton} flex flex-row items-center whitespace-nowrap text-xl`}
-                  >
-                    🖨️
-                    <p className="ml-1">{t("Print")}</p>
-                  </button>
                 </div>
               </div>
               <div className="flex flex-row gap-6 pt-2 print:justify-between">
