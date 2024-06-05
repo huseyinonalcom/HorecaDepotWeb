@@ -13,6 +13,7 @@ import { getProducts } from "../api/products/public/getproducts";
 import { getAllCategoriesFlattened } from "../api/categories/public/getallcategoriesflattened";
 import { getAllCategories } from "../api/categories/getallcategories";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");
@@ -340,10 +341,39 @@ export default function Products(props) {
           </div>
 
           <div className="flex w-full flex-col">
+            {currentCategory.subCategories &&
+              currentCategory.subCategories.length > 0 && (
+                <div className="grid mt-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+                  {currentCategory.subCategories.map((category) => (
+                    <div key={`grid1-${category.id}`} className={``}>
+                      <Link
+                        href={`/shop/${category.Name}?page=1`}
+                        className="flex flex-col items-center gap-2"
+                      >
+                        <div className="relative aspect-[15/14] w-full overflow-hidden rounded-xl">
+                          <Image
+                            fill
+                            style={{ objectFit: "contain" }}
+                            sizes="42vw, (max-width: 640px) 28vw, (max-width: 1024px) 13vw, (nax-width: 1536px) 236px"
+                            src={
+                              category.image != null
+                                ? "https://hdapi.huseyinonalalpha.com" +
+                                  category.image.url
+                                : "/assets/img/placeholder.png"
+                            }
+                            alt={category.Name + " image"}
+                          />
+                        </div>
+                        <p className="font-semibold">{t(category.Name)}</p>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              )}
             <div className="grid grid-cols-1 md:grid-cols-3">
               <p className="hidden md:flex"></p>
               <h2 className="mt-2 flex w-full justify-center text-5xl font-bold">
-                {t(currentCategory ?? "Shop")}
+                {t(currentCategory?.Name ?? "Shop")}
               </h2>
               <div className="my-auto flex h-fit w-full flex-row gap-2 pl-4 pr-4">
                 <ArrowUp
@@ -448,7 +478,11 @@ export async function getServerSideProps(context) {
   const categories = await getAllCategories();
   const categoriesFlat = await getAllCategoriesFlattened();
 
-  const currentCategory = context.query.category;
+  const currentCategory = categoriesFlat.find(
+    (cat) => cat.id == productsReq.currentCategoryID,
+  );
+
+  console.log(currentCategory);
 
   return {
     props: {

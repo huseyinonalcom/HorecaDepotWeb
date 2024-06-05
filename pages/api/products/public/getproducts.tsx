@@ -228,7 +228,14 @@ export async function getProducts(req) {
       maxValueFromAPI = answerMaxValue.data[0].value;
       minValueFromAPI = answerMinValue.data[0].value;
     }
-    return { sortedData, totalPages, minValueFromAPI, maxValueFromAPI };
+    const currentCategoryID = categoryParam;
+    return {
+      sortedData,
+      totalPages,
+      minValueFromAPI,
+      maxValueFromAPI,
+      currentCategoryID,
+    };
   } catch (error) {
     return null;
   }
