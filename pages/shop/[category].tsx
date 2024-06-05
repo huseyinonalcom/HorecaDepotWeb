@@ -1,6 +1,6 @@
 import Layout from "../../components/public/layout";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useTranslation from "next-translate/useTranslation";
 import ProductPreview2 from "../../components/products/product-preview2";
 import { ArrowUp, ChevronLeft, X } from "react-feather";
@@ -22,7 +22,6 @@ export default function Products(props) {
   const minValueFromAPI = props.minValueFromAPI;
   const maxValueFromAPI = props.maxValueFromAPI;
   const allCategories = props.categories;
-  const allCategoriesFlat = props.categoriesFlat;
   const currentCategory = props.currentCategory;
   const currentSort = props.currentSort;
   const currentSortDirection = props.currentSortDirection;
@@ -475,7 +474,6 @@ export async function getServerSideProps(context) {
       minValueFromAPI,
       maxValueFromAPI,
       categories,
-      categoriesFlat,
       currentCategory,
       currentSort,
       currentSortDirection,
