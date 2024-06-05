@@ -722,19 +722,10 @@ export default function Products() {
       `/api/products/public/getproducts?page=${currentPage}&count=19999`,
     );
     const data = await answer.json();
-    const imagelessSorted = data.sortedData
-      .filter((prod) => !prod.images)
-      .sort((a, b) => {
-        if (a.category.id !== b.category.id) {
-          return a.category.id - b.category.id;
-        }
-        return a.name.localeCompare(b.name);
-      });
+    const imagelessSorted = data.sortedData.filter((prod) => !prod.images);
     console.log(
       imagelessSorted.map(
         (imgl) =>
-          imgl.category?.Name +
-          "," +
           imgl.internalCode +
           "," +
           imgl.name +
@@ -1605,7 +1596,7 @@ export default function Products() {
           )}
         </div>
       </div>
-      {/* <button onClick={() => missingPictures()}>missing pics</button> */}
+      <button onClick={() => missingPictures()}>missing pics</button>
     </AdminLayout>
   );
 }

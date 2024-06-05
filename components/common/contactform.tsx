@@ -8,7 +8,7 @@ const ContactForm = () => {
   return (
     <form
       className="mx-auto flex w-[95%] flex-col items-center justify-center gap-2"
-      action="https://formsubmit.co/huseyin-_-onal@hotmail.com"
+      action="https://formsubmit.co/info@horecadepot.be"
       encType="multipart/form-data"
       method="POST"
     >
