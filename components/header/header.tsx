@@ -783,12 +783,12 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
                     >
                       {t(category.Name)}
                     </Link>
-                    <a
+                    <Link
                       href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                       className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
                     >
                       {t(category.Name)}
-                    </a>
+                    </Link>
                     {category.subCategories.map((subCategory) => (
                       <CategoryItem
                         key={subCategory.id}
