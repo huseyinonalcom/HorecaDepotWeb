@@ -766,138 +766,141 @@ export default function Products() {
       </Head>
       <div className="flex w-full flex-row items-center">
         <div className="flex w-full flex-col items-center pb-1 pt-1">
-          <div className="mb-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center gap-2">
+          <div className="mb-1 grid grid-cols-1 items-center gap-2 md:grid-cols-2 lg:grid-cols-3">
             <div className="flex flex-row">
               <div className="group relative h-full">
-              <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-4 pl-3 pr-2 font-bold text-black">
-                {t(
-                  currentCategory
-                    ? allCategories.find((cat) => cat.id == currentCategory)
-                        ?.Name
-                    : "Tout",
-                )}
-                <ChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />
-              </div>
-              <div className="invisible absolute -left-5 top-8 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
-                <div className="flex w-full cursor-pointer items-center justify-between text-left hover:bg-gray-200">
-                  <div
-                    className="h-full w-full whitespace-nowrap px-4 py-2"
-                    onClick={() => {
-                      setCurrentCategory(null);
-                    }}
-                  >
-                    {t("All")}
-                  </div>
+                <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-4 pl-3 pr-2 font-bold text-black">
+                  {t(
+                    currentCategory
+                      ? allCategories.find((cat) => cat.id == currentCategory)
+                          ?.Name
+                      : "Tout",
+                  )}
+                  <ChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />
                 </div>
-                {allCategoriesHierarchy.map((category) => (
-                  <CategoryItem key={category.id} category={category} />
-                ))}
+                <div className="invisible absolute -left-5 top-8 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
+                  <div className="flex w-full cursor-pointer items-center justify-between text-left hover:bg-gray-200">
+                    <div
+                      className="h-full w-full whitespace-nowrap px-4 py-2"
+                      onClick={() => {
+                        setCurrentCategory(null);
+                      }}
+                    >
+                      {t("All")}
+                    </div>
+                  </div>
+                  {allCategoriesHierarchy.map((category) => (
+                    <CategoryItem key={category.id} category={category} />
+                  ))}
+                </div>
+              </div>
+              <div
+                style={{
+                  borderRadius: "0.25rem",
+                  boxShadow:
+                    "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                  backgroundColor: "#f3f4f6",
+                  padding: "8px",
+                }}
+              >
+                <form
+                  style={{ position: "relative" }}
+                  onSubmit={handleSearchSubmit}
+                  role="search"
+                >
+                  <label htmlFor="searchInput" style={{ display: "none" }}>
+                    {t("Search Products")}
+                  </label>
+                  <input
+                    id="searchInput"
+                    className="placeholder-blue"
+                    value={tempSearch}
+                    onChange={(e) => setTempSearch(e.target.value)}
+                    onSubmit={handleSearchSubmit}
+                    type="text"
+                    style={{
+                      width: "100%",
+                      paddingLeft: "16px",
+                      paddingRight: "16px",
+                      paddingTop: "8px",
+                      paddingBottom: "8px",
+                      border: "2px solid",
+                      borderColor: "rgba(0, 0, 0, 0.1)",
+                      outline: "none",
+                    }}
+                    placeholder={t("Search Products")}
+                    aria-label="Search"
+                  />
+                  <div
+                    onSubmit={handleSearchSubmit}
+                    style={{
+                      cursor: "pointer",
+                      position: "absolute",
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                    }}
+                    role="button"
+                    aria-label="Submit search"
+                  >
+                    <Search
+                      style={{
+                        height: "100%",
+                        width: "28px",
+                        margin: "auto 8px",
+                      }}
+                    />
+                  </div>
+                </form>
               </div>
             </div>
-            <div
-              style={{
-                borderRadius: "0.25rem",
-                boxShadow:
-                  "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                backgroundColor: "#f3f4f6",
-                padding: "8px",
-              }}
-            >
-              <form
-                style={{ position: "relative" }}
-                onSubmit={handleSearchSubmit}
-                role="search"
-              >
-                <label htmlFor="searchInput" style={{ display: "none" }}>
-                  {t("Search Products")}
-                </label>
-                <input
-                  id="searchInput"
-                  className="placeholder-blue"
-                  value={tempSearch}
-                  onChange={(e) => setTempSearch(e.target.value)}
-                  onSubmit={handleSearchSubmit}
-                  type="text"
-                  style={{
-                    width: "100%",
-                    paddingLeft: "16px",
-                    paddingRight: "16px",
-                    paddingTop: "8px",
-                    paddingBottom: "8px",
-                    border: "2px solid",
-                    borderColor: "rgba(0, 0, 0, 0.1)",
-                    outline: "none",
-                  }}
-                  placeholder={t("Search Products")}
-                  aria-label="Search"
+            <div className="flex flex-row">
+              <div className="flex flex-row gap-2 bg-gray-100 p-2 shadow-lg">
+                <ArrowUp
+                  height={36}
+                  width={36}
+                  onClick={() => setCurrentSortDirection(!currentSortDirection)}
+                  className={` border-2 border-blue-500 bg-white p-1 duration-500 ${
+                    currentSortDirection ? "rotate-0" : "rotate-180"
+                  }`}
                 />
                 <div
-                  onSubmit={handleSearchSubmit}
-                  style={{
-                    cursor: "pointer",
-                    position: "absolute",
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                  }}
-                  role="button"
-                  aria-label="Submit search"
+                  className={` border-2 bg-white px-2 py-1 ${
+                    currentSort == "id" ? "border-blue-500" : ""
+                  }`}
+                  onClick={() => setCurrentSort("id")}
                 >
-                  <Search
-                    style={{
-                      height: "100%",
-                      width: "28px",
-                      margin: "auto 8px",
-                    }}
-                  />
+                  {t("Date")}
                 </div>
-              </form>
-            </div>
+                <div
+                  className={` border-2 bg-white px-2 py-1 ${
+                    currentSort == "value" ? "border-blue-500" : ""
+                  }`}
+                  onClick={() => setCurrentSort("value")}
+                >
+                  {t("Price")}
+                </div>
+              </div>
+              <button
+                className={buttonClass + " flex-shrink-0 bg-green-400"}
+                onClick={() => generateXlsx()}
+              >
+                <div className={navIconDivClass}>
+                  <Download className={iconClass} />
+                </div>
+                <span className={textClass}>{t("Download Excel")}</span>
+              </button>
             </div>
             <div className="flex flex-row">
-            <div className="flex flex-row gap-2 bg-gray-100 p-2 shadow-lg">
-              <ArrowUp
-                height={36}
-                width={36}
-                onClick={() => setCurrentSortDirection(!currentSortDirection)}
-                className={` border-2 border-blue-500 bg-white p-1 duration-500 ${
-                  currentSortDirection ? "rotate-0" : "rotate-180"
-                }`}
-              />
-              <div
-                className={` border-2 bg-white px-2 py-1 ${
-                  currentSort == "id" ? "border-blue-500" : ""
-                }`}
-                onClick={() => setCurrentSort("id")}
+              <button
+                className={buttonClass}
+                onClick={() => setNewProduct(true)}
               >
-                {t("Date")}
-              </div>
-              <div
-                className={` border-2 bg-white px-2 py-1 ${
-                  currentSort == "value" ? "border-blue-500" : ""
-                }`}
-                onClick={() => setCurrentSort("value")}
-              >
-                {t("Price")}
-              </div>
-            </div>
-            <button
-              className={buttonClass + " flex-shrink-0 bg-green-400"}
-              onClick={() => generateXlsx()}
-            >
-              <div className={navIconDivClass}>
-                <Download className={iconClass} />
-              </div>
-              <span className={textClass}>{t("Download Excel")}</span>
-            </button>
-            </div>
-            <div className="flex flex-row">
-            <button className={buttonClass} onClick={() => setNewProduct(true)}>
-              <div className={navIconDivClass}>
-                <PlusCircle className={iconClass} />
-              </div>
-              <span className={textClass}>{t("Create New Product")}</span>
-            </button>
+                <div className={navIconDivClass}>
+                  <PlusCircle className={iconClass} />
+                </div>
+                <span className={textClass}>{t("Create New Product")}</span>
+              </button>
             </div>
           </div>
           <div className="flex-shrink-1 flex w-full flex-col items-center overflow-y-auto pt-1">

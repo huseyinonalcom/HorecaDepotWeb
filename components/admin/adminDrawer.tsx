@@ -32,7 +32,7 @@ const AdminDrawer = () => {
     "flex items-center justify-start bg-white py-2 shadow-lg hover:bg-orange-400 overflow-hidden duration-500";
   return (
     <div
-      className={`${drawerClass} sticky top-0 z-50 h-[100dvh] flex-shrink-0 bg-slate-300 p-4 shadow-[inset_-4px_0_10px_1px_rgba(0,0,0,0.3)] duration-700 print:hidden`}
+      className={`${drawerClass} sticky top-0 z-50 h-[100dvh] flex-shrink-0 bg-slate-300 p-4 shadow-[inset_-4px_0_10px_1px_rgba(0,0,0,0.3)] duration-300 print:hidden`}
     >
       <div className="flex h-full flex-col gap-1">
         <nav className="flex h-full flex-col justify-between">
