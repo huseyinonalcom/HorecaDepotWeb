@@ -1,17 +1,17 @@
-import Layout from "../../components/public/layout";
-import Head from "next/head";
-import { useState } from "react";
-import useTranslation from "next-translate/useTranslation";
+import { getAllCategoriesFlattened } from "../api/categories/public/getallcategoriesflattened";
 import ProductPreview2 from "../../components/products/product-preview2";
+import { getAllCategories } from "../api/categories/getallcategories";
+import { getProducts } from "../api/products/public/getproducts";
+import componentThemes from "../../components/componentThemes";
+import RangeSlider from "../../components/common/rangeSlider";
+import useTranslation from "next-translate/useTranslation";
 import { ArrowUp, ChevronLeft, X } from "react-feather";
 import { Product } from "../../api/interfaces/product";
-import RangeSlider from "../../components/common/rangeSlider";
-import componentThemes from "../../components/componentThemes";
-import { getProducts } from "../api/products/public/getproducts";
-import { getAllCategoriesFlattened } from "../api/categories/public/getallcategoriesflattened";
-import { getAllCategories } from "../api/categories/getallcategories";
-import Link from "next/link";
+import Layout from "../../components/public/layout";
+import { useState } from "react";
 import Image from "next/image";
+import Head from "next/head";
+import Link from "next/link";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");
