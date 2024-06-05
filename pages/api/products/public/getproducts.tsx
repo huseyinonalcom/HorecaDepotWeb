@@ -1,6 +1,7 @@
 import { getCategories } from "../../../../api/calls/categoryCalls";
 import { Category } from "../../../../api/interfaces/category";
 import { Product, ProductConversion } from "../../../../api/interfaces/product";
+import statusText from "../../../../api/statustexts";
 import { getAllCategoriesFlattened } from "../../categories/public/getallcategoriesflattened";
 
 function getAllSubcategoryIds(categories: Category[], categoryId: number) {
@@ -98,7 +99,7 @@ const findCategoryParam = (categoryParam) => {
   return categoryParam;
 };
 
-export default async function getProducts(req, res) {
+export async function getProducts(req) {
   const pageParam = req.query.page ?? 1;
   let categoryParam = req.query.category ?? null;
   const minValueParam = Number(req.query.minprice) ?? null;
@@ -227,10 +228,22 @@ export default async function getProducts(req, res) {
       maxValueFromAPI = answerMaxValue.data[0].value;
       minValueFromAPI = answerMinValue.data[0].value;
     }
-    return res
-      .status(200)
-      .json({ sortedData, totalPages, minValueFromAPI, maxValueFromAPI });
+    return { sortedData, totalPages, minValueFromAPI, maxValueFromAPI };
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return null;
+  }
+}
+
+export default async function handler(req, res) {
+  try {
+    const response = await getProducts(req);
+
+    if (!response) {
+      return res.status(500).json(statusText[500]);
+    }
+
+    return res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json(statusText[500]);
   }
 }

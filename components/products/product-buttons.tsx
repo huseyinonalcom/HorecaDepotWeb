@@ -45,7 +45,7 @@ const ProductButtons = ({ product, amount, onChange }: Props) => {
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex h-12 flex-row items-center gap-2">
-        <div className="flex h-full flex-row items-center justify-center rounded-md border-2 border-black bg-black px-1 duration-300">
+        <div className="flex h-full flex-row items-center justify-center rounded-md border-0 border-black bg-red-600 px-1 duration-300">
           <Minus
             className="h-7 w-7 cursor-pointer rounded-md bg-white duration-300 hover:text-red-500"
             onClick={() => setCartAmount((a) => a - 1)}
@@ -64,7 +64,7 @@ const ProductButtons = ({ product, amount, onChange }: Props) => {
         <button
           name="addToCart"
           aria-label="Add to Cart"
-          className="h-full w-full rounded-md border-2 border-black bg-black p-1 duration-300 hover:border-green-500 hover:text-green-500"
+          className="h-full w-full rounded-md border-0 border-black bg-red-600 p-1 duration-300 hover:border-green-500 hover:text-green-500"
           onClick={() => addToCart(convertToCartProduct(product, cartAmount))}
         >
           <div className="flex h-full w-full flex-row items-center justify-center gap-2 px-1">
@@ -75,7 +75,7 @@ const ProductButtons = ({ product, amount, onChange }: Props) => {
         <button
           name="addToWishlist"
           aria-label="Add to Wishlist"
-          className="h-full flex-shrink-0 rounded-md border-2 border-black bg-black p-1 duration-300 hover:border-red-500 hover:text-red-500"
+          className="h-full flex-shrink-0 rounded-md border-0 border-black bg-red-600 p-1 duration-300 hover:border-red-500 hover:text-red-500"
           onClick={() => addToWishlist(convertToWishlistProduct(product))}
         >
           <div className="flex flex-row items-center justify-center px-1">

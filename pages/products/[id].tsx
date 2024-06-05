@@ -343,6 +343,16 @@ export const getStaticProps = async ({ params }: Params) => {
   });
   const relatedProducts: Product[] = result[0]
     .filter((prd) => prd.id != product.id)
+    .sort((a, b) => {
+      // First, prioritize products with the same name as the main product
+      if (a.name === product.name && b.name !== product.name) {
+        return -1;
+      } else if (a.name !== product.name && b.name === product.name) {
+        return 1;
+      }
+      // If both have the same name, or neither have the same name, do random sorting
+      return Math.random() - 0.5;
+    })
     .slice(0, 9) as Product[];
 
   const categories = await getAllCategoriesFlattened();

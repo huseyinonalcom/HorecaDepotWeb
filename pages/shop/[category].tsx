@@ -9,8 +9,9 @@ import { CategoryContext } from "../../api/providers/categoryProvider";
 import RangeSlider from "../../components/common/rangeSlider";
 import { useRouter } from "next/router";
 import componentThemes from "../../components/componentThemes";
+import { getProducts } from "../api/products/public/getproducts";
 
-export default function Products() {
+export default function Products(props) {
   const { t, lang } = useTranslation("common");
   const router = useRouter();
 
@@ -18,7 +19,11 @@ export default function Products() {
   const [fetchQueued, setFetchQueued] = useState<boolean>(false);
 
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
+
+  const totalPages = props.totalPages;
+  const allProducts = props.products;
+  const minValueFromAPI = props.minValueFromAPI;
+  const maxValueFromAPI = props.maxValueFromAPI;
 
   const getPageNumbers = () => {
     let pages = [];
@@ -66,9 +71,7 @@ export default function Products() {
     return pages;
   };
 
-  const [minValueFromAPI, setMinValueFromAPI] = useState<number | null>(null);
   const [sliderMin, setSliderMin] = useState<number | null>(null);
-  const [maxValueFromAPI, setMaxValueFromAPI] = useState<number | null>(null);
   const [sliderMax, setSliderMax] = useState<number | null>(null);
 
   const handleSliderChange = (minValue: number, maxValue: number) => {
@@ -113,13 +116,7 @@ export default function Products() {
     }
   }, [currentSort, currentSortDirection]);
 
-  useEffect(() => {
-    if (fetchQueued) {
-      fetchProductsFiltered().then(() => setFetchQueued(false));
-    }
-  }, [fetchQueued]);
 
-  const [allProducts, setAllProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     if (router.isReady) {
@@ -157,10 +154,6 @@ export default function Products() {
       setCurrentSearch("");
     }
     router.query.category && setCurrentCategory(Number(router.query.category));
-    setAllProducts(result.sortedData as Product[]);
-    setTotalPages(result.totalPages as number);
-    setMinValueFromAPI(result.minValueFromAPI as number);
-    setMaxValueFromAPI(result.maxValueFromAPI as number);
     setSliderMin(result.minValueFromAPI as number);
     setSliderMax(result.maxValueFromAPI as number);
     const allCategoriesReq = await fetch(
@@ -168,31 +161,6 @@ export default function Products() {
     );
     setCategoriesFlat(await allCategoriesReq.json());
     setPageInitialized(true);
-  };
-
-  const fetchProductsFiltered = async () => {
-    const pageParam = currentPage ?? 1;
-    var searchParam = currentSearch ?? null;
-
-    if (currentSearch == "") {
-      searchParam = null;
-    }
-
-    var fetchUrl: string = `/api/products/public/getproducts?page=${pageParam}${currentCategory ? `&category=${currentCategory}` : ``}${
-      sliderMin ? `&minprice=${sliderMin}` : ``
-    }${sliderMax ? `&maxprice=${sliderMax}` : ``}${searchParam ? `&search=${searchParam}` : ``}${
-      currentSort
-        ? `&sort=${currentSort}${currentSortDirection ? ":asc" : ":desc"}`
-        : ``
-    }`;
-
-    const request = await fetch(fetchUrl);
-    const result = await request.json();
-
-    setAllProducts(result.sortedData as Product[]);
-    setTotalPages(result.totalPages as number);
-    setMinValueFromAPI(result.minValueFromAPI as number);
-    setMaxValueFromAPI(result.maxValueFromAPI as number);
   };
 
   const CategoryItem = ({ category }) => {
@@ -347,7 +315,6 @@ export default function Products() {
                       <button
                         className={componentThemes.greenSubmitButton}
                         onClick={() => {
-                          fetchProductsFiltered();
                           setIsFilterDrawerOpen(false);
                         }}
                       >
@@ -421,7 +388,6 @@ export default function Products() {
                 <button
                   className={componentThemes.outlinedButton}
                   onClick={() => {
-                    fetchProductsFiltered();
                     setIsFilterDrawerOpen(false);
                   }}
                 >
@@ -528,4 +494,24 @@ export default function Products() {
       </Layout>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const productsReq = await getProducts({
+    query: context.query,
+  });
+
+  const products = productsReq.sortedData as Product[];
+  const totalPages = productsReq.totalPages as number;
+  const minValueFromAPI = productsReq.minValueFromAPI as number;
+  const maxValueFromAPI = productsReq.maxValueFromAPI as number;
+
+  return {
+    props: {
+      products,
+      totalPages,
+      minValueFromAPI,
+      maxValueFromAPI,
+    },
+  };
 }
