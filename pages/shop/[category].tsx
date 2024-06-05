@@ -343,11 +343,11 @@ export default function Products(props) {
           <div className="flex w-full flex-col">
             {currentCategory.subCategories &&
               currentCategory.subCategories.length > 0 && (
-                <div className="grid mt-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+                <div className="mt-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
                   {currentCategory.subCategories.map((category) => (
                     <div key={`grid1-${category.id}`} className={``}>
                       <Link
-                        href={`/shop/${category.Name}?page=1`}
+                        href={`/shop/${t(category.Name)}?page=1`}
                         className="flex flex-col items-center gap-2"
                       >
                         <div className="relative aspect-[15/14] w-full overflow-hidden rounded-xl">
@@ -361,7 +361,7 @@ export default function Products(props) {
                                   category.image.url
                                 : "/assets/img/placeholder.png"
                             }
-                            alt={category.Name + " image"}
+                            alt={t(category.Name) + " image"}
                           />
                         </div>
                         <p className="font-semibold">{t(category.Name)}</p>
