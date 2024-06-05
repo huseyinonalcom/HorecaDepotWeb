@@ -766,8 +766,9 @@ export default function Products() {
       </Head>
       <div className="flex w-full flex-row items-center">
         <div className="flex w-full flex-col items-center pb-1 pt-1">
-          <div className="mb-1 flex flex-row items-center gap-2">
-            <div className="group relative h-full">
+          <div className="mb-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center gap-2">
+            <div className="flex flex-row">
+              <div className="group relative h-full">
               <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-4 pl-3 pr-2 font-bold text-black">
                 {t(
                   currentCategory
@@ -852,6 +853,8 @@ export default function Products() {
                 </div>
               </form>
             </div>
+            </div>
+            <div className="flex flex-row">
             <div className="flex flex-row gap-2 bg-gray-100 p-2 shadow-lg">
               <ArrowUp
                 height={36}
@@ -887,12 +890,15 @@ export default function Products() {
               </div>
               <span className={textClass}>{t("Download Excel")}</span>
             </button>
+            </div>
+            <div className="flex flex-row">
             <button className={buttonClass} onClick={() => setNewProduct(true)}>
               <div className={navIconDivClass}>
                 <PlusCircle className={iconClass} />
               </div>
               <span className={textClass}>{t("Create New Product")}</span>
             </button>
+            </div>
           </div>
           <div className="flex-shrink-1 flex w-full flex-col items-center overflow-y-auto pt-1">
             <div className="flex flex-wrap items-center justify-center gap-2">
