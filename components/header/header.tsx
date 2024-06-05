@@ -754,12 +754,12 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
             .filter((cat) => cat.subCategories.length > 0)
             .map((category) => (
               <div key={category.id + "-column"}>
-                <a
+                <Link
                   href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                   className="font-semibold"
                 >
                   {t(category.Name)}
-                </a>
+                </Link>
                 {/* <a
                   href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                   className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
@@ -777,12 +777,12 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
                 .filter((cat) => cat.subCategories.length == 0)
                 .map((category) => (
                   <div key={category.id + "-column"}>
-                    <a
+                    <Link
                       href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                       className="font-semibold"
                     >
                       {t(category.Name)}
-                    </a>
+                    </Link>
                     <a
                       href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                       className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"

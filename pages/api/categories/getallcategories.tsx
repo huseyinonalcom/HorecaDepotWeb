@@ -1,4 +1,5 @@
 import { Category, CategoryConversion } from "../../../api/interfaces/category";
+import statusText from "../../../api/statustexts";
 
 let cache = {
   data: null,
@@ -8,9 +9,9 @@ let cache = {
 const CACHE_DURATION = 15 * 60 * 1000;
 const fetchUrl = `${process.env.API_URL}/api/categories?populate[headCategory][fields][0]=name&populate[subCategories][fields][0]=name&fields[0]=name&populate[image][fields][0]=url&sort=priority&pagination[pageSize]=100`;
 
-export default async function getAllCategories(req, res) {
+export async function getAllCategories() {
   if (cache.data && Date.now() - cache.timestamp < CACHE_DURATION) {
-    return res.status(200).json(cache.data);
+    return cache.data;
   }
   try {
     const response = await fetch(fetchUrl, {
@@ -26,7 +27,7 @@ export default async function getAllCategories(req, res) {
     const data = await response.json();
 
     const allCategories: Category[] = data["data"].map(
-      CategoryConversion.fromJson
+      CategoryConversion.fromJson,
     );
 
     const categoryMap = new Map(allCategories.map((cat) => [cat.id, cat]));
@@ -53,8 +54,22 @@ export default async function getAllCategories(req, res) {
       data: answer,
       timestamp: Date.now(),
     };
-    return res.status(200).json(answer);
+    return answer;
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return null;
+  }
+}
+
+export default async function handler(req, res) {
+  try {
+    const response = await getAllCategories();
+
+    if (!response) {
+      return res.status(500).json(statusText[500]);
+    }
+
+    return res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json(statusText[500]);
   }
 }

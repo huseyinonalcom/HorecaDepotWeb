@@ -10,13 +10,15 @@ import RangeSlider from "../../components/common/rangeSlider";
 import { useRouter } from "next/router";
 import componentThemes from "../../components/componentThemes";
 import { getProducts } from "../api/products/public/getproducts";
+import { getAllCategoriesFlattened } from "../api/categories/public/getallcategoriesflattened";
+import { getAllCategories } from "../api/categories/getallcategories";
+import Link from "next/link";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");
   const router = useRouter();
 
   const [pageInitialized, setPageInitialized] = useState<boolean>(false);
-  const [fetchQueued, setFetchQueued] = useState<boolean>(false);
 
   const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -24,6 +26,9 @@ export default function Products(props) {
   const allProducts = props.products;
   const minValueFromAPI = props.minValueFromAPI;
   const maxValueFromAPI = props.maxValueFromAPI;
+  const allCategories = props.categories;
+  const allCategoriesFlat = props.categoriesFlat;
+  const currentCategory = props.currentCategory;
 
   const getPageNumbers = () => {
     let pages = [];
@@ -79,44 +84,24 @@ export default function Products(props) {
     setSliderMax(maxValue);
   };
 
-  const { categories } = useContext(CategoryContext);
-  const [allCategories, setCategories] = useState([]);
-  const [allCategoriesFlat, setCategoriesFlat] = useState([]);
-  const [currentCategory, setCurrentCategory] = useState<number | null>(null);
   const [currentSearch, setCurrentSearch] = useState<string>("");
   const [currentSort, setCurrentSort] = useState<string | null>("id");
   const [currentSortDirection, setCurrentSortDirection] =
     useState<boolean>(false);
 
   useEffect(() => {
-    if (allCategories.length === 0 && categories.length > 0) {
-      setCategories(categories);
-    }
-  }, [categories]);
-
-  useEffect(() => {
     if (pageInitialized) {
       setSliderMin(null);
       setSliderMax(null);
       setCurrentPage(1);
-      setFetchQueued(true);
     }
   }, [currentSearch, currentCategory]);
 
   useEffect(() => {
     if (pageInitialized) {
-      setFetchQueued(true);
-    }
-  }, [currentPage]);
-
-  useEffect(() => {
-    if (pageInitialized) {
       setCurrentPage(1);
-      setFetchQueued(true);
     }
   }, [currentSort, currentSortDirection]);
-
-
 
   useEffect(() => {
     if (router.isReady) {
@@ -153,13 +138,10 @@ export default function Products(props) {
     if (!router.query.search) {
       setCurrentSearch("");
     }
-    router.query.category && setCurrentCategory(Number(router.query.category));
+    // router.query.category && setCurrentCategory(Number(router.query.category));
     setSliderMin(result.minValueFromAPI as number);
     setSliderMax(result.maxValueFromAPI as number);
-    const allCategoriesReq = await fetch(
-      "/api/categories/public/getallcategoriesflattened",
-    );
-    setCategoriesFlat(await allCategoriesReq.json());
+
     setPageInitialized(true);
   };
 
@@ -173,14 +155,12 @@ export default function Products(props) {
         <div className="focus:overlay-none flex w-full items-center justify-between text-left hover:bg-gray-200">
           {hasSubCategories ? (
             <>
-              <div
+              <Link
+                href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                 className="h-full whitespace-nowrap px-4 py-2"
-                onClick={() => {
-                  setCurrentCategory(category.id);
-                }}
               >
                 {t(category.Name)}
-              </div>
+              </Link>
               <div
                 className="w-full py-3 pr-4"
                 onClick={() => {
@@ -196,14 +176,12 @@ export default function Products(props) {
               </div>
             </>
           ) : (
-            <div
+            <Link
+              href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
               className="h-full w-full whitespace-nowrap px-4 py-2"
-              onClick={() => {
-                setCurrentCategory(category.id);
-              }}
             >
               {t(category.Name)}
-            </div>
+            </Link>
           )}
         </div>
         {hasSubCategories && (
@@ -254,7 +232,7 @@ export default function Products(props) {
                   </button>
                   <div className="flex h-full w-full flex-col justify-end bg-white ">
                     <div>
-                      {currentCategory || currentSearch ? (
+                      {currentSearch ? (
                         <div
                           className={`overflow-hidden bg-gray-100 p-4 shadow-lg`}
                         >
@@ -265,24 +243,6 @@ export default function Products(props) {
                               onClick={() => setCurrentSearch("")}
                             >
                               x {currentSearch}
-                            </div>
-                          ) : null}
-                          {currentCategory ? (
-                            <div
-                              className="mb-1 pr-3"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => setCurrentCategory(null)}
-                            >
-                              {allCategoriesFlat.find(
-                                (cat) => cat.id == currentCategory,
-                              ) != null
-                                ? "x " +
-                                  t(
-                                    allCategoriesFlat.find(
-                                      (cat) => cat.id == currentCategory,
-                                    ).Name,
-                                  )
-                                : currentCategory}
                             </div>
                           ) : null}
                         </div>
@@ -330,7 +290,7 @@ export default function Products(props) {
               </div>
             </div>
             <div className="hidden w-full flex-col duration-700 lg:flex">
-              {currentCategory || currentSearch ? (
+              {currentSearch ? (
                 <div className="bg-gray-100 p-4">
                   {currentSearch ? (
                     <div
@@ -339,24 +299,6 @@ export default function Products(props) {
                       onClick={() => setCurrentSearch("")}
                     >
                       x {currentSearch}
-                    </div>
-                  ) : null}
-                  {currentCategory ? (
-                    <div
-                      className="mb-1 pr-3"
-                      style={{ cursor: "pointer" }}
-                      onClick={() => setCurrentCategory(null)}
-                    >
-                      {allCategoriesFlat.find(
-                        (cat) => cat.id == currentCategory,
-                      ) != null
-                        ? "x " +
-                          t(
-                            allCategoriesFlat.find(
-                              (cat) => cat.id == currentCategory,
-                            ).Name,
-                          )
-                        : currentCategory}
                     </div>
                   ) : null}
                 </div>
@@ -401,10 +343,7 @@ export default function Products(props) {
             <div className="grid grid-cols-1 md:grid-cols-3">
               <p className="hidden md:flex"></p>
               <h2 className="mt-2 flex w-full justify-center text-5xl font-bold">
-                {t(
-                  allCategoriesFlat.find((cat) => cat.id == currentCategory)
-                    ?.Name ?? "Shop",
-                )}
+                {t(currentCategory ?? "Shop")}
               </h2>
               <div className="my-auto flex h-fit w-full flex-row gap-2 pl-4 pr-4">
                 <ArrowUp
@@ -506,12 +445,20 @@ export async function getServerSideProps(context) {
   const minValueFromAPI = productsReq.minValueFromAPI as number;
   const maxValueFromAPI = productsReq.maxValueFromAPI as number;
 
+  const categories = await getAllCategories();
+  const categoriesFlat = await getAllCategoriesFlattened();
+
+  const currentCategory = context.query.category;
+
   return {
     props: {
       products,
       totalPages,
       minValueFromAPI,
       maxValueFromAPI,
+      categories,
+      categoriesFlat,
+      currentCategory,
     },
   };
 }
