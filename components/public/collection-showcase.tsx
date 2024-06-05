@@ -4,9 +4,10 @@ import { ChevronLeft } from "react-feather";
 
 type Props = {
   collection;
+  id: string;
 };
 
-const CollectionShowcase = ({ collection }: Props) => {
+const CollectionShowcase = ({ collection, id }: Props) => {
   let isThrottled = false;
   const productRow = useRef(null);
 
@@ -48,6 +49,7 @@ const CollectionShowcase = ({ collection }: Props) => {
       <div
         draggable={false}
         ref={productRow}
+        id={id}
         className="no-scrollbar flex snap-x snap-mandatory flex-row gap-4 overflow-x-scroll py-2"
       >
         {collection.products.map((prod) => (

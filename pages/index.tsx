@@ -10,6 +10,7 @@ import { ChevronLeft } from "react-feather";
 import { getAllCategoriesFlattened } from "./api/categories/public/getallcategoriesflattened";
 import { getWebsite } from "./api/website/public/getwebsite";
 import getT from "next-translate/getT";
+import { useEffect } from "react";
 
 export default function Index({ mediaGroups, collections }) {
   const { t, lang } = useTranslation("common");
@@ -31,6 +32,80 @@ export default function Index({ mediaGroups, collections }) {
       behavior: "smooth",
     });
   };
+
+  let debounceTimer;
+
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.keyCode === 37 || e.keyCode === 39) {
+        if (debounceTimer) {
+          clearTimeout(debounceTimer);
+        }
+
+        debounceTimer = setTimeout(() => {
+          const slider = document.getElementById("slider-1");
+          const collection1 = document.getElementById("col-1");
+          const collection2 = document.getElementById("col-2");
+
+          const screenMiddle = window.innerHeight / 2;
+          const sliderDistance = Math.abs(
+            slider.getBoundingClientRect().top +
+              slider.clientHeight / 2 -
+              screenMiddle,
+          );
+          const collection1Distance = Math.abs(
+            collection1.getBoundingClientRect().top +
+              collection1.clientHeight / 2 -
+              screenMiddle,
+          );
+          const collection2Distance = Math.abs(
+            collection2.getBoundingClientRect().top +
+              collection2.clientHeight / 2 -
+              screenMiddle,
+          );
+
+          const closestDistance = Math.min(
+            sliderDistance,
+            collection1Distance,
+            collection2Distance,
+          );
+
+          console.log(sliderDistance);
+          console.log(collection1Distance);
+          console.log(collection2Distance);
+          console.log(window.scrollY);
+
+          console.log(closestDistance);
+
+          let elementToScroll;
+          if (closestDistance === sliderDistance) {
+            elementToScroll = slider;
+          } else if (closestDistance === collection1Distance) {
+            elementToScroll = collection1;
+          } else {
+            elementToScroll = collection2;
+          }
+
+          if (e.keyCode === 37) {
+            elementToScroll.scrollBy({
+              left: -50,
+              behavior: "smooth",
+            });
+          } else if (e.keyCode === 39) {
+            elementToScroll.scrollBy({
+              left: 50,
+              behavior: "smooth",
+            });
+          }
+        }, 100);
+      }
+    }
+    document.addEventListener("keydown", handleKeyDown);
+
+    return function cleanup() {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
     <Layout>
@@ -143,7 +218,7 @@ export default function Index({ mediaGroups, collections }) {
         <div className="flex w-full flex-col items-center">
           {collections && (
             <div key={"collection1"} className="w-full">
-              <CollectionShowcase collection={collections.at(0)} />
+              <CollectionShowcase collection={collections.at(0)} id="col-1" />
             </div>
           )}
         </div>
@@ -174,7 +249,7 @@ export default function Index({ mediaGroups, collections }) {
         <div className="flex w-full flex-col items-center">
           {collections.length > 1 && (
             <div key={"collection2"} className="w-full">
-              <CollectionShowcase collection={collections.at(1)} />
+              <CollectionShowcase collection={collections.at(1)} id="col-2" />
             </div>
           )}
         </div>
