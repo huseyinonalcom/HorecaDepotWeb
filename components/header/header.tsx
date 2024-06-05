@@ -381,23 +381,6 @@ const TopBar = () => {
               />
             </button>
           </li>
-          <li className="bg-black pb-1">
-            <button
-              name="setLanguageToTR"
-              aria-label="Set Language to Turkish"
-              onClick={async () => await setLanguage("tr")}
-              className={`${flagButtonClass} ${lang == "tr" ? "hidden" : ""}`}
-            >
-              <Image
-                src={`/assets/header/TR.svg`}
-                alt={t("locale")}
-                width={35}
-                height={23}
-                style={{ width: "35px", height: "23px" }}
-                className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-              />
-            </button>
-          </li>
         </ul>
       </div>
     </div>
@@ -584,23 +567,6 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
               >
                 <Image
                   src="/assets/header/DE.svg"
-                  alt={t("locale")}
-                  width={66}
-                  height={44}
-                  style={{ width: "66px", height: "44px" }}
-                  className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-                />
-              </button>
-              <button
-                name="setLanguageToTR"
-                aria-label="Set Language to Turkish"
-                onClick={async () => await setLanguage("tr")}
-                className={`${flagButtonsClass} ${
-                  lang == "tr" ? "hidden" : ""
-                }`}
-              >
-                <Image
-                  src="/assets/header/TR.svg"
                   alt={t("locale")}
                   width={66}
                   height={44}

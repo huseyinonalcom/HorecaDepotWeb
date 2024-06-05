@@ -168,21 +168,6 @@ const AdminDrawer = () => {
                     className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
                   />
                 </button>
-                <button
-                  name="setLanguageToTR"
-                  aria-label="Set Language to Turkish"
-                  onClick={async () => await setLanguage("tr")}
-                  className={`${navLinkClass} ${lang == "tr" ? "hidden" : ""}`}
-                >
-                  <Image
-                    src={`/assets/header/TR.svg`}
-                    alt={"Türk bayrağı"}
-                    width={32}
-                    height={21.34}
-                    style={{ width: "32px", height: "21.34px" }}
-                    className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-                  />
-                </button>
               </div>
             </div>
             <button
