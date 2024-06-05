@@ -9,6 +9,7 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronUp,
+  Copy,
   Download,
   PlusCircle,
   Search,
@@ -896,9 +897,13 @@ export default function Products() {
                     setChosenProductID(product.id);
                   }}
                   key={product.id}
-                  className="h-[300px] w-[190px] relative bg-slate-200"
+                  className="relative h-[300px] w-[190px] bg-slate-200"
                 >
-                  <LuDot className="absolute top-0 -mt-6 -mr-6 right-0" size={80} color={product.active ? "green" : "red"} />
+                  <LuDot
+                    className="absolute right-0 top-0 -mr-6 -mt-6"
+                    size={80}
+                    color={product.active ? "green" : "red"}
+                  />
                   <img
                     src={
                       "https://hdapi.huseyinonalalpha.com" +
@@ -1007,6 +1012,25 @@ export default function Products() {
                       )
                     ) : null}
                   </div>
+                  <ButtonShadow1
+                    type="button"
+                    onClick={() => {
+                      currentProduct.id = 0;
+                      setCurrentProduct((pr) => ({
+                        ...pr,
+                        id: 0,
+                        supplierCode: "0",
+                        product_extra: {
+                          ...pr.product_extra,
+                          barcode: "0",
+                        },
+                      }));
+                    }}
+                  >
+                    <div className="bg-white p-2">
+                      <Copy />
+                    </div>
+                  </ButtonShadow1>
                   {submitError && (
                     <p className="bg-white p-1 text-red-400">{submitError}</p>
                   )}
