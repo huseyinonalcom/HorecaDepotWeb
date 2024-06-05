@@ -156,7 +156,7 @@ const AdminDrawer = () => {
                 <button
                   name="setLanguageToDE"
                   aria-label="Set Language to German"
-                  onClick={async () => await setLanguage("DE")}
+                  onClick={async () => await setLanguage("de")}
                   className={`${navLinkClass} ${lang == "de" ? "hidden" : ""}`}
                 >
                   <Image
