@@ -760,12 +760,12 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
                 >
                   {t(category.Name)}
                 </a>
-                <a
+                {/* <a
                   href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                   className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
                 >
                   {t("All")} {t(category.Name)}
-                </a>
+                </a> */}
                 {category.subCategories.map((subCategory) => (
                   <CategoryItem key={subCategory.id} category={subCategory} />
                 ))}
@@ -787,7 +787,7 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
                       href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                       className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
                     >
-                      {t("All")} {t(category.Name)}
+                      {t(category.Name)}
                     </a>
                     {category.subCategories.map((subCategory) => (
                       <CategoryItem

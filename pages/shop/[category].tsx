@@ -435,7 +435,10 @@ export default function Products() {
             <div className="grid grid-cols-1 md:grid-cols-3">
               <p className="hidden md:flex"></p>
               <h2 className="mt-2 flex w-full justify-center text-5xl font-bold">
-                {t("Shop")}
+                {t(
+                  allCategoriesFlat.find((cat) => cat.id == currentCategory)
+                    ?.Name ?? "Shop",
+                )}
               </h2>
               <div className="my-auto flex h-fit w-full flex-row gap-2 pl-4 pr-4">
                 <ArrowUp
@@ -471,7 +474,7 @@ export default function Products() {
                 {t("No products matching")}
               </h3>
             ) : (
-              <div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
+              <div className="grid w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
                 {allProducts.map((product) => (
                   <div key={product.id} className="mb-2 mt-2 w-full px-4">
                     <ProductPreview2 product={product} />
