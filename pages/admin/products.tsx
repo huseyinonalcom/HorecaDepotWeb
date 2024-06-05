@@ -1596,7 +1596,7 @@ export default function Products() {
           )}
         </div>
       </div>
-      <button onClick={() => missingPictures()}>missing pics</button>
+      {/* <button onClick={() => missingPictures()}>missing pics</button> */}
     </AdminLayout>
   );
 }

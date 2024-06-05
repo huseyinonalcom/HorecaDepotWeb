@@ -786,8 +786,11 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
                   {t("All")} {t(category.Name)}
                 </a> */}
                 {category.subCategories.map((subCategory) => (
-                  <CategoryItem key={subCategory.id} category={subCategory} 
-                  onClick={() => closeDrawer()}/>
+                  <CategoryItem
+                    key={subCategory.id}
+                    category={subCategory}
+                    onClick={() => closeDrawer()}
+                  />
                 ))}
               </div>
             ))}
