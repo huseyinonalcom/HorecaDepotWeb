@@ -72,96 +72,92 @@ const Layout = ({ children }: Props) => {
               <div className="z-30 flex w-full flex-col items-center border-t border-neutral-200 bg-neutral-100 px-3 pb-4 pt-4 print:hidden">
                 <div className="flex w-full max-w-screen-2xl flex-col items-center justify-center">
                   <div className="mb-4 grid w-full grid-cols-2 gap-3 md:grid-cols-2 xl:grid-cols-4">
-                      <div className="flex flex-col gap-2 pl-2">
-                        <h3 className="-ml-2 font-semibold">
-                          {t("Categories")}
-                        </h3>
-                        <div>
-                          <a
-                            href={`/${lang}/shop/${encodeURIComponent(t("Chaises"))}?page=1`}
-                            className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
-                          >
-                            {t("Chaises")}
-                          </a>
-                        </div>
-                        <div>
-                          <a
-                            href={`/${lang}/shop/${encodeURIComponent(t("Tables"))}?page=1`}
-                            className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
-                          >
-                            {t("Tables")}
-                          </a>
-                        </div>
-                        <div>
-                          <a
-                            href={`/${lang}/shop/${encodeURIComponent(t("Banquettes"))}?page=1`}
-                            className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
-                          >
-                            {t("Banquettes")}
-                          </a>
-                        </div>
-                        <div>
-                          <a
-                            href={`/${lang}/shop/${encodeURIComponent(t("Tabourets de Bar"))}?page=1`}
-                            className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
-                          >
-                            {t("Tabourets de Bar")}
-                          </a>
-                        </div>
-                        <div>
-                          <a
-                            href={`/${lang}/shop/${encodeURIComponent(t("Événement"))}?page=1`}
-                            className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
-                          >
-                            {t("Événement")}
-                          </a>
-                        </div>
+                    <div className="flex flex-col gap-2 pl-2">
+                      <h3 className="-ml-2 font-semibold">{t("Categories")}</h3>
+                      <div>
+                        <a
+                          href={`/${lang}/shop/${encodeURIComponent(t("Chaises"))}?page=1`}
+                          className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
+                        >
+                          {t("Chaises")}
+                        </a>
                       </div>
-                      <div className="flex flex-col gap-2 pl-2">
-                        <h3 className="-ml-2 font-semibold">
-                          {t("Site Plan")}
-                        </h3>
-                        <div>
-                          <Link
-                            href={`/shop/tous?page=1`}
-                            className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
-                          >
-                            {t("Boutique")}
-                          </Link>
-                        </div>
-                        <div>
-                          <Link
-                            href={`/contact`}
-                            className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
-                          >
-                            {t("Contact")}
-                          </Link>
-                        </div>
-                        <div>
-                          <Link
-                            href={`/about`}
-                            className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
-                          >
-                            {t("About Us")}
-                          </Link>
-                        </div>
-                        <div>
-                          <Link
-                            href={`/projects`}
-                            className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
-                          >
-                            {t("Projects")}
-                          </Link>
-                        </div>
-                        <div>
-                          <Link
-                            href={`/references`}
-                            className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
-                          >
-                            {t("References")}
-                          </Link>
-                        </div>
+                      <div>
+                        <a
+                          href={`/${lang}/shop/${encodeURIComponent(t("Tables"))}?page=1`}
+                          className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
+                        >
+                          {t("Tables")}
+                        </a>
                       </div>
+                      <div>
+                        <a
+                          href={`/${lang}/shop/${encodeURIComponent(t("Banquettes"))}?page=1`}
+                          className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
+                        >
+                          {t("Banquettes")}
+                        </a>
+                      </div>
+                      <div>
+                        <a
+                          href={`/${lang}/shop/${encodeURIComponent(t("Tabourets de Bar"))}?page=1`}
+                          className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
+                        >
+                          {t("Tabourets de Bar")}
+                        </a>
+                      </div>
+                      <div>
+                        <a
+                          href={`/${lang}/shop/${encodeURIComponent(t("Événement"))}?page=1`}
+                          className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
+                        >
+                          {t("Événement")}
+                        </a>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-2 pl-2">
+                      <h3 className="-ml-2 font-semibold">{t("Site Plan")}</h3>
+                      <div>
+                        <Link
+                          href={`/shop/tous?page=1`}
+                          className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
+                        >
+                          {t("Boutique")}
+                        </Link>
+                      </div>
+                      <div>
+                        <Link
+                          href={`/contact`}
+                          className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
+                        >
+                          {t("Contact")}
+                        </Link>
+                      </div>
+                      <div>
+                        <Link
+                          href={`/about`}
+                          className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
+                        >
+                          {t("About Us")}
+                        </Link>
+                      </div>
+                      <div>
+                        <Link
+                          href={`/projects`}
+                          className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
+                        >
+                          {t("Projects")}
+                        </Link>
+                      </div>
+                      <div>
+                        <Link
+                          href={`/references`}
+                          className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
+                        >
+                          {t("References")}
+                        </Link>
+                      </div>
+                    </div>
                     <div className="flex flex-col gap-2 pl-2">
                       <h3 className="-ml-2 font-semibold">
                         {t("Information")}

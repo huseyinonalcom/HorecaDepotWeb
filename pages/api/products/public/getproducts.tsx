@@ -48,7 +48,6 @@ function checkValues(minValue, maxValue) {
 
 const en = require("../../../../locales/en/common.json");
 const fr = require("../../../../locales/fr/common.json");
-const tr = require("../../../../locales/tr/common.json");
 const nl = require("../../../../locales/nl/common.json");
 const de = require("../../../../locales/de/common.json");
 
@@ -59,8 +58,6 @@ const loadJSON = (name) => {
       return en;
     case "fr":
       return fr;
-    case "tr":
-      return tr;
     case "nl":
       return nl;
     case "de":

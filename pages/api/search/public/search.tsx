@@ -6,7 +6,6 @@ import { getCollections } from "../../collections/public/getcollections";
 import enTranslations from "../../../../locales/en/common.json";
 import frTranslations from "../../../../locales/fr/common.json";
 import deTranslations from "../../../../locales/de/common.json";
-import trTranslations from "../../../../locales/tr/common.json";
 import nlTranslations from "../../../../locales/nl/common.json";
 
 const cache = {
@@ -44,7 +43,6 @@ const mergeTranslations = (categories) => {
         fr: frTranslations[category.Name] || category.Name,
         de: deTranslations[category.Name] || category.Name,
         nl: nlTranslations[category.Name] || category.Name,
-        tr: trTranslations[category.Name] || category.Name,
       },
     };
   });
