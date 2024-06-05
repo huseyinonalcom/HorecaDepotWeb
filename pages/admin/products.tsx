@@ -28,6 +28,7 @@ import validateDecimal from "../../api/utils/input_validators/validate_decimal";
 import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 import InputOutlined from "../../components/inputs/outlined";
 import MultiSelectionInput from "../../components/inputs/MultiSelectionInput";
+import { LuDot } from "react-icons/lu";
 
 export default function Products() {
   const { t, lang } = useTranslation("common");
@@ -895,8 +896,9 @@ export default function Products() {
                     setChosenProductID(product.id);
                   }}
                   key={product.id}
-                  className="h-[300px] w-[190px] bg-slate-200"
+                  className="h-[300px] w-[190px] relative bg-slate-200"
                 >
+                  <LuDot className="absolute top-0 -mt-6 -mr-6 right-0" size={80} color={product.active ? "green" : "red"} />
                   <img
                     src={
                       "https://hdapi.huseyinonalalpha.com" +
