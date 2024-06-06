@@ -8,6 +8,7 @@ import { useContext } from "react";
 import { CartProduct } from "../../api/interfaces/cartProduct";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import { WishlistProduct } from "../../api/interfaces/wishlistProduct";
+import { TiTick } from "react-icons/ti";
 
 type Props = {
   product: Product;
@@ -71,9 +72,9 @@ const ProductPreview = ({ product }: Props) => {
           style={{ objectFit: "contain", cursor: "pointer" }}
           alt={product.name}
         />
-        {/* <div
+        <div
           draggable={false}
-          className="absolute right-2 top-2 flex flex-col gap-2 opacity-100 duration-500 group-hover:top-2 group-hover:opacity-100 lg:top-6 lg:opacity-0"
+          className="hidden md:flex absolute right-2 top-2 flex-col gap-2 opacity-100 duration-500 group-hover:top-2 group-hover:opacity-100 lg:top-6 lg:opacity-0"
         >
           <button
             draggable={false}
@@ -101,7 +102,7 @@ const ProductPreview = ({ product }: Props) => {
           >
             <Heart className="mx-auto" />
           </button>
-        </div> */}
+        </div>
       </div>
       <div
         draggable={false}
@@ -141,7 +142,12 @@ const ProductPreview = ({ product }: Props) => {
           {product.shelves && product.shelves.length > 0 && (
             <div draggable={false} className="text-sm font-semibold">
               {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) >
-                10 && <p>{t("in_stock")}</p>}
+                10 && (
+                <div className="flex flex-row gap-0.5">
+                  <p>{t("in_stock")}</p>
+                  <TiTick size={16} color="green" />
+                </div>
+              )}
               {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) <=
                 10 &&
                 product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) >

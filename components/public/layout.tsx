@@ -152,7 +152,7 @@ const Layout = ({ children }: Props) => {
               </Link>
               <div className="z-30 flex w-full flex-col items-center border-t border-neutral-200 bg-neutral-100 px-3 pb-4 pt-4 print:hidden">
                 <div className="flex w-full max-w-screen-2xl flex-col items-center justify-center">
-                  <div className="mb-4 grid w-full grid-cols-2 gap-3 md:grid-cols-2 xl:grid-cols-4">
+                  <div className="mb-4 grid w-full grid-cols-2 gap-3 px-12 md:grid-cols-2 xl:grid-cols-4">
                     <div className="flex flex-col gap-2 pl-2">
                       <h3 className="-ml-2 font-semibold">{t("Categories")}</h3>
                       <div>

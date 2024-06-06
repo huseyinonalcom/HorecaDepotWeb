@@ -8,6 +8,7 @@ import { useContext } from "react";
 import { CartProduct } from "../../api/interfaces/cartProduct";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import { WishlistProduct } from "../../api/interfaces/wishlistProduct";
+import { TiTick } from "react-icons/ti";
 
 type Props = {
   product: Product;
@@ -138,7 +139,12 @@ const ProductPreview2 = ({ product }: Props) => {
           {product.shelves && product.shelves.length > 0 && (
             <div draggable={false} className="text-sm font-semibold">
               {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) >
-                10 && <p>{t("in_stock")}</p>}
+                10 && (
+                <div className="flex flex-row gap-0.5">
+                  <p>{t("in_stock")}</p>
+                  <TiTick size={16} color="green" />
+                </div>
+              )}
               {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) <=
                 10 &&
                 product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) >

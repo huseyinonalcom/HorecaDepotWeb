@@ -18,6 +18,11 @@ import Link from "next/link";
 import { useDragScroll } from "../../components/common/use-drag-scroll";
 import { AutoTextSize } from "auto-text-size";
 import ProductImages from "../../components/products/product-images";
+import { TiTick } from "react-icons/ti";
+import { MdHeight, MdOutlineChair } from "react-icons/md";
+import { GiWeight } from "react-icons/gi";
+import { GoCircleSlash } from "react-icons/go";
+import { LuPackage, LuPackageOpen, LuPackageX } from "react-icons/lu";
 
 type Props = {
   relatedProducts: Product[];
@@ -186,13 +191,10 @@ const ProductPage = ({
                     (acc, shelf) => acc + shelf.stock,
                     0,
                   ) > 10 && (
-                    <AutoTextSize
-                      draggable={false}
-                      mode="oneline"
-                      maxFontSizePx={18}
-                    >
-                      {t("in_stock")}
-                    </AutoTextSize>
+                    <div className="flex flex-row gap-0.5">
+                      <p>{t("in_stock")}</p>
+                      <TiTick size={20} color="green" />
+                    </div>
                   )}
                   {product.shelves?.reduce(
                     (acc, shelf) => acc + shelf.stock,
@@ -231,41 +233,64 @@ const ProductPage = ({
 
             <div className="flex w-full flex-col gap-1">
               {product.height && product.height != 0 && (
-                <p>
-                  <b>{t("Height")}:</b> {product.height} cm
-                </p>
+                <div className="flex flex-row">
+                  <MdHeight size={24} className="flex-shrink-0" />
+                  <p>
+                    <b>{t("Height")}:</b> {product.height} cm
+                  </p>
+                </div>
               )}
               {product.width && product.width != 0 && (
-                <p>
-                  <b>{t("Width")}:</b> {product.width} cm
-                </p>
+                <div className="flex flex-row">
+                  <MdHeight size={24} className="flex-shrink-0 rotate-90" />
+                  <p>
+                    <b>{t("Width")}:</b> {product.width} cm
+                  </p>
+                </div>
               )}
               {product.depth && product.depth != 0 && (
-                <p>
-                  <b>{t("Length")}:</b> {product.depth} cm
-                </p>
+                <div className="flex flex-row">
+                  <MdHeight size={24} className="flex-shrink-0 rotate-45" />
+                  <p>
+                    <b>{t("Length")}:</b> {product.depth} cm
+                  </p>
+                </div>
               )}
               {product.product_extra.surface_area &&
                 product.product_extra.surface_area != "" && (
-                  <p>
-                    <b>{t("Surface")}:</b> {product.product_extra.surface_area}
-                  </p>
+                  <div className="flex flex-row">
+                    <GoCircleSlash size={24} className="flex-shrink-0" />
+                    <p>
+                      <b>{t("Surface")}:</b>{" "}
+                      {product.product_extra.surface_area}
+                    </p>
+                  </div>
                 )}
               {product.product_extra.seat_height !== undefined &&
                 product.product_extra.seat_height !== null &&
                 product.product_extra.seat_height !== 0 && (
-                  <p>
-                    <b>{t("Seat Height")}:</b>{" "}
-                    {product.product_extra.seat_height} cm
-                  </p>
+                  <div className="flex flex-row">
+                    <MdOutlineChair size={20} className="flex-shrink-0" />
+                    <MdHeight size={11} className="-ml-1.5 flex-shrink-0" />
+                    <p>
+                      <b>{t("Seat Height")}:</b>{" "}
+                      {product.product_extra.seat_height} cm
+                    </p>
+                  </div>
                 )}
               {product.product_extra.armrest_height !== undefined &&
                 product.product_extra.armrest_height !== null &&
                 product.product_extra.armrest_height !== 0 && (
-                  <p>
-                    <b>{t("Armrest Height")}:</b>{" "}
-                    {product.product_extra.armrest_height} cm
-                  </p>
+                  <div className="flex flex-row items-center">
+                    <div className="flex flex-row items-end">
+                      <MdOutlineChair size={20} className="flex-shrink-0" />
+                      <MdHeight size={15} className="-ml-1 flex-shrink-0" />
+                    </div>
+                    <p>
+                      <b>{t("Armrest Height")}:</b>{" "}
+                      {product.product_extra.armrest_height} cm
+                    </p>
+                  </div>
                 )}
               {product.material && (
                 <p>
