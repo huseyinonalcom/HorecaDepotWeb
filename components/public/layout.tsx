@@ -21,6 +21,15 @@ const nexa = localFont({
   ],
 });
 
+const roboto = localFont({
+  src: [
+    { path: "../fonts/Roboto-Regular.ttf", weight: "400", style: "normal" },
+    { path: "../fonts/Roboto-Medium.ttf", weight: "500", style: "normal" },
+    { path: "../fonts/Roboto-Bold.ttf", weight: "700", style: "normal" },
+    { path: "../fonts/Roboto-Black.ttf", weight: "900", style: "normal" },
+  ],
+});
+
 type Props = {
   children: React.ReactNode;
 };
@@ -49,7 +58,7 @@ const Layout = ({ children }: Props) => {
         <CartProvider>
           <WishlistProvider>
             <Meta />
-            <main className={`${nexa.className} min-h-[80dvh]`}>
+            <main className={`${roboto.className} min-h-[80dvh]`}>
               <div className="sticky top-0 z-40 w-full bg-black shadow-lg">
                 <Header />
               </div>
