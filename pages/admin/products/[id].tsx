@@ -10,7 +10,9 @@ import ButtonShadow1 from "../../../components/buttons/shadow_1";
 import BarcodeToPng from "../../../components/common/barcodepng";
 import AdminLayout from "../../../components/admin/adminLayout";
 import InputOutlined from "../../../components/inputs/outlined";
+import { RxDimensions } from "react-icons/rx";
 import useTranslation from "next-translate/useTranslation";
+import { MdHeight, MdOutlineChair } from "react-icons/md";
 import { Product } from "../../../api/interfaces/product";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
@@ -18,6 +20,9 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { getAllSuppliers } from "../../api/suppliers/admin/getallsuppliers";
+import { GiWeight } from "react-icons/gi";
+import { GoCircleSlash } from "react-icons/go";
+import { LuPackage, LuPackageOpen, LuPackageX } from "react-icons/lu";
 
 export default function ProductPage(props) {
   const { t, lang } = useTranslation("common");
@@ -594,7 +599,8 @@ export default function ProductPage(props) {
                       onChange={(e) => handleChange("color", e.target.value)}
                     />
                   </div>
-                  <div className="w-[200px]">
+                  <div className="flex w-[200px] flex-row items-center">
+                    <GiWeight size={36} className="flex-shrink-0" />
                     <InputOutlined
                       label="Weight"
                       type="number"
@@ -607,7 +613,8 @@ export default function ProductPage(props) {
                       }
                     />
                   </div>
-                  <div className="w-[200px]">
+                  <div className="flex w-[200px] flex-row items-center">
+                    <LuPackageOpen size={36} className="flex-shrink-0" />
                     <InputOutlined
                       label="Packaged Weight Net"
                       type="number"
@@ -625,7 +632,8 @@ export default function ProductPage(props) {
                       }
                     />
                   </div>
-                  <div className="w-[200px]">
+                  <div className="flex w-[200px] flex-row items-center">
+                    <LuPackage size={36} className="flex-shrink-0" />
                     <InputOutlined
                       label="Packaged Weight"
                       type="number"
@@ -640,7 +648,8 @@ export default function ProductPage(props) {
                       }
                     />
                   </div>
-                  <div className="w-[200px]">
+                  <div className="flex w-[200px] flex-row items-center">
+                    <RxDimensions size={36} className="flex-shrink-0" />
                     <InputOutlined
                       label="Packaged Dimensions"
                       type="text"
@@ -656,7 +665,8 @@ export default function ProductPage(props) {
                       }
                     />
                   </div>
-                  <div className="w-[200px]">
+                  <div className="flex w-[200px] flex-row items-center">
+                    <LuPackageX size={36} className="flex-shrink-0" />
                     <InputOutlined
                       label="Per Box"
                       type="number"
@@ -669,7 +679,8 @@ export default function ProductPage(props) {
                       }
                     />
                   </div>
-                  <div className="w-[200px]">
+                  <div className="flex w-[200px] flex-row">
+                    <MdHeight size={36} className="flex-shrink-0" />
                     <InputOutlined
                       label="Height"
                       type="number"
@@ -682,7 +693,8 @@ export default function ProductPage(props) {
                       }
                     />
                   </div>
-                  <div className="w-[200px]">
+                  <div className="flex w-[200px] flex-row">
+                    <MdHeight size={36} className="flex-shrink-0 rotate-90" />
                     <InputOutlined
                       label="Width"
                       type="number"
@@ -695,7 +707,8 @@ export default function ProductPage(props) {
                       }
                     />
                   </div>
-                  <div className="w-[200px]">
+                  <div className="flex w-[200px] flex-row">
+                    <MdHeight size={36} className="flex-shrink-0 rotate-45" />
                     <InputOutlined
                       label="Depth"
                       type="number"
@@ -708,7 +721,8 @@ export default function ProductPage(props) {
                       }
                     />
                   </div>
-                  <div className="w-[200px]">
+                  <div className="flex w-[200px] flex-row items-center">
+                    <GoCircleSlash size={36} className="flex-shrink-0" />
                     <InputOutlined
                       label="Diameter"
                       type="number"
@@ -721,7 +735,9 @@ export default function ProductPage(props) {
                       }
                     />
                   </div>
-                  <div className="w-[200px]">
+                  <div className="flex w-[200px] flex-row items-end">
+                    <MdOutlineChair size={36} className="flex-shrink-0" />
+                    <MdHeight size={20} className="-ml-1.5 flex-shrink-0" />
                     <InputOutlined
                       label="Seat Height"
                       type="number"
@@ -734,7 +750,9 @@ export default function ProductPage(props) {
                       }
                     />
                   </div>
-                  <div className="w-[200px]">
+                  <div className="flex w-[200px] flex-row items-end">
+                    <MdOutlineChair size={36} className="flex-shrink-0" />
+                    <MdHeight size={26} className="-ml-1.5 flex-shrink-0" />
                     <InputOutlined
                       label="Armrest Height"
                       type="number"
