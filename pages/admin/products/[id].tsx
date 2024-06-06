@@ -217,9 +217,7 @@ export default function ProductPage(props) {
           if (!request.ok) {
             setSubmitError(t("An error occurred during the product creation!"));
           } else {
-            let answer = await request.json();
-            const newID = answer.id;
-            router.push("/admin/products/" + newID);
+            router.push("/admin/products");
           }
         } catch {
           setSubmitError(t("An error occurred during the product creation!"));
