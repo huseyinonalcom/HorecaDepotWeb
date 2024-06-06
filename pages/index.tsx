@@ -70,13 +70,6 @@ export default function Index({ mediaGroups, collections }) {
             collection2Distance,
           );
 
-          console.log(sliderDistance);
-          console.log(collection1Distance);
-          console.log(collection2Distance);
-          console.log(window.scrollY);
-
-          console.log(closestDistance);
-
           let elementToScroll;
           if (closestDistance === sliderDistance) {
             elementToScroll = slider;
@@ -283,7 +276,6 @@ export default function Index({ mediaGroups, collections }) {
 }
 
 export const getStaticProps = async ({ locale }) => {
-  console.log(locale);
   const t = await getT(locale, "common");
   let collections = await getCollections();
   const website = await getWebsite();
@@ -292,7 +284,6 @@ export const getStaticProps = async ({ locale }) => {
   for (let i = 0; i < mediaGroups.length; i++) {
     if (mediaGroups[i].is_fetched_from_api) {
       if (mediaGroups[i].fetch_from.collection.toLowerCase() == "categories") {
-        console.log(mediaGroups[i].fetch_from.ids);
         const allCategoriesRaw = await getAllCategoriesFlattened();
         mediaGroups[i].image_with_link = allCategoriesRaw
           .filter((cat) => mediaGroups[i].fetch_from.ids.includes(cat.id))
@@ -325,13 +316,10 @@ export const getStaticProps = async ({ locale }) => {
       mediaGroups[i].image_with_link = mediaGroups[i].image_with_link.map(
         (item) => {
           const url = item.linked_url; // "/shop/category-name?page=1"
-          console.log(url);
           const category = url.split("/").pop();
-          console.log(category);
           const translatedCategory = t(
             decodeURIComponent(category.split("?")[0]),
           );
-          console.log(translatedCategory); // "/shop/category-name-in-current-locale?page=1"
           return {
             ...item,
             linked_url: `/shop/${translatedCategory}?page=1`,

@@ -31,7 +31,6 @@ export default async function deleteProduct(
       });
 
       let answer = await response.json();
-      console.log(answer);
 
       if (!response.ok) {
         return res.status(400).json(statusText[400]);

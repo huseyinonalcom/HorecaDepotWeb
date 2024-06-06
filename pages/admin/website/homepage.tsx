@@ -124,8 +124,6 @@ export default function HomePageAdmin() {
                         type="file"
                         name="image"
                         onChange={async (e) => {
-                          console.log(e.target.files.item(0) ?? "no file");
-
                           if (!e.target.files.item(0)) {
                             return;
                           } else {

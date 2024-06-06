@@ -30,7 +30,6 @@ export async function putCategories({ req, res }) {
       },
     );
     const ans = await response.json();
-    console.log(ans);
   }
 
   try {

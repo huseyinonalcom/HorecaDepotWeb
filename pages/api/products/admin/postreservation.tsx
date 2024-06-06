@@ -41,7 +41,6 @@ export default async function putProduct(
       });
 
       const ans = await response.json();
-      console.log(ans);
       if (!response.ok) {
         return res.status(400).json(statusText[400]);
       }

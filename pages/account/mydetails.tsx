@@ -21,7 +21,6 @@ export default function MyDetails() {
     const fetchOrders = async () => {
       const request = await fetch(`/api/client/client/getclientdetails`);
       const response = await request.json();
-      console.log(response);
       if (request.ok) {
         return response;
       } else {

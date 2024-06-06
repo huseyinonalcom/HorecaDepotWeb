@@ -15,14 +15,12 @@ export async function getProductByID(req) {
 
     const data = await response.json();
 
-    console.log(data);
 
     if (!response.ok) {
       return null;
     }
     return data["data"];
   } catch (error) {
-    console.log(error);
     return null;
   }
 }

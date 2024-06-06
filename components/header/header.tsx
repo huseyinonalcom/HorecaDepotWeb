@@ -103,7 +103,6 @@ const DesktopSearch = () => {
       const answer = await fetch(`/api/search/public/search?search=${value}`);
       const data = await answer.json();
       setSearchResults(data);
-      console.log(data);
     }, 300);
   };
 
