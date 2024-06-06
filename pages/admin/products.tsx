@@ -140,9 +140,7 @@ export default function Products() {
       } catch {}
     };
 
-    let confirmDelete = confirm(
-      t("confirm_delete"),
-    );
+    let confirmDelete = confirm(t("confirm_delete"));
 
     if (confirmDelete) {
       deleteProd();
@@ -1289,9 +1287,7 @@ export default function Products() {
                       value={currentProduct?.product_extra?.weight ?? ""}
                       error={errors.weight}
                       onChange={(e) =>
-                        handleChange("weight", e.target.value, true, [
-                          validateInteger,
-                        ])
+                        handleChange("weight", e.target.value, true, [])
                       }
                     />
                   </div>

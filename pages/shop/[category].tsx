@@ -452,15 +452,16 @@ export async function getServerSideProps(context) {
 
   const products = (productsReq?.sortedData as Product[]) ?? [];
   const totalPages = (productsReq?.totalPages as number) ?? [];
-  const minValueFromAPI = productsReq?.minValueFromAPI as number ?? 0;
-  const maxValueFromAPI = productsReq?.maxValueFromAPI as number ?? 0;
+  const minValueFromAPI = (productsReq?.minValueFromAPI as number) ?? 0;
+  const maxValueFromAPI = (productsReq?.maxValueFromAPI as number) ?? 0;
 
   const categories = await getAllCategories();
   const categoriesFlat = await getAllCategoriesFlattened();
 
-  const currentCategory = categoriesFlat.find(
-    (cat) => cat.id == productsReq?.currentCategoryID ?? 0
-  ) ?? null;
+  const currentCategory =
+    categoriesFlat.find(
+      (cat) => cat.id == productsReq?.currentCategoryID ?? 0,
+    ) ?? null;
   const currentSort = context.query?.sort?.split(":").at(0) ?? "id";
   const currentSortDirection = context.query?.sort?.split(":").at(1) ?? "desc";
 

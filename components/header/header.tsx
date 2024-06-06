@@ -417,7 +417,9 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
       category.subCategories && category.subCategories.length > 0;
 
     return (
-      <div className="relative cursor-pointer">
+      <div
+        className={`relative cursor-pointer ${category.headCategory ? "z-[60] bg-red-400" : "z-40"}`}
+      >
         <div className="focus:overlay-none flex w-full items-center justify-between text-left hover:bg-gray-200">
           {hasSubCategories ? (
             <>
