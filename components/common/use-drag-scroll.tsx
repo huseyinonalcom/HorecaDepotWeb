@@ -41,41 +41,41 @@ export const useDragScroll = () => {
     [node],
   );
 
-  const handleTouchStart = useCallback(
-    (e: TouchEvent) => {
-      if (!node) {
-        return;
-      }
-      const touch = e.touches[0];
-      const startPos = {
-        left: node.scrollLeft,
-        top: node.scrollTop,
-        x: touch.clientX,
-        y: touch.clientY,
-      };
+  // const handleTouchStart = useCallback(
+  //   (e: TouchEvent) => {
+  //     if (!node) {
+  //       return;
+  //     }
+  //     const touch = e.touches[0];
+  //     const startPos = {
+  //       left: node.scrollLeft,
+  //       top: node.scrollTop,
+  //       x: touch.clientX,
+  //       y: touch.clientY,
+  //     };
 
-      const handleTouchMove = (e: TouchEvent) => {
-        const touch = e.touches[0];
-        const dx = touch.clientX - startPos.x;
-        const dy = touch.clientY - startPos.y;
-        node.scrollTop = startPos.top - dy;
-        node.scrollLeft = startPos.left - dx;
-        updateCursor(node);
-      };
+  //     const handleTouchMove = (e: TouchEvent) => {
+  //       const touch = e.touches[0];
+  //       const dx = touch.clientX - startPos.x;
+  //       const dy = touch.clientY - startPos.y;
+  //       node.scrollTop = startPos.top - dy;
+  //       node.scrollLeft = startPos.left - dx;
+  //       updateCursor(node);
+  //     };
 
-      const handleTouchEnd = () => {
-        document.removeEventListener("touchmove", handleTouchMove);
-        document.removeEventListener("touchend", handleTouchEnd);
-        resetCursor(node);
-      };
+  //     const handleTouchEnd = () => {
+  //       document.removeEventListener("touchmove", handleTouchMove);
+  //       document.removeEventListener("touchend", handleTouchEnd);
+  //       resetCursor(node);
+  //     };
 
-      document.addEventListener("touchmove", handleTouchMove, {
-        passive: true,
-      });
-      document.addEventListener("touchend", handleTouchEnd, { passive: true });
-    },
-    [node],
-  );
+  //     document.addEventListener("touchmove", handleTouchMove, {
+  //       passive: true,
+  //     });
+  //     document.addEventListener("touchend", handleTouchEnd, { passive: true });
+  //   },
+  //   [node],
+  // );
 
   const updateCursor = (ele: HTMLElement) => {
     ele.style.cursor = "grabbing";
@@ -92,10 +92,10 @@ export const useDragScroll = () => {
       return;
     }
     node.addEventListener("mousedown", handleMouseDown, { passive: true });
-    node.addEventListener("touchstart", handleTouchStart, { passive: true });
+    // node.addEventListener("touchstart", handleTouchStart, { passive: true });
     return () => {
       node.removeEventListener("mousedown", handleMouseDown);
-      node.removeEventListener("touchstart", handleTouchStart);
+      // node.removeEventListener("touchstart", handleTouchStart);
     };
   }, [node]);
 
