@@ -43,23 +43,31 @@ export default function About() {
             <div className="flex max-w-[640px] flex-col gap-4 text-justify font-semibold">
               <h2 className="text-3xl font-bold">À PROPOS DE NOUS</h2>
               <p className="text-lg">
-                Depuis 1980, nous sommes une entreprise qui vend des produits en
-                gros ou au détail. Nous hébergeons deux sociétés différentes
-                nommées Horeca Depot.
+                Depuis 1980, nous sommes une entreprise spécialisée dans la
+                vente en gros et au détail de divers produits. Nous hébergeons
+                deux sociétés distinctes sous le nom de Horeca Depot.
               </p>
               <p className="text-lg">
-                À partir de vos plans, nous fabriquons vos meubles en quelques
-                semaines sur mesure et au centimètre près. Nous pouvons
-                également vous conseiller sur le choix des chaises ou tables en
+                À partir de vos plans, nous fabriquons vos meubles sur mesure,
+                au centimètre près, en quelques semaines. Nous pouvons également
+                vous conseiller sur le choix des chaises et des tables en
                 harmonie avec vos banquettes.
               </p>
               <p className="text-lg">
-                Nos prix sont les moins chers de Belgique. Regardez-vous notre
-                produits et projets. Appelez pour un rendez-vous ou envoyez un
-                email.
+                Nous fournissons des meubles de haute qualité, conformes aux
+                normes européennes, pour des hôtels, restaurants, cafés, ainsi
+                que des produits pour la maison. Nous offrons les meilleurs prix
+                d'Europe pour nos produits, avec une expédition sécurisée
+                assurée par des entreprises de transport de confiance.
+              </p>
+              <p className="text-lg">
+                Nos prix sont les plus compétitifs d'Europe. Consultez nos
+                produits et projets. Appelez-nous pour prendre rendez-vous ou
+                envoyez-nous un email.
               </p>
               <p className="border-l-2 border-black pl-4 text-lg">
-                Meilleur prix pour hotel, restaurant, cafe et vous.
+                Nous offrons les meilleurs prix pour les hôtels, restaurants,
+                cafés et pour vous.
               </p>
             </div>
           </div>
