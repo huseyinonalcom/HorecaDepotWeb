@@ -1,32 +1,104 @@
-import Header from "../header/header";
-import Meta from "./meta";
-import useTranslation from "next-translate/useTranslation";
-import { CartProvider } from "../../api/providers/cartProvider";
 import { WishlistProvider } from "../../api/providers/wishlistProvider";
 import { ClientProvider } from "../../api/providers/clientProvider";
+import { CartProvider } from "../../api/providers/cartProvider";
+import useTranslation from "next-translate/useTranslation";
+import { Heart, ShoppingCart, User } from "react-feather";
+import CartDrawer from "../cart/cartDrawer";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import localFont from "next/font/local";
+import Header from "../header/header";
+import Follow from "../common/follow";
 import Image from "next/image";
 import Link from "next/link";
-import CartDrawer from "../cart/cartDrawer";
-import Follow from "../common/follow";
-import { useRouter } from "next/router";
-import { Heart, ShoppingCart, User } from "react-feather";
-import localFont from "next/font/local";
-import { useEffect, useState } from "react";
+import Meta from "./meta";
 
 const nexa = localFont({
   src: [
-    { path: "../fonts/Nexa-Light.otf", weight: "200", style: "normal" },
-    { path: "../fonts/Nexa-Regular.otf", weight: "400", style: "normal" },
-    { path: "../fonts/Nexa-Bold.otf", weight: "700", style: "normal" },
+    { path: "../fonts/nexa/Nexa-Light.otf", weight: "200", style: "normal" },
+    { path: "../fonts/nexa/Nexa-Regular.otf", weight: "400", style: "normal" },
+    { path: "../fonts/nexa/Nexa-Bold.otf", weight: "700", style: "normal" },
   ],
 });
 
 const roboto = localFont({
   src: [
-    { path: "../fonts/Roboto-Regular.ttf", weight: "400", style: "normal" },
-    { path: "../fonts/Roboto-Medium.ttf", weight: "500", style: "normal" },
-    { path: "../fonts/Roboto-Bold.ttf", weight: "700", style: "normal" },
-    { path: "../fonts/Roboto-Black.ttf", weight: "900", style: "normal" },
+    {
+      path: "../fonts/roboto/Roboto-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/roboto/Roboto-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    { path: "../fonts/roboto/Roboto-Bold.ttf", weight: "700", style: "normal" },
+    {
+      path: "../fonts/roboto/Roboto-Black.ttf",
+      weight: "900",
+      style: "normal",
+    },
+  ],
+});
+
+const titilium = localFont({
+  src: [
+    {
+      path: "../fonts/titilium/TitilliumWeb-ExtraLight.ttf",
+      weight: "100",
+      style: "normal",
+    },
+    {
+      path: "../fonts/titilium/TitilliumWeb-ExtraLightItalic.ttf",
+      weight: "100",
+      style: "italic",
+    },
+    {
+      path: "../fonts/titilium/TitilliumWeb-Light.ttf",
+      weight: "200",
+      style: "normal",
+    },
+    {
+      path: "../fonts/titilium/TitilliumWeb-LightItalic.ttf",
+      weight: "200",
+      style: "italic",
+    },
+    {
+      path: "../fonts/titilium/TitilliumWeb-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/titilium/TitilliumWeb-Italic.ttf",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../fonts/titilium/TitilliumWeb-SemiBold.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../fonts/titilium/TitilliumWeb-SemiBoldItalic.ttf",
+      weight: "600",
+      style: "italic",
+    },
+    {
+      path: "../fonts/titilium/TitilliumWeb-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../fonts/titilium/TitilliumWeb-BoldItalic.ttf",
+      weight: "700",
+      style: "italic",
+    },
+    {
+      path: "../fonts/titilium/TitilliumWeb-Black.ttf",
+      weight: "900",
+      style: "normal",
+    },
   ],
 });
 
