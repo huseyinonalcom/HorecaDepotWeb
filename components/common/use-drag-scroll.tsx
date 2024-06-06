@@ -9,6 +9,7 @@ export const useDragScroll = () => {
 
   const handleMouseDown = useCallback(
     (e: MouseEvent) => {
+      e.preventDefault();
       if (!node) {
         return;
       }
@@ -28,6 +29,7 @@ export const useDragScroll = () => {
       };
 
       const handleMouseUp = () => {
+        e.preventDefault();
         document.removeEventListener("mousemove", handleMouseMove);
         document.removeEventListener("mouseup", handleMouseUp);
         resetCursor(node);
