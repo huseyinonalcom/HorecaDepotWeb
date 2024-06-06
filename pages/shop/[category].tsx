@@ -324,12 +324,11 @@ export default function Products(props) {
                   ))}
                 </div>
               )}
-            <div className="grid grid-cols-1 md:grid-cols-3">
-              <p className="hidden md:flex"></p>
+            <div className="flex flex-col md:flex-row">
               <h2 className="mt-2 flex w-full justify-center text-5xl font-bold">
                 {t(currentCategory?.Name ?? "Shop")}
               </h2>
-              <div className="my-auto flex h-fit w-full flex-row gap-2 pl-4 pr-4">
+              <div className="my-auto flex h-fit flex-row gap-2 pl-4 pr-4">
                 <Link
                   href={createLink({
                     ...props,
