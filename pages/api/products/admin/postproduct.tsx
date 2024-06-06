@@ -10,6 +10,7 @@ export default async function postProduct(
   const authToken = cookies.j;
   if (req.method === "POST") {
     const prodToPost = req.body as Product;
+    console.log(prodToPost);
 
     try {
       const fetchUrl = `${process.env.API_URL}/api/products`;
@@ -36,6 +37,7 @@ export default async function postProduct(
             depth: prodToPost.depth ?? 0,
             minStock: 0,
             minOrder: 0,
+            images: prodToPost.images.map((img) => img.id),
             height: prodToPost.height ?? 0,
             color: prodToPost.color,
             material: prodToPost.material,

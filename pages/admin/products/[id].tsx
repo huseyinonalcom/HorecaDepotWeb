@@ -2,10 +2,10 @@ import { getAllCategoriesFlattened } from "../../api/categories/public/getallcat
 import validateDecimal from "../../../api/utils/input_validators/validate_decimal";
 import validateInteger from "../../../api/utils/input_validators/validate_integer";
 import validateEmpty from "../../../api/utils/input_validators/validate_empty";
+import { Check, ChevronDown, Copy, Download, Upload, X } from "react-feather";
 import TextareaOutlined from "../../../components/inputs/textarea_outlined";
 import { getProductByID } from "../../api/products/admin/getproductbyid";
 import componentThemes from "../../../components/componentThemes";
-import { Check, ChevronDown, Copy, Download, Upload, X } from "react-feather";
 import ButtonShadow1 from "../../../components/buttons/shadow_1";
 import BarcodeToPng from "../../../components/common/barcodepng";
 import AdminLayout from "../../../components/admin/adminLayout";
@@ -916,7 +916,7 @@ export default function ProductPage(props) {
           <div className="flex w-1/3 flex-col gap-2">
             <div
               className="flex h-fit w-full flex-col gap-2 rounded-md bg-gray-200 p-4"
-              onDrop={uploadFiles}
+              onDrop={(e) => uploadFiles(e)}
             >
               <div className="flex flex-row text-3xl font-semibold">
                 {t("Images")}
