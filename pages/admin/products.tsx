@@ -17,10 +17,11 @@ import { utils, write } from "xlsx";
 import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 import { LuDot } from "react-icons/lu";
 import Head from "next/head";
+import { getAllCategoriesFlattened } from "../api/categories/public/getallcategoriesflattened";
+import { getAllSuppliers } from "../api/suppliers/admin/getallsuppliers";
 
-export default function Products() {
+export default function Products(props) {
   const { t, lang } = useTranslation("common");
-  const [allCategories, setAllCategories] = useState([]);
   const { categories } = useContext(CategoryContext);
   const [allCategoriesHierarchy, setAllCategoriesHierarchy] = useState([]);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
@@ -31,7 +32,10 @@ export default function Products() {
   const [currentSort, setCurrentSort] = useState<string | null>("id");
   const [currentSortDirection, setCurrentSortDirection] =
     useState<boolean>(false);
+  const [currentSupplier, setCurrentSupplier] = useState(null);
   const [currentCategory, setCurrentCategory] = useState(0);
+  const allCategories = props.allCategories;
+  const allSuppliers = props.allSuppliers;
 
   const buttonClass =
     "flex flex-row items-center justify-start py-2 shadow-lg hover:bg-orange-400 overflow-hidden duration-500 cursor-pointer";
@@ -163,7 +167,7 @@ export default function Products() {
     } else {
       setCurrentPage(1);
     }
-  }, [currentCategory, currentSearch]);
+  }, [currentCategory, currentSearch, currentSupplier]);
 
   const fetchProducts = async () => {
     const answer = await fetch(
@@ -171,24 +175,12 @@ export default function Products() {
         !currentSortDirection ? "desc" : "asc"
       }${currentSearch ? `&search=${currentSearch}` : ""}${
         currentCategory ? `&category=${currentCategory}` : ""
-      }`,
+      }${currentSupplier ? `&supplier=${currentSupplier.id}` : ""}`,
     );
     const data = await answer.json();
     setAllProducts(data["data"]);
     setTotalPages(data["meta"]["pagination"]["pageCount"]);
   };
-
-  const fetchCategories = async () => {
-    const answer = await fetch(
-      `/api/categories/public/getallcategoriesflattened`,
-    );
-    const data = await answer.json();
-    setAllCategories(data.filter((cat) => cat.subCategories.length == 0));
-  };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
 
   useEffect(() => {
     fetchProducts();
@@ -320,7 +312,7 @@ export default function Products() {
                     currentCategory
                       ? allCategories.find((cat) => cat.id == currentCategory)
                           ?.Name
-                      : "Tout",
+                      : "All",
                   )}
                   <ChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />
                 </div>
@@ -337,6 +329,37 @@ export default function Products() {
                   </div>
                   {allCategoriesHierarchy.map((category) => (
                     <CategoryItem key={category.id} category={category} />
+                  ))}
+                </div>
+              </div>
+              <div className="group relative h-full">
+                <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-4 pl-3 pr-2 font-bold text-black">
+                  {currentSupplier
+                    ? currentSupplier?.name
+                    : t("choose_supplier")}
+                  <ChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />
+                </div>
+                <div className="invisible absolute -left-5 top-8 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
+                  <div className="flex w-full cursor-pointer items-center justify-between text-left hover:bg-gray-200">
+                    <div
+                      className="h-full w-full whitespace-nowrap px-4 py-2"
+                      onClick={() => {
+                        setCurrentSupplier(null);
+                      }}
+                    >
+                      {t("All")}
+                    </div>
+                  </div>
+                  {allSuppliers.map((sup) => (
+                    <button
+                      key={sup.id}
+                      className="flex px-4 py-2 w-full cursor-pointer items-center justify-between text-left hover:bg-gray-200"
+                      onClick={() => {
+                        setCurrentSupplier(sup);
+                      }}
+                    >
+                      {sup.name}
+                    </button>
                   ))}
                 </div>
               </div>
@@ -438,10 +461,7 @@ export default function Products() {
               </button>
             </div>
             <div className="flex flex-row">
-              <Link
-                className={buttonClass}
-                href={"/admin/products/0"}
-              >
+              <Link className={buttonClass} href={"/admin/products/0"}>
                 <div className={navIconDivClass}>
                   <PlusCircle className={iconClass} />
                 </div>
@@ -528,4 +548,17 @@ export default function Products() {
       {/* <button onClick={() => missingPictures()}>missing pics</button> */}
     </AdminLayout>
   );
+}
+
+export async function getServerSideProps(context) {
+  const req = context.req;
+  const allCategories = await getAllCategoriesFlattened();
+  const allSuppliers = await getAllSuppliers(req);
+
+  return {
+    props: {
+      allCategories,
+      allSuppliers,
+    },
+  };
 }

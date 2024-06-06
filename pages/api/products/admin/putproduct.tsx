@@ -31,6 +31,7 @@ export default async function putProduct(
           width: prodToPost.width ?? 0,
           depth: prodToPost.depth ?? 0,
           minStock: 0,
+          supplier: prodToPost.supplier.id,
           images: prodToPost.images.map((img) => img.id),
           minOrder: 0,
           height: prodToPost.height ?? 0,

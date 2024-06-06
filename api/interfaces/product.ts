@@ -27,6 +27,7 @@ export interface Product {
   color?: string;
   shelves?: Shelf[];
   categories?: Category[];
+  supplier?: any;
 }
 
 export class ProductConversion {

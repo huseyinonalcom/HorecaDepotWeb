@@ -13,6 +13,7 @@ export default async function getAllProducts(
     const page = "&pagination[page]=" + (req.query.page ?? 1);
     const sort = "&sort=" + req.query.sort;
     const pageSize = "&pagination[pageSize]=" + (req.query.count ?? 30);
+    let supplier = "";
     let search = "";
     let category = "";
 
@@ -24,13 +25,17 @@ export default async function getAllProducts(
       category = `&filters[categories][id][$eq]=${req.query.category}`;
     }
 
+    if (req.query.supplier && req.query.supplier != "0") {
+      supplier = `&filters[supplier][id][$eq]=${req.query.supplier}`;
+    }
+
     if (!authToken) {
       return res.status(401).json(statusText[401]);
     }
 
     try {
       const request = await fetch(
-        fetchUrl + category + page + sort + search + pageSize,
+        fetchUrl + category + page + sort + supplier + search + pageSize,
         {
           headers: {
             Authorization: `Bearer ${authToken}`,

@@ -1,7 +1,7 @@
 import statusText from "../../../../api/statustexts";
 import getAuthCookie from "../../cookies";
 
-export async function getFromApi({ req, res }) {
+export async function getFromApi({ req }) {
   try {
     const authToken = getAuthCookie({ type: "admin", req });
     const collection = req.query.collectiontoput;
@@ -31,7 +31,7 @@ export async function getFromApi({ req, res }) {
 
 export default async function handler(req, res) {
   try {
-    const response = await getFromApi({ req, res });
+    const response = await getFromApi({ req });
 
     if (!response) {
       return res.status(400).json(statusText[400]);

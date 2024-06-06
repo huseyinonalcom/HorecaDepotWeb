@@ -17,6 +17,7 @@ import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { getAllSuppliers } from "../../api/suppliers/admin/getallsuppliers";
 
 export default function ProductPage(props) {
   const { t, lang } = useTranslation("common");
@@ -24,6 +25,7 @@ export default function ProductPage(props) {
   const [inProgress, setInProgress] = useState(false);
   const allCategories = props.allCategories;
   const [selectedImage, setSelectedImage] = useState(null);
+  const allSuppliers = props.allSuppliers;
 
   const navIconDivClass = "flex flex-row justify-center flex-shrink-0 w-[35px]";
   const iconClass = "flex-shrink-0";
@@ -68,7 +70,6 @@ export default function ProductPage(props) {
             body: JSON.stringify({ new: !currentProduct.product_extra.new }),
           },
         );
-        const answer = await request.json();
         if (!request.ok) {
         } else {
           window.location.reload();
@@ -499,7 +500,6 @@ export default function ProductPage(props) {
                     />
                   </div>
                 </div>
-
                 <div className="flex w-full flex-row gap-2">
                   <div className="w-1/2">
                     <InputOutlined
@@ -532,10 +532,43 @@ export default function ProductPage(props) {
                     />
                   </div>
                 </div>
-                <div className="w-full flex-row">
-                  {currentProduct.id != 0 && (
-                    <BarcodeToPng value={currentProduct.supplierCode} />
-                  )}
+                <div className="flex w-full flex-row gap-2">
+                  <div className="flex w-1/2 flex-col gap-2 rounded-md bg-slate-300 p-1">
+                    Fournisseur:
+                    <div className="group relative w-full">
+                      <div className="flex w-full flex-row justify-between rounded-md bg-blue-300 p-1">
+                        <p>{currentProduct.supplier.name}</p>
+                        <ChevronDown />
+                      </div>
+                      <div
+                        className={`absolute z-40 hidden max-h-[300px] w-full grid-cols-1 items-start overflow-y-auto bg-gray-100 p-2 group-hover:grid`}
+                      >
+                        {allSuppliers
+                          .filter(
+                            (sup) => sup.id != currentProduct?.supplier?.id,
+                          )
+                          .map((sup) => (
+                            <button
+                              key={sup.id}
+                              className="flex flex-row items-start gap-2 p-1 hover:bg-blue-200"
+                              onClick={() => {
+                                setCurrentProduct({
+                                  ...currentProduct,
+                                  supplier: sup,
+                                });
+                              }}
+                            >
+                              {t(sup.name)}
+                            </button>
+                          ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex w-1/2 flex-row">
+                    {currentProduct.id != 0 && (
+                      <BarcodeToPng value={currentProduct.supplierCode} />
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -1053,18 +1086,23 @@ export default function ProductPage(props) {
 }
 
 export async function getServerSideProps(context) {
-  let currentProduct: Product = { id: 0, product_extra: {} };
+  const req = context.req;
+  const allCategories = await getAllCategoriesFlattened();
+  const allSuppliers = await getAllSuppliers(req);
+  let currentProduct: Product = {
+    id: 0,
+    supplier: allSuppliers.at(0),
+    product_extra: {},
+  };
   if (context.query.id != 0) {
-    const req = context.req;
     context.req.query = context.query;
     currentProduct = await getProductByID(req);
   }
-  const allCategories = await getAllCategoriesFlattened();
-
   return {
     props: {
       currentProduct,
       allCategories,
+      allSuppliers,
     },
   };
 }

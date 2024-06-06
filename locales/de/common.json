@@ -296,5 +296,6 @@
   "validators_empty_invalid": "Feld darf nicht leer sein",
   "Primary Details": "Primäre Details",
   "Secondary Details": "Sekundäre Details",
-  "Supplier Code": "Lieferantencode"
+  "Supplier Code": "Lieferantencode",
+  "choose_supplier": "Lieferant auswählen"
 }

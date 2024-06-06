@@ -296,5 +296,6 @@
   "validators_empty_invalid": "This field cannot be empty",
   "Primary Details": "Primary Details",
   "Secondary Details": "Secondary Details",
-  "Supplier Code": "Supplier Code"
+  "Supplier Code": "Supplier Code",
+  "choose_supplier": "Choose a Supplier"
 }
