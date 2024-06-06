@@ -34,8 +34,7 @@ export default function Legal() {
               au traitement des données à caractère personnel.
             </p>
             <p>
-              Le DPO peut être contacté comme suit : info@horecadepot.be / +32
-              489 67 92 65 (horaire de bureau Lundi – Samedi 09:30 à 19:00 |
+              Le DPO peut être contacté comme suit : info@horecadepot.be (horaire de bureau Lundi – Samedi 09:30 à 19:00 |
               Dimanche – Fermé)
             </p>
             <p>Droits des utilisateurs</p>

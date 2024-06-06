@@ -22,7 +22,6 @@ export default function Legal() {
             <p>Adresse: Rue de Ribaucourt 154, 1080, Bruxelles</p>
             <p>TVA-BTW BE 0696.624.603</p>
             <p>info@horecadepot.be</p>
-            <p>Téléphone: +32 489 67 92 65</p>
           </div>
         </div>
       </Layout>
