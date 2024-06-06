@@ -71,7 +71,7 @@ const ProductPreview = ({ product }: Props) => {
           style={{ objectFit: "contain", cursor: "pointer" }}
           alt={product.name}
         />
-        <div
+        {/* <div
           draggable={false}
           className="absolute right-2 top-2 flex flex-col gap-2 opacity-100 duration-500 group-hover:top-2 group-hover:opacity-100 lg:top-6 lg:opacity-0"
         >
@@ -101,7 +101,7 @@ const ProductPreview = ({ product }: Props) => {
           >
             <Heart className="mx-auto" />
           </button>
-        </div>
+        </div> */}
       </div>
       <div
         draggable={false}

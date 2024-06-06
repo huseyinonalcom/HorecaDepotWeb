@@ -129,7 +129,7 @@ const DesktopSearch = () => {
         aria-label="Search bar input"
         type="text"
         onChange={handleSearchChange}
-        className="w-full border-2 py-2 pl-4 pr-4 text-black outline-none focus:border-black focus:ring-transparent"
+        className="w-full border-2 py-2 rounded-2xl pl-4 pr-4 text-black outline-none focus:border-black focus:ring-transparent"
         placeholder={t("Search Products")}
       />
       <div className="absolute inset-y-0 right-0 flex">
@@ -224,7 +224,7 @@ const MobileSearch = () => {
         aria-label="Search bar input"
         type="text"
         onChange={handleSearchChange}
-        className="w-full border-2 py-2 pl-4 pr-4 text-black outline-none focus:border-black focus:ring-transparent"
+        className="w-full border-2 py-2 pl-4 pr-4 rounded-2xl text-black outline-none focus:border-black focus:ring-transparent"
         placeholder={t("Search Products")}
       />
       <div className="absolute inset-y-0 right-0 flex">
