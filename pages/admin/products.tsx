@@ -440,7 +440,6 @@ export default function Products() {
             <div className="flex flex-row">
               <Link
                 className={buttonClass}
-                target="_blank"
                 href={"/admin/products/0"}
               >
                 <div className={navIconDivClass}>
@@ -456,7 +455,6 @@ export default function Products() {
                 <Link
                   type="button"
                   href={"/admin/products/" + product.id}
-                  target="_blank"
                   key={product.id}
                   className="relative h-[300px] w-[190px] bg-slate-200"
                 >
