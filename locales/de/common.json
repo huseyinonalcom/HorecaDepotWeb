@@ -292,5 +292,9 @@
   "parent_category": "Übergeordnete Kategorie",
   "no_parent_category": "Keine übergeordnete Kategorie",
   "confirm_delete": "Möchten Sie dieses Bild wirklich löschen?",
-  "Delete": "Löschen"
+  "Delete": "Löschen",
+  "validators_empty_invalid": "Feld darf nicht leer sein",
+  "Primary Details": "Primäre Details",
+  "Secondary Details": "Sekundäre Details",
+  "Supplier Code": "Lieferantencode"
 }

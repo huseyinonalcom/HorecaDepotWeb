@@ -292,5 +292,9 @@
   "parent_category": "Catégorie parent",
   "no_parent_category": "Pas de catégorie parent",
   "confirm_delete": "Confirmer la suppression",
-  "Delete": "Supprimer"
+  "Delete": "Supprimer",
+  "validators_empty_invalid": "Ce champ ne peut pas être vide",
+  "Primary Details": "Détails Principaux",
+  "Secondary Details": "Détails Secondaires",
+  "Supplier Code": "Code Fournisseur"
 }

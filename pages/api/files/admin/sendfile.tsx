@@ -29,7 +29,7 @@ function streamToBlob(stream, mimeType) {
 
 export default async function postFile(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   if (req.method === "POST") {
     const form = new IncomingForm();
@@ -59,6 +59,7 @@ export default async function postFile(
         });
         if (response.status == 200) {
           const answer = await response.json();
+
           return res.status(201).json(answer[0]);
         } else {
           return res.status(400).send("Bad request.");
