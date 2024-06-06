@@ -173,7 +173,7 @@ export default function Products(props) {
           id={t("Shop")}
           className="flex w-full flex-col items-start text-black lg:flex-row"
         >
-          <div className="relative flex w-full flex-col gap-2 px-1 lg:w-[500px]">
+          <div className="relative flex w-full flex-col gap-2 px-1 lg:w-[350px]">
             <div
               className={`fixed bottom-0 z-50 flex w-full flex-col duration-700 lg:hidden ${isFilterDrawerOpen ? "left-0" : "left-[-100%]"}`}
             >
