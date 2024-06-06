@@ -16,6 +16,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function ProductPage(props) {
   const { t, lang } = useTranslation("common");
@@ -28,6 +29,8 @@ export default function ProductPage(props) {
   const iconClass = "flex-shrink-0";
   const inputDivClass =
     "flex flex-col items-center shadow-lg gap-2 w-[230px] bg-neutral-300 p-1 h-min";
+
+  const router = useRouter();
 
   const toggleProductActive = () => {
     const toggleActive = async () => {
@@ -90,7 +93,7 @@ export default function ProductPage(props) {
         );
         if (!request.ok) {
         } else {
-          window.location.reload();
+          router.push("/admin/products");
         }
       } catch {}
     };
@@ -197,7 +200,7 @@ export default function ProductPage(props) {
           if (!request.ok) {
             setSubmitError(t("An error occurred while modifying the product!"));
           } else {
-            window.location.reload();
+            router.push("/admin/products");
           }
         } catch {
           setSubmitError(t("An error occurred while modifying the product!"));
@@ -214,7 +217,9 @@ export default function ProductPage(props) {
           if (!request.ok) {
             setSubmitError(t("An error occurred during the product creation!"));
           } else {
-            window.close();
+            let answer = await request.json();
+            const newID = answer.id;
+            router.push("/admin/products/" + newID);
           }
         } catch {
           setSubmitError(t("An error occurred during the product creation!"));

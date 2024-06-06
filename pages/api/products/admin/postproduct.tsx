@@ -8,9 +8,9 @@ export default async function postProduct(
 ) {
   const cookies = req.cookies;
   const authToken = cookies.j;
+  let postedID = 0;
   if (req.method === "POST") {
     const prodToPost = req.body as Product;
-    console.log(prodToPost);
 
     try {
       const fetchUrl = `${process.env.API_URL}/api/products`;
@@ -53,6 +53,7 @@ export default async function postProduct(
       } else {
         const answer = await reqProd.json();
         prodToPost.id = answer.data.id;
+        postedID = answer.data.id;
         const fetchUrl2 = `${process.env.API_URL}/api/product-extras`;
         const response2 = await fetch(fetchUrl2, {
           method: "POST",
@@ -126,7 +127,7 @@ export default async function postProduct(
       return res.status(500).json("error outside of requests");
     }
 
-    return res.status(200).json("Product posted successfully");
+    return res.status(200).json({ id: postedID });
   } else {
     return res.status(405).json("Method not allowed.");
   }
