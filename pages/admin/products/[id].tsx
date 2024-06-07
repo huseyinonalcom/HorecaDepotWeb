@@ -3,26 +3,26 @@ import validateDecimal from "../../../api/utils/input_validators/validate_decima
 import validateInteger from "../../../api/utils/input_validators/validate_integer";
 import validateEmpty from "../../../api/utils/input_validators/validate_empty";
 import { Check, ChevronDown, Copy, Download, Upload, X } from "react-feather";
+import { getAllSuppliers } from "../../api/suppliers/admin/getallsuppliers";
 import TextareaOutlined from "../../../components/inputs/textarea_outlined";
 import { getProductByID } from "../../api/products/admin/getproductbyid";
+import { LuPackage, LuPackageOpen, LuPackageX } from "react-icons/lu";
 import componentThemes from "../../../components/componentThemes";
 import ButtonShadow1 from "../../../components/buttons/shadow_1";
 import BarcodeToPng from "../../../components/common/barcodepng";
 import AdminLayout from "../../../components/admin/adminLayout";
 import InputOutlined from "../../../components/inputs/outlined";
-import { RxDimensions } from "react-icons/rx";
 import useTranslation from "next-translate/useTranslation";
 import { MdHeight, MdOutlineChair } from "react-icons/md";
 import { Product } from "../../../api/interfaces/product";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { getAllSuppliers } from "../../api/suppliers/admin/getallsuppliers";
-import { GiWeight } from "react-icons/gi";
 import { GoCircleSlash } from "react-icons/go";
-import { LuPackage, LuPackageOpen, LuPackageX } from "react-icons/lu";
+import { RxDimensions } from "react-icons/rx";
+import { GiWeight } from "react-icons/gi";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import Link from "next/link";
+import Head from "next/head";
 
 export default function ProductPage(props) {
   const { t, lang } = useTranslation("common");
@@ -1079,7 +1079,7 @@ export default function ProductPage(props) {
                     .map((cat) => (
                       <button
                         key={cat.id}
-                        className="flex flex-row items-start gap-2 p-1 hover:bg-blue-200"
+                        className={`flex flex-row items-start gap-2 p-1 hover:bg-blue-200 ${cat.headCategory ? "ml-2" : ""}`}
                         onClick={() => {
                           setCurrentProduct({
                             ...currentProduct,

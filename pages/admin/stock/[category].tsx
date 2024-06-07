@@ -125,14 +125,12 @@ export default function Products(props) {
               </div>
             </>
           ) : (
-            <div
+            <Link
               className="h-full w-full whitespace-nowrap px-4 py-2"
-              onClick={() => {
-                router.push(createLink({ category: category.id, page: 1 }));
-              }}
+              href={createLink({ category: category.id, page: 1 })}
             >
               {t(category?.Name)}
-            </div>
+            </Link>
           )}
         </div>
         {hasSubCategories && (
@@ -339,14 +337,12 @@ export default function Products(props) {
                 </div>
                 <div className="invisible absolute -left-5 top-8 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
                   <div className="flex w-full cursor-pointer items-center justify-between text-left hover:bg-gray-200">
-                    <div
+                    <Link
                       className="h-full w-full whitespace-nowrap px-4 py-2"
-                      onClick={() => {
-                        router.push(createLink({ category: "all", page: 1 }));
-                      }}
+                      href={createLink({ category: "all", page: 1 })}
                     >
                       {t("All")}
-                    </div>
+                    </Link>
                   </div>
                   {allCategoriesHierarchy.map((category) => (
                     <CategoryItem key={category.id} category={category} />
@@ -363,25 +359,21 @@ export default function Products(props) {
                 </div>
                 <div className="invisible absolute -left-5 top-8 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
                   <div className="flex w-full cursor-pointer items-center justify-between text-left hover:bg-gray-200">
-                    <div
+                    <Link
                       className="h-full w-full whitespace-nowrap px-4 py-2"
-                      onClick={() => {
-                        router.push(createLink({ supplier: 0, page: 1 }));
-                      }}
+                      href={createLink({ supplier: 0, page: 1 })}
                     >
                       {t("All")}
-                    </div>
+                    </Link>
                   </div>
                   {allSuppliers.map((sup) => (
-                    <button
+                    <Link
                       key={sup.id}
                       className="flex w-full cursor-pointer items-center justify-between px-4 py-2 text-left hover:bg-gray-200"
-                      onClick={() => {
-                        router.push(createLink({ supplier: sup.id, page: 1 }));
-                      }}
+                      href={createLink({ supplier: sup.id, page: 1 })}
                     >
                       {sup.name}
-                    </button>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -428,11 +420,8 @@ export default function Products(props) {
                     placeholder={t("Search Products")}
                     aria-label="Search"
                   />
-                  <div
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      router.push(createLink({ search: tempSearch, page: 1 }));
-                    }}
+                  <Link
+                    href={createLink({ search: tempSearch, page: 1 })}
                     style={{
                       cursor: "pointer",
                       position: "absolute",
@@ -450,48 +439,44 @@ export default function Products(props) {
                         margin: "auto 8px",
                       }}
                     />
-                  </div>
+                  </Link>
                 </form>
               </div>
             </div>
             <div className="flex flex-row">
               <div className="flex flex-row gap-2 bg-gray-100 p-2 shadow-lg">
-                <ArrowUp
-                  height={36}
-                  width={36}
-                  onClick={() =>
+                <Link
+                  href={
                     currentSortDirection == "desc"
-                      ? router.push(
-                          createLink({ sortDirection: "asc", page: 1 }),
-                        )
-                      : router.push(
-                          createLink({ sortDirection: "desc", page: 1 }),
-                        )
+                      ? createLink({ sortDirection: "asc", page: 1 })
+                      : createLink({ sortDirection: "desc", page: 1 })
                   }
-                  className={` border-2 border-blue-500 bg-white p-1 duration-500 ${
-                    currentSortDirection == 'asc' ? "rotate-0" : "rotate-180"
-                  }`}
-                />
-                <div
+                >
+                  <ArrowUp
+                    height={36}
+                    width={36}
+                    className={` border-2 border-blue-500 bg-white p-1 duration-500 ${
+                      currentSortDirection == "asc" ? "rotate-0" : "rotate-180"
+                    }`}
+                  />
+                </Link>
+
+                <Link
                   className={` border-2 bg-white px-2 py-1 ${
                     currentSort == "id" ? "border-blue-500" : ""
                   }`}
-                  onClick={() =>
-                    router.push(createLink({ sort: "id", page: 1 }))
-                  }
+                  href={createLink({ sort: "id", page: 1 })}
                 >
                   {t("Date")}
-                </div>
-                <div
+                </Link>
+                <Link
                   className={` border-2 bg-white px-2 py-1 ${
                     currentSort == "value" ? "border-blue-500" : ""
                   }`}
-                  onClick={() =>
-                    router.push(createLink({ sort: "value", page: 1 }))
-                  }
+                  href={createLink({ sort: "value", page: 1 })}
                 >
                   {t("Price")}
-                </div>
+                </Link>
               </div>
               <button
                 className={buttonClass + " flex-shrink-0 bg-green-400"}
@@ -516,7 +501,6 @@ export default function Products(props) {
             <div className="flex flex-wrap items-center justify-center gap-2">
               {allProducts?.map((product) => (
                 <Link
-                  type="button"
                   href={"/admin/products/" + product.id}
                   key={product.id}
                   className="relative h-[300px] w-[190px] bg-slate-200"
@@ -529,8 +513,9 @@ export default function Products(props) {
                   <img
                     src={
                       product.images != null
-                      ? "https://hdapi.huseyinonalalpha.com" + product.images.at(0).url
-                      : "/assets/img/placeholder.png"
+                        ? "https://hdapi.huseyinonalalpha.com" +
+                          product.images.at(0).url
+                        : "/assets/img/placeholder.png"
                     }
                     alt={product.name}
                     className="aspect-square w-full object-cover"
@@ -549,43 +534,43 @@ export default function Products(props) {
               {allProducts.length > 0 ? (
                 <div className="mb-2 mt-2 flex flex-row justify-center px-6">
                   <div className="flex items-center justify-center space-x-1">
-                    <button
-                      className="border p-2 hover:bg-gray-200"
-                      onClick={() =>
-                        router.push(createLink({ page: currentPage - 1 }))
+                    <Link
+                      href={
+                        currentPage == 1
+                          ? "#"
+                          : createLink({ page: currentPage - 1 })
                       }
-                      disabled={currentPage === 1}
+                      className="border p-2 hover:bg-gray-200"
                     >
                       <ChevronLeft />
-                    </button>
+                    </Link>
                     {getPageNumbers().map((page, index) =>
                       page === "..." ? (
                         <span key={index} className="p-2">
                           ...
                         </span>
                       ) : (
-                        <button
+                        <Link
                           key={index}
                           className={`border p-2 hover:bg-gray-200 ${
                             currentPage === page ? "bg-gray-300" : ""
                           }`}
-                          onClick={() =>
-                            router.push(createLink({ page: page }))
-                          }
+                          href={createLink({ page: page })}
                         >
                           {page}
-                        </button>
+                        </Link>
                       ),
                     )}
-                    <button
-                      className="border p-2 hover:bg-gray-200"
-                      onClick={() =>
-                        router.push(createLink({ page: currentPage + 1 }))
+                    <Link
+                      href={
+                        currentPage == totalPages
+                          ? "#"
+                          : createLink({ page: currentPage + 1 })
                       }
-                      disabled={currentPage === totalPages}
+                      className="border p-2 hover:bg-gray-200"
                     >
                       <ChevronRight />
-                    </button>
+                    </Link>
                   </div>
                 </div>
               ) : (

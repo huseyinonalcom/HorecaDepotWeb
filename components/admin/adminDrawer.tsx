@@ -53,7 +53,7 @@ const AdminDrawer = () => {
             </div>
             <span className={textClass}>{t("Dashboard")}</span>
           </Link> */}
-            <Link className={buttonClass} href="/admin/products">
+            <Link className={buttonClass} href="/admin/stock/all">
               <div className={navIconDivClass}>
                 <Table className={iconClass} />
               </div>
