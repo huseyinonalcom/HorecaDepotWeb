@@ -35,38 +35,44 @@ export default function Contact() {
             height="450"
             loading="lazy"
           ></iframe>
-          <div className="grid w-[95%] grid-cols-1 gap-2 md:grid-cols-2">
-            <div className="flex flex-col items-start gap-2 pb-4 md:pb-0">
+          <div className="grid w-[95%] grid-cols-1 gap-2 md:grid-cols-2 mb-6">
+            <div className="flex flex-col items-start gap-2 pb-4">
               <h2 className="ml-4 text-4xl font-bold text-[#363332]">
                 {t("Contact")}
               </h2>
               <div className="flex flex-col gap-2 pl-2">
-                <a
-                  href="tel:+32499738373"
-                  className="flex flex-row items-center gap-2"
-                >
-                  <LuPhone className="h-9 w-9 p-1" color="black" />
-                  <p>+32 499 73 83 73</p>
-                </a>
-                <a
-                  href="mailto:info@horecadepot.be"
-                  className="flex flex-row items-center gap-2"
-                >
-                  <LuMail className="h-9 w-9 p-1" color="black" />
-                  <p>info@horecadepot.be</p>
-                </a>
-                <a
-                  target="blank"
-                  href="https://www.google.com/maps/dir//HorecaDepot+Rue+de+Ribaucourt+154+1080+Bruxelles/@50.8618074,4.3429586,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x47c3c32a1a2325c3:0x7594491cb3de795a!2m2!1d4.3429586!2d50.8618074?entry=ttu"
-                  className="flex flex-row items-center gap-2"
-                >
-                  <LuMapPin className="h-9 w-9 p-1" color="black" />
-                  <p>
-                    Rue de Ribaucourtstraat 154
-                    <br />
-                    1080 Bruxelles - Brussel
-                  </p>
-                </a>
+                <div className="flex flex-row">
+                  <a
+                    href="tel:+32499738373"
+                    className="flex flex-row items-center gap-2"
+                  >
+                    <LuPhone className="h-9 w-9 p-1" color="black" />
+                    <p>+32 499 73 83 73</p>
+                  </a>
+                </div>
+                <div className="flex flex-row">
+                  <a
+                    href="mailto:info@horecadepot.be"
+                    className="flex flex-row items-center gap-2"
+                  >
+                    <LuMail className="h-9 w-9 p-1" color="black" />
+                    <p>info@horecadepot.be</p>
+                  </a>
+                </div>
+                <div className="flex flex-row">
+                  <a
+                    target="blank"
+                    href="https://www.google.com/maps/dir//HorecaDepot+Rue+de+Ribaucourt+154+1080+Bruxelles/@50.8618074,4.3429586,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x47c3c32a1a2325c3:0x7594491cb3de795a!2m2!1d4.3429586!2d50.8618074?entry=ttu"
+                    className="flex flex-row items-center gap-2"
+                  >
+                    <LuMapPin className="h-9 w-9 p-1" color="black" />
+                    <p>
+                      Rue de Ribaucourtstraat 154
+                      <br />
+                      1080 Bruxelles - Brussel
+                    </p>
+                  </a>
+                </div>
                 <div className="flex flex-row items-center gap-2">
                   <LuClock2 className="h-9 w-9 p-1" color="black" />
                   <p>

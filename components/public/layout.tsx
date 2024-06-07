@@ -152,7 +152,7 @@ const Layout = ({ children }: Props) => {
               </Link>
               <div className="z-30 flex w-full flex-col items-center border-t border-neutral-200 bg-neutral-100 px-3 pb-4 pt-4 print:hidden">
                 <div className="flex w-full max-w-screen-2xl flex-col items-center justify-center">
-                  <div className="mb-4 grid w-full grid-cols-2 gap-3 px-12 md:grid-cols-2 xl:grid-cols-4">
+                  <div className="mb-4 grid w-full grid-cols-1 gap-3 px-12 md:grid-cols-2 xl:grid-cols-4">
                     <div className="flex flex-col gap-2 pl-2">
                       <h3 className="-ml-2 font-semibold">{t("Categories")}</h3>
                       <div>
@@ -280,12 +280,27 @@ const Layout = ({ children }: Props) => {
                       <h3 className="-ml-2 text-base font-semibold">
                         Horeca Depot
                       </h3>
-                      <p>
-                        {t("Address")}: Rue de Ribaucourtstraat 154, 1080
-                        Bruxelles
-                      </p>
-                      <p>Tel: +32 499 73 83 73</p>
-                      <p>E-mail: info@horecadepot.be</p>
+                      <div className="flex flex-row">
+                        <a
+                          target="blank"
+                          href="https://www.google.com/maps/dir//HorecaDepot+Rue+de+Ribaucourt+154+1080+Bruxelles/@50.8618074,4.3429586,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x47c3c32a1a2325c3:0x7594491cb3de795a!2m2!1d4.3429586!2d50.8618074?entry=ttu"
+                        >
+                          <p>
+                            {t("Address")}: Rue de Ribaucourtstraat 154, 1080
+                            Bruxelles
+                          </p>
+                        </a>
+                      </div>
+                      <div className="flex flex-row">
+                        <a href="tel:+32499738373">
+                          <p>Tel: +32 499 73 83 73</p>
+                        </a>
+                      </div>
+                      <div className="flex flex-row">
+                        <a href="mailto:info@horecadepot.be">
+                          <p>E-mail: info@horecadepot.be</p>
+                        </a>
+                      </div>
                       <p>
                         {t("Opening Hours")}:
                         <br />

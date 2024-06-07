@@ -34,7 +34,7 @@ const CategoryItem = ({ category, onClick }) => {
   return (
     <div
       key={category.Name}
-      className="hover:bg-gray-20 relative cursor-pointer"
+      className="relative cursor-pointer hover:bg-gray-200"
       onMouseEnter={() => {
         setisHovered(true);
       }}
@@ -45,7 +45,7 @@ const CategoryItem = ({ category, onClick }) => {
       <Link
         onClick={() => onClick()}
         href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
-        className="flex w-full items-center justify-between px-3 py-2 text-left"
+        className="flex w-full flex-row items-center justify-between px-3 py-2 text-left"
       >
         {t(category.Name)}
         {hasSubCategories && (
@@ -129,7 +129,7 @@ const DesktopSearch = () => {
         aria-label="Search bar input"
         type="text"
         onChange={handleSearchChange}
-        className="w-full border-2 py-2 rounded-2xl pl-4 pr-4 text-black outline-none focus:border-black focus:ring-transparent"
+        className="w-full rounded-2xl border-2 py-2 pl-4 pr-4 text-black outline-none focus:border-black focus:ring-transparent"
         placeholder={t("Search Products")}
       />
       <div className="absolute inset-y-0 right-0 flex">
@@ -224,7 +224,7 @@ const MobileSearch = () => {
         aria-label="Search bar input"
         type="text"
         onChange={handleSearchChange}
-        className="w-full border-2 py-2 pl-4 pr-4 rounded-2xl text-black outline-none focus:border-black focus:ring-transparent"
+        className="w-full rounded-2xl border-2 py-2 pl-4 pr-4 text-black outline-none focus:border-black focus:ring-transparent"
         placeholder={t("Search Products")}
       />
       <div className="absolute inset-y-0 right-0 flex">
@@ -756,9 +756,9 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
 
   return (
     <div
-      className={`fixed inset-0 z-[99] mx-auto flex h-fit w-full max-w-screen-2xl overflow-hidden text-black duration-300 ease-in-out ${isOpen ? "top-[140px] opacity-100" : "-top-[150%] opacity-40"} flex-col`}
+      className={`fixed inset-0 z-[99] mx-auto flex h-fit max-w-screen-2xl items-center justify-center overflow-hidden text-black duration-300 ease-in-out ${isOpen ? "top-[140px] opacity-100" : "-top-[150%] opacity-40"} flex-col`}
     >
-      <div className="z-[98] flex-shrink-0 rounded-xl bg-white p-4">
+      <div className="z-[98] mx-auto min-w-[1000px] flex-shrink-0 rounded-xl bg-white p-4">
         <div className="flex w-full flex-row items-center justify-between">
           <h3 className="pl-2 pr-6 text-xl font-semibold">{t("Categories")}</h3>
           <button
@@ -769,7 +769,7 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
             <X />
           </button>
         </div>
-        <div className="my-4 grid w-full grid-cols-4 gap-4 border-t bg-white py-2 text-gray-500 duration-300">
+        <div className="my-4 grid grid-cols-4 gap-4 border-t bg-white py-2 text-gray-500 duration-300">
           {categories
             .filter((cat) => cat.subCategories.length > 0)
             .map((category) => (

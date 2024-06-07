@@ -93,7 +93,7 @@ const ProductPage = ({
         />
       </Head>
       <div className="flex w-full flex-col items-start px-2 pt-2">
-        <div className="flex flex-row gap-1 text-xs font-bold">
+        <div className="flex flex-row gap-1 text-xs font-bold md:text-base">
           <Link key={1} href={"/"} className="text-gray-400">
             {t("Home Page")}
           </Link>

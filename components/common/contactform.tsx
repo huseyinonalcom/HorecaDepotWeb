@@ -19,6 +19,7 @@ const ContactForm = () => {
       <div className="flex w-full flex-col gap-2 md:flex-row">
         <div className="w-full md:w-6/12">
           <InputOutlined
+            rounded
             required
             type="text"
             name="Name"
@@ -27,6 +28,7 @@ const ContactForm = () => {
         </div>
         <div className="w-full md:w-6/12">
           <InputOutlined
+            rounded
             required
             type="text"
             name="E-mail"
@@ -38,6 +40,7 @@ const ContactForm = () => {
       <div className="flex w-full flex-col gap-2 md:flex-row">
         <div className="w-full md:w-6/12">
           <InputOutlined
+            rounded
             type="text"
             name="Phone"
             label={t("Your phone number")}
@@ -45,6 +48,7 @@ const ContactForm = () => {
         </div>
         <div className="w-full md:w-6/12">
           <InputOutlined
+            rounded
             type="text"
             name="Company"
             label={t("The name of your company")}
@@ -53,7 +57,12 @@ const ContactForm = () => {
       </div>
 
       <div className="w-full">
-        <TextareaOutlined required name="Message" label={t("Your message")} />
+        <TextareaOutlined
+          rounded
+          required
+          name="Message"
+          label={t("Your message")}
+        />
       </div>
 
       <input type="text" name="_honey" className="hidden" />
@@ -64,7 +73,7 @@ const ContactForm = () => {
         name="Send"
         aria-label="Send"
         type="submit"
-        className="w-full bg-[#524f4e] py-2 font-bold text-white duration-500 hover:bg-[#363332]"
+        className="w-full rounded-2xl bg-[#524f4e] py-2 font-bold text-white duration-500 hover:bg-[#363332]"
       >
         {t("Send")}
       </button>
