@@ -528,8 +528,9 @@ export default function Products(props) {
                   />
                   <img
                     src={
-                      "https://hdapi.huseyinonalalpha.com" +
-                      product.images?.at(0).url
+                      product.images != null
+                      ? "https://hdapi.huseyinonalalpha.com" + product.images.at(0).url
+                      : "/assets/img/placeholder.png"
                     }
                     alt={product.name}
                     className="aspect-square w-full object-cover"
