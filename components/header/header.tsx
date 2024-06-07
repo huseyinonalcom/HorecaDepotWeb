@@ -758,7 +758,7 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
     <div
       className={`fixed inset-0 z-[99] mx-auto flex h-fit max-w-screen-2xl items-center justify-center overflow-hidden text-black duration-300 ease-in-out ${isOpen ? "top-[140px] opacity-100" : "-top-[150%] opacity-40"} flex-col`}
     >
-      <div className="z-[98] mx-auto min-w-[1000px] flex-shrink-0 rounded-xl bg-white p-4">
+      <div className="z-[98] mx-auto w-full max-w-[1000px] flex-shrink-0 rounded-xl bg-white p-4">
         <div className="flex w-full flex-row items-center justify-between">
           <h3 className="pl-2 pr-6 text-xl font-semibold">{t("Categories")}</h3>
           <button
