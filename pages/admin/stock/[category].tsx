@@ -469,7 +469,7 @@ export default function Products(props) {
                         )
                   }
                   className={` border-2 border-blue-500 bg-white p-1 duration-500 ${
-                    currentSortDirection ? "rotate-0" : "rotate-180"
+                    currentSortDirection == 'asc' ? "rotate-0" : "rotate-180"
                   }`}
                 />
                 <div
