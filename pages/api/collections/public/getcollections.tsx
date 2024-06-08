@@ -3,8 +3,6 @@ import statusText from "../../../../api/statustexts";
 export async function getCollections(collectionID?, filterFeatured?) {
   const now = Date.now();
 
-  // &populate[products][fields][3]=internalCode
-
   try {
     const fetchCollectionsUrl = `${
       process.env.API_URL
@@ -24,6 +22,13 @@ export async function getCollections(collectionID?, filterFeatured?) {
 
     if (fetchCollectionsRequest.ok) {
       const fetchCollectionsAnswer = await fetchCollectionsRequest.json();
+      // Sort collections by value (ascending)
+      for (let i = 0; i < fetchCollectionsAnswer.data.length; i++) {
+        fetchCollectionsAnswer.data[i].products = fetchCollectionsAnswer.data[
+          i
+        ].products.sort((a, b) => a.value - b.value);
+      }
+
       return fetchCollectionsAnswer.data;
     } else {
       throw new Error("Failed to fetch collections data");

@@ -445,26 +445,26 @@ export default function Products(props) {
 }
 
 export async function getServerSideProps(context) {
+  const categories = await getAllCategories();
+  const categoriesFlat = await getAllCategoriesFlattened();
+
+  const currentSort = context.query?.sort?.split(":").at(0) ?? "value";
+  const currentSortDirection = context.query?.sort?.split(":").at(1) ?? "asc";
+
+  context.query.sort = currentSort + ":" + currentSortDirection;
+
   const productsReq = await getProducts({
     query: context.query,
   });
-
   const products = (productsReq?.sortedData as Product[]) ?? [];
   const totalPages = (productsReq?.totalPages as number) ?? [];
   const minValueFromAPI = (productsReq?.minValueFromAPI as number) ?? 0;
   const maxValueFromAPI = (productsReq?.maxValueFromAPI as number) ?? 0;
-
-  const categories = await getAllCategories();
-  const categoriesFlat = await getAllCategoriesFlattened();
-
+  const currentPage = context.query.page ?? 1;
   const currentCategory =
     categoriesFlat.find(
       (cat) => cat.id == productsReq?.currentCategoryID ?? 0,
     ) ?? null;
-  const currentSort = context.query?.sort?.split(":").at(0) ?? "id";
-  const currentSortDirection = context.query?.sort?.split(":").at(1) ?? "desc";
-
-  const currentPage = context.query.page ?? 1;
 
   return {
     props: {
