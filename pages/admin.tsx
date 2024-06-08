@@ -42,7 +42,7 @@ export default function Admin() {
       });
 
       if (response.ok) {
-        router.push("/admin/products");
+        router.push("/admin/stock/all");
       } else {
         setError(t("user_pass_invalid"));
       }
