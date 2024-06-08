@@ -99,7 +99,7 @@ export default function ProductPage(props) {
         );
         if (!request.ok) {
         } else {
-          router.push("/admin/products");
+          router.push("/admin/stock/all");
         }
       } catch {}
     };
@@ -206,7 +206,7 @@ export default function ProductPage(props) {
           if (!request.ok) {
             setSubmitError(t("An error occurred while modifying the product!"));
           } else {
-            router.push("/admin/products");
+            router.push("/admin/stock/all");
           }
         } catch {
           setSubmitError(t("An error occurred while modifying the product!"));
@@ -223,7 +223,7 @@ export default function ProductPage(props) {
           if (!request.ok) {
             setSubmitError(t("An error occurred during the product creation!"));
           } else {
-            router.push("/admin/products");
+            router.push("/admin/stock/all");
           }
         } catch {
           setSubmitError(t("An error occurred during the product creation!"));
