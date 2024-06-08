@@ -599,12 +599,13 @@ export async function getServerSideProps(context) {
   const allSuppliers = await getAllSuppliers(req);
   const allCategoriesHierarchy = await getAllCategories();
   const currentSearch = req.query.search ?? null;
+  const currentSort = req.query.sort.split(":").at(0) ?? 'id';
+  const currentSortDirection = req.query.sort.split(":").at(1) ?? 'desc';
+  req.query.sort = currentSort + ":" + currentSortDirection;
   const productsData = await getAllProducts(req);
   const allProducts = productsData.data;
   const currentPage = productsData.meta.pagination.page;
   const totalPages = productsData.meta.pagination.pageCount;
-  const currentSort = req.query.sort.split(":").at(0) ?? null;
-  const currentSortDirection = req.query.sort.split(":").at(1) ?? null;
   const currentSupplier = req.query.supplier ?? null;
 
   return {
