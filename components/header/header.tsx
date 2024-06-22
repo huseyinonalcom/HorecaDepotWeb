@@ -426,7 +426,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
               <Link
                 href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                 className="h-full whitespace-nowrap px-4 py-2"
-                onClick={() => onClick()}
+                onClick={() => onClickOutside()}
               >
                 {t(category.Name)}
               </Link>
@@ -446,6 +446,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             </>
           ) : (
             <Link
+              onClick={() => onClickOutside()}
               href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
               className="h-full w-full whitespace-nowrap px-4 py-2"
             >
@@ -464,7 +465,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
               <CategoryItem
                 key={subCategory.id}
                 category={subCategory}
-                onClick={() => onClick()}
+                onClick={() => onClickOutside()}
               />
             ))}
           </div>
