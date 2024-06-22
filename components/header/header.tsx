@@ -423,13 +423,12 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
         <div className="focus:overlay-none flex w-full items-center justify-between text-left hover:bg-gray-200">
           {hasSubCategories ? (
             <>
-              <Link
+              <a
                 href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                 className="h-full whitespace-nowrap px-4 py-2"
-                onClick={() => onClickOutside()}
               >
                 {t(category.Name)}
-              </Link>
+              </a>
               <div
                 className="w-full py-3 pr-4"
                 onClick={() => {
@@ -445,13 +444,12 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
               </div>
             </>
           ) : (
-            <Link
-              onClick={() => onClickOutside()}
+            <a
               href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
               className="h-full w-full whitespace-nowrap px-4 py-2"
             >
               {t(category.Name)}
-            </Link>
+            </a>
           )}
         </div>
         {hasSubCategories && (
@@ -465,7 +463,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
               <CategoryItem
                 key={subCategory.id}
                 category={subCategory}
-                onClick={() => onClickOutside()}
+                onClick={() => onClick()}
               />
             ))}
           </div>
