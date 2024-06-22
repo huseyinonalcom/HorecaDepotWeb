@@ -281,6 +281,10 @@ export const getStaticProps = async ({ locale }) => {
   const website = await getWebsite();
   let mediaGroups = website.media_groups;
 
+for (let i =0; i< collections.length;i++) {
+    collections[i].products = collections[i].products.filter((p) => p.active);
+}
+
   for (let i = 0; i < mediaGroups.length; i++) {
     if (mediaGroups[i].is_fetched_from_api) {
       if (mediaGroups[i].fetch_from.collection.toLowerCase() == "categories") {
