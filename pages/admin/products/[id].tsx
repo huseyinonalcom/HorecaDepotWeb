@@ -1107,6 +1107,7 @@ export async function getServerSideProps(context) {
   const req = context.req;
   const allCategories = await getAllCategoriesFlattened();
   const allSuppliers = await getAllSuppliers(req);
+  console.log(allSuppliers);
   let currentProduct: Product = {
     id: 0,
     supplier: allSuppliers.at(0),

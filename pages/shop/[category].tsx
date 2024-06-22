@@ -293,7 +293,7 @@ export default function Products(props) {
               </div>
             </div>
           </div>
-
+  
           <div className="flex w-full flex-col">
             {currentCategory?.subCategories &&
               currentCategory.subCategories.length > 0 && (
@@ -308,7 +308,7 @@ export default function Products(props) {
                           <Image
                             fill
                             style={{ objectFit: "contain" }}
-                            sizes="42vw, (max-width: 640px) 28vw, (max-width: 1024px) 13vw, (nax-width: 1536px) 236px"
+                            sizes="95vw, (max-width: 640px) 80vw, (max-width: 1024px) 50vw, (nax-width: 1536px) 25vw"
                             src={
                               category.image != null
                                 ? "https://hdapi.huseyinonalalpha.com" +

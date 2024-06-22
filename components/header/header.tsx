@@ -35,6 +35,7 @@ const CategoryItem = ({ category, onClick }) => {
     <div
       key={category.Name}
       className="relative cursor-pointer hover:bg-gray-200"
+      onClick={() => onClick()}
       onMouseEnter={() => {
         setisHovered(true);
       }}
@@ -417,7 +418,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
 
     return (
       <div
-        className={`relative cursor-pointer ${category.headCategory ? "z-[60] bg-red-400" : "z-40"}`}
+        className={`relative cursor-pointer ${category.headCategory ? "z-[60]" : "z-40"}`}
       >
         <div className="focus:overlay-none flex w-full items-center justify-between text-left hover:bg-gray-200">
           {hasSubCategories ? (
