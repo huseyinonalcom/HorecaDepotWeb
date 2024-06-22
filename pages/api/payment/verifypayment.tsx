@@ -36,7 +36,7 @@ export default async function verifyPayment(req, res) {
                 origin: `${ogoneID}`,
               },
             }),
-          }
+          },
         );
         if (putOgoneIDReq.ok) {
         } else {
@@ -93,7 +93,7 @@ export default async function verifyPayment(req, res) {
         await directSdkClient.hostedCheckout.getHostedCheckout(
           "ATKSPRL",
           ogoneID,
-          {}
+          {},
         );
       if (
         getHostedCheckoutResponse.body.createdPaymentOutput
@@ -125,7 +125,7 @@ export default async function verifyPayment(req, res) {
                 verified: paymentSuccess,
               },
             }),
-          }
+          },
         );
         if (putPaymentStatus.ok) {
           return res.status(200).json(statusText[200]);

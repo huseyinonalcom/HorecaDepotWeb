@@ -119,7 +119,8 @@ export default async function createPaymentLink(req, res) {
               // fiscalNumber: document.client.taxID, // figure out how to format this correctly (remove spaces and dots I think)
             },
             references: {
-              merchantReference: document.prefix + document.number + "-" + paymentID.toFixed(0),
+              merchantReference:
+                document.prefix + document.number + "-" + paymentID.toFixed(0),
             },
           },
           hostedCheckoutSpecificInput: {
@@ -185,7 +186,8 @@ export default async function createPaymentLink(req, res) {
           // fiscalNumber: document.client.taxID, // figure out how to format this correctly (remove spaces and dots I think)
         },
         references: {
-          merchantReference: document.prefix + document.number + "-" + paymentID.toFixed(0),
+          merchantReference:
+            document.prefix + document.number + "-" + paymentID.toFixed(0),
         },
       },
       hostedCheckoutSpecificInput: {
@@ -204,7 +206,12 @@ export default async function createPaymentLink(req, res) {
       };
     }
 
-    const createHostedCheckoutResponse = await directSdkClient.hostedCheckout.createHostedCheckout("ATKSPRL", createHostedCheckoutRequest, null);
+    const createHostedCheckoutResponse =
+      await directSdkClient.hostedCheckout.createHostedCheckout(
+        "ATKSPRL",
+        createHostedCheckoutRequest,
+        null,
+      );
 
     const hostedUrl = createHostedCheckoutResponse;
 
