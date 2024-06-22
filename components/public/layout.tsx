@@ -384,16 +384,6 @@ const Layout = ({ children }: Props) => {
                             width: "auto",
                           }}
                         />
-                        <Image
-                          src={"/assets/payment/amex.svg"}
-                          alt="American Express"
-                          height={footerIconsHeight}
-                          width={17}
-                          style={{
-                            height: `${footerIconsHeight}px`,
-                            width: "auto",
-                          }}
-                        />
                       </div>
                     </div>
                     <div className="flex flex-col items-center justify-center">
