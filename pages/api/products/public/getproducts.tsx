@@ -72,7 +72,6 @@ const loadJSON = (name) => {
 const locales = {
   en: loadJSON("en"),
   fr: loadJSON("fr"),
-  tr: loadJSON("tr"),
   nl: loadJSON("nl"),
   de: loadJSON("de"),
 };
