@@ -290,6 +290,7 @@ export default function Products(props) {
         Longueur: product.depth,
         "Hauteur Accoudoir": product.product_extra.armrest_height,
         Diamètre: product.product_extra.diameter,
+        Image: product.images != null && product.images.length > 0 ? "V" : "X",
       }));
 
       const worksheet = utils.json_to_sheet(
@@ -599,8 +600,8 @@ export async function getServerSideProps(context) {
   const allSuppliers = await getAllSuppliers(req);
   const allCategoriesHierarchy = await getAllCategories();
   const currentSearch = req.query.search ?? null;
-  const currentSort = req.query.sort.split(":").at(0) ?? 'id';
-  const currentSortDirection = req.query.sort.split(":").at(1) ?? 'desc';
+  const currentSort = req.query.sort.split(":").at(0) ?? "id";
+  const currentSortDirection = req.query.sort.split(":").at(1) ?? "desc";
   req.query.sort = currentSort + ":" + currentSortDirection;
   const productsData = await getAllProducts(req);
   const allProducts = productsData.data;

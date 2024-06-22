@@ -54,7 +54,7 @@ export default function References({ projects }: Props) {
                   />
                   <div className="absolute -bottom-5 z-20 flex w-full flex-col items-center justify-center">
                     <Link
-                      className="z-20 -mt-12 bg-stone-300 px-6 py-4 font-bold text-black duration-300 hover:bg-black hover:text-white"
+                      className="z-20 -mt-12 bg-white px-6 py-4 font-bold text-black duration-300 hover:bg-black hover:text-white"
                       href={`/projects/${project.id}`}
                     >
                       {project.title}
