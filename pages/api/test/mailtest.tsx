@@ -210,16 +210,16 @@ export default async function mailTest(req, res) {
                 <!--[if gte mso 9]>
           <table cellpadding="0" cellspacing="0" border="0" style="margin: 0 auto;min-width: 320px;max-width: 600px;">
             <tr>
-              <td background="https://horecadepot.meubelweb.com/assets/email/images/image-5.png" valign="top" width="100%">
+              <td background="${process.env.SITE_URL}/assets/email/images/image-5.png" valign="top" width="100%">
           <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width: 600px;">
-            <v:fill type="frame" src="https://horecadepot.meubelweb.com/assets/email/images/image-5.png" /><v:textbox style="mso-fit-shape-to-text:true" inset="0,0,0,0">
+            <v:fill type="frame" src="${process.env.SITE_URL}/assets/email/images/image-5.png" /><v:textbox style="mso-fit-shape-to-text:true" inset="0,0,0,0">
           <![endif]-->
     
                 <div
                   class="u-row-container"
                   style="
                     padding: 0px;
-                    background-image: url('https://horecadepot.meubelweb.com/assets/email/images/image-5.png');
+                    background-image: url('${process.env.SITE_URL}/assets/email/images/image-5.png');
                     background-repeat: no-repeat;
                     background-position: center top;
                     background-color: transparent;
@@ -246,7 +246,7 @@ export default async function mailTest(req, res) {
                         background-color: transparent;
                       "
                     >
-                      <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-image: url('https://horecadepot.meubelweb.com/assets/email/images/image-5.png');background-repeat: no-repeat;background-position: center top;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: transparent;"><![endif]-->
+                      <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-image: url('${process.env.SITE_URL}/assets/email/images/image-5.png');background-repeat: no-repeat;background-position: center top;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: transparent;"><![endif]-->
     
                       <!--[if (mso)|(IE)]><td align="center" width="600" style="width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;" valign="top"><![endif]-->
                       <div
@@ -491,7 +491,7 @@ export default async function mailTest(req, res) {
                                     <div align="center">
                                       <!--[if mso]><table border="0" cellspacing="0" cellpadding="0"><tr><td align="center" bgcolor="#f1c40f" style="padding:10px 20px;" valign="top"><![endif]-->
                                       <a
-                                        href="https://horecadepot.meubelweb.com"
+                                        href="${process.env.SITE_URL}"
                                         target="_blank"
                                         class="v-button v-size-width v-font-size"
                                         style="
@@ -698,7 +698,7 @@ export default async function mailTest(req, res) {
                                                   target="_blank"
                                                 >
                                                   <img
-                                                    src="https://horecadepot.meubelweb.com/assets/email/images/image-4.png"
+                                                    src="${process.env.SITE_URL}/assets/email/images/image-4.png"
                                                     alt="Facebook"
                                                     title="Facebook"
                                                     width="32"
@@ -759,7 +759,7 @@ export default async function mailTest(req, res) {
                                                   target="_blank"
                                                 >
                                                   <img
-                                                    src="https://horecadepot.meubelweb.com/assets/email/images/image-1.png"
+                                                    src="${process.env.SITE_URL}/assets/email/images/image-1.png"
                                                     alt="LinkedIn"
                                                     title="LinkedIn"
                                                     width="32"
@@ -820,7 +820,7 @@ export default async function mailTest(req, res) {
                                                   target="_blank"
                                                 >
                                                   <img
-                                                    src="https://horecadepot.meubelweb.com/assets/email/images/image-2.png"
+                                                    src="${process.env.SITE_URL}/assets/email/images/image-2.png"
                                                     alt="Instagram"
                                                     title="Instagram"
                                                     width="32"
@@ -881,7 +881,7 @@ export default async function mailTest(req, res) {
                                                   target="_blank"
                                                 >
                                                   <img
-                                                    src="https://horecadepot.meubelweb.com/assets/email/images/image-3.png"
+                                                    src="${process.env.SITE_URL}/assets/email/images/image-3.png"
                                                     alt="X"
                                                     title="X"
                                                     width="32"
@@ -939,7 +939,7 @@ export default async function mailTest(req, res) {
                                       <!--[if (mso)|(IE)]><td style="padding:5px 15px"><![endif]-->
     
                                       <a
-                                        href="https://horecadepot.meubelweb.com/"
+                                        href="${process.env.SITE_URL}"
                                         target="_self"
                                         style="
                                           padding: 5px 15px;
@@ -972,7 +972,7 @@ export default async function mailTest(req, res) {
                                       <!--[if (mso)|(IE)]><td style="padding:5px 15px"><![endif]-->
     
                                       <a
-                                        href="https://horecadepot.meubelweb.com/shop/tous?page=1"
+                                        href="${process.env.SITE_URL}/shop/tous?page=1"
                                         target="_self"
                                         style="
                                           padding: 5px 15px;
@@ -1005,7 +1005,7 @@ export default async function mailTest(req, res) {
                                       <!--[if (mso)|(IE)]><td style="padding:5px 15px"><![endif]-->
     
                                       <a
-                                        href="https://horecadepot.meubelweb.com/contact"
+                                        href="${process.env.SITE_URL}/contact"
                                         target="_self"
                                         style="
                                           padding: 5px 15px;

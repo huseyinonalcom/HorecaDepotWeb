@@ -361,7 +361,7 @@ export default async function postClient(
                                                   bgcolor="#0867ec"
                                                 >
                                                   <a
-                                                    href="https://horecadepot.meubelweb.com/en/account/myaccount"
+                                                    href="${process.env.SITE_URL}/en/account/myaccount"
                                                     target="_blank"
                                                     style="
                                                       border: solid 2px #0867ec;

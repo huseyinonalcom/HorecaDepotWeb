@@ -446,7 +446,7 @@ export default async function sendOrderNotifications(req, res) {
                                 <div align="center">
                                   <!--[if mso]><table><tr><td align="center"><![endif]-->
                                   <a
-                                    href="https://horecadepot.meubelweb.com"
+                                    href="${process.env.SITE_URL}"
                                     target="_blank"
                                     class="v-button v-size-width v-font-size"
                                    
@@ -734,7 +734,7 @@ export default async function sendOrderNotifications(req, res) {
                                   <!--[if (mso)|(IE)]><td><![endif]-->
 
                                   <a
-                                    href="https://horecadepot.meubelweb.com/"
+                                    href="${process.env.SITE_URL}"
                                     target="_self"
                                    
                                     class="v-padding v-font-size"
@@ -756,7 +756,7 @@ export default async function sendOrderNotifications(req, res) {
                                   <!--[if (mso)|(IE)]><td><![endif]-->
 
                                   <a
-                                    href="https://horecadepot.meubelweb.com/shop/tous?page=1"
+                                    href="${process.env.SITE_URL}/shop/tous?page=1"
                                     target="_self"
                                    
                                     class="v-padding v-font-size"
@@ -778,7 +778,7 @@ export default async function sendOrderNotifications(req, res) {
                                   <!--[if (mso)|(IE)]><td><![endif]-->
 
                                   <a
-                                    href="https://horecadepot.meubelweb.com/contact"
+                                    href="${process.env.SITE_URL}/contact"
                                     target="_self"
                                    
                                     class="v-padding v-font-size"
@@ -869,7 +869,7 @@ export default async function sendOrderNotifications(req, res) {
           </div>
           <div style="background-color: white; padding: 20px; text-align: center;">
             <p>Voir commande</p>
-            <a href="https://horecadepot.meubelweb.com/admin/order?id=${order.id}" style="display: inline-block; background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Click Here</a>
+            <a href="${process.env.SITE_URL}/admin/order?id=${order.id}" style="display: inline-block; background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Click Here</a>
           </div>
           <div style="color: white; background-color: black; padding: 20px; text-align: center;">
             <p>2024 HorecaDepot</p>

@@ -303,6 +303,7 @@ export default function Checkout() {
       });
       setPasswordRepeat("");
       setShowLoginForm(true);
+      setShowRegisterForm(false);
     } else {
     }
   };

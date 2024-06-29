@@ -191,7 +191,7 @@ export default async function createPaymentLink(req, res) {
         },
       },
       hostedCheckoutSpecificInput: {
-        returnUrl: `https://meubelweb.com/payment?id=${paymentID.toFixed(0)}`,
+        returnUrl: `${process.env.SITE_URL}/payment?id=${paymentID.toFixed(0)}`,
         isRecurring: false,
         locale: "en_GB",
       },
