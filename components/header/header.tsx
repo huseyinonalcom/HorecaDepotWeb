@@ -24,6 +24,7 @@ import { CartContext } from "../../api/providers/cartProvider";
 import { ClientContext } from "../../api/providers/clientProvider";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import ProductPreview3 from "../products/product-preview3";
+import { GiBulldozer } from "react-icons/gi";
 
 const CategoryItem = ({ category, onClick }) => {
   const { t, lang } = useTranslation("common");
@@ -923,13 +924,20 @@ const Header = () => {
                 <Menu className="mb-[1px]" />
                 <p className="font-semibold">{t("CATEGORIES")}</p>
               </button>
+              <div className="hidden flex-row items-center gap-2 whitespace-nowrap text-lg text-yellow-400 lg:flex">
+                <GiBulldozer size={42} className="text-yellow-400" />
+                Website under construction
+              </div>
             </div>
             <div className="flex h-[45px] flex-row gap-2 md:ml-48 md:w-full">
               <DesktopSearch />
               <HeaderButtons cartItems={cartItems} />
             </div>
           </div>
-
+          <div className="mx-auto flex w-full flex-row items-center justify-center gap-2 whitespace-nowrap text-lg text-yellow-400 lg:hidden">
+            <GiBulldozer size={42} className="text-yellow-400" />
+            Website under construction
+          </div>
           <div className="flex w-full flex-row md:hidden">
             <div className="relative mt-3 w-full">
               <MobileSearch />
