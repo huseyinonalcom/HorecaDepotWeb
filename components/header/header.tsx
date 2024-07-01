@@ -911,9 +911,21 @@ const Header = () => {
                   width={200}
                   height={42.19}
                   priority
+className="flex md:hidden"
                   src="/assets/header/logo.svg"
                   alt="Horeca Depot Logo"
                 />
+
+ <Image
+                  width={300}
+                  height={63.28}
+                  priority
+className="md:flex hidden"
+                  src="/assets/header/logo.svg"
+                  alt="Horeca Depot Logo"
+                />
+
+
               </Link>
               <button
                 name="Show Categories"
