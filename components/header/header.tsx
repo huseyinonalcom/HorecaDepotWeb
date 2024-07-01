@@ -938,7 +938,7 @@ className="md:flex hidden"
               </button>
               <div className="hidden flex-row items-center gap-2 whitespace-nowrap text-lg text-yellow-400 lg:flex">
                 <GiBulldozer size={42} className="text-yellow-400" />
-                Website under construction
+                Website<br />under<br />construction
               </div>
             </div>
             <div className="flex h-[45px] flex-row gap-2 md:ml-48 md:w-full">
