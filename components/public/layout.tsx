@@ -12,6 +12,7 @@ import Follow from "../common/follow";
 import Image from "next/image";
 import Link from "next/link";
 import Meta from "./meta";
+import ImageWithURL from "../common/image";
 
 const nexa = localFont({
   src: [
@@ -115,6 +116,21 @@ const Layout = ({ children }: Props) => {
 
   const [cookieDisclaimer, setCookieDisclaimer] = useState(false);
 
+  const [showPopup, setShowPopup] = useState(false);
+  const [popup, setPopup] = useState(null);
+
+  const fetchPopup = async () => {
+    const fetchWebsiteRequest = await fetch(`/api/popup/getpopup`, {
+      method: "GET",
+    });
+    if (fetchWebsiteRequest.ok) {
+      const fetchWebsiteRequestAnswer = await fetchWebsiteRequest.json();
+      return fetchWebsiteRequestAnswer;
+    } else {
+      return null;
+    }
+  };
+
   useEffect(() => {
     if (
       localStorage.getItem("cookie_disclaimer") == null ||
@@ -122,7 +138,29 @@ const Layout = ({ children }: Props) => {
     ) {
       setCookieDisclaimer(true);
     }
+    fetchPopup().then((res) => {
+      setPopup(res.data);
+    });
   }, []);
+
+  useEffect(() => {
+    if (popup && popup.img) {
+      let popupLS = JSON.parse(localStorage.getItem("popup"));
+      if (popupLS && popupLS.img == popup.img && popupLS.seen) {
+        setShowPopup(false);
+      } else {
+        setShowPopup(true);
+      }
+    }
+  }, [popup]);
+
+  const handlePopupClose = () => {
+    setShowPopup(false);
+    localStorage.setItem(
+      "popup",
+      JSON.stringify({ img: popup.img, seen: true }),
+    );
+  };
 
   return (
     <>
@@ -131,6 +169,21 @@ const Layout = ({ children }: Props) => {
           <WishlistProvider>
             <Meta />
             <main className={`${roboto.className} min-h-[80dvh]`}>
+              {showPopup && (
+                <div
+                  onClick={handlePopupClose}
+                  className="fixed z-50 flex h-screen w-screen flex-col items-center justify-center bg-black/70 px-8"
+                >
+                  <a target="_blank" href={popup.url}>
+                    <ImageWithURL
+                      src={popup.img}
+                      alt="Popup"
+                      width={1000}
+                      height={1000}
+                    />
+                  </a>
+                </div>
+              )}
               <div className="sticky top-0 z-40 w-full bg-black shadow-lg">
                 <Header />
               </div>
