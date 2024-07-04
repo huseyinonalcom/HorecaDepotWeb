@@ -10,7 +10,7 @@ import componentThemes from "../../components/componentThemes";
 import Image from "next/image";
 import TypeWriter from "../../components/common/typewriter";
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import PDFInvoice from "../../components/pdf/pdfinvoice";
+import { PDFInvoice } from "../../components/pdf/pdfinvoice";
 
 export default function Order() {
   const { t, lang } = useTranslation("common");
