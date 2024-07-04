@@ -1,0 +1,20 @@
+Languages:
+
+- horecadepot.it italian
+- horecadepot.pt portugal
+- horecadepot.sp spain
+
+about us translations:
+to all languages from french
+
+whatsapp link under construction
+
+google user login (login completely like sklum)
+
+font all the same (font needs to be decided)
+
+at least once 2-3 images per product
+
+login page too simple (?) (captcha maybe)
+
+find actually usable template?

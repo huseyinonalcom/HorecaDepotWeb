@@ -293,7 +293,7 @@ export default function Products(props) {
               </div>
             </div>
           </div>
-  
+
           <div className="flex w-full flex-col">
             {currentCategory?.subCategories &&
               currentCategory.subCategories.length > 0 && (

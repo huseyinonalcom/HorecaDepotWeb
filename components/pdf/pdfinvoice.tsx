@@ -10,22 +10,18 @@ import {
 import formatDateAPIToBe from "../../api/utils/formatters/formatdateapibe";
 
 Font.register({
-  family: "Roboto",
+  family: "Nexa",
   fonts: [
     {
-      src: `/fonts/Roboto-Regular.ttf`,
+      src: `/components/fonts/nexa/Nexa-Regular.otf`,
     },
     {
-      src: `/fonts/Roboto-Medium.ttf`,
-      fontWeight: "medium",
+      src: `/components/fonts/nexa/Nexa-Light.otf`,
+      fontWeight: "light",
     },
     {
-      src: `/fonts/Roboto-Bold.ttf`,
+      src: `/components/fonts/nexa/Nexa-Bold.otf`,
       fontWeight: "bold",
-    },
-    {
-      src: `/fonts/Roboto-Black.ttf`,
-      fontWeight: "heavy",
     },
   ],
 });
@@ -56,7 +52,6 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   subHeader: {
-    fontFamily: "Roboto",
     fontWeight: "heavy",
     fontSize: 12,
     textAlign: "left",
@@ -89,7 +84,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     alignItems: "center",
     justifyContent: "center",
-    fontFamily: "Roboto",
+    
     fontWeight: "heavy",
   },
   tableCol1: {
@@ -112,7 +107,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     alignItems: "center",
     justifyContent: "center",
-    fontFamily: "Roboto",
+    
     fontWeight: "heavy",
   },
   tableCol2: {
@@ -135,7 +130,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     alignItems: "center",
     justifyContent: "center",
-    fontFamily: "Roboto",
+    
     fontWeight: "heavy",
   },
   tableCol3: {
@@ -158,7 +153,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     alignItems: "center",
     justifyContent: "center",
-    fontFamily: "Roboto",
+    
     fontWeight: "heavy",
   },
   tableCol4: {
@@ -181,7 +176,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     alignItems: "center",
     justifyContent: "center",
-    fontFamily: "Roboto",
+    
     fontWeight: "heavy",
   },
   tableCol5: {
@@ -228,7 +223,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PDFInvoice = ({ invoiceDocument }) => (
+export const PDFInvoice = ({ invoiceDocument }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
@@ -253,7 +248,7 @@ const PDFInvoice = ({ invoiceDocument }) => (
           >
             <Text
               style={{
-                fontFamily: "Roboto",
+                
                 fontWeight: "heavy",
                 fontSize: 13,
                 textAlign: "center",
@@ -264,7 +259,7 @@ const PDFInvoice = ({ invoiceDocument }) => (
             </Text>
             <Text
               style={{
-                fontFamily: "Roboto",
+                
                 fontWeight: "heavy",
                 fontSize: 13,
                 textAlign: "center",
@@ -295,7 +290,7 @@ const PDFInvoice = ({ invoiceDocument }) => (
           >
             <Text
               style={{
-                fontFamily: "Roboto",
+                
                 fontWeight: "demibold",
                 fontSize: 13,
                 textAlign: "center",
@@ -306,7 +301,7 @@ const PDFInvoice = ({ invoiceDocument }) => (
             </Text>
             <Text
               style={{
-                fontFamily: "Roboto",
+                
                 fontWeight: "demibold",
                 fontSize: 13,
                 textAlign: "center",
@@ -316,7 +311,7 @@ const PDFInvoice = ({ invoiceDocument }) => (
             </Text>
             <Text
               style={{
-                fontFamily: "Roboto",
+                
                 fontWeight: "demibold",
                 fontSize: 13,
                 textAlign: "center",
@@ -326,7 +321,7 @@ const PDFInvoice = ({ invoiceDocument }) => (
             </Text>
             <Text
               style={{
-                fontFamily: "Roboto",
+                
                 fontWeight: "demibold",
                 fontSize: 13,
                 textAlign: "center",
@@ -365,7 +360,7 @@ const PDFInvoice = ({ invoiceDocument }) => (
           >
             <Text
               style={{
-                fontFamily: "Roboto",
+                
                 fontWeight: "demibold",
                 fontSize: 11,
                 textAlign: "center",
@@ -376,7 +371,7 @@ const PDFInvoice = ({ invoiceDocument }) => (
             </Text>
             <Text
               style={{
-                fontFamily: "Roboto",
+                
                 fontWeight: "demibold",
                 fontSize: 11,
                 textAlign: "center",
@@ -386,7 +381,7 @@ const PDFInvoice = ({ invoiceDocument }) => (
             </Text>
             <Text
               style={{
-                fontFamily: "Roboto",
+                
                 fontWeight: "demibold",
                 fontSize: 11,
                 textAlign: "center",
@@ -396,7 +391,7 @@ const PDFInvoice = ({ invoiceDocument }) => (
             </Text>
             <Text
               style={{
-                fontFamily: "Roboto",
+                
                 fontWeight: "demibold",
                 fontSize: 11,
                 textAlign: "center",
@@ -655,5 +650,3 @@ const PDFInvoice = ({ invoiceDocument }) => (
     </Page>
   </Document>
 );
-
-export default PDFInvoice;

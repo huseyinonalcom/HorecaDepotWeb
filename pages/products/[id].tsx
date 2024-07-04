@@ -19,7 +19,7 @@ import { useDragScroll } from "../../components/common/use-drag-scroll";
 import { AutoTextSize } from "auto-text-size";
 import ProductImages from "../../components/products/product-images";
 import { TiTick } from "react-icons/ti";
-import { MdHeight, MdOutlineChair } from "react-icons/md";
+import { MdHeight, MdOutlineChair, MdWhatsapp } from "react-icons/md";
 import { GiWeight } from "react-icons/gi";
 import { GoCircleSlash } from "react-icons/go";
 import { LuPackage, LuPackageOpen, LuPackageX } from "react-icons/lu";
@@ -305,18 +305,21 @@ const ProductPage = ({
                   aria-label="Share via Facebook"
                   href={`https://www.facebook.com/sharer/sharer.php?u=https://horecadepot.be/products/${product.id}`}
                 >
-                  <Facebook />
+                  <Facebook
+                    width={60}
+                    height={60}
+                    className="h-6 w-6 text-black duration-300 hover:text-blue-600"
+                  />
                 </Link>
                 <Link
                   target="_blank"
                   aria-label="Share via Whatsapp"
                   href={`https://api.whatsapp.com/send?text=https://horecadepot.be/products/${product.id}`}
                 >
-                  <Image
-                    src={"/assets/img/whatsapp.svg"}
-                    width={30}
-                    height={30}
-                    alt="WhatsApp"
+                  <MdWhatsapp
+                    width={60}
+                    height={60}
+                    className="h-6 w-6 text-black duration-300 hover:text-green-500"
                   />
                 </Link>
               </div>

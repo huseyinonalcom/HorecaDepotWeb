@@ -911,21 +911,19 @@ const Header = () => {
                   width={200}
                   height={42.19}
                   priority
-className="flex md:hidden"
+                  className="flex md:hidden"
                   src="/assets/header/logo.svg"
                   alt="Horeca Depot Logo"
                 />
 
- <Image
+                <Image
                   width={300}
                   height={63.28}
                   priority
-className="md:flex hidden"
+                  className="hidden md:flex"
                   src="/assets/header/logo.svg"
                   alt="Horeca Depot Logo"
                 />
-
-
               </Link>
               <button
                 name="Show Categories"
@@ -938,7 +936,9 @@ className="md:flex hidden"
               </button>
               <div className="hidden flex-row items-center gap-2 whitespace-nowrap text-lg text-yellow-400 lg:flex">
                 <GiBulldozer size={42} className="text-yellow-400" />
-                Website<br />under<br />construction
+                <div className="flex flex-col items-center">
+                  <p>Website</p> <p>under</p> <p>construction</p>
+                </div>
               </div>
             </div>
             <div className="flex h-[45px] flex-row gap-2 md:ml-48 md:w-full">

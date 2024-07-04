@@ -194,7 +194,7 @@ const Layout = ({ children }: Props) => {
               <Link
                 target="_blank"
                 className="fixed bottom-14 right-10 z-40 print:hidden"
-                href={`https://api.whatsapp.com/send?phone=32499738373&text=https://horecadepot.be${router.asPath}`}
+                href={`https://api.whatsapp.com/send?phone=32499738373&text=${encodeURI(`Nous sommes interessés en cette produit: https://horecadepot.be${router.asPath}`)}`}
               >
                 <Image
                   alt="WhatsApp"
