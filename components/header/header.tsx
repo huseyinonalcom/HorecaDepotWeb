@@ -936,9 +936,9 @@ const Header = () => {
               </button>
               <div className="hidden flex-row items-center gap-2 whitespace-nowrap text-lg text-yellow-400 lg:flex">
                 <GiBulldozer size={42} className="text-yellow-400" />
-                <div className="flex flex-col items-center">
+                <a href="https://api.whatsapp.com/send?phone=32499738373" className="flex flex-col items-center">
                   <p>Website</p> <p>under</p> <p>construction</p>
-                </div>
+                </a>
               </div>
             </div>
             <div className="flex h-[45px] flex-row gap-2 md:ml-48 md:w-full">
@@ -946,10 +946,10 @@ const Header = () => {
               <HeaderButtons cartItems={cartItems} />
             </div>
           </div>
-          <div className="mx-auto flex w-full flex-row items-center justify-center gap-2 whitespace-nowrap text-lg text-yellow-400 lg:hidden">
+          <a href="https://api.whatsapp.com/send?phone=32499738373" className="mx-auto flex w-full flex-row items-center justify-center gap-2 whitespace-nowrap text-lg text-yellow-400 lg:hidden">
             <GiBulldozer size={42} className="text-yellow-400" />
             Website under construction
-          </div>
+          </a>
           <div className="flex w-full flex-row md:hidden">
             <div className="relative mt-3 w-full">
               <MobileSearch />
