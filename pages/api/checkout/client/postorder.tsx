@@ -247,23 +247,25 @@ export default async function postOrder(
               }
             }
 
-            await fetch(fetchUrl, {
-              method: "POST",
-              headers: headers,
-              body: JSON.stringify({
-                data: {
-                  name: "livraison",
-                  value: shippingCost,
-                  subTotal: shippingCost,
-                  discount: 0,
-                  amount: 1,
-                  tax: 21,
-                  taxSubTotal: shippingCost / 1.21,
-                  delivered: false,
-                  document: documentID,
-                },
-              }),
-            });
+            shippingCost &&
+              shippingCost > 0 &&
+              (await fetch(fetchUrl, {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify({
+                  data: {
+                    name: "livraison",
+                    value: shippingCost,
+                    subTotal: shippingCost,
+                    discount: 0,
+                    amount: 1,
+                    tax: 21,
+                    taxSubTotal: shippingCost / 1.21,
+                    delivered: false,
+                    document: documentID,
+                  },
+                }),
+              }));
 
             const nodemailer = require("nodemailer");
 
