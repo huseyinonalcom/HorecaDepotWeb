@@ -32,6 +32,7 @@ export default function Checkout() {
   const options = ["Entreprise", "Particulier"];
   const [errorLogin, setErrorLogin] = useState<string>("");
   const [clientType, setClientType] = useState<string>(options.at(1));
+  let shippingCost: number | null = null;
 
   const updateCart = (newCart: CartProduct[]) => {
     setCart(newCart);
@@ -407,6 +408,55 @@ export default function Checkout() {
   const [chosenInvoiceAddressId, setChosenInvoiceAddressId] = useState(null);
   const [totalAfterPromo, setTotalAfterPromo] = useState<number | null>(null);
   const [chosenDeliveryAddressId, setChosenDeliveryAddressId] = useState(null);
+let shippingTBI = false;
+
+  if (chosenDeliveryAddressId != null) {
+    let zip = loggedClient.client_info.addresses.find(
+      (address) => address.id == chosenDeliveryAddressId,
+    ).zipCode;
+
+    if (
+      !loggedClient.client_info.addresses
+        .find((address) => address.id == chosenDeliveryAddressId)
+        .country.toLowerCase()
+        .startsWith("bel")
+    ) {
+      shippingTBI = true;
+    }
+
+    switch (zip.charAt(0)) {
+      case "1":
+        shippingCost = 20;
+        break;
+      case "2":
+        shippingCost = 50;
+        break;
+      case "3":
+        shippingCost = 70;
+        break;
+      case "4":
+        shippingCost = 90;
+        break;
+      case "5":
+        shippingCost = 90;
+        break;
+      case "6":
+        shippingCost = 100;
+        break;
+      case "7":
+        shippingCost = 100;
+        break;
+      case "8":
+        shippingCost = 100;
+        break;
+      case "9":
+        shippingCost = 50;
+        break;
+      default:
+        shippingCost = 100;
+        break;
+    }
+  }
 
   useEffect(() => {
     if (usedPromoCode != "") {
@@ -526,7 +576,10 @@ export default function Checkout() {
     };
 
     const request = await fetch(
-      "/api/checkout/client/postorder?final=true&promo=" + usedPromoCode,
+      "/api/checkout/client/postorder?final=true&promo=" +
+        usedPromoCode +
+        "&shipping=" +
+        shippingCost,
       {
         method: "POST",
         body: JSON.stringify({
@@ -1205,8 +1258,14 @@ export default function Checkout() {
           {cart.length > 0 && (
             <div>
               <p>
-                {t("Total")}: € {calculateTotal().totalAfterDiscount}
+                {t("Total")}: €{" "}
+                {calculateTotal().totalAfterDiscount + shippingCost ?? 0}
               </p>
+             {shippingTBI ? <p>
+                {t("Shipping")}: {t("Shipping cost will be sent to you by email, you can also reach out to us on WhatsApp.")}
+             </p>: <p>
+                {t("Shipping")}: € {shippingCost ?? "??"}
+              </p>}
               {totalAfterPromo && (
                 <p>
                   {t("Total after promo")}: € {totalAfterPromo}

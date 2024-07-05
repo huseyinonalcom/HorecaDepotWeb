@@ -69,6 +69,7 @@ export default async function postOrder(
     var clientEmail: string;
     var clientFirstName: string;
     var clientLastName: string;
+    const shippingCost = Number(req.query.shipping);
 
     try {
       const request = await fetch(
@@ -245,6 +246,24 @@ export default async function postOrder(
                 return res.status(400).json(statusText[400]);
               }
             }
+
+            await fetch(fetchUrl, {
+              method: "POST",
+              headers: headers,
+              body: JSON.stringify({
+                data: {
+                  name: "livraison",
+                  value: shippingCost,
+                  subTotal: shippingCost,
+                  discount: 0,
+                  amount: 1,
+                  tax: 21,
+                  taxSubTotal: shippingCost / 1.21,
+                  delivered: false,
+                  document: documentID,
+                },
+              }),
+            });
 
             const nodemailer = require("nodemailer");
 

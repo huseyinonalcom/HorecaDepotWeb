@@ -18,3 +18,10 @@ at least 2-3 images per product
 login page too simple (?) (captcha maybe)
 
 find actually usable template for admin dash?
+
+Shipping costs:
+Brussels €20
+France - Price will be sent and discussed (€ 1,5 / km)
+Netherlands - Price will be sent and discussed
+
+Google distance calculation
