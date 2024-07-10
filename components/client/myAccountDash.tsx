@@ -40,11 +40,11 @@ export default function MyAccountDash() {
   const currentTimestamp = new Date().getTime().toLocaleString();
 
   if (!client) {
-    return <div>...</div>;
+    return <Link className="mt-4" href='/login'>{t('not_logged_in')}</Link>;
   }
 
   return (
-    <div className="flex min-h-[50vh] px-4 w-full max-w-screen-2xl flex-col items-center justify-start">
+    <div className="flex min-h-[50vh] w-full max-w-screen-2xl flex-col items-center justify-start px-4">
       <div className="my-6 flex flex-col gap-4">
         <h2 className="text-3xl">{greeting}</h2>
         <p className="text-3xl font-semibold">{client.client_info.firstName}</p>

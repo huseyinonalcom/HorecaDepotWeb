@@ -298,5 +298,6 @@
   "Secondary Details": "Détails Secondaires",
   "Supplier Code": "Code Fournisseur",
   "choose_supplier": "Choisir un fournisseur",
-  "Project": "Project"
+  "Project": "Project",
+  "not_logged_in": "Vous n'êtes pas connecté, appuyez ici pour vous connecter."
 }

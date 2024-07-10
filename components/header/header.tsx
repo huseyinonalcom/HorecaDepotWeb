@@ -624,6 +624,13 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
           </div>
 
           <Link
+            aria-label="Link to Account"
+            className={navButtonsClass}
+            href="/account/myaccount"
+          >
+            <User /> {t("Account")}
+          </Link>
+          <Link
             aria-label="Link to Wishlist"
             className={navButtonsClass}
             href="/wishlist"

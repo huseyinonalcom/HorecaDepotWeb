@@ -298,5 +298,6 @@
   "Secondary Details": "Secundaire Details",
   "Supplier Code": "Leverancierscode",
   "choose_supplier": "Kies een leverancier",
-  "Project": "Project"
+  "Project": "Project",
+  "not_logged_in": "U bent niet aangemeld, klik hier om u aan te melden."
 }

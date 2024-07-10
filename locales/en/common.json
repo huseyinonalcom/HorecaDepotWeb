@@ -298,5 +298,6 @@
   "Secondary Details": "Secondary Details",
   "Supplier Code": "Supplier Code",
   "choose_supplier": "Choose a Supplier",
-  "Project": "Project"
+  "Project": "Project",
+  "not_logged_in": "You are not logged in, click here to log in."
 }
