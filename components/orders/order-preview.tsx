@@ -22,8 +22,11 @@ const OrderPreview = ({ order }) => {
 
   const orderImages = [];
 
+  console.log(JSON.stringify(order, null, 2));
+
   for (let i = 0; i < order.document_products.length; i++) {
     if (
+      order.document_products[i].product &&
       order.document_products[i].product.images &&
       order.document_products[i].product.images.length > 0
     ) {
@@ -48,7 +51,7 @@ const OrderPreview = ({ order }) => {
   return (
     <div className="flex w-full flex-row bg-white p-1 shadow-md">
       <div className="relative flex flex-shrink-0 flex-row">
-        <div className="aspect-square relative h-full">
+        <div className="relative aspect-square h-full">
           {orderImages.length > 0 ? (
             orderImages.map((img, index) => (
               <Image
@@ -135,7 +138,7 @@ const OrderPreview = ({ order }) => {
         </div>
         <Link
           href={`/account/order?id=${order.id}`}
-          className={`${componentThemes.greenSubmitButton} md:col-span-2 flex flex-col items-center justify-center`}
+          className={`${componentThemes.greenSubmitButton} flex flex-col items-center justify-center md:col-span-2`}
         >
           {t("View Details")}
         </Link>
