@@ -2,7 +2,7 @@ import formatDateAPIToBe from "../../api/utils/formatters/formatdateapibe";
 import AdminLayout from "../../components/admin/adminLayout";
 import useTranslation from "next-translate/useTranslation";
 import React, { useState, useEffect } from "react";
-import { ChevronLeft } from "react-feather";
+import { Check, ChevronLeft, X } from "react-feather";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
@@ -56,7 +56,7 @@ export default function Orders() {
 
   const fetchOrders = async () => {
     const answer = await fetch(
-      `/api/documents/admin/getalldocuments?page=${currentPage}&type=order`,
+      `/api/documents/admin/getalldocuments?page=${currentPage}&type=order&sort=date:desc`,
     );
     const data = await answer.json();
     setAllOrders(data["data"]);
@@ -74,7 +74,7 @@ export default function Orders() {
   return (
     <AdminLayout>
       <Head>
-        <title>Produits</title>
+        <title>{t("document_orders")}</title>
         <meta name="language" content={lang} />
       </Head>
       <div className="flex w-full flex-col items-center pt-2">
@@ -84,11 +84,12 @@ export default function Orders() {
               <table className="relative w-full bg-gray-100 p-2 shadow-lg">
                 <thead className="sticky top-0 bg-[#c0c1c3]">
                   <tr>
-                    <th>{t("No")}</th>
+                    <th>{t("document_order")} #</th>
                     <th>{t("Date")}</th>
                     <th>{t("Client")}</th>
                     <th>{t("Total")}</th>
                     <th>{t("To pay")}</th>
+                    <th>{t("Paid")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -139,6 +140,25 @@ export default function Orders() {
                         )
                           .toFixed(2)
                           .replaceAll(".", ",")}
+                      </td>
+                      <td>
+                        {order.document_products.reduce(
+                          (total, product) => total + product.subTotal,
+                          0,
+                        ) -
+                          order.payments.reduce(
+                            (total, payment) =>
+                              total +
+                              (payment.deleted || !payment.verified
+                                ? 0
+                                : payment.value),
+                            0,
+                          ) >
+                        0 ? (
+                          <X className="text-red-500" />
+                        ) : (
+                          <Check className="text-green-500" />
+                        )}
                       </td>
                     </tr>
                   ))}

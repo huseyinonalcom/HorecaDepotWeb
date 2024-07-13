@@ -299,5 +299,8 @@
   "Supplier Code": "Leverancierscode",
   "choose_supplier": "Kies een leverancier",
   "Project": "Project",
-  "not_logged_in": "U bent niet aangemeld, klik hier om u aan te melden."
+  "not_logged_in": "U bent niet aangemeld, klik hier om u aan te melden.",
+  "Paid": "Betaald",
+  "document_order": "Bestelling",
+  "choose_category": "Kies een categorie"
 }

@@ -299,5 +299,8 @@
   "Supplier Code": "Code Fournisseur",
   "choose_supplier": "Choisir un fournisseur",
   "Project": "Project",
-  "not_logged_in": "Vous n'êtes pas connecté, appuyez ici pour vous connecter."
+  "not_logged_in": "Vous n'êtes pas connecté, appuyez ici pour vous connecter.",
+  "Paid": "Payé",
+  "document_order": "Commande",
+  "choose_category": "Choisir une catégorie"
 }

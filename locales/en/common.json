@@ -299,5 +299,8 @@
   "Supplier Code": "Supplier Code",
   "choose_supplier": "Choose a Supplier",
   "Project": "Project",
-  "not_logged_in": "You are not logged in, click here to log in."
+  "not_logged_in": "You are not logged in, click here to log in.",
+  "Paid": "Paid",
+  "document_order": "Order",
+  "choose_category": "Choose a Category"
 }

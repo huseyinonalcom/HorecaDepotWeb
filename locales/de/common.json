@@ -299,5 +299,8 @@
   "Supplier Code": "Lieferantencode",
   "choose_supplier": "Lieferant auswählen",
   "Project": "Project",
-  "not_logged_in": "Sie sind nicht angemeldet. Klicken Sie hier, um sich anzumelden."
+  "not_logged_in": "Sie sind nicht angemeldet. Klicken Sie hier, um sich anzumelden.",
+  "Paid": "Bezahlt",
+  "document_order": "Bestellung",
+  "choose_category": "Kategorie auswählen"
 }
