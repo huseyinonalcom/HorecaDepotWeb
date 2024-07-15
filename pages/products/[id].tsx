@@ -139,7 +139,7 @@ const ProductPage = ({
               <h3 className="text-lg font-bold">
                 {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
               </h3>
-              {product.priceBeforeDiscount ? (
+              {product.priceBeforeDiscount > product.value ? (
                 <p
                   draggable={false}
                   className="flex w-fit flex-row items-center justify-center overflow-hidden border-t-0 bg-red-600 px-2 py-1 text-xs font-bold text-white"

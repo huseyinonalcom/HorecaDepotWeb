@@ -69,10 +69,11 @@ const ProductImages = ({ product }) => {
             fill
             priority
             loading="eager"
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "contain" }}
             alt={product.name}
             className={`${imageBase} ${currentImage === index ? imageVisible : imageInvisible}`}
             onClick={() => handleImageClick(img.id)}
+            sizes="100vw"
           />
         ))
       ) : (
@@ -80,7 +81,7 @@ const ProductImages = ({ product }) => {
           key={1}
           src={`/assets/img/placeholder.png`}
           fill
-          style={{ objectFit: "cover" }}
+          style={{ objectFit: "contain" }}
           alt={product.name}
           className={`${imageBase}`}
         />

@@ -74,7 +74,7 @@ const ProductPreview = ({ product }: Props) => {
         />
         <div
           draggable={false}
-          className="hidden md:flex absolute right-2 top-2 flex-col gap-2 opacity-100 duration-500 group-hover:top-2 group-hover:opacity-100 lg:top-6 lg:opacity-0"
+          className="absolute right-2 top-2 hidden flex-col gap-2 opacity-100 duration-500 group-hover:top-2 group-hover:opacity-100 md:flex lg:top-6 lg:opacity-0"
         >
           <button
             draggable={false}
@@ -130,7 +130,7 @@ const ProductPreview = ({ product }: Props) => {
                   product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
               </p>
             )}
-            {product.priceBeforeDiscount ? (
+            {product.priceBeforeDiscount > product.value ? (
               <p
                 draggable={false}
                 className="mb-0.5 flex w-fit flex-row items-center justify-center overflow-hidden border-t-0 bg-gray-200 px-1.5 py-1 text-xs"

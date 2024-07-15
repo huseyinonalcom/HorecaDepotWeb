@@ -103,7 +103,7 @@ const ProductPreview2 = ({ product }: Props) => {
                   product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
               </p>
             )}
-            {product.priceBeforeDiscount ? (
+            {product.priceBeforeDiscount > product.value ? (
               <p
                 draggable={false}
                 className="mb-0.5 flex w-fit flex-row items-center justify-center overflow-hidden border-t-0 bg-gray-200 px-1.5 py-1 text-xs"
