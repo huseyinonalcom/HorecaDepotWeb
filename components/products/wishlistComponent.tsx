@@ -13,7 +13,7 @@ const WishListComponent = () => {
   return (
     <>
       {wishlist.length === 0 ? (
-        <div className="flex flex-col items-center gap-2 mb-2">
+        <div className="mb-2 flex flex-col items-center gap-2">
           <div className="text-gray-500">{t("Your wishlist is empty.")}</div>
           <Link
             href={"/shop/tous?page=1"}
@@ -30,7 +30,9 @@ const WishListComponent = () => {
               className={`group flex w-full flex-col items-center border-b-2 pb-2 text-black`}
             >
               <div className="relative aspect-square w-full">
-                <Link href={`/products/${product.id}`}>
+                <Link
+                  href={`/products/${product.categories.at(0).Name}/${product.name}/${product.id}`}
+                >
                   <Image
                     src={
                       product.images != null
@@ -50,7 +52,10 @@ const WishListComponent = () => {
                 </h3>
                 <Link
                   className="h-[0px] overflow-hidden text-left text-lg font-bold text-black duration-700 group-hover:h-[25px]"
-                  href={"/products/" + product.id}
+                  href={
+                    "/products/" +
+                    `${product.categories.at(0).Name}/${product.name}/${product.id}`
+                  }
                 >
                   {t("+ View Details")}
                 </Link>

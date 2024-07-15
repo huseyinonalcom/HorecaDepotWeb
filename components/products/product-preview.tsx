@@ -50,7 +50,7 @@ const ProductPreview = ({ product }: Props) => {
 
   return (
     <Link
-      href={`/products/${product.id}`}
+      href={`/products/${product.categories.at(0).Name}/${product.name}/${product.id}`}
       draggable={false}
       id={`${product.id}-preview`}
       className={`border-1 group flex w-full flex-col items-center rounded-xl border border-black/30 p-2 text-black`}

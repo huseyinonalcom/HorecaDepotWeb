@@ -114,6 +114,9 @@ export async function getProducts(req) {
 
     categoryParam ? (categoryParam = decodeURIComponent(categoryParam)) : null;
 
+    if (categoryParam == "tous") {
+      categoryParam = null;
+    }
     if (typeof categoryParam === "string") {
       const parsedCategoryParam = parseInt(categoryParam, 10);
 

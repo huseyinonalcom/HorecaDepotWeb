@@ -1,23 +1,23 @@
-import { getAllCategoriesFlattened } from "../api/categories/public/getallcategoriesflattened";
+import { getAllCategoriesFlattened } from "../../../api/categories/public/getallcategoriesflattened";
 import {
   getAllProductIDs,
   getProductByID,
   getProducts,
-} from "../../api/calls/productCalls";
-import ProductPreview from "../../components/products/product-preview";
-import ProductButtons from "../../components/products/product-buttons";
+} from "../../../../api/calls/productCalls";
+import ProductPreview from "../../../../components/products/product-preview";
+import ProductButtons from "../../../../components/products/product-buttons";
 import { Fragment, useEffect, useState } from "react";
 import useTranslation from "next-translate/useTranslation";
-import { Product } from "../../api/interfaces/product";
-import Layout from "../../components/public/layout";
+import { Product } from "../../../../api/interfaces/product";
+import Layout from "../../../../components/public/layout";
 import { Facebook } from "react-feather";
-import Meta from "../../components/public/meta";
+import Meta from "../../../../components/public/meta";
 import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
-import { useDragScroll } from "../../components/common/use-drag-scroll";
+import { useDragScroll } from "../../../../components/common/use-drag-scroll";
 import { AutoTextSize } from "auto-text-size";
-import ProductImages from "../../components/products/product-images";
+import ProductImages from "../../../../components/products/product-images";
 import { TiTick } from "react-icons/ti";
 import { MdHeight, MdOutlineChair, MdWhatsapp } from "react-icons/md";
 import { GiWeight } from "react-icons/gi";
@@ -89,7 +89,10 @@ const ProductPage = ({
         <meta name="subject" content={"" + product.name + ""} />
         <link
           rel="canonical"
-          href={"https://horecadepot.be/products/" + product.id}
+          href={
+            "https://horecadepot.be/products/" +
+            `${product.categories.at(0).Name}/${product.name}/${product.id}`
+          }
         />
       </Head>
       <div className="flex w-full flex-col items-start px-2 pt-2">
@@ -303,7 +306,7 @@ const ProductPage = ({
                 <Link
                   target="_blank"
                   aria-label="Share via Facebook"
-                  href={`https://www.facebook.com/sharer/sharer.php?u=https://horecadepot.be/products/${product.id}`}
+                  href={`https://www.facebook.com/sharer/sharer.php?u=https://horecadepot.be/products/${product.categories.at(0).Name}/${product.name}/${product.id}`}
                 >
                   <Facebook
                     width={60}
@@ -314,7 +317,7 @@ const ProductPage = ({
                 <Link
                   target="_blank"
                   aria-label="Share via Whatsapp"
-                  href={`https://api.whatsapp.com/send?text=https://horecadepot.be/products/${product.id}`}
+                  href={`https://api.whatsapp.com/send?text=https://horecadepot.be/products/${product.categories.at(0).Name}/${product.name}/${product.id}`}
                 >
                   <MdWhatsapp
                     width={60}
@@ -420,6 +423,8 @@ export async function getStaticPaths({}) {
     paths: allProductIDs.map((ID) => {
       return {
         params: {
+          category: "any",
+          name: "any",
           id: ID.toString(),
         },
       };
