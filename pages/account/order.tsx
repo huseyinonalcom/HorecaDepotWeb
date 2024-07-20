@@ -179,14 +179,12 @@ export default function Order() {
       <>
         <Layout>
           <Head>
-            <title>horecadepot</title>
+            <title>Horeca Depot</title>
           </Head>
           <div className="mx-auto flex w-full flex-row items-start justify-start">
-            <div className="ml-4 w-full bg-white p-4 shadow-lg print:shadow-none">
+            <div className="ml-4 w-full bg-white p-4 shadow-lg">
               <div className="flex flex-row justify-between">
-                <div
-                  className={`relative mt-2 hidden h-[64px] w-[358px] print:block`}
-                >
+                <div className={`relative mt-2 hidden h-[64px] w-[358px]`}>
                   <Image
                     src={"/assets/header/logo.png"}
                     style={{ objectFit: "contain" }}
@@ -194,12 +192,7 @@ export default function Order() {
                     alt="HorecaDepot Logo"
                   />
                 </div>
-                <div className="hidden flex-col pt-1 print:flex">
-                  <h4 className="font-bold">Horeca Depot</h4>
-                  <p className="">Rue de Ribaucourt 154</p>
-                  <p className="">1080 Bruxelles, Belgique</p>
-                </div>
-                <div className="flex flex-col print:items-end">
+                <div className="flex flex-col">
                   <h1 className="text-2xl font-bold">{currentOrder.type}</h1>
                   <h2 className="text-xl font-bold">
                     {currentOrder.prefix + currentOrder.number}
@@ -208,7 +201,7 @@ export default function Order() {
                     {formatDateAPIToBe(currentOrder.date)}
                   </h3>
                 </div>
-                <div className="flex flex-shrink-0 flex-row items-center gap-2 print:hidden">
+                <div className="flex flex-shrink-0 flex-row items-center gap-2">
                   {balance > 0 && (
                     <>
                       {verificationMessage && verificationMessage}
@@ -248,11 +241,11 @@ export default function Order() {
                   )}
                 </div>
               </div>
-              <div className="flex flex-row gap-6 pt-2 print:justify-between">
+              <div className="flex flex-row gap-6 pt-2">
                 <div className="flex flex-col">
                   {currentOrder.client.category == "Entreprise" ? (
                     <>
-                      <h4 className=" font-bold">Facturé à:</h4>
+                      <h4 className=" font-bold">{t("invoiced_to")}:</h4>
                       <p className="">{currentOrder.client.company}</p>
                       <p className="">{currentOrder.client.taxID}</p>
                       <p className="">{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
@@ -260,40 +253,44 @@ export default function Order() {
                     </>
                   ) : (
                     <>
-                      <h4 className=" font-bold">Facturé à:</h4>
+                      <h4 className=" font-bold">{t("invoiced_to")}:</h4>
                       <p className="">{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
                       <p className="">{currentOrder.client.phone}</p>
                     </>
                   )}
                 </div>
                 <div className="flex flex-col">
-                  <h4 className=" font-bold">Addresse Facture:</h4>
+                  <h4 className=" font-bold">{t("invoiced_address")}:</h4>
                   <p className="">{`${currentOrder.docAddress.street} ${currentOrder.docAddress.doorNumber}`}</p>
                   <p className="">{`${currentOrder.docAddress.zipCode} ${currentOrder.docAddress.city}`}</p>
                   <p className="">{`${currentOrder.docAddress.province ?? ""} ${
                     currentOrder.docAddress.country
                   }`}</p>
                   {currentOrder.docAddress.floor ? (
-                    <p className="">Étage: {currentOrder.docAddress.floor}</p>
+                    <p className="">
+                      {t("floor")}: {currentOrder.docAddress.floor}
+                    </p>
                   ) : (
                     <></>
                   )}
                 </div>
                 <div className="flex flex-col">
-                  <h4 className=" font-bold">Livraison:</h4>
+                  <h4 className=" font-bold">{t("delivery")}:</h4>
                   <p className="">{`${currentOrder.delAddress.street} ${currentOrder.delAddress.doorNumber}`}</p>
                   <p className="">{`${currentOrder.delAddress.zipCode} ${currentOrder.delAddress.city}`}</p>
                   <p className="">{`${currentOrder.delAddress.province ?? ""} ${
                     currentOrder.delAddress.country
                   }`}</p>
                   {currentOrder.delAddress.floor ? (
-                    <p className="">Étage: {currentOrder.delAddress.floor}</p>
+                    <p className="">
+                      {t("floor")}: {currentOrder.delAddress.floor}
+                    </p>
                   ) : (
                     <></>
                   )}
                 </div>
               </div>
-              <table className=" mt-3 overflow-x-auto bg-gray-100 p-2 shadow-lg print:border-2 print:border-black print:bg-transparent print:shadow-none">
+              <table className=" mt-3 overflow-x-auto bg-gray-100 p-2 shadow-lg">
                 <thead className="border-b-2 border-black">
                   <tr>
                     <th>{t("Name")}</th>
@@ -308,11 +305,7 @@ export default function Order() {
                     (documentProduct, index) => (
                       <tr
                         key={index}
-                        className={`${
-                          index % 2 === 0
-                            ? "bg-slate-300 print:bg-transparent"
-                            : ""
-                        }`}
+                        className={`${index % 2 === 0 ? "bg-slate-300" : ""}`}
                       >
                         <td>{documentProduct.name}</td>
                         <td align="center">{documentProduct.amount}</td>
@@ -385,7 +378,7 @@ export default function Order() {
               </table>
 
               {balance > 0 && (
-                <div className="flex flex-row print:hidden">
+                <div className="flex flex-row">
                   <div className="ml-auto">
                     <button
                       className={`${CustomTheme.greenSubmitButton} whitespace-nowrap text-xl`}
