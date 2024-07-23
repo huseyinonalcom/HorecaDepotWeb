@@ -169,14 +169,6 @@ const Layout = ({ children }: Props) => {
           <WishlistProvider>
             <Meta />
             <main className={`${roboto.className} min-h-[80dvh]`}>
-              <noscript>
-                <iframe
-                  src="https://www.googletagmanager.com/ns.html?id=GTM-5DMMM9F"
-                  height="0"
-                  width="0"
-                  className="hidden"
-                ></iframe>
-              </noscript>
               {showPopup && (
                 <div
                   onClick={handlePopupClose}
