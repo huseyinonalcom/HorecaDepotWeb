@@ -28,6 +28,10 @@ const Meta = () => {
       <meta name="msapplication-TileColor" content="#da532c" />
       <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
       <meta name="theme-color" content="#ffffff" />
+      <meta
+        name="google-site-verification"
+        content="RMQD24NrcYPdFYUUIOtrNs8mMCLHyHllt9zT9xl_GIY"
+      />
     </>
   );
 };
