@@ -10,7 +10,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <AdminDrawerProvider>
         <Component {...pageProps} />
         <GoogleTagManager gtmId="GTM-5DMMM9F" />
-        {/* <GoogleAnalytics gaId="UA-123456789-1" /> */}
+        <GoogleAnalytics gaId="167998249" />
       </AdminDrawerProvider>
     </CategoryProvider>
   );
