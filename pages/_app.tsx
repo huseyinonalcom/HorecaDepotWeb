@@ -2,7 +2,7 @@ import { AppProps } from "next/app";
 import "../global.css";
 import { CategoryProvider } from "../api/providers/categoryProvider";
 import { AdminDrawerProvider } from "../api/providers/adminDrawerProvider";
-import { GoogleTagManager } from "@next/third-parties/google";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -10,6 +10,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <AdminDrawerProvider>
         <Component {...pageProps} />
         <GoogleTagManager gtmId="GTM-5DMMM9F" />
+        {/* <GoogleAnalytics gaId="UA-123456789-1" /> */}
       </AdminDrawerProvider>
     </CategoryProvider>
   );
