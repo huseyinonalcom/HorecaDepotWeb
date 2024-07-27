@@ -452,7 +452,9 @@ export default function ProductPage(props) {
             </ButtonShadow1>
           )}
           {submitError && (
-            <p className="bg-white p-1 text-red-400">{submitError}</p>
+            <p className="bg-white p-1 text-red-400">
+              {JSON.stringify(submitError)}
+            </p>
           )}
           <ButtonShadow1 type="submit">
             <div className="flex flex-row gap-2 bg-white p-2">
