@@ -302,5 +302,10 @@
   "not_logged_in": "You are not logged in, click here to log in.",
   "Paid": "Paid",
   "document_order": "Order",
-  "choose_category": "Choose a Category"
+  "choose_category": "Choose a Category",
+  "invoiced_to": "Invoiced to",
+  "invoiced_address": "Invoiced Address",
+  "delivery": "Delivery",
+  "My Wishlist": "My Wishlist",
+  "My Personal Details": "My Personal Details"
 }

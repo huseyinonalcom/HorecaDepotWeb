@@ -302,5 +302,10 @@
   "not_logged_in": "U bent niet aangemeld, klik hier om u aan te melden.",
   "Paid": "Betaald",
   "document_order": "Bestelling",
-  "choose_category": "Kies een categorie"
+  "choose_category": "Kies een categorie",
+  "invoiced_to": "Gefactureerd aan",
+  "invoiced_address": "Factuuradres",
+  "delivery": "Levering",
+  "My Wishlist": "Mijn verlanglijst",
+  "My Personal Details": "Mijn persoonlijke gegevens"
 }

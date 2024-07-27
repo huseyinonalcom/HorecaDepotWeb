@@ -182,8 +182,8 @@ export default function Order() {
             <title>Horeca Depot</title>
           </Head>
           <div className="mx-auto flex w-full flex-row items-start justify-start">
-            <div className="ml-4 w-full bg-white p-4 shadow-lg">
-              <div className="flex flex-row justify-between">
+            <div className="w-full bg-white p-2 shadow-lg">
+              <div className="flex flex-col justify-between">
                 <div className={`relative mt-2 hidden h-[64px] w-[358px]`}>
                   <Image
                     src={"/assets/header/logo.png"}
@@ -201,7 +201,7 @@ export default function Order() {
                     {formatDateAPIToBe(currentOrder.date)}
                   </h3>
                 </div>
-                <div className="flex flex-shrink-0 flex-row items-center gap-2">
+                <div className="flex flex-shrink-0 flex-col items-center gap-2">
                   {balance > 0 && (
                     <>
                       {verificationMessage && verificationMessage}
@@ -210,7 +210,7 @@ export default function Order() {
                         <button
                           className={`${CustomTheme.greenSubmitButton} whitespace-nowrap text-xl`}
                         >
-                          <div className="flex w-[100px] flex-row justify-center">
+                          <div className="flex w-[100px] flex-row justify-start">
                             <TypeWriter textTypeWriter={["...."]} />
                           </div>
                         </button>
@@ -234,7 +234,7 @@ export default function Order() {
                     <PDFDownloadLink
                       fileName={currentOrder.prefix + currentOrder.number}
                       document={<PDFInvoice invoiceDocument={currentOrder} />}
-                      className={`${componentThemes.greenSubmitButton} flex flex-row items-center whitespace-nowrap text-xl`}
+                      className={`${componentThemes.greenSubmitButton} flex flex-row items-center justify-center whitespace-nowrap text-xl`}
                     >
                       📄 <p className="ml-1">{t("Download PDF")}</p>
                     </PDFDownloadLink>
@@ -290,92 +290,97 @@ export default function Order() {
                   )}
                 </div>
               </div>
-              <table className=" mt-3 overflow-x-auto bg-gray-100 p-2 shadow-lg">
-                <thead className="border-b-2 border-black">
-                  <tr>
-                    <th>{t("Name")}</th>
-                    <th>{t("Quantity")}</th>
-                    <th>{t("Price")}</th>
-                    <th>{t("Discount")}</th>
-                    <th>{t("Subtotal")}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentOrder.document_products.map(
-                    (documentProduct, index) => (
-                      <tr
-                        key={index}
-                        className={`${index % 2 === 0 ? "bg-slate-300" : ""}`}
-                      >
-                        <td>{documentProduct.name}</td>
-                        <td align="center">{documentProduct.amount}</td>
-                        <td align="right">
+              <div className="overflow-x-auto">
+                <table className="mt-3 bg-gray-100 shadow-lg">
+                  <thead className="border-b-2 border-black">
+                    <tr>
+                      <th>{t("Name")}</th>
+                      <th>{t("Quantity")}</th>
+                      <th>{t("Price")}</th>
+                      <th>{t("Discount")}</th>
+                      <th>{t("Subtotal")}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentOrder.document_products.map(
+                      (documentProduct, index) => (
+                        <tr
+                          key={index}
+                          className={`${index % 2 === 0 ? "bg-slate-300" : ""}`}
+                        >
+                          <td>{documentProduct.name}</td>
+                          <td align="center">{documentProduct.amount}</td>
+                          <td align="right">
+                            €{" "}
+                            {documentProduct.value
+                              .toFixed(2)
+                              .replaceAll(".", ",")}
+                          </td>
+                          <td align="right">
+                            €{" "}
+                            {documentProduct.discount
+                              .toFixed(2)
+                              .replaceAll(".", ",")}
+                          </td>
+                          <td align="right">
+                            €{" "}
+                            {documentProduct.subTotal
+                              .toFixed(2)
+                              .replaceAll(".", ",")}
+                          </td>
+                        </tr>
+                      ),
+                    )}
+                    <tr>
+                      <td></td>
+                      <td>
+                        <b>{t("Total")}</b>
+                      </td>
+                      <td align="right">
+                        <b>
                           €{" "}
-                          {documentProduct.value
-                            .toFixed(2)
-                            .replaceAll(".", ",")}
-                        </td>
-                        <td align="right">
-                          €{" "}
-                          {documentProduct.discount
-                            .toFixed(2)
-                            .replaceAll(".", ",")}
-                        </td>
-                        <td align="right">
-                          €{" "}
-                          {documentProduct.subTotal
-                            .toFixed(2)
-                            .replaceAll(".", ",")}
-                        </td>
-                      </tr>
-                    ),
-                  )}
-                  <tr>
-                    <td></td>
-                    <td>
-                      <b>{t("Total")}</b>
-                    </td>
-                    <td align="right">
-                      <b>
-                        €{" "}
-                        {currentOrder.document_products
-                          .reduce((accumulator, currentItem) => {
-                            return accumulator + currentItem.subTotal;
-                          }, 0)
-                          .toFixed(2)
-                          .replaceAll(".", ",")}
-                      </b>
-                    </td>
-                    <td>
-                      <b>{t("To pay")}</b>
-                    </td>
-                    <td align="right">
-                      <b>
-                        €{" "}
-                        {(
-                          currentOrder.document_products.reduce(
-                            (accumulatedSubTotal, currentDocProd) => {
-                              return (
-                                accumulatedSubTotal + currentDocProd.subTotal
-                              );
-                            },
-                            0,
-                          ) -
-                          currentOrder.payments
-                            .filter(
-                              (payment) => !payment.deleted && payment.verified,
-                            )
-                            .reduce((accumulatedPayments, currentPayment) => {
-                              return accumulatedPayments + currentPayment.value;
+                          {currentOrder.document_products
+                            .reduce((accumulator, currentItem) => {
+                              return accumulator + currentItem.subTotal;
                             }, 0)
-                        )
-                          .toFixed(2)
-                          .replaceAll(".", ",")}
-                      </b>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                            .toFixed(2)
+                            .replaceAll(".", ",")}
+                        </b>
+                      </td>
+                      <td>
+                        <b>{t("To pay")}</b>
+                      </td>
+                      <td align="right">
+                        <b>
+                          €{" "}
+                          {(
+                            currentOrder.document_products.reduce(
+                              (accumulatedSubTotal, currentDocProd) => {
+                                return (
+                                  accumulatedSubTotal + currentDocProd.subTotal
+                                );
+                              },
+                              0,
+                            ) -
+                            currentOrder.payments
+                              .filter(
+                                (payment) =>
+                                  !payment.deleted && payment.verified,
+                              )
+                              .reduce((accumulatedPayments, currentPayment) => {
+                                return (
+                                  accumulatedPayments + currentPayment.value
+                                );
+                              }, 0)
+                          )
+                            .toFixed(2)
+                            .replaceAll(".", ",")}
+                        </b>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
               {balance > 0 && (
                 <div className="flex flex-row">

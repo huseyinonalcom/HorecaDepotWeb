@@ -302,5 +302,10 @@
   "not_logged_in": "Vous n'êtes pas connecté, appuyez ici pour vous connecter.",
   "Paid": "Payé",
   "document_order": "Commande",
-  "choose_category": "Choisir une catégorie"
+  "choose_category": "Choisir une catégorie",
+  "invoiced_to": "Facturé à",
+  "invoiced_address": "Adresse de facturation",
+  "delivery": "Livraison",
+  "My Wishlist": "Ma liste de souhaits",
+  "My Personal Details": "Mes détails personnels"
 }

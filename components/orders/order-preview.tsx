@@ -49,9 +49,9 @@ const OrderPreview = ({ order }) => {
   };
 
   return (
-    <div className="flex w-full flex-row bg-white p-1 shadow-md">
-      <div className="relative flex flex-shrink-0 flex-row">
-        <div className="relative aspect-square h-full">
+    <div className="flex w-full flex-col bg-white p-1 shadow-md">
+      <div className="relative flex w-full flex-shrink-0 flex-row">
+        <div className="relative aspect-square h-[200px]">
           {orderImages.length > 0 ? (
             orderImages.map((img, index) => (
               <Image

@@ -40,7 +40,11 @@ export default function MyAccountDash() {
   const currentTimestamp = new Date().getTime().toLocaleString();
 
   if (!client) {
-    return <Link className="mt-4" href='/login'>{t('not_logged_in')}</Link>;
+    return (
+      <Link className="mt-4" href="/login">
+        {t("not_logged_in")}
+      </Link>
+    );
   }
 
   return (
