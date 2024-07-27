@@ -150,7 +150,7 @@ export async function getProducts({
     fetchUrl += `filters[$and][0][value][$gte]=${minvalue}&filters[$and][1][value][$lte]=${maxvalue}&`;
   }
 
-  fetchUrl += `populate[document_products][fields][0]=amount&populate[shelves][fields][0]=stock&fields[0]=name&populate[categories][fields][0]=name&fields[2]=productLine&fields[3]=internalCode&fields[5]=value&fields[8]=description&populate[shelves][populate][supplier_order_products][fields][0]=amountOrdered&populate[shelves][populate][supplier_order_products][fields][1]=amountDelivered&fields[1]=depth&fields[4]=priceBeforeDiscount&fields[6]=width&fields[7]=height&fields[9]=material&fields[10]=color&populate[images][fields][0]=url&pagination[page]=${page}&pagination[pageSize]=${count}`;
+  fetchUrl += `populate[document_products][fields][0]=amount&populate[shelves][fields][0]=stock&fields[0]=name&populate[categories][fields][0]=name&fields[2]=productLine&fields[3]=internalCode&fields[5]=value&fields[8]=description&populate[shelves][populate][supplier_order_products][fields][0]=amountOrdered&populate[shelves][populate][supplier_order_products][fields][1]=amountDelivered&fields[1]=depth&fields[4]=priceBeforeDiscount&fields[6]=width&fields[7]=height&fields[9]=material&fields[10]=color&fields[11]=supplierCode&populate[images][fields][0]=url&pagination[page]=${page}&pagination[pageSize]=${count}`;
 
   const response = await fetch(fetchUrl, {
     headers: {

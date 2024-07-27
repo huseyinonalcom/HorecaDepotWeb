@@ -21,6 +21,7 @@ ${products
 <g:link>https://www.horecadepot.be/products/${prd.categories.at(0).Name}/${prd.name}/${prd.id}</g:link> <g:image_link>https://hdapi.huseyinonalalpha.com${prd.images.at(0).url}</g:image_link> <g:condition>new</g:condition>
 <g:availability>in stock</g:availability>
 <g:price>${prd.value} EUR</g:price>
+<g:gtin>${prd.supplierCode}</g:gtin>
 <g:shipping>
 
 <g:country>BE</g:country>
