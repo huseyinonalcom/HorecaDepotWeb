@@ -181,6 +181,12 @@ export default function ProductPage(props) {
       errors.stock_store = null;
     }
 
+    if (currentProduct.categories.length == 0) {
+      errors.category = "validators_empty_invalid";
+    } else {
+      errors.category = null;
+    }
+
     if (
       Object.values(errors).some((error) => error != null && error != "") ||
       currentProduct.categories.length == 0
@@ -342,6 +348,7 @@ export default function ProductPage(props) {
     name: "validators_empty_invalid",
     value: "validators_empty_invalid",
     barcode: "validators_empty_invalid",
+    category: "validators_empty_invalid",
   });
 
   useEffect(() => {
@@ -1065,7 +1072,9 @@ export default function ProductPage(props) {
               ))}
               <div className="group relative">
                 <div className="flex w-full flex-row justify-between rounded-md bg-blue-300 p-1">
-                  <p>{t("Select Category")}</p>
+                  <p className={`${errors.category ? "text-red-500" : ""}`}>
+                    {t("Select Category")}
+                  </p>
                   <ChevronDown />
                 </div>
                 <div
