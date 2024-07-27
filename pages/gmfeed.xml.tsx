@@ -4,35 +4,38 @@ import { getAllCategoriesFlattened } from "./api/categories/public/getallcategor
 const URL = "horecadepot.be";
 
 function generateSiteMap(products, allCategoriesRaw) {
-  return `<?xml version="1.0" encoding="UTF-8"?>
-   <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
-      <url><loc>https://${URL}</loc></url>
-      <url><loc>https://${URL}/about</loc></url>
-      <url><loc>https://${URL}/contact</loc></url>
-      <url><loc>https://${URL}/legal</loc></url>
-      <url><loc>https://${URL}/shop/tous</loc></url>
-      <url><loc>https://${URL}/projects</loc></url>
-      <url><loc>https://${URL}/references</loc></url>
-      ${allCategoriesRaw
-      .map((cat) => {
-          return `
-      <url>
-          <loc>https://${URL}/shop/${cat.Name}?page=1</loc>
-      </url>
-    `;
-        })
-        .join("")}
-     ${products
-       .map((prd) => {
-         return `
-      <url>
-          <loc>https://${URL}/products/${prd.categories.at(0).Name}/${prd.name}/${prd.id}</loc>
-      </url>
-    `;
-       })
-       .join("")}
-       
-   </urlset>
+  return `<?xml version="1.0"?>
+<rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
+<channel>
+<title>HorecaDepot - Merchant Feed</title>
+<link>https://www.horecadepot.be</link>
+<description>Horeca Furniture</description>
+${products
+  .filter((prd) => prd.images && prd.images.length > 0)
+  .map((prd) => {
+    return `
+<item>
+<g:id>${prd.internalCode}</g:id>
+<g:title>${prd.categories.at(0).Name + " " + prd.name}</g:title>
+<g:description>${prd.description ?? prd.categories.map((c) => c.Name).join(", ")}</g:description>
+<g:link>https://www.horecadepot.be/products/${prd.categories.at(0).Name}/${prd.name}/${prd.id}</g:link> <g:image_link>${prd.images.at(0).url}</g:image_link> <g:condition>new</g:condition>
+<g:availability>in stock</g:availability>
+<g:price>${prd.value} EUR</g:price>
+<g:shipping>
+
+<g:country>BE</g:country>
+<g:service>Standard</g:service>
+<g:price>20 EUR</g:price>
+
+</g:shipping>
+<g:brand>HorecaDepot</g:brand>
+
+</item>
+`;
+  })
+  .join("")}
+</channel>
+</rss>
  `;
 }
 
