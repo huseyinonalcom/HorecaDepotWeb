@@ -212,14 +212,16 @@ export default function ProductPage(props) {
             );
             if (!request.ok) {
               setInProgress(false);
+              console.log(request.json());
               setSubmitError(
                 t("An error occurred while modifying the product!"),
               );
             } else {
               router.push("/admin/stock/all");
             }
-          } catch {
+          } catch (e) {
             setInProgress(false);
+            console.log(e);
             setSubmitError(t("An error occurred while modifying the product!"));
           }
         } else {
@@ -233,14 +235,16 @@ export default function ProductPage(props) {
             });
             if (!request.ok) {
               setInProgress(false);
+              console.log(request.json());
               setSubmitError(
                 t("An error occurred during the product creation!"),
               );
             } else {
               router.push("/admin/stock/all");
             }
-          } catch {
+          } catch (e) {
             setInProgress(false);
+            console.log(e);
             setSubmitError(t("An error occurred during the product creation!"));
           }
         }
