@@ -182,7 +182,7 @@ export default function ProductPage(props) {
         errors.stock_store = null;
       }
 
-      if (currentProduct.categories.length == 0) {
+      if (!currentProduct.categories || currentProduct.categories.length == 0) {
         errors.category = "validators_empty_invalid";
       } else {
         errors.category = null;
@@ -190,6 +190,7 @@ export default function ProductPage(props) {
 
       if (
         Object.values(errors).some((error) => error != null && error != "") ||
+        !currentProduct.categories ||
         currentProduct.categories.length == 0
       ) {
         setSubmitError(t("Fill all the required fields correctly!"));
@@ -250,6 +251,7 @@ export default function ProductPage(props) {
         }
       }
     } catch (error) {
+      console.log(error);
       setInProgress(false);
       setSubmitError(error);
     }
@@ -453,7 +455,7 @@ export default function ProductPage(props) {
           )}
           {submitError && (
             <p className="bg-white p-1 text-red-400">
-              {JSON.stringify(submitError)}
+              {submitError?.toString()}
             </p>
           )}
           <ButtonShadow1 type="submit">

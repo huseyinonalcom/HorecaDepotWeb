@@ -123,7 +123,8 @@ export default async function postProduct(
         }
       }
     } catch (error) {
-      return res.status(500).json("error outside of requests");
+      console.log(error);
+      return res.status(500).json(error);
     }
 
     return res.status(200).json({ id: postedID });
