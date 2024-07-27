@@ -169,72 +169,80 @@ export default function ProductPage(props) {
   const [submitError, setSubmitError] = useState(null);
 
   const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitError(null);
-    if (inProgress) return;
-    setInProgress(true);
+    try {
+      e.preventDefault();
+      setSubmitError(null);
+      if (inProgress) return;
+      setInProgress(true);
 
-    currentProduct.supplierCode = currentProduct.product_extra.barcode;
+      currentProduct.supplierCode = currentProduct.product_extra.barcode;
 
-    if (currentProduct.id == 0) {
-      errors.stock_depot = null;
-      errors.stock_store = null;
-    }
+      if (currentProduct.id == 0) {
+        errors.stock_depot = null;
+        errors.stock_store = null;
+      }
 
-    if (currentProduct.categories.length == 0) {
-      errors.category = "validators_empty_invalid";
-    } else {
-      errors.category = null;
-    }
+      if (currentProduct.categories.length == 0) {
+        errors.category = "validators_empty_invalid";
+      } else {
+        errors.category = null;
+      }
 
-    if (
-      Object.values(errors).some((error) => error != null && error != "") ||
-      currentProduct.categories.length == 0
-    ) {
-      setSubmitError(t("Fill all the required fields correctly!"));
-      setInProgress(false);
-    } else {
-      if (currentProduct.id != 0) {
-        try {
-          const request = await fetch(
-            `/api/products/admin/putproduct?id=` +
-              currentProduct.id +
-              "&extraid=" +
-              currentProduct.product_extra.id,
-            {
-              method: "PUT",
+      if (
+        Object.values(errors).some((error) => error != null && error != "") ||
+        currentProduct.categories.length == 0
+      ) {
+        setSubmitError(t("Fill all the required fields correctly!"));
+        setInProgress(false);
+      } else {
+        if (currentProduct.id != 0) {
+          try {
+            const request = await fetch(
+              `/api/products/admin/putproduct?id=` +
+                currentProduct.id +
+                "&extraid=" +
+                currentProduct.product_extra.id,
+              {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(currentProduct),
+              },
+            );
+            if (!request.ok) {
+              setSubmitError(
+                t("An error occurred while modifying the product!"),
+              );
+            } else {
+              router.push("/admin/stock/all");
+            }
+          } catch {
+            setSubmitError(t("An error occurred while modifying the product!"));
+          }
+        } else {
+          try {
+            const request = await fetch("/api/products/admin/postproduct", {
+              method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify(currentProduct),
-            },
-          );
-          if (!request.ok) {
-            setSubmitError(t("An error occurred while modifying the product!"));
-          } else {
-            router.push("/admin/stock/all");
-          }
-        } catch {
-          setSubmitError(t("An error occurred while modifying the product!"));
-        }
-      } else {
-        try {
-          const request = await fetch("/api/products/admin/postproduct", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(currentProduct),
-          });
-          if (!request.ok) {
+            });
+            if (!request.ok) {
+              setSubmitError(
+                t("An error occurred during the product creation!"),
+              );
+            } else {
+              router.push("/admin/stock/all");
+            }
+          } catch {
             setSubmitError(t("An error occurred during the product creation!"));
-          } else {
-            router.push("/admin/stock/all");
           }
-        } catch {
-          setSubmitError(t("An error occurred during the product creation!"));
         }
       }
+    } catch (error) {
+      setSubmitError(error);
     }
   };
 
