@@ -111,6 +111,7 @@ export default function Products() {
       </div>
     );
   } else {
+    localStorage.removeItem("cart");
     // show something to indicate payment succeeded and redirect to the order page (find order by fetching order related to payment)
     return (
       <div className="flex h-[90vh] w-[90vw] flex-col items-center justify-center">

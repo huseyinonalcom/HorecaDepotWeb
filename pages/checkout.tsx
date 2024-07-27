@@ -39,11 +39,6 @@ export default function Checkout() {
     localStorage.setItem("cart", JSON.stringify(newCart));
   };
 
-  const clearCart = () => {
-    setCart(null);
-    localStorage.removeItem("cart");
-  };
-
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
     let pulledCart: CartProduct[] = [];
@@ -408,7 +403,7 @@ export default function Checkout() {
   const [chosenInvoiceAddressId, setChosenInvoiceAddressId] = useState(null);
   const [totalAfterPromo, setTotalAfterPromo] = useState<number | null>(null);
   const [chosenDeliveryAddressId, setChosenDeliveryAddressId] = useState(null);
-let shippingTBI = false;
+  let shippingTBI = false;
 
   if (chosenDeliveryAddressId != null) {
     let zip = loggedClient.client_info.addresses.find(
@@ -600,7 +595,6 @@ let shippingTBI = false;
       );
       if (paymentReq.ok) {
         const response = await paymentReq.json();
-        clearCart();
         if (response.url != 0) {
           window.location.href = response.url;
         } else {
@@ -1261,11 +1255,18 @@ let shippingTBI = false;
                 {t("Total")}: €{" "}
                 {calculateTotal().totalAfterDiscount + shippingCost ?? 0}
               </p>
-             {shippingTBI ? <p>
-                {t("Shipping")}: {t("Shipping cost will be sent to you by email, you can also reach out to us on WhatsApp.")}
-             </p>: <p>
-                {t("Shipping")}: € {shippingCost ?? "??"}
-              </p>}
+              {shippingTBI ? (
+                <p>
+                  {t("Shipping")}:{" "}
+                  {t(
+                    "Shipping cost will be sent to you by email, you can also reach out to us on WhatsApp.",
+                  )}
+                </p>
+              ) : (
+                <p>
+                  {t("Shipping")}: € {shippingCost ?? "??"}
+                </p>
+              )}
               {totalAfterPromo && (
                 <p>
                   {t("Total after promo")}: € {totalAfterPromo}
