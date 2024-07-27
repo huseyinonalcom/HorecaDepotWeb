@@ -1,9 +1,6 @@
 import { getProducts } from "../api/calls/productCalls";
-import { getAllCategoriesFlattened } from "./api/categories/public/getallcategoriesflattened";
 
-const URL = "horecadepot.be";
-
-function generateSiteMap(products, allCategoriesRaw) {
+function generateFeed(products) {
   return `<?xml version="1.0"?>
 <rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
 <channel>
@@ -42,10 +39,9 @@ ${products
 
 export async function getServerSideProps({ res }) {
   var products = (await getProducts({ page: 1, count: 100000 }))[0];
-  const allCategoriesRaw = await getAllCategoriesFlattened();
-  const sitemap = generateSiteMap(products, allCategoriesRaw);
+  const Feed = generateFeed(products);
   res.setHeader("Content-Type", "text/xml");
-  res.write(sitemap);
+  res.write(Feed);
   res.end();
   return {};
 }
