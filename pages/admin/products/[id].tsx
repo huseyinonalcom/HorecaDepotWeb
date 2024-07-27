@@ -212,7 +212,7 @@ export default function ProductPage(props) {
             );
             if (!request.ok) {
               setInProgress(false);
-              console.log(request.json());
+              console.log(await request.json());
               setSubmitError(
                 t("An error occurred while modifying the product!"),
               );
@@ -235,7 +235,7 @@ export default function ProductPage(props) {
             });
             if (!request.ok) {
               setInProgress(false);
-              console.log(request.json());
+              console.log(await request.json());
               setSubmitError(
                 t("An error occurred during the product creation!"),
               );
