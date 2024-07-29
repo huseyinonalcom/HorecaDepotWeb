@@ -19,18 +19,26 @@ ${products
 <g:availability>in stock</g:availability>
 <g:price>${prd.value} EUR</g:price>
 <g:gtin>${prd.supplierCode}</g:gtin>
-<g:shipping>
 
+<g:shipping>
 <g:country>BE</g:country>
 <g:service>Standard</g:service>
 <g:price>20 EUR</g:price>
+</g:shipping>
 
+<g:shipping>
 <g:country>FR</g:country>
 <g:service>Standard</g:service>
 <g:price>100 EUR</g:price>
+</g:shipping>
+
+<g:shipping>
 <g:country>NL</g:country>
 <g:service>Standard</g:service>
 <g:price>100 EUR</g:price>
+</g:shipping>
+
+<g:shipping>
 <g:country>DE</g:country>
 <g:service>Standard</g:service>
 <g:price>100 EUR</g:price>
