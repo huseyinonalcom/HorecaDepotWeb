@@ -13,6 +13,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Meta from "./meta";
 import ImageWithURL from "../common/image";
+import { CookieBanner } from "../googleanal";
 
 const nexa = localFont({
   src: [
@@ -488,23 +489,7 @@ const Layout = ({ children }: Props) => {
                   <Heart />
                 </Link>
               </div>
-              {cookieDisclaimer && (
-                <div className="fixed bottom-24 z-30 flex w-full max-w-[100vw] flex-row items-center justify-center gap-3 bg-black py-2 text-center text-white">
-                  <p className="text-sm">{t("cookie_disclaimer")}</p>
-                  <button
-                    name="cookieDisclaimer"
-                    aria-label="Close Cookie Disclaimer"
-                    type="button"
-                    className="whitespace-nowrap underline decoration-transparent decoration-1 underline-offset-2 duration-500 hover:decoration-black"
-                    onClick={() => {
-                      localStorage.setItem("cookie_disclaimer", "false");
-                      setCookieDisclaimer(false);
-                    }}
-                  >
-                    {t("I understand")}
-                  </button>
-                </div>
-              )}
+              <CookieBanner />
             </main>
           </WishlistProvider>
         </CartProvider>

@@ -307,5 +307,7 @@
   "invoiced_address": "Factuuradres",
   "delivery": "Levering",
   "My Wishlist": "Mijn verlanglijst",
-  "My Personal Details": "Mijn persoonlijke gegevens"
+  "My Personal Details": "Mijn persoonlijke gegevens",
+  "cookie_disclaimer_decline": "Weigeren",
+  "cookie_disclaimer_accept": "Accepteren"
 }

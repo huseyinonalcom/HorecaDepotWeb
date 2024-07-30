@@ -307,5 +307,7 @@
   "invoiced_address": "Invoiced Address",
   "delivery": "Delivery",
   "My Wishlist": "My Wishlist",
-  "My Personal Details": "My Personal Details"
+  "My Personal Details": "My Personal Details",
+  "cookie_disclaimer_decline": "Decline",
+  "cookie_disclaimer_accept": "Accept"
 }
