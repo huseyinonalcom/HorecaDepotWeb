@@ -6,12 +6,14 @@ import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <CategoryProvider>
-      <AdminDrawerProvider>
-        <Component {...pageProps} />
-        <GoogleTagManager gtmId="GTM-5DMMM9F" />
-        <GoogleAnalytics gaId="167998249" />
-      </AdminDrawerProvider>
-    </CategoryProvider>
+    <>
+      <GoogleTagManager gtmId="GTM-5DMMM9F" />
+      <GoogleAnalytics gaId="167998249" />
+      <CategoryProvider>
+        <AdminDrawerProvider>
+          <Component {...pageProps} />
+        </AdminDrawerProvider>
+      </CategoryProvider>
+    </>
   );
 }
