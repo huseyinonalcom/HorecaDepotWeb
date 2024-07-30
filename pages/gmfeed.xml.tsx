@@ -1,4 +1,4 @@
-import { getProducts } from "../api/calls/productCalls";
+import { calculateProductStock, getProducts } from "../api/calls/productCalls";
 
 function generateFeed(products) {
   return `<?xml version="1.0"?>
@@ -14,11 +14,12 @@ ${products
 <item>
 <g:id>${prd.internalCode}</g:id>
 <g:title>${prd.categories.at(0).Name + " " + prd.name}</g:title>
-<g:description>${prd.name + " " + prd.description ?? prd.categories.map((c) => c.Name).join(", ")}</g:description>
+<g:description>${prd.name + " " + (prd.description ?? prd.categories.map((c) => c.Name).join(", "))}</g:description>
 <g:link>https://www.horecadepot.be/products/${prd.categories.at(0).Name}/${prd.name}/${prd.id}</g:link> <g:image_link>https://hdapi.huseyinonalalpha.com${prd.images.at(0).url}</g:image_link> <g:condition>new</g:condition>
-<g:availability>in stock</g:availability>
+<g:availability>in_stock</g:availability>
 <g:price>${prd.value} EUR</g:price>
 <g:gtin>${prd.supplierCode}</g:gtin>
+<g:quantity>${calculateProductStock(prd)}</g:quantity>
 
 <g:shipping>
 <g:country>BE</g:country>
