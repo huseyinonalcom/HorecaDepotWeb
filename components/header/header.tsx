@@ -941,12 +941,12 @@ const Header = () => {
                 <Menu className="mb-[1px]" />
                 <p className="font-semibold">{t("CATEGORIES")}</p>
               </button>
-              <div className="hidden flex-row items-center gap-2 whitespace-nowrap text-lg text-yellow-400 lg:flex">
+              {/* <div className="hidden flex-row items-center gap-2 whitespace-nowrap text-lg text-yellow-400 lg:flex">
                 <GiBulldozer size={42} className="text-yellow-400" />
                 <a href="https://api.whatsapp.com/send?phone=32499738373" className="flex flex-col items-center">
                   <p>Website</p> <p>under</p> <p>construction</p>
                 </a>
-              </div>
+              </div> */}
             </div>
             <div className="flex h-[45px] flex-row gap-2 md:ml-48 md:w-full">
               <DesktopSearch />
