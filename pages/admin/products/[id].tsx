@@ -2,7 +2,20 @@ import { getAllCategoriesFlattened } from "../../api/categories/public/getallcat
 import validateDecimal from "../../../api/utils/input_validators/validate_decimal";
 import validateInteger from "../../../api/utils/input_validators/validate_integer";
 import validateEmpty from "../../../api/utils/input_validators/validate_empty";
-import { Check, ChevronDown, Copy, Download, Upload, X } from "react-feather";
+import {
+  ArrowDown,
+  ArrowDownLeft,
+  ArrowDownRight,
+  ArrowLeft,
+  ArrowRight,
+  ArrowUp,
+  Check,
+  ChevronDown,
+  Copy,
+  Download,
+  Upload,
+  X,
+} from "react-feather";
 import { getAllSuppliers } from "../../api/suppliers/admin/getallsuppliers";
 import TextareaOutlined from "../../../components/inputs/textarea_outlined";
 import { getProductByID } from "../../api/products/admin/getproductbyid";
@@ -17,12 +30,13 @@ import { MdHeight, MdOutlineChair } from "react-icons/md";
 import { Product } from "../../../api/interfaces/product";
 import React, { useEffect, useState } from "react";
 import { GoCircleSlash } from "react-icons/go";
-import { RxDimensions } from "react-icons/rx";
+import { RxDimensions, RxMagnifyingGlass } from "react-icons/rx";
 import { GiWeight } from "react-icons/gi";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
+import ImageWithURL from "../../../components/common/image";
 
 export default function ProductPage(props) {
   const { t, lang } = useTranslation("common");
@@ -121,7 +135,17 @@ export default function ProductPage(props) {
     }
   };
 
-  const sendFile = async (files: File[]) => {
+  const uploadFile = async (e, d) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.target.files && e.target.files[0]) {
+      const files = e.target.files;
+      await sendFile(files, d).then((res) => (e.target.value = ""));
+    }
+  };
+
+  const sendFile = async (files: File[], d?: string) => {
     let uploadedFiles = [];
 
     for (let i = 0; i < files.length; i++) {
@@ -143,6 +167,10 @@ export default function ProductPage(props) {
     setCurrentProduct((pr) => ({
       ...pr,
       images: [...(pr.images ?? []), ...uploadedFiles],
+      imageDirections: {
+        ...(pr.imageDirections ?? {}),
+        [d]: uploadedFiles.at(0).id,
+      },
     }));
   };
 
@@ -996,75 +1024,428 @@ export default function ProductPage(props) {
             </div>
           </div>
           <div className="flex w-1/3 flex-col gap-2">
-            <div
-              className="flex h-fit w-full flex-col gap-2 rounded-md bg-gray-200 p-4"
-              onDrop={(e) => uploadFiles(e)}
-            >
+            <div className="flex h-fit w-full flex-col gap-2 rounded-md bg-gray-200 p-4">
               <div className="flex flex-row text-3xl font-semibold">
                 {t("Images")}
               </div>
-              {selectedImage && (
-                <div
-                  className="relative aspect-square w-full"
-                  key={selectedImage.id}
-                >
-                  <Image
-                    alt={""}
-                    src={
-                      "https://hdapi.huseyinonalalpha.com" + selectedImage.url
-                    }
-                    id={selectedImage.id}
-                    fill
-                    style={{ objectFit: "contain" }}
-                  />
-                  <div
-                    className="absolute right-2 top-2 z-50"
-                    onClick={() => handleImageDelete(selectedImage.id)}
-                  >
-                    <X className="h-8 w-8" color="red" />
-                  </div>
-                  <Link
-                    target="_blank"
-                    className="absolute right-2 top-12"
-                    href={
-                      "https://hdapi.huseyinonalalpha.com" + selectedImage.url
-                    }
-                  >
-                    <Download className="h-8 w-8" color="green" />
-                  </Link>
-                </div>
-              )}
               <div className="flex flex-wrap gap-1">
-                {currentProduct.images?.map((img) => (
-                  <Image
-                    alt={""}
-                    src={"https://hdapi.huseyinonalalpha.com" + img.url}
-                    id={img.id}
-                    width={80}
-                    height={80}
-                    onClick={() => setSelectedImage(img)}
-                  />
-                ))}
-                <label
-                  htmlFor="uploadimg"
-                  className={
-                    "hover:bg flex h-[80px] w-[80px] cursor-pointer flex-row items-center justify-center overflow-hidden bg-white shadow-lg duration-500"
-                  }
-                >
-                  <div className={navIconDivClass}>
-                    <Upload className={iconClass} />
+                {selectedImage && (
+                  <div
+                    className="relative aspect-square w-full"
+                    key={selectedImage.id}
+                  >
+                    <ImageWithURL
+                      alt={""}
+                      src={selectedImage.url}
+                      id={selectedImage.id}
+                      fill
+                      style={{ objectFit: "contain" }}
+                    />
+                    <div
+                      className="absolute right-2 top-2 z-50"
+                      onClick={() => handleImageDelete(selectedImage.id)}
+                    >
+                      <X className="h-8 w-8" color="red" />
+                    </div>
+                    <Link
+                      target="_blank"
+                      className="absolute right-2 top-12"
+                      href={
+                        "https://hdapi.huseyinonalalpha.com" + selectedImage.url
+                      }
+                    >
+                      <Download className="h-8 w-8" color="green" />
+                    </Link>
                   </div>
-                </label>
-                <input
-                  title={t("Upload Image")}
-                  className="absolute h-0 w-0 opacity-0"
-                  placeholder={t("Upload Image")}
-                  type="file"
-                  name="uploadimg"
-                  multiple={true}
-                  id="uploadimg"
-                  onChange={uploadFiles}
-                ></input>
+                )}
+                {currentProduct.images
+                  ?.filter(
+                    (img) =>
+                      !Object.values(currentProduct.imageDirections).includes(
+                        img.id,
+                      ),
+                  )
+                  .map((img) => (
+                    <ImageWithURL
+                      alt={""}
+                      src={img.url}
+                      id={img.id}
+                      width={80}
+                      height={80}
+                      onClick={() => setSelectedImage(img)}
+                    />
+                  ))}
+                <div className="flex flex-col items-center">
+                  {currentProduct.images.find(
+                    (img) => currentProduct.imageDirections?.l == img.id,
+                  ) ? (
+                    <ImageWithURL
+                      alt={""}
+                      src={
+                        currentProduct.images.find(
+                          (img) => currentProduct.imageDirections?.l == img.id,
+                        ).url
+                      }
+                      id={
+                        currentProduct.images.find(
+                          (img) => currentProduct.imageDirections?.l == img.id,
+                        ).id
+                      }
+                      width={80}
+                      height={80}
+                      onClick={() =>
+                        setSelectedImage(
+                          currentProduct.images.find(
+                            (img) =>
+                              currentProduct.imageDirections?.l == img.id,
+                          ),
+                        )
+                      }
+                    />
+                  ) : (
+                    <>
+                      <label
+                        htmlFor="uploadimgl"
+                        className={
+                          "hover:bg flex h-[80px] w-[80px] cursor-pointer flex-row items-center justify-center overflow-hidden bg-white shadow-lg duration-500"
+                        }
+                      >
+                        <div className={navIconDivClass}>
+                          <Upload className={iconClass} />
+                        </div>
+                      </label>
+                      <input
+                        title={t("Upload Image")}
+                        className="absolute h-0 w-0 opacity-0"
+                        placeholder={t("Upload Image")}
+                        type="file"
+                        name="uploadimgl"
+                        multiple={true}
+                        id="uploadimgl"
+                        onChange={(e) => uploadFile(e, "l")}
+                      ></input>
+                    </>
+                  )}
+                  <ArrowLeft />
+                </div>
+                <div className="flex flex-col items-center">
+                  {currentProduct.images.find(
+                    (img) => currentProduct.imageDirections?.fl == img.id,
+                  ) ? (
+                    <ImageWithURL
+                      alt={""}
+                      src={
+                        currentProduct.images.find(
+                          (img) => currentProduct.imageDirections?.fl == img.id,
+                        ).url
+                      }
+                      id={
+                        currentProduct.images.find(
+                          (img) => currentProduct.imageDirections?.fl == img.id,
+                        ).id
+                      }
+                      width={80}
+                      height={80}
+                      onClick={() =>
+                        setSelectedImage(
+                          currentProduct.images.find(
+                            (img) =>
+                              currentProduct.imageDirections?.fl == img.id,
+                          ),
+                        )
+                      }
+                    />
+                  ) : (
+                    <>
+                      <label
+                        htmlFor="uploadimgfl"
+                        className={
+                          "hover:bg flex h-[80px] w-[80px] cursor-pointer flex-row items-center justify-center overflow-hidden bg-white shadow-lg duration-500"
+                        }
+                      >
+                        <div className={navIconDivClass}>
+                          <Upload className={iconClass} />
+                        </div>
+                      </label>
+                      <input
+                        title={t("Upload Image")}
+                        className="absolute h-0 w-0 opacity-0"
+                        placeholder={t("Upload Image")}
+                        type="file"
+                        name="uploadimgfl"
+                        multiple={true}
+                        id="uploadimgfl"
+                        onChange={(e) => uploadFile(e, "fl")}
+                      ></input>
+                    </>
+                  )}
+                  <ArrowDownLeft />
+                </div>
+                <div className="flex flex-col items-center">
+                  {currentProduct.images.find(
+                    (img) => currentProduct.imageDirections?.b == img.id,
+                  ) ? (
+                    <ImageWithURL
+                      alt={""}
+                      src={
+                        currentProduct.images.find(
+                          (img) => currentProduct.imageDirections?.b == img.id,
+                        ).url
+                      }
+                      id={
+                        currentProduct.images.find(
+                          (img) => currentProduct.imageDirections?.b == img.id,
+                        ).id
+                      }
+                      width={80}
+                      height={80}
+                      onClick={() =>
+                        setSelectedImage(
+                          currentProduct.images.find(
+                            (img) =>
+                              currentProduct.imageDirections?.b == img.id,
+                          ),
+                        )
+                      }
+                    />
+                  ) : (
+                    <>
+                      <label
+                        htmlFor="uploadimgb"
+                        className={
+                          "hover:bg flex h-[80px] w-[80px] cursor-pointer flex-row items-center justify-center overflow-hidden bg-white shadow-lg duration-500"
+                        }
+                      >
+                        <div className={navIconDivClass}>
+                          <Upload className={iconClass} />
+                        </div>
+                      </label>
+                      <input
+                        title={t("Upload Image")}
+                        className="absolute h-0 w-0 opacity-0"
+                        placeholder={t("Upload Image")}
+                        type="file"
+                        name="uploadimgb"
+                        multiple={true}
+                        id="uploadimgb"
+                        onChange={(e) => uploadFile(e, "b")}
+                      ></input>
+                    </>
+                  )}
+                  <ArrowUp />
+                </div>
+                <div className="flex flex-col items-center">
+                  {currentProduct.images.find(
+                    (img) => currentProduct.imageDirections?.f == img.id,
+                  ) ? (
+                    <ImageWithURL
+                      alt={""}
+                      src={
+                        currentProduct.images.find(
+                          (img) => currentProduct.imageDirections?.f == img.id,
+                        ).url
+                      }
+                      id={
+                        currentProduct.images.find(
+                          (img) => currentProduct.imageDirections?.f == img.id,
+                        ).id
+                      }
+                      width={80}
+                      height={80}
+                      onClick={() =>
+                        setSelectedImage(
+                          currentProduct.images.find(
+                            (img) =>
+                              currentProduct.imageDirections?.f == img.id,
+                          ),
+                        )
+                      }
+                    />
+                  ) : (
+                    <>
+                      <label
+                        htmlFor="uploadimgf"
+                        className={
+                          "hover:bg flex h-[80px] w-[80px] cursor-pointer flex-row items-center justify-center overflow-hidden bg-white shadow-lg duration-500"
+                        }
+                      >
+                        <div className={navIconDivClass}>
+                          <Upload className={iconClass} />
+                        </div>
+                      </label>
+                      <input
+                        title={t("Upload Image")}
+                        className="absolute h-0 w-0 opacity-0"
+                        placeholder={t("Upload Image")}
+                        type="file"
+                        name="uploadimgf"
+                        multiple={true}
+                        id="uploadimgf"
+                        onChange={(e) => uploadFile(e, "f")}
+                      ></input>
+                    </>
+                  )}
+                  <ArrowDown />
+                </div>
+                <div className="flex flex-col items-center">
+                  {currentProduct.images.find(
+                    (img) => currentProduct.imageDirections?.fr == img.id,
+                  ) ? (
+                    <ImageWithURL
+                      alt={""}
+                      src={
+                        currentProduct.images.find(
+                          (img) => currentProduct.imageDirections?.fr == img.id,
+                        ).url
+                      }
+                      id={
+                        currentProduct.images.find(
+                          (img) => currentProduct.imageDirections?.fr == img.id,
+                        ).id
+                      }
+                      width={80}
+                      height={80}
+                      onClick={() =>
+                        setSelectedImage(
+                          currentProduct.images.find(
+                            (img) =>
+                              currentProduct.imageDirections?.fr == img.id,
+                          ),
+                        )
+                      }
+                    />
+                  ) : (
+                    <>
+                      <label
+                        htmlFor="uploadimgfr"
+                        className={
+                          "hover:bg flex h-[80px] w-[80px] cursor-pointer flex-row items-center justify-center overflow-hidden bg-white shadow-lg duration-500"
+                        }
+                      >
+                        <div className={navIconDivClass}>
+                          <Upload className={iconClass} />
+                        </div>
+                      </label>
+                      <input
+                        title={t("Upload Image")}
+                        className="absolute h-0 w-0 opacity-0"
+                        placeholder={t("Upload Image")}
+                        type="file"
+                        name="uploadimgfr"
+                        multiple={true}
+                        id="uploadimgfr"
+                        onChange={(e) => uploadFile(e, "fr")}
+                      ></input>
+                    </>
+                  )}
+                  <ArrowDownRight />
+                </div>
+                <div className="flex flex-col items-center">
+                  {currentProduct.images.find(
+                    (img) => currentProduct.imageDirections?.r == img.id,
+                  ) ? (
+                    <ImageWithURL
+                      alt={""}
+                      src={
+                        currentProduct.images.find(
+                          (img) => currentProduct.imageDirections?.r == img.id,
+                        ).url
+                      }
+                      id={
+                        currentProduct.images.find(
+                          (img) => currentProduct.imageDirections?.r == img.id,
+                        ).id
+                      }
+                      width={80}
+                      height={80}
+                      onClick={() =>
+                        setSelectedImage(
+                          currentProduct.images.find(
+                            (img) =>
+                              currentProduct.imageDirections?.r == img.id,
+                          ),
+                        )
+                      }
+                    />
+                  ) : (
+                    <>
+                      <label
+                        htmlFor="uploadimgr"
+                        className={
+                          "hover:bg flex h-[80px] w-[80px] cursor-pointer flex-row items-center justify-center overflow-hidden bg-white shadow-lg duration-500"
+                        }
+                      >
+                        <div className={navIconDivClass}>
+                          <Upload className={iconClass} />
+                        </div>
+                      </label>
+                      <input
+                        title={t("Upload Image")}
+                        className="absolute h-0 w-0 opacity-0"
+                        placeholder={t("Upload Image")}
+                        type="file"
+                        name="uploadimgr"
+                        multiple={true}
+                        id="uploadimgr"
+                        onChange={(e) => uploadFile(e, "r")}
+                      ></input>
+                    </>
+                  )}
+                  <ArrowRight />
+                </div>
+                <div className="flex flex-col items-center">
+                  {currentProduct.images.find(
+                    (img) => currentProduct.imageDirections?.d == img.id,
+                  ) ? (
+                    <ImageWithURL
+                      alt={""}
+                      src={
+                        currentProduct.images.find(
+                          (img) => currentProduct.imageDirections?.d == img.id,
+                        ).url
+                      }
+                      id={
+                        currentProduct.images.find(
+                          (img) => currentProduct.imageDirections?.d == img.id,
+                        ).id
+                      }
+                      width={80}
+                      height={80}
+                      onClick={() =>
+                        setSelectedImage(
+                          currentProduct.images.find(
+                            (img) =>
+                              currentProduct.imageDirections?.d == img.id,
+                          ),
+                        )
+                      }
+                    />
+                  ) : (
+                    <>
+                      <label
+                        htmlFor="uploadimgd"
+                        className={
+                          "hover:bg flex h-[80px] w-[80px] cursor-pointer flex-row items-center justify-center overflow-hidden bg-white shadow-lg duration-500"
+                        }
+                      >
+                        <div className={navIconDivClass}>
+                          <Upload className={iconClass} />
+                        </div>
+                      </label>
+                      <input
+                        title={t("Upload Image")}
+                        className="absolute h-0 w-0 opacity-0"
+                        placeholder={t("Upload Image")}
+                        type="file"
+                        name="uploadimgd"
+                        multiple={true}
+                        id="uploadimgd"
+                        onChange={(e) => uploadFile(e, "d")}
+                      ></input>
+                    </>
+                  )}
+                  <RxMagnifyingGlass />
+                </div>
               </div>
             </div>
             <div className="flex h-fit w-full flex-col gap-2 rounded-md bg-gray-200 p-4">

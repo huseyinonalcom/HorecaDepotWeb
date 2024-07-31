@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
+import ImageWithURL from "../components/common/image";
 
 export default function Checkout() {
   const { t, lang } = useTranslation("common");
@@ -1187,12 +1188,11 @@ export default function Checkout() {
               >
                 <div className="flex w-full flex-col items-center">
                   <div className="flex flex-row justify-center">
-                    <Image
+                    <ImageWithURL
                       src={
                         product.images != null
-                          ? "https://hdapi.huseyinonalalpha.com" +
-                            product.images.at(0).url
-                          : "/assets/img/placeholder.png"
+                          ? product.images.at(0).url
+                          : "/uploads/placeholder_9db455d1f1.webp"
                       }
                       alt={product.name}
                       width={150}

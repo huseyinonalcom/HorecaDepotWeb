@@ -68,7 +68,7 @@ const OrderPreview = ({ order }) => {
           ) : (
             <Image
               key={1}
-              src={`/assets/img/placeholder.png`}
+              src={`/uploads/placeholder_9db455d1f1.webp`}
               width={200}
               height={200}
               alt={""}

@@ -6,6 +6,7 @@ import React, { useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import CustomTheme from "../componentThemes";
+import ImageWithURL from "../common/image";
 
 const CartDrawer = () => {
   const { t } = useTranslation("common");
@@ -48,12 +49,11 @@ const CartDrawer = () => {
         {cart.map((product) => (
           <div key={product.id} className="my-1 mb-2 border-b pb-2">
             <div className="flex flex-row items-center">
-              <Image
+              <ImageWithURL
                 src={
                   product.images != null
-                    ? "https://hdapi.huseyinonalalpha.com" +
-                      product.images.at(0).url
-                    : "/assets/img/placeholder.png"
+                    ? product.images.at(0).url
+                    : "/uploads/placeholder_9db455d1f1.webp"
                 }
                 alt={product.name}
                 width={90}

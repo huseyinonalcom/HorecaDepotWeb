@@ -12,6 +12,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
+import ImageWithURL from "../../components/common/image";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");
@@ -305,15 +306,14 @@ export default function Products(props) {
                         className="flex flex-col items-center gap-2"
                       >
                         <div className="relative aspect-[15/14] w-full overflow-hidden rounded-xl">
-                          <Image
+                          <ImageWithURL
                             fill
                             style={{ objectFit: "contain" }}
                             sizes="95vw, (max-width: 640px) 80vw, (max-width: 1024px) 50vw, (nax-width: 1536px) 25vw"
                             src={
                               category.image != null
-                                ? "https://hdapi.huseyinonalalpha.com" +
-                                  category.image.url
-                                : "/assets/img/placeholder.png"
+                                ? category.image.url
+                                : "/uploads/placeholder_9db455d1f1.webp"
                             }
                             alt={t(category.Name) + " image"}
                           />

@@ -4,6 +4,7 @@ import useTranslation from "next-translate/useTranslation";
 import { ShoppingCart, X } from "react-feather";
 import { useContext } from "react";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
+import ImageWithURL from "../common/image";
 
 const WishListComponent = () => {
   const { wishlist, moveItemToCart, removeFromWishlist } =
@@ -33,12 +34,11 @@ const WishListComponent = () => {
                 <Link
                   href={`/products/${product.categories.at(0).Name}/${product.name}/${product.id}`}
                 >
-                  <Image
+                  <ImageWithURL
                     src={
                       product.images != null
-                        ? "https://hdapi.huseyinonalalpha.com" +
-                          product.images.at(0).url
-                        : "/assets/img/placeholder.png"
+                        ? product.images.at(0).url
+                        : "/uploads/placeholder_9db455d1f1.webp"
                     }
                     fill
                     style={{ objectFit: "contain" }}

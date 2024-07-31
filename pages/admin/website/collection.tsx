@@ -7,6 +7,7 @@ import Head from "next/head";
 import componentThemes from "../../../components/componentThemes";
 import { Check, Search, Upload, X } from "react-feather";
 import Image from "next/image";
+import ImageWithURL from "../../../components/common/image";
 
 const buttonClass =
   "flex flex-row items-center justify-start py-2  shadow-lg hover:bg-orange-400 overflow-hidden duration-500 cursor-pointer";
@@ -297,9 +298,9 @@ export default function Order() {
                 />
               </>
             ) : (
-              <Image
+              <ImageWithURL
                 alt=""
-                src={`https://hdapi.huseyinonalalpha.com${inputImage.url}`}
+                src={inputImage.url}
                 width={400}
                 height={400}
               />

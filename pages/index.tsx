@@ -11,6 +11,7 @@ import { getAllCategoriesFlattened } from "./api/categories/public/getallcategor
 import { getWebsite } from "./api/website/public/getwebsite";
 import getT from "next-translate/getT";
 import { useEffect } from "react";
+import ImageWithURL from "../components/common/image";
 
 export default function Index({ mediaGroups, collections }) {
   const { t, lang } = useTranslation("common");
@@ -126,10 +127,8 @@ export default function Index({ mediaGroups, collections }) {
                 >
                   <div className="border-1 flex h-min flex-shrink-0 flex-col overflow-hidden rounded-xl border border-black/30">
                     <div className="relative z-20 aspect-[320/171] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full">
-                      <Image
-                        src={
-                          "https://hdapi.huseyinonalalpha.com" + item.image.url
-                        }
+                      <ImageWithURL
+                        src={item.image.url}
                         alt={t(item.name)}
                         sizes="90vw, md:42vw, 2xl:30vw"
                         fill
@@ -168,14 +167,11 @@ export default function Index({ mediaGroups, collections }) {
                   className="flex flex-col items-center gap-2"
                 >
                   <div className="relative aspect-[15/14] w-full overflow-hidden rounded-xl">
-                    <Image
+                    <ImageWithURL
                       fill
                       style={{ objectFit: "contain" }}
                       sizes="42vw, (max-width: 640px) 28vw, (max-width: 1024px) 13vw, (nax-width: 1536px) 236px"
-                      src={
-                        "https://hdapi.huseyinonalalpha.com" +
-                        category.image.url
-                      }
+                      src={category.image.url}
                       alt={category.name + " image"}
                     />
                   </div>
@@ -192,9 +188,8 @@ export default function Index({ mediaGroups, collections }) {
             }
             className="relative aspect-[21/9] w-full overflow-hidden rounded-xl md:aspect-[205/7] lg:aspect-[205/78]"
           >
-            <Image
+            <ImageWithURL
               src={
-                "https://hdapi.huseyinonalalpha.com" +
                 mediaGroups.find((mg) => mg.order == 3).image_with_link[0].image
                   .url
               }
@@ -223,9 +218,8 @@ export default function Index({ mediaGroups, collections }) {
             }
             className="relative aspect-[17/9] w-full overflow-hidden rounded-xl md:aspect-[32/9] lg:aspect-[32/9]"
           >
-            <Image
+            <ImageWithURL
               src={
-                "https://hdapi.huseyinonalalpha.com" +
                 mediaGroups.find((mg) => mg.order == 4).image_with_link[0].image
                   .url
               }
@@ -255,9 +249,8 @@ export default function Index({ mediaGroups, collections }) {
             }
             className="relative aspect-[18/9] w-full overflow-hidden rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
           >
-            <Image
+            <ImageWithURL
               src={
-                "https://hdapi.huseyinonalalpha.com" +
                 mediaGroups.find((mg) => mg.order == 5).image_with_link[0].image
                   .url
               }
@@ -281,9 +274,9 @@ export const getStaticProps = async ({ locale }) => {
   const website = await getWebsite();
   let mediaGroups = website.media_groups;
 
-for (let i =0; i< collections.length;i++) {
+  for (let i = 0; i < collections.length; i++) {
     collections[i].products = collections[i].products.filter((p) => p.active);
-}
+  }
 
   for (let i = 0; i < mediaGroups.length; i++) {
     if (mediaGroups[i].is_fetched_from_api) {

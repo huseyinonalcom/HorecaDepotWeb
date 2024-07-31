@@ -21,6 +21,7 @@ import {
   Search,
 } from "react-feather";
 import Image from "next/image";
+import ImageWithURL from "../../../components/common/image";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");
@@ -511,14 +512,13 @@ export default function Products(props) {
                         href={"/admin/products/" + product.id}
                         className="absolute inset-0"
                       />
-                      <Image
+                      <ImageWithURL
                         height={80}
                         width={80}
                         src={
                           product.images != null
-                            ? "https://hdapi.huseyinonalalpha.com" +
-                              product.images.at(0).url
-                            : "/assets/img/placeholder.png"
+                            ? product.images.at(0).url
+                            : "/uploads/placeholder_9db455d1f1.webp"
                         }
                         alt={product.name}
                         className="aspect-square h-[80px] flex-shrink-0 object-cover"

@@ -78,7 +78,7 @@ const ProductPage = ({
           content={
             product.images != null
               ? "https://hdapi.huseyinonalalpha.com" + product.images.at(0).url
-              : "/assets/img/placeholder.png"
+              : "/uploads/placeholder_9db455d1f1.webp"
           }
         />
         <meta name="language" content={lang} />

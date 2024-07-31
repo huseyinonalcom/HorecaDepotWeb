@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Product } from "../../api/interfaces/product";
+import ImageWithURL from "../common/image";
 
 type Props = {
   product: Product;
@@ -20,14 +21,13 @@ const ProductPreview3 = ({ product }: Props) => {
           id={`${product.id}-image`}
           className={`relative aspect-square w-full`}
         >
-          <Image
+          <ImageWithURL
             draggable={false}
             sizes="(max-width: 768px) 190px, 290px"
             src={
               product.images != null
-                ? "https://hdapi.huseyinonalalpha.com" +
-                  product.images.at(0).url
-                : "/assets/img/placeholder.png"
+                ? product.images.at(0).url
+                : "/uploads/placeholder_9db455d1f1.webp"
             }
             fill
             style={{ objectFit: "contain", cursor: "pointer" }}

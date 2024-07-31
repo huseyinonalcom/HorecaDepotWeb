@@ -5,6 +5,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { getProjectByID } from "../api/projects/public/getprojectbyid";
 import { getAllProjectIDs } from "../api/projects/public/getallprojectids";
+import ImageWithURL from "../../components/common/image";
 
 type Props = {
   project;
@@ -43,12 +44,12 @@ const ProjectPage = ({ project }: Props) => {
         <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
           {project.images.map((image, index) => (
             <div key={index} className="relative min-h-[200px] min-w-[200px]">
-              <Image
+              <ImageWithURL
                 sizes="(max-width: 768px) 95vw, (max-width: 1024px) 48vw, 20vw"
-                src={"https://hdapi.huseyinonalalpha.com" + image.url}
                 fill
                 style={{ objectFit: "contain" }}
                 alt={`${image.name.split(".")[0]}`}
+                src={image.url}
               />
             </div>
           ))}

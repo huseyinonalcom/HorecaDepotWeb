@@ -38,6 +38,15 @@ export default async function putProduct(
           color: prodToPost.color,
           material: prodToPost.material,
           discountRange: prodToPost.discountRange ?? 0,
+          imageDirections: prodToPost.imageDirections ?? {
+            l: 0,
+            r: 0,
+            f: 0,
+            b: 0,
+            fl: 0,
+            fr: 0,
+            d: 0,
+          },
           priceBeforeDiscount:
             prodToPost.priceBeforeDiscount ?? prodToPost.value ?? 0,
         },

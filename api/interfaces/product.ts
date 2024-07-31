@@ -28,6 +28,7 @@ export interface Product {
   shelves?: Shelf[];
   categories?: Category[];
   supplier?: any;
+  imageDirections?: any;
 }
 
 export class ProductConversion {

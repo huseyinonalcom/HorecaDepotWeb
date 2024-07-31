@@ -4,6 +4,7 @@ import useTranslation from "next-translate/useTranslation";
 import { ArrowLeft } from "react-feather";
 import { useEffect, useState } from "react";
 import componentThemes from "../componentThemes";
+import ImageWithURL from "../common/image";
 
 type Props = {
   collection;
@@ -19,7 +20,6 @@ const CollectionPreview = ({ collection }: Props) => {
     "absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-1000";
   const imageVisible = "opacity-100 z-40";
   const imageInvisible = "opacity-0";
-  
 
   useEffect(() => {
     setCurrentImage(0);
@@ -82,13 +82,13 @@ const CollectionPreview = ({ collection }: Props) => {
       <div className="flex flex-col">
         <p className="text-xl font-bold">{collection.name}</p>
         <div className="relative aspect-[24/9] h-[150px]">
-          <Image
+          <ImageWithURL
             fill
             style={{ objectFit: "contain" }}
             src={
               collection.image != null
-                ? "https://hdapi.huseyinonalalpha.com" + collection.image.url
-                : "/assets/img/placeholder.png"
+                ? collection.image.url
+                : "/uploads/placeholder_9db455d1f1.webp"
             }
             alt=""
           />
@@ -112,7 +112,7 @@ const CollectionPreview = ({ collection }: Props) => {
             ) : (
               <Image
                 key={1}
-                src={`/assets/img/placeholder.png`}
+                src={`/uploads/placeholder_9db455d1f1.webp`}
                 width={200}
                 height={200}
                 alt={""}

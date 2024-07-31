@@ -79,7 +79,7 @@ const ProductImages = ({ product }) => {
       ) : (
         <Image
           key={1}
-          src={`/assets/img/placeholder.png`}
+          src={`/uploads/placeholder_9db455d1f1.webp`}
           fill
           style={{ objectFit: "contain" }}
           alt={product.name}
