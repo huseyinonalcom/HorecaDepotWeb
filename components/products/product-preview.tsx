@@ -10,6 +10,7 @@ import { WishlistContext } from "../../api/providers/wishlistProvider";
 import { WishlistProduct } from "../../api/interfaces/wishlistProduct";
 import { TiTick } from "react-icons/ti";
 import ImageWithURL from "../common/image";
+import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
 
 type Props = {
   product: Product;
@@ -66,7 +67,7 @@ const ProductPreview = ({ product }: Props) => {
           sizes="(max-width: 768px) 190px, 290px"
           src={
             product.images != null
-              ? product.images.at(0).url
+              ? getCoverImageUrl(product)
               : "/uploads/placeholder_9db455d1f1.webp"
           }
           fill

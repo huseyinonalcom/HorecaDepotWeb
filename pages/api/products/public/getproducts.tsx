@@ -171,7 +171,7 @@ export async function getProducts(req) {
       fetchUrl += `filters[$and][0][value][$gte]=${minValueParam}&filters[$and][1][value][$lte]=${maxValueParam}&`;
     }
 
-    fetchUrl += `populate[document_products][fields][0]=amount&populate[product_extra][fields][0]=*&populate[shelves][fields][0]=stock&fields[0]=name&populate[categories][fields][0]=name&fields[2]=productLine&fields[3]=internalCode&fields[5]=value&fields[8]=description&populate[shelves][populate][supplier_order_products][fields][0]=amountOrdered&populate[shelves][populate][supplier_order_products][fields][1]=amountDelivered&fields[1]=depth&fields[4]=priceBeforeDiscount&fields[6]=width&fields[7]=height&fields[9]=material&fields[10]=color&populate[images][fields][0]=url&pagination[page]=${pageParam}${
+    fetchUrl += `populate[document_products][fields][0]=amount&populate[product_extra][fields][0]=*&populate[shelves][fields][0]=stock&fields[0]=name&populate[categories][fields][0]=name&fields[2]=productLine&fields[3]=internalCode&fields[5]=value&fields[8]=description&populate[shelves][populate][supplier_order_products][fields][0]=amountOrdered&populate[shelves][populate][supplier_order_products][fields][1]=amountDelivered&fields[1]=depth&fields[4]=priceBeforeDiscount&fields[6]=width&fields[7]=height&fields[9]=material&fields[10]=color&fields[11]=imageDirections&populate[images][fields][0]=url&pagination[page]=${pageParam}${
       sortParam ? `&sort[0]=${sortParam}` : ""
     }${countParam ? `&pagination[pageSize]=${countParam}` : ""}`;
 

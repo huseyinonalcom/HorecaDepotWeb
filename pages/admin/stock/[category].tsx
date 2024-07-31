@@ -22,6 +22,7 @@ import {
 } from "react-feather";
 import Image from "next/image";
 import ImageWithURL from "../../../components/common/image";
+import { getCoverImageUrl } from "../../../api/utils/getprodcoverimage";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");
@@ -517,7 +518,7 @@ export default function Products(props) {
                         width={80}
                         src={
                           product.images != null
-                            ? product.images.at(0).url
+                            ? getCoverImageUrl(product)
                             : "/uploads/placeholder_9db455d1f1.webp"
                         }
                         alt={product.name}

@@ -5,6 +5,7 @@ import { ShoppingCart, X } from "react-feather";
 import { useContext } from "react";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import ImageWithURL from "../common/image";
+import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
 
 const WishListComponent = () => {
   const { wishlist, moveItemToCart, removeFromWishlist } =
@@ -37,7 +38,7 @@ const WishListComponent = () => {
                   <ImageWithURL
                     src={
                       product.images != null
-                        ? product.images.at(0).url
+                        ? getCoverImageUrl(product)
                         : "/uploads/placeholder_9db455d1f1.webp"
                     }
                     fill

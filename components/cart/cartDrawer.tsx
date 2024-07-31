@@ -3,10 +3,10 @@ import useTranslation from "next-translate/useTranslation";
 import { Minus, Plus, X } from "react-feather";
 import { AutoTextSize } from "auto-text-size";
 import React, { useContext } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import CustomTheme from "../componentThemes";
 import ImageWithURL from "../common/image";
+import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
 
 const CartDrawer = () => {
   const { t } = useTranslation("common");
@@ -52,7 +52,7 @@ const CartDrawer = () => {
               <ImageWithURL
                 src={
                   product.images != null
-                    ? product.images.at(0).url
+                    ? getCoverImageUrl(product)
                     : "/uploads/placeholder_9db455d1f1.webp"
                 }
                 alt={product.name}

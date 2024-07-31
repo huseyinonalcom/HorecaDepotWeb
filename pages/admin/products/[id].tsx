@@ -1061,7 +1061,7 @@ export default function ProductPage(props) {
                 {currentProduct.images
                   ?.filter(
                     (img) =>
-                      !Object.values(currentProduct.imageDirections).includes(
+                      !Object.values(currentProduct.imageDirections ?? {}).includes(
                         img.id,
                       ),
                   )

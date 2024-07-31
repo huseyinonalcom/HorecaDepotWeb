@@ -14,7 +14,7 @@ export default async function getAllOrders(
         return res.status(401).json(statusText[401]);
       }
       try {
-        const fetchUrl = `${process.env.API_URL}/api/documents?fields[0]=prefix&fields[1]=number&fields[2]=date&populate[client][fields][0]=id&populate[payments][fields][0]=value&populate[payments][fields][1]=verified&populate[payments][fields][2]=deleted&populate[document_products][fields][0]=subTotal&populate[document_products][populate][product][fields][0]=name&populate[document_products][populate][product][populate][images][fields][0]=url`;
+        const fetchUrl = `${process.env.API_URL}/api/documents?fields[0]=prefix&fields[1]=number&fields[2]=date&populate[client][fields][0]=id&populate[payments][fields][0]=value&populate[payments][fields][1]=verified&populate[payments][fields][2]=deleted&populate[document_products][fields][0]=subTotal&populate[document_products][populate][product][fields][0]=name&populate[document_products][populate][products][fields][1]=imageDirections&populate[document_products][populate][product][populate][images][fields][0]=url`;
         const request = await fetch(fetchUrl, {
           method: "GET",
           headers: {

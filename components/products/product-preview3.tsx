@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Product } from "../../api/interfaces/product";
 import ImageWithURL from "../common/image";
+import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
 
 type Props = {
   product: Product;
@@ -26,7 +27,7 @@ const ProductPreview3 = ({ product }: Props) => {
             sizes="(max-width: 768px) 190px, 290px"
             src={
               product.images != null
-                ? product.images.at(0).url
+                ? getCoverImageUrl(product)
                 : "/uploads/placeholder_9db455d1f1.webp"
             }
             fill

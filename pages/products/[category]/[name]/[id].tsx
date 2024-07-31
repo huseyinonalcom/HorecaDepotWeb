@@ -23,6 +23,7 @@ import { MdHeight, MdOutlineChair, MdWhatsapp } from "react-icons/md";
 import { GiWeight } from "react-icons/gi";
 import { GoCircleSlash } from "react-icons/go";
 import { LuPackage, LuPackageOpen, LuPackageX } from "react-icons/lu";
+import { getCoverImageUrl } from "../../../../api/utils/getprodcoverimage";
 
 type Props = {
   relatedProducts: Product[];
@@ -77,7 +78,7 @@ const ProductPage = ({
           property="og:image"
           content={
             product.images != null
-              ? "https://hdapi.huseyinonalalpha.com" + product.images.at(0).url
+              ? "https://hdapi.huseyinonalalpha.com" + getCoverImageUrl(product)
               : "/uploads/placeholder_9db455d1f1.webp"
           }
         />

@@ -19,6 +19,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
 import ImageWithURL from "../components/common/image";
+import { getCoverImageUrl } from "../api/utils/getprodcoverimage";
 
 export default function Checkout() {
   const { t, lang } = useTranslation("common");
@@ -1191,7 +1192,7 @@ export default function Checkout() {
                     <ImageWithURL
                       src={
                         product.images != null
-                          ? product.images.at(0).url
+                          ? getCoverImageUrl(product)
                           : "/uploads/placeholder_9db455d1f1.webp"
                       }
                       alt={product.name}
