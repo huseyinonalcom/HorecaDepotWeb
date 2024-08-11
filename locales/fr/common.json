@@ -311,5 +311,6 @@
   "cookie_disclaimer_decline": "Refuser",
   "cookie_disclaimer_accept": "Accepter",
   "color": "Couleur",
-  "selected_color": "Couleur sélectionnée"
+  "selected_color": "Couleur sélectionnée",
+  "internalCode_not_empty": "Le code interne n'est pas vide"
 }

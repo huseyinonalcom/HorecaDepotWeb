@@ -232,7 +232,6 @@ export default function ProductPage(props) {
             );
             if (!request.ok) {
               setInProgress(false);
-              console.log(await request.json());
               setSubmitError(
                 t("An error occurred while modifying the product!"),
               );
@@ -241,7 +240,6 @@ export default function ProductPage(props) {
             }
           } catch (e) {
             setInProgress(false);
-            console.log(e);
             setSubmitError(t("An error occurred while modifying the product!"));
           }
         } else {
@@ -255,7 +253,6 @@ export default function ProductPage(props) {
             });
             if (!request.ok) {
               setInProgress(false);
-              console.log(await request.json());
               setSubmitError(
                 t("An error occurred during the product creation!"),
               );
@@ -264,13 +261,11 @@ export default function ProductPage(props) {
             }
           } catch (e) {
             setInProgress(false);
-            console.log(e);
             setSubmitError(t("An error occurred during the product creation!"));
           }
         }
       }
     } catch (error) {
-      console.log(error);
       setInProgress(false);
       setSubmitError(error);
     }
@@ -402,9 +397,64 @@ export default function ProductPage(props) {
   }, []);
 
   const autoCode = async () => {
-    if (currentProduct.internalCode != "") {
+    if (currentProduct.internalCode && currentProduct.internalCode != "") {
       alert(t("internalCode_not_empty"));
       return;
+    }
+
+    if (
+      !currentProduct.name ||
+      currentProduct.name == "" ||
+      !currentProduct.categories ||
+      currentProduct.categories.length < 1 ||
+      !currentProduct.product_color
+    ) {
+      alert(t("fill_fields"));
+      return;
+    }
+    const prods = await fetch(
+      `/api/products/admin/getallproducts?search=${currentProduct.name}&sort=id&category=${currentProduct.categories.at(0).id}`,
+    );
+    let fetchedProds: Product[] = (await prods.json()).data;
+    let ic = fetchedProds.find(
+      (prd) => prd.name.toLowerCase() == currentProduct.name.toLowerCase(),
+    )?.internalCode;
+
+    if (ic && ic.split(".").length > 1) {
+      let newCode = `HD.${ic.split(".")[1]}.${ic.split(".")[2]}.${currentProduct.product_color.code}`;
+      setCurrentProduct((pr) => ({
+        ...pr,
+        internalCode: newCode,
+      }));
+      setErrors((pe) => ({
+        ...pe,
+        internalCode: null,
+      }));
+    } else {
+      const prodsFromCat = await fetch(
+        `/api/products/admin/getallproducts?category=${currentProduct.categories.at(0).id}&sort=id`,
+      );
+
+      const prodsFromCatData = (await prodsFromCat.json()).data;
+
+      const result = prodsFromCatData
+        .map((product) => product.internalCode) // Get the internalCode
+        .map((code) => code.split(".")) // Split by "."
+        .filter((parts) => parts.length === 4) // Keep only the ones with 4 parts
+        .map((parts) => parseInt(parts[2])) // Extract the 3rd part (and convert it to a number)
+        .sort((a, b) => a - b); // Sort numerically
+
+      const nextValue = result[result.length - 1] + 1;
+
+      let newCode = `HD.${currentProduct.categories.at(0).code}.${nextValue}.${currentProduct.product_color.code}`;
+      setCurrentProduct((pr) => ({
+        ...pr,
+        internalCode: newCode,
+      }));
+      setErrors((pe) => ({
+        ...pe,
+        internalCode: null,
+      }));
     }
   };
 
@@ -1470,14 +1520,14 @@ export default function ProductPage(props) {
                   className="flex flex-row items-center gap-2 bg-blue-100 p-1"
                 >
                   <button
-                    onClick={() =>
+                    onClick={() => {
                       setCurrentProduct({
                         ...currentProduct,
                         categories: currentProduct.categories.filter(
                           (c) => c.id != cat.id,
                         ),
-                      })
-                    }
+                      });
+                    }}
                   >
                     <X color="red" />
                   </button>
@@ -1503,14 +1553,20 @@ export default function ProductPage(props) {
                       <button
                         key={cat.id}
                         className={`flex flex-row items-start gap-2 p-1 hover:bg-blue-200 ${cat.headCategory ? "ml-2" : ""}`}
-                        onClick={() => {
-                          setCurrentProduct({
-                            ...currentProduct,
-                            categories: [
-                              ...(currentProduct.categories ?? []),
-                              cat,
-                            ],
-                          });
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          if (cat.subCategories.length > 0) {
+                            return;
+                          } else {
+                            setCurrentProduct({
+                              ...currentProduct,
+                              categories: [
+                                ...(currentProduct.categories ?? []),
+                                cat,
+                              ],
+                            });
+                          }
                         }}
                       >
                         {t(cat.Name)}
@@ -1546,7 +1602,6 @@ export async function getServerSideProps(context) {
   const req = context.req;
   const allCategories = await getAllCategoriesFlattened();
   const allSuppliers = await getAllSuppliers(req);
-  console.log(allSuppliers);
   let currentProduct: Product = {
     id: 0,
     supplier: allSuppliers.at(0),
