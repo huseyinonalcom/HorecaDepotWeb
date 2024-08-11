@@ -8,7 +8,7 @@ export default async function getColors(
   const authToken = cookies.j;
   if (req.method === "GET") {
     try {
-      const fetchUrl = `${process.env.API_URL}/api/colors`;
+      const fetchUrl = `${process.env.API_URL}/api/product-colors`;
       const reqColor = await fetch(fetchUrl, {
         method: "GET",
         headers: {
@@ -18,9 +18,7 @@ export default async function getColors(
         },
       });
 
-      console.log(reqColor);
-
-      return res.status(200).json(reqColor);
+      return res.status(200).json((await reqColor.json()).data);
     } catch (error) {
       console.log(error);
       return res.status(500).json(error);

@@ -37,6 +37,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
 import ImageWithURL from "../../../components/common/image";
+import { ColorChooser } from "../../../components/inputs/ColorChooser";
 
 export default function ProductPage(props) {
   const { t, lang } = useTranslation("common");
@@ -645,6 +646,7 @@ export default function ProductPage(props) {
                       onChange={(e) => handleChange("color", e.target.value)}
                     />
                   </div>
+
                   <div className="flex w-[200px] flex-row items-center">
                     <GiWeight size={36} className="flex-shrink-0" />
                     <InputOutlined
@@ -1496,6 +1498,22 @@ export default function ProductPage(props) {
                     ))}
                 </div>
               </div>
+            </div>
+            <div className="flex h-fit w-full flex-col gap-2 rounded-md bg-gray-200 p-4">
+              <div className="flex flex-row text-3xl font-semibold">
+                {t("Color")}
+              </div>
+              {currentProduct.product_color && (
+                <p>
+                  {t("Selected Color")}: {currentProduct.product_color.name}
+                </p>
+              )}
+              <ColorChooser
+                selectedColor={currentProduct.product_color}
+                onSelect={(color) =>
+                  setCurrentProduct({ ...currentProduct, product_color: color })
+                }
+              />
             </div>
           </div>
         </div>

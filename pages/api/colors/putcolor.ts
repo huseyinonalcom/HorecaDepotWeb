@@ -14,7 +14,7 @@ export default async function putColor(
     const colorToPost = req.body as Color;
 
     try {
-      const fetchUrl = `${process.env.API_URL}/api/colors/${req.query.id}`;
+      const fetchUrl = `${process.env.API_URL}/api/product-colors/${req.query.id}`;
       const reqColor = await fetch(fetchUrl, {
         method: "PUT",
         headers: {

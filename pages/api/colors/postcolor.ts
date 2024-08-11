@@ -8,10 +8,10 @@ export default async function postColor(
   const cookies = req.cookies;
   const authToken = cookies.j;
   if (req.method === "POST") {
-    const colorToPost = req.body as Color;
+    const colorToPost = JSON.parse(req.body) as Color;
 
     try {
-      const fetchUrl = `${process.env.API_URL}/api/colors`;
+      const fetchUrl = `${process.env.API_URL}/api/product-colors`;
       const reqColor = await fetch(fetchUrl, {
         method: "POST",
         headers: {
@@ -22,12 +22,10 @@ export default async function postColor(
         body: JSON.stringify({
           data: {
             name: colorToPost.name,
-            image: colorToPost.image.id,
+            image: colorToPost.image?.id,
           },
         }),
       });
-
-      console.log(reqColor);
 
       return res.status(200).json({ id: reqColor });
     } catch (error) {

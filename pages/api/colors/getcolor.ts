@@ -11,7 +11,7 @@ export default async function getColor(
   }
   if (req.method === "GET") {
     try {
-      const fetchUrl = `${process.env.API_URL}/api/colors/${req.query.id}`;
+      const fetchUrl = `${process.env.API_URL}/api/product-colors/${req.query.id}`;
       const reqColor = await fetch(fetchUrl, {
         method: "GET",
         headers: {
