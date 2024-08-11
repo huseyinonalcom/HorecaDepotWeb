@@ -1,5 +1,6 @@
 import { Category } from "./category";
 import { CFile } from "./cfile";
+import { Color } from "./color";
 import { DocumentProduct } from "./documentProduct";
 import { ProductExtra } from "./productExtra";
 import { Shelf } from "./shelf";
@@ -24,7 +25,7 @@ export interface Product {
   priceBeforeDiscount?: number;
   description?: string;
   material?: string;
-  color?: string;
+  product_color?: Color;
   shelves?: Shelf[];
   categories?: Category[];
   supplier?: any;
@@ -67,7 +68,7 @@ export class ProductTransformer {
       width: +normalizedItem["largeur"]?.toString().replace(/[^0-9.]/g, ""),
       height: +normalizedItem["hauteur"]?.toString().replace(/[^0-9.]/g, ""),
       material: normalizedItem["matériel"],
-      color: normalizedItem["couleur"],
+      product_color: normalizedItem["couleur"],
       product_extra: this.transformProductExtra(normalizedItem),
       shelves: [
         { id: 1, stock: +normalizedItem["stockmagasin"] },

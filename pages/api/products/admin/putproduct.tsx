@@ -35,7 +35,7 @@ export default async function putProduct(
           images: prodToPost.images.map((img) => img.id),
           minOrder: 0,
           height: prodToPost.height ?? 0,
-          color: prodToPost.color,
+          product_color: prodToPost.product_color.id,
           material: prodToPost.material,
           discountRange: prodToPost.discountRange ?? 0,
           imageDirections: prodToPost.imageDirections ?? {

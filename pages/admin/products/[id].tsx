@@ -125,16 +125,6 @@ export default function ProductPage(props) {
     }
   };
 
-  const uploadFiles = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (e.target.files && e.target.files[0]) {
-      const files = e.target.files;
-      await sendFile(files).then((res) => (e.target.value = ""));
-    }
-  };
-
   const uploadFile = async (e, d) => {
     e.preventDefault();
     e.stopPropagation();
@@ -1061,9 +1051,9 @@ export default function ProductPage(props) {
                 {currentProduct.images
                   ?.filter(
                     (img) =>
-                      !Object.values(currentProduct.imageDirections ?? {}).includes(
-                        img.id,
-                      ),
+                      !Object.values(
+                        currentProduct.imageDirections ?? {},
+                      ).includes(img.id),
                   )
                   .map((img) => (
                     <ImageWithURL
@@ -1076,18 +1066,18 @@ export default function ProductPage(props) {
                     />
                   ))}
                 <div className="flex flex-col items-center">
-                  {currentProduct.images.find(
+                  {currentProduct.images?.find(
                     (img) => currentProduct.imageDirections?.l == img.id,
                   ) ? (
                     <ImageWithURL
                       alt={""}
                       src={
-                        currentProduct.images.find(
+                        currentProduct.images?.find(
                           (img) => currentProduct.imageDirections?.l == img.id,
                         ).url
                       }
                       id={
-                        currentProduct.images.find(
+                        currentProduct.images?.find(
                           (img) => currentProduct.imageDirections?.l == img.id,
                         ).id
                       }
@@ -1095,7 +1085,7 @@ export default function ProductPage(props) {
                       height={80}
                       onClick={() =>
                         setSelectedImage(
-                          currentProduct.images.find(
+                          currentProduct.images?.find(
                             (img) =>
                               currentProduct.imageDirections?.l == img.id,
                           ),
@@ -1129,18 +1119,18 @@ export default function ProductPage(props) {
                   <ArrowLeft />
                 </div>
                 <div className="flex flex-col items-center">
-                  {currentProduct.images.find(
+                  {currentProduct.images?.find(
                     (img) => currentProduct.imageDirections?.fl == img.id,
                   ) ? (
                     <ImageWithURL
                       alt={""}
                       src={
-                        currentProduct.images.find(
+                        currentProduct.images?.find(
                           (img) => currentProduct.imageDirections?.fl == img.id,
                         ).url
                       }
                       id={
-                        currentProduct.images.find(
+                        currentProduct.images?.find(
                           (img) => currentProduct.imageDirections?.fl == img.id,
                         ).id
                       }
@@ -1148,7 +1138,7 @@ export default function ProductPage(props) {
                       height={80}
                       onClick={() =>
                         setSelectedImage(
-                          currentProduct.images.find(
+                          currentProduct.images?.find(
                             (img) =>
                               currentProduct.imageDirections?.fl == img.id,
                           ),
@@ -1182,18 +1172,18 @@ export default function ProductPage(props) {
                   <ArrowDownLeft />
                 </div>
                 <div className="flex flex-col items-center">
-                  {currentProduct.images.find(
+                  {currentProduct.images?.find(
                     (img) => currentProduct.imageDirections?.b == img.id,
                   ) ? (
                     <ImageWithURL
                       alt={""}
                       src={
-                        currentProduct.images.find(
+                        currentProduct.images?.find(
                           (img) => currentProduct.imageDirections?.b == img.id,
                         ).url
                       }
                       id={
-                        currentProduct.images.find(
+                        currentProduct.images?.find(
                           (img) => currentProduct.imageDirections?.b == img.id,
                         ).id
                       }
@@ -1201,7 +1191,7 @@ export default function ProductPage(props) {
                       height={80}
                       onClick={() =>
                         setSelectedImage(
-                          currentProduct.images.find(
+                          currentProduct.images?.find(
                             (img) =>
                               currentProduct.imageDirections?.b == img.id,
                           ),
@@ -1235,18 +1225,18 @@ export default function ProductPage(props) {
                   <ArrowUp />
                 </div>
                 <div className="flex flex-col items-center">
-                  {currentProduct.images.find(
+                  {currentProduct.images?.find(
                     (img) => currentProduct.imageDirections?.f == img.id,
                   ) ? (
                     <ImageWithURL
                       alt={""}
                       src={
-                        currentProduct.images.find(
+                        currentProduct.images?.find(
                           (img) => currentProduct.imageDirections?.f == img.id,
                         ).url
                       }
                       id={
-                        currentProduct.images.find(
+                        currentProduct.images?.find(
                           (img) => currentProduct.imageDirections?.f == img.id,
                         ).id
                       }
@@ -1254,7 +1244,7 @@ export default function ProductPage(props) {
                       height={80}
                       onClick={() =>
                         setSelectedImage(
-                          currentProduct.images.find(
+                          currentProduct.images?.find(
                             (img) =>
                               currentProduct.imageDirections?.f == img.id,
                           ),
@@ -1288,18 +1278,18 @@ export default function ProductPage(props) {
                   <ArrowDown />
                 </div>
                 <div className="flex flex-col items-center">
-                  {currentProduct.images.find(
+                  {currentProduct.images?.find(
                     (img) => currentProduct.imageDirections?.fr == img.id,
                   ) ? (
                     <ImageWithURL
                       alt={""}
                       src={
-                        currentProduct.images.find(
+                        currentProduct.images?.find(
                           (img) => currentProduct.imageDirections?.fr == img.id,
                         ).url
                       }
                       id={
-                        currentProduct.images.find(
+                        currentProduct.images?.find(
                           (img) => currentProduct.imageDirections?.fr == img.id,
                         ).id
                       }
@@ -1307,7 +1297,7 @@ export default function ProductPage(props) {
                       height={80}
                       onClick={() =>
                         setSelectedImage(
-                          currentProduct.images.find(
+                          currentProduct.images?.find(
                             (img) =>
                               currentProduct.imageDirections?.fr == img.id,
                           ),
@@ -1341,18 +1331,18 @@ export default function ProductPage(props) {
                   <ArrowDownRight />
                 </div>
                 <div className="flex flex-col items-center">
-                  {currentProduct.images.find(
+                  {currentProduct.images?.find(
                     (img) => currentProduct.imageDirections?.r == img.id,
                   ) ? (
                     <ImageWithURL
                       alt={""}
                       src={
-                        currentProduct.images.find(
+                        currentProduct.images?.find(
                           (img) => currentProduct.imageDirections?.r == img.id,
                         ).url
                       }
                       id={
-                        currentProduct.images.find(
+                        currentProduct.images?.find(
                           (img) => currentProduct.imageDirections?.r == img.id,
                         ).id
                       }
@@ -1360,7 +1350,7 @@ export default function ProductPage(props) {
                       height={80}
                       onClick={() =>
                         setSelectedImage(
-                          currentProduct.images.find(
+                          currentProduct.images?.find(
                             (img) =>
                               currentProduct.imageDirections?.r == img.id,
                           ),
@@ -1394,18 +1384,18 @@ export default function ProductPage(props) {
                   <ArrowRight />
                 </div>
                 <div className="flex flex-col items-center">
-                  {currentProduct.images.find(
+                  {currentProduct.images?.find(
                     (img) => currentProduct.imageDirections?.d == img.id,
                   ) ? (
                     <ImageWithURL
                       alt={""}
                       src={
-                        currentProduct.images.find(
+                        currentProduct.images?.find(
                           (img) => currentProduct.imageDirections?.d == img.id,
                         ).url
                       }
                       id={
-                        currentProduct.images.find(
+                        currentProduct.images?.find(
                           (img) => currentProduct.imageDirections?.d == img.id,
                         ).id
                       }
@@ -1413,7 +1403,7 @@ export default function ProductPage(props) {
                       height={80}
                       onClick={() =>
                         setSelectedImage(
-                          currentProduct.images.find(
+                          currentProduct.images?.find(
                             (img) =>
                               currentProduct.imageDirections?.d == img.id,
                           ),
