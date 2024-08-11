@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Color } from "../../api/interfaces/color";
 import { PlusCircle } from "react-feather";
+import useTranslation from "next-translate/useTranslation";
 
 export const ColorChooser = ({
   onSelect,
@@ -9,8 +10,12 @@ export const ColorChooser = ({
   onSelect: (color: Color) => void;
   selectedColor?: Color;
 }) => {
+  const { t } = useTranslation("common");
   const [colors, setColors] = useState<Color[]>([]);
-  const [newColor, setNewColor] = useState<Color>();
+  const [newColor, setNewColor] = useState<Color>({
+    name: "",
+  });
+  const [error, setError] = useState<boolean>(false);
 
   const getColors = async () => {
     let colors: Color[] = [];
@@ -65,7 +70,7 @@ export const ColorChooser = ({
           {colors.map((color) => (
             <div
               key={color.id}
-              className="flex w-full flex-row items-center justify-between"
+              className="flex w-full flex-row items-center justify-between first:rounded-t-md last:rounded-b-md odd:bg-gray-500 even:bg-blue-500"
             >
               <button
                 onClick={(e) => {
@@ -73,7 +78,7 @@ export const ColorChooser = ({
                   e.stopPropagation();
                   onSelect(color);
                 }}
-                className="w-full rounded-md bg-blue-500 p-2 text-left text-white odd:bg-gray-500"
+                className="w-full rounded-md p-2 text-left text-white"
               >
                 {color.name}
               </button>
@@ -88,15 +93,20 @@ export const ColorChooser = ({
             e.preventDefault();
             e.stopPropagation();
           }}
+          placeholder={t("name")}
           onChange={(e) => setNewColor({ name: e.target.value })}
-          className="m-1 w-full"
+          className={`m-1 w-full border-2 ${error ? "border-red-500" : "border-black "}`}
         />
         <button
           type="button"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            postColor(newColor);
+            if (newColor.name.length > 0) {
+              postColor(newColor);
+            } else {
+              setError(true);
+            }
           }}
         >
           <PlusCircle color="green" />

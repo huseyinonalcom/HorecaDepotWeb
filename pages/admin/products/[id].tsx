@@ -1501,11 +1501,11 @@ export default function ProductPage(props) {
             </div>
             <div className="flex h-fit w-full flex-col gap-2 rounded-md bg-gray-200 p-4">
               <div className="flex flex-row text-3xl font-semibold">
-                {t("Color")}
+                {t("color")}
               </div>
               {currentProduct.product_color && (
                 <p>
-                  {t("Selected Color")}: {currentProduct.product_color.name}
+                  {t("selected_color")}: {currentProduct.product_color.name}
                 </p>
               )}
               <ColorChooser

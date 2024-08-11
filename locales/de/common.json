@@ -309,5 +309,7 @@
   "My Wishlist": "Meine Wunschliste",
   "My Personal Details": "Meine persönlichen Daten",
   "cookie_disclaimer_decline": "Ablehnen",
-  "cookie_disclaimer_accept": "Akzeptieren"
+  "cookie_disclaimer_accept": "Akzeptieren",
+  "color": "Farbe",
+  "selected_color": "Ausgewählte Farbe"
 }

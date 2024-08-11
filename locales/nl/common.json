@@ -309,5 +309,7 @@
   "My Wishlist": "Mijn verlanglijst",
   "My Personal Details": "Mijn persoonlijke gegevens",
   "cookie_disclaimer_decline": "Weigeren",
-  "cookie_disclaimer_accept": "Accepteren"
+  "cookie_disclaimer_accept": "Accepteren",
+  "color": "Kleur",
+  "selected_color": "Geselecteerde kleur"
 }
