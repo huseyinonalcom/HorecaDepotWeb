@@ -21,15 +21,19 @@ export default async function postColor(
         },
         body: JSON.stringify({
           data: {
-            name: colorToPost.name,
+            name: colorToPost.name.trim(),
+            code: colorToPost.code.trim().toUpperCase(),
             image: colorToPost.image?.id,
           },
         }),
       });
 
+      if (reqColor.status != 200) {
+        return res.status(400).json("Error creating color.");
+      }
+
       return res.status(200).json({ id: reqColor });
     } catch (error) {
-      console.log(error);
       return res.status(500).json(error);
     }
   } else {

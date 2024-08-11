@@ -24,7 +24,8 @@ export default async function putColor(
         },
         body: JSON.stringify({
           data: {
-            name: colorToPost.name,
+            name: colorToPost.name.trim(),
+            code: colorToPost.code.trim().toUpperCase(),
             image: colorToPost.image.id,
           },
         }),

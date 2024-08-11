@@ -34,11 +34,18 @@ export const ColorChooser = ({
   }, []);
 
   const postColor = async (color: Color) => {
+    let res = {
+      error: "",
+    };
     await fetch("/api/colors/postcolor", {
       method: "POST",
-      body: JSON.stringify(newColor),
+      body: JSON.stringify(color),
     })
-      .then(() => {
+      .then(async (ans) => {
+        let response = await ans.json();
+        if (response.status != 200) {
+          res = { error: "fail" };
+        }
         getColors().then((colors) => {
           setColors(colors);
         });
@@ -46,6 +53,7 @@ export const ColorChooser = ({
       .catch((error) => {
         alert(error);
       });
+    return res;
   };
 
   const putColor = async (color: Color) => {
@@ -80,7 +88,7 @@ export const ColorChooser = ({
                 }}
                 className="w-full rounded-md p-2 text-left text-white"
               >
-                {color.name}
+                {color.name} - {color.code}
               </button>
             </div>
           ))}
@@ -94,7 +102,23 @@ export const ColorChooser = ({
             e.stopPropagation();
           }}
           placeholder={t("name")}
-          onChange={(e) => setNewColor({ name: e.target.value })}
+          value={newColor.name}
+          onChange={(e) =>
+            setNewColor((nc) => ({ ...nc, name: e.target.value }))
+          }
+          className={`m-1 w-full border-2 ${error ? "border-red-500" : "border-black "}`}
+        />
+        <input
+          type="text"
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          placeholder={t("code")}
+          value={newColor.code}
+          onChange={(e) =>
+            setNewColor((nc) => ({ ...nc, code: e.target.value }))
+          }
           className={`m-1 w-full border-2 ${error ? "border-red-500" : "border-black "}`}
         />
         <button
@@ -102,8 +126,13 @@ export const ColorChooser = ({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            if (newColor.name.length > 0) {
-              postColor(newColor);
+            console.log(newColor);
+            if (newColor.name.length > 0 && newColor.code.length > 0) {
+              postColor(newColor).then((res) => {
+                if (res.error === "fail") {
+                  setError(true);
+                }
+              });
             } else {
               setError(true);
             }

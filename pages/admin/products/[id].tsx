@@ -401,6 +401,8 @@ export default function ProductPage(props) {
     }
   }, []);
 
+  const autoCode = async () => {};
+
   return (
     <AdminLayout>
       <Head>
