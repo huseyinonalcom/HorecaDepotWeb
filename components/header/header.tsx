@@ -24,7 +24,6 @@ import { CartContext } from "../../api/providers/cartProvider";
 import { ClientContext } from "../../api/providers/clientProvider";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import ProductPreview3 from "../products/product-preview3";
-import { GiBulldozer } from "react-icons/gi";
 
 const CategoryItem = ({ category, onClick }) => {
   const { t, lang } = useTranslation("common");
