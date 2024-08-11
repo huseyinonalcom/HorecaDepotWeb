@@ -32,10 +32,13 @@ export default async function putProduct(
           depth: prodToPost.depth ?? 0,
           minStock: 0,
           supplier: prodToPost.supplier.id,
-          images: prodToPost.images.map((img) => img.id),
+          images:
+            prodToPost.images &&
+            prodToPost.images.length > 0 &&
+            prodToPost.images.map((img) => img.id),
           minOrder: 0,
           height: prodToPost.height ?? 0,
-          product_color: prodToPost.product_color.id,
+          product_color: prodToPost.product_color?.id,
           material: prodToPost.material,
           discountRange: prodToPost.discountRange ?? 0,
           imageDirections: prodToPost.imageDirections ?? {

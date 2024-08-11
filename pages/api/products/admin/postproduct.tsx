@@ -37,9 +37,12 @@ export default async function postProduct(
             minStock: 0,
             minOrder: 0,
             supplier: prodToPost.supplier.id,
-            images: prodToPost.images.map((img) => img.id),
+            images:
+              prodToPost.images &&
+              prodToPost.images.length > 0 &&
+              prodToPost.images.map((img) => img.id),
             height: prodToPost.height ?? 0,
-            product_color: prodToPost.product_color.id,
+            product_color: prodToPost.product_color?.id,
             material: prodToPost.material,
             imageDirections: prodToPost.imageDirections ?? {
               l: 0,

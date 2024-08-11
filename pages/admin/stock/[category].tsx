@@ -510,7 +510,12 @@ export default function Products(props) {
                   <tr key={product.id} className="relative odd:bg-blue-50">
                     <td>
                       <Link
-                        href={"/admin/products/" + product.id}
+                        href={
+                          "/admin/products/" +
+                          product.id +
+                          "?return=" +
+                          router.asPath
+                        }
                         className="absolute inset-0"
                       />
                       <ImageWithURL

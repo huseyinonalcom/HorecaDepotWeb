@@ -26,7 +26,7 @@ import BarcodeToPng from "../../../components/common/barcodepng";
 import AdminLayout from "../../../components/admin/adminLayout";
 import InputOutlined from "../../../components/inputs/outlined";
 import useTranslation from "next-translate/useTranslation";
-import { MdHeight, MdOutlineChair } from "react-icons/md";
+import { MdAutoAwesome, MdHeight, MdOutlineChair } from "react-icons/md";
 import { Product } from "../../../api/interfaces/product";
 import React, { useEffect, useState } from "react";
 import { GoCircleSlash } from "react-icons/go";
@@ -237,7 +237,7 @@ export default function ProductPage(props) {
                 t("An error occurred while modifying the product!"),
               );
             } else {
-              router.push("/admin/stock/all");
+              router.push(props.returnUrl);
             }
           } catch (e) {
             setInProgress(false);
@@ -260,7 +260,7 @@ export default function ProductPage(props) {
                 t("An error occurred during the product creation!"),
               );
             } else {
-              router.push("/admin/stock/all");
+              router.push(props.returnUrl);
             }
           } catch (e) {
             setInProgress(false);
@@ -401,7 +401,12 @@ export default function ProductPage(props) {
     }
   }, []);
 
-  const autoCode = async () => {};
+  const autoCode = async () => {
+    if (currentProduct.internalCode != "") {
+      alert(t("internalCode_not_empty"));
+      return;
+    }
+  };
 
   return (
     <AdminLayout>
@@ -516,7 +521,7 @@ export default function ProductPage(props) {
                   />
                 </div>
                 <div className="flex w-full flex-row gap-2">
-                  <div className="w-1/2">
+                  <div className="flex w-1/2 flex-row items-center">
                     <InputOutlined
                       label="Code Model"
                       type="text"
@@ -528,6 +533,19 @@ export default function ProductPage(props) {
                         ])
                       }
                     />
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        autoCode();
+                      }}
+                    >
+                      <MdAutoAwesome
+                        size={28}
+                        className="m-1 flex-shrink-0 rounded-md bg-white p-1"
+                      />
+                    </button>
                   </div>
                   <div className="w-1/2">
                     <InputOutlined
@@ -1538,11 +1556,13 @@ export async function getServerSideProps(context) {
     context.req.query = context.query;
     currentProduct = await getProductByID(req);
   }
+  const returnUrl = context.query.return ?? "/admin/stock/all";
   return {
     props: {
       currentProduct,
       allCategories,
       allSuppliers,
+      returnUrl,
     },
   };
 }
