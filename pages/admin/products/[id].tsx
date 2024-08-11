@@ -444,7 +444,11 @@ export default function ProductPage(props) {
         .map((parts) => parseInt(parts[2])) // Extract the 3rd part (and convert it to a number)
         .sort((a, b) => a - b); // Sort numerically
 
-      const nextValue = result[result.length - 1] + 1;
+      let nextValue = 1;
+
+      if (result.length > 0) {
+        nextValue = result[result.length - 1] + 1;
+      }
 
       let newCode = `HD.${currentProduct.categories.at(0).code}.${nextValue}.${currentProduct.product_color.code}`;
       setCurrentProduct((pr) => ({
