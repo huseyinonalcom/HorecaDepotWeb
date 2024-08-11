@@ -26,6 +26,7 @@ export interface Product {
   description?: string;
   material?: string;
   product_color?: Color;
+  color?: string;
   shelves?: Shelf[];
   categories?: Category[];
   supplier?: any;
