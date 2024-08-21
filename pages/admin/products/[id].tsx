@@ -934,23 +934,17 @@ export default function ProductPage(props) {
                             submitStock(3);
                           }}
                           onChange={(e) => {
-                            if (validateInteger(e.target.value) == "") {
-                              const updatedProduct = { ...currentProduct };
-                              const shelfIndex =
-                                updatedProduct.shelves.findIndex(
-                                  (shelf) => shelf.establishment.id === 3,
-                                );
-                              if (shelfIndex !== -1) {
-                                updatedProduct.shelves[shelfIndex].stock =
-                                  Number(e.target.value);
-                                setCurrentProduct(updatedProduct);
-                              }
-                              errors.stock_depot = "";
-                            } else {
-                              errors.stock_depot = validateInteger(
+                            const updatedProduct = { ...currentProduct };
+                            const shelfIndex = updatedProduct.shelves.findIndex(
+                              (shelf) => shelf.establishment.id === 3,
+                            );
+                            if (shelfIndex !== -1) {
+                              updatedProduct.shelves[shelfIndex].stock = Number(
                                 e.target.value,
                               );
+                              setCurrentProduct(updatedProduct);
                             }
+                            errors.stock_depot = "";
                           }}
                           placeholder={t("Stock Warehouse")}
                         />
@@ -984,23 +978,20 @@ export default function ProductPage(props) {
                             submitStock(1);
                           }}
                           onChange={(e) => {
-                            if (validateInteger(e.target.value) == "") {
-                              const updatedProduct = { ...currentProduct };
-                              const shelfIndex =
-                                updatedProduct.shelves.findIndex(
-                                  (shelf) => shelf.establishment.id === 1,
-                                );
-                              if (shelfIndex !== -1) {
-                                updatedProduct.shelves[shelfIndex].stock =
-                                  Number(e.target.value);
-                                setCurrentProduct(updatedProduct);
-                              }
-                              errors.stock_store = "";
-                            } else {
-                              errors.stock_store = validateInteger(
+                            console.log(e.target.value);
+                            console.log("valid");
+                            const updatedProduct = { ...currentProduct };
+                            const shelfIndex = updatedProduct.shelves.findIndex(
+                              (shelf) => shelf.establishment.id === 1,
+                            );
+                            if (shelfIndex !== -1) {
+                              console.log(updatedProduct.shelves[shelfIndex]);
+                              updatedProduct.shelves[shelfIndex].stock = Number(
                                 e.target.value,
                               );
+                              setCurrentProduct(updatedProduct);
                             }
+                            errors.stock_store = "";
                           }}
                           placeholder={t("Stock Store")}
                         />
