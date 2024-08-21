@@ -98,7 +98,7 @@ export default async function postOrder(
       for (let i = 0; i < productsFromCart.length; i++) {
         const productID = productsFromCart[i].product;
 
-        const fetchUrl = `${process.env.API_URL}/api/products/${productID}?fields[0]=name&fields[1]=productLine&fields[2]=internalCode&fields[3]=priceBeforeDiscount&fields[4]=value&fields[5]=tax&populate[categories][fields][0]=id`;
+        const fetchUrl = `${process.env.API_URL}/api/products/${productID}?fields[0]=name&fields[1]=productLine&fields[2]=internalCode&fields[3]=priceBeforeDiscount&fields[4]=value&fields[5]=tax&populate[categories][fields][0]=id&populate[shelves][populate][establishment][fields][0]=name&populate[shelves][fields][0]=stock`;
 
         const response = await fetch(fetchUrl, {
           headers: {
@@ -113,6 +113,12 @@ export default async function postOrder(
         productCalculated.product = productID;
         productCalculated.name = productFromAPI.name;
         productCalculated.amount = productsFromCart[i].amount;
+        productCalculated.shelf = productFromAPI.shelves.find(
+          (shelf) => shelf.establishment.id === 3,
+        ).id;
+        productCalculated.shelfStock = productFromAPI.shelves.find(
+          (shelf) => shelf.establishment.id === 3,
+        ).stock;
         productCalculated.priceBeforeDiscount =
           productFromAPI.priceBeforeDiscount;
         productCalculated.value = productFromAPI.value;
@@ -1092,6 +1098,26 @@ export default async function postOrder(
               </html>
               `,
             };
+
+            try {
+              console.log(productsToPost);
+              productsToPost.forEach(async (product) => {
+                await fetch(
+                  `${process.env.API_URL}/api/shelves/${product.shelf}`,
+                  {
+                    method: "PUT",
+                    headers: headers,
+                    body: JSON.stringify({
+                      data: {
+                        stock: product.shelfStock - product.amount,
+                      },
+                    }),
+                  },
+                ).then((response) => {
+                  console.log(response);
+                });
+              });
+            } catch (e) {}
 
             // Send mail client
             transporter.sendMail(mailOptionsClient, (error, info) => {

@@ -18,6 +18,8 @@ export interface DocumentProduct {
   document?: number;
   product?: number;
   category?: Category;
+  shelf?: number;
+  shelfStock?: number;
 }
 
 export class DocumentProductConversion {
