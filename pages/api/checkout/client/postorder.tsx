@@ -969,7 +969,7 @@ export default async function postOrder(
                                                 bgcolor="#0867ec"
                                               >
                                                 <a
-                                                  href="${process.env.SITE_URL}/en/account/myaccount"
+                                                  href="${process.env.SITE_URL}/account/myaccount"
                                                   target="_blank"
                                                   style="
                                                     border: solid 2px #0867ec;
