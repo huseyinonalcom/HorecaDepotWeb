@@ -226,9 +226,9 @@ export default function Order() {
                             : ""
                         }`}
                       >
-                        <td>{documentProduct.product.internalCode}</td>
+                        <td>{documentProduct.product?.internalCode ?? ''}</td>
                         <td>{documentProduct.name}</td>
-                        <td>{documentProduct.product.color}</td>
+                        <td>{documentProduct.product?.color ?? ''}</td>
                         <td align="center">{documentProduct.amount}</td>
                         <td align="right">
                           €{" "}
@@ -252,6 +252,8 @@ export default function Order() {
                     ),
                   )}
                   <tr>
+                    <td></td>
+                    <td></td>
                     <td></td>
                     <td>
                       <b>{t("Total")}</b>
