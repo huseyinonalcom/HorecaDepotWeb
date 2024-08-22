@@ -296,6 +296,7 @@
   "validators_empty_invalid": "Dit veld mag niet leeg zijn",
   "Primary Details": "Primaire Details",
   "Secondary Details": "Secundaire Details",
+  "Internal Code": "Interne Code",
   "Supplier Code": "Leverancierscode",
   "choose_supplier": "Kies een leverancier",
   "Project": "Project",

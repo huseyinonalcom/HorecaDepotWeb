@@ -30,6 +30,7 @@ export default function Order() {
         );
         const response = await request.json();
         if (request.ok) {
+          console.log(response);
           return response;
         } else {
           throw "Failed to fetch order";
@@ -205,7 +206,9 @@ export default function Order() {
               <table className=" mt-3 overflow-x-auto bg-gray-100 p-2 shadow-lg print:border-2 print:border-black print:bg-transparent print:shadow-none">
                 <thead className="border-b-2 border-black">
                   <tr>
+                    <th>{t("Internal Code")}</th>
                     <th>{t("Name")}</th>
+                    <th>{t("Color")}</th>
                     <th>{t("Quantity")}</th>
                     <th>{t("Price")}</th>
                     <th>{t("Discount")}</th>
@@ -223,7 +226,9 @@ export default function Order() {
                             : ""
                         }`}
                       >
+                        <td>{documentProduct.product.internalCode}</td>
                         <td>{documentProduct.name}</td>
+                        <td>{documentProduct.product.color}</td>
                         <td align="center">{documentProduct.amount}</td>
                         <td align="right">
                           €{" "}

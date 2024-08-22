@@ -2,7 +2,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import statusText from "../../../../api/statustexts";
 
-export default async function getOrderDetails(req: NextApiRequest, res: NextApiResponse) {
+export default async function getOrderDetails(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   try {
     if (req.method === "GET") {
       const cookies = req.cookies;
@@ -13,7 +16,7 @@ export default async function getOrderDetails(req: NextApiRequest, res: NextApiR
       }
       if (orderID) {
         try {
-          const fetchUrl = `${process.env.API_URL}/api/documents/${orderID}?populate[0]=client&populate[1]=establishment&populate[2]=delAddress&populate[3]=docAddress&populate[4]=document_products&populate[5]=payments`;
+          const fetchUrl = `${process.env.API_URL}/api/documents/${orderID}?populate[client][fields]=*&populate[establishment][fields]=*&populate[delAddress][fields]=*&populate[docAddress][fields]=*&populate[docAddress][fields]=*&populate[payments][fields]=*&populate[document_products][populate][0]=product&populate[document_products][populate][product][populate][0]=product_extra`;
           const request = await fetch(fetchUrl, {
             method: "GET",
             headers: {
@@ -24,8 +27,10 @@ export default async function getOrderDetails(req: NextApiRequest, res: NextApiR
           });
           if (request.ok) {
             const answer = await request.json();
+            console.log(JSON.stringify(answer.data));
             return res.status(200).json(answer.data);
           } else {
+            console.log(await request.json());
             return res.status(404).json(statusText[404]);
           }
         } catch (e) {

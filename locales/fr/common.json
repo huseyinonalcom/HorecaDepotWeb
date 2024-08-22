@@ -296,6 +296,7 @@
   "validators_empty_invalid": "Ce champ ne peut pas être vide",
   "Primary Details": "Détails Principaux",
   "Secondary Details": "Détails Secondaires",
+  "Internal Code": "Code Interne",
   "Supplier Code": "Code Fournisseur",
   "choose_supplier": "Choisir un fournisseur",
   "Project": "Project",
