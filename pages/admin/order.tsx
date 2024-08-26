@@ -9,6 +9,8 @@ import Image from "next/image";
 import componentThemes from "../../components/componentThemes";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { PDFInvoice } from "../../components/pdf/pdfinvoice";
+import CustomTheme from "../../components/componentThemes";
+import TypeWriter from "../../components/common/typewriter";
 
 export default function Order() {
   const { t, lang } = useTranslation("common");
@@ -50,6 +52,65 @@ export default function Order() {
     }
   }, [router.isReady, router.query.id]);
 
+  const [verificationRunning, setVerificationRunning] = useState(false);
+  const [verificationMessage, setVerificationMessage] = useState(null);
+
+  const submitCheckPayment = async () => {
+    setVerificationRunning(true);
+    setVerificationMessage(null);
+    let anyPaymentSucceeded = false;
+    for (let i = 0; i < currentOrder.payments.length; i++) {
+      const paymentID = currentOrder.payments[i].id;
+      if (Number.isInteger(Number(currentOrder.payments[i].origin))) {
+        const hostedCheckoutId = currentOrder.payments[i].origin;
+        const verifyPaymentRequest = await fetch(
+          `/api/payment/verifypayment?paymentid=${paymentID}&ogoneid=${hostedCheckoutId}&test=false`,
+          {
+            method: "POST",
+            body: JSON.stringify(currentOrder),
+          },
+        );
+        if (verifyPaymentRequest.ok) {
+          anyPaymentSucceeded = true;
+
+          const requestNotif = await fetch(
+            "/api/documents/client/sendordernotifications?orderid=" +
+              currentOrder.id,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${process.env.API_KEY}`,
+              },
+            },
+          );
+
+          const notif = await requestNotif.json();
+        }
+      }
+
+      if (i == currentOrder.payments.length - 1) {
+        if (anyPaymentSucceeded) {
+          // console.log("check complete");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          // console.log("check complete");
+          setTimeout(() => {
+            setVerificationRunning(false);
+            setVerificationMessage(
+              <p className="whitespace-nowrap text-red-500">
+                {t("No_payment_admin")}
+              </p>,
+            );
+          }, 2000);
+        }
+      }
+    }
+  };
+
   if (isLoading) {
     return (
       <>
@@ -81,6 +142,20 @@ export default function Order() {
       </>
     );
   } else {
+    let totalSubTotal = currentOrder.document_products.reduce(
+      (accumulator, currentItem) => {
+        return accumulator + currentItem.subTotal;
+      },
+      0,
+    );
+
+    let totalPayments = currentOrder.payments
+      .filter((pay) => pay.verified && !pay.deleted)
+      .reduce((accumulator, currentItem) => {
+        return accumulator + currentItem.value;
+      }, 0);
+
+    let balance = totalSubTotal - totalPayments;
     return (
       <>
         <AdminLayout>
@@ -146,6 +221,28 @@ export default function Order() {
                       </button>
                     </>
                   )} */}
+                  {balance > 0 && (
+                    <>
+                      {verificationMessage && verificationMessage}
+
+                      {verificationRunning ? (
+                        <button
+                          className={`${CustomTheme.greenSubmitButton} whitespace-nowrap text-xl`}
+                        >
+                          <div className="flex w-[100px] flex-row justify-start">
+                            <TypeWriter textTypeWriter={["...."]} />
+                          </div>
+                        </button>
+                      ) : (
+                        <button
+                          className={`${CustomTheme.greenSubmitButton} whitespace-nowrap text-xl`}
+                          onClick={submitCheckPayment}
+                        >
+                          {t("Verify payment")}
+                        </button>
+                      )}
+                    </>
+                  )}
 
                   {currentOrder && (
                     <PDFDownloadLink
@@ -226,9 +323,9 @@ export default function Order() {
                             : ""
                         }`}
                       >
-                        <td>{documentProduct.product?.internalCode ?? ''}</td>
+                        <td>{documentProduct.product?.internalCode ?? ""}</td>
                         <td>{documentProduct.name}</td>
-                        <td>{documentProduct.product?.color ?? ''}</td>
+                        <td>{documentProduct.product?.color ?? ""}</td>
                         <td align="center">{documentProduct.amount}</td>
                         <td align="right">
                           €{" "}

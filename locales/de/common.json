@@ -312,5 +312,6 @@
   "cookie_disclaimer_accept": "Akzeptieren",
   "color": "Farbe",
   "selected_color": "Ausgewählte Farbe",
-  "internalCode_not_empty": "Interner Code nicht leer"
+  "internalCode_not_empty": "Interner Code nicht leer",
+  "No_payment_admin": "Keine Zahlung gefunden."
 }

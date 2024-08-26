@@ -101,11 +101,7 @@ export default async function verifyPayment(req, res) {
       ) {
         paymentSuccess = true;
       }
-
-      // looking up works, now to figure out how to check if it is a success, test by completing a payment
     } else {
-      // look up ogone payment by merchantreference (payment.document.prefix+payment.document.number+"-"+payment.id)
-      // might not be possible, requires further investigation
       return res.status(400).json(statusText[400]);
     }
 

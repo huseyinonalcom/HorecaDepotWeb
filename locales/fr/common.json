@@ -313,5 +313,6 @@
   "cookie_disclaimer_accept": "Accepter",
   "color": "Couleur",
   "selected_color": "Couleur sélectionnée",
-  "internalCode_not_empty": "Le code interne n'est pas vide"
+  "internalCode_not_empty": "Le code interne n'est pas vide",
+  "No_payment_admin": "Aucun paiement n'a été trouvé."
 }
