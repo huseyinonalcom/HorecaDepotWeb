@@ -5,7 +5,7 @@ const fetchUrl = `${process.env.API_URL}/api/documents?populate=*`;
 
 export default async function getAllDocuments(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   if (req.method === "GET") {
     const cookies = req.cookies;
