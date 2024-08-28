@@ -26,18 +26,21 @@ ${products
 <g:country>BE</g:country>
 <g:service>Standard</g:service>
 <g:price>20 EUR</g:price>
+<g:quantity>${calculateProductStock(prd)}</g:quantity>
 </g:shipping>
 
 <g:shipping>
 <g:country>FR</g:country>
 <g:service>Standard</g:service>
 <g:price>100 EUR</g:price>
+<g:quantity>${calculateProductStock(prd)}</g:quantity>
 </g:shipping>
 
 <g:shipping>
 <g:country>NL</g:country>
 <g:service>Standard</g:service>
 <g:price>100 EUR</g:price>
+<g:quantity>${calculateProductStock(prd)}</g:quantity>
 </g:shipping>
 
 <g:shipping>
@@ -45,6 +48,7 @@ ${products
 <g:service>Standard</g:service>
 <g:price>100 EUR</g:price>
 </g:shipping>
+<g:quantity>${calculateProductStock(prd)}</g:quantity>
 <g:brand>HorecaDepot</g:brand>
 
 </item>
