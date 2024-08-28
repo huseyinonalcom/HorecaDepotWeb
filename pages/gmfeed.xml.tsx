@@ -47,8 +47,8 @@ ${products
 <g:country>DE</g:country>
 <g:service>Standard</g:service>
 <g:price>100 EUR</g:price>
-</g:shipping>
 <g:quantity>${calculateProductStock(prd)}</g:quantity>
+</g:shipping>
 <g:brand>HorecaDepot</g:brand>
 
 </item>
