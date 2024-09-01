@@ -1,7 +1,6 @@
 import { Product } from "../interfaces/product";
 
 export const getCoverImageUrl = (prd: Product) => {
-  console.log(prd);
   if (prd.imageDirections && prd.imageDirections.fr != 0) {
     return (
       prd.images.find((img) => img.id == prd.imageDirections.fr)?.url ??

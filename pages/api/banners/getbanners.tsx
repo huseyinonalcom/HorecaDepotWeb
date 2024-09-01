@@ -8,11 +8,13 @@ let cache = {
 const CACHE_DURATION = 15 * 60 * 1000;
 const fetchUrl = `${process.env.API_URL}/api/site-banner?populate=*`;
 
-export async function getAllBanners() {
-  console.log("fetchUrl");
-  if (cache.data && Date.now() - cache.timestamp < CACHE_DURATION) {
+export async function getAllBanners(req) {
+  const fresh = req.query.fresh === "true";
+
+  if (!fresh && cache.data && Date.now() - cache.timestamp < CACHE_DURATION) {
     return cache.data;
   }
+  
   try {
     const response = await fetch(fetchUrl, {
       headers: {
@@ -28,8 +30,6 @@ export async function getAllBanners() {
 
     const answer = data.data.banners;
 
-    console.log(answer);
-    
     cache = {
       data: answer,
       timestamp: Date.now(),
@@ -43,7 +43,7 @@ export async function getAllBanners() {
 
 export default async function handler(req, res) {
   try {
-    const response = await getAllBanners();
+    const response = await getAllBanners(req);
 
     if (!response) {
       return res.status(500).json(statusText[500]);

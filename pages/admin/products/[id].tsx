@@ -978,14 +978,11 @@ export default function ProductPage(props) {
                             submitStock(1);
                           }}
                           onChange={(e) => {
-                            console.log(e.target.value);
-                            console.log("valid");
                             const updatedProduct = { ...currentProduct };
                             const shelfIndex = updatedProduct.shelves.findIndex(
                               (shelf) => shelf.establishment.id === 1,
                             );
                             if (shelfIndex !== -1) {
-                              console.log(updatedProduct.shelves[shelfIndex]);
                               updatedProduct.shelves[shelfIndex].stock = Number(
                                 e.target.value,
                               );

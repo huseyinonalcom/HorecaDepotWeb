@@ -31,11 +31,9 @@ export default async function putColor(
         }),
       });
 
-      console.log(reqColor);
 
       return res.status(200).json({ id: reqColor });
     } catch (error) {
-      console.log(error);
       return res.status(500).json(error);
     }
   } else {

@@ -21,11 +21,8 @@ export default async function getColor(
         },
       });
 
-      console.log(reqColor);
-
       return res.status(200).json(reqColor);
     } catch (error) {
-      console.log(error);
       return res.status(500).json(error);
     }
   } else {

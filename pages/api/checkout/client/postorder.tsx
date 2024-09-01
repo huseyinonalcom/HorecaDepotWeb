@@ -1100,7 +1100,6 @@ export default async function postOrder(
             };
 
             try {
-              console.log(productsToPost);
               productsToPost.forEach(async (product) => {
                 await fetch(
                   `${process.env.API_URL}/api/shelves/${product.shelf}`,
@@ -1113,9 +1112,7 @@ export default async function postOrder(
                       },
                     }),
                   },
-                ).then((response) => {
-                  console.log(response);
-                });
+                ).then((response) => {});
               });
             } catch (e) {}
 

@@ -22,8 +22,6 @@ const OrderPreview = ({ order }) => {
 
   const orderImages = [];
 
-  console.log(JSON.stringify(order, null, 2));
-
   for (let i = 0; i < order.document_products.length; i++) {
     if (
       order.document_products[i].product &&

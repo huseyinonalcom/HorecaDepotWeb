@@ -39,17 +39,8 @@ export async function getAllProducts(req: NextApiRequest) {
           },
         },
       );
-      console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-      console.log("--------------------------------------------------------");
-      console.log(
-        fetchUrl + category + page + sort + supplier + search + pageSize,
-      );
-      console.log("--------------------------------------------------------");
-      console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
       const response = await request.json();
-
-      console.log(response);
 
       if (!request.ok) {
         return null;
@@ -60,7 +51,6 @@ export async function getAllProducts(req: NextApiRequest) {
       return null;
     }
   } catch (error) {
-    console.log(error);
     return null;
   }
 }

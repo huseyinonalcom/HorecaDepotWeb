@@ -126,7 +126,6 @@ export const ColorChooser = ({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            console.log(newColor);
             if (newColor.name.length > 0 && newColor.code.length > 0) {
               postColor(newColor).then((res) => {
                 if (res.error === "fail") {

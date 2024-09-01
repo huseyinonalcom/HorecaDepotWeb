@@ -10,7 +10,6 @@ export default async function putClientInfo(
     const authToken = cookies.cj;
 
     const client = JSON.parse(req.body);
-    console.log(client);
 
     if (!authToken) {
       return res.status(401).json(statusText[401]);
@@ -34,8 +33,6 @@ export default async function putClientInfo(
       const answer = await request.json();
 
       if (!request.ok) {
-        console.log("error a");
-        console.log(answer.error.details);
         return res.status(400).json(statusText[400]);
       }
 
@@ -64,18 +61,14 @@ export default async function putClientInfo(
         const response = await request.json();
 
         if (!request.ok) {
-          console.log(response);
           return res.status(400).json(statusText[400]);
         }
 
         return res.status(200).json(statusText[200]);
       } catch (error) {
-        console.log("error b");
-        console.log(error);
         return res.status(500).json(statusText[500]);
       }
     } catch (error) {
-      console.log(error);
       return res.status(500).json(statusText[500]);
     }
   } else {

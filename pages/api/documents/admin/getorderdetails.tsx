@@ -27,10 +27,8 @@ export default async function getOrderDetails(
           });
           if (request.ok) {
             const answer = await request.json();
-            console.log(JSON.stringify(answer.data));
             return res.status(200).json(answer.data);
           } else {
-            console.log(await request.json());
             return res.status(404).json(statusText[404]);
           }
         } catch (e) {

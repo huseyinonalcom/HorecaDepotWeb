@@ -26,11 +26,10 @@ export const BannerProvider = ({ children }: BannerProviderProps) => {
   const [banners, setBanners] = useState<Banner[]>([]);
 
   useEffect(() => {
-    console.log("fetching banners");
     const fetchBanners = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3066/api/banners/getbanners`,
+          `/api/banners/getbanners`,
           {
             headers: {
               Authorization: `Bearer ${process.env.API_KEY}`,
@@ -44,7 +43,7 @@ export const BannerProvider = ({ children }: BannerProviderProps) => {
 
         const data = await response.json();
 
-        setBanners(data.banners);
+        setBanners(data);
       } catch (error) {
         console.error(error);
       }
@@ -52,6 +51,10 @@ export const BannerProvider = ({ children }: BannerProviderProps) => {
 
     fetchBanners();
   }, []);
+
+  useEffect(() => {
+    console.log("context:",banners); // works
+  }, [banners]);
 
   return (
     <BannerContext.Provider
