@@ -24,6 +24,10 @@ import { CartContext } from "../../api/providers/cartProvider";
 import { ClientContext } from "../../api/providers/clientProvider";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import ProductPreview3 from "../products/product-preview3";
+import {
+  BannerContext,
+  BannerProvider,
+} from "../../api/providers/bannerProdiver";
 
 const CategoryItem = ({ category, onClick }) => {
   const { t, lang } = useTranslation("common");
@@ -850,6 +854,7 @@ const Header = () => {
   const [allCategories, setAllCategories] = useState([]);
   const { cart, calculateTotal } = useContext(CartContext);
   const [showCategories, setShowCategories] = useState(false);
+  const { banners } = useContext(BannerContext);
 
   const { t } = useTranslation("common");
 
@@ -866,95 +871,97 @@ const Header = () => {
   const [isHeaderDrawerOpen, setIsHeaderDrawerOpen] = useState(false);
 
   return (
-    <div
-      className={`sticky top-0 z-40 mx-auto flex w-[90vw] flex-col items-center pt-2 text-white duration-300 print:hidden`}
-    >
-      <div className="flex lg:hidden">
-        <CategoryDrawerMobile
-          isOpen={showCategories}
-          categories={allCategories}
-          closeDrawer={() => setShowCategories(false)}
-        />
-      </div>
-      <div className="hidden lg:flex">
-        <CategoryDrawerDesktop
-          isOpen={showCategories}
-          categories={allCategories}
-          closeDrawer={() => setShowCategories(false)}
-        />
-      </div>
-      <div className="flex w-full flex-col gap-2 pb-3">
-        <HeaderDrawer
-          isOpen={isHeaderDrawerOpen}
-          onClickOutside={() => {
-            setIsHeaderDrawerOpen(false);
-          }}
-        />
+    <BannerProvider>
+      <div
+        className={`sticky top-0 z-40 mx-auto flex w-[90vw] flex-col items-center pt-2 text-white duration-300 print:hidden`}
+      >
+        <div className="flex lg:hidden">
+          <CategoryDrawerMobile
+            isOpen={showCategories}
+            categories={allCategories}
+            closeDrawer={() => setShowCategories(false)}
+          />
+        </div>
+        <div className="hidden lg:flex">
+          <CategoryDrawerDesktop
+            isOpen={showCategories}
+            categories={allCategories}
+            closeDrawer={() => setShowCategories(false)}
+          />
+        </div>
+        <div className="flex w-full flex-col gap-2 pb-3">
+          <HeaderDrawer
+            isOpen={isHeaderDrawerOpen}
+            onClickOutside={() => {
+              setIsHeaderDrawerOpen(false);
+            }}
+          />
 
-        <TopBar />
+          <TopBar />
 
-        <div className="w-full   px-5">
-          <div className="flex w-full flex-row items-center justify-between gap-4">
-            <button
-              name="Mobile Navigation Menu"
-              className="relative flex flex-col items-center justify-center p-1 text-sm font-bold text-white duration-300 hover:bg-black focus:outline-transparent lg:hidden"
-              style={{ WebkitTapHighlightColor: "transparent" }}
-              aria-label="Mobile Navigation Menu"
-              onClick={() => setIsHeaderDrawerOpen(true)}
-            >
-              <Menu />
-            </button>
-            <div className="flex flex-row items-center gap-8 text-sm text-white">
-              <Link
-                href={"/"}
-                className="flex-shrink-0"
-                onClick={() => setIsHeaderDrawerOpen(false)}
-                style={{
-                  WebkitTapHighlightColor: "transparent",
-                }}
-              >
-                <Image
-                  width={200}
-                  height={42.19}
-                  priority
-                  className="flex md:hidden"
-                  src="/assets/header/logo.svg"
-                  alt="Horeca Depot Logo"
-                />
-
-                <Image
-                  width={300}
-                  height={63.28}
-                  priority
-                  className="hidden md:flex"
-                  src="/assets/header/logo.svg"
-                  alt="Horeca Depot Logo"
-                />
-              </Link>
+          <div className="w-full   px-5">
+            <div className="flex w-full flex-row items-center justify-between gap-4">
               <button
-                name="Show Categories"
-                aria-label="Show Categories"
-                className="hidden flex-row items-center gap-2 rounded-lg border-2 py-2 pl-3.5 pr-5 lg:flex"
-                onClick={() => setShowCategories(true)}
+                name="Mobile Navigation Menu"
+                className="relative flex flex-col items-center justify-center p-1 text-sm font-bold text-white duration-300 hover:bg-black focus:outline-transparent lg:hidden"
+                style={{ WebkitTapHighlightColor: "transparent" }}
+                aria-label="Mobile Navigation Menu"
+                onClick={() => setIsHeaderDrawerOpen(true)}
               >
-                <Menu className="mb-[1px]" />
-                <p className="font-semibold">{t("CATEGORIES")}</p>
+                <Menu />
               </button>
-            </div>
-            <div className="flex h-[45px] flex-row gap-2 md:ml-48 md:w-full">
-              <DesktopSearch />
-              <HeaderButtons cartItems={cartItems} />
-            </div>
-          </div>
+              <div className="flex flex-row items-center gap-8 text-sm text-white">
+                <Link
+                  href={"/"}
+                  className="flex-shrink-0"
+                  onClick={() => setIsHeaderDrawerOpen(false)}
+                  style={{
+                    WebkitTapHighlightColor: "transparent",
+                  }}
+                >
+                  <Image
+                    width={200}
+                    height={42.19}
+                    priority
+                    className="flex md:hidden"
+                    src="/assets/header/logo.svg"
+                    alt="Horeca Depot Logo"
+                  />
 
-          <div className="flex w-full flex-row md:hidden">
-            <div className="relative mt-3 w-full">
-              <MobileSearch />
+                  <Image
+                    width={300}
+                    height={63.28}
+                    priority
+                    className="hidden md:flex"
+                    src="/assets/header/logo.svg"
+                    alt="Horeca Depot Logo"
+                  />
+                </Link>
+                <button
+                  name="Show Categories"
+                  aria-label="Show Categories"
+                  className="hidden flex-row items-center gap-2 rounded-lg border-2 py-2 pl-3.5 pr-5 lg:flex"
+                  onClick={() => setShowCategories(true)}
+                >
+                  <Menu className="mb-[1px]" />
+                  <p className="font-semibold">{t("CATEGORIES")}</p>
+                </button>
+              </div>
+              <div className="flex h-[45px] flex-row gap-2 md:ml-48 md:w-full">
+                <DesktopSearch />
+                <HeaderButtons cartItems={cartItems} />
+              </div>
+            </div>
+
+            <div className="flex w-full flex-row md:hidden">
+              <div className="relative mt-3 w-full">
+                <MobileSearch />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </BannerProvider>
   );
 };
 
