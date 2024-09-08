@@ -1,4 +1,3 @@
-import React from "react";
 import Layout from "../components/public/layout";
 import WishListComponent from "../components/products/wishlistComponent";
 import useTranslation from "next-translate/useTranslation";

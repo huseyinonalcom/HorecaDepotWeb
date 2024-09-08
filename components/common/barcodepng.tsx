@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import  { useRef, useEffect } from "react";
 import Barcode from "react-jsbarcode";
 import { Canvg } from "canvg";
 

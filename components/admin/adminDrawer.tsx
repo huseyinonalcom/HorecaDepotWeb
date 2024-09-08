@@ -1,58 +1,35 @@
-import React, { useContext, useState } from "react";
-import { AdminDrawerContext } from "../../api/providers/adminDrawerProvider";
-import {
-  ChevronLeft,
-  Globe,
-  Lock,
-  LogOut,
-  Package,
-  Table,
-} from "react-feather";
-import Link from "next/link";
+import { BookOpen, Globe, Grid, LogOut, Package, Table } from "react-feather";
 import useTranslation from "next-translate/useTranslation";
 import setLanguage from "next-translate/setLanguage";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { MdOutlineTextRotationNone } from "react-icons/md";
+import { PiBoxArrowUpThin } from "react-icons/pi";
+import { VscSymbolKeyword } from "react-icons/vsc";
 
 const AdminDrawer = () => {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
   const [showLanguages, setShowLanguages] = useState(false);
-  const { isAdminDrawerOpen, closeAdminDrawer, openAdminDrawer } =
-    useContext(AdminDrawerContext);
 
   const iconClass = "flex-shrink-0";
   const textClass = "ml-2 h-6 w-full font-bold text-left overflow-hidden";
-  const drawerClass = isAdminDrawerOpen ? `w-[250px]` : `w-[73px] min-w-[73px]`;
   const navLinkClass =
     "px-4 py-3 duration-300 font-bold underline-animation-white";
   const navIconDivClass =
     "flex flex-row justify-center min-w-[40px] flex-shrink-0";
   const buttonClass =
     "flex items-center justify-start bg-white py-2 shadow-lg hover:bg-orange-400 overflow-hidden duration-500";
+
   return (
     <div
-      className={`${drawerClass} sticky top-0 z-50 h-[100dvh] flex-shrink-0 bg-slate-300 p-4 shadow-[inset_-4px_0_10px_1px_rgba(0,0,0,0.3)] duration-300 print:hidden`}
+      className={`sticky top-0 z-50 h-[100dvh] w-[250px] flex-shrink-0 bg-slate-300 p-4 shadow-[inset_-4px_0_10px_1px_rgba(0,0,0,0.3)] duration-300 print:hidden`}
     >
       <div className="flex h-full flex-col gap-1">
         <nav className="flex h-full flex-col justify-between">
           <div className="flex flex-col gap-1">
-            <button
-              className="mb-2 ml-auto flex w-[30px] flex-row justify-center bg-black text-white shadow-lg  duration-500 hover:bg-orange-400"
-              name="closeAdminDrawer"
-              aria-label="Close Admin Drawer"
-              onClick={isAdminDrawerOpen ? closeAdminDrawer : openAdminDrawer}
-            >
-              <ChevronLeft
-                className={`duration-700 ${isAdminDrawerOpen ? "rotate-360" : "rotate-180"}`}
-              />
-            </button>
-            {/* <Link className={buttonClass} href="/admin/dashboard">
-            <div className={navIconDivClass}>
-              <Home className={iconClass} />
-            </div>
-            <span className={textClass}>{t("Dashboard")}</span>
-          </Link> */}
             <Link className={buttonClass} href="/admin/stock/all">
               <div className={navIconDivClass}>
                 <Table className={iconClass} />
@@ -65,25 +42,45 @@ const AdminDrawer = () => {
               </div>
               <span className={textClass}>{t("Orders")}</span>
             </Link>
-            <Link className={buttonClass} href="/admin/documents/reservations">
-              <div className={navIconDivClass}>
-                <Lock className={iconClass} />
-              </div>
-              <span className={textClass}>{t("Reservations")}</span>
-            </Link>
-            <Link className={buttonClass} href="/admin/website">
+            <Link className={buttonClass} href="/admin/website/homepage">
               <div className={navIconDivClass}>
                 <Globe className={iconClass} />
               </div>
-              <span className={textClass}>{t("Website")}</span>
+              <span className={textClass}>{t("Homepage")}</span>
             </Link>
-
-            {/* <Link className={buttonClass} href="/admin/payments">
-            <div className={navIconDivClass}>
-              <DollarSign className={iconClass} />
-            </div>
-            <span className={textClass}>{t("Payments")}</span>
-          </Link> */}
+            <Link className={buttonClass} href="/admin/website/categories">
+              <div className={navIconDivClass}>
+                <BookOpen className={iconClass} />
+              </div>
+              <span className={textClass}>{t("Categories")}</span>
+            </Link>
+            <Link className={buttonClass} href="/admin/website/collections">
+              <div className={navIconDivClass}>
+                <Grid className={iconClass} />
+              </div>
+              <span className={textClass}>{t("Collections")}</span>
+            </Link>
+            <Link className={buttonClass} href="/admin/website/banner">
+              <div className={navIconDivClass}>
+                <MdOutlineTextRotationNone className={iconClass} />
+              </div>
+              <span className={textClass}>{t("Banner")}</span>
+            </Link>
+            <Link className={buttonClass} href="/admin/website/popup">
+              <div className={navIconDivClass}>
+                <PiBoxArrowUpThin className={iconClass} />
+              </div>
+              <span className={textClass}>{t("Popup")}</span>
+            </Link>
+            <Link
+              className={buttonClass}
+              href="/admin/website/bulkkeywordsetter"
+            >
+              <div className={navIconDivClass}>
+                <VscSymbolKeyword className={iconClass} />
+              </div>
+              <span className={textClass}>{t("Keywords")}</span>
+            </Link>
           </div>
           <div className="flex flex-col gap-1">
             <div className="relative mr-auto flex flex-row items-center justify-center pl-1 text-sm text-white duration-300">
@@ -185,12 +182,6 @@ const AdminDrawer = () => {
               </div>
               <span className={textClass}>{t("Logout")}</span>
             </button>
-            {/* <Link className={`${buttonClass}`} href="/admin/settings">
-            <div className={navIconDivClass}>
-              <Settings className={iconClass} />
-            </div>
-            <span className={textClass}>{t("Configuration")}</span>
-          </Link> */}
           </div>
         </nav>
       </div>

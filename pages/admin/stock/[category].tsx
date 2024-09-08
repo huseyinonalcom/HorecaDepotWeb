@@ -6,7 +6,7 @@ import { getAllProducts } from "../../api/products/admin/getallproducts";
 import AdminLayout from "../../../components/admin/adminLayout";
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import  { useState } from "react";
 import { LuDot } from "react-icons/lu";
 import { utils, write } from "xlsx";
 import Link from "next/link";

@@ -28,7 +28,7 @@ import InputOutlined from "../../../components/inputs/outlined";
 import useTranslation from "next-translate/useTranslation";
 import { MdAutoAwesome, MdHeight, MdOutlineChair } from "react-icons/md";
 import { Product } from "../../../api/interfaces/product";
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { GoCircleSlash } from "react-icons/go";
 import { RxDimensions, RxMagnifyingGlass } from "react-icons/rx";
 import { GiWeight } from "react-icons/gi";

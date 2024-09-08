@@ -1,7 +1,7 @@
 import formatDateAPIToBe from "../../../api/utils/formatters/formatdateapibe";
 import AdminLayout from "../../../components/admin/adminLayout";
 import useTranslation from "next-translate/useTranslation";
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { ChevronLeft } from "react-feather";
 import { useRouter } from "next/router";
 import Head from "next/head";

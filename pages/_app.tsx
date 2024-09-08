@@ -1,8 +1,11 @@
 import { AppProps } from "next/app";
 import "../global.css";
 import { CategoryProvider } from "../api/providers/categoryProvider";
-import { AdminDrawerProvider } from "../api/providers/adminDrawerProvider";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
+import { WishlistProvider } from "../api/providers/wishlistProvider";
+import { BannerProvider } from "../api/providers/bannerProdiver";
+import { CartProvider } from "../api/providers/cartProvider";
+import { ClientProvider } from "../api/providers/clientProvider";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -11,9 +14,15 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <GoogleTagManager gtmId="GTM-5DMMM9F" />
       <GoogleAnalytics gaId="167998249" />
       <CategoryProvider>
-        <AdminDrawerProvider>
-          <Component {...pageProps} />
-        </AdminDrawerProvider>
+        <BannerProvider>
+          <ClientProvider>
+            <CartProvider>
+              <WishlistProvider>
+                <Component {...pageProps} />
+              </WishlistProvider>
+            </CartProvider>
+          </ClientProvider>
+        </BannerProvider>
       </CategoryProvider>
     </>
   );

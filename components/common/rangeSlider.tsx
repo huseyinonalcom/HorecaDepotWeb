@@ -1,5 +1,5 @@
 import useTranslation from "next-translate/useTranslation";
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import  { useState, useCallback, useRef, useEffect } from "react";
 
 interface RangeSliderProps {
   initialMin: number;

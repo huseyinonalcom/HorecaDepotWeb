@@ -2,7 +2,7 @@ import { CartContext } from "../../api/providers/cartProvider";
 import useTranslation from "next-translate/useTranslation";
 import { Minus, Plus, X } from "react-feather";
 import { AutoTextSize } from "auto-text-size";
-import React, { useContext } from "react";
+import  { useContext } from "react";
 import Link from "next/link";
 import CustomTheme from "../componentThemes";
 import ImageWithURL from "../common/image";

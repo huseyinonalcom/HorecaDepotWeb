@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import componentThemes from "../../../components/componentThemes";
 import { Check, Search, Upload, X } from "react-feather";
-import Image from "next/image";
 import ImageWithURL from "../../../components/common/image";
 
 const buttonClass =

@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode, useContext, useEffect } from "react";
+import  { createContext, useState, ReactNode, useContext, useEffect } from "react";
 import { WishlistProduct } from "../interfaces/wishlistProduct";
 import { CartContext } from "./cartProvider";
 

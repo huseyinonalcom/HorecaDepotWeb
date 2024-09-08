@@ -7,12 +7,6 @@ import Head from "next/head";
 import componentThemes from "../../../components/componentThemes";
 import { Check, Search, X } from "react-feather";
 
-const buttonClass =
-  "flex flex-row items-center justify-start py-2  shadow-lg hover:bg-orange-400 overflow-hidden duration-500 cursor-pointer";
-const navIconDivClass = "flex flex-row justify-center flex-shrink-0 w-[35px]";
-const iconClass = "flex-shrink-0";
-const textClass = "mx-2 font-bold mtext-left";
-
 export default function Order() {
   const router = useRouter();
   const { t, lang } = useTranslation("common");

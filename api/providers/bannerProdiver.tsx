@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode, useEffect } from "react";
+import { createContext, useState, ReactNode, useEffect } from "react";
 
 type Banner = {
   id: number;
@@ -28,14 +28,11 @@ export const BannerProvider = ({ children }: BannerProviderProps) => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const response = await fetch(
-          `/api/banners/getbanners`,
-          {
-            headers: {
-              Authorization: `Bearer ${process.env.API_KEY}`,
-            },
+        const response = await fetch(`/api/banners/getbanners`, {
+          headers: {
+            Authorization: `Bearer ${process.env.API_KEY}`,
           },
-        );
+        });
 
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -53,7 +50,7 @@ export const BannerProvider = ({ children }: BannerProviderProps) => {
   }, []);
 
   useEffect(() => {
-    console.log("context:",banners); // works
+    console.log("context:", banners); // works
   }, [banners]);
 
   return (
