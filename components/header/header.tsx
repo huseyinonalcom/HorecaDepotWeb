@@ -24,10 +24,7 @@ import { CartContext } from "../../api/providers/cartProvider";
 import { ClientContext } from "../../api/providers/clientProvider";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import ProductPreview3 from "../products/product-preview3";
-import {
-  BannerContext,
-  BannerProvider,
-} from "../../api/providers/bannerProdiver";
+import { BannerContext } from "../../api/providers/bannerProdiver";
 
 const CategoryItem = ({ category, onClick }) => {
   const { t, lang } = useTranslation("common");
@@ -891,9 +888,7 @@ const Header = () => {
       <div className="flex w-full flex-col gap-2 pb-3">
         <HeaderDrawer
           isOpen={isHeaderDrawerOpen}
-          onClickOutside={() => {
-            setIsHeaderDrawerOpen(false);
-          }}
+          onClickOutside={() => setIsHeaderDrawerOpen(false)}
         />
 
         <TopBar />
