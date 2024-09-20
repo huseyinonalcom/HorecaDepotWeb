@@ -11,6 +11,7 @@ export default async function getAllDocuments(
     const cookies = req.cookies;
     const authToken = cookies.j;
     const page = "&pagination[page]=" + (req.query.page ?? 1);
+    let order = req.query.sort ? "sort=" + req.query.sort : "";
 
     if (!authToken) {
       return res.status(401).json(statusText[401]);
