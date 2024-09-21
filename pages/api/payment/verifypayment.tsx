@@ -84,9 +84,7 @@ export default async function verifyPayment(req, res) {
       secretApiKey: process.env.OGONE_SECRET,
     });
 
-    let paymentSuccess = false; // set based on result from ogone
-
-    // everything up to this point should be OK
+    let paymentSuccess = false;
 
     if (ogoneID) {
       const getHostedCheckoutResponse =

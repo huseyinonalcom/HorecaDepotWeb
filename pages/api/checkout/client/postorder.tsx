@@ -288,7 +288,7 @@ export default async function postOrder(
 
             let mailOptionsCompany = {
               from: `"${process.env.MAIL_SENDER}" <${process.env.MAIL_USER}>`, // Sender address
-              to: "info@horecadepot.be", // List of recipients
+              to: ["info@horecadepot.be", "horecadepothoreca@gmail.com"], // List of recipients
               subject: "Nouvelle Commande sur horecadepot.be", // Subject line
               html: `
               <!DOCTYPE html>
