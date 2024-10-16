@@ -85,22 +85,6 @@ export default function HomePageAdmin() {
               >
                 <div className="flex flex-shrink-0 flex-col gap-2">
                   <InputOutlined
-                    label="order"
-                    value={mediaGroup.order}
-                    onChange={(e) => {
-                      setMediaGroups((prev) => {
-                        const newMediaGroups = [...prev];
-                        newMediaGroups.find(
-                          (mg) => mg.id == mediaGroup.id,
-                        ).order = e.target.value;
-                        return newMediaGroups;
-                      });
-                    }}
-                    min={1}
-                    name="order"
-                    type="number"
-                  />
-                  <InputOutlined
                     label="description"
                     value={mediaGroup.description ?? ""}
                     onChange={(e) => {
