@@ -6,7 +6,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { MdOutlineTextRotationNone } from "react-icons/md";
-import { PiBoxArrowUpThin } from "react-icons/pi";
+import { PiBoxArrowUpThin, PiGear } from "react-icons/pi";
 import { VscSymbolKeyword } from "react-icons/vsc";
 
 const AdminDrawer = () => {
@@ -71,6 +71,12 @@ const AdminDrawer = () => {
                 <PiBoxArrowUpThin className={iconClass} />
               </div>
               <span className={textClass}>{t("Popup")}</span>
+            </Link>
+            <Link className={buttonClass} href="/admin/settings">
+              <div className={navIconDivClass}>
+                <PiGear className={iconClass} />
+              </div>
+              <span className={textClass}>{t("Settings")}</span>
             </Link>
             <Link
               className={buttonClass}

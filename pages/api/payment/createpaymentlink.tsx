@@ -1,4 +1,5 @@
 import statusText from "../../../api/statustexts";
+import { getConfig } from "../config/private/getconfig";
 
 const postPaymentUrl = `${process.env.API_URL}/api/payments?fields=id`;
 
@@ -7,6 +8,13 @@ export default async function createPaymentLink(req, res) {
     const {
       query: { test },
     } = req;
+
+    try {
+      const config = await getConfig({ req, res });
+      console.log(config);
+    } catch (e) {
+      console.error(e);
+    }
 
     const reqBody = JSON.parse(req.body);
 
