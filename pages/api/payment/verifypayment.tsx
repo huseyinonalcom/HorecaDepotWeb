@@ -113,6 +113,7 @@ const checkOgonePayment = async (paymentID) => {
 };
 
 const updatePaymentStatus = async (paymentID, status) => {
+  console.log(paymentID, status);
   const putPaymentStatus = await fetch(
     `${process.env.API_URL}/api/payments/${paymentID}?fields=id`,
     {
