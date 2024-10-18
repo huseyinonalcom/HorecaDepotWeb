@@ -44,6 +44,7 @@ const checkMolliePayment = async (paymentID, config) => {
   })
     .then((response) => response.json())
     .then((result) => {
+      console.log(result);
       if (result.status == "paid") {
         status = true;
       }
