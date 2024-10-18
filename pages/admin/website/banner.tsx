@@ -17,7 +17,6 @@ export default function HomePageAdmin() {
     });
     if (fetchWebsiteRequest.ok) {
       const fetchWebsiteRequestAnswer = await fetchWebsiteRequest.json();
-      console.log(fetchWebsiteRequestAnswer);
       return fetchWebsiteRequestAnswer;
     } else {
       return null;
@@ -43,7 +42,6 @@ export default function HomePageAdmin() {
     const response = await fetchBanners();
     if (response) {
       setBanner(response[0]);
-      console.log(response);
     }
   };
   useEffect(() => {

@@ -8,8 +8,6 @@ import InputOutlined from "../../components/inputs/outlined";
 export default function Settings(props) {
   const { t, lang } = useTranslation("common");
 
-  console.log(props.config);
-
   return (
     <AdminLayout>
       <Head>

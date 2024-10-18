@@ -32,7 +32,6 @@ export default function Order() {
         );
         const response = await request.json();
         if (request.ok) {
-          console.log(response);
           return response;
         } else {
           throw "Failed to fetch order";

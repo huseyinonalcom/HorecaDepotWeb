@@ -49,10 +49,6 @@ export const BannerProvider = ({ children }: BannerProviderProps) => {
     fetchBanners();
   }, []);
 
-  useEffect(() => {
-    console.log("context:", banners); // works
-  }, [banners]);
-
   return (
     <BannerContext.Provider
       value={{

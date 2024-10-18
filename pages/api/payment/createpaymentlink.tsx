@@ -18,7 +18,6 @@ const createMollieLink = async (
 ) => {
   let answer;
   try {
-    console.log("creating mollie link");
     const myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${MOLLIE_SECRET}`);
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -33,7 +32,7 @@ const createMollieLink = async (
     );
     urlencoded.append(
       "webhookUrl",
-      "https://webshop.example.org/payments/webhook/",
+      `${process.env.SITE_URL}/api/payment/webhook`,
     );
     urlencoded.append("metadata", `{"order_id": ${documentID}}`);
 
@@ -118,8 +117,6 @@ const createOgoneLink = async (amount, document, ogoneCredetials) => {
       requiresApproval: false,
     },
   };
-
-  console.log(`https://horecadepot.be/payment?id=${document.id}`);
 
   if (document.client.company) {
     createHostedCheckoutRequest.order.customer.companyInformation = {
@@ -222,11 +219,9 @@ export default async function createPaymentLink(req, res) {
         idFromProvider = answer.id;
         break;
       case "ogone":
-        console.log(config);
         answer = await createOgoneLink(amount, document, config.ogone);
         url = answer.url;
         idFromProvider = answer.id;
-        console.log(answer);
         break;
       default:
         return res.status(400).json(statusText[400]);
@@ -235,6 +230,7 @@ export default async function createPaymentLink(req, res) {
     const dateNow = new Date().toISOString().split("T")[0];
 
     const strapiRequest = await fetch(postPaymentUrl, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -250,7 +246,6 @@ export default async function createPaymentLink(req, res) {
           verified: "false",
         },
       }),
-      method: "POST",
     });
 
     if (strapiRequest.status !== 200) {
