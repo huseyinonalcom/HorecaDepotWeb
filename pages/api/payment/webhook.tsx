@@ -29,9 +29,8 @@ export default async function paymentWebhook(req, res) {
   console.log("Webhook received");
   console.log(req.body);
   try {
-    const body = JSON.parse(req.body);
-    if (body.id) {
-      const payment = await fetchPayment(body.id);
+    if (req.body.id) {
+      const payment = await fetchPayment(req.body.id);
       if (!payment) {
         return res.status(400).json(statusText[400]);
       }
