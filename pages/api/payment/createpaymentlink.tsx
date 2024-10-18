@@ -56,6 +56,90 @@ const createMollieLink = async (
   return answer;
 };
 
+const createOgoneLink = async (amount, document, ogoneCredetials) => {
+  const directSdk = require("onlinepayments-sdk-nodejs");
+
+  const directSdkClient = directSdk.init({
+    integrator: "ATKSPRL",
+    host: "payment.direct.worldline-solutions.com",
+    scheme: "https",
+    port: 443,
+    enableLogging: false,
+    apiKeyId: ogoneCredetials.OGONE_KEY,
+    secretApiKey: ogoneCredetials.OGONE_SECRET,
+  });
+
+  const createHostedCheckoutRequest = {
+    cardPaymentMethodSpecificInput: {
+      transactionChannel: "ECOMMERCE",
+      authorizationMode: "SALE",
+      tokenize: true,
+    },
+    order: {
+      amountOfMoney: {
+        currencyCode: "EUR",
+        amount: amount * 100,
+      },
+      customer: {
+        merchantCustomerId: document.client.id.toFixed(0),
+        locale: "en_GB",
+        personalInformation: {
+          name: {
+            firstName: document.client.firstName,
+            surname: document.client.lastName,
+          },
+        },
+        billingAddress: {
+          street: document.docAddress.street,
+          houseNumber: document.docAddress.doorNumber,
+          zip: document.docAddress.zipCode,
+          city: document.docAddress.city,
+          ...(document.docAddress.province && {
+            state: document.docAddress.province,
+          }),
+          countryCode: "BE",
+        },
+        contactDetails: {
+          phoneNumber: document.client.phone,
+        },
+        ...(document.client.company && {
+          companyInformation: { name: document.client.company },
+        }),
+        // fiscalNumber: document.client.taxID, // figure out how to format this correctly (remove spaces and dots I think)
+      },
+      references: {
+        merchantReference: document.prefix + document.number,
+      },
+    },
+    hostedCheckoutSpecificInput: {
+      returnUrl: `${process.env.SITE_URL}/payment?id=${document.id}`,
+      isRecurring: false,
+      locale: "en_GB",
+    },
+    redirectPaymentMethodSpecificInput: {
+      requiresApproval: false,
+    },
+  };
+
+  if (document.client.company) {
+    createHostedCheckoutRequest.order.customer.companyInformation = {
+      name: document.client.company,
+    };
+  }
+
+  const createHostedCheckoutResponse =
+    await directSdkClient.hostedCheckout.createHostedCheckout(
+      "ATKSPRL",
+      createHostedCheckoutRequest,
+      null,
+    );
+
+  return {
+    url: createHostedCheckoutResponse.body.redirectUrl,
+    id: createHostedCheckoutResponse.body.hostedCheckoutId,
+  };
+};
+
 const fetchDocument = async (documentID) => {
   try {
     const fetchOrderUrl = `${process.env.API_URL}/api/documents/${documentID}?populate[0]=client&populate[1]=establishment&populate[2]=delAddress&populate[3]=docAddress&populate[4]=document_products&populate[5]=payments`;
@@ -99,7 +183,7 @@ const fetchDocument = async (documentID) => {
 export default async function createPaymentLink(req, res) {
   try {
     const {
-      query: { test, provider },
+      query: { provider },
     } = req;
 
     let paymentProvider = provider;
@@ -138,14 +222,17 @@ export default async function createPaymentLink(req, res) {
         url = answer._links.checkout.href;
         idFromProvider = answer.id;
         break;
-      // case "ogone":
-      //   createOgoneLink(amount, document, test, res);
-      //   break;
+      case "ogone":
+        answer = await createOgoneLink(amount, document, config.ogone);
+        url = answer.url;
+        idFromProvider = answer.id;
+        console.log(answer);
+        break;
       default:
         return res.status(400).json(statusText[400]);
     }
 
-    const dateNow = new Date().toISOString().substring(0, 10);
+    const dateNow = new Date().toISOString().split("T")[0];
 
     const strapiRequest = await fetch(postPaymentUrl, {
       headers: {
@@ -167,91 +254,12 @@ export default async function createPaymentLink(req, res) {
     });
 
     if (strapiRequest.status !== 200) {
-      return res.status(400).json({
-        error:
-          "Une erreur s'est produite lors de la génération du formulaire de paiement. Veuillez nous contacter pour obtenir une méthode alternative de paiement.",
-      });
+      return res.status(400).json(statusText[400]);
     }
 
-    // const directSdk = require("onlinepayments-sdk-nodejs");
-
-    // const directSdkClient = directSdk.init({
-    //   integrator: "ATKSPRL",
-    //   host: "payment.direct.worldline-solutions.com",
-    //   scheme: "https",
-    //   port: 443,
-    //   enableLogging: false,
-    //   apiKeyId: process.env.OGONE_KEY,
-    //   secretApiKey: process.env.OGONE_SECRET,
-    // });
-
-    // const createHostedCheckoutRequest = {
-    //   cardPaymentMethodSpecificInput: {
-    //     transactionChannel: "ECOMMERCE",
-    //     authorizationMode: "SALE",
-    //     tokenize: true,
-    //   },
-    //   order: {
-    //     amountOfMoney: {
-    //       currencyCode: "EUR",
-    //       amount: amount * 100,
-    //     },
-    //     customer: {
-    //       merchantCustomerId: document.client.id.toFixed(0),
-    //       locale: "en_GB",
-    //       personalInformation: {
-    //         name: {
-    //           firstName: document.client.firstName,
-    //           surname: document.client.lastName,
-    //         },
-    //       },
-    //       billingAddress: {
-    //         street: document.docAddress.street,
-    //         houseNumber: document.docAddress.doorNumber,
-    //         zip: document.docAddress.zipCode,
-    //         city: document.docAddress.city,
-    //         ...(document.docAddress.province && {
-    //           state: document.docAddress.province,
-    //         }),
-    //         countryCode: "BE",
-    //       },
-    //       contactDetails: {
-    //         phoneNumber: document.client.phone,
-    //       },
-    //       ...(document.client.company && {
-    //         companyInformation: { name: document.client.company },
-    //       }),
-    //       // fiscalNumber: document.client.taxID, // figure out how to format this correctly (remove spaces and dots I think)
-    //     },
-    //     references: {
-    //       merchantReference:
-    //         document.prefix + document.number + "-" + paymentID.toFixed(0),
-    //     },
-    //   },
-    //   hostedCheckoutSpecificInput: {
-    //     returnUrl: `${process.env.SITE_URL}/payment?id=${paymentID.toFixed(0)}`,
-    //     isRecurring: false,
-    //     locale: "en_GB",
-    //   },
-    //   redirectPaymentMethodSpecificInput: {
-    //     requiresApproval: false,
-    //   },
-    // };
-
-    // if (document.client.company) {
-    //   createHostedCheckoutRequest.order.customer.companyInformation = {
-    //     name: document.client.company,
-    //   };
-    // }
-
-    // const createHostedCheckoutResponse =
-    //   await directSdkClient.hostedCheckout.createHostedCheckout(
-    //     "ATKSPRL",
-    //     createHostedCheckoutRequest,
-    //     null,
-    //   );
-
-    // const hostedUrl = createHostedCheckoutResponse;
+    if (!url) {
+      return res.status(400).json(statusText[400]);
+    }
 
     return res.status(200).json({ url: url });
   } catch (e) {
