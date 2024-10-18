@@ -1,6 +1,6 @@
 import statusText from "../../../../api/statustexts";
 
-export async function getConfig({ req, res }) {
+export async function getConfig() {
   const authToken = process.env.API_KEY;
 
   const response = await fetch(`${process.env.API_URL}/api/config`, {
@@ -21,7 +21,7 @@ export async function getConfig({ req, res }) {
 
 export default async function handler(req, res) {
   try {
-    const response = await getConfig({ req, res });
+    const response = await getConfig();
 
     if (!response) {
       return res.status(400).json(statusText[400]);

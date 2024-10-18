@@ -191,7 +191,7 @@ export default async function createPaymentLink(req, res) {
     let config;
 
     try {
-      config = await getConfig({ req, res });
+      config = await getConfig();
       if (!config[paymentProvider]) {
         return res.status(400).json(statusText[400]);
       }

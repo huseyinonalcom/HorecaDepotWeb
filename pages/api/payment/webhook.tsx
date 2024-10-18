@@ -1,8 +1,9 @@
 import statusText from "../../../api/statustexts";
+import { verifyPayments } from "./verifypayment";
 
 const fetchPayment = async (origin) => {
   try {
-    const fetchPaymentUrl = `${process.env.API_URL}/api/payments?filters[origin][$contains]=${origin}`;
+    const fetchPaymentUrl = `${process.env.API_URL}/api/payments?filters[origin][$contains]=${origin}&populate[document][fields][0]=id`;
 
     const request = await fetch(fetchPaymentUrl, {
       method: "GET",
@@ -34,6 +35,7 @@ export default async function paymentWebhook(req, res) {
       if (!payment) {
         return res.status(400).json(statusText[400]);
       }
+      verifyPayments(payment.document.id);
     }
     return res.status(200).json(statusText[200]);
   } catch (e) {

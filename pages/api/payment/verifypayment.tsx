@@ -1,8 +1,9 @@
 import statusText from "../../../api/statustexts";
+import { getConfig } from "../config/private/getconfig";
 
 const fetchDocument = async (documentID) => {
   try {
-    const fetchOrderUrl = `${process.env.API_URL}/api/documents/${documentID}?populate[5]=payments`;
+    const fetchOrderUrl = `${process.env.API_URL}/api/documents/${documentID}?populate[0]=payments`;
 
     let document;
     let amount;
@@ -40,130 +41,153 @@ const fetchDocument = async (documentID) => {
   }
 };
 
-async function verifyPayment(req, res) {
+const checkMolliePayment = async (paymentID) => {
+  const myHeaders = new Headers();
+  myHeaders.append(
+    "Authorization",
+    "Bearer test_xk4hzzaV2eppDyh6mwkTREyNj3VRDM",
+  );
+
+  let status = false;
+
+  await fetch("https://api.mollie.com/v2/payments/tr_T9RoCmmAar", {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.status == "paid") {
+        status = true;
+      }
+    })
+    .catch((error) => console.error(error));
+  return status;
+};
+
+const checkOgonePayment = async (paymentID) => {
+  const directSdk = require("onlinepayments-sdk-nodejs");
+
+  const directSdkClient = directSdk.init({
+    integrator: "ATKSPRL",
+    host: "payment.direct.worldline-solutions.com",
+    scheme: "https",
+    port: 443,
+    enableLogging: false,
+    apiKeyId: process.env.OGONE_KEY,
+    secretApiKey: process.env.OGONE_SECRET,
+  });
+
+  let paymentSuccess = false;
+
+  // if (ogoneID) {
+  //   const getHostedCheckoutResponse =
+  //     await directSdkClient.hostedCheckout.getHostedCheckout(
+  //       "ATKSPRL",
+  //       ogoneID,
+  //       {},
+  //     );
+  //   if (
+  //     getHostedCheckoutResponse.body.createdPaymentOutput
+  //       .paymentStatusCategory == "SUCCESSFUL"
+  //   ) {
+  //     paymentSuccess = true;
+  //   }
+  // } else {
+  //   return res.status(400).json(statusText[400]);
+  // }
+
+  // if (paymentSuccess) {
+  //   const putPaymentStatus = await fetch(
+  //     `${process.env.API_URL}/api/payments/${documentID}?fields=id`,
+  //     {
+  //       method: "PUT",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Accept: "application/json",
+  //         Authorization: `Bearer ${process.env.API_KEY}`,
+  //       },
+  //       body: JSON.stringify({
+  //         data: {
+  //           verified: paymentSuccess,
+  //         },
+  //       }),
+  //     },
+  //   );
+  //   if (putPaymentStatus.ok) {
+  //     return res.status(200).json(statusText[200]);
+  //   } else {
+  //     return res.status(404).json(statusText[404]);
+  //   }
+  // } else {
+  //   return res.status(200).json({ paymentSuccess: paymentSuccess });
+  // }
+  return paymentSuccess;
+};
+
+const updatePaymentStatus = async (paymentID, status) => {
+  const putPaymentStatus = await fetch(
+    `${process.env.API_URL}/api/payments/${paymentID}?fields=id`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${process.env.API_KEY}`,
+      },
+      body: JSON.stringify({
+        data: {
+          verified: status,
+        },
+      }),
+    },
+  );
+  if (putPaymentStatus.ok) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export async function verifyPayments(id) {
+  let config;
+
   try {
-    let documentID = null;
-    let payment = null;
-    let amount = null;
-
-    let test = false;
-
-    if (req.query.test && req.query.test == "true") {
-      test = true;
-    }
-
-    if (req.query.id) {
-      documentID = req.query.id;
-    } else {
-      return res.status(400).json(statusText[400]);
-    }
-
-    let document = await fetchDocument(documentID);
+    config = await getConfig();
+  } catch (e) {
+    console.error(e);
+  }
+  try {
+    let document = await fetchDocument(id);
 
     for (let payment of document.document.payments) {
       if (!payment.verified) {
-        console.log(payment);
+        switch (payment.origin.split("_")[0]) {
+          case "mollie":
+            if (await checkMolliePayment(payment.origin.split("_")[1])) {
+              await updatePaymentStatus(payment.id, true);
+            }
+            break;
+          case "ogone":
+            if (await checkOgonePayment(payment.origin.split("_")[1])) {
+              await updatePaymentStatus(payment.id, true);
+            }
+            break;
+          default:
+            return false;
+        }
       }
     }
 
-    // if (!test) {
-    //   const fetchPaymentUrl = `${process.env.API_URL}/api/payments/${documentID}?populate[document][populate][document_products][fields][0]=subTotal`;
-
-    //   const fetchPaymentRequest = await fetch(fetchPaymentUrl, {
-    //     method: "GET",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Accept: "application/json",
-    //       Authorization: `Bearer ${process.env.API_KEY}`,
-    //     },
-    //   });
-    //   if (fetchPaymentRequest.ok) {
-    //     const fetchPaymentAnswer = await fetchPaymentRequest.json();
-
-    //     payment = fetchPaymentAnswer.data;
-    //     amount = payment.document.document_products
-    //       .reduce((accumulator, currentItem) => {
-    //         return accumulator + currentItem.subTotal;
-    //       }, 0)
-    //       .toFixed(2);
-    //   } else {
-    //     return res.status(404).json(statusText[404]);
-    //   }
-    // }
-
-    // const directSdk = require("onlinepayments-sdk-nodejs");
-
-    // const directSdkClient = directSdk.init({
-    //   integrator: "ATKSPRL",
-    //   host: "payment.direct.worldline-solutions.com",
-    //   scheme: "https",
-    //   port: 443,
-    //   enableLogging: false,
-    //   apiKeyId: process.env.OGONE_KEY,
-    //   secretApiKey: process.env.OGONE_SECRET,
-    // });
-
-    let paymentSuccess = false;
-
-    // if (ogoneID) {
-    //   const getHostedCheckoutResponse =
-    //     await directSdkClient.hostedCheckout.getHostedCheckout(
-    //       "ATKSPRL",
-    //       ogoneID,
-    //       {},
-    //     );
-    //   if (
-    //     getHostedCheckoutResponse.body.createdPaymentOutput
-    //       .paymentStatusCategory == "SUCCESSFUL"
-    //   ) {
-    //     paymentSuccess = true;
-    //   }
-    // } else {
-    //   return res.status(400).json(statusText[400]);
-    // }
-
-    // if (paymentSuccess) {
-    //   const putPaymentStatus = await fetch(
-    //     `${process.env.API_URL}/api/payments/${documentID}?fields=id`,
-    //     {
-    //       method: "PUT",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Accept: "application/json",
-    //         Authorization: `Bearer ${process.env.API_KEY}`,
-    //       },
-    //       body: JSON.stringify({
-    //         data: {
-    //           verified: paymentSuccess,
-    //         },
-    //       }),
-    //     },
-    //   );
-    //   if (putPaymentStatus.ok) {
-    //     return res.status(200).json(statusText[200]);
-    //   } else {
-    //     return res.status(404).json(statusText[404]);
-    //   }
-    // } else {
-    //   return res.status(200).json({ paymentSuccess: paymentSuccess });
-    // }
-    return res.status(200).json({ paymentSuccess: paymentSuccess });
+    return true;
   } catch (e) {
-    return res.status(500).json(statusText[500]);
+    return false;
   }
 }
 
 export default async function handler(req, res) {
   try {
     let documentID = null;
-    let payment = null;
-    let amount = null;
-
-    let test = false;
-
-    if (req.query.test && req.query.test == "true") {
-      test = true;
-    }
 
     if (req.query.id) {
       documentID = req.query.id;
@@ -171,15 +195,15 @@ export default async function handler(req, res) {
       return res.status(400).json(statusText[400]);
     }
 
-    let document = await fetchDocument(documentID);
+    let success = false;
 
-    for (let payment of document.document.payments) {
-      if (!payment.verified) {
-        console.log(payment);
-      }
+    success = await verifyPayments(documentID);
+
+    if (!success) {
+      return res.status(400).json(statusText[400]);
     }
 
-    return res.status(200).json({ paymentSuccess: false });
+    return res.status(200).json(statusText[200]);
   } catch (e) {
     return res.status(500).json(statusText[500]);
   }
