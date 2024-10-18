@@ -13,7 +13,7 @@ const fetchPayment = async (origin) => {
         Authorization: `Bearer ${process.env.API_KEY}`,
       },
     });
-    let answer: boolean | string = false;
+    let answer: any = false;
     if (request.ok) {
       answer = await request.json();
     } else {
