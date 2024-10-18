@@ -37,14 +37,12 @@ const createMollieLink = async (
     );
     urlencoded.append("metadata", `{"order_id": ${documentID}}`);
 
-    const requestOptions = {
+    await fetch("https://api.mollie.com/v2/payments", {
       method: "POST",
       headers: myHeaders,
       body: urlencoded,
       redirect: "follow",
-    };
-
-    await fetch("https://api.mollie.com/v2/payments", requestOptions)
+    })
       .then((response) => response.json())
       .then((result) => {
         answer = result;
