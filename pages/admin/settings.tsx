@@ -92,7 +92,7 @@ export default function Settings(props) {
 
 export async function getServerSideProps(context) {
   const req = context.req;
-  const config = await getConfig({ req, res: null });
+  const config = await getConfig();
   return {
     props: {
       config,
