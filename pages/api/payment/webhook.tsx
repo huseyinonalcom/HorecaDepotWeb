@@ -35,7 +35,7 @@ export default async function paymentWebhook(req, res) {
       if (!payment) {
         return res.status(400).json(statusText[400]);
       }
-      verifyPayments(payment.document.id);
+      verifyPayments(payment.data.document[0].id);
     }
     return res.status(200).json(statusText[200]);
   } catch (e) {
