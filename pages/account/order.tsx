@@ -102,7 +102,7 @@ export default function Order() {
     let balance = totalSubTotal - totalPayments;
 
     const submitPayment = async () => {
-      const request = await fetch(`/api/payment/createpaymentlink?test=false&provider=ogone`, {
+      const request = await fetch(`/api/payment/createpaymentlink?test=false&provider=mollie`, {
         method: "POST",
         body: JSON.stringify(currentOrder),
       });

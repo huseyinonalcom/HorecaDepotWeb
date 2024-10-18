@@ -40,7 +40,7 @@ const fetchDocument = async (documentID) => {
   }
 };
 
-export default async function verifyPayment(req, res) {
+async function verifyPayment(req, res) {
   try {
     let documentID = null;
     let payment = null;
@@ -148,6 +148,38 @@ export default async function verifyPayment(req, res) {
     //   return res.status(200).json({ paymentSuccess: paymentSuccess });
     // }
     return res.status(200).json({ paymentSuccess: paymentSuccess });
+  } catch (e) {
+    return res.status(500).json(statusText[500]);
+  }
+}
+
+export default async function handler(req, res) {
+  try {
+    let documentID = null;
+    let payment = null;
+    let amount = null;
+
+    let test = false;
+
+    if (req.query.test && req.query.test == "true") {
+      test = true;
+    }
+
+    if (req.query.id) {
+      documentID = req.query.id;
+    } else {
+      return res.status(400).json(statusText[400]);
+    }
+
+    let document = await fetchDocument(documentID);
+
+    for (let payment of document.document.payments) {
+      if (!payment.verified) {
+        console.log(payment);
+      }
+    }
+
+    return res.status(200).json({ paymentSuccess: false });
   } catch (e) {
     return res.status(500).json(statusText[500]);
   }
