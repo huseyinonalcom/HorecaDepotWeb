@@ -20,18 +20,8 @@ const fetchDocument = async (documentID) => {
       const answer = await request.json();
 
       document = answer.data;
-      amount =
-        document.document_products.reduce((accumulator, currentItem) => {
-          return accumulator + currentItem.subTotal;
-        }, 0) -
-        document.payments
-          .filter((pay) => !pay.deleted && pay.verified)
-          .reduce((accumulator, currentItem) => {
-            return accumulator + currentItem.value;
-          }, 0)
-          .toFixed(2);
 
-      return { document, amount };
+      return { document };
     } else {
       const answer = await request.text();
       throw new Error("Error fetching document");
@@ -41,16 +31,13 @@ const fetchDocument = async (documentID) => {
   }
 };
 
-const checkMolliePayment = async (paymentID) => {
+const checkMolliePayment = async (paymentID, config) => {
   const myHeaders = new Headers();
-  myHeaders.append(
-    "Authorization",
-    "Bearer test_xk4hzzaV2eppDyh6mwkTREyNj3VRDM",
-  );
+  myHeaders.append("Authorization", `Bearer ${config.mollie.MOLLIE_SECRET}`);
 
   let status = false;
 
-  await fetch("https://api.mollie.com/v2/payments/tr_T9RoCmmAar", {
+  await fetch(`https://api.mollie.com/v2/payments/${paymentID}`, {
     method: "GET",
     headers: myHeaders,
     redirect: "follow",
@@ -164,7 +151,9 @@ export async function verifyPayments(id) {
       if (!payment.verified) {
         switch (payment.origin.split("_")[0]) {
           case "mollie":
-            if (await checkMolliePayment(payment.origin.split("_")[1])) {
+            if (
+              await checkMolliePayment(payment.origin.split("_")[1], config)
+            ) {
               await updatePaymentStatus(payment.id, true);
             }
             break;
