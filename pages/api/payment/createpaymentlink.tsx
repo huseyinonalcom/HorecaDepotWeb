@@ -10,7 +10,12 @@ const postPaymentUrl = `${process.env.API_URL}/api/payments?fields=id`;
 // return the link, or an error if it fails
 // also create a payment in the database with the amount, the document id and the id from the payment provider
 
-const createMollieLink = async (amount, documentID, MOLLIE_SECRET) => {
+const createMollieLink = async (
+  amount,
+  documentID,
+  MOLLIE_SECRET,
+  description,
+) => {
   let answer;
   try {
     console.log("creating mollie link");
@@ -21,7 +26,7 @@ const createMollieLink = async (amount, documentID, MOLLIE_SECRET) => {
     const urlencoded = new URLSearchParams();
     urlencoded.append("amount[currency]", "EUR");
     urlencoded.append("amount[value]", amount);
-    urlencoded.append("description", documentID);
+    urlencoded.append("description", description);
     urlencoded.append(
       "redirectUrl",
       "https://webshop.example.org/order/12345/",
@@ -30,7 +35,7 @@ const createMollieLink = async (amount, documentID, MOLLIE_SECRET) => {
       "webhookUrl",
       "https://webshop.example.org/payments/webhook/",
     );
-    urlencoded.append("metadata", '{"order_id": "documentID"}');
+    urlencoded.append("metadata", `{"order_id": ${documentID}}`);
 
     const requestOptions = {
       method: "POST",
@@ -52,8 +57,6 @@ const createMollieLink = async (amount, documentID, MOLLIE_SECRET) => {
 };
 
 const fetchDocument = async (documentID) => {
-  console.log("fetching document");
-  console.log(documentID);
   try {
     const fetchOrderUrl = `${process.env.API_URL}/api/documents/${documentID}?populate[0]=client&populate[1]=establishment&populate[2]=delAddress&populate[3]=docAddress&populate[4]=document_products&populate[5]=payments`;
 
@@ -86,7 +89,6 @@ const fetchDocument = async (documentID) => {
       return { document, amount };
     } else {
       const answer = await request.text();
-      console.log(answer);
       throw new Error("Error fetching document");
     }
   } catch (e) {
@@ -131,6 +133,7 @@ export default async function createPaymentLink(req, res) {
           amount.toFixed(2),
           document.id,
           config.mollie.MOLLIE_SECRET,
+          document.prefix + document.number,
         );
         url = answer._links.checkout.href;
         idFromProvider = answer.id;
