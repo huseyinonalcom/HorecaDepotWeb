@@ -1,8 +1,7 @@
 import statusText from "../../../../api/statustexts";
-import getAuthCookie from "../../cookies";
 
 export async function getConfig({ req, res }) {
-  const authToken = getAuthCookie({ type: "admin", req });
+  const authToken = process.env.API_KEY;
 
   const response = await fetch(`${process.env.API_URL}/api/config`, {
     method: "GET",

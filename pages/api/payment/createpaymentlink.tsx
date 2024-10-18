@@ -29,7 +29,7 @@ const createMollieLink = async (
     urlencoded.append("description", description);
     urlencoded.append(
       "redirectUrl",
-      "https://webshop.example.org/order/12345/",
+      `${process.env.SITE_URL}/payment?id=${documentID}`,
     );
     urlencoded.append(
       "webhookUrl",
@@ -112,7 +112,7 @@ const createOgoneLink = async (amount, document, ogoneCredetials) => {
       },
     },
     hostedCheckoutSpecificInput: {
-      returnUrl: `${process.env.SITE_URL}/payment?id=${document.id}`,
+      returnUrl: `https://horecadepot.be/payment?id=${document.id}`,
       isRecurring: false,
       locale: "en_GB",
     },
@@ -120,6 +120,8 @@ const createOgoneLink = async (amount, document, ogoneCredetials) => {
       requiresApproval: false,
     },
   };
+
+  console.log(`https://horecadepot.be/payment?id=${document.id}`);
 
   if (document.client.company) {
     createHostedCheckoutRequest.order.customer.companyInformation = {
@@ -172,7 +174,6 @@ const fetchDocument = async (documentID) => {
 
       return { document, amount };
     } else {
-      const answer = await request.text();
       throw new Error("Error fetching document");
     }
   } catch (e) {
@@ -223,6 +224,7 @@ export default async function createPaymentLink(req, res) {
         idFromProvider = answer.id;
         break;
       case "ogone":
+        console.log(config);
         answer = await createOgoneLink(amount, document, config.ogone);
         url = answer.url;
         idFromProvider = answer.id;
