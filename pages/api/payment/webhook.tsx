@@ -2,7 +2,7 @@ import statusText from "../../../api/statustexts";
 
 const fetchPayment = async (origin) => {
   try {
-    const fetchPaymentUrl = `${process.env.API_URL}/api/payments?filters[origin][$eq]=${origin}`;
+    const fetchPaymentUrl = `${process.env.API_URL}/api/payments?filters[origin][$contains]=${origin}`;
 
     const request = await fetch(fetchPaymentUrl, {
       method: "GET",
