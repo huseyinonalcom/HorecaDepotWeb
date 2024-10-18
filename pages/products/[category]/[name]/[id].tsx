@@ -128,11 +128,6 @@ const ProductPage = ({
             <h3 className="text-lg font-semibold">
               {product.internalCode != "0" ? product.internalCode : ""}
             </h3>
-            {product.description && (
-              <p className="mt-1 w-full border-t border-gray-400 pt-1">
-                {product.description}
-              </p>
-            )}
             <div className="flex flex-row items-center gap-2">
               {product.priceBeforeDiscount <= product.value ? null : (
                 <h3 className="font-bold text-gray-800 line-through">
@@ -155,15 +150,16 @@ const ProductPage = ({
                   ).toFixed(0) + "%"}
                 </p>
               ) : null}
-              {/* {product.priceBeforeDiscount <= product.value ? null : (
-                <div className="bg-green-700 p-1 font-bold  text-white">
-                  {(
-                    ((product.value - product.priceBeforeDiscount) /
-                      product.priceBeforeDiscount) *
-                    100
-                  ).toFixed(0) + "%"}
-                </div>
-              )} */}
+            </div>
+
+            <div className="flex flex-row items-center gap-2">
+              <h3 className="text-lg font-bold">
+                {"€ " +
+                  (product.value / (1 + product.tax / 100))
+                    .toFixed(2)
+                    .replaceAll(".", ",")}
+              </h3>
+              <h4 className="text-xs">{t("VAT excl.")}</h4>
             </div>
             {product.color && (
               <p>
@@ -236,30 +232,36 @@ const ProductPage = ({
             </div>
 
             <div className="flex w-full flex-col gap-1">
-              {product.height && product.height != 0 && (
-                <div className="flex flex-row">
-                  <MdHeight size={24} className="flex-shrink-0" />
-                  <p>
-                    <b>{t("Height")}:</b> {product.height} cm
-                  </p>
-                </div>
-              )}
-              {product.width && product.width != 0 && (
-                <div className="flex flex-row">
-                  <MdHeight size={24} className="flex-shrink-0 rotate-90" />
-                  <p>
-                    <b>{t("Width")}:</b> {product.width} cm
-                  </p>
-                </div>
-              )}
-              {product.depth && product.depth != 0 && (
-                <div className="flex flex-row">
-                  <MdHeight size={24} className="flex-shrink-0 rotate-45" />
-                  <p>
-                    <b>{t("Length")}:</b> {product.depth} cm
-                  </p>
-                </div>
-              )}
+              {product.height !== undefined &&
+                product.height !== null &&
+                product.height != 0 && (
+                  <div className="flex flex-row">
+                    <MdHeight size={24} className="flex-shrink-0" />
+                    <p>
+                      <b>{t("Height")}:</b> {product.height} cm
+                    </p>
+                  </div>
+                )}
+              {product.width !== undefined &&
+                product.width !== null &&
+                product.width != 0 && (
+                  <div className="flex flex-row">
+                    <MdHeight size={24} className="flex-shrink-0 rotate-90" />
+                    <p>
+                      <b>{t("Width")}:</b> {product.width} cm
+                    </p>
+                  </div>
+                )}
+              {product.depth !== undefined &&
+                product.depth !== null &&
+                product.depth !== 0 && (
+                  <div className="flex flex-row">
+                    <MdHeight size={24} className="flex-shrink-0 rotate-45" />
+                    <p>
+                      <b>{t("Length")}:</b> {product.depth} cm
+                    </p>
+                  </div>
+                )}
               {product.product_extra.surface_area &&
                 product.product_extra.surface_area != "" && (
                   <div className="flex flex-row">
@@ -302,6 +304,11 @@ const ProductPage = ({
                 </p>
               )}
 
+              {product.description && (
+                <p className="mt-1 w-full border-t border-gray-400 pt-1">
+                  {product.description}
+                </p>
+              )}
               <div className="flex flex-row items-center gap-2">
                 <b>{t("Share")}:</b>
                 <Link

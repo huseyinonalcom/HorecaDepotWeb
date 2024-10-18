@@ -314,5 +314,7 @@
   "color": "Kleur",
   "selected_color": "Geselecteerde kleur",
   "internalCode_not_empty": "Interne code is niet leeg",
-  "No_payment_admin": "Geen betaling gevonden."
+  "No_payment_admin": "Geen betaling gevonden.",
+  "VAT excl.": "BTW excl.",
+  "Settings": "Instellingen"
 }
