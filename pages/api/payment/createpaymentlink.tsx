@@ -3,22 +3,59 @@ import { getConfig } from "../config/private/getconfig";
 
 const postPaymentUrl = `${process.env.API_URL}/api/payments?fields=id`;
 
-export default async function createPaymentLink(req, res) {
+// fetch config
+// check which payment providers can be used
+// check searchparams for which payment provider to use
+// try to create payment link with that provider
+// return the link, or an error if it fails
+// also create a payment in the database with the amount, the document id and the id from the payment provider
+
+const createMollieLink = async (amount, documentID, MOLLIE_SECRET) => {
+  let answer;
   try {
-    const {
-      query: { test },
-    } = req;
+    console.log("creating mollie link");
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${MOLLIE_SECRET}`);
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-    try {
-      const config = await getConfig({ req, res });
-      console.log(config);
-    } catch (e) {
-      console.error(e);
-    }
+    const urlencoded = new URLSearchParams();
+    urlencoded.append("amount[currency]", "EUR");
+    urlencoded.append("amount[value]", amount);
+    urlencoded.append("description", documentID);
+    urlencoded.append(
+      "redirectUrl",
+      "https://webshop.example.org/order/12345/",
+    );
+    urlencoded.append(
+      "webhookUrl",
+      "https://webshop.example.org/payments/webhook/",
+    );
+    urlencoded.append("metadata", '{"order_id": "documentID"}');
 
-    const reqBody = JSON.parse(req.body);
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: "follow",
+    };
 
-    const fetchOrderUrl = `${process.env.API_URL}/api/documents/${reqBody.documentID}?populate[0]=client&populate[1]=establishment&populate[2]=delAddress&populate[3]=docAddress&populate[4]=document_products&populate[5]=payments`;
+    await fetch("https://api.mollie.com/v2/payments", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        answer = result;
+      })
+      .catch((error) => console.error(error));
+  } catch (e) {
+    console.error(e);
+  }
+  return answer;
+};
+
+const fetchDocument = async (documentID) => {
+  console.log("fetching document");
+  console.log(documentID);
+  try {
+    const fetchOrderUrl = `${process.env.API_URL}/api/documents/${documentID}?populate[0]=client&populate[1]=establishment&populate[2]=delAddress&populate[3]=docAddress&populate[4]=document_products&populate[5]=payments`;
 
     let document;
     let amount;
@@ -45,8 +82,64 @@ export default async function createPaymentLink(req, res) {
             return accumulator + currentItem.value;
           }, 0)
           .toFixed(2);
+
+      return { document, amount };
     } else {
-      return res.status(404).json(statusText[404]);
+      const answer = await request.text();
+      console.log(answer);
+      throw new Error("Error fetching document");
+    }
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export default async function createPaymentLink(req, res) {
+  try {
+    const {
+      query: { test, provider },
+    } = req;
+
+    let paymentProvider = provider;
+
+    if (!paymentProvider) {
+      paymentProvider = "ogone";
+    }
+
+    let config;
+
+    try {
+      config = await getConfig({ req, res });
+      if (!config[paymentProvider]) {
+        return res.status(400).json(statusText[400]);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+
+    const reqBody = JSON.parse(req.body);
+
+    const { amount, document } = await fetchDocument(reqBody.id);
+
+    let answer;
+    let idFromProvider;
+    let url;
+
+    switch (paymentProvider) {
+      case "mollie":
+        answer = await createMollieLink(
+          amount.toFixed(2),
+          document.id,
+          config.mollie.MOLLIE_SECRET,
+        );
+        url = answer._links.checkout.href;
+        idFromProvider = answer.id;
+        break;
+      // case "ogone":
+      //   createOgoneLink(amount, document, test, res);
+      //   break;
+      default:
+        return res.status(400).json(statusText[400]);
     }
 
     const dateNow = new Date().toISOString().substring(0, 10);
@@ -63,15 +156,13 @@ export default async function createPaymentLink(req, res) {
           date: dateNow,
           method: "Online",
           document: document.id,
-          origin: "Ogone",
+          origin: paymentProvider + "-" + idFromProvider,
           verified: "false",
         },
       }),
       method: "POST",
     });
 
-    const strapiResponse = await strapiRequest.json();
-    const paymentID = strapiResponse.data.id;
     if (strapiRequest.status !== 200) {
       return res.status(400).json({
         error:
@@ -79,152 +170,89 @@ export default async function createPaymentLink(req, res) {
       });
     }
 
-    if (test == true) {
-      return res.status(200).json({
-        url: 0,
-        data: {
-          value: amount,
-          date: dateNow,
-          method: "Online",
-          document: document.id,
-          origin: "Ogone",
-          verified: "false",
-        },
-        hostedCheckoutRequest: {
-          cardPaymentMethodSpecificInput: {
-            transactionChannel: "ECOMMERCE",
-            authorizationMode: "SALE",
-            tokenize: true,
-          },
-          order: {
-            amountOfMoney: {
-              currencyCode: "EUR",
-              amount: amount * 100,
-            },
-            customer: {
-              merchantCustomerId: document.client.id.toFixed(0),
-              locale: "en_GB",
-              personalInformation: {
-                name: {
-                  firstName: document.client.firstName,
-                  surname: document.client.lastName,
-                },
-              },
-              companyInformation: {
-                name: document.client.company,
-              },
-              billingAddress: {
-                street: document.docAddress.street,
-                houseNumber: document.docAddress.doorNumber,
-                zip: document.docAddress.zipCode,
-                city: document.docAddress.city,
-                state: document.docAddress.province,
-                countryCode: "BE",
-              },
-              contactDetails: {
-                phoneNumber: document.client.phone,
-              },
-              // fiscalNumber: document.client.taxID, // figure out how to format this correctly (remove spaces and dots I think)
-            },
-            references: {
-              merchantReference:
-                document.prefix + document.number + "-" + paymentID.toFixed(0),
-            },
-          },
-          hostedCheckoutSpecificInput: {
-            returnUrl: "https://horecadepot.be",
-            isRecurring: false,
-            locale: "en_GB",
-          },
-          redirectPaymentMethodSpecificInput: {
-            requiresApproval: false,
-          },
-        },
-      });
-    }
+    // const directSdk = require("onlinepayments-sdk-nodejs");
 
-    const directSdk = require("onlinepayments-sdk-nodejs");
+    // const directSdkClient = directSdk.init({
+    //   integrator: "ATKSPRL",
+    //   host: "payment.direct.worldline-solutions.com",
+    //   scheme: "https",
+    //   port: 443,
+    //   enableLogging: false,
+    //   apiKeyId: process.env.OGONE_KEY,
+    //   secretApiKey: process.env.OGONE_SECRET,
+    // });
 
-    const directSdkClient = directSdk.init({
-      integrator: "ATKSPRL",
-      host: "payment.direct.worldline-solutions.com",
-      scheme: "https",
-      port: 443,
-      enableLogging: false,
-      apiKeyId: process.env.OGONE_KEY,
-      secretApiKey: process.env.OGONE_SECRET,
-    });
+    // const createHostedCheckoutRequest = {
+    //   cardPaymentMethodSpecificInput: {
+    //     transactionChannel: "ECOMMERCE",
+    //     authorizationMode: "SALE",
+    //     tokenize: true,
+    //   },
+    //   order: {
+    //     amountOfMoney: {
+    //       currencyCode: "EUR",
+    //       amount: amount * 100,
+    //     },
+    //     customer: {
+    //       merchantCustomerId: document.client.id.toFixed(0),
+    //       locale: "en_GB",
+    //       personalInformation: {
+    //         name: {
+    //           firstName: document.client.firstName,
+    //           surname: document.client.lastName,
+    //         },
+    //       },
+    //       billingAddress: {
+    //         street: document.docAddress.street,
+    //         houseNumber: document.docAddress.doorNumber,
+    //         zip: document.docAddress.zipCode,
+    //         city: document.docAddress.city,
+    //         ...(document.docAddress.province && {
+    //           state: document.docAddress.province,
+    //         }),
+    //         countryCode: "BE",
+    //       },
+    //       contactDetails: {
+    //         phoneNumber: document.client.phone,
+    //       },
+    //       ...(document.client.company && {
+    //         companyInformation: { name: document.client.company },
+    //       }),
+    //       // fiscalNumber: document.client.taxID, // figure out how to format this correctly (remove spaces and dots I think)
+    //     },
+    //     references: {
+    //       merchantReference:
+    //         document.prefix + document.number + "-" + paymentID.toFixed(0),
+    //     },
+    //   },
+    //   hostedCheckoutSpecificInput: {
+    //     returnUrl: `${process.env.SITE_URL}/payment?id=${paymentID.toFixed(0)}`,
+    //     isRecurring: false,
+    //     locale: "en_GB",
+    //   },
+    //   redirectPaymentMethodSpecificInput: {
+    //     requiresApproval: false,
+    //   },
+    // };
 
-    const createHostedCheckoutRequest = {
-      cardPaymentMethodSpecificInput: {
-        transactionChannel: "ECOMMERCE",
-        authorizationMode: "SALE",
-        tokenize: true,
-      },
-      order: {
-        amountOfMoney: {
-          currencyCode: "EUR",
-          amount: amount * 100,
-        },
-        customer: {
-          merchantCustomerId: document.client.id.toFixed(0),
-          locale: "en_GB",
-          personalInformation: {
-            name: {
-              firstName: document.client.firstName,
-              surname: document.client.lastName,
-            },
-          },
-          billingAddress: {
-            street: document.docAddress.street,
-            houseNumber: document.docAddress.doorNumber,
-            zip: document.docAddress.zipCode,
-            city: document.docAddress.city,
-            ...(document.docAddress.province && {
-              state: document.docAddress.province,
-            }),
-            countryCode: "BE",
-          },
-          contactDetails: {
-            phoneNumber: document.client.phone,
-          },
-          ...(document.client.company && {
-            companyInformation: { name: document.client.company },
-          }),
-          // fiscalNumber: document.client.taxID, // figure out how to format this correctly (remove spaces and dots I think)
-        },
-        references: {
-          merchantReference:
-            document.prefix + document.number + "-" + paymentID.toFixed(0),
-        },
-      },
-      hostedCheckoutSpecificInput: {
-        returnUrl: `${process.env.SITE_URL}/payment?id=${paymentID.toFixed(0)}`,
-        isRecurring: false,
-        locale: "en_GB",
-      },
-      redirectPaymentMethodSpecificInput: {
-        requiresApproval: false,
-      },
-    };
+    // if (document.client.company) {
+    //   createHostedCheckoutRequest.order.customer.companyInformation = {
+    //     name: document.client.company,
+    //   };
+    // }
 
-    if (document.client.company) {
-      createHostedCheckoutRequest.order.customer.companyInformation = {
-        name: document.client.company,
-      };
-    }
+    // const createHostedCheckoutResponse =
+    //   await directSdkClient.hostedCheckout.createHostedCheckout(
+    //     "ATKSPRL",
+    //     createHostedCheckoutRequest,
+    //     null,
+    //   );
 
-    const createHostedCheckoutResponse =
-      await directSdkClient.hostedCheckout.createHostedCheckout(
-        "ATKSPRL",
-        createHostedCheckoutRequest,
-        null,
-      );
+    // const hostedUrl = createHostedCheckoutResponse;
 
-    const hostedUrl = createHostedCheckoutResponse;
-
-    return res.status(200).json({ url: hostedUrl.body.redirectUrl });
+    return res.status(200).json({ url: url });
   } catch (e) {
+    console.error(e);
     return res.status(500).json(statusText[500]);
   }
 }
