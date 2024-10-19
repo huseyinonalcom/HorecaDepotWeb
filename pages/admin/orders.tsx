@@ -110,7 +110,9 @@ export default function Orders() {
                 <td>{order.prefix + order.number}</td>
                 <td className="flex flex-row items-end gap-1">
                   {formatDateTimeAPIToBe(order.createdAt).date}
-                  <p className="text-xs">{formatDateTimeAPIToBe(order.createdAt).time}</p>
+                  <p className="text-xs">
+                    {formatDateTimeAPIToBe(order.createdAt).time}
+                  </p>
                 </td>
                 <td>{`${order.client.firstName} ${order.client.lastName}`}</td>
                 <td>
