@@ -153,16 +153,16 @@ export async function verifyPayments(id) {
     // @ts-ignore
     for (let payment of document.document.payments) {
       if (!payment.verified) {
-        switch (payment.origin.split("_")[0]) {
+        switch (payment.origin.split("-")[0]) {
           case "mollie":
             if (
-              await checkMolliePayment(payment.origin.split("_")[1], config)
+              await checkMolliePayment(payment.origin.split("-")[1], config)
             ) {
               await updatePaymentStatus(payment.id, true);
             }
             break;
           case "ogone":
-            if (await checkOgonePayment(payment.origin.split("_")[1])) {
+            if (await checkOgonePayment(payment.origin.split("-")[1])) {
               await updatePaymentStatus(payment.id, true);
             }
             break;
