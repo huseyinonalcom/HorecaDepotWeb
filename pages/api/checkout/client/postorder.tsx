@@ -1121,7 +1121,7 @@ export default async function postOrder(
               if (error) {
                 return res.status(500).json(statusText[500]);
               } else {
-                return res.status(200).json({ documentID: documentID });
+                return res.status(200).json({ id: documentID });
               }
             });
           } catch (e) {
