@@ -3,7 +3,7 @@ import Image from "next/image";
 import useTranslation from "next-translate/useTranslation";
 import { ArrowLeft } from "react-feather";
 import { useEffect, useState } from "react";
-import formatDateAPIToBe from "../../api/utils/formatters/formatdateapibe";
+import {formatDateAPIToBe} from "../../api/utils/formatters/formatdateapibe";
 import componentThemes from "../componentThemes";
 
 const OrderPreview = ({ order }) => {
