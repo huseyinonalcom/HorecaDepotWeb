@@ -80,7 +80,7 @@ export default function Order() {
             <meta name="description" content="horecadepot" />
             <meta name="language" content={lang} />
           </Head>
-          <div className="mx-auto flex w-full flex-row items-start justify-start">
+          <div className="mx-auto flex w-full flex-row items-center justify-center">
             <ClientLogin onLogin={() => window.location.reload()} />
           </div>
         </Layout>
