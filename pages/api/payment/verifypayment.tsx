@@ -158,12 +158,42 @@ export async function verifyPayments(id) {
             if (
               await checkMolliePayment(payment.origin.split("-")[1], config)
             ) {
-              await updatePaymentStatus(payment.id, true);
+              await updatePaymentStatus(payment.id, true).then((result) => {
+                if (result) {
+                  fetch(
+                    "/api/documents/client/sendordernotifications?orderid=" +
+                      document.document.id,
+                    {
+                      method: "GET",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        Authorization: `Bearer ${process.env.API_KEY}`,
+                      },
+                    },
+                  );
+                }
+              });
             }
             break;
           case "ogone":
             if (await checkOgonePayment(payment.origin.split("-")[1])) {
-              await updatePaymentStatus(payment.id, true);
+              await updatePaymentStatus(payment.id, true).then((result) => {
+                if (result) {
+                  fetch(
+                    "/api/documents/client/sendordernotifications?orderid=" +
+                      document.document.id,
+                    {
+                      method: "GET",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Accept: "application/json",
+                        Authorization: `Bearer ${process.env.API_KEY}`,
+                      },
+                    },
+                  );
+                }
+              });
             }
             break;
           default:

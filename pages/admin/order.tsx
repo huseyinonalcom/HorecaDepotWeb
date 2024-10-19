@@ -57,55 +57,14 @@ export default function Order() {
   const submitCheckPayment = async () => {
     setVerificationRunning(true);
     setVerificationMessage(null);
-    let anyPaymentSucceeded = false;
-    for (let i = 0; i < currentOrder.payments.length; i++) {
-      const paymentID = currentOrder.payments[i].id;
-      if (Number.isInteger(Number(currentOrder.payments[i].origin))) {
-        const hostedCheckoutId = currentOrder.payments[i].origin;
-        const verifyPaymentRequest = await fetch(
-          `/api/payment/verifypayment?paymentid=${paymentID}&ogoneid=${hostedCheckoutId}&test=false`,
-          {
-            method: "POST",
-            body: JSON.stringify(currentOrder),
-          },
-        );
-        if (verifyPaymentRequest.ok) {
-          anyPaymentSucceeded = true;
-
-          const requestNotif = await fetch(
-            "/api/documents/client/sendordernotifications?orderid=" +
-              currentOrder.id,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-                Authorization: `Bearer ${process.env.API_KEY}`,
-              },
-            },
-          );
-
-          const notif = await requestNotif.json();
-        }
-      }
-
-      if (i == currentOrder.payments.length - 1) {
-        if (anyPaymentSucceeded) {
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
-        } else {
-          setTimeout(() => {
-            setVerificationRunning(false);
-            setVerificationMessage(
-              <p className="whitespace-nowrap text-red-500">
-                {t("No_payment_admin")}
-              </p>,
-            );
-          }, 2000);
-        }
-      }
-    }
+    await fetch(`/api/payment/verifypayment?id=${currentOrder.id}`, {
+      method: "POST",
+      body: JSON.stringify(currentOrder),
+    }).then(() => {
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    });
   };
 
   if (isLoading) {

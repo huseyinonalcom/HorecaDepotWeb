@@ -3,7 +3,7 @@ import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
 import LoadingIndicator from "../components/common/loadingIndicator";
 
-export default function Products() {
+export default function PaymentVerification() {
   const { t } = useTranslation("common");
   const router = useRouter();
 
@@ -14,12 +14,11 @@ export default function Products() {
   useEffect(() => {
     if (router.isReady) {
       try {
-        const paymentID = Number(router.query.id);
+        const docID = Number(router.query.id);
         setPaymentID(paymentID);
-        const hostedCheckoutId = router.query.hostedCheckoutId;
 
         const verifyRequest = async () => {
-          const fetchUrl = `/api/payment/verifypayment?paymentid=${paymentID}&ogoneid=${hostedCheckoutId}&test=true`;
+          const fetchUrl = `/api/payment/verifypayment?id=${docID}`;
           const request = await fetch(fetchUrl, {
             method: "GET",
             headers: {
@@ -40,6 +39,9 @@ export default function Products() {
           } else {
             setPaymentCheckDone(true);
           }
+          setTimeout(() => {
+            router.push(`/account/order?id=${docID}`);
+          }, 300);
         };
 
         verifyRequest();
@@ -48,53 +50,6 @@ export default function Products() {
       }
     }
   }, [router.isReady]);
-
-  useEffect(() => {
-    if (paymentCheckDone) {
-      try {
-        const findOrder = async () => {
-          const request = await fetch(
-            `/api/payment/getrelatedorderid?paymentid=${paymentID}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-                Authorization: `Bearer ${process.env.API_KEY}`,
-              },
-            },
-          );
-          if (request.ok) {
-            const answer = await request.json();
-
-            const requestNotif = await fetch(
-              "/api/documents/client/sendordernotifications?orderid=" +
-                answer.orderID,
-              {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  Accept: "application/json",
-                  Authorization: `Bearer ${process.env.API_KEY}`,
-                },
-              },
-            );
-
-            const notif = await requestNotif.json();
-
-            setTimeout(() => {
-              router.push(`/account/order?id=${answer.orderID}`);
-            }, 300);
-          } else {
-            router.push("/account/myorders");
-          }
-        };
-        findOrder();
-      } catch (e) {
-        router.push("/account/myorders");
-      }
-    }
-  }, [paymentCheckDone]);
 
   if (!paymentCheckDone) {
     // show something to indicate something is running in the background
