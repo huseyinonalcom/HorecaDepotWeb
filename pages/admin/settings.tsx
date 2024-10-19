@@ -4,6 +4,7 @@ import AdminLayout from "../../components/admin/adminLayout";
 import { getConfig } from "../api/config/private/getconfig";
 import componentThemes from "../../components/componentThemes";
 import InputOutlined from "../../components/inputs/outlined";
+import { Divide } from "react-feather";
 
 export default function Settings(props) {
   const { t, lang } = useTranslation("common");
@@ -28,10 +29,12 @@ export default function Settings(props) {
             const stripeSecretKey = formData.get("STRIPE_SECRET_KEY");
             const ogoneKey = formData.get("OGONE_KEY");
             const ogoneSecret = formData.get("OGONE_SECRET");
+            const activeProvider = formData.get("activeProvider");
 
             fetch("/api/config/admin/updateconfig", {
               method: "PUT",
               body: JSON.stringify({
+                activeProvider: activeProvider,
                 mollie: { MOLLIE_SECRET: mollieSecret },
                 stripe: {
                   STRIPE_LIVE_KEY: stripeLiveKey,
@@ -81,6 +84,16 @@ export default function Settings(props) {
             name="OGONE_SECRET"
             label={t("Ogone Secret")}
           />
+          <h2 className="text-xl font-semibold">{t("Active")}</h2>
+          <select
+            defaultValue={props.config.activeProvider}
+            className="w-full border border-gray-300 p-2"
+            name="activeProvider"
+          >
+            <option value="mollie">{t("Mollie")}</option>
+            <option value="stripe">{t("Stripe")}</option>
+            <option value="ogone">{t("Ogone")}</option>
+          </select>
           <button type="submit" className={componentThemes.greenSubmitButton}>
             {t("update_config")}
           </button>
