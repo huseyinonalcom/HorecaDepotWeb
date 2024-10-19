@@ -909,8 +909,8 @@ export default function Checkout() {
                 <InputOutlined
                   required
                   type="text"
-                  name="Username"
-                  label="Username"
+                  name="E-mail"
+                  label="E-mail"
                   value={username}
                   error={errorLogin}
                   onChange={(e) => setUsername(e.target.value)}

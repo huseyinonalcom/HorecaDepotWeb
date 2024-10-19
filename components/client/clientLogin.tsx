@@ -15,7 +15,7 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
   const { updateClient } = useContext(ClientContext);
 
   useEffect(() => {
-    document.getElementById("username")?.focus();
+    document.getElementById("E-mail")?.focus();
   }, []);
 
   const [password, setPassword] = useState("");
@@ -74,8 +74,8 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
                 <InputOutlined
                   required
                   type="text"
-                  name="Username"
-                  label="Username"
+                  name="E-mail"
+                  label="E-mail"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
@@ -120,8 +120,8 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
           <InputOutlined
             required
             type="text"
-            name="Username"
-            label="Username"
+            name="E-mail"
+            label="E-mail"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
