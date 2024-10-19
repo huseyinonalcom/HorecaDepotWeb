@@ -147,6 +147,7 @@ export async function verifyPayments(id) {
   try {
     let document = await fetchDocument(id);
     // @ts-ignore
+    console.log(`document`, document);
     console.log(`payments in document`, document.document.payments);
 
     // @ts-ignore
