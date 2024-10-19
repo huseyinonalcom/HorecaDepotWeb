@@ -587,7 +587,7 @@ export default function Checkout() {
 
     if (request.ok) {
       const answer = await request.json();
-      const orderID = answer.documentID;
+      const orderID = answer.id;
       const paymentReq = await fetch(
         `/api/payment/createpaymentlink?test=false`,
         {
