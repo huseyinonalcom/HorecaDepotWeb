@@ -20,14 +20,6 @@ export async function updateConfig({ req, res }) {
   });
   const ans = await response.json();
 
-  console.log(
-    JSON.stringify({
-      data: config,
-    }),
-  );
-
-  console.log(JSON.stringify(ans));
-
   try {
     return true;
   } catch (e) {

@@ -91,12 +91,10 @@ export default function Order() {
 
       if (i == currentOrder.payments.length - 1) {
         if (anyPaymentSucceeded) {
-          // console.log("check complete");
           setTimeout(() => {
             window.location.reload();
           }, 2000);
         } else {
-          // console.log("check complete");
           setTimeout(() => {
             setVerificationRunning(false);
             setVerificationMessage(

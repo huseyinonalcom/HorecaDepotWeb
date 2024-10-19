@@ -6,7 +6,6 @@ const fetchDocument = async (documentID) => {
     const fetchOrderUrl = `${process.env.API_URL}/api/documents/${documentID}?populate[0]=payments`;
 
     let document;
-    let amount;
 
     const request = await fetch(fetchOrderUrl, {
       method: "GET",
@@ -23,7 +22,6 @@ const fetchDocument = async (documentID) => {
 
       return { document };
     } else {
-      const answer = await request.text();
       throw new Error("Error fetching document");
     }
   } catch (e) {
@@ -148,7 +146,8 @@ export async function verifyPayments(id) {
   }
   try {
     let document = await fetchDocument(id);
-    console.log(`document`, document);
+    // @ts-ignore
+    console.log(`payments in document`, document.payments);
 
     // @ts-ignore
     for (let payment of document.payments) {

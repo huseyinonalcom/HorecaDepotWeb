@@ -96,7 +96,6 @@ export default async function postProduct(
         if (!response2.ok) {
           return res.status(500).json("error posting extra");
         } else {
-          // console.log(prodToPost);
           // post shelves
           const fetchUrlShelves = `${process.env.API_URL}/api/shelves`;
           const reqShelf1 = await fetch(fetchUrlShelves, {

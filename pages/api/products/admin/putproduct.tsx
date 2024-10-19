@@ -99,7 +99,6 @@ export default async function putProduct(
           return res.status(400).json(statusText[400]);
         } else {
           // post stock to shelves
-          // console.log(prodToPost);
           const fetchUrlShelves = `${process.env.API_URL}/api/shelves/`;
           prodToPost.shelves.forEach(async (shelf) => {
             const reqShelf = await fetch(fetchUrlShelves + shelf.id, {

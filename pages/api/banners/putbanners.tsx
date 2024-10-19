@@ -24,7 +24,6 @@ export async function putBanners({ req, res }) {
     }),
   });
   const ans = await response.json();
-  console.log(ans);
 
   try {
     return true;

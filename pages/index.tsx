@@ -296,7 +296,6 @@ export const getStaticProps = async ({ locale }) => {
       // else if (
       //   mediaGroups[i].fetch_from.collection.toLowerCase() == "collections"
       // ) {
-      //   console.log(mediaGroups[i].fetch_from.ids);
       //   const allCategoriesRaw = await getAllCategoriesFlattened();
       //   mediaGroups[i].image_with_link = allCategoriesRaw
       //     .filter((cat) => mediaGroups[i].fetch_from.ids.includes(cat.id))
