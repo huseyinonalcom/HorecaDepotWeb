@@ -894,7 +894,8 @@ export default async function sendOrderNotifications(req, res) {
         });
       }
     });
-  } catch {
+  } catch (e) {
+    console.error(e);
     return res.status(500).json(statusText[500]);
   }
 }

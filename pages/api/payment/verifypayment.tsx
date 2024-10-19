@@ -42,7 +42,6 @@ const checkMolliePayment = async (paymentID, config) => {
   })
     .then((response) => response.json())
     .then((result) => {
-      console.log(result);
       if (result.status == "paid") {
         status = true;
       }
@@ -112,7 +111,6 @@ const checkOgonePayment = async (paymentID) => {
 };
 
 const updatePaymentStatus = async (paymentID, status) => {
-  console.log(paymentID, status);
   const putPaymentStatus = await fetch(
     `${process.env.API_URL}/api/payments/${paymentID}?fields=id`,
     {
@@ -146,11 +144,7 @@ export async function verifyPayments(id) {
   }
   try {
     let document = await fetchDocument(id);
-    // @ts-ignore
-    console.log(`document`, document);
-    console.log(`payments in document`, document.document.payments);
 
-    // @ts-ignore
     for (let payment of document.document.payments) {
       if (!payment.verified) {
         switch (payment.origin.split("-")[0]) {
