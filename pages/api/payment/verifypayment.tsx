@@ -155,7 +155,7 @@ export async function verifyPayments(id) {
               await updatePaymentStatus(payment.id, true).then((result) => {
                 if (result) {
                   fetch(
-                    "/api/documents/client/sendordernotifications?orderid=" +
+                    `${process.env.SITE_URL}/api/documents/client/sendordernotifications?orderid=` +
                       document.document.id,
                     {
                       method: "GET",
@@ -175,7 +175,7 @@ export async function verifyPayments(id) {
               await updatePaymentStatus(payment.id, true).then((result) => {
                 if (result) {
                   fetch(
-                    "/api/documents/client/sendordernotifications?orderid=" +
+                    `${process.env.SITE_URL}/api/documents/client/sendordernotifications?orderid=` +
                       document.document.id,
                     {
                       method: "GET",
