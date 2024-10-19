@@ -19,22 +19,18 @@ const fetchPayment = async (origin) => {
     } else {
       answer = await request.text();
     }
-    console.log(answer);
     return answer;
-  } catch (e) {
-    console.error(e);
-  }
+  } catch (e) {}
 };
 
 export default async function paymentWebhook(req, res) {
-  console.log("Webhook received");
-  console.log(req.body);
   try {
     if (req.body.id) {
       const payment = await fetchPayment(req.body.id);
       if (!payment) {
         return res.status(400).json(statusText[400]);
       }
+      console.log(`document to check`, payment);
       verifyPayments(payment.data[0].document.id);
     }
     return res.status(200).json(statusText[200]);
