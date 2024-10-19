@@ -147,10 +147,10 @@ export async function verifyPayments(id) {
   try {
     let document = await fetchDocument(id);
     // @ts-ignore
-    console.log(`payments in document`, document.payments);
+    console.log(`payments in document`, document.document.payments);
 
     // @ts-ignore
-    for (let payment of document.payments) {
+    for (let payment of document.document.payments) {
       if (!payment.verified) {
         switch (payment.origin.split("_")[0]) {
           case "mollie":
