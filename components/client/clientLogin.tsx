@@ -6,7 +6,7 @@ import { ClientContext } from "../../api/providers/clientProvider";
 import InputOutlined from "../inputs/outlined";
 import CustomTheme from "../componentThemes";
 
-const ClientLogin = () => {
+const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
   const { t } = useTranslation("common");
   const router = useRouter();
 
@@ -36,7 +36,8 @@ const ClientLogin = () => {
         const answer = await response.json();
         const authedClient: Client = ClientConversion.fromJson(answer);
         updateClient(authedClient as Client);
-        router.push("/account/myaccount");
+        onLogin && onLogin();
+        !onLogin && router.push("/account/myaccount");
       } else {
         setError(t("user_pass_invalid"));
       }
