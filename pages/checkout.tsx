@@ -13,13 +13,13 @@ import { Product } from "../api/interfaces/product";
 import { Address } from "../api/interfaces/address";
 import Layout from "../components/public/layout";
 import { AutoTextSize } from "auto-text-size";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
 import ImageWithURL from "../components/common/image";
 import { getCoverImageUrl } from "../api/utils/getprodcoverimage";
+import { ClientContext } from "../api/providers/clientProvider";
 
 export default function Checkout() {
   const { t, lang } = useTranslation("common");
@@ -34,6 +34,10 @@ export default function Checkout() {
   const options = ["Entreprise", "Particulier"];
   const [errorLogin, setErrorLogin] = useState<string>("");
   const [clientType, setClientType] = useState<string>(options.at(1));
+  const { client, clearClient } = useContext(ClientContext);
+
+  console.log(client);
+
   let shippingCost: number | null = null;
 
   const updateCart = (newCart: CartProduct[]) => {
@@ -258,6 +262,22 @@ export default function Checkout() {
       setErrorsNewClientForm(clientErrors);
     }
   };
+
+  // const login = async () => {
+  //   const response = await fetch("/api/auth/postlogin", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ identifier: username, password }),
+  //   });
+
+  //   if (response.ok) {
+  //     const answer = await response.json();
+  //     const authedClient: Client = ClientConversion.fromJson(answer);
+  //     updateClient(authedClient as Client);
+  //   }
+  // };
 
   const postNewUser = async () => {
     const clientToSend: Client = {
@@ -909,8 +929,8 @@ export default function Checkout() {
                 <InputOutlined
                   required
                   type="text"
-                  name="Username"
-                  label="Username"
+                  name="E-mail"
+                  label="E-mail"
                   value={username}
                   error={errorLogin}
                   onChange={(e) => setUsername(e.target.value)}
@@ -1254,7 +1274,7 @@ export default function Checkout() {
             <div>
               <p>
                 {t("Total")}: €{" "}
-                {calculateTotal().totalAfterDiscount + shippingCost ?? 0}
+                {calculateTotal().totalAfterDiscount + (shippingCost ?? 0)}
               </p>
               {shippingTBI ? (
                 <p>

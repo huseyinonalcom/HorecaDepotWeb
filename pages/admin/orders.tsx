@@ -1,10 +1,13 @@
-import formatDateAPIToBe from "../../api/utils/formatters/formatdateapibe";
 import AdminLayout from "../../components/admin/adminLayout";
 import useTranslation from "next-translate/useTranslation";
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Check, ChevronLeft, X } from "react-feather";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import {
+  formatDateAPIToBe,
+  formatDateTimeAPIToBe,
+} from "../../api/utils/formatters/formatdateapibe";
 
 export default function Orders() {
   const router = useRouter();
@@ -56,7 +59,7 @@ export default function Orders() {
 
   const fetchOrders = async () => {
     const answer = await fetch(
-      `/api/documents/admin/getalldocuments?page=${currentPage}&type=order&sort=date:desc`,
+      `/api/documents/admin/getalldocuments?page=${currentPage}&type=order&sort=createdAt:DESC`,
     );
     const data = await answer.json();
     setAllOrders(data["data"]);
@@ -105,7 +108,12 @@ export default function Orders() {
                 }
               >
                 <td>{order.prefix + order.number}</td>
-                <td>{formatDateAPIToBe(order.date)}</td>
+                <td className="flex flex-row items-end gap-1">
+                  {formatDateTimeAPIToBe(order.createdAt).date}
+                  <p className="text-xs">
+                    {formatDateTimeAPIToBe(order.createdAt).time}
+                  </p>
+                </td>
                 <td>{`${order.client.firstName} ${order.client.lastName}`}</td>
                 <td>
                   €{" "}

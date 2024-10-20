@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Image,
 } from "@react-pdf/renderer";
-import formatDateAPIToBe from "../../api/utils/formatters/formatdateapibe";
+import { formatDateAPIToBe } from "../../api/utils/formatters/formatdateapibe";
+
 import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 
 const addDaysToDate = (dateString, days) => {

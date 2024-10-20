@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import LoadingIndicator from "../../components/common/loadingIndicator";
 import { useRouter } from "next/router";
 import CustomTheme from "../../components/componentThemes";
-import formatDateAPIToBe from "../../api/utils/formatters/formatdateapibe";
+import { formatDateAPIToBe } from "../../api/utils/formatters/formatdateapibe";
 import componentThemes from "../../components/componentThemes";
 import Image from "next/image";
 import TypeWriter from "../../components/common/typewriter";
@@ -80,7 +80,7 @@ export default function Order() {
             <meta name="description" content="horecadepot" />
             <meta name="language" content={lang} />
           </Head>
-          <div className="mx-auto flex w-full flex-row items-start justify-start">
+          <div className="mx-auto flex w-full flex-row items-center justify-center">
             <ClientLogin onLogin={() => window.location.reload()} />
           </div>
         </Layout>
