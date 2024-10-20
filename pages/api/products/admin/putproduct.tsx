@@ -328,7 +328,6 @@ const updateStock = async (
   for (let i = 1; i < shelves.length; i++) {
     shelves.at(i).stock = 0;
   }
-  console.log({ shelves: shelves });
 
   result = await updateShelves(authToken, { shelves: shelves });
 
@@ -423,7 +422,7 @@ export default async function putProduct(
         result.shelves = await updateShelves(authToken, prodToPost);
       }
 
-      if (prodToPost.stock) {
+      if (prodToPost.stock == 0 || prodToPost.stock) {
         result.stock = await updateStock(authToken, prodID, prodToPost.stock);
       }
     } catch (error) {
