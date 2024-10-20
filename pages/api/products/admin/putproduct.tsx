@@ -12,7 +12,7 @@ const updateProductMain = async (
     data: {},
   };
 
-  if (prodToPost.name) {
+  if (prodToPost.name != null && prodToPost.name != undefined) {
     body.data = {
       ...body.data,
       name: prodToPost.name,
@@ -31,49 +31,49 @@ const updateProductMain = async (
     description: prodToPost.description,
   };
 
-  if (prodToPost.supplierCode) {
+  if (prodToPost.supplierCode != null && prodToPost.supplierCode != undefined) {
     body.data = {
       ...body.data,
       supplierCode: prodToPost.supplierCode.toString() ?? "0",
     };
   }
 
-  if (prodToPost.internalCode) {
+  if (prodToPost.internalCode != null && prodToPost.internalCode != undefined) {
     body.data = {
       ...body.data,
       internalCode: prodToPost.internalCode ?? "0",
     };
   }
 
-  if (prodToPost.value) {
+  if (prodToPost.value != null && prodToPost.value != undefined) {
     body.data = {
       ...body.data,
       value: prodToPost.value ?? 0,
     };
   }
 
-  if (prodToPost.tax) {
+  if (prodToPost.tax != null && prodToPost.tax != undefined) {
     body.data = {
       ...body.data,
       tax: prodToPost.tax ?? 0,
     };
   }
 
-  if (prodToPost.width) {
+  if (prodToPost.width != null && prodToPost.width != undefined) {
     body.data = {
       ...body.data,
       width: prodToPost.width ?? 0,
     };
   }
 
-  if (prodToPost.depth) {
+  if (prodToPost.depth != null && prodToPost.depth != undefined) {
     body.data = {
       ...body.data,
       depth: prodToPost.depth ?? 0,
     };
   }
 
-  if (prodToPost.minStock) {
+  if (prodToPost.minStock != null && prodToPost.minStock != undefined) {
     body.data = {
       ...body.data,
       minStock: 0,
@@ -97,14 +97,14 @@ const updateProductMain = async (
     };
   }
 
-  if (prodToPost.minOrder) {
+  if (prodToPost.minOrder != null && prodToPost.minOrder != undefined) {
     body.data = {
       ...body.data,
       minOrder: 0,
     };
   }
 
-  if (prodToPost.height) {
+  if (prodToPost.height != null && prodToPost.height != undefined) {
     body.data = {
       ...body.data,
       height: prodToPost.height ?? 0,
@@ -123,7 +123,7 @@ const updateProductMain = async (
     material: prodToPost.material,
   };
 
-  if (prodToPost.discountRange) {
+  if (prodToPost.discountRange != null && prodToPost.discountRange != undefined) {
     body.data = {
       ...body.data,
       discountRange: prodToPost.discountRange ?? 0,
@@ -145,7 +145,7 @@ const updateProductMain = async (
     };
   }
 
-  if (prodToPost.priceBeforeDiscount) {
+  if (prodToPost.priceBeforeDiscount != null && prodToPost.priceBeforeDiscount != undefined) {
     body.data = {
       ...body.data,
       priceBeforeDiscount:
