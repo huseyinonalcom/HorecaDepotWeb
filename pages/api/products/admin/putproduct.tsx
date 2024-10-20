@@ -153,7 +153,7 @@ const updateProductMain = async (
     };
   }
 
-  if (prodToPost.active) {
+  if (prodToPost.active != null && prodToPost.active != undefined) {
     body.data = {
       ...body.data,
       active: prodToPost.active,
