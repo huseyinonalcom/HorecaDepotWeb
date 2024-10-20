@@ -18,7 +18,6 @@ export async function getProductByID(req) {
     if (!response.ok) {
       return null;
     }
-    console.log(JSON.stringify(data));
     return data["data"];
   } catch (error) {
     return null;

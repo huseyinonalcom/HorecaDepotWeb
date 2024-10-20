@@ -36,8 +36,6 @@ export default function Checkout() {
   const [clientType, setClientType] = useState<string>(options.at(1));
   const { client, clearClient } = useContext(ClientContext);
 
-  console.log(client);
-
   let shippingCost: number | null = null;
 
   const updateCart = (newCart: CartProduct[]) => {

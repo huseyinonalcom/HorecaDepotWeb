@@ -13,9 +13,10 @@ export default async function putProduct(
     body = req.body.data;
   }
 
-
   if (!authToken) {
     authToken = req.headers.authorization;
+  } else {
+    authToken = `Bearer ${authToken}`;
   }
 
   if (!authToken) {
@@ -48,7 +49,7 @@ export default async function putProduct(
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
-            Authorization: `Bearer ${authToken}`,
+            Authorization: authToken,
           },
           redirect: "follow",
           body: JSON.stringify({
@@ -99,7 +100,7 @@ export default async function putProduct(
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
-              Authorization: `Bearer ${authToken}`,
+              Authorization: authToken,
             },
             body: JSON.stringify({
               data: {
@@ -132,7 +133,7 @@ export default async function putProduct(
                 headers: {
                   "Content-Type": "application/json",
                   Accept: "application/json",
-                  Authorization: `Bearer ${authToken}`,
+                  Authorization: authToken,
                 },
                 body: JSON.stringify({
                   data: {
