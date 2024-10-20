@@ -1,6 +1,7 @@
 import { Product } from "../../../../api/interfaces/product";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
+import { getProductByID } from "./getproductbyid";
 
 const updateProductMain = async (
   prodID: number,
@@ -273,7 +274,7 @@ const updateProductExtra = async (
   return response;
 };
 
-const updateShelves = async (authToken: string, prodToPost: Product, res) => {
+const updateShelves = async (authToken: string, prodToPost: Product) => {
   let result = "Not Updated";
 
   const shelfUpdatePromises = prodToPost.shelves.map(async (shelf) => {
@@ -312,6 +313,28 @@ const updateShelves = async (authToken: string, prodToPost: Product, res) => {
   return result;
 };
 
+const updateStock = async (
+  authToken: string,
+  prodID: number,
+  stock: number,
+) => {
+  let result = "Not Updated";
+
+  const prod = await getProductByID(authToken, prodID);
+
+  let shelves = prod.shelves;
+
+  shelves.at(0).stock = stock;
+  for (let i = 1; i < shelves.length; i++) {
+    shelves.at(i).stock = 0;
+  }
+  console.log({ shelves: shelves });
+
+  result = await updateShelves(authToken, { shelves: shelves });
+
+  return result;
+};
+
 const findProductExtraID = async (prodID: number, authToken: string) => {
   const response = await fetch(
     `${process.env.API_URL}/api/products/${prodID}?fields[0]=name&fields[1]=supplierCode&fields[2]=internalCode&fields[3]=value&fields[4]=depth&fields[5]=width&fields[6]=height&fields[7]=material&fields[8]=color&fields[9]=priceBeforeDiscount&fields[10]=active&fields[11]=description&fields[12]=imageDirections&populate[product_extra][fields][0]=*&populate[categories][fields][0]=name&populate[categories][fields][1]=code&populate[images][fields][0]=name&populate[images][fields][1]=url&populate[shelves][fields][0]=stock&populate[shelves][populate][establishment][fields][0]=id&populate[reservations][fields][0]=client_name&populate[reservations][fields][1]=amount&populate[reservations][fields][2]=is_deleted&populate[supplier][fields][0]=name&populate[product_color][fields][0]=name`,
@@ -336,11 +359,10 @@ export default async function putProduct(
     product: "Not Updated",
     productExtra: "Not Updated",
     shelves: "Not Updated",
+    stock: "Not Updated",
   };
   let authToken = req.cookies.j;
   let body = req.body;
-
-  console.log("req.body", req.body);
 
   if (req.body.data) {
     body = req.body.data;
@@ -356,15 +378,16 @@ export default async function putProduct(
     return res.status(401).json(statusText[401]);
   }
 
-  const prodID = req.query.id ?? body.id;
-  let prodExtraID = Number(req.query.extraid);
-
-  if (!prodID) {
-    return res.status(400).json(statusText[400]);
-  }
-
   if (req.method === "PUT") {
+    const prodID = req.query.id ?? body.id;
+
+    if (!prodID) {
+      return res.status(400).json(statusText[400]);
+    }
+
     const prodToPost = body as Product;
+
+    let prodExtraID = Number(req.query.extraid);
 
     if (!prodExtraID) {
       try {
@@ -396,10 +419,12 @@ export default async function putProduct(
         }
       }
 
-      console.log("prodToPost.shelves", prodToPost.shelves);
-
       if (prodToPost.shelves && prodToPost.shelves.length > 0) {
-        result.shelves = await updateShelves(authToken, prodToPost, res);
+        result.shelves = await updateShelves(authToken, prodToPost);
+      }
+
+      if (prodToPost.stock) {
+        result.stock = await updateStock(authToken, prodID, prodToPost.stock);
       }
     } catch (error) {
       console.error(error);

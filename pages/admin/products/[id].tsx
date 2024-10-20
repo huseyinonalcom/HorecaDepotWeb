@@ -28,7 +28,7 @@ import InputOutlined from "../../../components/inputs/outlined";
 import useTranslation from "next-translate/useTranslation";
 import { MdAutoAwesome, MdHeight, MdOutlineChair } from "react-icons/md";
 import { Product } from "../../../api/interfaces/product";
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { GoCircleSlash } from "react-icons/go";
 import { RxDimensions, RxMagnifyingGlass } from "react-icons/rx";
 import { GiWeight } from "react-icons/gi";
@@ -1601,7 +1601,7 @@ export async function getServerSideProps(context) {
   };
   if (context.query.id != 0) {
     context.req.query = context.query;
-    currentProduct = await getProductByID(req);
+    currentProduct = await getProductByID(req.cookies.j, context.query.id);
   }
   const returnUrl = context.query.return ?? "/admin/stock/all";
   return {
