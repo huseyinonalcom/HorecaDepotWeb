@@ -3,7 +3,7 @@ import statusText from "../../../../api/statustexts";
 
 export default async function putShelfStock(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   const cookies = req.cookies;
   const authToken = cookies.j;
