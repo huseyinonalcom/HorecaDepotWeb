@@ -7,6 +7,12 @@ export default async function putProduct(
   res: NextApiResponse,
 ) {
   let authToken = req.cookies.j;
+  let body = req.body;
+
+  if (req.body.data) {
+    body = req.body.data;
+  }
+
 
   if (!authToken) {
     authToken = req.headers.authorization;
@@ -16,7 +22,7 @@ export default async function putProduct(
     return res.status(401).json(statusText[401]);
   }
 
-  const prodID = req.query.id;
+  const prodID = body.id;
   let prodExtraID = Number(req.query.extraid);
 
   if (!prodID) {
@@ -24,7 +30,7 @@ export default async function putProduct(
   }
 
   if (req.method === "PUT") {
-    const prodToPost = req.body as Product;
+    const prodToPost = body as Product;
 
     if (!prodExtraID) {
       prodExtraID = prodToPost.product_extra.id;
