@@ -202,6 +202,7 @@ const styles = StyleSheet.create({
 });
 
 export const PDFInvoice = ({ invoiceDocument }) => {
+  console.log(invoiceDocument.document_products);
   return (
     <Document>
       <Page size="A4" style={styles.page}>

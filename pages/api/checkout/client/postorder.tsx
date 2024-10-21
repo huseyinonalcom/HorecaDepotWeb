@@ -266,7 +266,7 @@ export default async function postOrder(
                     discount: 0,
                     amount: 1,
                     tax: 21,
-                    taxSubTotal: shippingCost / 1.21,
+                    taxSubTotal: shippingCost - shippingCost / 1.21,
                     delivered: false,
                     document: documentID,
                   },
