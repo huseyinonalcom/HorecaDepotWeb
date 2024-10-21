@@ -42,7 +42,7 @@ export default function Settings(props) {
                 },
                 ogone: { OGONE_KEY: ogoneKey, OGONE_SECRET: ogoneSecret },
               }),
-            });
+            }).then(async (res) => alert(t(await res.json())));
           }}
           className="grid w-full grid-cols-1 gap-2"
         >
