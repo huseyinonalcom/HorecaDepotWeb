@@ -1,18 +1,70 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import statusText from "../../../../api/statustexts";
+import getConfig from "next/config";
+
+const costPerKM = 1;
+
+async function getShippingCost(originAddress, destinationAddress, apiKey) {
+  const url = "https://maps.googleapis.com/maps/api/distancematrix/json";
+
+  const params = new URLSearchParams({
+    origins: originAddress,
+    destinations: destinationAddress,
+    key: apiKey,
+  });
+
+  try {
+    const response = await fetch(`${url}?${params}`);
+    const data = await response.json();
+
+    if (data.status === "OK") {
+      try {
+        const distanceString = data.rows[0].elements[0].distance.text;
+        const distance = parseFloat(
+          distanceString.replace(" km", "").replace(",", "."),
+        );
+        return distance * costPerKM;
+      } catch (e) {
+        console.log("Mesafe bilgisi alınırken bir hata oluştu:", e);
+        return null;
+      }
+    } else {
+      console.log("Mesafe hesaplanamadı. Hata:", data.status);
+      return null;
+    }
+  } catch (error) {
+    console.log("API isteği sırasında bir hata oluştu:", error);
+    return null;
+  }
+}
+
+const originAdd = "Rue de Ribaucourt 154, 1080 Bruxelles, Belgique";
 
 export default async function postNewAddress(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
+    let config;
+    try {
+      config = await getConfig();
+    } catch (e) {
+      console.error(e);
+    }
     const cookies = req.cookies;
     const authToken = cookies.cj;
     const clientID = req.query.client;
-    const addressData = JSON.parse(req.body as string).newAddressExistingClient;
+    let addressData = JSON.parse(req.body as string).newAddressExistingClient;
     addressData.client = Number(clientID);
-    addressData.name = 'Addresse';
+    addressData.name = "Addresse";
+    const addressString = `${addressData.street} ${addressData.doorNumber} ${addressData.zipCode} ${addressData.city} ${addressData.country}`;
+    const shippingCost = await getShippingCost(
+      originAdd,
+      addressString,
+      config.google.GOOGLE_API_KEY,
+    );
+    addressData = { ...addressData, shippingDistance: shippingCost };
     const fetchUrlAddress = `${process.env.API_URL}/api/addresses?fields=id`;
     const requestAddress = await fetch(fetchUrlAddress, {
       method: "POST",

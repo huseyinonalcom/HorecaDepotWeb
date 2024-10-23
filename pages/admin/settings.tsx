@@ -30,6 +30,7 @@ export default function Settings(props) {
             const ogoneKey = formData.get("OGONE_KEY");
             const ogoneSecret = formData.get("OGONE_SECRET");
             const activeProvider = formData.get("activeProvider");
+            const googleApiKey = formData.get("GOOGLE_API_KEY");
 
             fetch("/api/config/admin/updateconfig", {
               method: "PUT",
@@ -41,6 +42,7 @@ export default function Settings(props) {
                   STRIPE_SECRET_KEY: stripeSecretKey,
                 },
                 ogone: { OGONE_KEY: ogoneKey, OGONE_SECRET: ogoneSecret },
+                google: { GOOGLE_API_KEY: googleApiKey },
               }),
             }).then(async (res) => alert(t(await res.json())));
           }}
@@ -94,6 +96,14 @@ export default function Settings(props) {
             <option value="stripe">{t("Stripe")}</option>
             <option value="ogone">{t("Ogone")}</option>
           </select>
+          <h2 className="text-xl font-semibold">{t("Google")}</h2>
+          <InputOutlined
+            defaultValue={props.config.google?.GOOGLE_API_KEY ?? ""}
+            className="w-full border border-gray-300 p-2"
+            type="text"
+            name="GOOGLE_API_KEY"
+            label={t("Google API Key")}
+          />
           <button type="submit" className={componentThemes.greenSubmitButton}>
             {t("update_config")}
           </button>
