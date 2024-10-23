@@ -26,6 +26,13 @@ const updateProductMain = async (
     };
   }
 
+if (prodToPost.color) {
+body.data = {
+...body.data,
+color: prodToPost.color,
+};
+}
+
   body.data = {
     ...body.data,
     description: prodToPost.description,
