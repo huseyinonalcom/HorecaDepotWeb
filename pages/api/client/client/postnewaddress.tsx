@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import statusText from "../../../../api/statustexts";
-import getConfig from "next/config";
+import { getConfig } from "../../config/private/getconfig";
 
 const costPerKM = 1;
 
@@ -26,15 +26,15 @@ async function getShippingCost(originAddress, destinationAddress, apiKey) {
         );
         return distance * costPerKM;
       } catch (e) {
-        console.log("Mesafe bilgisi alınırken bir hata oluştu:", e);
+        console.log(e);
         return 0;
       }
     } else {
-      console.log("Mesafe hesaplanamadı. Hata:", data.status);
+      console.log(data.status);
       return 0;
     }
   } catch (error) {
-    console.log("API isteği sırasında bir hata oluştu:", error);
+    console.log(error);
     return 0;
   }
 }
@@ -66,7 +66,9 @@ export default async function postNewAddress(
         addressString,
         config.google.GOOGLE_API_KEY,
       );
-    } catch {}
+    } catch (e) {
+      console.error(e);
+    }
     addressData = { ...addressData, shippingDistance: shippingCost };
     const fetchUrlAddress = `${process.env.API_URL}/api/addresses?fields=id`;
     const requestAddress = await fetch(fetchUrlAddress, {
