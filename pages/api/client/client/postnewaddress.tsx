@@ -27,15 +27,15 @@ async function getShippingCost(originAddress, destinationAddress, apiKey) {
         return distance * costPerKM;
       } catch (e) {
         console.log("Mesafe bilgisi alınırken bir hata oluştu:", e);
-        return null;
+        return 0;
       }
     } else {
       console.log("Mesafe hesaplanamadı. Hata:", data.status);
-      return null;
+      return 0;
     }
   } catch (error) {
     console.log("API isteği sırasında bir hata oluştu:", error);
-    return null;
+    return 0;
   }
 }
 
@@ -59,11 +59,14 @@ export default async function postNewAddress(
     addressData.client = Number(clientID);
     addressData.name = "Addresse";
     const addressString = `${addressData.street} ${addressData.doorNumber} ${addressData.zipCode} ${addressData.city} ${addressData.country}`;
-    const shippingCost = await getShippingCost(
-      originAdd,
-      addressString,
-      config.google.GOOGLE_API_KEY,
-    );
+    let shippingCost = 0;
+    try {
+      shippingCost = await getShippingCost(
+        originAdd,
+        addressString,
+        config.google.GOOGLE_API_KEY,
+      );
+    } catch {}
     addressData = { ...addressData, shippingDistance: shippingCost };
     const fetchUrlAddress = `${process.env.API_URL}/api/addresses?fields=id`;
     const requestAddress = await fetch(fetchUrlAddress, {
