@@ -6,7 +6,7 @@ import { getAllProducts } from "../../api/products/admin/getallproducts";
 import AdminLayout from "../../../components/admin/adminLayout";
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
-import  { useState } from "react";
+import { useState } from "react";
 import { LuDot } from "react-icons/lu";
 import { utils, write } from "xlsx";
 import Link from "next/link";
@@ -507,17 +507,19 @@ export default function Products(props) {
               </thead>
               <tbody>
                 {allProducts?.map((product) => (
-                  <tr key={product.id} className="relative odd:bg-blue-50">
-                    <td>
-                      <Link
-                        href={
-                          "/admin/products/" +
+                  <tr
+                    key={product.id}
+                    onClick={() =>
+                      router.push(
+                        "/admin/products/" +
                           product.id +
                           "?return=" +
-                          router.asPath
-                        }
-                        className="absolute inset-0"
-                      />
+                          router.asPath,
+                      )
+                    }
+                    className="relative odd:bg-blue-50 cursor-pointer hover:bg-blue-100"
+                  >
+                    <td className="relative">
                       <ImageWithURL
                         height={80}
                         width={80}
