@@ -12,7 +12,6 @@ import { Product } from "../../../../api/interfaces/product";
 import Layout from "../../../../components/public/layout";
 import { Facebook } from "react-feather";
 import Meta from "../../../../components/public/meta";
-import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 import { useDragScroll } from "../../../../components/common/use-drag-scroll";
@@ -20,9 +19,7 @@ import { AutoTextSize } from "auto-text-size";
 import ProductImages from "../../../../components/products/product-images";
 import { TiTick } from "react-icons/ti";
 import { MdHeight, MdOutlineChair, MdWhatsapp } from "react-icons/md";
-import { GiWeight } from "react-icons/gi";
 import { GoCircleSlash } from "react-icons/go";
-import { LuPackage, LuPackageOpen, LuPackageX } from "react-icons/lu";
 import { getCoverImageUrl } from "../../../../api/utils/getprodcoverimage";
 
 type Props = {
@@ -161,9 +158,14 @@ const ProductPage = ({
               </h3>
               <h4 className="text-xs">{t("VAT excl.")}</h4>
             </div>
-            {product.color && (
+            {product.color && !product.product_color && (
               <p>
                 <b>{t("Color")}:</b> {product.color}
+              </p>
+            )}
+            {product.product_color && (
+              <p>
+                <b>{t("Color")}:</b> {product.product_color.name}
               </p>
             )}
             {breadCrumbs && (
