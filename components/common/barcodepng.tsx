@@ -1,4 +1,4 @@
-import  { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import Barcode from "react-jsbarcode";
 import { Canvg } from "canvg";
 
@@ -36,18 +36,39 @@ const BarcodeToPng = ({ value }) => {
     }
   }, [value]);
 
-  return (
-    <>
-      <div ref={barcodeRef}>
-        <Barcode
-          className="hidden"
-          value={value}
-          options={{ format: "EAN13", height: 45 }}
-        />
-      </div>
-      <img id="barcodePng" alt="Barcode as PNG" />
-    </>
-  );
+  const [isValid, setIsValid] = useState(true);
+
+  try {
+    if (!isValid) {
+      return <div></div>;
+    }
+    return (
+      <>
+        <div ref={barcodeRef}>
+          <Barcode
+            className="hidden"
+            value={value}
+            options={{
+              format: "EAN13",
+              height: 45,
+              valid: (v) => {
+                if (v) {
+                  setIsValid(true);
+                } else if (!v) {
+                  setIsValid(false);
+                  console.error("Invalid barcode");
+                }
+              },
+            }}
+          />
+        </div>
+        <img id="barcodePng" alt="Barcode as PNG" />
+      </>
+    );
+  } catch (e) {
+    setIsValid(false);
+    return <div></div>;
+  }
 };
 
 export default BarcodeToPng;
