@@ -42,6 +42,7 @@ const checkMolliePayment = async (paymentID, config) => {
   })
     .then((response) => response.json())
     .then((result) => {
+      console.log(result);
       if (result.status == "paid") {
         status = true;
       }
@@ -147,6 +148,7 @@ export async function verifyPayments(id) {
 
     for (let payment of document.document.payments) {
       if (!payment.verified) {
+        console.log(payment);
         switch (payment.origin.split("-")[0]) {
           case "mollie":
             if (
