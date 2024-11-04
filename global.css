@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+}
+
+* {
+  scrollbar-width: 9px;
+  scrollbar-color: white black;
+}
+
+*::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+*::-webkit-scrollbar-track {
+  background: black;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: white;
+}
+
+a {
+  text-decoration: none;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+.error-message {
+  color: #ff1515;
+}
+
+.orders-table-container {
+  min-width: calc(100vw - 280px);
+  max-width: calc(100vw - 280px);
+  overflow-x: auto;
+  min-height: calc(90vh);
+  max-height: calc(90vh);
+  overflow-y: auto;
+  background: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 6px;
+}
+
+th,
+td {
+  white-space: nowrap;
+  padding: 8px;
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+  padding: 8px;
+}
+
+td {
+  user-select: none;
+}
+
+th:first-child,
+td:first-child {
+  border-left: none;
+}
+
+th:last-child,
+td:last-child {
+  border-right: none;
+}
+
+tr {
+  border-bottom: 2px solid #000;
+}
+
+tr:last-child {
+  border-bottom: none;
+}
+
+.underline-animation-black::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: black;
+  transition: width 0.3s;
+}
+
+.underline-animation-black:hover::after {
+  width: 100%;
+}
+
+.underline-animation-white::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: white;
+  transition: width 0.3s;
+}
+
+.underline-animation-white:hover::after {
+  width: 100%;
+}
+
+.placeholder-blue::placeholder {
+  color: rgba(12, 109, 236, 0.6);
+}
+
+:root {
+  --theme-color-main: #0000003f;
+}
+
+html {
+  overflow-y: scroll;
+}
