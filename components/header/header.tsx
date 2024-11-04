@@ -18,6 +18,7 @@ import {
   User,
   Clipboard,
   X,
+  Compass,
 } from "react-feather";
 import { CategoryContext } from "../../api/providers/categoryProvider";
 import { CartContext } from "../../api/providers/cartProvider";
@@ -25,6 +26,7 @@ import { ClientContext } from "../../api/providers/clientProvider";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import ProductPreview3 from "../products/product-preview3";
 import { BannerContext } from "../../api/providers/bannerProdiver";
+import { GiCarWheel } from "react-icons/gi";
 
 const CategoryItem = ({ category, onClick }) => {
   const { t, lang } = useTranslation("common");
@@ -292,21 +294,25 @@ const TopBar = () => {
           <Phone className="h-4 w-4" />
           <p className={navLinkClass}>+32 499 73 83 73</p>
         </a>
-        <p className="text-gray-500">|</p>{" "}
+        <p className="text-gray-500">|</p>
         <Link className={navLinkClass} href="/projects">
           {t("Projects")}
         </Link>
-        <p className="text-gray-500">|</p>{" "}
+        <p className="text-gray-500">|</p>
         <Link className={navLinkClass} href="/references">
           {t("References")}
         </Link>
-        <p className="text-gray-500">|</p>{" "}
+        <p className="text-gray-500">|</p>
         <Link className={navLinkClass} href="/contact">
           {t("Contact")}
         </Link>
-        <p className="text-gray-500">|</p>{" "}
+        <p className="text-gray-500">|</p>
         <Link className={navLinkClass} href="/about">
           {t("About Us")}
+        </Link>
+        <p className="text-gray-500">|</p>
+        <Link className={navLinkClass} href="/parking">
+          {t("Parking")}
         </Link>
       </div>
       <div className="group relative z-50 hidden w-[55px] flex-shrink-0 lg:inline-block">
@@ -665,6 +671,14 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
           >
             <Info />
             {t("About us")}
+          </Link>
+          <Link
+            aria-label="Link to Parking"
+            className={navButtonsClass}
+            href="/parking"
+          >
+            <Compass />
+            {t("Parking")}
           </Link>
         </div>
       </div>
