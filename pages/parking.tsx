@@ -38,7 +38,7 @@ export default function Contact() {
             height="450"
             loading="lazy"
           ></iframe>
-          <div className="mb-6 grid w-[95%] grid-cols-1 gap-2 md:grid-cols-2">
+          <div className="mb-6 grid w-[95%] max-w-4xl grid-cols-1 gap-2 md:grid-cols-2">
             <Image src={parking} alt={"Parking Entrance Image"} />
             <Image src={parking2} alt={"Parking Interior Image"} />
           </div>
