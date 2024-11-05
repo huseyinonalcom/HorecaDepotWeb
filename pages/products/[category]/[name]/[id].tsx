@@ -306,7 +306,13 @@ const ProductPage = ({
                 </p>
               )}
 
-              {product.description && (
+              {product.localized_description && (
+                <p className="mt-1 w-full border-t border-gray-400 pt-1">
+                  {product.localized_description[lang]}
+                </p>
+              )}
+
+              {!product.localized_description && product.description && (
                 <p className="mt-1 w-full border-t border-gray-400 pt-1">
                   {product.description}
                 </p>

@@ -33,11 +33,11 @@ import { GoCircleSlash } from "react-icons/go";
 import { RxDimensions, RxMagnifyingGlass } from "react-icons/rx";
 import { GiWeight } from "react-icons/gi";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
 import ImageWithURL from "../../../components/common/image";
 import { ColorChooser } from "../../../components/inputs/ColorChooser";
+import { LocalizedInput } from "../../../components/inputs/localized_input";
 
 export default function ProductPage(props) {
   const { t, lang } = useTranslation("common");
@@ -48,7 +48,7 @@ export default function ProductPage(props) {
   const allSuppliers = props.allSuppliers;
   const router = useRouter();
   const searchParams = router.query;
-  const returnUrl = searchParams.return as string;
+  const returnUrl = (searchParams.return as string) ?? "/admin/stock/all";
 
   const navIconDivClass = "flex flex-row justify-center flex-shrink-0 w-[35px]";
   const iconClass = "flex-shrink-0";
@@ -230,6 +230,7 @@ export default function ProductPage(props) {
                 body: JSON.stringify(currentProduct),
               },
             );
+            const ans = await request.text();
             if (!request.ok) {
               setInProgress(false);
               setSubmitError(
@@ -565,13 +566,32 @@ export default function ProductPage(props) {
                     }
                   />
                 </div>
-                <div className={"w-full"}>
+               {/*  <div className={"w-full"}>
                   <TextareaOutlined
                     label="Description"
                     value={currentProduct?.description ?? ""}
                     onChange={(e) =>
                       handleChange("description", e.target.value, false, [])
                     }
+                  />
+                </div> */}
+                <div className={"w-full"}>
+                  <LocalizedInput
+                    title="Description"
+                    value={
+                      currentProduct?.localized_description ?? {
+                        nl: currentProduct?.description,
+                        en: currentProduct?.description,
+                        fr: currentProduct?.description,
+                        de: currentProduct?.description,
+                      }
+                    }
+                    onChange={(value) => {
+                      setCurrentProduct((pp) => ({
+                        ...pp,
+                        localized_description: value,
+                      }));
+                    }}
                   />
                 </div>
                 <div className="flex w-full flex-row gap-2">
@@ -1121,6 +1141,7 @@ export default function ProductPage(props) {
                   )
                   .map((img) => (
                     <ImageWithURL
+                      key={img.id}
                       alt={""}
                       src={img.url}
                       id={img.id}

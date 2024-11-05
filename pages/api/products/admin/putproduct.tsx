@@ -26,12 +26,12 @@ const updateProductMain = async (
     };
   }
 
-if (prodToPost.color) {
-body.data = {
-...body.data,
-color: prodToPost.color,
-};
-}
+  if (prodToPost.color) {
+    body.data = {
+      ...body.data,
+      color: prodToPost.color,
+    };
+  }
 
   body.data = {
     ...body.data,
@@ -130,7 +130,10 @@ color: prodToPost.color,
     material: prodToPost.material,
   };
 
-  if (prodToPost.discountRange != null && prodToPost.discountRange != undefined) {
+  if (
+    prodToPost.discountRange != null &&
+    prodToPost.discountRange != undefined
+  ) {
     body.data = {
       ...body.data,
       discountRange: prodToPost.discountRange ?? 0,
@@ -152,7 +155,10 @@ color: prodToPost.color,
     };
   }
 
-  if (prodToPost.priceBeforeDiscount != null && prodToPost.priceBeforeDiscount != undefined) {
+  if (
+    prodToPost.priceBeforeDiscount != null &&
+    prodToPost.priceBeforeDiscount != undefined
+  ) {
     body.data = {
       ...body.data,
       priceBeforeDiscount:
@@ -164,6 +170,13 @@ color: prodToPost.color,
     body.data = {
       ...body.data,
       active: prodToPost.active,
+    };
+  }
+
+  if (prodToPost.localized_description) {
+    body.data = {
+      ...body.data,
+      localized_description: prodToPost.localized_description,
     };
   }
 
