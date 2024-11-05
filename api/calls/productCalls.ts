@@ -1,5 +1,5 @@
 import { Category } from "../interfaces/category";
-import { ProductConversion, Product } from "../interfaces/product";
+import { Product } from "../interfaces/product";
 import { getCategories } from "./categoryCalls";
 
 const API_URL = `${process.env.API_URL}/api/`;
