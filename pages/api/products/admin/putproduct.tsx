@@ -26,12 +26,12 @@ const updateProductMain = async (
     };
   }
 
-if (prodToPost.color) {
-body.data = {
-...body.data,
-color: prodToPost.color,
-};
-}
+  if (prodToPost.color) {
+    body.data = {
+      ...body.data,
+      color: prodToPost.color,
+    };
+  }
 
   body.data = {
     ...body.data,
@@ -130,7 +130,10 @@ color: prodToPost.color,
     material: prodToPost.material,
   };
 
-  if (prodToPost.discountRange != null && prodToPost.discountRange != undefined) {
+  if (
+    prodToPost.discountRange != null &&
+    prodToPost.discountRange != undefined
+  ) {
     body.data = {
       ...body.data,
       discountRange: prodToPost.discountRange ?? 0,
@@ -152,7 +155,10 @@ color: prodToPost.color,
     };
   }
 
-  if (prodToPost.priceBeforeDiscount != null && prodToPost.priceBeforeDiscount != undefined) {
+  if (
+    prodToPost.priceBeforeDiscount != null &&
+    prodToPost.priceBeforeDiscount != undefined
+  ) {
     body.data = {
       ...body.data,
       priceBeforeDiscount:
@@ -164,6 +170,13 @@ color: prodToPost.color,
     body.data = {
       ...body.data,
       active: prodToPost.active,
+    };
+  }
+
+  if (prodToPost.localized_description) {
+    body.data = {
+      ...body.data,
+      localized_description: prodToPost.localized_description,
     };
   }
 
@@ -350,7 +363,7 @@ const updateStock = async (
 
 const findProductExtraID = async (prodID: number, authToken: string) => {
   const response = await fetch(
-    `${process.env.API_URL}/api/products/${prodID}?fields[0]=name&fields[1]=supplierCode&fields[2]=internalCode&fields[3]=value&fields[4]=depth&fields[5]=width&fields[6]=height&fields[7]=material&fields[8]=color&fields[9]=priceBeforeDiscount&fields[10]=active&fields[11]=description&fields[12]=imageDirections&populate[product_extra][fields][0]=*&populate[categories][fields][0]=name&populate[categories][fields][1]=code&populate[images][fields][0]=name&populate[images][fields][1]=url&populate[shelves][fields][0]=stock&populate[shelves][populate][establishment][fields][0]=id&populate[reservations][fields][0]=client_name&populate[reservations][fields][1]=amount&populate[reservations][fields][2]=is_deleted&populate[supplier][fields][0]=name&populate[product_color][fields][0]=name`,
+    `${process.env.API_URL}/api/products/${prodID}?fields[0]=name&fields[1]=supplierCode&fields[2]=internalCode&fields[3]=value&fields[4]=depth&fields[5]=width&fields[6]=height&fields[7]=material&fields[8]=color&fields[9]=priceBeforeDiscount&fields[10]=active&fields[11]=description&fields[12]=imageDirections&populate[product_extra][fields][0]=*&populate[categories][fields][0]=localized_name&populate[categories][fields][1]=code&populate[images][fields][0]=name&populate[images][fields][1]=url&populate[shelves][fields][0]=stock&populate[shelves][populate][establishment][fields][0]=id&populate[reservations][fields][0]=client_name&populate[reservations][fields][1]=amount&populate[reservations][fields][2]=is_deleted&populate[supplier][fields][0]=name&populate[product_color][fields][0]=name`,
     {
       method: "GET",
       headers: {
