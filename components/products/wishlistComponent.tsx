@@ -33,7 +33,7 @@ const WishListComponent = () => {
             >
               <div className="relative aspect-square w-full">
                 <Link
-                  href={`/products/${product.categories.at(0).Name}/${product.name}/${product.id}`}
+                  href={`/products/${product.categories.at(0).localized_name[lang]}/${product.name}/${product.id}`}
                 >
                   <ImageWithURL
                     src={
@@ -55,7 +55,7 @@ const WishListComponent = () => {
                   className="h-[0px] overflow-hidden text-left text-lg font-bold text-black duration-700 group-hover:h-[25px]"
                   href={
                     "/products/" +
-                    `${product.categories.at(0).Name}/${product.name}/${product.id}`
+                    `${product.categories.at(0).localized_name[lang]}/${product.name}/${product.id}`
                   }
                 >
                   {t("+ View Details")}

@@ -264,7 +264,7 @@ export default function HomePageAdmin() {
                                 }
                               >
                                 {"+ "}
-                                {category.Name}
+                                {category.localized_name[lang]}
                               </button>
                             ))}
                         </div>
@@ -295,7 +295,7 @@ export default function HomePageAdmin() {
                                 }
                               >
                                 {"- "}
-                                {category.Name}
+                                {category.localized_name[lang]}
                               </button>
                             ))}
                         </div>
