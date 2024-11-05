@@ -106,7 +106,7 @@ export default function Products(props) {
                   setisHovered(!isHovered);
                 }}
               >
-                {t(category?.localized_name[lang])}
+                {t(category?.Name)}
               </div>
               <div
                 onClick={() => {
@@ -130,7 +130,7 @@ export default function Products(props) {
               className="h-full w-full whitespace-nowrap px-4 py-2"
               href={createLink({ category: category.id, page: 1 })}
             >
-              {t(category?.localized_name[lang])}
+              {t(category?.Name)}
             </Link>
           )}
         </div>
@@ -226,7 +226,7 @@ export default function Products(props) {
     let groupedData = {};
 
     data.data.forEach((prod) => {
-      const categoryName = prod.category?.localized_name[lang];
+      const categoryName = prod.category?.Name;
 
       if (!groupedData.hasOwnProperty(categoryName)) {
         groupedData[categoryName] = [];
@@ -331,7 +331,7 @@ export default function Products(props) {
                 {t(
                   currentCategory
                     ? allCategories.find((cat) => cat.id == currentCategory)
-                        ?.localized_name[lang] ?? t("choose_category")
+                        ?.Name ?? t("choose_category")
                     : t("choose_category"),
                 )}
                 <ChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />

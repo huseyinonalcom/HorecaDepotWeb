@@ -43,7 +43,7 @@ function calculatePercentageDifference(originalPrice, currentPrice) {
 const ProductPreview = ({ product }: Props) => {
   const { addToCart } = useContext(CartContext);
   const { addToWishlist } = useContext(WishlistContext);
-  const { t, lang } = useTranslation("common");
+  const { t } = useTranslation("common");
 
   const discountPercentage = calculatePercentageDifference(
     product.priceBeforeDiscount,
@@ -52,7 +52,7 @@ const ProductPreview = ({ product }: Props) => {
 
   return (
     <Link
-      href={`/products/${product.categories.at(0).localized_name[lang]}/${product.name}/${product.id}`}
+      href={`/products/${product.categories.at(0).Name}/${product.name}/${product.id}`}
       draggable={false}
       id={`${product.id}-preview`}
       className={`border-1 group flex w-full flex-col items-center rounded-xl border border-black/30 p-2 text-black`}
@@ -113,7 +113,7 @@ const ProductPreview = ({ product }: Props) => {
       >
         <div draggable={false} className="flex flex-col items-start">
           <p className="font-bold">{product.name}</p>
-          <p>{t(product.categories[0]?.localized_name[lang]) ?? ""}</p>
+          <p>{t(product.categories[0]?.Name) ?? ""}</p>
           {product.internalCode && (
             <p className="text-sm">
               {product.internalCode != "0" ? product.internalCode : ""}

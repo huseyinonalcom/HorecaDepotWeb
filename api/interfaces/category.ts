@@ -4,7 +4,6 @@ export interface Category {
   image?: Image;
   id?: number;
   Name?: string;
-  localized_name?: Record<string, string>;
   headCategory?: Category;
   subCategories?: Category[];
 }

@@ -36,7 +36,7 @@ const CategoryItem = ({ category, onClick }) => {
 
   return (
     <div
-      key={category.localized_name[lang]}
+      key={category.Name}
       className="relative cursor-pointer hover:bg-gray-200"
       onClick={() => onClick()}
       onMouseEnter={() => {
@@ -48,10 +48,10 @@ const CategoryItem = ({ category, onClick }) => {
     >
       <Link
         onClick={() => onClick()}
-        href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+        href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
         className="flex w-full flex-row items-center justify-between px-3 py-2 text-left"
       >
-        {t(category.localized_name[lang])}
+        {t(category.Name)}
         {hasSubCategories && (
           <ChevronLeft
             className={
@@ -85,13 +85,12 @@ const CategoryItem = ({ category, onClick }) => {
 
 const DesktopSearch = () => {
   const router = useRouter();
-  const { t, lang } = useTranslation("common");
+  const { t } = useTranslation("common");
   const [searchQuery, setSearchQuery] = useState<string>();
   const [searchResults, setSearchResults] = useState([]);
   const debounceTimeout = useRef(null);
 
   const handleSearchChange = async (e) => {
-    return;
     const value = e.target.value;
 
     setSearchQuery(value);
@@ -150,22 +149,20 @@ const DesktopSearch = () => {
         <div className="absolute left-0 right-0 z-10 mx-auto mt-12 max-w-screen-2xl rounded-xl border border-gray-300 bg-white text-black shadow-lg">
           <ul>
             {searchResults
-              .filter(
-                (results) => !results.category && results.localized_name[lang],
-              )
+              .filter((results) => !results.category && results.Name)
               .map((result, index) => (
                 <li
                   key={index}
                   className="cursor-pointer rounded-xl px-4 py-2 hover:bg-gray-100"
                   onClick={() => {
-                    if (result.localized_name[lang]) {
+                    if (result.Name) {
                       router.push(
-                        `/shop/${encodeURIComponent(t(result.localized_name[lang]))}?page=1`,
+                        `/shop/${encodeURIComponent(t(result.Name))}?page=1`,
                       );
                     }
                   }}
                 >
-                  {result.title || t(result.localized_name[lang])}
+                  {result.title || t(result.Name)}
                 </li>
               ))}
           </ul>
@@ -184,7 +181,7 @@ const DesktopSearch = () => {
 
 const MobileSearch = () => {
   const router = useRouter();
-  const { t, lang } = useTranslation("common");
+  const { t } = useTranslation("common");
   const [searchQuery, setSearchQuery] = useState<string>();
   const [searchResults, setSearchResults] = useState([]);
   const debounceTimeout = useRef(null);
@@ -247,24 +244,21 @@ const MobileSearch = () => {
         <div className="absolute left-0 right-0 z-10 mx-auto mt-12 max-w-screen-2xl rounded-xl border border-gray-300 bg-white text-black shadow-lg">
           <ul>
             {searchResults
-              .filter(
-                (results) =>
-                  !results.categories && results.localized_name[lang],
-              )
+              .filter((results) => !results.categories && results.Name)
               .slice(0, 4)
               .map((result, index) => (
                 <li
                   key={index}
                   className="cursor-pointer rounded-xl px-4 py-2 hover:bg-gray-100"
                   onClick={() => {
-                    if (result.localized_name[lang]) {
+                    if (result.Name) {
                       router.push(
-                        `/shop/${encodeURIComponent(t(result.localized_name[lang]))}?page=1`,
+                        `/shop/${encodeURIComponent(t(result.Name))}?page=1`,
                       );
                     }
                   }}
                 >
-                  {result.title || t(result.localized_name[lang])}
+                  {result.title || t(result.Name)}
                 </li>
               ))}
           </ul>
@@ -437,10 +431,10 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
           {hasSubCategories ? (
             <>
               <a
-                href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+                href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                 className="h-full whitespace-nowrap px-4 py-2"
               >
-                {t(category.localized_name[lang])}
+                {t(category.Name)}
               </a>
               <div
                 className="w-full py-3 pr-4"
@@ -458,10 +452,10 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             </>
           ) : (
             <a
-              href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+              href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
               className="h-full w-full whitespace-nowrap px-4 py-2"
             >
-              {t(category.localized_name[lang])}
+              {t(category.Name)}
             </a>
           )}
         </div>
@@ -803,17 +797,17 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
             .map((category) => (
               <div key={category.id + "-column"}>
                 <Link
-                  href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+                  href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                   onClick={() => closeDrawer()}
                   className="font-semibold"
                 >
-                  {t(category.localized_name[lang])}
+                  {t(category.Name)}
                 </Link>
                 {/* <a
-                  href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+                  href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                   className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
                 >
-                  {t("All")} {t(category.localized_name[lang])}
+                  {t("All")} {t(category.Name)}
                 </a> */}
                 {category.subCategories.map((subCategory) => (
                   <CategoryItem
@@ -832,17 +826,17 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
                   <div key={category.id + "-column"}>
                     <Link
                       onClick={() => closeDrawer()}
-                      href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+                      href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                       className="font-semibold"
                     >
-                      {t(category.localized_name[lang])}
+                      {t(category.Name)}
                     </Link>
                     <Link
                       onClick={() => closeDrawer()}
-                      href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+                      href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                       className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
                     >
-                      {t(category.localized_name[lang])}
+                      {t(category.Name)}
                     </Link>
                     {category.subCategories.map((subCategory) => (
                       <CategoryItem

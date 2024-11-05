@@ -18,13 +18,12 @@ export async function putCategories({ req, res }) {
         body: JSON.stringify({
           data: {
             Name: categories[i].Name,
-            localized_name: categories[i].localized_name,
             headCategory: categories[i].headCategory?.id ?? null,
             priority: categories[i].priority,
             subCategories:
-              categories[i].subCategories?.map(
-                (subCategory) => subCategory.id,
-              ) ?? null,
+              categories[i].subCategories?.map((subCategory) => {
+                subCategory.id;
+              }) ?? null,
             image: categories[i].image?.id ?? null,
           },
         }),

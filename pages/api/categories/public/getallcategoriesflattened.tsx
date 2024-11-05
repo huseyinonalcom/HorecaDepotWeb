@@ -1,7 +1,7 @@
 import { CategoryConversion } from "../../../../api/interfaces/category";
 import statusText from "../../../../api/statustexts";
 
-const fetchUrl = `${process.env.API_URL}/api/categories?populate[headCategory][fields][0]=localized_name&populate[subCategories][fields][0]=localized_name&populate[subCategories][populate][image][fields][0]=url&fields[0]=name&fields[1]=priority&fields[2]=localized_name&populate[image][fields][0]=url&sort=priority&pagination[pageSize]=100`;
+const fetchUrl = `${process.env.API_URL}/api/categories?populate[headCategory][fields][0]=name&populate[subCategories][fields][0]=name&populate[subCategories][populate][image][fields][0]=url&fields[0]=name&fields[1]=priority&populate[image][fields][0]=url&sort=priority&pagination[pageSize]=100`;
 
 export async function getAllCategoriesFlattened() {
   const response = await fetch(fetchUrl, {

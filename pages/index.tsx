@@ -3,6 +3,7 @@ import { getCollections } from "./api/collections/public/getcollections";
 import useTranslation from "next-translate/useTranslation";
 import Layout from "../components/public/layout";
 import Meta from "../components/public/meta";
+import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 import { ChevronLeft } from "react-feather";
@@ -286,9 +287,9 @@ export const getStaticProps = async ({ locale }) => {
           .map((category) => {
             return {
               id: category.id,
-              name: category.localized_name[locale],
+              name: category.Name,
               image: category.image,
-              linked_url: "/shop/" + t(category.localized_name[locale]) + "?page=1",
+              linked_url: "/shop/" + t(category.Name) + "?page=1",
             };
           });
       }
@@ -301,9 +302,9 @@ export const getStaticProps = async ({ locale }) => {
       //     .map((category) => {
       //       return {
       //         id: category.id,
-      //         name: category.localized_name[lang],
+      //         name: category.Name,
       //         image: category.image,
-      //         linked_url: "/shop/" + category.localized_name[lang] + "?page=1",
+      //         linked_url: "/shop/" + category.Name + "?page=1",
       //       };
       //     });
       // }

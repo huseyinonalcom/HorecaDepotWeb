@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import Head from "next/head";
 import useTranslation from "next-translate/useTranslation";
 import AdminLayout from "../../../components/admin/adminLayout";
@@ -7,7 +7,6 @@ import InputOutlined from "../../../components/inputs/outlined";
 import { uploadFileToAPI } from "../../api/files/uploadfile";
 import ImageWithURL from "../../../components/common/image";
 import { useRouter } from "next/router";
-import { LocalizedInput } from "../../../components/inputs/localized_input";
 
 function compareArrays(arr1, arr2) {
   const isEqual = (obj1, obj2) => JSON.stringify(obj1) === JSON.stringify(obj2);
@@ -92,28 +91,21 @@ export default function HomePageAdmin() {
               >
                 <div className="flex flex-shrink-0 flex-row gap-2">
                   <div className="flex w-[250px] flex-shrink-0 flex-col gap-2">
-                    <div className={"w-full"}>
-                      <LocalizedInput
-                        title={t("name")}
-                        value={
-                          category.localized_name ?? {
-                            nl: category?.Name,
-                            en: category?.Name,
-                            fr: category?.Name,
-                            de: category?.Name,
-                          }
-                        }
-                        onChange={(value) => {
-                          setCategories((prev) => {
-                            const newMediaGroups = [...prev];
-                            newMediaGroups.find(
-                              (mg) => mg.id == category.id,
-                            ).localized_name = value;
-                            return newMediaGroups;
-                          });
-                        }}
-                      />
-                    </div>
+                    <InputOutlined
+                      label="name"
+                      value={category.Name}
+                      onChange={(e) => {
+                        setCategories((prev) => {
+                          const newMediaGroups = [...prev];
+                          newMediaGroups.find(
+                            (mg) => mg.id == category.id,
+                          ).Name = e.target.value;
+                          return newMediaGroups;
+                        });
+                      }}
+                      name="name"
+                      type="text"
+                    />
                     <InputOutlined
                       label="order"
                       value={category.priority}
@@ -156,7 +148,7 @@ export default function HomePageAdmin() {
                               key={cat.id + "-" + category.id + "-headCategory"}
                               value={cat.id}
                             >
-                              {cat.localized_name[lang]}
+                              {cat.Name}
                             </option>
                           ))}
                       </select>

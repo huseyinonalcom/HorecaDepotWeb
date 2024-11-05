@@ -315,7 +315,7 @@
   "selected_color": "Couleur sélectionnée",
   "internalCode_not_empty": "Le code interne n'est pas vide",
   "No_payment_admin": "Aucun paiement n'a été trouvé.",
+  "VAT excl.": "TVA excl.",
   "Settings": "Paramètres",
-  "Success": "Réussi",
-  "vat-excl": "TVA excl."
+  "Success": "Réussi"
 }

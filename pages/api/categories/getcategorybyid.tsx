@@ -2,7 +2,7 @@ export default async function getCategoryById(req, res) {
   const categoryId = req.query.id;
 
   try {
-    const fetchUrl = `${process.env.API_URL}/api/categories/${categoryId}?populate[headCategory][fields][0]=localized_name&populate[subCategories][fields][0]=localized_name&fields[0]=localized_name&populate[image][fields][0]=url&populate[subCategories][populate][image][fields][0]=url&pagination[pageSize]=100`;
+    const fetchUrl = `${process.env.API_URL}/api/categories/${categoryId}?populate[headCategory][fields][0]=Name&populate[subCategories][fields][0]=Name&fields[0]=Name&populate[image][fields][0]=url&populate[subCategories][populate][image][fields][0]=url&pagination[pageSize]=100`;
     const response = await fetch(fetchUrl, {
       headers: {
         Authorization: `Bearer ${process.env.API_KEY}`,

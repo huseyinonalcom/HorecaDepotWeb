@@ -78,10 +78,10 @@ export default function Products(props) {
           {hasSubCategories ? (
             <>
               <Link
-                href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+                href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
                 className="h-full whitespace-nowrap px-4 py-2"
               >
-                {t(category.localized_name[lang])}
+                {t(category.Name)}
               </Link>
               <div
                 className="w-full py-3 pr-4"
@@ -99,10 +99,10 @@ export default function Products(props) {
             </>
           ) : (
             <Link
-              href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+              href={`/${lang}/shop/${encodeURIComponent(t(category.Name))}?page=1`}
               className="h-full w-full whitespace-nowrap px-4 py-2"
             >
-              {t(category.localized_name[lang])}
+              {t(category.Name)}
             </Link>
           )}
         </div>
@@ -125,7 +125,7 @@ export default function Products(props) {
   const createLink = (props) => {
     let link = "/shop/";
     if (props.currentCategory) {
-      link += t(props.currentCategory.localized_name[lang]) + "?";
+      link += t(props.currentCategory.Name) + "?";
     } else {
       link += "tous?";
     }
@@ -159,7 +159,7 @@ export default function Products(props) {
                 {currentCategory.subCategories.map((category) => (
                   <div key={`grid1-${category.id}`} className={``}>
                     <Link
-                      href={`/shop/${t(category.localized_name[lang])}?page=1`}
+                      href={`/shop/${t(category.Name)}?page=1`}
                       className="flex flex-col items-center gap-2"
                     >
                       <div className="relative aspect-[15/14] w-full overflow-hidden rounded-xl">
@@ -172,10 +172,10 @@ export default function Products(props) {
                               ? category.image.url
                               : "/uploads/placeholder_9db455d1f1.webp"
                           }
-                          alt={t(category.localized_name[lang]) + " image"}
+                          alt={t(category.Name) + " image"}
                         />
                       </div>
-                      <p className="font-semibold">{t(category.localized_name[lang])}</p>
+                      <p className="font-semibold">{t(category.Name)}</p>
                     </Link>
                   </div>
                 ))}
@@ -183,7 +183,7 @@ export default function Products(props) {
             )}
           <div className="flex flex-col md:flex-row">
             <h2 className="mt-2 flex w-full justify-center text-5xl font-bold">
-              {t(currentCategory?.localized_name[lang] ?? "Shop")}
+              {t(currentCategory?.Name ?? "Shop")}
             </h2>
             <div className="my-auto flex h-fit flex-row gap-2 pl-4 pr-4">
               <Link
