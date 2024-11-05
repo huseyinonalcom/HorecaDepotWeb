@@ -90,6 +90,7 @@ const DesktopSearch = () => {
   const debounceTimeout = useRef(null);
 
   const handleSearchChange = async (e) => {
+    return;
     const value = e.target.value;
 
     setSearchQuery(value);
