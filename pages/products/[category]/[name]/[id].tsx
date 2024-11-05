@@ -82,14 +82,16 @@ const ProductPage = ({
         <meta name="language" content={lang} />
         <meta
           name="description"
-          content={product.name + " " + t(product.categories[0].Name)}
+          content={
+            product.name + " " + t(product.categories[0].localized_name[lang])
+          }
         />
         <meta name="subject" content={"" + product.name + ""} />
         <link
           rel="canonical"
           href={
             "https://horecadepot.be/products/" +
-            `${product.categories.at(0).Name}/${product.name}/${product.id}`
+            `${product.categories.at(0).localized_name[lang]}/${product.name}/${product.id}`
           }
         />
       </Head>
@@ -156,7 +158,7 @@ const ProductPage = ({
                     .toFixed(2)
                     .replaceAll(".", ",")}
               </h3>
-              <h4 className="text-xs">{t("VAT excl.")}</h4>
+              <h4 className="text-xs">{t("vat-excl")}</h4>
             </div>
             {product.color && !product.product_color && (
               <p>
@@ -322,7 +324,7 @@ const ProductPage = ({
                 <Link
                   target="_blank"
                   aria-label="Share via Facebook"
-                  href={`https://www.facebook.com/sharer/sharer.php?u=https://horecadepot.be/products/${product.categories.at(0).Name}/${product.name}/${product.id}`}
+                  href={`https://www.facebook.com/sharer/sharer.php?u=https://horecadepot.be/products/${product.categories.at(0).localized_name[lang]}/${product.name}/${product.id}`}
                 >
                   <Facebook
                     width={60}
@@ -333,7 +335,7 @@ const ProductPage = ({
                 <Link
                   target="_blank"
                   aria-label="Share via Whatsapp"
-                  href={`https://api.whatsapp.com/send?text=https://horecadepot.be/products/${product.categories.at(0).Name}/${product.name}/${product.id}`}
+                  href={`https://api.whatsapp.com/send?text=https://horecadepot.be/products/${product.categories.at(0).localized_name[lang]}/${product.name}/${product.id}`}
                 >
                   <MdWhatsapp
                     width={60}
@@ -378,9 +380,10 @@ type Params = {
   params: {
     id: string;
   };
+  locale: string;
 };
 
-export const getStaticProps = async ({ params }: Params) => {
+export const getStaticProps = async ({ params, locale }: Params) => {
   const product = await getProductByID(Number.parseInt(params.id));
   const result = await getProducts({
     page: 1,
@@ -409,7 +412,7 @@ export const getStaticProps = async ({ params }: Params) => {
   const buildBreadcrumbs = (categoryId, crumbs = []) => {
     const category = categories.find((cat) => cat.id === categoryId);
     if (category) {
-      crumbs.push(category.Name);
+      crumbs.push(category.localized_name[locale]);
       if (category.headCategory != null) {
         buildBreadcrumbs(category.headCategory.id, crumbs);
       } else {

@@ -30,51 +30,22 @@ function checkValues(minValue, maxValue) {
   return isMinValueValid && isMaxValueValid && isMinLessThanMax;
 }
 
-const en = require("../../../../locales/en/common.json");
-const fr = require("../../../../locales/fr/common.json");
-const nl = require("../../../../locales/nl/common.json");
-const de = require("../../../../locales/de/common.json");
-
-const loadJSON = (name) => {
-  switch (name) {
-    case "en":
-      return en;
-    case "fr":
-      return fr;
-    case "nl":
-      return nl;
-    case "de":
-      return de;
-    default:
-      return fr;
-  }
-};
-
-const locales = {
-  en: loadJSON("en"),
-  fr: loadJSON("fr"),
-  nl: loadJSON("nl"),
-  de: loadJSON("de"),
-};
-
 const cache = {};
 
 // Function to find a category parameter, with caching
-const findCategoryParam = (categoryParam) => {
+const findCategoryParam = (categoryParam, categories) => {
   if (cache[categoryParam]) {
     return cache[categoryParam];
   }
 
-  for (const locale in locales) {
-    for (const key in locales[locale]) {
-      if (locales[locale][key] === categoryParam) {
-        cache[categoryParam] = key; // Cache the result
-        return key;
-      }
+  for (const category of categories) {
+    if (Object.values(category.localized_name).includes(categoryParam)) {
+      cache[categoryParam] = category.id;
+      return category.id;
     }
   }
 
-  cache[categoryParam] = categoryParam; // Cache the result as it is if not found
+  cache[categoryParam] = categoryParam;
   return categoryParam;
 };
 
@@ -123,10 +94,7 @@ export async function getProducts(req) {
       const parsedCategoryParam = parseInt(categoryParam, 10);
 
       if (isNaN(parsedCategoryParam)) {
-        const param = findCategoryParam(categoryParam);
-        categoryParam = parseInt(
-          allCategories.find((cat) => cat.Name === param).id,
-        );
+        categoryParam = findCategoryParam(categoryParam, allCategories);
       } else {
         categoryParam = parsedCategoryParam;
       }
@@ -171,7 +139,7 @@ export async function getProducts(req) {
       fetchUrl += `filters[$and][0][value][$gte]=${minValueParam}&filters[$and][1][value][$lte]=${maxValueParam}&`;
     }
 
-    fetchUrl += `populate[document_products][fields][0]=amount&populate[shelves][fields][0]=stock&fields[0]=name&populate[categories][fields][0]=name&fields[1]=internalCode&fields[2]=value&fields[3]=priceBeforeDiscount&fields[4]=color&fields[5]=imageDirections&populate[images][fields][0]=url&populate[product_extra][fields][0]=new&pagination[page]=${pageParam}${
+    fetchUrl += `populate[document_products][fields][0]=amount&populate[shelves][fields][0]=stock&fields[0]=name&populate[categories][fields][0]=localized_name&fields[1]=internalCode&fields[2]=value&fields[3]=priceBeforeDiscount&fields[4]=color&fields[5]=imageDirections&populate[images][fields][0]=url&populate[product_extra][fields][0]=new&pagination[page]=${pageParam}${
       sortParam ? `&sort[0]=${sortParam}` : ""
     }${countParam ? `&pagination[pageSize]=${countParam}` : ""}`;
 

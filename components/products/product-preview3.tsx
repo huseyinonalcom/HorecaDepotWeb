@@ -3,16 +3,18 @@ import Image from "next/image";
 import { Product } from "../../api/interfaces/product";
 import ImageWithURL from "../common/image";
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
+import useTranslation from "next-translate/useTranslation";
 
 type Props = {
   product: Product;
 };
 
 const ProductPreview3 = ({ product }: Props) => {
+  const { t, lang } = useTranslation();
   try {
     return (
       <Link
-        href={`/products/${product.categories.at(0).Name}/${product.name}/${product.id}`}
+        href={`/products/${product.categories.at(0).localized_name[lang]}/${product.name}/${product.id}`}
         draggable={false}
         id={`${product.id}-preview`}
         className={`border-1 group flex w-full flex-col items-center rounded-xl border border-black/30 p-2 text-black`}

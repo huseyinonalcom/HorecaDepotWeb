@@ -312,6 +312,6 @@
   "selected_color": "Ausgewählte Farbe",
   "internalCode_not_empty": "Interner Code nicht leer",
   "No_payment_admin": "Keine Zahlung gefunden.",
-  "VAT excl.": "MwSt. exkl.",
-  "Settings": "Einstellungen"
+  "Settings": "Einstellungen",
+  "vat-excl": "MwSt. exkl."
 }
