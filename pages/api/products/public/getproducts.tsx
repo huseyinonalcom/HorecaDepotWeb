@@ -32,7 +32,6 @@ function checkValues(minValue, maxValue) {
 
 const cache = {};
 
-// Function to find a category parameter, with caching
 const findCategoryParam = (categoryParam, categories) => {
   if (cache[categoryParam]) {
     return cache[categoryParam];
