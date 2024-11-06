@@ -26,7 +26,6 @@ import { ClientContext } from "../../api/providers/clientProvider";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import ProductPreview3 from "../products/product-preview3";
 import { BannerContext } from "../../api/providers/bannerProdiver";
-import { GiCarWheel } from "react-icons/gi";
 
 const CategoryItem = ({ category, onClick }) => {
   const { t, lang } = useTranslation("common");
@@ -91,7 +90,6 @@ const DesktopSearch = () => {
   const debounceTimeout = useRef(null);
 
   const handleSearchChange = async (e) => {
-    return;
     const value = e.target.value;
 
     setSearchQuery(value);
@@ -151,7 +149,7 @@ const DesktopSearch = () => {
           <ul>
             {searchResults
               .filter(
-                (results) => !results.category && results.localized_name[lang],
+                (results) => !results.categories && results.localized_name[lang],
               )
               .map((result, index) => (
                 <li

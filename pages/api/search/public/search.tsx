@@ -2,10 +2,6 @@ import Fuse from "fuse.js";
 import statusText from "../../../../api/statustexts";
 import { getAllCategoriesFlattened } from "../../categories/public/getallcategoriesflattened";
 import { getCollections } from "../../collections/public/getcollections";
-import enTranslations from "../../../../locales/en/common.json";
-import frTranslations from "../../../../locales/fr/common.json";
-import deTranslations from "../../../../locales/de/common.json";
-import nlTranslations from "../../../../locales/nl/common.json";
 import { getProducts } from "../../products/public/getproducts";
 
 const cache = {
@@ -40,6 +36,7 @@ const optionsCategories = {
 const optionsCollections = {
   keys: [
     { name: "title", weight: 0.3 },
+    { name: "translations.en", weight: 0.3 },
     { name: "translations.fr", weight: 0.3 },
     { name: "translations.de", weight: 0.3 },
     { name: "translations.nl", weight: 0.3 },
@@ -52,10 +49,10 @@ const mergeTranslations = (categories) => {
     return {
       ...category,
       translations: {
-        en: enTranslations[category.Name] || category.Name,
-        fr: frTranslations[category.Name] || category.Name,
-        de: deTranslations[category.Name] || category.Name,
-        nl: nlTranslations[category.Name] || category.Name,
+        en: category.localized_name.en || category.Name,
+        fr: category.localized_name.fr || category.Name,
+        de: category.localized_name.de || category.Name,
+        nl: category.localized_name.nl || category.Name,
       },
     };
   });
@@ -75,7 +72,6 @@ const productsUpdateCategories = (products, categories) => {
   });
 };
 
-// Function to fetch index slider images data from the API
 export async function fuzzySearch({ search }: { search: string }) {
   const now = Date.now();
 
@@ -135,6 +131,7 @@ export default async function handler(req, res) {
   }
   try {
     const searchResults = await fuzzySearch({ search: req.query.search });
+    console.log(searchResults);
     return res.status(200).json(searchResults);
   } catch (error) {
     return res.status(500).json(statusText[500]);
