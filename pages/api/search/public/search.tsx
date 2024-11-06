@@ -131,7 +131,6 @@ export default async function handler(req, res) {
   }
   try {
     const searchResults = await fuzzySearch({ search: req.query.search });
-    console.log(searchResults);
     return res.status(200).json(searchResults);
   } catch (error) {
     return res.status(500).json(statusText[500]);

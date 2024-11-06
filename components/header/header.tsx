@@ -149,7 +149,8 @@ const DesktopSearch = () => {
           <ul>
             {searchResults
               .filter(
-                (results) => !results.categories && results.localized_name[lang],
+                (results) =>
+                  !results.categories && results.localized_name[lang],
               )
               .map((result, index) => (
                 <li
