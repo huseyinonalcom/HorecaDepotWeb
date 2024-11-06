@@ -104,7 +104,7 @@ export default function ShopLayout({ children }: Props) {
       <div className="relative cursor-pointer">
         <div className="flex w-full items-center justify-between text-left hover:bg-gray-200">
           <Link
-            href={`/${router.locale}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+            href={`/${router.locale}/shop/${encodeURIComponent(category.localized_name[lang])}?page=1`}
             className="h-full whitespace-nowrap px-4 py-2"
           >
             {t(category.localized_name[lang])}
