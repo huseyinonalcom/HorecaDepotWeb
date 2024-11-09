@@ -123,7 +123,11 @@ const ProductPreview2 = ({ product }: Props) => {
               name={`Add ${product.name} to Cart`}
               aria-label={`Add ${product.name} to Cart`}
               className="flex flex-row items-center gap-2 rounded-lg bg-black px-3 py-2 text-white shadow-md duration-500 hover:text-green-500"
-              onClick={() => addToCart(convertToCartProduct(product))}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                addToCart(convertToCartProduct(product));
+              }}
             >
               <ShoppingCart />
               <p className="text-sm">{t("add_to_cart")}</p>
@@ -133,7 +137,11 @@ const ProductPreview2 = ({ product }: Props) => {
               name={`Add ${product.name} to Wishlist`}
               aria-label={`Add ${product.name} to Wishlist`}
               className="flex flex-row items-center gap-2 rounded-lg bg-white p-2 text-black shadow-md duration-500 hover:text-red-500"
-              onClick={() => addToWishlist(convertToWishlistProduct(product))}
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                addToWishlist(convertToWishlistProduct(product));
+              }}
             >
               <Heart />
             </button>
