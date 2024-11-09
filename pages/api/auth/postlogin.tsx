@@ -69,6 +69,7 @@ export default async function logInClient(
         return res.status(500).json(statusText[500]);
       }
     } catch (error) {
+      console.log(error);
       return res.status(500).json(statusText[500]);
     }
   } else {

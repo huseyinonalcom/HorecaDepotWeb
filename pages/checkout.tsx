@@ -20,17 +20,11 @@ import { getCoverImageUrl } from "../api/utils/getprodcoverimage";
 import { ClientContext } from "../api/providers/clientProvider";
 import { CartContext } from "../api/providers/cartProvider";
 import { getConfig } from "./api/config/private/getconfig";
+import ClientLogin from "../components/client/clientLogin";
 
 export default function Checkout(props) {
   const { t, lang } = useTranslation("common");
   const router = useRouter();
-  const [showLoginForm, setShowLoginForm] = useState<boolean>(false);
-  const [showRegisterForm, setShowRegisterForm] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const options = ["Entreprise", "Particulier"];
-  const [errorLogin, setErrorLogin] = useState<string>("");
-  const [clientType, setClientType] = useState<string>(options.at(1));
   const { client, clearClient, setCurrentClient } = useContext(ClientContext);
   const { cart, removeFromCart, increaseQuantity, decreaseQuantity } =
     useContext(CartContext);
@@ -65,143 +59,6 @@ export default function Checkout(props) {
     event.preventDefault();
     clearClient();
     await fetch("/api/client/client/logout").then(() => {});
-  };
-
-  const handleLoginSubmit = async (event) => {
-    event.preventDefault();
-    setErrorLogin("");
-    try {
-      const response = await fetch("/api/auth/postlogin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ identifier: username, password }),
-      });
-
-      if (response.ok) {
-        const answer = await response.json();
-        const authedClient: Client = ClientConversion.fromJson(answer);
-        setCurrentClient(authedClient);
-
-        localStorage.setItem("client", JSON.stringify(authedClient));
-        setShowLoginForm(false);
-      } else {
-        setErrorLogin(t("user_pass_invalid"));
-      }
-    } catch (error) {
-      setErrorLogin(t("user_pass_invalid"));
-    }
-  };
-
-  const [newClient, setNewClient] = useState<Client>({
-    username: "",
-    email: "",
-    password: "",
-    client_info: {
-      firstName: "",
-      lastName: "",
-      phone: "",
-      category: "",
-      company: "",
-      taxID: "",
-    },
-  });
-
-  const [passwordRepeat, setPasswordRepeat] = useState<string>("");
-
-  const [errorsNewClientForm, setErrorsNewClientForm] = useState({
-    company: null,
-    taxID: null,
-    firstName: null,
-    lastName: null,
-    email: null,
-    password: null,
-    password_repeat: null,
-  });
-
-  const handleClientSubmit = async (event) => {
-    event.preventDefault();
-
-    const clientErrors = {
-      company: null,
-      taxID: null,
-      firstName: null,
-      lastName: null,
-      email: null,
-      password: null,
-      password_repeat: null,
-    };
-
-    if (clientType === options.at(0)) {
-      clientErrors.company = validateEmpty(newClient.client_info.company);
-      clientErrors.taxID = validateEmpty(newClient.client_info.taxID);
-    }
-
-    clientErrors.firstName = validateEmpty(newClient.client_info.firstName);
-    clientErrors.lastName = validateEmpty(newClient.client_info.lastName);
-    clientErrors.email = validateEmail(newClient.email);
-    clientErrors.password = validateEmpty(newClient.password);
-    if (newClient.password != passwordRepeat) {
-      clientErrors.password_repeat = t("password_notmatching");
-    }
-    clientErrors.password_repeat = validateEmpty(passwordRepeat);
-
-    if (
-      areAllPropertiesNull(clientErrors) &&
-      !areAllPropertiesEmpty(newClient)
-    ) {
-      postNewUser();
-    } else {
-      setErrorsNewClientForm(clientErrors);
-    }
-  };
-
-  const postNewUser = async () => {
-    const clientToSend: Client = {
-      ...newClient,
-      username: newClient.email,
-      email: newClient.email,
-      password: newClient.password,
-      blocked: false,
-      client_info: {
-        ...newClient.client_info,
-        company:
-          clientType == options.at(0) ? newClient.client_info.company : null,
-        taxID: clientType == options.at(0) ? newClient.client_info.taxID : null,
-        category: clientType,
-      },
-    };
-    const request = await fetch("/api/client/public/createclient", {
-      method: "POST",
-      body: JSON.stringify({
-        clientToSend,
-      }),
-    });
-
-    const answer = await request.json();
-
-    if (request.status == 200) {
-      setNewClient({
-        username: "",
-        email: "",
-        password: "",
-        blocked: true,
-        client_info: {
-          deleted: false,
-          firstName: "",
-          lastName: "",
-          phone: "",
-          category: "",
-          company: "",
-          taxID: "",
-        },
-      });
-      setPasswordRepeat("");
-      setShowLoginForm(true);
-      setShowRegisterForm(false);
-    } else {
-    }
   };
 
   const [showAddressForm, setShowAddressForm] = useState(false);
@@ -298,22 +155,20 @@ export default function Checkout(props) {
   const [currentPromo, setCurrentPromo] = useState(null);
   const [usedPromoCode, setUsedPromoCode] = useState<string>("");
   const [submitErrorDocument, setSubmitErrorDocument] = useState("");
-  const [chosenInvoiceAddressId, setChosenInvoiceAddressId] = useState(
-    client?.client_info?.addresses.at(0).id ?? null,
-  );
+  const [chosenInvoiceAddressId, setChosenInvoiceAddressId] = useState(null);
   const [totalAfterPromo, setTotalAfterPromo] = useState<number | null>(null);
   const [chosenDeliveryAddressId, setChosenDeliveryAddressId] = useState(null);
 
   useEffect(() => {
     if (client) {
       if (!chosenDeliveryAddressId) {
-        setChosenDeliveryAddressId(client?.client_info?.addresses.at(0).id);
+        setChosenDeliveryAddressId(client?.client_info?.addresses?.at(0).id);
       }
       if (!chosenInvoiceAddressId) {
-        setChosenInvoiceAddressId(client?.client_info?.addresses.at(0).id);
+        setChosenInvoiceAddressId(client?.client_info?.addresses?.at(0).id);
       }
     }
-  });
+  }, [client?.client_info.addresses]);
 
   useEffect(() => {
     if (usedPromoCode != "") {
@@ -509,6 +364,7 @@ export default function Checkout(props) {
       </Head>
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         <div className="order-2 mb-2 mt-1 p-3 shadow-lg sm:order-1">
+          {!client && <ClientLogin onLogin={() => {}} />}
           {client && (
             <div className="flex flex-col">
               <h2 className="mb-2 text-xl font-bold">
@@ -724,310 +580,6 @@ export default function Checkout(props) {
               </button>
             </div>
           )}
-          {!client && !showLoginForm && !showRegisterForm && (
-            <div className="flex flex-col gap-3">
-              <h2 className="text-xl font-bold">{t("identification")}</h2>
-              <div className="grid grid-cols-2 gap-2">
-                <div className="flex w-full flex-col">
-                  <p className="text-sm font-light">{t("exsting_customer")}</p>
-                  <button
-                    name="showLoginForm"
-                    aria-label="Show Login Form"
-                    type="button"
-                    onClick={() => {
-                      setShowLoginForm(true);
-                      setShowRegisterForm(false);
-                    }}
-                    className={CustomTheme.outlinedButton}
-                  >
-                    {t("Déjà inscrit")}
-                  </button>
-                </div>
-                <div className="flex w-full flex-col">
-                  <p className="text-sm font-light">{t("new_customer")}</p>
-                  <button
-                    name="showRegisterForm"
-                    aria-label="Show Register Form"
-                    type="button"
-                    onClick={() => {
-                      setShowLoginForm(false);
-                      setShowRegisterForm(true);
-                    }}
-                    className={CustomTheme.outlinedButton}
-                  >
-                    {t("Inscrivez-vous")}
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-          {!client && showLoginForm && !showRegisterForm && (
-            <div className="flex w-full flex-col items-center">
-              <h2 className="text-xl font-bold">
-                {t("Login to your account")}
-              </h2>
-              <form
-                onSubmit={handleLoginSubmit}
-                className="mt-4 w-[60%] space-y-4"
-              >
-                <InputOutlined
-                  required
-                  type="text"
-                  name="E-mail"
-                  label="E-mail"
-                  value={username}
-                  error={errorLogin}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-                <InputOutlined
-                  required
-                  type="password"
-                  name="Password"
-                  label="Password"
-                  value={password}
-                  error={errorLogin}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <button
-                  name="login"
-                  aria-label="Login"
-                  type="submit"
-                  className={CustomTheme.outlinedButton}
-                >
-                  {t("Login")}
-                </button>
-              </form>
-              <h3 className="mt-3">{t("Don't have an account yet?")}</h3>
-              <button
-                name="closeLoginForm"
-                aria-label="Close Login Form"
-                type="button"
-                onClick={() => {
-                  setShowLoginForm(false);
-                  setShowRegisterForm(false);
-                }}
-                className={CustomTheme.outlinedButton + " w-[60%]"}
-              >
-                {t("Return")}
-              </button>
-            </div>
-          )}
-          {!client && !showLoginForm && showRegisterForm && (
-            <div className="flex flex-col gap-2">
-              <h2 className="text-xl font-bold">{t("Register an account")}</h2>
-              <div className="flex flex-col">
-                <h3 className="mt-1">{t("Already have an account?")}</h3>
-                <button
-                  name="closeRegisterForm"
-                  aria-label="Close Registration Form"
-                  type="button"
-                  onClick={() => {
-                    setShowLoginForm(false);
-                    setShowRegisterForm(false);
-                  }}
-                  className={CustomTheme.outlinedButton + " w-[60%]"}
-                >
-                  {t("Return")}
-                </button>
-                <h3 className="mt-3">{t("Business or Individual")}</h3>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="flex w-full flex-col">
-                    <button
-                      name="setClientTypeToIndividual"
-                      aria-label="Set Client Type to Individual"
-                      type="button"
-                      onClick={() => setClientType(options.at(1))}
-                      className={
-                        CustomTheme.outlinedButton +
-                        ` ${clientType == options.at(1) ? "bg-gray-300" : ""}`
-                      }
-                    >
-                      {options.at(1)}
-                    </button>
-                  </div>
-                  <div className="flex w-full flex-col">
-                    <button
-                      name="setClientTypeToBusiness"
-                      aria-label="Set Client Type to Business"
-                      type="button"
-                      onClick={() => setClientType(options.at(0))}
-                      className={
-                        CustomTheme.outlinedButton +
-                        ` ${clientType == options.at(0) ? "bg-gray-300" : ""}`
-                      }
-                    >
-                      {options.at(0)}
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <form
-                onSubmit={handleClientSubmit}
-                className="flex flex-col gap-2"
-              >
-                {clientType == options[0] && (
-                  <>
-                    <div className="flex w-full flex-col">
-                      <InputOutlined
-                        required
-                        type="text"
-                        name="Company"
-                        label="The name of your company"
-                        value={newClient.client_info.company}
-                        error={errorsNewClientForm.company}
-                        onChange={(e) =>
-                          setNewClient({
-                            ...newClient,
-                            client_info: {
-                              ...newClient.client_info,
-                              company: e.target.value,
-                            },
-                          })
-                        }
-                      />
-                    </div>
-                    <div className="flex w-full flex-col">
-                      <InputOutlined
-                        required
-                        type="text"
-                        name="TaxID"
-                        label="VAT number"
-                        value={newClient.client_info.taxID}
-                        error={errorsNewClientForm.taxID}
-                        onChange={(e) =>
-                          setNewClient({
-                            ...newClient,
-                            client_info: {
-                              ...newClient.client_info,
-                              taxID: e.target.value,
-                            },
-                          })
-                        }
-                      />
-                    </div>
-                  </>
-                )}
-                <div className="flex flex-col gap-2 sm:flex-row">
-                  <div className="flex w-full flex-col sm:w-1/2">
-                    <InputOutlined
-                      required
-                      type="text"
-                      name="FirstName"
-                      label="Your first name"
-                      value={newClient.client_info.firstName}
-                      error={errorsNewClientForm.firstName}
-                      onChange={(e) =>
-                        setNewClient({
-                          ...newClient,
-                          client_info: {
-                            ...newClient.client_info,
-                            firstName: e.target.value,
-                          },
-                        })
-                      }
-                    />
-                  </div>
-                  <div className="flex w-full flex-col sm:w-1/2">
-                    <InputOutlined
-                      required
-                      type="text"
-                      name="LastName"
-                      label="Your last name"
-                      value={newClient.client_info.lastName}
-                      error={errorsNewClientForm.lastName}
-                      onChange={(e) =>
-                        setNewClient({
-                          ...newClient,
-                          client_info: {
-                            ...newClient.client_info,
-                            lastName: e.target.value,
-                          },
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-row">
-                  <div className="flex w-full flex-col">
-                    <InputOutlined
-                      type="text"
-                      name="Phone"
-                      label="Your Phone"
-                      value={newClient.client_info.phone}
-                      onChange={(e) =>
-                        setNewClient({
-                          ...newClient,
-                          client_info: {
-                            ...newClient.client_info,
-                            phone: e.target.value,
-                          },
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-row">
-                  <div className="flex w-full flex-col">
-                    <InputOutlined
-                      required
-                      type="email"
-                      name="E-mail"
-                      label="E-mail"
-                      value={newClient.email}
-                      error={errorsNewClientForm.email}
-                      onChange={(e) =>
-                        setNewClient({
-                          ...newClient,
-                          email: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-row">
-                  <div className="flex w-full flex-col">
-                    <InputOutlined
-                      required
-                      type="password"
-                      name="Password"
-                      label="Password"
-                      value={newClient.password}
-                      error={errorsNewClientForm.password}
-                      onChange={(e) =>
-                        setNewClient({
-                          ...newClient,
-                          password: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-row">
-                  <div className="flex w-full flex-col">
-                    <InputOutlined
-                      required
-                      type="password"
-                      name="password_repeat"
-                      label="Repeat Password"
-                      value={passwordRepeat}
-                      error={errorsNewClientForm.password_repeat}
-                      onChange={(e) => setPasswordRepeat(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div className="flex w-full flex-row">
-                  <button
-                    name="submitNewClient"
-                    aria-label="Submit New Client"
-                    type="submit"
-                    className={CustomTheme.greenSubmitButton}
-                  >
-                    {t("Proceed")}
-                  </button>
-                </div>
-              </form>
-            </div>
-          )}
         </div>
         <div className="order-1 my-2 grid grid-cols-1 p-4 shadow-lg sm:order-2">
           <div className="grid auto-rows-min grid-cols-2 gap-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
@@ -1051,30 +603,26 @@ export default function Checkout(props) {
                 key={product.id}
                 className="mb-2 flex w-full flex-col bg-white pb-3 pt-2 shadow-lg"
               >
-                <div className="flex w-full flex-col items-center">
-                  <div className="flex flex-row justify-center">
-                    <ImageWithURL
-                      src={
-                        product.images != null
-                          ? getCoverImageUrl(product)
-                          : "/uploads/placeholder_9db455d1f1.webp"
-                      }
-                      alt={product.name}
-                      width={150}
-                      height={150}
-                    />
-                  </div>
-                  <h3 className="h-[25px] w-full justify-center overflow-hidden text-base font-bold duration-700">
-                    <AutoTextSize maxFontSizePx={14}>
-                      {product.name}
-                    </AutoTextSize>
-                  </h3>
-                  <h4 className="h-[20px] w-full justify-center overflow-hidden text-base duration-700">
-                    <AutoTextSize maxFontSizePx={12}>
-                      {product.internalCode}
-                    </AutoTextSize>
-                  </h4>
+                <div className="flex flex-row justify-center">
+                  <ImageWithURL
+                    src={
+                      product.images != null
+                        ? getCoverImageUrl(product)
+                        : "/uploads/placeholder_9db455d1f1.webp"
+                    }
+                    alt={product.name}
+                    width={150}
+                    height={150}
+                  />
                 </div>
+                <h3 className="mt-auto h-[25px] w-full justify-center overflow-hidden text-base font-bold duration-700">
+                  <AutoTextSize maxFontSizePx={14}>{product.name}</AutoTextSize>
+                </h3>
+                <h4 className="h-[20px] w-full justify-center overflow-hidden text-base duration-700">
+                  <AutoTextSize maxFontSizePx={12}>
+                    {product.internalCode}
+                  </AutoTextSize>
+                </h4>
                 <div className="mb-2 flex w-full flex-row items-end justify-center">
                   <p className="mb-1 mr-1 text-sm text-gray-400 line-through">
                     {product.priceBeforeDiscount > product.value
@@ -1164,7 +712,7 @@ export default function Checkout(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   let costPerKM = 1;
   const config = await getConfig();
   if (config && config.costPerKM) {

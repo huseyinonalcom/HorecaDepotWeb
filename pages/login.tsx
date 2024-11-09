@@ -13,9 +13,6 @@ export default function Login() {
         <meta name="language" content={lang} />
       </Head>
       <div className="flex h-[50svh] w-full min-w-[350px] flex-col items-center justify-center">
-        <p className="text-2xl font-bold">
-          {t("Login to your HorecaDepot account")}
-        </p>
         <ClientLogin />
       </div>
     </Layout>
