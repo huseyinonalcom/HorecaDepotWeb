@@ -4,6 +4,7 @@ import useTranslation from "next-translate/useTranslation";
 import { Heart, Package, User } from "react-feather";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import CustomTheme from "../componentThemes";
 
 export default function MyAccountDash() {
   const { t } = useTranslation("common");
@@ -90,18 +91,21 @@ export default function MyAccountDash() {
           />
         </Link>
       </div>
-      <Link
-        href={"/"}
-        as={"/"}
-        onClick={handleLogOut}
-        className="py-1 font-bold duration-300"
-      >
-        <p className="text-sm">
+      <div>
+        <p className="">
           {t("wrong_user", {
             userName: `${client.client_info.firstName} ${client.client_info.lastName}`,
           })}
         </p>
-      </Link>
+        <button
+          name="logOut"
+          aria-label="Log Out"
+          onClick={handleLogOut}
+          className={CustomTheme.outlinedButton}
+        >
+          {t("Log Out")}
+        </button>
+      </div>
     </div>
   );
 }

@@ -20,7 +20,7 @@ export default function MyAccount() {
         <meta name="description" content={t("main_description")} />
         <meta name="language" content={lang} />
       </Head>
-      <div className="mx-auto w-full flex min-h-[79vh] flex-row items-start justify-center">
+      <div className="mx-auto flex min-h-[79vh] w-full flex-row items-start justify-center">
         <MyAccountDash />
       </div>
     </Layout>
