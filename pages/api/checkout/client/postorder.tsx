@@ -1119,23 +1119,6 @@ export default async function postOrder(
               `,
             };
 
-            try {
-              productsToPost.forEach(async (product) => {
-                await fetch(
-                  `${process.env.API_URL}/api/shelves/${product.shelf}`,
-                  {
-                    method: "PUT",
-                    headers: headers,
-                    body: JSON.stringify({
-                      data: {
-                        stock: product.shelfStock - product.amount,
-                      },
-                    }),
-                  },
-                ).then((response) => {});
-              });
-            } catch (e) {}
-
             // Send mail client
             transporter.sendMail(mailOptionsClient, (error, info) => {
               if (error) {

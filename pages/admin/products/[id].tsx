@@ -17,7 +17,6 @@ import {
   X,
 } from "react-feather";
 import { getAllSuppliers } from "../../api/suppliers/admin/getallsuppliers";
-import TextareaOutlined from "../../../components/inputs/textarea_outlined";
 import { getProductByID } from "../../api/products/admin/getproductbyid";
 import { LuPackage, LuPackageOpen, LuPackageX } from "react-icons/lu";
 import componentThemes from "../../../components/componentThemes";
@@ -566,7 +565,7 @@ export default function ProductPage(props) {
                     }
                   />
                 </div>
-               {/*  <div className={"w-full"}>
+                {/*  <div className={"w-full"}>
                   <TextareaOutlined
                     label="Description"
                     value={currentProduct?.description ?? ""}
