@@ -9,7 +9,8 @@ import CustomTheme from "../componentThemes";
 export default function MyAccountDash() {
   const { t } = useTranslation("common");
   const [greeting, setGreeting] = useState("");
-  const { client, clearClient } = useContext(ClientContext);
+  const { client, clearClient, isLoading } = useContext(ClientContext);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -39,10 +40,10 @@ export default function MyAccountDash() {
   };
 
   useEffect(() => {
-    if (!client) {
+    if (!isLoading && !client) {
       router.push("/login");
     }
-  }, [client, router]);
+  }, [client, isLoading]);
 
   if (!client) {
     return (

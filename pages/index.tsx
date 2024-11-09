@@ -118,10 +118,10 @@ export default function Index({ mediaGroups, collections }) {
           >
             {mediaGroups
               .find((mg) => mg.order == 1)
-              .image_with_link.map((item) => (
+              .image_with_link.map((item,index) => (
                 <Link
                   href={item.linked_url}
-                  key={`slider1-${item.order}`}
+                  key={`slider1-${index}`}
                   className={`snap-start px-3 2xl:w-1/3`}
                 >
                   <div className="border-1 flex h-min flex-shrink-0 flex-col overflow-hidden rounded-xl border border-black/30">
