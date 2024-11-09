@@ -1,4 +1,5 @@
 import statusText from "../../../../api/statustexts";
+import { sendMail } from "../../../../api/utils/sendmail";
 
 export default async function sendOrderNotifications(req, res) {
   try {
@@ -35,7 +36,7 @@ export default async function sendOrderNotifications(req, res) {
     var orderValue = 0;
 
     order.document_products.forEach(
-      (docprod) => (orderValue += docprod.subTotal)
+      (docprod) => (orderValue += docprod.subTotal),
     );
 
     var orderPaid = 0;
@@ -48,25 +49,8 @@ export default async function sendOrderNotifications(req, res) {
       return res.status(400).json(statusText[400]);
     }
 
-    // send mails
-
-    const nodemailer = require("nodemailer");
-
-    // Create a transporter object using the custom SMTP transport
-    let transporter = nodemailer.createTransport({
-      host: process.env.MAIL_HOST, // Custom SMTP server
-      port: 587, // Common port for SMTP. Use 465 for SSL
-      secure: false, // True for 465, false for other ports
-      auth: {
-        user: process.env.MAIL_USER, // Your email or SMTP user
-        pass: process.env.MAIL_PASS, // Your password for SMTP authentication
-      },
-    });
-
-    // Setup email data for Client
     let mailOptionsClient = {
-      from: `"${process.env.MAIL_SENDER}" <${process.env.MAIL_USER}>`, // Sender address
-      to: order.client.login.email, // List of recipients
+      to: [order.client.login.email], // List of recipients
       subject: "Confirmation Commande " + order.prefix + order.number, // Subject line
       html: `
       <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -857,8 +841,7 @@ export default async function sendOrderNotifications(req, res) {
 
     // Setup email data for Users
     let mailOptionsUser = {
-      from: `"${process.env.MAIL_SENDER}" <${process.env.MAIL_USER}>`, // Sender address
-      to: "test@huseyinonal.com", // List of recipients
+      to: ["test@huseyinonal.com"], // List of recipients
       subject: "Test Email Vendeur", // Subject line
       html: `
       <html>
@@ -879,21 +862,7 @@ export default async function sendOrderNotifications(req, res) {
       `,
     };
 
-    // Send mail client
-    transporter.sendMail(mailOptionsClient, (error, info) => {
-      if (error) {
-        return res.status(500).json(statusText[500]);
-      } else {
-        // Send mail user
-        transporter.sendMail(mailOptionsUser, (error, info) => {
-          if (error) {
-            return res.status(500).json(statusText[500]);
-          } else {
-            return res.status(200).json(statusText[200]);
-          }
-        });
-      }
-    });
+    sendMail(mailOptionsClient).then((res) => sendMail(mailOptionsUser));
   } catch (e) {
     console.error(e);
     return res.status(500).json(statusText[500]);

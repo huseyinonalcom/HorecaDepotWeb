@@ -24,27 +24,29 @@ export default function Settings(props) {
             e.preventDefault();
             const formData = new FormData(e.currentTarget);
 
-            const mollieSecret = formData.get("MOLLIE_SECRET");
-            const stripeLiveKey = formData.get("STRIPE_LIVE_KEY");
-            const stripeSecretKey = formData.get("STRIPE_SECRET_KEY");
-            const ogoneKey = formData.get("OGONE_KEY");
-            const ogoneSecret = formData.get("OGONE_SECRET");
-            const activeProvider = formData.get("activeProvider");
-            const googleApiKey = formData.get("GOOGLE_API_KEY");
-            const costPerKM = formData.get("costPerKM");
-
             fetch("/api/config/admin/updateconfig", {
               method: "PUT",
               body: JSON.stringify({
-                activeProvider: activeProvider,
-                mollie: { MOLLIE_SECRET: mollieSecret },
+                activeProvider: formData.get("activeProvider"),
+                mollie: { MOLLIE_SECRET: formData.get("MOLLIE_SECRET") },
                 stripe: {
-                  STRIPE_LIVE_KEY: stripeLiveKey,
-                  STRIPE_SECRET_KEY: stripeSecretKey,
+                  STRIPE_LIVE_KEY: formData.get("STRIPE_LIVE_KEY"),
+                  STRIPE_SECRET_KEY: formData.get("STRIPE_SECRET_KEY"),
                 },
-                ogone: { OGONE_KEY: ogoneKey, OGONE_SECRET: ogoneSecret },
-                google: { GOOGLE_API_KEY: googleApiKey },
-                costPerKM: costPerKM,
+                ogone: {
+                  OGONE_KEY: formData.get("OGONE_KEY"),
+                  OGONE_SECRET: formData.get("OGONE_SECRET"),
+                },
+                google: { GOOGLE_API_KEY: formData.get("GOOGLE_API_KEY") },
+                costPerKM: formData.get("costPerKM"),
+                mail: {
+                  mailUser: formData.get("mailUser"),
+                  mailHost: formData.get("mailHost"),
+                  mailPass: formData.get("mailPass"),
+                  mailPort: formData.get("mailPort"),
+                  mailSender: formData.get("mailSender"),
+                  mailSenderName: formData.get("mailSenderName"),
+                },
               }),
             }).then(async (res) => alert(t(await res.json())));
           }}
@@ -112,6 +114,49 @@ export default function Settings(props) {
             type="number"
             name="costPerKM"
             label="€ / Km"
+          />
+          <h2 className="text-xl font-semibold">{t("mail")}</h2>
+          <InputOutlined
+            defaultValue={props.config.mail?.mailUser ?? ""}
+            className="w-full border border-gray-300 p-2"
+            type="text"
+            name="mailUser"
+            label={t("mail-user")}
+          />
+          <InputOutlined
+            defaultValue={props.config.mail?.mailPass ?? ""}
+            className="w-full border border-gray-300 p-2"
+            type="text"
+            name="mailPass"
+            label={t("mail-pass")}
+          />
+          <InputOutlined
+            defaultValue={props.config.mail?.mailHost ?? ""}
+            className="w-full border border-gray-300 p-2"
+            type="text"
+            name="mailHost"
+            label={t("mail-host")}
+          />
+          <InputOutlined
+            defaultValue={props.config.mail?.mailPort ?? ""}
+            className="w-full border border-gray-300 p-2"
+            type="text"
+            name="mailPort"
+            label={t("mail-port")}
+          />
+          <InputOutlined
+            defaultValue={props.config.mail?.mailSender ?? ""}
+            className="w-full border border-gray-300 p-2"
+            type="text"
+            name="mailSender"
+            label={t("mail-sender")}
+          />
+          <InputOutlined
+            defaultValue={props.config.mail?.mailSenderName ?? ""}
+            className="w-full border border-gray-300 p-2"
+            type="text"
+            name="mailSenderName"
+            label={t("mail-sender-name")}
           />
           <button type="submit" className={componentThemes.greenSubmitButton}>
             {t("update_config")}

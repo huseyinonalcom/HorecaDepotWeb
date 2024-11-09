@@ -4,6 +4,7 @@ import statusText from "../../../../api/statustexts";
 import { DocumentProduct } from "../../../../api/interfaces/documentProduct";
 import { Product } from "../../../../api/interfaces/product";
 import { getConfig } from "../../config/private/getconfig";
+import { sendMail } from "../../../../api/utils/sendmail";
 
 const calculateTotalWithPromo = (promoDetails, cart) => {
   const cartAfterPromo = JSON.parse(JSON.stringify(cart));
@@ -293,21 +294,7 @@ export default async function postOrder(
               }),
             });
 
-            const nodemailer = require("nodemailer");
-
-            // Create a transporter object using the custom SMTP transport
-            let transporter = nodemailer.createTransport({
-              host: process.env.MAIL_HOST, // Custom SMTP server
-              port: 587, // Common port for SMTP. Use 465 for SSL
-              secure: false, // True for 465, false for other ports
-              auth: {
-                user: process.env.MAIL_USER, // Your email or SMTP user
-                pass: process.env.MAIL_PASS, // Your password for SMTP authentication
-              },
-            });
-
             let mailOptionsCompany = {
-              from: `"${process.env.MAIL_SENDER}" <${process.env.MAIL_USER}>`, // Sender address
               to: ["info@horecadepot.be", "horecadepothoreca@gmail.com"], // List of recipients
               subject: "Nouvelle Commande sur horecadepot.be", // Subject line
               html: `
@@ -705,13 +692,11 @@ export default async function postOrder(
               `,
             };
 
-            // Send mail client
-            transporter.sendMail(mailOptionsCompany, (error, info) => {});
+            sendMail(mailOptionsCompany);
 
             // Setup email data for Client
             let mailOptionsClient = {
-              from: `"${process.env.MAIL_SENDER}" <${process.env.MAIL_USER}>`, // Sender address
-              to: clientEmail, // List of recipients
+              to: [clientEmail], // List of recipients
               subject: "Votre Commande Chez Nous - Horeca Depot", // Subject line
               html: `
               <!DOCTYPE html>
@@ -1119,14 +1104,7 @@ export default async function postOrder(
               `,
             };
 
-            // Send mail client
-            transporter.sendMail(mailOptionsClient, (error, info) => {
-              if (error) {
-                return res.status(500).json(statusText[500]);
-              } else {
-                return res.status(200).json({ id: documentID });
-              }
-            });
+            sendMail(mailOptionsClient);
           } catch (e) {
             return res.status(500).json(statusText[500]);
           }
