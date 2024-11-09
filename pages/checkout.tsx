@@ -298,9 +298,22 @@ export default function Checkout(props) {
   const [currentPromo, setCurrentPromo] = useState(null);
   const [usedPromoCode, setUsedPromoCode] = useState<string>("");
   const [submitErrorDocument, setSubmitErrorDocument] = useState("");
-  const [chosenInvoiceAddressId, setChosenInvoiceAddressId] = useState(null);
+  const [chosenInvoiceAddressId, setChosenInvoiceAddressId] = useState(
+    client?.client_info?.addresses.at(0).id ?? null,
+  );
   const [totalAfterPromo, setTotalAfterPromo] = useState<number | null>(null);
   const [chosenDeliveryAddressId, setChosenDeliveryAddressId] = useState(null);
+
+  useEffect(() => {
+    if (client) {
+      if (!chosenDeliveryAddressId) {
+        setChosenDeliveryAddressId(client?.client_info?.addresses.at(0).id);
+      }
+      if (!chosenInvoiceAddressId) {
+        setChosenInvoiceAddressId(client?.client_info?.addresses.at(0).id);
+      }
+    }
+  });
 
   useEffect(() => {
     if (usedPromoCode != "") {
@@ -540,27 +553,14 @@ export default function Checkout(props) {
                       {client.client_info.addresses?.map((address) => (
                         <div
                           key={"i" + address.id}
-                          className="mt-2 flex flex-row gap-2  bg-white p-4 shadow-lg"
+                          className={`mt-2 flex flex-row gap-2 p-4 shadow-lg ${chosenInvoiceAddressId == address.id ? "bg-blue-200" : "bg-white"}`}
+                          onClick={() => setChosenInvoiceAddressId(address.id)}
                         >
-                          <input
-                            type="radio"
-                            id={`invoice-address-${address.id}`}
-                            name="invoiceAddress"
-                            value={address.id}
-                            checked={chosenInvoiceAddressId == address.id}
-                            onChange={(e) => {
-                              e.preventDefault();
-                              setChosenInvoiceAddressId(e.target.value);
-                            }}
-                          />
-                          <label
-                            htmlFor={`invoice-address-${address.id}`}
-                            className="w-full"
-                          >
+                          <p className="w-full">
                             {address.street} {address.doorNumber}
                             <br />
                             {address.city} {address.zipCode}
-                          </label>
+                          </p>
                         </div>
                       ))}
                     </div>
@@ -571,27 +571,14 @@ export default function Checkout(props) {
                       {client.client_info.addresses?.map((address) => (
                         <div
                           key={"d" + address.id}
-                          className="mt-2 flex flex-row gap-2 bg-white p-4 shadow-lg"
+                          className={`mt-2 flex flex-row gap-2 p-4 shadow-lg ${chosenDeliveryAddressId == address.id ? "bg-blue-200" : "bg-white"}`}
+                          onClick={() => setChosenDeliveryAddressId(address.id)}
                         >
-                          <input
-                            type="radio"
-                            id={`delivery-address-${address.id}`}
-                            name="deliveryAddress"
-                            value={address.id}
-                            checked={chosenDeliveryAddressId == address.id}
-                            onChange={(e) => {
-                              e.preventDefault();
-                              setChosenDeliveryAddressId(e.target.value);
-                            }}
-                          />
-                          <label
-                            htmlFor={`delivery-address-${address.id}`}
-                            className="w-full"
-                          >
+                          <p className="w-full">
                             {address.street} {address.doorNumber}
                             <br />
                             {address.city} {address.zipCode}
-                          </label>
+                          </p>
                         </div>
                       ))}
                     </div>
