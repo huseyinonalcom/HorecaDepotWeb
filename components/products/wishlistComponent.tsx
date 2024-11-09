@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import useTranslation from "next-translate/useTranslation";
 import { ShoppingCart, X } from "react-feather";
 import { useContext } from "react";

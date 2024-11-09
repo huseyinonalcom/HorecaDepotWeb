@@ -4,12 +4,12 @@ import { getProducts } from "../api/products/public/getproducts";
 import useTranslation from "next-translate/useTranslation";
 import { ArrowUp, ChevronLeft, X } from "react-feather";
 import { Product } from "../../api/interfaces/product";
-import Layout from "../../components/public/layout";
 import { ReactElement, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import ImageWithURL from "../../components/common/image";
-import ShopLayout from "./shoplayout";
+import ShopLayout from "../../components/shoplayout";
+import Layout from "../../components/public/layout";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");
@@ -142,7 +142,8 @@ export default function Products(props) {
   };
 
   return (
-    <>
+    <Layout>
+      <ShopLayout>
       <Head>
         <title>Horeca Depot</title>
         <meta name="description" content={t("main_description")} />
@@ -175,7 +176,9 @@ export default function Products(props) {
                           alt={t(category.localized_name[lang]) + " image"}
                         />
                       </div>
-                      <p className="font-semibold">{t(category.localized_name[lang])}</p>
+                      <p className="font-semibold">
+                        {t(category.localized_name[lang])}
+                      </p>
                     </Link>
                   </div>
                 ))}
@@ -288,7 +291,8 @@ export default function Products(props) {
           )}
         </div>
       </div>
-    </>
+      </ShopLayout>
+    </Layout>
   );
 }
 
@@ -323,10 +327,3 @@ export async function getServerSideProps(context) {
   };
 }
 
-Products.getLayout = function getLayout(page: ReactElement) {
-  return (
-    <Layout>
-      <ShopLayout>{page}</ShopLayout>
-    </Layout>
-  );
-};

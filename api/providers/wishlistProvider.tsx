@@ -1,4 +1,10 @@
-import  { createContext, useState, ReactNode, useContext, useEffect } from "react";
+import {
+  createContext,
+  useState,
+  ReactNode,
+  useContext,
+  useEffect,
+} from "react";
 import { WishlistProduct } from "../interfaces/wishlistProduct";
 import { CartContext } from "./cartProvider";
 
@@ -32,7 +38,11 @@ export const WishlistProvider = ({ children }: WishlistProviderProps) => {
   useEffect(() => {
     const savedWishlist = localStorage.getItem("wishlist");
     let pulledWishlist: WishlistProduct[] = [];
-    if (savedWishlist != "undefined" && savedWishlist != undefined && savedWishlist != "[]") {
+    if (
+      savedWishlist != "undefined" &&
+      savedWishlist != undefined &&
+      savedWishlist != "[]"
+    ) {
       JSON.parse(savedWishlist).forEach((element) => {
         pulledWishlist.push(element as WishlistProduct);
       });
@@ -58,8 +68,13 @@ export const WishlistProvider = ({ children }: WishlistProviderProps) => {
   const moveItemToCart = (item: WishlistProduct) => {
     const cartItem = { ...item, amount: 1 };
     addToCart(cartItem);
-    removeFromWishlist(item.id);
   };
 
-  return <WishlistContext.Provider value={{ wishlist, addToWishlist, removeFromWishlist, moveItemToCart }}>{children}</WishlistContext.Provider>;
+  return (
+    <WishlistContext.Provider
+      value={{ wishlist, addToWishlist, removeFromWishlist, moveItemToCart }}
+    >
+      {children}
+    </WishlistContext.Provider>
+  );
 };
