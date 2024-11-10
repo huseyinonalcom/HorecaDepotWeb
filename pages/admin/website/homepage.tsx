@@ -7,40 +7,21 @@ import InputOutlined from "../../../components/inputs/outlined";
 import { uploadFileToAPI } from "../../api/files/uploadfile";
 import ImageWithURL from "../../../components/common/image";
 import { useRouter } from "next/router";
+import Index from "../..";
+import { getCollections } from "../../api/collections/public/getcollections";
+import { getWebsite } from "../../api/website/public/getwebsite";
+import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
+import getT from "next-translate/getT";
 
-export default function HomePageAdmin() {
+export default function HomePageAdmin({
+  collectionsFromAPI,
+  mediaGroupsFromAPI,
+}) {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
   const [categories, setCategories] = useState(null);
-
-  const [mediaGroups, setMediaGroups] = useState(null);
-
-  const fetchCategories = async () => {
-    const fetchWebsiteRequest = await fetch(
-      `/api/categories/public/getallcategoriesflattened`,
-      {
-        method: "GET",
-      },
-    );
-    if (fetchWebsiteRequest.ok) {
-      const fetchWebsiteRequestAnswer = await fetchWebsiteRequest.json();
-      return fetchWebsiteRequestAnswer;
-    } else {
-      return null;
-    }
-  };
-
-  const fetchMediagroups = async () => {
-    const fetchWebsiteRequest = await fetch("/api/website/admin/getwebsite", {
-      method: "GET",
-    });
-    if (fetchWebsiteRequest.ok) {
-      const fetchWebsiteRequestAnswer = await fetchWebsiteRequest.json();
-      return fetchWebsiteRequestAnswer.media_groups;
-    } else {
-      return null;
-    }
-  };
+  const [mediaGroups, setMediaGroups] = useState(mediaGroupsFromAPI);
+  const [collections, setCollectons] = useState(collectionsFromAPI);
 
   const putMediagroups = async () => {
     for (let i = 0; i < mediaGroups.length; i++) {
@@ -56,18 +37,6 @@ export default function HomePageAdmin() {
       return false;
     }
   };
-
-  useEffect(() => {
-    if (!mediaGroups) {
-      const fetchAndSetMediagroups = async () => {
-        const mediaGroups = await fetchMediagroups();
-        setMediaGroups(mediaGroups.sort((a, b) => a.order - b.order));
-        const categories = await fetchCategories();
-        setCategories(categories);
-      };
-      fetchAndSetMediagroups();
-    }
-  }, []);
 
   return (
     <AdminLayout>
@@ -318,14 +287,73 @@ export default function HomePageAdmin() {
             </button>
           </div>
         )}
-        {/* {mediaGroups && (
-          <div className="flex flex-col gap-3">
-            {mediaGroups.map((mg, index) => (
-              <p key={index}>{JSON.stringify(mg)}</p>
-            ))}
-          </div>
-        )} */}
+        {mediaGroups && (
+          <Index
+            mediaGroups={mediaGroups}
+            collections={collections}
+            developmentMode
+          />
+        )}
       </div>
     </AdminLayout>
   );
 }
+
+export const getServerSideProps = async ({ locale }) => {
+  const t = await getT(locale, "common");
+  let collectionsFromAPI = await getCollections();
+
+  for (let i = 0; i < collectionsFromAPI.length; i++) {
+    collectionsFromAPI[i].products = collectionsFromAPI[i].products.filter(
+      (p) => p.active,
+    );
+  }
+
+  const website = await getWebsite();
+  let mediaGroupsFromAPI = website.media_groups;
+
+  for (let i = 0; i < mediaGroupsFromAPI.length; i++) {
+    if (mediaGroupsFromAPI[i].is_fetched_from_api) {
+      if (
+        mediaGroupsFromAPI[i].fetch_from.collection.toLowerCase() ==
+        "categories"
+      ) {
+        const allCategoriesRaw = await getAllCategoriesFlattened();
+        mediaGroupsFromAPI[i].image_with_link = allCategoriesRaw
+          .filter((cat) =>
+            mediaGroupsFromAPI[i].fetch_from.ids.includes(cat.id),
+          )
+          .map((category) => {
+            return {
+              id: category.id,
+              name: category.localized_name[locale],
+              image: category.image,
+              linked_url:
+                "/shop/" + t(category.localized_name[locale]) + "?page=1",
+            };
+          });
+      }
+    } else {
+      mediaGroupsFromAPI[i].image_with_link = mediaGroupsFromAPI[
+        i
+      ].image_with_link.map((item) => {
+        const url = item.linked_url;
+        const category = url.split("/").pop();
+        const translatedCategory = t(
+          decodeURIComponent(category.split("?")[0]),
+        );
+        return {
+          ...item,
+          linked_url: `/shop/${translatedCategory}?page=1`,
+        };
+      });
+    }
+  }
+
+  return {
+    props: {
+      collectionsFromAPI,
+      mediaGroupsFromAPI,
+    },
+  };
+};

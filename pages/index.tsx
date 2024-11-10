@@ -12,7 +12,15 @@ import getT from "next-translate/getT";
 import { useEffect } from "react";
 import ImageWithURL from "../components/common/image";
 
-export default function Index({ mediaGroups, collections }) {
+export default function Index({
+  mediaGroups,
+  collections,
+  developmentMode,
+}: {
+  mediaGroups: any;
+  collections: any;
+  developmentMode?: boolean;
+}) {
   const { t, lang } = useTranslation("common");
 
   const handleScrollSlider = (direction) => {
@@ -99,9 +107,9 @@ export default function Index({ mediaGroups, collections }) {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
-
-  return (
-    <Layout>
+  
+  const content = (
+    <>
       <Head>
         <Meta />
         <title>Horeca Depot</title>
@@ -118,7 +126,7 @@ export default function Index({ mediaGroups, collections }) {
           >
             {mediaGroups
               .find((mg) => mg.order == 1)
-              .image_with_link.map((item,index) => (
+              .image_with_link.map((item, index) => (
                 <Link
                   href={item.linked_url}
                   key={`slider1-${index}`}
@@ -263,8 +271,9 @@ export default function Index({ mediaGroups, collections }) {
           </Link>
         )}
       </div>
-    </Layout>
+    </>
   );
+  return developmentMode ? content : <Layout>{content}</Layout>;
 }
 
 export const getStaticProps = async ({ locale }) => {
@@ -288,29 +297,15 @@ export const getStaticProps = async ({ locale }) => {
               id: category.id,
               name: category.localized_name[locale],
               image: category.image,
-              linked_url: "/shop/" + t(category.localized_name[locale]) + "?page=1",
+              linked_url:
+                "/shop/" + t(category.localized_name[locale]) + "?page=1",
             };
           });
       }
-      // else if (
-      //   mediaGroups[i].fetch_from.collection.toLowerCase() == "collections"
-      // ) {
-      //   const allCategoriesRaw = await getAllCategoriesFlattened();
-      //   mediaGroups[i].image_with_link = allCategoriesRaw
-      //     .filter((cat) => mediaGroups[i].fetch_from.ids.includes(cat.id))
-      //     .map((category) => {
-      //       return {
-      //         id: category.id,
-      //         name: category.localized_name[lang],
-      //         image: category.image,
-      //         linked_url: "/shop/" + category.localized_name[lang] + "?page=1",
-      //       };
-      //     });
-      // }
     } else {
       mediaGroups[i].image_with_link = mediaGroups[i].image_with_link.map(
         (item) => {
-          const url = item.linked_url; // "/shop/category-name?page=1"
+          const url = item.linked_url;
           const category = url.split("/").pop();
           const translatedCategory = t(
             decodeURIComponent(category.split("?")[0]),
@@ -324,7 +319,6 @@ export const getStaticProps = async ({ locale }) => {
     }
   }
 
-  // const projects = await getProjects();
   return {
     props: {
       mediaGroups,
