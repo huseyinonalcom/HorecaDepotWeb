@@ -1,10 +1,18 @@
-import { error } from "console";
 import { getConfig } from "../../pages/api/config/private/getconfig";
 
 type mailProps = {
   to: string[];
   subject: string;
   html: string;
+  mailParams?: {
+    mailUser: string;
+    mailHost: string;
+    mailPass: string;
+    mailPort: string;
+    mailSender: string;
+    mailSenderName: string;
+    mailTo: string;
+  };
 };
 
 const formatTimestamp = (timestamp) => {
@@ -20,8 +28,14 @@ const formatTimestamp = (timestamp) => {
 
 export const sendMail = async (mailOptions: mailProps) => {
   const nodemailer = require("nodemailer");
+  let mailConfig;
 
-  let mailConfig = (await getConfig()).mail;
+  if (mailOptions.mailParams) {
+    mailConfig = mailOptions.mailParams;
+  } else {
+    mailConfig = (await getConfig()).mail;
+  }
+
   try {
     let transporter = nodemailer.createTransport({
       host: mailConfig.mailHost,
@@ -34,34 +48,26 @@ export const sendMail = async (mailOptions: mailProps) => {
     });
 
     let mailParams = {
-      from: `"${mailConfig.mailSenderName}" <${mailConfig.mailSender}>`, // Sender address
-      to: mailOptions.to, // List of recipients
-      subject: mailOptions.subject, // Subject line
+      from: `"${mailConfig.mailSenderName}" <${mailConfig.mailSender}>`,
+      to: mailOptions.to,
+      subject: mailOptions.subject,
       html: mailOptions.html,
     };
 
-    // Send mail client
-    transporter.sendMail(mailParams, (error, info) => {
-      const timestamp = Date.now();
-      const formattedDate = formatTimestamp(timestamp);
-      if (error) {
-        return {
-          result: "failed",
-          timestamp: formattedDate,
-          error,
-        };
-      } else {
-        return {
-          result: "success",
-          timestamp: formattedDate,
-          info,
-        };
-      }
-    });
+    const timestamp = Date.now();
+    const formattedDate = formatTimestamp(timestamp);
+
+    const info = await transporter.sendMail(mailParams);
+
+    return {
+      result: "success",
+      timestamp: formattedDate,
+      info,
+    };
   } catch (e) {
-    console.log(e);
     return {
       result: "error",
+      error: e,
     };
   }
 };

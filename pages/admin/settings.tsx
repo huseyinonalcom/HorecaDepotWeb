@@ -4,10 +4,39 @@ import AdminLayout from "../../components/admin/adminLayout";
 import { getConfig } from "../api/config/private/getconfig";
 import componentThemes from "../../components/componentThemes";
 import InputOutlined from "../../components/inputs/outlined";
-import { Divide } from "react-feather";
+import { useState } from "react";
+import LoadingIndicator from "../../components/common/loadingIndicator";
+import { Loader } from "react-feather";
 
 export default function Settings(props) {
   const { t, lang } = useTranslation("common");
+  const [mailParams, setMailParams] = useState({
+    mailUser: props?.config?.mail?.mailUser ?? "",
+    mailHost: props?.config?.mail?.mailHost ?? "",
+    mailPass: props?.config?.mail?.mailPass ?? "",
+    mailPort: props?.config?.mail?.mailPort ?? "",
+    mailSender: props?.config?.mail?.mailSender ?? "",
+    mailSenderName: props?.config?.mail?.mailSenderName ?? "",
+    mailTo: "",
+  });
+  const [loading, setLoading] = useState(false);
+
+  const testMail = () => {
+    if (loading) {
+      return;
+    }
+    setLoading(true);
+    fetch("/api/admin/testmail", {
+      method: "post",
+      body: JSON.stringify(mailParams),
+    })
+      .then(async (ans) => {
+        let answer = await ans.text();
+        console.log(answer);
+        alert(answer);
+      })
+      .finally(() => setLoading(false));
+  };
 
   return (
     <AdminLayout>
@@ -121,6 +150,12 @@ export default function Settings(props) {
             className="w-full border border-gray-300 p-2"
             type="text"
             name="mailUser"
+            onChange={(e) =>
+              setMailParams((mp) => ({
+                ...mp,
+                mailUser: e.target.value,
+              }))
+            }
             label={t("mail-user")}
           />
           <InputOutlined
@@ -128,6 +163,12 @@ export default function Settings(props) {
             className="w-full border border-gray-300 p-2"
             type="text"
             name="mailPass"
+            onChange={(e) =>
+              setMailParams((mp) => ({
+                ...mp,
+                mailPass: e.target.value,
+              }))
+            }
             label={t("mail-pass")}
           />
           <InputOutlined
@@ -135,6 +176,12 @@ export default function Settings(props) {
             className="w-full border border-gray-300 p-2"
             type="text"
             name="mailHost"
+            onChange={(e) =>
+              setMailParams((mp) => ({
+                ...mp,
+                mailHost: e.target.value,
+              }))
+            }
             label={t("mail-host")}
           />
           <InputOutlined
@@ -142,6 +189,12 @@ export default function Settings(props) {
             className="w-full border border-gray-300 p-2"
             type="text"
             name="mailPort"
+            onChange={(e) =>
+              setMailParams((mp) => ({
+                ...mp,
+                mailPort: e.target.value,
+              }))
+            }
             label={t("mail-port")}
           />
           <InputOutlined
@@ -149,6 +202,12 @@ export default function Settings(props) {
             className="w-full border border-gray-300 p-2"
             type="text"
             name="mailSender"
+            onChange={(e) =>
+              setMailParams((mp) => ({
+                ...mp,
+                mailSender: e.target.value,
+              }))
+            }
             label={t("mail-sender")}
           />
           <InputOutlined
@@ -156,8 +215,38 @@ export default function Settings(props) {
             className="w-full border border-gray-300 p-2"
             type="text"
             name="mailSenderName"
+            onChange={(e) =>
+              setMailParams((mp) => ({
+                ...mp,
+                mailSenderName: e.target.value,
+              }))
+            }
             label={t("mail-sender-name")}
           />
+          <h2 className="text-xl font-semibold">{t("mail-test")}</h2>
+          <InputOutlined
+            className="w-full border border-gray-300 p-2"
+            type="text"
+            name="mailTo"
+            onChange={(e) =>
+              setMailParams((mp) => ({
+                ...mp,
+                mailTo: e.target.value,
+              }))
+            }
+            label={t("mail-to")}
+          />
+          <button
+            type="button"
+            onClick={() => testMail()}
+            className={componentThemes.greenSubmitButton}
+          >
+            {loading ? (
+              <Loader className="animate-spin mx-auto text-orange-500" size={24} />
+            ) : (
+              t("test-mail")
+            )}
+          </button>
           <button type="submit" className={componentThemes.greenSubmitButton}>
             {t("update_config")}
           </button>
