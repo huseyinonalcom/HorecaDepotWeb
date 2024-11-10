@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
 import statusText from "../../../../api/statustexts";
 
 export default async function getClientDetails(req: NextApiRequest, res: NextApiResponse) {

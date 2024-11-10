@@ -1,6 +1,6 @@
 import { getCategories } from "../../../../api/calls/categoryCalls";
 import { Category } from "../../../../api/interfaces/category";
-import { Product, ProductConversion } from "../../../../api/interfaces/product";
+import { Product } from "../../../../api/interfaces/product";
 
 function getAllSubcategoryIds(categories: Category[], categoryId: number) {
   let ids: number[] = [];
@@ -111,7 +111,7 @@ export default async function getProductsAdmin(req, res) {
     const data = await response.json();
 
     const sortedData: Product[] = data["data"].map(
-      (productData) => productData as Product
+      (productData) => productData as Product,
     );
     const totalPages = data["meta"]["pagination"]["pageCount"];
 
@@ -125,7 +125,7 @@ export default async function getProductsAdmin(req, res) {
           headers: {
             Authorization: `Bearer ${process.env.API_KEY}`,
           },
-        }
+        },
       );
 
       const answerMaxValue = await requestForMaxValue.json();
@@ -136,7 +136,7 @@ export default async function getProductsAdmin(req, res) {
           headers: {
             Authorization: `Bearer ${process.env.API_KEY}`,
           },
-        }
+        },
       );
       const answerMinValue = await requestForMinValue.json();
 

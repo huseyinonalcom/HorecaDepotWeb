@@ -1,7 +1,6 @@
 "use client";
 
 import useTranslation from "next-translate/useTranslation";
-import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import Script from "next/script";
 import { useEffect, useState } from "react";

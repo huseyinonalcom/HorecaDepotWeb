@@ -3,7 +3,6 @@ import Layout from "../components/public/layout";
 import Link from "next/link";
 import Head from "next/head";
 import Image from "next/image";
-
 import parking from "../public/assets/img/parking.jpg";
 import parking2 from "../public/assets/img/parking2.jpg";
 

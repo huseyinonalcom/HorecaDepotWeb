@@ -5,7 +5,6 @@ import { getConfig } from "../api/config/private/getconfig";
 import componentThemes from "../../components/componentThemes";
 import InputOutlined from "../../components/inputs/outlined";
 import { useState } from "react";
-import LoadingIndicator from "../../components/common/loadingIndicator";
 import { Loader } from "react-feather";
 
 export default function Settings(props) {

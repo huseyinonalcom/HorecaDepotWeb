@@ -1,6 +1,6 @@
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { Client, ClientConversion } from "../../api/interfaces/client";
 import { ClientContext } from "../../api/providers/clientProvider";
 import InputOutlined from "../inputs/outlined";

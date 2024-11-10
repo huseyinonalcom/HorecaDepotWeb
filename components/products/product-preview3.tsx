@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Product } from "../../api/interfaces/product";
 import ImageWithURL from "../common/image";
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";

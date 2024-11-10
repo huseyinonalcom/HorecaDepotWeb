@@ -32,7 +32,6 @@ type Props = {
 const ProductPage = ({
   product,
   relatedProducts,
-  categories,
   breadCrumbs,
 }: Props) => {
   const { t, lang } = useTranslation("common");
@@ -428,7 +427,6 @@ export const getStaticProps = async ({ params, locale }: Params) => {
     props: {
       relatedProducts,
       product,
-      categories,
       breadCrumbs,
     },
     revalidate: 900,

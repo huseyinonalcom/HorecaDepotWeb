@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
 import statusText from "../../../../api/statustexts";
 import { DocumentProduct } from "../../../../api/interfaces/documentProduct";
 import { Product } from "../../../../api/interfaces/product";

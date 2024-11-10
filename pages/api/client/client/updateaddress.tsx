@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
 import statusText from "../../../../api/statustexts";
 import { getConfig } from "../../config/private/getconfig";
 

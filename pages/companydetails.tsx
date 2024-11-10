@@ -3,7 +3,7 @@ import Head from "next/head";
 import useTranslation from "next-translate/useTranslation";
 
 export default function Legal() {
-  const { t, lang } = useTranslation("common");
+  const { lang } = useTranslation("common");
   return (
     <>
       <Layout>

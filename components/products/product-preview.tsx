@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import useTranslation from "next-translate/useTranslation";
 import { Product } from "../../api/interfaces/product";
 import { Heart, ShoppingCart } from "react-feather";

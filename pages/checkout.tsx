@@ -1,8 +1,7 @@
 import areAllPropertiesEmpty from "../api/utils/input_validators/are_all_properties_empty";
 import areAllPropertiesNull from "../api/utils/input_validators/are_all_properties_null";
 import validateEmpty from "../api/utils/input_validators/validate_empty";
-import validateEmail from "../api/utils/input_validators/validate_email";
-import { Client, ClientConversion } from "../api/interfaces/client";
+import { ClientConversion } from "../api/interfaces/client";
 import useTranslation from "next-translate/useTranslation";
 import ButtonShadow1 from "../components/buttons/shadow_1";
 import InputOutlined from "../components/inputs/outlined";

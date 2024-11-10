@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
 import statusText from "../../../../api/statustexts";
 import { sendMail } from "../../../../api/utils/sendmail";
 

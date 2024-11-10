@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
 import { Product } from "../../../../api/interfaces/product";
 
 export default async function postProduct(

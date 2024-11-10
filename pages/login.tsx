@@ -4,7 +4,7 @@ import Layout from "../components/public/layout";
 import ClientLogin from "../components/client/clientLogin";
 
 export default function Login() {
-  const { t, lang } = useTranslation("common");
+  const { lang } = useTranslation("common");
 
   return (
     <Layout>

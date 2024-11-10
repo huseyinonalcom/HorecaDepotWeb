@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
 import statusText from "../../../../api/statustexts";
 
 // create client if client doesn't exist yet req.body.document.client.id

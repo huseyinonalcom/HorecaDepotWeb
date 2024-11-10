@@ -1,8 +1,6 @@
 import statusText from "../../../../api/statustexts";
 
 export async function getCollections(collectionID?, filterFeatured?) {
-  const now = Date.now();
-
   try {
     const fetchCollectionsUrl = `${
       process.env.API_URL

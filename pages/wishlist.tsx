@@ -3,7 +3,7 @@ import WishListComponent from "../components/products/wishlistComponent";
 import useTranslation from "next-translate/useTranslation";
 
 const WishList = () => {
-  const { t, lang } = useTranslation("common");
+  const { t } = useTranslation("common");
   return (
     <Layout>
       <div className="flex h-[70px] w-full flex-col justify-around">

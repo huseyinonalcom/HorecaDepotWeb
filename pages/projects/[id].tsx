@@ -1,6 +1,5 @@
 import useTranslation from "next-translate/useTranslation";
 import Layout from "../../components/public/layout";
-import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 import { getProjectByID } from "../api/projects/public/getprojectbyid";

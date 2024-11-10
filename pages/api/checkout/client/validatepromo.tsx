@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
 import statusText from "../../../../api/statustexts";
 
 const parseDate = (dateString: string): Date => new Date(dateString);
