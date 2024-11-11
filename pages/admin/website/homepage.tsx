@@ -379,7 +379,19 @@ export const getServerSideProps = async ({ locale }) => {
     },
     "4": {
       design: "collections",
-      content: [532, 23],
+      content: [1],
+    },
+    "5": {
+      design: "singleBanner",
+      content: 143,
+    },
+    "6": {
+      design: "collections",
+      content: [5],
+    },
+    "7": {
+      design: "singleBanner",
+      content: 143,
     },
   };
 
