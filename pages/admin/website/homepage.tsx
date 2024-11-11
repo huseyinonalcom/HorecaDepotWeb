@@ -363,6 +363,32 @@ export const getServerSideProps = async ({ locale }) => {
   const allCategories = await getAllCategoriesFlattened();
 
   const homePageFromAPI = await getHomePage();
+
+  const homePageExample = {
+    "1": {
+      design: "banners",
+      content: {
+        en: [123, 43, 554, 634],
+        fr: [124, 44, 555, 635],
+      },
+    },
+    "2": {
+      design: "categories",
+      content: [2, 6, 10, 11, 17, 3],
+    },
+    "3": {
+      design: "singleBanner",
+      conent: {
+        en: 143,
+        fr: 144,
+      },
+    },
+    "4": {
+      design: "collections",
+      conent: [532, 23],
+    },
+  };
+
   return {
     props: {
       homePageFromAPI,
