@@ -1,25 +1,34 @@
+import { getAllCategoriesFlattened } from "./api/categories/public/getallcategoriesflattened";
 import CollectionShowcase from "../components/public/collection-showcase";
 import { getCollections } from "./api/collections/public/getcollections";
+import { CategoryBanner } from "../components/banners/CategoryBanner";
+import { getWebsite } from "./api/website/public/getwebsite";
 import useTranslation from "next-translate/useTranslation";
+import ImageWithURL from "../components/common/image";
+import { Category } from "../api/interfaces/category";
 import Layout from "../components/public/layout";
 import Meta from "../components/public/meta";
-import Head from "next/head";
-import Link from "next/link";
-import { ChevronLeft } from "react-feather";
-import { getAllCategoriesFlattened } from "./api/categories/public/getallcategoriesflattened";
-import { getWebsite } from "./api/website/public/getwebsite";
+import { ChevronLeft, PlusSquare } from "react-feather";
 import getT from "next-translate/getT";
 import { useEffect } from "react";
-import ImageWithURL from "../components/common/image";
+import Head from "next/head";
+import Link from "next/link";
+import { getHomePage } from "./api/website/public/gethomepage";
 
 export default function Index({
   mediaGroups,
   collections,
+  categories,
   developmentMode,
+  onRemoveCategory,
+  onClickAddCategory,
 }: {
   mediaGroups: any;
   collections: any;
+  categories: Category[];
   developmentMode?: boolean;
+  onRemoveCategory?: (category: Category) => void;
+  onClickAddCategory?: () => void;
 }) {
   const { t, lang } = useTranslation("common");
 
@@ -107,7 +116,7 @@ export default function Index({
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
-  
+
   const content = (
     <>
       <Head>
@@ -165,27 +174,21 @@ export default function Index({
         </div>
 
         <div className="grid w-full grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
-          {mediaGroups
-            .find((mg) => mg.order == 2)
-            .image_with_link.map((category) => (
-              <div key={`grid1-${category.id}`} className={``}>
-                <Link
-                  href={category.linked_url}
-                  className="flex flex-col items-center gap-2"
-                >
-                  <div className="relative aspect-[15/14] w-full overflow-hidden rounded-xl">
-                    <ImageWithURL
-                      fill
-                      style={{ objectFit: "contain" }}
-                      sizes="42vw, (max-width: 640px) 28vw, (max-width: 1024px) 13vw, (nax-width: 1536px) 236px"
-                      src={category.image.url}
-                      alt={category.name + " image"}
-                    />
-                  </div>
-                  <p className="font-semibold">{t(category.name)}</p>
-                </Link>
-              </div>
-            ))}
+          {categories.map((category) => (
+            <CategoryBanner
+              category={category}
+              onRemoveCategory={onRemoveCategory}
+            />
+          ))}
+          {developmentMode && onClickAddCategory && (
+            <PlusSquare
+              className="m-auto"
+              size={64}
+              onClick={() => {
+                onClickAddCategory();
+              }}
+            />
+          )}
         </div>
         {mediaGroups.find((mg) => mg.order == 3) && (
           <Link
@@ -280,6 +283,8 @@ export const getStaticProps = async ({ locale }) => {
   const t = await getT(locale, "common");
   let collections = await getCollections();
   const website = await getWebsite();
+  const homePage = await getHomePage();
+  console.log(homePage);
   let mediaGroups = website.media_groups;
 
   for (let i = 0; i < collections.length; i++) {
@@ -287,40 +292,30 @@ export const getStaticProps = async ({ locale }) => {
   }
 
   for (let i = 0; i < mediaGroups.length; i++) {
-    if (mediaGroups[i].is_fetched_from_api) {
-      if (mediaGroups[i].fetch_from.collection.toLowerCase() == "categories") {
-        const allCategoriesRaw = await getAllCategoriesFlattened();
-        mediaGroups[i].image_with_link = allCategoriesRaw
-          .filter((cat) => mediaGroups[i].fetch_from.ids.includes(cat.id))
-          .map((category) => {
-            return {
-              id: category.id,
-              name: category.localized_name[locale],
-              image: category.image,
-              linked_url:
-                "/shop/" + t(category.localized_name[locale]) + "?page=1",
-            };
-          });
-      }
-    } else {
-      mediaGroups[i].image_with_link = mediaGroups[i].image_with_link.map(
-        (item) => {
-          const url = item.linked_url;
-          const category = url.split("/").pop();
-          const translatedCategory = t(
-            decodeURIComponent(category.split("?")[0]),
-          );
-          return {
-            ...item,
-            linked_url: `/shop/${translatedCategory}?page=1`,
-          };
-        },
-      );
-    }
+    mediaGroups[i].image_with_link = mediaGroups[i].image_with_link.map(
+      (item) => {
+        const url = item.linked_url;
+        const category = url.split("/").pop();
+        const translatedCategory = t(
+          decodeURIComponent(category.split("?")[0]),
+        );
+        return {
+          ...item,
+          linked_url: `/shop/${translatedCategory}?page=1`,
+        };
+      },
+    );
   }
+
+  const allCategories = await getAllCategoriesFlattened();
+
+  const categories = allCategories.filter((cat) =>
+    homePage.layout["2"].content.includes(cat.id),
+  );
 
   return {
     props: {
+      categories,
       mediaGroups,
       collections,
     },

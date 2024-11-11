@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Head from "next/head";
 import useTranslation from "next-translate/useTranslation";
 import AdminLayout from "../../../components/admin/adminLayout";
@@ -12,14 +12,17 @@ import { getCollections } from "../../api/collections/public/getcollections";
 import { getWebsite } from "../../api/website/public/getwebsite";
 import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
 import getT from "next-translate/getT";
+import { getHomePage } from "../../api/website/public/gethomepage";
 
 export default function HomePageAdmin({
+  homePageFromAPI,
   collectionsFromAPI,
   mediaGroupsFromAPI,
+  allCategories,
 }) {
+  const [homePage, setHomePage] = useState(homePageFromAPI);
   const router = useRouter();
   const { t, lang } = useTranslation("common");
-  const [categories, setCategories] = useState(null);
   const [mediaGroups, setMediaGroups] = useState(mediaGroupsFromAPI);
   const [collections, setCollectons] = useState(collectionsFromAPI);
 
@@ -202,10 +205,10 @@ export default function HomePageAdmin({
                   </div>
                 ) : (
                   <div className="flex flex-row gap-2">
-                    {categories && (
+                    {allCategories && (
                       <div className="grid grid-cols-2 gap-2">
                         <div className="flex h-[250px] flex-col overflow-y-auto">
-                          {categories
+                          {allCategories
                             .filter(
                               (cat) =>
                                 !mediaGroups
@@ -238,7 +241,7 @@ export default function HomePageAdmin({
                             ))}
                         </div>
                         <div className="flex h-[250px] flex-col overflow-y-auto">
-                          {categories
+                          {allCategories
                             .filter((cat) =>
                               mediaGroups
                                 .find((mg) => mg.id == mediaGroup.id)
@@ -291,6 +294,37 @@ export default function HomePageAdmin({
           <Index
             mediaGroups={mediaGroups}
             collections={collections}
+            categories={allCategories.filter((cat) =>
+              homePage.layout["2"].content.includes(cat.id),
+            )}
+            onRemoveCategory={(category) => {
+              let currentCategories = homePage.layout["2"].content;
+
+              // Filter out the category with the matching id
+              let newCategories = currentCategories.filter(
+                (cat) => cat !== category.id,
+              );
+
+              // Create a new homePage object to avoid direct mutation
+              let newHomePage = {
+                ...homePage,
+                layout: {
+                  ...homePage.layout,
+                  "2": {
+                    ...homePage.layout["2"],
+                    content: newCategories,
+                  },
+                },
+              };
+
+              console.log("Category to remove:", category.id);
+              console.log("New categories after removal:", newCategories);
+
+              setHomePage(newHomePage);
+            }}
+            onClickAddCategory={() => {
+              alert("show categories modal");
+            }}
             developmentMode
           />
         )}
@@ -313,47 +347,28 @@ export const getServerSideProps = async ({ locale }) => {
   let mediaGroupsFromAPI = website.media_groups;
 
   for (let i = 0; i < mediaGroupsFromAPI.length; i++) {
-    if (mediaGroupsFromAPI[i].is_fetched_from_api) {
-      if (
-        mediaGroupsFromAPI[i].fetch_from.collection.toLowerCase() ==
-        "categories"
-      ) {
-        const allCategoriesRaw = await getAllCategoriesFlattened();
-        mediaGroupsFromAPI[i].image_with_link = allCategoriesRaw
-          .filter((cat) =>
-            mediaGroupsFromAPI[i].fetch_from.ids.includes(cat.id),
-          )
-          .map((category) => {
-            return {
-              id: category.id,
-              name: category.localized_name[locale],
-              image: category.image,
-              linked_url:
-                "/shop/" + t(category.localized_name[locale]) + "?page=1",
-            };
-          });
-      }
-    } else {
-      mediaGroupsFromAPI[i].image_with_link = mediaGroupsFromAPI[
-        i
-      ].image_with_link.map((item) => {
-        const url = item.linked_url;
-        const category = url.split("/").pop();
-        const translatedCategory = t(
-          decodeURIComponent(category.split("?")[0]),
-        );
-        return {
-          ...item,
-          linked_url: `/shop/${translatedCategory}?page=1`,
-        };
-      });
-    }
+    mediaGroupsFromAPI[i].image_with_link = mediaGroupsFromAPI[
+      i
+    ].image_with_link.map((item) => {
+      const url = item.linked_url;
+      const category = url.split("/").pop();
+      const translatedCategory = t(decodeURIComponent(category.split("?")[0]));
+      return {
+        ...item,
+        linked_url: `/shop/${translatedCategory}?page=1`,
+      };
+    });
   }
 
+  const allCategories = await getAllCategoriesFlattened();
+
+  const homePageFromAPI = await getHomePage();
   return {
     props: {
+      homePageFromAPI,
       collectionsFromAPI,
       mediaGroupsFromAPI,
+      allCategories,
     },
   };
 };
