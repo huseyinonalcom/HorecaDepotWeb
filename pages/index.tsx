@@ -14,18 +14,22 @@ import { useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { getHomePage } from "./api/website/public/gethomepage";
+import { PromoBanner } from "../components/banners/PromoBanner";
+import { getBanners } from "./api/website/public/getbanners";
 
 export default function Index({
-  mediaGroups,
+  homePage,
   collections,
   categories,
+  banners,
   developmentMode,
   onRemoveCategory,
   onClickAddCategory,
 }: {
-  mediaGroups: any;
-  collections: any;
+  homePage;
+  collections;
   categories: Category[];
+  banners;
   developmentMode?: boolean;
   onRemoveCategory?: (category: Category) => void;
   onClickAddCategory?: () => void;
@@ -133,32 +137,10 @@ export default function Index({
             id="slider-1"
             className={`no-scrollbar flex w-full snap-x snap-mandatory flex-row overflow-x-scroll`}
           >
-            {mediaGroups
-              .find((mg) => mg.order == 1)
-              .image_with_link.map((item, index) => (
-                <Link
-                  href={item.linked_url}
-                  key={`slider1-${index}`}
-                  className={`snap-start px-3 2xl:w-1/3`}
-                >
-                  <div className="border-1 flex h-min flex-shrink-0 flex-col overflow-hidden rounded-xl border border-black/30">
-                    <div className="relative z-20 aspect-[320/171] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full">
-                      <ImageWithURL
-                        src={item.image.url}
-                        alt={t(item.name)}
-                        sizes="90vw, md:42vw, 2xl:30vw"
-                        fill
-                        priority
-                        className="z-20"
-                        style={{ objectFit: "cover" }}
-                      />
-                    </div>
-                    <div className="flex h-[150px] w-full flex-col gap-2 p-4">
-                      <p className="text-xl font-semibold">{t(item.name)}</p>
-                      <p>{t(item.description)}</p>
-                    </div>
-                  </div>
-                </Link>
+            {banners
+              .filter((banner) => homePage.layout["1"].content.includes(banner.id))
+              .map((banner) => (
+                <PromoBanner banner={banner} />
               ))}
           </div>
           <div className="ml-4 mt-2 flex w-[90vw] max-w-screen-2xl flex-row justify-start gap-2 2xl:hidden">
@@ -190,7 +172,7 @@ export default function Index({
             />
           )}
         </div>
-        {mediaGroups.find((mg) => mg.order == 3) && (
+{/*         {mediaGroups.find((mg) => mg.order == 3) && (
           <Link
             href={
               mediaGroups.find((mg) => mg.order == 3).image_with_link[0]
@@ -272,52 +254,33 @@ export default function Index({
               style={{ objectFit: "cover" }}
             />
           </Link>
-        )}
+        )} */}
       </div>
     </>
   );
   return developmentMode ? content : <Layout>{content}</Layout>;
 }
 
-export const getStaticProps = async ({ locale }) => {
-  const t = await getT(locale, "common");
-  let collections = await getCollections();
-  const website = await getWebsite();
+export const getStaticProps = async () => {
   const homePage = await getHomePage();
-  console.log(homePage);
-  let mediaGroups = website.media_groups;
-
-  for (let i = 0; i < collections.length; i++) {
-    collections[i].products = collections[i].products.filter((p) => p.active);
-  }
-
-  for (let i = 0; i < mediaGroups.length; i++) {
-    mediaGroups[i].image_with_link = mediaGroups[i].image_with_link.map(
-      (item) => {
-        const url = item.linked_url;
-        const category = url.split("/").pop();
-        const translatedCategory = t(
-          decodeURIComponent(category.split("?")[0]),
-        );
-        return {
-          ...item,
-          linked_url: `/shop/${translatedCategory}?page=1`,
-        };
-      },
-    );
-  }
 
   const allCategories = await getAllCategoriesFlattened();
-
   const categories = allCategories.filter((cat) =>
     homePage.layout["2"].content.includes(cat.id),
   );
 
+  const allCollections = await getCollections();
+  const collections = allCollections.filter((coll) => coll.featured);
+
+  const allBanners = await getBanners();
+  const banners = allBanners;
+
   return {
     props: {
+      homePage,
       categories,
-      mediaGroups,
       collections,
+      banners,
     },
     revalidate: 1800,
   };

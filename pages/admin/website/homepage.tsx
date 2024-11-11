@@ -367,10 +367,7 @@ export const getServerSideProps = async ({ locale }) => {
   const homePageExample = {
     "1": {
       design: "banners",
-      content: {
-        en: [123, 43, 554, 634],
-        fr: [124, 44, 555, 635],
-      },
+      content: [123, 43, 554, 634],
     },
     "2": {
       design: "categories",
@@ -378,14 +375,11 @@ export const getServerSideProps = async ({ locale }) => {
     },
     "3": {
       design: "singleBanner",
-      conent: {
-        en: 143,
-        fr: 144,
-      },
+      content: 143,
     },
     "4": {
       design: "collections",
-      conent: [532, 23],
+      content: [532, 23],
     },
   };
 
