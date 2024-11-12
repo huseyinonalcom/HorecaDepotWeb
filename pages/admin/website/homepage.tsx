@@ -13,33 +13,19 @@ import { getWebsite } from "../../api/website/public/getwebsite";
 import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
 import getT from "next-translate/getT";
 import { getHomePage } from "../../api/website/public/gethomepage";
+import { getBanners } from "../../api/website/public/getbanners";
 
 export default function HomePageAdmin({
   homePageFromAPI,
   collectionsFromAPI,
-  mediaGroupsFromAPI,
+  bannersFromAPI,
   allCategories,
 }) {
   const [homePage, setHomePage] = useState(homePageFromAPI);
   const router = useRouter();
   const { t, lang } = useTranslation("common");
-  const [mediaGroups, setMediaGroups] = useState(mediaGroupsFromAPI);
+  const [banners, setBanners] = useState(bannersFromAPI);
   const [collections, setCollectons] = useState(collectionsFromAPI);
-
-  const putMediagroups = async () => {
-    for (let i = 0; i < mediaGroups.length; i++) {
-      mediaGroups[i].name = `${i}${Date.now()}`;
-    }
-    const putWebsiteRequest = await fetch("/api/website/admin/putwebsite", {
-      method: "PUT",
-      body: JSON.stringify(mediaGroups),
-    });
-    if (putWebsiteRequest.ok) {
-      return true;
-    } else {
-      return false;
-    }
-  };
 
   return (
     <AdminLayout>
@@ -48,7 +34,7 @@ export default function HomePageAdmin({
         <meta name="language" content={lang} />
       </Head>
       <div className="mx-auto flex w-[95%] flex-col items-center p-2">
-        {mediaGroups && (
+        {/* {mediaGroups && (
           <div className="grid w-full grid-cols-1 gap-2">
             {mediaGroups.map((mediaGroup) => (
               <div
@@ -279,20 +265,18 @@ export default function HomePageAdmin({
             ))}
             <button
               onClick={async () => {
-                const response = await putMediagroups();
-                if (response == true) {
-                  router.reload();
-                }
+                alert("work in progress");
               }}
               className={componentThemes.outlinedButton}
             >
               {t("save")}
             </button>
           </div>
-        )}
-        {mediaGroups && (
+        )} */}
+        {banners && (
           <Index
-            mediaGroups={mediaGroups}
+            banners={banners}
+            homePage={homePage}
             collections={collections}
             categories={allCategories.filter((cat) =>
               homePage.layout["2"].content.includes(cat.id),
@@ -300,12 +284,10 @@ export default function HomePageAdmin({
             onRemoveCategory={(category) => {
               let currentCategories = homePage.layout["2"].content;
 
-              // Filter out the category with the matching id
               let newCategories = currentCategories.filter(
                 (cat) => cat !== category.id,
               );
 
-              // Create a new homePage object to avoid direct mutation
               let newHomePage = {
                 ...homePage,
                 layout: {
@@ -316,9 +298,6 @@ export default function HomePageAdmin({
                   },
                 },
               };
-
-              console.log("Category to remove:", category.id);
-              console.log("New categories after removal:", newCategories);
 
               setHomePage(newHomePage);
             }}
@@ -334,73 +313,20 @@ export default function HomePageAdmin({
 }
 
 export const getServerSideProps = async ({ locale }) => {
-  const t = await getT(locale, "common");
-  let collectionsFromAPI = await getCollections();
-
-  for (let i = 0; i < collectionsFromAPI.length; i++) {
-    collectionsFromAPI[i].products = collectionsFromAPI[i].products.filter(
-      (p) => p.active,
-    );
-  }
-
-  const website = await getWebsite();
-  let mediaGroupsFromAPI = website.media_groups;
-
-  for (let i = 0; i < mediaGroupsFromAPI.length; i++) {
-    mediaGroupsFromAPI[i].image_with_link = mediaGroupsFromAPI[
-      i
-    ].image_with_link.map((item) => {
-      const url = item.linked_url;
-      const category = url.split("/").pop();
-      const translatedCategory = t(decodeURIComponent(category.split("?")[0]));
-      return {
-        ...item,
-        linked_url: `/shop/${translatedCategory}?page=1`,
-      };
-    });
-  }
+  const homePageFromAPI = await getHomePage();
 
   const allCategories = await getAllCategoriesFlattened();
 
-  const homePageFromAPI = await getHomePage();
+  const collectionsFromAPI = await getCollections();
 
-  const homePageExample = {
-    "1": {
-      design: "banners",
-      content: [123, 43, 554, 634],
-    },
-    "2": {
-      design: "categories",
-      content: [2, 6, 10, 11, 17, 3],
-    },
-    "3": {
-      design: "singleBanner",
-      content: 143,
-    },
-    "4": {
-      design: "collections",
-      content: [1],
-    },
-    "5": {
-      design: "singleBanner",
-      content: 143,
-    },
-    "6": {
-      design: "collections",
-      content: [5],
-    },
-    "7": {
-      design: "singleBanner",
-      content: 143,
-    },
-  };
+  const bannersFromAPI = await getBanners();
 
   return {
     props: {
       homePageFromAPI,
       collectionsFromAPI,
-      mediaGroupsFromAPI,
       allCategories,
+      bannersFromAPI,
     },
   };
 };
