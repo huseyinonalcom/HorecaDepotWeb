@@ -138,7 +138,9 @@ export default function Index({
             className={`no-scrollbar flex w-full snap-x snap-mandatory flex-row overflow-x-scroll`}
           >
             {banners
-              .filter((banner) => homePage.layout["1"].content.includes(banner.id))
+              .filter((banner) =>
+                homePage.layout["1"].content.includes(banner.id),
+              )
               .map((banner) => (
                 <PromoBanner banner={banner} />
               ))}
@@ -172,21 +174,27 @@ export default function Index({
             />
           )}
         </div>
-{/*         {mediaGroups.find((mg) => mg.order == 3) && (
+        {banners.find(
+          (banner) => banner.id == homePage.layout["3"].content,
+        ) && (
           <Link
             href={
-              mediaGroups.find((mg) => mg.order == 3).image_with_link[0]
-                .linked_url
+              banners
+                .find((banner) => banner.id == homePage.layout["3"].content)
+                .images.find((img) => img.locale == lang).linked_url
             }
             className="relative aspect-[21/9] w-full overflow-hidden rounded-xl md:aspect-[205/7] lg:aspect-[205/78]"
           >
             <ImageWithURL
               src={
-                mediaGroups.find((mg) => mg.order == 3).image_with_link[0].image
-                  .url
+                banners
+                  .find((banner) => banner.id == homePage.layout["3"].content)
+                  .images.find((img) => img.locale == lang).image.url
               }
               alt={
-                mediaGroups.find((mg) => mg.order == 3).image_with_link[0].name
+                banners.find(
+                  (banner) => banner.id == homePage.layout["3"].content,
+                ).localized_title[lang]
               }
               sizes="90vw, (max-width: 1536px) 1536px"
               fill
@@ -202,21 +210,27 @@ export default function Index({
             </div>
           )}
         </div>
-        {mediaGroups.find((mg) => mg.order == 4) && (
+        {banners.find(
+          (banner) => banner.id == homePage.layout["4"].content,
+        ) && (
           <Link
             href={
-              mediaGroups.find((mg) => mg.order == 4).image_with_link[0]
-                .linked_url
+              banners
+                .find((banner) => banner.id == homePage.layout["4"].content)
+                .images.find((img) => img.locale == lang).linked_url
             }
-            className="relative aspect-[17/9] w-full overflow-hidden rounded-xl md:aspect-[32/9] lg:aspect-[32/9]"
+            className="relative aspect-[21/9] w-full overflow-hidden rounded-xl md:aspect-[205/7] lg:aspect-[205/78]"
           >
             <ImageWithURL
               src={
-                mediaGroups.find((mg) => mg.order == 4).image_with_link[0].image
-                  .url
+                banners
+                  .find((banner) => banner.id == homePage.layout["4"].content)
+                  .images.find((img) => img.locale == lang).image.url
               }
               alt={
-                mediaGroups.find((mg) => mg.order == 4).image_with_link[0].name
+                banners.find(
+                  (banner) => banner.id == homePage.layout["4"].content,
+                ).localized_title[lang]
               }
               sizes="90vw, (max-width: 1536px) 1536px"
               fill
@@ -233,28 +247,34 @@ export default function Index({
           )}
         </div>
 
-        {mediaGroups.find((mg) => mg.order == 5) && (
+        {banners.find(
+          (banner) => banner.id == homePage.layout["5"].content,
+        ) && (
           <Link
             href={
-              mediaGroups.find((mg) => mg.order == 5).image_with_link[0]
-                .linked_url
+              banners
+                .find((banner) => banner.id == homePage.layout["5"].content)
+                .images.find((img) => img.locale == lang).linked_url
             }
-            className="relative aspect-[18/9] w-full overflow-hidden rounded-xl md:aspect-[16/7] lg:aspect-[19/5]"
+            className="relative aspect-[21/9] w-full overflow-hidden rounded-xl md:aspect-[205/7] lg:aspect-[205/78]"
           >
             <ImageWithURL
               src={
-                mediaGroups.find((mg) => mg.order == 5).image_with_link[0].image
-                  .url
+                banners
+                  .find((banner) => banner.id == homePage.layout["5"].content)
+                  .images.find((img) => img.locale == lang).image.url
               }
               alt={
-                mediaGroups.find((mg) => mg.order == 5).image_with_link[0].name
+                banners.find(
+                  (banner) => banner.id == homePage.layout["5"].content,
+                ).localized_title[lang]
               }
               sizes="90vw, (max-width: 1536px) 1536px"
               fill
               style={{ objectFit: "cover" }}
             />
           </Link>
-        )} */}
+        )}
       </div>
     </>
   );
@@ -274,6 +294,8 @@ export const getStaticProps = async () => {
 
   const allBanners = await getBanners();
   const banners = allBanners;
+
+  console.log(banners);
 
   return {
     props: {
