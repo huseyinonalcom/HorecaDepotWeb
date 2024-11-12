@@ -20,9 +20,11 @@ import { ClientContext } from "../api/providers/clientProvider";
 import { CartContext } from "../api/providers/cartProvider";
 import { getConfig } from "./api/config/private/getconfig";
 import ClientLogin from "../components/client/clientLogin";
+import { Loader } from "react-feather";
 
 export default function Checkout(props) {
   const { t, lang } = useTranslation("common");
+  const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
   const { client, clearClient, setCurrentClient } = useContext(ClientContext);
   const { cart, removeFromCart, increaseQuantity, decreaseQuantity } =
@@ -245,19 +247,21 @@ export default function Checkout(props) {
   };
 
   // might need to be checked
-  const handleOrderSubmit = async (event) => {
-    event.preventDefault();
+  const handleOrderSubmit = async () => {
     setSubmitErrorDocument(null);
     if (!chosenInvoiceAddressId) {
       setSubmitErrorDocument("Choissisez un address pour facturation!");
+      setSubmitting(false);
       return;
     }
     if (!chosenDeliveryAddressId) {
       setSubmitErrorDocument("Choissisez un address pour livrasion!");
+      setSubmitting(false);
       return;
     }
     if (calculateTotal().totalAfterDiscount < 0) {
       setSubmitErrorDocument(t("Cart Empty"));
+      setSubmitting(false);
       return;
     }
     let documentToPost: Document = {
@@ -318,6 +322,7 @@ export default function Checkout(props) {
       setSubmitErrorDocument(
         "Une erreur s'est produite lors de la création de votre commande!",
       );
+      setSubmitting(false);
     }
   };
 
@@ -572,10 +577,21 @@ export default function Checkout(props) {
               <button
                 name="orderSubmit"
                 aria-label="Order Submit"
-                onClick={handleOrderSubmit}
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (!submitting) {
+                    setSubmitting(true);
+                    handleOrderSubmit();
+                  }
+                }}
                 className={CustomTheme.outlinedButton}
               >
-                {t("Proceed with order")}
+                {submitting ? (
+                  <Loader className="mx-auto" />
+                ) : (
+                  t("Proceed with order")
+                )}
               </button>
             </div>
           )}
