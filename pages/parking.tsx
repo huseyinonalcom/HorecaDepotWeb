@@ -5,8 +5,9 @@ import Head from "next/head";
 import Image from "next/image";
 import parking from "../public/assets/img/parking.jpg";
 import parking2 from "../public/assets/img/parking2.jpg";
+import Letext from "../components/liveEditable/letext";
 
-export default function Contact() {
+export default function Contact({ parkingText }) {
   const { t, lang } = useTranslation("common");
   return (
     <>
@@ -16,7 +17,7 @@ export default function Contact() {
           <meta name="description" />
           <meta name="language" content={lang} />
         </Head>
-        <h1 className="pt-2 text-center text-4xl font-bold text-black">
+        <h1 className="pt-4 text-center text-4xl font-bold text-black">
           {t("PARKING")}
         </h1>
         <div className="flex h-[70px] flex-col justify-around">
@@ -30,19 +31,41 @@ export default function Contact() {
             </p>
           </div>
         </div>
-        <div className="mx-auto mb-2 flex flex-col items-center justify-center">
+        <div className="mx-auto mb-6 mt-2 flex flex-col items-center justify-center gap-6">
           <iframe
-            className="-mt-2 mb-4 w-full"
+            className="w-full"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d882.1783439556756!2d4.342801144335436!3d50.86582509938612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3c36b49d67a1f%3A0xf95cd1024157cd44!2sT%26T%20Parklane%20Parking!5e0!3m2!1sen!2str!4v1730747984629!5m2!1sen!2str"
             height="450"
             loading="lazy"
           ></iframe>
-          <div className="mb-6 grid w-[95%] max-w-4xl grid-cols-1 gap-2 md:grid-cols-2">
+          <div className="grid w-[95%] max-w-4xl grid-cols-1 gap-2 md:grid-cols-2">
             <Image src={parking} alt={"Parking Entrance Image"} />
             <Image src={parking2} alt={"Parking Interior Image"} />
+          </div>
+          <div className="grid w-[95%] max-w-4xl">
+            <Letext text={parkingText} />
           </div>
         </div>
       </Layout>
     </>
   );
 }
+
+export const getStaticProps = async ({ locale }) => {
+  const getParking = await fetch(
+    "https://hdapi.huseyinonalalpha.com/api/parking",
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.API_KEY}`,
+      },
+    },
+  );
+  const getParkingAnswer = await getParking.json();
+  const parkingText = getParkingAnswer.data.localized_content[locale];
+  return {
+    props: {
+      parkingText,
+    },
+    revalidate: 1800,
+  };
+};
