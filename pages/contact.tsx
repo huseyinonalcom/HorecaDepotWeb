@@ -4,6 +4,7 @@ import Layout from "../components/public/layout";
 import Link from "next/link";
 import Head from "next/head";
 import { LuClock2, LuMail, LuMapPin, LuPhone } from "react-icons/lu";
+import { Compass } from "react-feather";
 export default function Contact() {
   const { t, lang } = useTranslation("common");
   return (
@@ -35,7 +36,7 @@ export default function Contact() {
             height="450"
             loading="lazy"
           ></iframe>
-          <div className="grid w-[95%] grid-cols-1 gap-2 md:grid-cols-2 mb-6">
+          <div className="mb-6 grid w-[95%] grid-cols-1 gap-2 md:grid-cols-2">
             <div className="flex flex-col items-start gap-2 pb-4">
               <h2 className="ml-4 text-4xl font-bold text-[#363332]">
                 {t("Contact")}
@@ -73,6 +74,12 @@ export default function Contact() {
                     </p>
                   </a>
                 </div>
+
+                <Link href="/parking" className="flex flex-row  items-center gap-2">
+                  <Compass className="h-9 w-9 p-1" color="black" />
+                  <p>{t("parking")}</p>
+                </Link>
+
                 <div className="flex flex-row items-center gap-2">
                   <LuClock2 className="h-9 w-9 p-1" color="black" />
                   <p>

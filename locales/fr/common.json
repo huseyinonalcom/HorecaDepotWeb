@@ -317,5 +317,6 @@
   "No_payment_admin": "Aucun paiement n'a été trouvé.",
   "Settings": "Paramètres",
   "Success": "Réussi",
-  "vat-excl": "TVA excl."
+  "vat-excl": "TVA excl.",
+  "parking": "Parking (200 mètres)"
 }

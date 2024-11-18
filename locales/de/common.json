@@ -313,5 +313,6 @@
   "internalCode_not_empty": "Interner Code nicht leer",
   "No_payment_admin": "Keine Zahlung gefunden.",
   "Settings": "Einstellungen",
-  "vat-excl": "MwSt. exkl."
+  "vat-excl": "MwSt. exkl.",
+  "parking": "Parkplatz (200 Meter)"
 }

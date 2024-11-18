@@ -314,5 +314,6 @@
   "internalCode_not_empty": "Internal Code is not empty",
   "No_payment_admin": "No payment has been found.",
   "Settings": "Settings",
-  "vat-excl": "VAT excl."
+  "vat-excl": "VAT excl.",
+  "parking": "Parking (200 meters)"
 }

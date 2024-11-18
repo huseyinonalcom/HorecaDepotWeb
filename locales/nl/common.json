@@ -315,5 +315,6 @@
   "No_payment_admin": "Geen betaling gevonden.",
   "VAT excl.": "BTW excl.",
   "Settings": "Instellingen",
-  "vat-excl": "Excl. BTW"
+  "vat-excl": "Excl. BTW",
+  "parking": "Parking (200 meter)"
 }
