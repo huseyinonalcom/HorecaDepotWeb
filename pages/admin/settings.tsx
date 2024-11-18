@@ -31,7 +31,6 @@ export default function Settings(props) {
     })
       .then(async (ans) => {
         let answer = await ans.text();
-        console.log(answer);
         alert(answer);
       })
       .finally(() => setLoading(false));

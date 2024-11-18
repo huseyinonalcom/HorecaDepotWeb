@@ -295,7 +295,6 @@ export const getStaticProps = async () => {
   const allBanners = await getBanners();
   const banners = allBanners;
 
-  console.log(banners);
 
   return {
     props: {

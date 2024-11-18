@@ -82,7 +82,6 @@ export default async function postOrder(
         );
 
         const answer = await request.json();
-        console.log(answer);
         clientID = answer.client_info.id;
         clientEmail = answer.email;
         clientFirstName = answer.client_info.firstName;

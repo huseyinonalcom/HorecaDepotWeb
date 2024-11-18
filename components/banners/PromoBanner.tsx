@@ -12,7 +12,6 @@ export const PromoBanner = ({
   onEditBanner?;
 }) => {
   const { lang } = useTranslation("common");
-  console.log(banner);
   const image = banner.images.find((img) => img.locale == lang);
   return (
     <Link href={image.linked_url} className="snap-start px-3 2xl:w-1/3">
