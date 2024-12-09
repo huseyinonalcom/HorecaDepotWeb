@@ -7,9 +7,11 @@ import Link from "next/link";
 export const CategoryBanner = ({
   category,
   onRemoveCategory,
+  disabled,
 }: {
   category: Category;
   onRemoveCategory?: (category: Category) => void;
+  disabled?: boolean;
 }) => {
   const { lang } = useTranslation("common");
 
@@ -42,7 +44,7 @@ export const CategoryBanner = ({
           <X size={18} color="red" />
         </button>
       )}
-      {onRemoveCategory ? (
+      {onRemoveCategory || disabled ? (
         <div className="flex flex-col items-center gap-2">{content}</div>
       ) : (
         <Link

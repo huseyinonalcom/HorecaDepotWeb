@@ -2,37 +2,37 @@ import { getAllCategoriesFlattened } from "./api/categories/public/getallcategor
 import CollectionShowcase from "../components/public/collection-showcase";
 import { getCollections } from "./api/collections/public/getcollections";
 import { CategoryBanner } from "../components/banners/CategoryBanner";
-import { getWebsite } from "./api/website/public/getwebsite";
 import useTranslation from "next-translate/useTranslation";
 import ImageWithURL from "../components/common/image";
 import { Category } from "../api/interfaces/category";
 import Layout from "../components/public/layout";
 import Meta from "../components/public/meta";
-import { ChevronLeft, PlusSquare } from "react-feather";
-import getT from "next-translate/getT";
-import { useEffect } from "react";
+import { Check, ChevronLeft, PlusSquare, X } from "react-feather";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { getHomePage } from "./api/website/public/gethomepage";
 import { PromoBanner } from "../components/banners/PromoBanner";
 import { getBanners } from "./api/website/public/getbanners";
+import InputOutlined from "../components/inputs/outlined";
+import { uploadFileToAPI } from "./api/files/uploadfile";
+import TextareaOutlined from "../components/inputs/textarea_outlined";
+import { PiPencil } from "react-icons/pi";
 
 export default function Index({
   homePage,
   collections,
+  onEdit,
   categories,
   banners,
-  developmentMode,
-  onRemoveCategory,
-  onClickAddCategory,
+  allCategories,
 }: {
   homePage;
   collections;
+  onEdit?: (homePage) => void;
   categories: Category[];
+  allCategories?: Category[];
   banners;
-  developmentMode?: boolean;
-  onRemoveCategory?: (category: Category) => void;
-  onClickAddCategory?: () => void;
 }) {
   const { t, lang } = useTranslation("common");
 
@@ -55,6 +55,211 @@ export default function Index({
   };
 
   let debounceTimer;
+
+  const [shownPromoBannerModal, setShownPromoBannerModal] = useState<
+    "1" | "3" | "4" | "5" | null
+  >(null);
+
+  const BannerModal = ({ order }: { order: "1" | "3" | "4" | "5" }) => {
+    return (
+      <>
+        {order == "1" && (
+          <PlusSquare
+            className="m-auto flex-shrink-0"
+            size={64}
+            onClick={() => {
+              setShownPromoBannerModal(order);
+              console.log(banners);
+            }}
+          />
+        )}
+        {order != "1" && (
+          <PiPencil
+            className="m-auto flex-shrink-0"
+            size={64}
+            onClick={() => {
+              setShownPromoBannerModal(order);
+              console.log(banners);
+            }}
+          />
+        )}
+        <div
+          className={`fixed inset-0 z-50 m-12 flex items-center justify-center bg-white ${shownPromoBannerModal == order ? "" : "hidden"}`}
+        >
+          <button
+            onClick={() => {
+              setShownPromoBannerModal(null);
+            }}
+            type="button"
+            className="absolute left-4 top-4"
+          >
+            <X color="red" size={64} />
+          </button>
+          <div className="flex flex-wrap items-center justify-center gap-12 p-4">
+            <div className="flex h-[50vh] w-[420px] flex-col gap-2 overflow-y-auto">
+              {banners
+                .filter((banner) => {
+                  if (typeof homePage.layout[order].content == "number") {
+                    return homePage.layout[order].content != banner.id;
+                  } else {
+                    return !homePage.layout[order].content.includes(banner.id);
+                  }
+                })
+                .map((banner) => (
+                  <button
+                    type="button"
+                    key={banner.id}
+                    onClick={() => {
+                      if (order == "1") {
+                        onEdit({
+                          ...homePage,
+                          layout: {
+                            ...homePage.layout,
+                            [order]: {
+                              ...homePage.layout[order],
+                              content: [
+                                ...homePage.layout[order].content,
+                                banner.id,
+                              ],
+                            },
+                          },
+                        });
+                      } else {
+                        onEdit({
+                          ...homePage,
+                          layout: {
+                            ...homePage.layout,
+                            [order]: {
+                              ...homePage.layout[order],
+                              content: banner.id,
+                            },
+                          },
+                        });
+                      }
+                      setShownPromoBannerModal(null);
+                    }}
+                  >
+                    <PromoBanner disabled banner={banner} homePage={homePage} />
+                  </button>
+                ))}
+            </div>
+            {["en", "nl", "fr", "de"].map((lang) => (
+              <div className="flex flex-col gap-2" key={lang}>
+                <InputOutlined
+                  label={t("image") + " " + lang}
+                  type="file"
+                  name="image"
+                  onChange={async (e) => {
+                    if (!e.target.files.item(0)) {
+                      return;
+                    } else {
+                      uploadFileToAPI({
+                        file: e.target.files.item(0),
+                      }).then((res) => {
+                        setNewBanner((prev) => {
+                          const newBanner = { ...prev };
+                          newBanner.images.find(
+                            (img) => img.locale == lang,
+                          ).image = res;
+                          console.log(newBanner);
+                          return newBanner;
+                        });
+                      });
+                    }
+                  }}
+                />
+                {newBanner.images.find((img) => img.locale == lang).image
+                  .url && (
+                  <ImageWithURL
+                    width={350}
+                    height={350}
+                    style={{ objectFit: "contain" }}
+                    src={
+                      newBanner.images.find((img) => img.locale == lang).image
+                        .url
+                    }
+                    alt={newBanner.localized_title[lang]}
+                  />
+                )}
+                <InputOutlined
+                  label={t("title") + " " + lang}
+                  type="text"
+                  name="title"
+                  value={newBanner.localized_title[lang]}
+                  onChange={(e) => {
+                    setNewBanner((prev) => {
+                      const newBanner = { ...prev };
+                      newBanner.localized_title[lang] = e.target.value;
+                      newBanner.images.find((img) => img.locale == lang).name =
+                        e.target.value;
+                      return newBanner;
+                    });
+                  }}
+                />
+                <TextareaOutlined
+                  label={t("description") + " " + lang}
+                  type="text"
+                  name="description"
+                  value={newBanner.localized_description[lang]}
+                  onChange={(e) => {
+                    setNewBanner((prev) => {
+                      const newBanner = { ...prev };
+                      newBanner.localized_description[lang] = e.target.value;
+                      newBanner.images.find(
+                        (img) => img.locale == lang,
+                      ).description = e.target.value;
+                      return newBanner;
+                    });
+                  }}
+                />
+                <InputOutlined
+                  label={t("url") + " " + lang}
+                  type="text"
+                  name="url"
+                  value={
+                    newBanner.images.find((img) => img.locale == lang)
+                      .linked_url
+                  }
+                  onChange={(e) => {
+                    setNewBanner((prev) => {
+                      const newBanner = { ...prev };
+                      newBanner.images.find(
+                        (img) => img.locale == lang,
+                      ).linked_url = e.target.value;
+                      return newBanner;
+                    });
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+          <button
+            type="button"
+            className="absolute bottom-4 right-4"
+            onClick={() => {
+              console.log(newBanner);
+              if (newBanner.images.find((img) => !img.image)) {
+                alert(t("missing-image"));
+                return;
+              }
+              delete newBanner.id;
+              fetch(`/api/universal/admin/posttoapi?collectiontopost=banners`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newBanner),
+              }).then((res) => {
+                window.location.reload();
+              });
+            }}
+          >
+            <Check color="green" size={64} />
+          </button>
+        </div>
+      </>
+    );
+  };
 
   useEffect(() => {
     function handleKeyDown(e) {
@@ -121,6 +326,65 @@ export default function Index({
     };
   }, []);
 
+  const emptyBanner = {
+    id: "new",
+    localized_title: {
+      en: "",
+      nl: "",
+      fr: "",
+      de: "",
+    },
+    localized_description: {
+      en: "",
+      nl: "",
+      fr: "",
+      de: "",
+    },
+    images: [
+      {
+        locale: "en",
+        linked_url: "",
+        name: "",
+        description: "",
+        image: {
+          id: 0,
+        },
+      },
+      {
+        locale: "nl",
+        linked_url: "",
+        name: "",
+        description: "",
+        image: {
+          id: 0,
+        },
+      },
+      {
+        locale: "fr",
+        linked_url: "",
+        name: "",
+        description: "",
+        image: {
+          id: 0,
+        },
+      },
+      {
+        locale: "de",
+        linked_url: "",
+        name: "",
+        description: "",
+        image: {
+          id: 0,
+        },
+      },
+    ],
+  };
+
+  const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
+  const [newBanner, setNewBanner] = useState(
+    JSON.parse(JSON.stringify(emptyBanner)),
+  );
+
   const content = (
     <>
       <Head>
@@ -142,8 +406,17 @@ export default function Index({
                 homePage.layout["1"].content.includes(banner.id),
               )
               .map((banner) => (
-                <PromoBanner banner={banner} />
+                <PromoBanner
+                  onEdit={onEdit}
+                  homePage={homePage}
+                  banner={banner}
+                />
               ))}
+            {onEdit && (
+              <>
+                <BannerModal order={"1"} />
+              </>
+            )}
           </div>
           <div className="ml-4 mt-2 flex w-[90vw] max-w-screen-2xl flex-row justify-start gap-2 2xl:hidden">
             <ChevronLeft
@@ -160,20 +433,85 @@ export default function Index({
         <div className="grid w-full grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {categories.map((category) => (
             <CategoryBanner
+              key={category.id}
               category={category}
-              onRemoveCategory={onRemoveCategory}
+              onRemoveCategory={
+                onEdit
+                  ? () =>
+                      onEdit({
+                        ...homePage,
+                        layout: {
+                          ...homePage.layout,
+                          "2": {
+                            ...homePage.layout["2"],
+                            content: homePage.layout["2"].content.filter(
+                              (cat) => cat !== category.id,
+                            ),
+                          },
+                        },
+                      })
+                  : undefined
+              }
             />
           ))}
-          {developmentMode && onClickAddCategory && (
-            <PlusSquare
-              className="m-auto"
-              size={64}
-              onClick={() => {
-                onClickAddCategory();
-              }}
-            />
+          {onEdit && (
+            <>
+              <PlusSquare
+                className="m-auto"
+                size={64}
+                onClick={() => {
+                  setShowAddCategoryModal(true);
+                }}
+              />
+              <div
+                className={`fixed inset-0 z-50 m-12 flex items-center justify-center bg-white bg-opacity-80 backdrop-blur-sm ${showAddCategoryModal ? "" : "hidden"}`}
+              >
+                <button
+                  onClick={() => setShowAddCategoryModal(false)}
+                  type="button"
+                  className="absolute left-4 top-4"
+                >
+                  <X color="red" size={64} />
+                </button>
+                <div className="flex flex-wrap items-center justify-center gap-12 p-4">
+                  {allCategories
+                    .filter((cat) => !categories.find((c) => c.id == cat.id))
+                    .map((category) => (
+                      <button
+                        key={category.id}
+                        type="button"
+                        className="h-36 w-36"
+                        onClick={() => {
+                          onEdit({
+                            ...homePage,
+                            layout: {
+                              ...homePage.layout,
+                              "2": {
+                                ...homePage.layout["2"],
+                                content: [
+                                  ...homePage.layout["2"].content,
+                                  category.id,
+                                ],
+                              },
+                            },
+                          });
+                          setShowAddCategoryModal(false);
+                        }}
+                      >
+                        <CategoryBanner disabled category={category} />
+                      </button>
+                    ))}
+                </div>
+              </div>
+            </>
           )}
         </div>
+
+        {onEdit && (
+          <>
+            <BannerModal order={"3"} />
+          </>
+        )}
         {banners.find(
           (banner) => banner.id == homePage.layout["3"].content,
         ) && (
@@ -210,6 +548,12 @@ export default function Index({
             </div>
           )}
         </div>
+
+        {onEdit && (
+          <>
+            <BannerModal order={"4"} />
+          </>
+        )}
         {banners.find(
           (banner) => banner.id == homePage.layout["4"].content,
         ) && (
@@ -247,6 +591,11 @@ export default function Index({
           )}
         </div>
 
+        {onEdit && (
+          <>
+            <BannerModal order={"5"} />
+          </>
+        )}
         {banners.find(
           (banner) => banner.id == homePage.layout["5"].content,
         ) && (
@@ -278,7 +627,7 @@ export default function Index({
       </div>
     </>
   );
-  return developmentMode ? content : <Layout>{content}</Layout>;
+  return onEdit ? content : <Layout>{content}</Layout>;
 }
 
 export const getStaticProps = async () => {
@@ -294,7 +643,6 @@ export const getStaticProps = async () => {
 
   const allBanners = await getBanners();
   const banners = allBanners;
-
 
   return {
     props: {

@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import statusText from "../../../../api/statustexts";
 import getAuthCookie from "../../cookies";
 
@@ -22,12 +23,16 @@ export async function putToAPI({ req, res }) {
       },
     );
 
+    let ans = await request.json();
+    console.log(ans);
+
     if (request.ok) {
       return true;
     } else {
       return false;
     }
-  } catch (_) {
+  } catch (e) {
+    console.log(e);
     return false;
   }
 }
@@ -42,9 +47,13 @@ export default async function handler(req, res) {
     try {
       res.revalidate("/");
     } catch (_) {}
+    try {
+      revalidatePath("/");
+    } catch (_) {}
 
     return res.status(200).json(statusText[200]);
   } catch (e) {
+    console.log(e);
     return res.status(500).json(statusText[500]);
   }
 }

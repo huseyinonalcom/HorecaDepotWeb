@@ -2,7 +2,7 @@ import statusText from "../../../../api/statustexts";
 
 export async function getBanners() {
   const response = await fetch(
-    `${process.env.API_URL}/api/banners?populate[images][populate]=image`,
+    `${process.env.API_URL}/api/banners?populate[images][populate]=image&count=10000`,
     {
       headers: {
         Authorization: `Bearer ${process.env.API_KEY}`,
