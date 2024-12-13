@@ -222,12 +222,10 @@ export default function Index({
             type="button"
             className="absolute bottom-4 right-4"
             onClick={() => {
-              console.log(newBanner);
               if (!newBanner.images.find((img) => img?.image)) {
                 alert("Please add an image");
                 return;
               }
-              // if there are images missing an image and if there is an image in one of the images array, set that image as the image for the ones which lack an image
               if (newBanner.images.find((img) => !img?.image)) {
                 const firstImageWithImage = newBanner.images.find(
                   (img) => img.image,
@@ -239,7 +237,6 @@ export default function Index({
                     : { ...img, image: firstImageWithImage.image },
                 );
               }
-              // repeat the previous step for the other properties
               if (newBanner.images.find((img) => !img.name)) {
                 newBanner.images.forEach((img) => {
                   if (!img.name) {
@@ -289,16 +286,15 @@ export default function Index({
               fillEmptyFields(newBanner.localized_description);
 
               delete newBanner.id;
-              console.log(newBanner);
-              // fetch(`/api/universal/admin/posttoapi?collectiontopost=banners`, {
-              //   method: "POST",
-              //   headers: {
-              //     "Content-Type": "application/json",
-              //   },
-              //   body: JSON.stringify(newBanner),
-              // }).then((res) => {
-              //   window.location.reload();
-              // });
+              fetch(`/api/universal/admin/posttoapi?collectiontopost=banners`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newBanner),
+              }).then((res) => {
+                window.location.reload();
+              });
             }}
           >
             <Check color="green" size={64} />
