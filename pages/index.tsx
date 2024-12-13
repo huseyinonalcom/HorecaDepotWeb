@@ -8,7 +8,7 @@ import { Category } from "../api/interfaces/category";
 import Layout from "../components/public/layout";
 import Meta from "../components/public/meta";
 import { Check, ChevronLeft, PlusSquare, X } from "react-feather";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { getHomePage } from "./api/website/public/gethomepage";
@@ -156,20 +156,16 @@ export default function Index({
                       uploadFileToAPI({
                         file: e.target.files.item(0),
                       }).then((res) => {
-                        setNewBanner((prev) => {
-                          const newBanner = { ...prev };
-                          newBanner.images.find(
-                            (img) => img.locale == lang,
-                          ).image = res;
-                          console.log(newBanner);
-                          return newBanner;
-                        });
+                        let tBanner = { ...newBanner };
+                        tBanner.images.find((img) => img.locale == lang).image =
+                          res;
+                        newBanner = tBanner;
                       });
                     }
                   }}
                 />
                 {newBanner.images.find((img) => img.locale == lang).image
-                  .url && (
+                  ?.url && (
                   <ImageWithURL
                     width={350}
                     height={350}
@@ -182,52 +178,41 @@ export default function Index({
                   />
                 )}
                 <InputOutlined
+                  key={`title-${lang}`}
                   label={t("title") + " " + lang}
                   type="text"
                   name="title"
-                  value={newBanner.localized_title[lang]}
                   onChange={(e) => {
-                    setNewBanner((prev) => {
-                      const newBanner = { ...prev };
-                      newBanner.localized_title[lang] = e.target.value;
-                      newBanner.images.find((img) => img.locale == lang).name =
-                        e.target.value;
-                      return newBanner;
-                    });
+                    let tBanner = { ...newBanner };
+                    tBanner.localized_title[lang] = e.target.value;
+                    tBanner.images.find((img) => img.locale == lang).name =
+                      e.target.value;
+                    newBanner = tBanner;
                   }}
                 />
                 <TextareaOutlined
                   label={t("description") + " " + lang}
                   type="text"
                   name="description"
-                  value={newBanner.localized_description[lang]}
                   onChange={(e) => {
-                    setNewBanner((prev) => {
-                      const newBanner = { ...prev };
-                      newBanner.localized_description[lang] = e.target.value;
-                      newBanner.images.find(
-                        (img) => img.locale == lang,
-                      ).description = e.target.value;
-                      return newBanner;
-                    });
+                    let tBanner = { ...newBanner };
+                    tBanner.localized_description[lang] = e.target.value;
+                    tBanner.images.find(
+                      (img) => img.locale == lang,
+                    ).description = e.target.value;
+                    newBanner = tBanner;
                   }}
                 />
                 <InputOutlined
                   label={t("url") + " " + lang}
                   type="text"
                   name="url"
-                  value={
-                    newBanner.images.find((img) => img.locale == lang)
-                      .linked_url
-                  }
                   onChange={(e) => {
-                    setNewBanner((prev) => {
-                      const newBanner = { ...prev };
-                      newBanner.images.find(
-                        (img) => img.locale == lang,
-                      ).linked_url = e.target.value;
-                      return newBanner;
-                    });
+                    let tBanner = { ...newBanner };
+                    tBanner.images.find(
+                      (img) => img.locale == lang,
+                    ).linked_url = e.target.value;
+                    newBanner = tBanner;
                   }}
                 />
               </div>
@@ -238,20 +223,82 @@ export default function Index({
             className="absolute bottom-4 right-4"
             onClick={() => {
               console.log(newBanner);
-              if (newBanner.images.find((img) => !img.image)) {
-                alert(t("missing-image"));
+              if (!newBanner.images.find((img) => img?.image)) {
+                alert("Please add an image");
                 return;
               }
+              // if there are images missing an image and if there is an image in one of the images array, set that image as the image for the ones which lack an image
+              if (newBanner.images.find((img) => !img?.image)) {
+                const firstImageWithImage = newBanner.images.find(
+                  (img) => img.image,
+                );
+
+                newBanner.images = newBanner.images.map((img) =>
+                  img.image
+                    ? img
+                    : { ...img, image: firstImageWithImage.image },
+                );
+              }
+              // repeat the previous step for the other properties
+              if (newBanner.images.find((img) => !img.name)) {
+                newBanner.images.forEach((img) => {
+                  if (!img.name) {
+                    img.name =
+                      newBanner.images.find((img) => img.name)?.name ?? "";
+                  }
+                });
+              }
+              if (newBanner.images.find((img) => !img.alt)) {
+                newBanner.images.forEach((img) => {
+                  if (!img.alt) {
+                    img.alt =
+                      newBanner.images.find((img) => img.alt)?.alt ?? "";
+                  }
+                });
+              }
+              if (newBanner.images.find((img) => !img.description)) {
+                newBanner.images.forEach((img) => {
+                  if (!img.description) {
+                    img.description =
+                      newBanner.images.find((img) => img.description)
+                        ?.description ?? "";
+                  }
+                });
+              }
+
+              const fillEmptyFields = (field) => {
+                let firstFilledValue = null;
+                for (const locale in field) {
+                  if (field[locale]) {
+                    firstFilledValue = field[locale];
+                    break;
+                  }
+                }
+
+                if (firstFilledValue) {
+                  for (const locale in field) {
+                    if (!field[locale]) {
+                      field[locale] = firstFilledValue;
+                    }
+                  }
+                }
+              };
+
+              fillEmptyFields(newBanner.localized_title);
+
+              fillEmptyFields(newBanner.localized_description);
+
               delete newBanner.id;
-              fetch(`/api/universal/admin/posttoapi?collectiontopost=banners`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(newBanner),
-              }).then((res) => {
-                window.location.reload();
-              });
+              console.log(newBanner);
+              // fetch(`/api/universal/admin/posttoapi?collectiontopost=banners`, {
+              //   method: "POST",
+              //   headers: {
+              //     "Content-Type": "application/json",
+              //   },
+              //   body: JSON.stringify(newBanner),
+              // }).then((res) => {
+              //   window.location.reload();
+              // });
             }}
           >
             <Check color="green" size={64} />
@@ -346,45 +393,34 @@ export default function Index({
         linked_url: "",
         name: "",
         description: "",
-        image: {
-          id: 0,
-        },
+        image: null,
       },
       {
         locale: "nl",
         linked_url: "",
         name: "",
         description: "",
-        image: {
-          id: 0,
-        },
+        image: null,
       },
       {
         locale: "fr",
         linked_url: "",
         name: "",
         description: "",
-        image: {
-          id: 0,
-        },
+        image: null,
       },
       {
         locale: "de",
         linked_url: "",
         name: "",
         description: "",
-        image: {
-          id: 0,
-        },
+        image: null,
       },
     ],
   };
 
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
-  const [newBanner, setNewBanner] = useState(
-    JSON.parse(JSON.stringify(emptyBanner)),
-  );
-
+  let newBanner = JSON.parse(JSON.stringify(emptyBanner));
   const content = (
     <>
       <Head>

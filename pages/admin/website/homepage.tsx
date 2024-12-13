@@ -1,20 +1,13 @@
-import { use, useEffect, useState } from "react";
-import Head from "next/head";
-import useTranslation from "next-translate/useTranslation";
-import AdminLayout from "../../../components/admin/adminLayout";
-import componentThemes from "../../../components/componentThemes";
-import InputOutlined from "../../../components/inputs/outlined";
-import { uploadFileToAPI } from "../../api/files/uploadfile";
-import ImageWithURL from "../../../components/common/image";
-import { useRouter } from "next/router";
-import Index from "../..";
-import { getCollections } from "../../api/collections/public/getcollections";
-import { getWebsite } from "../../api/website/public/getwebsite";
 import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
-import getT from "next-translate/getT";
+import { getCollections } from "../../api/collections/public/getcollections";
 import { getHomePage } from "../../api/website/public/gethomepage";
 import { getBanners } from "../../api/website/public/getbanners";
+import AdminLayout from "../../../components/admin/adminLayout";
+import useTranslation from "next-translate/useTranslation";
 import { Check } from "react-feather";
+import { useState } from "react";
+import Head from "next/head";
+import Index from "../..";
 
 export default function HomePageAdmin({
   homePageFromAPI,
