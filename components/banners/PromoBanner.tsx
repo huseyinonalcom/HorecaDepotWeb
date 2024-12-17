@@ -49,7 +49,7 @@ export const PromoBanner = ({
       style={style}
       {...attributes}
       {...listeners}
-      className="snap-start px-3 active:z-50 2xl:w-1/3"
+      className="snap-start px-3 2xl:w-1/3"
     >
       <Wrapper>
         {onEdit && (
