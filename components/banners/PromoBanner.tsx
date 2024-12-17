@@ -4,6 +4,7 @@ import useTranslation from "next-translate/useTranslation";
 import { X } from "react-feather";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { CSSProperties } from "react";
 
 export const PromoBanner = ({
   homePage,
@@ -20,16 +21,22 @@ export const PromoBanner = ({
   const image = banner.images.find((img) => img.locale == lang);
 
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: banner.id, animateLayoutChanges: () => false });
+    useSortable({
+      id: banner.id,
+      animateLayoutChanges: () => false,
+      disabled: disabled,
+    });
 
-  const style = {
+  const style: CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
+    zIndex: 99,
+    position: "relative",
   };
 
   const Wrapper = ({ children }) =>
     onEdit || disabled ? (
-      <div className="w-full px-3">{children}</div>
+      <div className="w-full cursor-grab px-3">{children}</div>
     ) : (
       <Link href={image.linked_url} className="px-3 2xl:w-1/3">
         {children}
@@ -37,6 +44,7 @@ export const PromoBanner = ({
     );
   return (
     <div
+      role="button"
       ref={setNodeRef}
       style={style}
       {...attributes}

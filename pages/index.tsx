@@ -21,6 +21,7 @@ import { PiPencil } from "react-icons/pi";
 import {
   closestCenter,
   DndContext,
+  DragOverlay,
   PointerSensor,
   useSensor,
   useSensors,
