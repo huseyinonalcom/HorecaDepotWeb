@@ -70,9 +70,9 @@ export const PromoBanner = ({
             </button>
             <button
               onClick={() => {
-                console.log(homePage.layout["1"].content);
+                console.log(banner.id);
                 const index = homePage.layout["1"].content.findIndex(
-                  (el) => el === banner.id,
+                  (el) => el == banner.id.toString(),
                 );
                 let newContent = [...homePage.layout["1"].content];
                 console.log(newContent);

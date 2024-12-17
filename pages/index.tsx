@@ -433,17 +433,13 @@ export default function Index({
             id="slider-1"
             className={`no-scrollbar flex w-full snap-x snap-mandatory flex-row overflow-x-scroll`}
           >
-            {banners
-              .filter((banner) =>
-                homePage.layout["1"].content.includes(banner.id),
-              )
-              .map((banner) => (
-                <PromoBanner
-                  onEdit={onEdit}
-                  homePage={homePage}
-                  banner={banner}
-                />
-              ))}
+            {homePage.layout["1"].content.map((banner) => (
+              <PromoBanner
+                onEdit={onEdit}
+                homePage={homePage}
+                banner={banners.find((b) => b.id == banner)}
+              />
+            ))}
             {onEdit && (
               <>
                 <BannerModal order={"1"} />
