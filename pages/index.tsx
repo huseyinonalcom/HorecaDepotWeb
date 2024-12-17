@@ -8,7 +8,7 @@ import { Category } from "../api/interfaces/category";
 import Layout from "../components/public/layout";
 import Meta from "../components/public/meta";
 import { Check, ChevronLeft, PlusSquare, X } from "react-feather";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { getHomePage } from "./api/website/public/gethomepage";
@@ -18,6 +18,18 @@ import InputOutlined from "../components/inputs/outlined";
 import { uploadFileToAPI } from "./api/files/uploadfile";
 import TextareaOutlined from "../components/inputs/textarea_outlined";
 import { PiPencil } from "react-icons/pi";
+import {
+  closestCenter,
+  DndContext,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  horizontalListSortingStrategy,
+  SortableContext,
+} from "@dnd-kit/sortable";
 
 export default function Index({
   homePage,
@@ -417,6 +429,7 @@ export default function Index({
 
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
   let newBanner = JSON.parse(JSON.stringify(emptyBanner));
+  const sensors = useSensors(useSensor(PointerSensor));
   const content = (
     <>
       <Head>
@@ -433,13 +446,53 @@ export default function Index({
             id="slider-1"
             className={`no-scrollbar flex w-full snap-x snap-mandatory flex-row overflow-x-scroll`}
           >
-            {homePage.layout["1"].content.map((banner) => (
-              <PromoBanner
-                onEdit={onEdit}
-                homePage={homePage}
-                banner={banners.find((b) => b.id == banner)}
-              />
-            ))}
+            <DndContext
+              autoScroll={{ enabled: false }}
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={(e) => {
+                const { active, over } = e;
+
+                let items = homePage.layout["1"].content;
+
+                const activeIndex = items.indexOf(active.id);
+                const overIndex = items.indexOf(over.id);
+
+                if (activeIndex === overIndex) {
+                  return;
+                }
+
+                items = arrayMove(items, activeIndex, overIndex);
+
+                if (active.id !== over.id) {
+                  onEdit({
+                    ...homePage,
+                    layout: {
+                      ...homePage.layout,
+                      "1": {
+                        ...homePage.layout["1"],
+                        content: items,
+                      },
+                    },
+                  });
+                }
+              }}
+            >
+              <SortableContext
+                disabled={!onEdit}
+                strategy={horizontalListSortingStrategy}
+                items={homePage.layout["1"].content}
+              >
+                {homePage.layout["1"].content.map((banner) => (
+                  <PromoBanner
+                    key={banner.id}
+                    onEdit={onEdit}
+                    homePage={homePage}
+                    banner={banners.find((b) => b.id == banner)}
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
             {onEdit && (
               <>
                 <BannerModal order={"1"} />
