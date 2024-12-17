@@ -2,12 +2,12 @@ import { getAllCategoriesFlattened } from "./api/categories/public/getallcategor
 import CollectionShowcase from "../components/public/collection-showcase";
 import { getCollections } from "./api/collections/public/getcollections";
 import { CategoryBanner } from "../components/banners/CategoryBanner";
+import { Check, ChevronLeft, PlusSquare, X } from "react-feather";
 import useTranslation from "next-translate/useTranslation";
 import ImageWithURL from "../components/common/image";
 import { Category } from "../api/interfaces/category";
 import Layout from "../components/public/layout";
 import Meta from "../components/public/meta";
-import { Check, ChevronLeft, PlusSquare, X } from "react-feather";
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
@@ -18,14 +18,7 @@ import InputOutlined from "../components/inputs/outlined";
 import { uploadFileToAPI } from "./api/files/uploadfile";
 import TextareaOutlined from "../components/inputs/textarea_outlined";
 import { PiPencil } from "react-icons/pi";
-import {
-  closestCenter,
-  DndContext,
-  DragOverlay,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
+import { closestCenter, DndContext } from "@dnd-kit/core";
 import {
   arrayMove,
   horizontalListSortingStrategy,
@@ -430,7 +423,7 @@ export default function Index({
 
   const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
   let newBanner = JSON.parse(JSON.stringify(emptyBanner));
-  const sensors = useSensors(useSensor(PointerSensor));
+
   const content = (
     <>
       <Head>
@@ -449,7 +442,6 @@ export default function Index({
           >
             <DndContext
               autoScroll={{ enabled: false }}
-              sensors={sensors}
               collisionDetection={closestCenter}
               onDragEnd={(e) => {
                 const { active, over } = e;

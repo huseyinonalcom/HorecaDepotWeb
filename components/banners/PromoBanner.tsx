@@ -1,10 +1,10 @@
-import Link from "next/link";
-import ImageWithURL from "../common/image";
 import useTranslation from "next-translate/useTranslation";
-import { X } from "react-feather";
 import { useSortable } from "@dnd-kit/sortable";
+import ImageWithURL from "../common/image";
 import { CSS } from "@dnd-kit/utilities";
 import { CSSProperties } from "react";
+import { X } from "react-feather";
+import Link from "next/link";
 
 export const PromoBanner = ({
   homePage,
@@ -30,13 +30,13 @@ export const PromoBanner = ({
   const style: CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
-    zIndex: 99,
-    position: "relative",
   };
 
   const Wrapper = ({ children }) =>
     onEdit || disabled ? (
-      <div className="w-full cursor-grab px-3">{children}</div>
+      <div className="relative w-full cursor-grab px-3 active:cursor-grabbing">
+        {children}
+      </div>
     ) : (
       <Link href={image.linked_url} className="px-3 2xl:w-1/3">
         {children}
@@ -49,7 +49,7 @@ export const PromoBanner = ({
       style={style}
       {...attributes}
       {...listeners}
-      className="snap-start px-3 2xl:w-1/3"
+      className="snap-start px-3 active:z-50 2xl:w-1/3"
     >
       <Wrapper>
         {onEdit && (
