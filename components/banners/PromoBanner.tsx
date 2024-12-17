@@ -8,9 +8,9 @@ import Link from "next/link";
 
 export const PromoBanner = ({
   homePage,
+  onEdit,
   banner,
   disabled,
-  onEdit,
 }: {
   homePage;
   banner;
@@ -38,7 +38,7 @@ export const PromoBanner = ({
         {children}
       </div>
     ) : (
-      <Link href={image.linked_url} className="px-3 2xl:w-1/3">
+      <Link href={image.linked_url} className="w-full">
         {children}
       </Link>
     );
@@ -49,7 +49,7 @@ export const PromoBanner = ({
       style={style}
       {...attributes}
       {...listeners}
-      className="snap-start px-3 2xl:w-1/3"
+      className={disabled ? "snap-start px-3" : "snap-start px-3 2xl:w-1/3"}
     >
       <Wrapper>
         {onEdit && (

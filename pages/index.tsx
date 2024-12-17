@@ -18,7 +18,12 @@ import InputOutlined from "../components/inputs/outlined";
 import { uploadFileToAPI } from "./api/files/uploadfile";
 import TextareaOutlined from "../components/inputs/textarea_outlined";
 import { PiPencil } from "react-icons/pi";
-import { closestCenter, DndContext } from "@dnd-kit/core";
+import {
+  closestCenter,
+  DndContext,
+  PointerSensor,
+  useSensor,
+} from "@dnd-kit/core";
 import {
   arrayMove,
   horizontalListSortingStrategy,
@@ -441,6 +446,11 @@ export default function Index({
             className={`no-scrollbar flex w-full snap-x snap-mandatory flex-row overflow-x-scroll`}
           >
             <DndContext
+              sensors={[
+                useSensor(PointerSensor, {
+                  activationConstraint: { distance: 10 },
+                }),
+              ]}
               autoScroll={{ enabled: false }}
               collisionDetection={closestCenter}
               onDragEnd={(e) => {
