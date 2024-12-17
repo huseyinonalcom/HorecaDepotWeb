@@ -28,7 +28,7 @@ export const PromoBanner = ({
   return (
     <Wrapper>
       {onEdit && (
-        <div>
+        <div className="flex flex-row items-center justify-between">
           <button
             onClick={() => {
               onEdit({
