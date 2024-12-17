@@ -51,15 +51,23 @@ export const PromoBanner = ({
           <div>
             <button
               onClick={() => {
+                const index = homePage.layout["1"].content.findIndex(
+                  (el) => el == banner.id.toString(),
+                );
+                let newContent = [...homePage.layout["1"].content];
+                if (index > 0) {
+                  [newContent[index - 1], newContent[index]] = [
+                    newContent[index],
+                    newContent[index - 1],
+                  ];
+                }
                 onEdit({
                   ...homePage,
                   layout: {
                     ...homePage.layout,
                     "1": {
                       ...homePage.layout["1"],
-                      content: homePage.layout["1"].content.filter(
-                        (b) => b !== banner.id,
-                      ),
+                      content: newContent,
                     },
                   },
                 });
@@ -70,21 +78,16 @@ export const PromoBanner = ({
             </button>
             <button
               onClick={() => {
-                console.log(banner.id);
                 const index = homePage.layout["1"].content.findIndex(
                   (el) => el == banner.id.toString(),
                 );
                 let newContent = [...homePage.layout["1"].content];
-                console.log(newContent);
-                // Check if there's an element before the target
-                if (index > 0) {
-                  // Swap the elements using destructuring
-                  [newContent[index - 1], newContent[index]] = [
+                if (index < newContent.length - 1) {
+                  [newContent[index + 1], newContent[index]] = [
                     newContent[index],
-                    newContent[index - 1],
+                    newContent[index + 1],
                   ];
                 }
-                console.log(newContent);
                 onEdit({
                   ...homePage,
                   layout: {
