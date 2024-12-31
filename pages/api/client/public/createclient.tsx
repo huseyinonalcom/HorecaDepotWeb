@@ -37,8 +37,8 @@ export default async function postClient(
           },
           body: JSON.stringify({ data: clientData }),
         });
+        const answer = await requestClient.json();
         if (requestClient.ok) {
-          const answer = await requestClient.json();
           const clientID = answer["data"]["id"];
           addressData.client = clientID;
 
@@ -55,9 +55,9 @@ export default async function postClient(
             },
             body: JSON.stringify(userData),
           });
+          const answerUser = await requestUser.json();
+          console.log(answerUser);
           if (requestUser.ok) {
-            const userID = await requestUser.json()["id"];
-
             // Setup email data for Client
             let mailOptionsClient = {
               to: userData.email, // List of recipients
@@ -472,6 +472,8 @@ export default async function postClient(
             };
 
             sendMail(mailOptionsClient);
+          } else if (answerUser.error.message == "Email already taken") {
+            return res.status(409).json(statusText[400]);
           } else {
             return res.status(500).json(statusText[500]);
           }

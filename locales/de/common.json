@@ -314,5 +314,7 @@
   "No_payment_admin": "Keine Zahlung gefunden.",
   "Settings": "Einstellungen",
   "vat-excl": "MwSt. exkl.",
-  "parking": "Parkplatz (200 Meter)"
+  "parking": "Parkplatz (200 Meter)",
+  "email_taken": "E-mail ist bereits in Gebrauch",
+  "register_error": "Fehler beim Registrieren"
 }

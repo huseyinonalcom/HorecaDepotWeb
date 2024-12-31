@@ -318,5 +318,7 @@
   "Settings": "Paramètres",
   "Success": "Réussi",
   "vat-excl": "TVA excl.",
-  "parking": "Parking (200 mètres)"
+  "parking": "Parking (200 mètres)",
+  "email_taken": "L'e-mail est déjà utilisé",
+  "register_error": "Erreur lors de l'enregistrement"
 }

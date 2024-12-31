@@ -316,5 +316,7 @@
   "VAT excl.": "BTW excl.",
   "Settings": "Instellingen",
   "vat-excl": "Excl. BTW",
-  "parking": "Parking (200 meter)"
+  "parking": "Parking (200 meter)",
+  "email_taken": "E-mail is al in gebruik",
+  "register_error": "Fout bij het registreren"
 }

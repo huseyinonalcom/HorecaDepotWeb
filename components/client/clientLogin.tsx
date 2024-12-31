@@ -156,6 +156,8 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
       }),
     });
 
+    const res = await request.json();
+
     if (request.status == 200) {
       setUsername(newClient.email);
       setPassword(newClient.password);
@@ -180,7 +182,10 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
       });
       setPasswordRepeat("");
       setRegisterMode(false);
+    } else if (request.status == 409) {
+      setError(t("email_taken"));
     } else {
+      console.log(res);
       setError(t("register_error"));
     }
   };
