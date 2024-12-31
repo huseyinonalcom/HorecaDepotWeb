@@ -1,4 +1,5 @@
 import { Image } from "./image";
+import { Product } from "./product";
 
 export interface Category {
   image?: Image;
@@ -7,6 +8,7 @@ export interface Category {
   localized_name?: Record<string, string>;
   headCategory?: Category;
   subCategories?: Category[];
+  products_multi_categories?: Product[];
 }
 
 export class CategoryConversion {
