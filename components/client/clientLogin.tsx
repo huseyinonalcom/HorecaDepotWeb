@@ -185,7 +185,6 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
     } else if (request.status == 409) {
       setError(t("email_taken"));
     } else {
-      console.log(res);
       setError(t("register_error"));
     }
   };

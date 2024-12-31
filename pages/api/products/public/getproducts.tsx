@@ -110,7 +110,6 @@ export async function getProducts(req) {
     }
 
     if (categoryParam) {
-      console.log(categoriesToSearch);
       if (categoriesToSearch.length > 1) {
         let index = 0;
         categoriesToSearch.forEach((catS) => {

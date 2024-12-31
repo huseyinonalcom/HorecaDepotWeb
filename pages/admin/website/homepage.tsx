@@ -50,7 +50,6 @@ export default function HomePageAdmin({
             },
             body: JSON.stringify(homePage),
           }).then((res) => {
-            console.log(res);
             window.location.reload();
           });
         }}

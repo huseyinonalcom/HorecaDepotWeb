@@ -80,7 +80,6 @@ export default function Index({
             size={64}
             onClick={() => {
               setShownPromoBannerModal(order);
-              console.log(banners);
             }}
           />
         )}
@@ -90,7 +89,6 @@ export default function Index({
             size={64}
             onClick={() => {
               setShownPromoBannerModal(order);
-              console.log(banners);
             }}
           />
         )}

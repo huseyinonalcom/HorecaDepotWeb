@@ -56,7 +56,6 @@ export default async function postClient(
             body: JSON.stringify(userData),
           });
           const answerUser = await requestUser.json();
-          console.log(answerUser);
           if (requestUser.ok) {
             // Setup email data for Client
             try {
@@ -474,7 +473,6 @@ export default async function postClient(
 
               sendMail(mailOptionsClient);
             } catch (e) {
-              console.log(e);
             }
             return res.status(200).json(statusText[200]);
           } else if (answerUser.error.message == "Email already taken") {
