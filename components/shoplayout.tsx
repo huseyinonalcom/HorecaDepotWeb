@@ -23,7 +23,26 @@ export default function ShopLayout({ children }: Props) {
   useEffect(() => {
     fetch("/api/categories/getallcategories").then((res) => {
       res.json().then((cats) => {
-        setAllCategories(cats);
+        const validCategories = [];
+        cats.forEach((category) => {
+          if (category.products_multi_categories.length > 0) {
+            validCategories.push(category);
+          } else if (category.subCategories) {
+            category.subCategories.forEach((subCategory) => {
+              if (subCategory.products_multi_categories.length > 0) {
+                validCategories.push(category);
+              } else if (subCategory.subCategories) {
+                subCategory.subCategories.forEach((subSubCategory) => {
+                  if (subSubCategory.products_multi_categories.length > 0) {
+                    validCategories.push(category);
+                  }
+                });
+              }
+            });
+          }
+        });
+        let dedupedCategories = new Set(validCategories);
+        setAllCategories(Array.from(dedupedCategories));
       });
     });
   }, []);

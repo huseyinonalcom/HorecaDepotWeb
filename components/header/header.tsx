@@ -67,15 +67,22 @@ const CategoryItem = ({ category, onClick }) => {
           onMouseLeave={() => {
             setisHovered(false);
           }}
-          className="absolute left-full top-0 min-w-[200px] bg-white shadow-lg"
+          className="absolute left-full top-0 z-50 min-w-[200px] bg-white shadow-lg"
         >
-          {category.subCategories.map((subCategory) => (
-            <CategoryItem
-              key={subCategory.id}
-              category={subCategory}
-              onClick={() => onClick()}
-            />
-          ))}
+          {category.subCategories
+            .filter(
+              (subCategory) =>
+                subCategory.products_multi_categories.filter(
+                  (prod) => prod.active,
+                ).length > 0,
+            )
+            .map((subCategory) => (
+              <CategoryItem
+                key={subCategory.id}
+                category={subCategory}
+                onClick={() => onClick()}
+              />
+            ))}
         </div>
       )}
     </div>
@@ -420,7 +427,26 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
   const [showCategories, setShowCategories] = useState(false);
 
   useEffect(() => {
-    setCategories(categories);
+    const validCategories = [];
+    categories.forEach((category) => {
+      if (category.products_multi_categories.length > 0) {
+        validCategories.push(category);
+      } else if (category.subCategories) {
+        category.subCategories.forEach((subCategory) => {
+          if (subCategory.products_multi_categories.length > 0) {
+            validCategories.push(category);
+          } else if (subCategory.subCategories) {
+            subCategory.subCategories.forEach((subSubCategory) => {
+              if (subSubCategory.products_multi_categories.length > 0) {
+                validCategories.push(category);
+              }
+            });
+          }
+        });
+      }
+    });
+    let dedupedCategories = new Set(validCategories);
+    setCategories(Array.from(dedupedCategories));
   }, [categories]);
 
   const CategoryItem = ({ category, onClick }) => {
@@ -471,13 +497,19 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
               (isHovered ? "max-h-96" : "max-h-0")
             }
           >
-            {category.subCategories.map((subCategory) => (
-              <CategoryItem
-                key={subCategory.id}
-                category={subCategory}
-                onClick={() => onClick()}
-              />
-            ))}
+            {category.subCategories
+              .filter(
+                (sc) =>
+                  sc.products_multi_categories.filter((prod) => prod.active)
+                    .length > 0 || sc.subCategories.length > 0,
+              )
+              .map((subCategory) => (
+                <CategoryItem
+                  key={subCategory.id}
+                  category={subCategory}
+                  onClick={() => onClick()}
+                />
+              ))}
           </div>
         )}
       </div>
@@ -623,7 +655,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             {t("Categories")}
           </button>
           <div
-            className={`fixed right-0 flex flex-col bg-gray-100 py-2 text-gray-500 duration-300 ${showCategories ? `w-[310px]` : `w-0`}`}
+            className={`fixed right-0 flex flex-col bg-gray-100 py-2 min-h-[80vh] text-gray-500 duration-300 ${showCategories ? `w-[310px]` : `w-0`}`}
           >
             {allCategories.map((category) => (
               <CategoryItem
@@ -742,7 +774,7 @@ const HeaderButtons = ({ cartItems }) => {
   );
 };
 
-const CategoryDrawerMobile = ({ isOpen, categories, closeDrawer }) => {
+const CategoryDrawerMobile = ({ isOpen, categoriesToShow, closeDrawer }) => {
   const { t } = useTranslation("common");
 
   return (
@@ -761,7 +793,7 @@ const CategoryDrawerMobile = ({ isOpen, categories, closeDrawer }) => {
           </button>
         </div>
         <div className="my-4 flex w-full flex-col border-b border-t bg-white py-2 text-gray-500 duration-300">
-          {categories.map((category) => (
+          {categoriesToShow.map((category) => (
             <CategoryItem
               key={category.id}
               category={category}
@@ -814,13 +846,20 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
                 >
                   {t("All")} {t(category.localized_name[lang])}
                 </a> */}
-                {category.subCategories.map((subCategory) => (
-                  <CategoryItem
-                    key={subCategory.id}
-                    category={subCategory}
-                    onClick={() => closeDrawer()}
-                  />
-                ))}
+                {category.subCategories
+                  .filter(
+                    (subCategory) =>
+                      subCategory.products_multi_categories.filter(
+                        (prod) => prod.active,
+                      ).length > 0 || subCategory.subCategories.length > 0,
+                  )
+                  .map((subCategory) => (
+                    <CategoryItem
+                      key={subCategory.id}
+                      category={subCategory}
+                      onClick={() => closeDrawer()}
+                    />
+                  ))}
               </div>
             ))}
           {categories.filter((cat) => cat.subCategories.length == 0) && (
@@ -876,7 +915,26 @@ const Header = () => {
 
   useEffect(() => {
     if (allCategories.length === 0 && categories.length > 0) {
-      setAllCategories(categories);
+      const validCategories = [];
+      categories.forEach((category) => {
+        if (category.products_multi_categories.length > 0) {
+          validCategories.push(category);
+        } else if (category.subCategories) {
+          category.subCategories.forEach((subCategory) => {
+            if (subCategory.products_multi_categories.length > 0) {
+              validCategories.push(category);
+            } else if (subCategory.subCategories) {
+              subCategory.subCategories.forEach((subSubCategory) => {
+                if (subSubCategory.products_multi_categories.length > 0) {
+                  validCategories.push(category);
+                }
+              });
+            }
+          });
+        }
+      });
+      let dedupedCategories = new Set(validCategories);
+      setAllCategories(Array.from(dedupedCategories));
     }
   }, [categories]);
 
@@ -893,7 +951,7 @@ const Header = () => {
       <div className="flex lg:hidden">
         <CategoryDrawerMobile
           isOpen={showCategories}
-          categories={allCategories}
+          categoriesToShow={allCategories}
           closeDrawer={() => setShowCategories(false)}
         />
       </div>

@@ -77,10 +77,6 @@ export async function getProducts(req) {
       }
     });
 
-    const mainCategories = allCategories.filter((cat) => !cat.headCategory);
-
-    let categories: Category[] = mainCategories;
-
     let categoriesToSearch: number[] = [];
 
     categoryParam ? (categoryParam = decodeURIComponent(categoryParam)) : null;
@@ -100,7 +96,7 @@ export async function getProducts(req) {
     }
 
     if (categoryParam) {
-      categoriesToSearch = getAllSubcategoryIds(categories, categoryParam);
+      categoriesToSearch = getAllSubcategoryIds(allCategories, categoryParam);
     }
 
     let fetchUrl: string =
@@ -114,6 +110,7 @@ export async function getProducts(req) {
     }
 
     if (categoryParam) {
+      console.log(categoriesToSearch);
       if (categoriesToSearch.length > 1) {
         let index = 0;
         categoriesToSearch.forEach((catS) => {
