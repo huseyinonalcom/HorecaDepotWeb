@@ -1,4 +1,4 @@
-import  { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
@@ -21,6 +21,17 @@ export default function Admin() {
       goToPassword();
     }
   };
+
+  useEffect(() => {
+    const validateSession = async () => {
+      const data = await fetch("/api/admin/checkloggedinuser");
+
+      if (data.status == 200) {
+        router.push("/admin/dashboard");
+      }
+    };
+    validateSession();
+  }, []);
 
   const goToPassword = () => {
     passwordInput.current?.focus();
