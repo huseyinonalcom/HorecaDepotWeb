@@ -11,7 +11,6 @@ const fetchProducts = async ({
   search: string;
   page: number;
 }) => {
-  console.log("fetching products");
   const request = await fetch(
     `/api/products/public/getproducts?page=${page}${search != "" ? "&search=" + search : ""}`,
   );

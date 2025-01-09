@@ -22,7 +22,7 @@ export async function postToAPI({ req, res }) {
     let ans = await request.json();
 
     if (request.ok) {
-      return true;
+      return ans.data.id ?? true;
     } else {
       return false;
     }
@@ -45,7 +45,7 @@ export default async function handler(req, res) {
       revalidatePath("/");
     } catch (_) {}
 
-    return res.status(200).json(statusText[200]);
+    return res.status(200).json({ id: response });
   } catch (e) {
     return res.status(500).json(statusText[500]);
   }

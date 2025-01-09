@@ -1,8 +1,8 @@
 import statusText from "../../../../api/statustexts";
 
-export async function getBanners() {
+export async function getBanners({ id }: { id?: string }) {
   const response = await fetch(
-    `${process.env.API_URL}/api/banners?populate[images][populate]=image&count=10000`,
+    `${process.env.API_URL}/api/banners${id ? `/${id}` : ""}?populate[images][populate]=image&count=10000`,
     {
       headers: {
         Authorization: `Bearer ${process.env.API_KEY}`,
@@ -20,7 +20,7 @@ export async function getBanners() {
 
 export default async function handler(req, res) {
   try {
-    const response = await getBanners();
+    const response = await getBanners({});
 
     if (!response) {
       return res.status(400).json(statusText[400]);

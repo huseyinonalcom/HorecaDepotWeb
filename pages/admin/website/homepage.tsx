@@ -67,7 +67,7 @@ export const getServerSideProps = async ({ locale }) => {
 
   const collectionsFromAPI = await getCollections({});
 
-  const bannersFromAPI = await getBanners();
+  const bannersFromAPI = await getBanners({});
 
   return {
     props: {

@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MdOutlineTextRotationNone } from "react-icons/md";
 import { PiBoxArrowUpThin, PiGear } from "react-icons/pi";
-import { VscSymbolKeyword } from "react-icons/vsc";
+import { VscPreview, VscSymbolKeyword } from "react-icons/vsc";
 
 const AdminDrawer = () => {
   const router = useRouter();
@@ -59,6 +59,12 @@ const AdminDrawer = () => {
                 <Grid className={iconClass} />
               </div>
               <span className={textClass}>{t("Collections")}</span>
+            </Link>
+            <Link className={buttonClass} href="/admin/website/banners">
+              <div className={navIconDivClass}>
+                <VscPreview className={iconClass} />
+              </div>
+              <span className={textClass}>{t("banners")}</span>
             </Link>
             <Link className={buttonClass} href="/admin/website/banner">
               <div className={navIconDivClass}>

@@ -25,8 +25,6 @@ export async function getCollections({
     });
 
     const ans = await fetchCollectionsRequest.json();
-    console.log(fetchCollectionsRequest.url);
-    console.log(ans);
 
     if (fetchCollectionsRequest.ok) {
       const fetchCollectionsAnswer = ans;

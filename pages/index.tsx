@@ -723,7 +723,7 @@ export const getStaticProps = async () => {
   const allCollections = await getCollections({});
   const collections = allCollections.filter((coll) => coll.featured);
 
-  const allBanners = await getBanners();
+  const allBanners = await getBanners({});
   const banners = allBanners;
 
   return {
