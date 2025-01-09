@@ -1,14 +1,14 @@
-import Head from "next/head";
-import AdminLayout from "../../../../components/admin/adminLayout";
+import TextareaOutlined from "../../../../components/inputs/textarea_outlined";
 import { getBanners } from "../../../api/website/public/getbanners";
-import useTranslation from "next-translate/useTranslation";
-import { Check } from "react-feather";
 import InputOutlined from "../../../../components/inputs/outlined";
+import AdminLayout from "../../../../components/admin/adminLayout";
 import { uploadFileToAPI } from "../../../api/files/uploadfile";
 import ImageWithURL from "../../../../components/common/image";
-import { useState } from "react";
-import TextareaOutlined from "../../../../components/inputs/textarea_outlined";
+import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
+import { Check } from "react-feather";
+import { useState } from "react";
+import Head from "next/head";
 
 export default function BannerEdit(props) {
   const { t, lang } = useTranslation("common");
