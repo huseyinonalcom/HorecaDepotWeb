@@ -316,5 +316,6 @@
   "vat-excl": "MwSt. exkl.",
   "parking": "Parkplatz (200 Meter)",
   "email_taken": "E-mail ist bereits in Gebrauch",
-  "register_error": "Fehler beim Registrieren"
+  "register_error": "Fehler beim Registrieren",
+  "add-product": "Produkt hinzufügen"
 }

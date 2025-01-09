@@ -320,5 +320,6 @@
   "vat-excl": "TVA excl.",
   "parking": "Parking (200 mètres)",
   "email_taken": "L'e-mail est déjà utilisé",
-  "register_error": "Erreur lors de l'enregistrement"
+  "register_error": "Erreur lors de l'enregistrement",
+  "add-product": "Ajouter un produit"
 }

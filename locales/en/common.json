@@ -317,5 +317,6 @@
   "vat-excl": "VAT excl.",
   "parking": "Parking (200 meters)",
   "email_taken": "E-mail is already in use",
-  "register_error": "Error while registering"
+  "register_error": "Error while registering",
+  "add-product": "Add Product"
 }

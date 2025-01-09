@@ -14,7 +14,7 @@ export async function getCollections({
       collectionID ? `/${collectionID}` : ""
     }?populate[products][fields][0]=name${
       filterFeatured ?? "&filters[featured][$eq]=true"
-    }&populate[products][fields][1]=supplierCode&populate[products][fields][2]=color&populate[products][populate][shelves][fields][0]=stock&populate[products][fields][4]=material&populate[products][fields][5]=priceBeforeDiscount&populate[products][fields][6]=value&populate[products][fields][7]=active&populate[products][fields][8]=imageDirections&populate[image][fields][0]=url&populate[products][populate][images][fields][0]=url&populate[products][populate][categories][fields][0]=localized_name`;
+    }&populate[products][fields][1]=internalCode&populate[products][fields][2]=color&populate[products][populate][shelves][fields][0]=stock&populate[products][fields][4]=material&populate[products][fields][5]=priceBeforeDiscount&populate[products][fields][6]=value&populate[products][fields][7]=active&populate[products][fields][8]=imageDirections&populate[image][fields][0]=url&populate[products][populate][images][fields][0]=url&populate[products][populate][categories][fields][0]=localized_name&populate[products][populate][product_color][fields][0]=name`;
     const fetchCollectionsRequest = await fetch(fetchCollectionsUrl, {
       method: "GET",
       headers: {
@@ -25,6 +25,8 @@ export async function getCollections({
     });
 
     const ans = await fetchCollectionsRequest.json();
+    console.log(fetchCollectionsRequest.url);
+    console.log(ans);
 
     if (fetchCollectionsRequest.ok) {
       const fetchCollectionsAnswer = ans;
@@ -60,7 +62,7 @@ export default async function handler(req, res) {
 
   let collectionID = "";
   if (req.query.id && Number.isSafeInteger(Number(req.query.id))) {
-    collectionID = `/${req.query.id}`;
+    collectionID = `${req.query.id}`;
   }
 
   try {
