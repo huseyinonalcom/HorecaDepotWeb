@@ -65,7 +65,7 @@ export const getServerSideProps = async ({ locale }) => {
 
   const allCategories = await getAllCategoriesFlattened();
 
-  const collectionsFromAPI = await getCollections();
+  const collectionsFromAPI = await getCollections({});
 
   const bannersFromAPI = await getBanners();
 

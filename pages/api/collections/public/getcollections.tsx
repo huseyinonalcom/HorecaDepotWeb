@@ -1,11 +1,17 @@
 import statusText from "../../../../api/statustexts";
 
-export async function getCollections(collectionID?, filterFeatured?) {
+export async function getCollections({
+  collectionID,
+  filterFeatured,
+}: {
+  collectionID?: string;
+  filterFeatured?: string;
+}) {
   try {
     const fetchCollectionsUrl = `${
       process.env.API_URL
     }/api/product-collections${
-      collectionID ?? ""
+      collectionID ? `/${collectionID}` : ""
     }?populate[products][fields][0]=name${
       filterFeatured ?? "&filters[featured][$eq]=true"
     }&populate[products][fields][1]=supplierCode&populate[products][fields][2]=color&populate[products][populate][shelves][fields][0]=stock&populate[products][fields][4]=material&populate[products][fields][5]=priceBeforeDiscount&populate[products][fields][6]=value&populate[products][fields][7]=active&populate[products][fields][8]=imageDirections&populate[image][fields][0]=url&populate[products][populate][images][fields][0]=url&populate[products][populate][categories][fields][0]=localized_name`;
@@ -18,8 +24,10 @@ export async function getCollections(collectionID?, filterFeatured?) {
       },
     });
 
+    const ans = await fetchCollectionsRequest.json();
+
     if (fetchCollectionsRequest.ok) {
-      const fetchCollectionsAnswer = await fetchCollectionsRequest.json();
+      const fetchCollectionsAnswer = ans;
       // Sort collections by value (ascending)
       for (let i = 0; i < fetchCollectionsAnswer.data.length; i++) {
         fetchCollectionsAnswer.data[i].products = fetchCollectionsAnswer.data[
@@ -56,7 +64,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    const collectionsData = await getCollections(collectionID, filterFeatured);
+    const collectionsData = await getCollections({
+      collectionID,
+      filterFeatured,
+    });
     return res.status(200).json(collectionsData);
   } catch (error) {
     return res.status(500).json(statusText[500]);

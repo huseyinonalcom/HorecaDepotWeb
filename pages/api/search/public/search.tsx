@@ -90,7 +90,7 @@ export async function fuzzySearch({ search }: { search: string }) {
       let prods = (await getProducts({ query: { page: 1, count: 5000 } }))
         .sortedData;
       data.products = productsUpdateCategories(prods, data.categories);
-      data.collections = await getCollections();
+      data.collections = await getCollections({});
       cache.lastFetch = now;
       cache.data = data;
     } catch (error) {

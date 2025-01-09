@@ -720,7 +720,7 @@ export const getStaticProps = async () => {
     homePage.layout["2"].content.includes(cat.id),
   );
 
-  const allCollections = await getCollections();
+  const allCollections = await getCollections({});
   const collections = allCollections.filter((coll) => coll.featured);
 
   const allBanners = await getBanners();
