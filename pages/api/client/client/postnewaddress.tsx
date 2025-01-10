@@ -76,7 +76,6 @@ export default async function postNewAddress(
       },
       body: JSON.stringify({ data: addressData }),
     });
-    const answer = await requestAddress.json();
     if (requestAddress.ok) {
       return res.status(200).json(statusText[200]);
     } else {
