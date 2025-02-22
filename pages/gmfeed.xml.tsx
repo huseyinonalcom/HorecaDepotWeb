@@ -14,9 +14,9 @@ ${products
     return `
 <item>
 <g:id>${prd.internalCode}</g:id>
-<g:title>${prd.categories.at(0).Name + " " + prd.name}</g:title>
-<g:description>${prd.name + " " + (prd.localized_description?.en ?? prd.categories.map((c) => c.Name).join(", "))}</g:description>
-<g:link>https://www.horecadepot.be/products/${prd.categories.at(0).Name}/${prd.name}/${prd.id}</g:link> <g:image_link>https://hdapi.huseyinonalalpha.com${getCoverImageUrl(prd)}</g:image_link> <g:condition>new</g:condition>
+<g:title>${prd.categories.at(0).localized_name.en + " " + prd.name}</g:title>
+<g:description>${prd.name + " " + (prd.localized_description?.en ?? prd.categories.map((c) => c.localized_name.en).join(", "))}</g:description>
+<g:link>https://www.horecadepot.be/products/${prd.categories.at(0).localized_name.en}/${prd.name}/${prd.id}</g:link> <g:image_link>https://hdapi.huseyinonalalpha.com${getCoverImageUrl(prd)}</g:image_link> <g:condition>new</g:condition>
 <g:availability>in_stock</g:availability>
 <g:price>${prd.value} EUR</g:price>
 <g:gtin>${prd.supplierCode}</g:gtin>
