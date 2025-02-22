@@ -120,24 +120,6 @@ const ProductPreview2 = ({ product }: Props) => {
           </div>
           <div
             draggable={false}
-            className="flex flex-row items-center gap-1 text-sm"
-          >
-            <p draggable={false} className="font-bold">
-              {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
-            </p>
-            {product.priceBeforeDiscount > product.value && (
-              <p
-                draggable={false}
-                className="mb-0.5 text-gray-700 line-through"
-              >
-                {"€ " +
-                  product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
-              </p>
-            )}
-            <p className="text-xs">{t("vat-incl")}</p>
-          </div>
-          <div
-            draggable={false}
             className="flex flex-row items-center gap-1 py-1"
           >
             <button

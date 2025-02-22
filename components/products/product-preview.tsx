@@ -142,24 +142,6 @@ const ProductPreview = ({ product }: Props) => {
               </p>
             ) : null}
           </div>
-          <div
-            draggable={false}
-            className="flex flex-row items-center gap-1 text-sm"
-          >
-            <p draggable={false} className="font-bold">
-              {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
-            </p>
-            {product.priceBeforeDiscount > product.value && (
-              <p
-                draggable={false}
-                className="mb-0.5 text-gray-700 line-through"
-              >
-                {"€ " +
-                  product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
-              </p>
-            )}
-            <p className="text-xs">{t("vat-incl")}</p>
-          </div>
           {product.shelves && product.shelves.length > 0 && (
             <div draggable={false} className="text-sm font-semibold">
               {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) >
