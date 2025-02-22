@@ -93,7 +93,7 @@ const ProductPreview2 = ({ product }: Props) => {
           )}
           <div draggable={false} className="flex flex-row items-end gap-1">
             <p draggable={false} className="font-bold">
-              {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
+              {"€ " + (product.value / 1.21).toFixed(2).replaceAll(".", ",")}
             </p>
             {product.priceBeforeDiscount > product.value && (
               <p
@@ -101,7 +101,9 @@ const ProductPreview2 = ({ product }: Props) => {
                 className="mb-0.5 text-sm text-gray-700 line-through"
               >
                 {"€ " +
-                  product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
+                  (product.priceBeforeDiscount / 1.21)
+                    .toFixed(2)
+                    .replaceAll(".", ",")}
               </p>
             )}
             {product.priceBeforeDiscount > product.value ? (
@@ -112,6 +114,21 @@ const ProductPreview2 = ({ product }: Props) => {
                 -{discountPercentage}%
               </p>
             ) : null}
+          </div>
+          <div draggable={false} className="flex flex-row text-sm items-center gap-1">
+            <p draggable={false} className="font-bold">
+              {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
+            </p>
+            {product.priceBeforeDiscount > product.value && (
+              <p
+                draggable={false}
+                className="mb-0.5 text-gray-700 line-through"
+              >
+                {"€ " +
+                  product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
+              </p>
+            )}
+            <p className="text-xs">{t("vat-incl")}</p>
           </div>
           <div
             draggable={false}

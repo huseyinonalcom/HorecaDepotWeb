@@ -687,6 +687,19 @@ export default function Checkout(props) {
               </p>
               <p>
                 {t("Total")}: €{" "}
+                {(
+                  (calculateTotal().totalAfterDiscount +
+                    (client?.client_info.addresses?.find(
+                      (add) => add.id == chosenDeliveryAddressId,
+                    )?.shippingDistance ?? 0) *
+                      props.costPerKM) /
+                  1.21
+                )
+                  .toFixed(2)
+                  .replaceAll(".", ",")}
+              </p>
+              <p>
+                {t("Total")} {t("vat-incl")}: €{" "}
                 {calculateTotal().totalAfterDiscount +
                   (client?.client_info.addresses?.find(
                     (add) => add.id == chosenDeliveryAddressId,

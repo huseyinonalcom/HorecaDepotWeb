@@ -159,11 +159,20 @@ const CartDrawer = () => {
               </div>
             )}
             <div className="flex flex-row items-center justify-between">
-              <h3 className="text-lg font-extrabold">{`${t("Shipping")}:`}</h3>
+              <h3 className="text-lg font-extrabold">{`${t("shipping")}:`}</h3>
               <h3 className="text-lg font-extrabold">{"€ ??"}</h3>
             </div>
             <div className="flex flex-row items-center justify-between">
               <h3 className="text-lg font-extrabold">{`${t("Total")}:`}</h3>
+              <h3 className="text-lg font-extrabold">
+                €{" "}
+                {(calculateTotal().totalAfterDiscount / 1.21)
+                  .toFixed(2)
+                  .replace(".", ",")}
+              </h3>
+            </div>
+            <div className="flex flex-row items-center justify-between">
+              <h3 className="text-lg font-extrabold">{`${t("Total")} ${t("vat-incl")}:`}</h3>
               <h3 className="text-lg font-extrabold">
                 €{" "}
                 {calculateTotal()

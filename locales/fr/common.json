@@ -321,5 +321,7 @@
   "parking": "Parking (200 mètres)",
   "email_taken": "L'e-mail est déjà utilisé",
   "register_error": "Erreur lors de l'enregistrement",
-  "add-product": "Ajouter un produit"
+  "add-product": "Ajouter un produit",
+  "shipping": "Frais de port",
+  "vat-incl": "TVA incl."
 }

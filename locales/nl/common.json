@@ -319,5 +319,7 @@
   "parking": "Parking (200 meter)",
   "email_taken": "E-mail is al in gebruik",
   "register_error": "Fout bij het registreren",
-  "add-product": "Product toevoegen"
+  "add-product": "Product toevoegen",
+  "shipping": "Verzendkosten",
+  "vat-incl": "BTW incl."
 }

@@ -29,11 +29,7 @@ type Props = {
   categories;
 };
 
-const ProductPage = ({
-  product,
-  relatedProducts,
-  breadCrumbs,
-}: Props) => {
+const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
   const { t, lang } = useTranslation("common");
 
   const [ref] = useDragScroll();
@@ -130,11 +126,13 @@ const ProductPage = ({
               {product.priceBeforeDiscount <= product.value ? null : (
                 <h3 className="font-bold text-gray-800 line-through">
                   {"€ " +
-                    product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
+                    (product.priceBeforeDiscount / 1.21)
+                      .toFixed(2)
+                      .replaceAll(".", ",")}
                 </h3>
               )}
               <h3 className="text-lg font-bold">
-                {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
+                {"€ " + (product.value / 1.21).toFixed(2).replaceAll(".", ",")}
               </h3>
               {product.priceBeforeDiscount > product.value ? (
                 <p
@@ -149,16 +147,19 @@ const ProductPage = ({
                 </p>
               ) : null}
             </div>
-
             <div className="flex flex-row items-center gap-2">
+              {product.priceBeforeDiscount <= product.value ? null : (
+                <h3 className="font-bold text-gray-800 line-through">
+                  {"€ " +
+                    product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
+                </h3>
+              )}
               <h3 className="text-lg font-bold">
-                {"€ " +
-                  (product.value / (1 + product.tax / 100))
-                    .toFixed(2)
-                    .replaceAll(".", ",")}
+                {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
               </h3>
-              <h4 className="text-xs">{t("vat-excl")}</h4>
+              <p>{t("vat-incl")}</p>
             </div>
+
             {product.color && !product.product_color && (
               <p>
                 <b>{t("Color")}:</b> {product.color}
