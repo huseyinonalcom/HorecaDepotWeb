@@ -57,7 +57,7 @@ const ProductButtons = ({ product, amount, onChange }: Props) => {
           />
         </div>
         <h3 className="text-md font-bold text-black">
-          {"€ " + (cartAmount * product.value).toFixed(2).replaceAll(".", ",")}
+          {"€ " + ((cartAmount * product.value) / 1.21).toFixed(2).replaceAll(".", ",")}
         </h3>
       </div>
       <div className="flex h-12 flex-row items-center gap-2 pr-2 text-white">

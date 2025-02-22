@@ -122,7 +122,7 @@ const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
             <h3 className="text-lg font-semibold">
               {product.internalCode != "0" ? product.internalCode : ""}
             </h3>
-            <div className="flex flex-row items-center gap-2">
+            <div className="flex flex-row items-center gap-2 text-2xl">
               {product.priceBeforeDiscount <= product.value ? null : (
                 <h3 className="font-bold text-gray-800 line-through">
                   {"€ " +
@@ -131,7 +131,7 @@ const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
                       .replaceAll(".", ",")}
                 </h3>
               )}
-              <h3 className="text-lg font-bold">
+              <h3 className="font-bold">
                 {"€ " + (product.value / 1.21).toFixed(2).replaceAll(".", ",")}
               </h3>
               {product.priceBeforeDiscount > product.value ? (
@@ -154,7 +154,7 @@ const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
                     product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
                 </h3>
               )}
-              <h3 className="text-lg font-bold">
+              <h3 className="font-bold">
                 {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
               </h3>
               <p>{t("vat-incl")}</p>

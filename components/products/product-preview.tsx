@@ -118,14 +118,14 @@ const ProductPreview = ({ product }: Props) => {
               {product.internalCode != "0" ? product.internalCode : ""}
             </p>
           )}
-          <div draggable={false} className="flex flex-row items-end gap-1">
+          <div draggable={false} className="flex flex-row items-end gap-1 text-lg">
             <p draggable={false} className="font-bold">
               {"€ " + (product.value / 1.21).toFixed(2).replaceAll(".", ",")}
             </p>
             {product.priceBeforeDiscount > product.value && (
               <p
                 draggable={false}
-                className="mb-0.5 text-sm text-gray-700 line-through"
+                className="mb-0.5 text-base text-gray-700 line-through"
               >
                 {"€ " +
                   (product.priceBeforeDiscount / 1.21)
