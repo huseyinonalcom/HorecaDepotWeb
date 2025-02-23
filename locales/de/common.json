@@ -319,5 +319,6 @@
   "register_error": "Fehler beim Registrieren",
   "add-product": "Produkt hinzufügen",
   "shipping": "Versandkosten",
-  "vat-incl": "MwSt. inkl."
+  "vat-incl": "MwSt. inkl.",
+  "reviews": "Bewertungen"
 }

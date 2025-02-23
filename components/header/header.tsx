@@ -26,6 +26,7 @@ import { ClientContext } from "../../api/providers/clientProvider";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import ProductPreview3 from "../products/product-preview3";
 import { BannerContext } from "../../api/providers/bannerProdiver";
+import { Rating } from "react-simple-star-rating";
 
 const CategoryItem = ({ category, onClick }) => {
   const { t, lang } = useTranslation("common");
@@ -294,6 +295,18 @@ const TopBar = () => {
     "px-4 duration-300 font-bold underline-animation-white whitespace-nowrap";
   const navLinkClass =
     "duration-500 font-semibold hover:decoration-white decoration-transparent underline underline-offset-2 decoration-2 whitespace-nowrap";
+
+  const [rating, setRating] = useState(null);
+
+  if (rating == null) {
+    fetch("/api/external/public/googlerating").then((res) => {
+      res.json().then((res) => {
+        setRating(res);
+        console.log(res);
+      });
+    });
+  }
+
   return (
     <div className="hidden w-full flex-row items-center justify-between gap-4 border-b border-gray-500 px-5 pb-2 md:flex">
       <div className="flex flex-row items-center gap-4">
@@ -326,6 +339,48 @@ const TopBar = () => {
         <Link className={navLinkClass} href="/parking">
           {t("Parking")}
         </Link>
+      </div>
+
+      <div className="flex flex-row items-start gap-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={272 * 0.3}
+          height={92 * 0.3}
+          viewBox="0 0 272 92"
+        >
+          <path
+            fill="#EA4335"
+            d="M115.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18C71.25 34.32 81.24 25 93.5 25s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44S80.99 39.2 80.99 47.18c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"
+          />
+          <path
+            fill="#FBBC05"
+            d="M163.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18c0-12.85 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44s-12.51 5.46-12.51 13.44c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"
+          />
+          <path
+            fill="#4285F4"
+            d="M209.75 26.34v39.82c0 16.38-9.66 23.07-21.08 23.07-10.75 0-17.22-7.19-19.66-13.07l8.48-3.53c1.51 3.61 5.21 7.87 11.17 7.87 7.31 0 11.84-4.51 11.84-13v-3.19h-.34c-2.18 2.69-6.38 5.04-11.68 5.04-11.09 0-21.25-9.66-21.25-22.09 0-12.52 10.16-22.26 21.25-22.26 5.29 0 9.49 2.35 11.68 4.96h.34v-3.61h9.25zm-8.56 20.92c0-7.81-5.21-13.52-11.84-13.52-6.72 0-12.35 5.71-12.35 13.52 0 7.73 5.63 13.36 12.35 13.36 6.63 0 11.84-5.63 11.84-13.36z"
+          />
+          <path fill="#34A853" d="M225 3v65h-9.5V3h9.5z" />
+          <path
+            fill="#EA4335"
+            d="m262.02 54.48 7.56 5.04c-2.44 3.61-8.32 9.83-18.48 9.83-12.6 0-22.01-9.74-22.01-22.18 0-13.19 9.49-22.18 20.92-22.18 11.51 0 17.14 9.16 18.98 14.11l1.01 2.52-29.65 12.28c2.27 4.45 5.8 6.72 10.75 6.72 4.96 0 8.4-2.44 10.92-6.14zm-23.27-7.98 19.82-8.23c-1.09-2.77-4.37-4.7-8.23-4.7-4.95 0-11.84 4.37-11.59 12.93z"
+          />
+          <path
+            fill="#4285F4"
+            d="M35.29 41.41V32H67c.31 1.64.47 3.58.47 5.68 0 7.06-1.93 15.79-8.15 22.01-6.05 6.3-13.78 9.66-24.02 9.66C16.32 69.35.36 53.89.36 34.91.36 15.93 16.32.47 35.3.47c10.5 0 17.98 4.12 23.6 9.49l-6.64 6.64c-4.03-3.78-9.49-6.72-16.97-6.72-13.86 0-24.7 11.17-24.7 25.03 0 13.86 10.84 25.03 24.7 25.03 8.99 0 14.11-3.61 17.39-6.89 2.66-2.66 4.41-6.46 5.1-11.65l-22.49.01z"
+          />
+        </svg>
+        <p className="mt-0.5">
+          {rating?.userRatingCount} {t("reviews")}
+        </p>
+        <Rating
+          allowFraction
+          readonly
+          SVGclassName="inline-block"
+          iconsCount={5}
+          size={20}
+          initialValue={rating?.rating ?? 5}
+        />
       </div>
       <div className="group relative z-50 hidden w-[55px] flex-shrink-0 lg:inline-block">
         <Image
@@ -655,7 +710,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             {t("Categories")}
           </button>
           <div
-            className={`fixed right-0 flex flex-col bg-gray-100 py-2 min-h-[80vh] text-gray-500 duration-300 ${showCategories ? `w-[310px]` : `w-0`}`}
+            className={`fixed right-0 flex min-h-[80vh] flex-col bg-gray-100 py-2 text-gray-500 duration-300 ${showCategories ? `w-[310px]` : `w-0`}`}
           >
             {allCategories.map((category) => (
               <CategoryItem

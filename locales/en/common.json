@@ -320,5 +320,6 @@
   "register_error": "Error while registering",
   "add-product": "Add Product",
   "shipping": "Shipping",
-  "vat-incl": "VAT incl."
+  "vat-incl": "VAT incl.",
+  "reviews": "Reviews"
 }

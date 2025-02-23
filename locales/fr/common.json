@@ -323,5 +323,6 @@
   "register_error": "Erreur lors de l'enregistrement",
   "add-product": "Ajouter un produit",
   "shipping": "Frais de port",
-  "vat-incl": "TVA incl."
+  "vat-incl": "TVA incl.",
+  "reviews": "Avis"
 }
