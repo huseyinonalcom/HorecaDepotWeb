@@ -350,6 +350,7 @@ export async function getServerSideProps(context) {
   try {
     const productsData = await fetchProducts({
       authToken: req.cookies.j,
+      category: req.query.category,
     });
     allProducts = productsData.data;
     currentPage = productsData.meta.pagination.page;
