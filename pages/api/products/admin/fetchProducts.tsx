@@ -17,7 +17,7 @@ export async function fetchProducts({
   try {
     const pageString = "&pagination[page]=" + (page ?? 1);
     const sort = "&sort=name";
-    const pageSize = "&pagination[pageSize]=30";
+    const pageSize = "&pagination[pageSize]=20";
     let searchString = "";
     let categoryString = "";
 

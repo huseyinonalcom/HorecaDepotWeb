@@ -19,6 +19,7 @@
     "next-translate": "latest",
     "nodemailer": "^6.9.9",
     "onlinepayments-sdk-nodejs": "latest",
+    "qr-scanner": "^1.4.2",
     "qs": "^6.12.1",
     "react": "latest",
     "react-dom": "latest",
