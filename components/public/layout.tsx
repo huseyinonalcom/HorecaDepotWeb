@@ -44,8 +44,6 @@ const Layout = ({ children }: Props) => {
   const router = useRouter();
   const footerIconsHeight = 17;
 
-  const [cookieDisclaimer, setCookieDisclaimer] = useState(false);
-
   const [showPopup, setShowPopup] = useState(false);
   const [popup, setPopup] = useState(null);
 
@@ -61,17 +59,13 @@ const Layout = ({ children }: Props) => {
     }
   };
 
-  useEffect(() => {
-    if (
-      localStorage.getItem("cookie_disclaimer") == null ||
-      localStorage.getItem("cookie_disclaimer") == "true"
-    ) {
-      setCookieDisclaimer(true);
-    }
+  if (!popup) {
     fetchPopup().then((res) => {
-      setPopup(res.data);
+      setPopup(res?.data ?? { seen: true });
     });
-  }, []);
+  }
+
+  console.log({ popup });
 
   useEffect(() => {
     if (popup && popup.img) {

@@ -8,7 +8,7 @@ import ImageWithURL from "../components/common/image";
 import { Category } from "../api/interfaces/category";
 import Layout from "../components/public/layout";
 import Meta from "../components/public/meta";
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { getHomePage } from "./api/website/public/gethomepage";
@@ -709,8 +709,12 @@ export default function Index({
       </div>
     </>
   );
-  return onEdit ? content : <Layout>{content}</Layout>;
+  return onEdit ? content : content;
 }
+
+Index.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
 
 export const getStaticProps = async () => {
   const homePage = await getHomePage();
