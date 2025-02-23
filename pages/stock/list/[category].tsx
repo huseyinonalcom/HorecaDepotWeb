@@ -1,13 +1,11 @@
 import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
 import { formatCurrency } from "../../../api/utils/formatters/formatcurrency";
 import { ChevronLeft, ChevronRight, ChevronUp, Search } from "react-feather";
-import { getCoverImageUrl } from "../../../api/utils/getprodcoverimage";
 import { fetchProducts } from "../../api/products/admin/fetchProducts";
 import StockLayout from "../../../components/stock/StockLayout";
 import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
-import { LuDot } from "react-icons/lu";
 import { useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
@@ -103,6 +101,9 @@ export default function Stock(props) {
 
     return link;
   };
+
+  const [productForPreview, setProductForPreview] = useState<any>();
+  const [focusedImageIndex, setFocusedImageId] = useState<number>();
 
   return (
     <>
@@ -212,115 +213,116 @@ export default function Stock(props) {
               </form>
             </div>
           </div>
-          <div className="flex w-full flex-col items-center overflow-x-auto rounded-md bg-white p-4 shadow-sm">
-            <table className="w-full gap-2">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>{t("Name")}</th>
-                  <th>{t("Code")}</th>
-                  <th>{t("EAN")}</th>
-                  <th>{t("Price")}</th>
-                  <th>{t("Stock")}</th>
-                  <th>{t("Active")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {allProducts?.map((product) => (
-                  <tr
-                    key={product.id}
-                    onClick={() =>
-                      router.push(
-                        "/admin/products/" +
-                          product.id +
-                          "?return=" +
-                          encodeURIComponent(router.asPath),
-                      )
-                    }
-                    className="relative cursor-pointer odd:bg-blue-50 hover:bg-blue-100"
-                  >
-                    <td className="relative">
+          <div className="flex w-full flex-col items-start gap-2">
+            {allProducts?.map((product) => (
+              <div
+                key={product.id}
+                className="w-full rounded-md border-2 border-gray-300 bg-white p-2 shadow-md"
+              >
+                <div className="flex h-24 w-full flex-row items-center gap-2">
+                  {product.images?.map((image) => (
+                    <button
+                      key={image.id}
+                      style={{ height: 96, width: 96 }}
+                      onClick={() => {
+                        setProductForPreview(product);
+                        setFocusedImageId(image.id);
+                      }}
+                    >
                       <ImageWithURL
-                        height={80}
-                        width={80}
-                        src={
-                          product.images != null
-                            ? getCoverImageUrl(product)
-                            : "/uploads/placeholder_9db455d1f1.webp"
-                        }
+                        height={96}
+                        width={96}
+                        src={image.url}
                         alt={product.name}
-                        className="aspect-square h-[80px] flex-shrink-0 object-cover"
+                        style={{ objectFit: "contain", height: 96, width: 96 }}
                       />
-                    </td>
-                    <td>{product.name}</td>
-                    <td>{product.internalCode}</td>
-                    <td>{product.supplierCode}</td>
-                    <td>{formatCurrency(product.value)}</td>
-                    <td>
-                      {product.shelves.reduce(
-                        (acc, shelf) => acc + shelf.stock,
-                        0,
-                      )}
-                    </td>
-                    <td>
-                      <LuDot
-                        size={80}
-                        color={product.active ? "green" : "red"}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            <>
-              {allProducts.length > 0 ? (
-                <div className="mb-2 mt-2 flex flex-row justify-center px-6">
-                  <div className="flex items-center justify-center space-x-1">
-                    <Link
-                      href={
-                        currentPage == 1
-                          ? "#"
-                          : createLink({ page: currentPage - 1 })
-                      }
-                      className="border p-2 hover:bg-gray-200"
-                    >
-                      <ChevronLeft />
-                    </Link>
-                    {getPageNumbers().map((page, index) =>
-                      page === "..." ? (
-                        <span key={index} className="p-2">
-                          ...
-                        </span>
-                      ) : (
-                        <Link
-                          key={index}
-                          className={`border p-2 hover:bg-gray-200 ${
-                            currentPage === page ? "bg-gray-300" : ""
-                          }`}
-                          href={createLink({ page: page })}
-                        >
-                          {page}
-                        </Link>
-                      ),
-                    )}
-                    <Link
-                      href={
-                        currentPage == totalPages
-                          ? "#"
-                          : createLink({ page: currentPage + 1 })
-                      }
-                      className="border p-2 hover:bg-gray-200"
-                    >
-                      <ChevronRight />
-                    </Link>
-                  </div>
+                    </button>
+                  ))}
                 </div>
-              ) : (
-                <p></p>
-              )}
-            </>
+                <h2>{product.name}</h2>
+                <p>
+                  Catégorie:{" "}
+                  {product.categories
+                    .map((cat) => cat.localized_name[lang])
+                    .join(", ")}
+                </p>
+                <p>{formatCurrency(product.value)}</p>
+                <p>
+                  {product.product_extra.EAN ??
+                    product.product_extra.supplierCode}
+                </p>
+                <p>
+                  Dimensions (cm): {product.height} x {product.width} x{" "}
+                  {product.depth}
+                </p>
+                <p>
+                  Dimensions de la boîte:{" "}
+                  {product.product_extra.packaged_dimensions}
+                </p>
+                <p>Couleur: {product.product_color?.name ?? ""}</p>
+                <p>Matériau: {product.material}</p>
+                <p>Lien vers le PDF du produit: Voir le PDF</p>
+                <p>
+                  Total Stock:{" "}
+                  {product.shelves.reduce((acc, shelf) => acc + shelf.stock, 0)}
+                </p>
+                <p>
+                  Réservé:{" "}
+                  {product.reservations.reduce(
+                    (acc, res) => acc + res.amount,
+                    0,
+                  )}
+                </p>
+              </div>
+            ))}
           </div>
+          <>
+            {allProducts.length > 0 ? (
+              <div className="mt-2 flex w-full flex-row justify-center p-2 px-6">
+                <div className="flex items-center justify-center space-x-1">
+                  <Link
+                    href={
+                      currentPage == 1
+                        ? "#"
+                        : createLink({ page: currentPage - 1 })
+                    }
+                    className="border bg-white p-2 hover:bg-gray-200"
+                  >
+                    <ChevronLeft size={36} />
+                  </Link>
+                  {getPageNumbers().map((page, index) =>
+                    page === "..." ? (
+                      <span key={index} className="p-2">
+                        ...
+                      </span>
+                    ) : (
+                      <Link
+                        key={index}
+                        className={`border p-2 text-3xl hover:bg-gray-200 ${
+                          currentPage === page ? "bg-gray-300" : "bg-white"
+                        }`}
+                        href={createLink({ page: page })}
+                      >
+                        {page}
+                      </Link>
+                    ),
+                  )}
+                  <Link
+                    href={
+                      currentPage == totalPages
+                        ? "#"
+                        : createLink({ page: currentPage + 1 })
+                    }
+                    className="border bg-white p-2 hover:bg-gray-200"
+                  >
+                    <ChevronRight size={36} />
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <p></p>
+            )}
+          </>
         </div>
       </div>
     </>
