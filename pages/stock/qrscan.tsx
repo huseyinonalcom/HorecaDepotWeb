@@ -63,17 +63,6 @@ export default function QrReadPage() {
   const [scanning, setScanning] = useState(false);
   const [scannedResult, setScannedResult] = useState<string | undefined>("");
 
-  const activateScanning = () => {
-    navigator.permissions
-      .query({ name: 'camera' })
-      .then((permissionObj) => {
-        console.log(permissionObj.state);
-      })
-      .catch((error) => {
-        console.log("Got error :", error);
-      });
-  };
-
   return (
     <div>
       {scanning ? (
@@ -85,7 +74,7 @@ export default function QrReadPage() {
           onFail={() => setScanning(false)}
         />
       ) : (
-        <button onClick={() => activateScanning()}>Scan</button>
+        <button onClick={() => setScanning(true)}>Scan</button>
       )}
     </div>
   );
