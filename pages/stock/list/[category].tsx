@@ -1,8 +1,8 @@
 import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
 import { formatCurrency } from "../../../api/utils/formatters/formatcurrency";
 import { ChevronLeft, ChevronRight, ChevronUp, Search } from "react-feather";
-import { getAllProducts } from "../../api/products/admin/getallproducts";
 import { getCoverImageUrl } from "../../../api/utils/getprodcoverimage";
+import { fetchProducts } from "../../api/products/admin/fetchProducts";
 import StockLayout from "../../../components/stock/StockLayout";
 import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
@@ -11,7 +11,6 @@ import { LuDot } from "react-icons/lu";
 import { useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import { fetchProducts } from "../../api/products/admin/fetchProducts";
 
 export default function Stock(props) {
   const { t, lang } = useTranslation("common");
@@ -23,7 +22,6 @@ export default function Stock(props) {
   const [tempSearch, setTempSearch] = useState<string | null>(
     currentSearch ?? "",
   );
-  const currentSort = props.currentSort;
   const currentCategory = props.currentCategory ?? "all";
   const allCategories = props.allCategories;
 
