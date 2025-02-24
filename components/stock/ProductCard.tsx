@@ -12,10 +12,10 @@ export default function ProductCard({ product }: { product: any }) {
   return (
     <div
       key={product.id}
-      className="flex w-full flex-row items-center rounded-md border-2 border-gray-300 bg-white p-2 shadow-md"
+      className="flex w-full flex-col items-center rounded-md border-2 border-gray-300 bg-white p-2 shadow-md md:flex-row"
     >
       <div className="w-full">
-        <div className="flex h-24 w-full flex-row items-center gap-2">
+        <div className="flex h-24 w-full flex-row items-center gap-2 overflow-x-auto">
           {product.images?.map((image) => (
             <button
               key={image.id}
@@ -65,7 +65,9 @@ export default function ProductCard({ product }: { product: any }) {
           <button
             className="peer"
             onClick={() => {
-              navigator.clipboard.writeText(product.supplierCode);
+              try {
+                navigator.clipboard.write(product.supplierCode);
+              } catch (_) {}
             }}
           >
             <LuClipboard />
