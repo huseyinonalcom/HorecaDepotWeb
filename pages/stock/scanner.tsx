@@ -1,3 +1,4 @@
+import StockLayout from "../../components/stock/StockLayout";
 import Scanner from "../../components/stock/Scanner";
 import { useState } from "react";
 
@@ -8,7 +9,12 @@ export default function ScannerPage({}: {}) {
   return (
     <div>
       {scanning ? (
-        <Scanner onSuccess={(res) => setScannedCode(res)} />
+        <Scanner
+          onSuccess={(res) => {
+            setScannedCode(res);
+            setScanning(false);
+          }}
+        />
       ) : (
         <button onClick={() => setScanning(true)}>Scan</button>
       )}
@@ -16,3 +22,7 @@ export default function ScannerPage({}: {}) {
     </div>
   );
 }
+
+ScannerPage.getLayout = function getLayout(page) {
+  return <StockLayout>{page}</StockLayout>;
+};
