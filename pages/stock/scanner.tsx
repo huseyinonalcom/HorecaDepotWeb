@@ -1,8 +1,8 @@
 import StockLayout from "../../components/stock/StockLayout";
-import Scanner from "../../components/stock/Scanner";
-import { useEffect, useState } from "react";
 import InputOutlined from "../../components/inputs/outlined";
 import ProductCard from "../../components/stock/ProductCard";
+import Scanner from "../../components/stock/Scanner";
+import { useEffect, useState } from "react";
 
 export default function ScannerPage({}: {}) {
   const [scanning, setScanning] = useState(false);
@@ -12,7 +12,6 @@ export default function ScannerPage({}: {}) {
   const fetchProduct = async (code: string) => {
     const req = await fetch(`/api/private/products/fetchproducts?ean=${code}`);
     const res = await req.json();
-    console.log({ res });
     if (!req.ok) {
       setProduct(null);
       return;
@@ -21,7 +20,6 @@ export default function ScannerPage({}: {}) {
       setProduct(null);
       return;
     }
-    console.log(`data`, res.data);
     setProduct(res.data.at(0));
   };
 
@@ -46,7 +44,7 @@ export default function ScannerPage({}: {}) {
         onChange={(e) => setScannedCode(e.target.value)}
         label={"EAN"}
       />
-      {product && <ProductCard product={product} onClickImage={() => {}} />}
+      {product && <ProductCard product={product} />}
     </div>
   );
 }

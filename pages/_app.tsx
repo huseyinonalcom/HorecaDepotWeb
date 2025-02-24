@@ -8,6 +8,7 @@ import { CartProvider } from "../api/providers/cartProvider";
 import { ClientProvider } from "../api/providers/clientProvider";
 import { ReactElement, ReactNode } from "react";
 import { NextPage } from "next";
+import "yet-another-react-lightbox-lite/styles.css";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;

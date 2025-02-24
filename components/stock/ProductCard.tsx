@@ -1,17 +1,14 @@
-import useTranslation from "next-translate/useTranslation";
 import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
-import ImageWithURL from "../common/image";
+import useTranslation from "next-translate/useTranslation";
+import Lightbox from "yet-another-react-lightbox-lite";
 import BarcodeToPng from "../common/barcodepng";
 import { LuClipboard } from "react-icons/lu";
+import ImageWithURL from "../common/image";
+import { useState } from "react";
 
-export default function ProductCard({
-  product,
-  onClickImage,
-}: {
-  product: any;
-  onClickImage: (image: any) => void;
-}) {
+export default function ProductCard({ product }: { product: any }) {
   const { lang } = useTranslation("common");
+  const [lightBoxIndex, setLightBoxIndex] = useState(undefined);
   return (
     <div
       key={product.id}
@@ -24,7 +21,7 @@ export default function ProductCard({
               key={image.id}
               style={{ height: 96, width: 96 }}
               onClick={() => {
-                onClickImage(image);
+                setLightBoxIndex(0);
               }}
             >
               <ImageWithURL
@@ -79,6 +76,35 @@ export default function ProductCard({
           <p className="">{"EAN : "}</p>
         </div>
       </div>
+      {lightBoxIndex != undefined && (
+        <Lightbox
+          slides={product.images.map((file) => ({ src: file.url }))}
+          index={lightBoxIndex}
+          setIndex={(v) => setLightBoxIndex(v)}
+          render={{
+            slide: ({ slide }) => {
+              return (
+                <ImageWithURL
+                  src={slide.src}
+                  alt={slide.alt || ""}
+                  sizes="100vw"
+                  loading="eager"
+                  width={2000}
+                  height={2000}
+                  draggable={false}
+                  style={{
+                    minWidth: 0,
+                    minHeight: 0,
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                    objectFit: "contain",
+                  }}
+                />
+              );
+            },
+          }}
+        />
+      )}
     </div>
   );
 }

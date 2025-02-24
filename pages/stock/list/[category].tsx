@@ -72,7 +72,7 @@ export default function Stock(props) {
     search?: string;
     page?: number;
   }) => {
-    let link = "/admin/stock/";
+    let link = "/stock/list/";
 
     if (category) {
       link += `${category}`;
@@ -94,15 +94,10 @@ export default function Stock(props) {
       link += `&search=${search}`;
     } else if (tempSearch) {
       link += `&search=${tempSearch}`;
-    } else if (currentSearch) {
-      link += `&search=${currentSearch}`;
     }
 
     return link;
   };
-
-  const [productForPreview, setProductForPreview] = useState<any>();
-  const [focusedImageIndex, setFocusedImageId] = useState<number>();
 
   return (
     <>
@@ -190,13 +185,7 @@ export default function Stock(props) {
         </div>
         <div className="flex w-full flex-col items-start gap-2">
           {allProducts?.map((product) => (
-            <ProductCard
-              onClickImage={(image) => {
-                setProductForPreview(product);
-                setFocusedImageId(image.id);
-              }}
-              product={product}
-            />
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
         <>
@@ -272,7 +261,9 @@ export async function getServerSideProps(context) {
   try {
     const productsData = await fetchProducts({
       authToken: req.cookies.j,
-      category: req.query.category,
+      category: req.query.category != `all` ? req.query.category : null,
+      page: Number((req.query.page ?? "1") as string),
+      search: req.query.search as string,
     });
     allProducts = productsData.data;
     currentPage = productsData.meta.pagination.page;
