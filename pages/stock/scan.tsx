@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BarcodeScanner } from "react-barcode-scanner";
+import BarcodeScannerComponent from "react-qr-barcode-scanner";
 
 export default function QrReadPage() {
   const [scanning, setScanning] = useState(false);
@@ -8,15 +8,11 @@ export default function QrReadPage() {
   return (
     <div>
       {scanning ? (
-        <BarcodeScanner
-          onCapture={(result) => {
-            setScannedResult(result.at(0).rawValue);
-            setScanning(false);
-          }}
-          trackConstraints={{
-            facingMode: "environment",
-            frameRate: 24,
-            aspectRatio: 1,
+        <BarcodeScannerComponent
+          width={500}
+          height={500}
+          onUpdate={(err, result) => {
+            if (result) setScannedResult(result.getText());
           }}
         />
       ) : (

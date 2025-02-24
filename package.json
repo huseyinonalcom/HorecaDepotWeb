@@ -21,11 +21,11 @@
     "onlinepayments-sdk-nodejs": "latest",
     "qs": "^6.12.1",
     "react": "latest",
-    "react-barcode-scanner": "^3.1.0",
     "react-dom": "latest",
     "react-feather": "latest",
     "react-icons": "^5.2.1",
     "react-jsbarcode": "^0.4.2",
+    "react-qr-barcode-scanner": "^2.0.0",
     "react-simple-star-rating": "^5.1.7",
     "sharp": "latest",
     "xlsx": "latest"
