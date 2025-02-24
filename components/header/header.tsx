@@ -298,14 +298,15 @@ const TopBar = () => {
 
   const [rating, setRating] = useState(null);
 
-  if (rating == null) {
-    fetch("/api/external/public/googlerating").then((res) => {
-      res.json().then((res) => {
-        setRating(res);
-        console.log(res);
+  useEffect(() => {
+    if (rating == null) {
+      fetch("/api/external/public/googlerating").then((res) => {
+        res.json().then((res) => {
+          setRating(res);
+        });
       });
-    });
-  }
+    }
+  }, []);
 
   return (
     <div className="hidden w-full flex-row items-center justify-between gap-4 border-b border-gray-500 px-5 pb-2 md:flex">

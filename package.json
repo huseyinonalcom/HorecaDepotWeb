@@ -15,6 +15,7 @@
     "canvg": "^4.0.1",
     "formidable": "latest",
     "fuse.js": "^7.0.0",
+    "html5-qrcode": "^2.3.8",
     "next": "^14.2.5",
     "next-translate": "latest",
     "nodemailer": "^6.9.9",
@@ -25,7 +26,6 @@
     "react-feather": "latest",
     "react-icons": "^5.2.1",
     "react-jsbarcode": "^0.4.2",
-    "react-qr-barcode-scanner": "^2.0.0",
     "react-simple-star-rating": "^5.1.7",
     "sharp": "latest",
     "xlsx": "latest"

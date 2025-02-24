@@ -65,7 +65,6 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   try {
-    console.log({ req });
     const response = await fetchProducts({
       authToken: req.cookies.j,
     });

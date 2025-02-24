@@ -59,13 +59,13 @@ const Layout = ({ children }: Props) => {
     }
   };
 
-  if (!popup) {
-    fetchPopup().then((res) => {
-      setPopup(res?.data ?? { seen: true });
-    });
-  }
-
-  console.log({ popup });
+  useEffect(() => {
+    if (!popup) {
+      fetchPopup().then((res) => {
+        setPopup(res?.data ?? { seen: true });
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if (popup && popup.img) {
