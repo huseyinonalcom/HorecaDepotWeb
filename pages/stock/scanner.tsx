@@ -28,7 +28,7 @@ export default function ScannerPage({}: {}) {
   }, [scannedCode]);
 
   return (
-    <div>
+    <div className="flex w-full flex-col items-center gap-2">
       {scanning ? (
         <Scanner
           onSuccess={(res) => {
@@ -37,7 +37,13 @@ export default function ScannerPage({}: {}) {
           }}
         />
       ) : (
-        <button onClick={() => setScanning(true)}>Scan</button>
+        <button
+          className="min-w-[100px] border-2 bg-blue-100 p-2 shadow-sm border-gray-400 rounded-md"
+          type="button"
+          onClick={() => setScanning(true)}
+        >
+          Scan
+        </button>
       )}
       <InputOutlined
         value={scannedCode}
