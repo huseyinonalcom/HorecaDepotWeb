@@ -20,7 +20,6 @@ import {
   X,
   Compass,
 } from "react-feather";
-import { CategoryContext } from "../../api/providers/categoryProvider";
 import { CartContext } from "../../api/providers/cartProvider";
 import { ClientContext } from "../../api/providers/clientProvider";
 import { WishlistContext } from "../../api/providers/wishlistProvider";

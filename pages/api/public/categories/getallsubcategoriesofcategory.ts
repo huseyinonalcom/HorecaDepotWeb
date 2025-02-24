@@ -2,15 +2,17 @@ import { Category } from "../../../../api/interfaces/category";
 import statusText from "../../../../api/statustexts";
 
 let cache = {
-  data: null,
-  timestamp: Date.now(),
+  0: {
+    timeStamp: Date.now(),
+    data: null,
+  },
 };
 
-const CACHE_DURATION = 15 * 60 * 1000;
+const CACHE_DURATION = 60 * 60 * 1000;
 
 export async function getAllSubcategoriesOfCategory({ id }: { id: number }) {
-  if (cache.data && Date.now() - cache.timestamp < CACHE_DURATION) {
-    return cache.data;
+  if (cache[id] && Date.now() - cache[id].timestamp < CACHE_DURATION) {
+    return cache[id].data;
   }
   try {
     const response = await fetch(
@@ -28,27 +30,19 @@ export async function getAllSubcategoriesOfCategory({ id }: { id: number }) {
 
     const data = await response.json();
 
-    const allCategories: Category[] = data["data"];
+    const fetchedCategory: Category = data["data"];
 
     let answer = [];
 
-    const categoryMap = new Map(allCategories.map((cat) => [cat.id, cat]));
+    answer.push(fetchedCategory.id);
+    answer = answer.concat(fetchedCategory.subCategories.map((cat) => cat.id));
+    answer = answer.concat(
+      fetchedCategory.subCategories.flatMap((cat) =>
+        cat.subCategories.map((subCat) => subCat.id),
+      ),
+    );
 
-    allCategories.forEach((cat) => {
-      cat.subCategories = [];
-    });
-    allCategories.forEach((cat) => {
-      if (cat.headCategory) {
-        const parent: Category = categoryMap.get(cat.headCategory.id);
-        if (parent) {
-          parent.subCategories.push(cat);
-        }
-      }
-    });
-
-    answer = allCategories.filter((cat) => !cat.headCategory);
-
-    cache = {
+    cache[id] = {
       data: answer,
       timestamp: Date.now(),
     };
