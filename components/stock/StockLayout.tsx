@@ -57,7 +57,7 @@ export default function AdminLayout({ children }: Props) {
           <h2 className="text-xl font-semibold">Categories</h2>
           <div className="flex w-full flex-col gap-1">
             {categories
-              ?.sort((a, b) => (a.order > b.order ? -1 : 1))
+              ?.sort((a, b) => (a.priority > b.priority ? 1 : -1))
               .map((category) => (
                 <Link
                   onClick={() => setShowMenu(false)}
