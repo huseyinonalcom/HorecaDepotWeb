@@ -66,7 +66,7 @@ export default function ProductCard({ product }: { product: any }) {
             className="peer"
             onClick={() => {
               try {
-                navigator.clipboard.write(product.supplierCode);
+                navigator.clipboard.writeText(product.supplierCode);
               } catch (_) {}
             }}
           >
