@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import { fetchProducts } from "../../api/private/products/fetchProducts";
+import { getProducts } from "../../api/private/products/fetchProducts";
 
 export default function Stock(props) {
   const { t, lang } = useTranslation("common");
@@ -259,7 +259,7 @@ export async function getServerSideProps(context) {
   let allProducts = [];
 
   try {
-    const productsData = await fetchProducts({
+    const productsData = await getProducts({
       authToken: req.cookies.j,
       category: req.query.category != `all` ? req.query.category : null,
       page: Number((req.query.page ?? "1") as string),
