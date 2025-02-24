@@ -14,7 +14,7 @@ export async function getAllSubcategoriesOfCategory({ id }: { id: number }) {
   }
   try {
     const response = await fetch(
-      `${process.env.API_URL}/api/categories/${id}?populate[subCategories][fields][0]=localized_name&populate[subCategories][populate][subCategories][fields][0]=localized_name&fields[0]=localized_name&fields[1]=code&fields[2]=localized_name&populate[image][fields][0]=url&populate[products_multi_categories][fields][0]=id&populate[products_multi_categories][fields][1]=active&sort=priority&pagination[pageSize]=100`,
+      `${process.env.API_URL}/api/categories/${id}?populate[subCategories][fields][0]=localized_name&populate[subCategories][populate][subCategories][fields][0]=localized_name&fields[0]=localized_name&populate[products_multi_categories][fields][0]=id&populate[products_multi_categories][fields][1]=active&sort=priority&pagination[pageSize]=100`,
       {
         headers: {
           Authorization: `Bearer ${process.env.API_KEY}`,
