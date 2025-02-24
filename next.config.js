@@ -10,6 +10,10 @@ module.exports = nextTranslate({
         protocol: "https",
         hostname: "hdapi.huseyinonalalpha.com",
       },
+      {
+        protocol: "https",
+        hostname: "hdcdn.hocecomv1.com",
+      },
     ],
   },
 });

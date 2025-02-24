@@ -14,7 +14,7 @@ const ImageWithURL: React.FC<SafeImageProps> = ({
   }
   return (
     <Image
-      src={`https://hdapi.huseyinonalalpha.com${src}`}
+      src={`https://hdcdn.hocecomv1.com${src}`}
       alt={alt}
       {...otherProps}
     />
