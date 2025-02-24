@@ -1,15 +1,16 @@
-import { getAllCategoriesFlattened } from "../api/categories/public/getallcategoriesflattened";
+import { getAllCategories } from "../api/public/categories/getallcategories";
 import ProductPreview2 from "../../components/products/product-preview2";
 import { getProducts } from "../api/products/public/getproducts";
 import useTranslation from "next-translate/useTranslation";
-import { ArrowUp, ChevronLeft, X } from "react-feather";
-import { Product } from "../../api/interfaces/product";
-import { useState } from "react";
-import Head from "next/head";
-import Link from "next/link";
 import ImageWithURL from "../../components/common/image";
+import { Product } from "../../api/interfaces/product";
+import { ArrowUp, ChevronLeft } from "react-feather";
 import ShopLayout from "../../components/shoplayout";
 import Layout from "../../components/public/layout";
+import { useState } from "react";
+import Link from "next/link";
+import Head from "next/head";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");
@@ -296,24 +297,46 @@ export default function Products(props) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const categoriesFlat = await getAllCategoriesFlattened();
+const ssrCache = new Map();
 
-  const currentSort = context.query?.sort?.split(":").at(0) ?? "value";
-  const currentSortDirection = context.query?.sort?.split(":").at(1) ?? "asc";
+export async function getServerSideProps({ res, query }) {
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=1800, stale-while-revalidate=59",
+  );
 
-  context.query.sort = currentSort + ":" + currentSortDirection;
+  const cached = ssrCache.get(query);
+
+  if (cached) {
+    return cached;
+  }
+
+  const categoriesFlat = await getAllCategories({});
+
+  const currentSort = query?.sort?.split(":").at(0) ?? "value";
+  const currentSortDirection = query?.sort?.split(":").at(1) ?? "asc";
+
+  query.sort = currentSort + ":" + currentSortDirection;
 
   const productsReq = await getProducts({
-    query: context.query,
+    query: query,
   });
 
   const products = (productsReq?.sortedData as Product[]) ?? [];
   const totalPages = (productsReq?.totalPages as number) ?? [];
-  const currentPage = context.query.page ?? 1;
+  const currentPage = query.page ?? 1;
   const currentCategory =
     categoriesFlat.find((cat) => cat.id == productsReq?.currentCategoryID) ??
     null;
+
+  ssrCache.set(query, {
+    products,
+    totalPages,
+    currentPage,
+    currentCategory,
+    currentSort,
+    currentSortDirection,
+  });
 
   return {
     props: {
