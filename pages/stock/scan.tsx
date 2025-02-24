@@ -13,6 +13,11 @@ export default function QrReadPage() {
             setScannedResult(result.at(0).rawValue);
             setScanning(false);
           }}
+          trackConstraints={{
+            facingMode: "environment",
+            frameRate: 24,
+            aspectRatio: 1,
+          }}
         />
       ) : (
         <button onClick={() => setScanning(true)}>Scan</button>
