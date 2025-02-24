@@ -15,6 +15,8 @@ export default function Scanner({
           width: 256,
         },
         fps: 10,
+        rememberLastUsedCamera: true,
+        showTorchButtonIfSupported: true,
       },
       false,
     );
