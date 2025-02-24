@@ -1,44 +1,35 @@
-contact page faq or something
+html editor rich text editor for product descriptions
 
-google account integration?
+google login
 
-parallax mouse thingy with gradient
+0 stock => stays active => on site say get in touch or give time for restock
 
-references missing
+reservation take from stock
+reservation separate page
 
-add languages:
+incoming stock
+show under product when it is going to arrive if it is incoming
+so products can be pre-ordered with this system
 
-italian
-spanish
-portuguese
+horeca-depot.com horeca1 horeca1 make a panel that is like a copy of this
+show barcode as image as well
+reservation yapılacak ve mail gidecek birine
+rezervation iptal olunca stock geri yükselecek
 
-make terms and conditions links smaller
+EAN quick view list with barcode images
+also add ean code automatically from list uploaded to somewhere on this page
 
-show catalogues on homepage
+kullanıcı yönetme olsun bazıları admin paneline bazıları stok paneline gidecek
+add logo to login page
 
-image thumbnails to the left of main image in product pages in a column
+Nakliye:
+	Belçika:
+	800 üzeri bedava
+	800 altında 25 euro
+	
+	Belçika dışı quicargo
+		6 adetten fazla palet
 
-add to cart sticky on bottom on mobile product pages
+sipariş belçika dışında kdv nummer olan müşteride kdvsiz
 
-filter inactive products from collections
-
-product images grow on hover
-
-Languages:
-
-- horecadepot.it italian
-- horecadepot.pt portugal
-- horecadepot.sp spain
-
-about us translations:
-to all languages from french
-
-google user login (login completely like sklum)
-
-font all the same (font needs to be decided)
-
-at least once 2-3 images per product
-
-login page too simple (?) (captcha maybe)
-
-find actually usable template?
+masa kategorisi yavaş açılıyor
