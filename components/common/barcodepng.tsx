@@ -3,7 +3,7 @@ import Barcode from "react-jsbarcode";
 import { Canvg } from "canvg";
 
 const BarcodeToPng = ({ value }) => {
-  if (value.length !== 13) {
+  if (!value || value.length !== 13) {
     return <div></div>;
   }
 
@@ -28,7 +28,7 @@ const BarcodeToPng = ({ value }) => {
       const pngUrl = canvas.toDataURL("image/png");
 
       const imgElement = document.getElementById(
-        "barcodePng",
+        `barcode-${value}`,
       ) as HTMLImageElement;
       if (imgElement) {
         imgElement.src = pngUrl;
@@ -62,7 +62,7 @@ const BarcodeToPng = ({ value }) => {
             }}
           />
         </div>
-        <img id="barcodePng" alt="Barcode as PNG" />
+        <img id={`barcode-${value}`} alt="Barcode as PNG" />
       </>
     );
   } catch (e) {

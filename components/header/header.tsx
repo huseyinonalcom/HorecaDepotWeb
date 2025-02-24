@@ -483,7 +483,6 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
         "/api/categories/getallcategories?flat=false",
       );
       const categories = await response.json();
-      console.log("categories , ", categories);
       const validCategories = [];
       categories.forEach((category) => {
         if (category.products_multi_categories.length > 0) {
@@ -983,7 +982,6 @@ const Header = () => {
         "/api/categories/getallcategories?flat=false",
       );
       const categories = await response.json();
-      console.log("categories , ", categories);
       const validCategories = [];
       categories.forEach((category) => {
         if (category.products_multi_categories.length > 0) {

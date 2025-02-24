@@ -62,8 +62,6 @@ export default async function handler(req, res) {
   try {
     const response = await getAllCategories();
 
-    console.log("categories , ", response.length);
-
     if (!response) {
       return res.status(500).json(statusText[500]);
     }
