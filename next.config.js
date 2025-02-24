@@ -1,9 +1,11 @@
+const { stat } = require("fs");
 const nextTranslate = require("next-translate-plugin");
 
 module.exports = nextTranslate({
   // compiler: {
   //   removeConsole: process.env.NODE_ENV === "production",
   // },
+  staticPageGenerationTimeout: 300,
   images: {
     remotePatterns: [
       {
