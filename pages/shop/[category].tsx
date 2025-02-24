@@ -10,7 +10,6 @@ import Layout from "../../components/public/layout";
 import { useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");
