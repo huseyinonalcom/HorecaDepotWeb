@@ -54,7 +54,7 @@ const OrderPreview = ({ order }) => {
             orderImages.map((img, index) => (
               <Image
                 key={index}
-                src={`https://hdapi.huseyinonalalpha.com${img.url}`}
+                src={`https://hdcdn.hocecomv1.com${img.url}`}
                 width={200}
                 height={200}
                 alt={""}

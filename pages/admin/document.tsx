@@ -320,7 +320,7 @@ export default function Order() {
             ) : (
               <Image
                 alt=""
-                src={`https://hdapi.huseyinonalalpha.com${inputImage.url}`}
+                src={`https://hdcdn.hocecomv1.com${inputImage.url}`}
                 width={400}
                 height={400}
               />

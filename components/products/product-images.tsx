@@ -65,7 +65,7 @@ const ProductImages = ({ product }) => {
         product.images.map((img, index) => (
           <Image
             key={img.id}
-            src={`https://hdapi.huseyinonalalpha.com${img.url}`}
+            src={`https://hdcdn.hocecomv1.com${img.url}`}
             fill
             priority
             loading="eager"
@@ -115,7 +115,7 @@ const ProductImages = ({ product }) => {
           <div className="relative h-full w-full">
             <Image
               key={selectedImageIndex + "-selected"}
-              src={`https://hdapi.huseyinonalalpha.com${product.images.find((img) => img.id == selectedImageIndex).url}`}
+              src={`https://hdcdn.hocecomv1.com${product.images.find((img) => img.id == selectedImageIndex).url}`}
               fill
               className="z-40"
               style={{ objectFit: "contain" }}
@@ -126,7 +126,7 @@ const ProductImages = ({ product }) => {
             {product.images.map((img) => (
               <Image
                 key={img.id + "-selectable"}
-                src={`https://hdapi.huseyinonalalpha.com${img.url}`}
+                src={`https://hdcdn.hocecomv1.com${img.url}`}
                 className="z-40"
                 width={0}
                 height={0}

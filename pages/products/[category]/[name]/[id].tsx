@@ -70,7 +70,7 @@ const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
           property="og:image"
           content={
             product.images != null
-              ? "https://hdapi.huseyinonalalpha.com" + getCoverImageUrl(product)
+              ? "https://hdcdn.hocecomv1.com" + getCoverImageUrl(product)
               : "/uploads/placeholder_9db455d1f1.webp"
           }
         />
