@@ -338,6 +338,8 @@ export async function getServerSideProps({ res, query }) {
     currentSortDirection,
   });
 
+  setTimeout(() => ssrCache.delete(query), 1000 * 60 * 30);
+
   return {
     props: {
       products,
