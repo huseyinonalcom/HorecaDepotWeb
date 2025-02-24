@@ -1,4 +1,5 @@
 import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
+import { getProducts } from "../../api/private/products/fetchproducts";
 import { ChevronLeft, ChevronRight, Search } from "react-feather";
 import StockLayout from "../../../components/stock/StockLayout";
 import ProductCard from "../../../components/stock/ProductCard";
@@ -7,7 +8,6 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import { getProducts } from "../../api/private/products/fetchProducts";
 
 export default function Stock(props) {
   const { t, lang } = useTranslation("common");
