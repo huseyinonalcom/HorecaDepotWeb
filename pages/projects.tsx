@@ -43,7 +43,7 @@ export default function References({ projects }: Props) {
                 <div className="relative h-min w-full duration-500">
                   <img
                     draggable={false}
-                    src={`https://hdcdn.hocecomv1.com${project.cover.at(0).url}`}
+                    src={`https://hdcdn.hocecomv1.com${project.cover.at(0).url.replace("https://hdcdn.hocecomv1.com", "")}`}
                     style={{
                       width: "100%",
                       height: "100%",

@@ -102,7 +102,7 @@ const CollectionPreview = ({ collection }: Props) => {
               collectionImages.map((img, index) => (
                 <Image
                   key={index}
-                  src={`https://hdcdn.hocecomv1.com${img.url}`}
+                  src={`https://hdcdn.hocecomv1.com${img.url.replace("https://hdcdn.hocecomv1.com", "")}`}
                   fill
                   style={{ objectFit: "contain" }}
                   alt={""}

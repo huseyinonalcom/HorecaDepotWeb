@@ -1124,7 +1124,7 @@ export default function ProductPage(props) {
                       target="_blank"
                       className="absolute right-2 top-12"
                       href={
-                        "https://hdcdn.hocecomv1.com" + selectedImage.url
+                        "https://hdcdn.hocecomv1.com" + selectedImage.url.replace("https://hdcdn.hocecomv1.com", "")
                       }
                     >
                       <Download className="h-8 w-8" color="green" />
