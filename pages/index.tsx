@@ -73,7 +73,7 @@ export default function Index({
 
   const BannerModal = ({ order }: { order: "1" | "3" | "4" | "5" }) => {
     return (
-      <>
+      <Layout>
         {order == "1" && (
           <PlusSquare
             className="m-auto flex-shrink-0"
@@ -309,7 +309,7 @@ export default function Index({
             <Check color="green" size={64} />
           </button>
         </div>
-      </>
+      </Layout>
     );
   };
 
@@ -711,10 +711,6 @@ export default function Index({
   );
   return onEdit ? content : content;
 }
-
-Index.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
 
 export const getStaticProps = async () => {
   const homePage = await getHomePage();
