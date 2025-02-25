@@ -62,7 +62,7 @@ const BarcodeToPng = ({ value }) => {
             }}
           />
         </div>
-        <img id={`barcode-${value}`} alt="Barcode as PNG" />
+        <img id={`barcode-${value}`} alt={value ?? "Barcode as PNG"} />
       </>
     );
   } catch (e) {

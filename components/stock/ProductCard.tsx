@@ -43,7 +43,6 @@ export default function ProductCard({ product }: { product: any }) {
           <b>{t("Category")}:</b>{" "}
           {product.categories.map((cat) => cat.localized_name[lang]).join(", ")}
         </p>
-        <p>{formatCurrency(product.value / 1.21)}</p>
         <p>{product.product_extra.EAN ?? product.product_extra.supplierCode}</p>
         <p>
           Dimensions (cm): {product.height} x {product.width} x {product.depth}
