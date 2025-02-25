@@ -73,7 +73,7 @@ export default function Index({
 
   const BannerModal = ({ order }: { order: "1" | "3" | "4" | "5" }) => {
     return (
-      <Layout>
+      <>
         {order == "1" && (
           <PlusSquare
             className="m-auto flex-shrink-0"
@@ -309,7 +309,7 @@ export default function Index({
             <Check color="green" size={64} />
           </button>
         </div>
-      </Layout>
+      </>
     );
   };
 
@@ -428,7 +428,7 @@ export default function Index({
   let newBanner = JSON.parse(JSON.stringify(emptyBanner));
 
   const content = (
-    <>
+    <Layout>
       <Head>
         <Meta />
         <title>Horeca Depot</title>
@@ -707,7 +707,7 @@ export default function Index({
           </Link>
         )}
       </div>
-    </>
+    </Layout>
   );
   return onEdit ? content : content;
 }
