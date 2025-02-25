@@ -142,6 +142,7 @@ const ProductPreview = ({ product }: Props) => {
               </p>
             ) : null}
           </div>
+          <p className="text-[10px]">{t("vat-excl")}</p>
           {product.shelves && product.shelves.length > 0 && (
             <div draggable={false} className="text-sm font-semibold">
               {product.shelves?.reduce((acc, shelf) => acc + shelf.stock, 0) >

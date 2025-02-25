@@ -118,6 +118,7 @@ const ProductPreview2 = ({ product }: Props) => {
               </p>
             ) : null}
           </div>
+          <p className="text-[10px]">{t("vat-excl")}</p>
           <div
             draggable={false}
             className="flex flex-row items-center gap-1 py-1"

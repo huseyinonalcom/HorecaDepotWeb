@@ -54,7 +54,7 @@ const ProductPreview3 = ({ product }: Props) => {
             )} */}
             <div draggable={false} className="flex flex-row items-end gap-1">
               <p draggable={false} className="font-bold">
-                {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
+                {"€ " + (product.value / 1.21).toFixed(2).replaceAll(".", ",")}
               </p>
             </div>
           </div>

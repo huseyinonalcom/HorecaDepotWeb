@@ -147,6 +147,7 @@ const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
                 </p>
               ) : null}
             </div>
+            <p className="text-[10px]">{t("vat-excl")}</p>
             <div className="flex flex-row items-center gap-2">
               {product.priceBeforeDiscount <= product.value ? null : (
                 <h3 className="font-bold text-gray-800 line-through">
