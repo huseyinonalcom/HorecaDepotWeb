@@ -28,11 +28,10 @@ export default function Admin() {
 
       if (data.status == 200) {
         if (router.query.destination) {
-          router.replace(
-            decodeURIComponent(router.query.destination as string),
-          );
+          router.push(decodeURIComponent(router.query.destination as string));
+        } else {
+          router.push("/admin/dashboard");
         }
-        router.push("/admin/dashboard");
       }
     };
     validateSession();
@@ -59,11 +58,10 @@ export default function Admin() {
 
       if (response.ok) {
         if (router.query.destination) {
-          router.replace(
-            decodeURIComponent(router.query.destination as string),
-          );
+          router.push(decodeURIComponent(router.query.destination as string));
+        } else {
+          router.push("/admin/dashboard");
         }
-        router.push("/admin/stock/all");
       } else {
         setError(t("user_pass_invalid"));
       }
