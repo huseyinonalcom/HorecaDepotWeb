@@ -1,22 +1,7 @@
-import {
-  Category,
-  CategoryConversion,
-} from "../../../../api/interfaces/category";
+import { getAllSubcategoriesOfCategory } from "../../public/categories/getallsubcategoriesofcategory";
+import { getCategoryFromString } from "../../public/categories/getcategoryfromstring";
 import { Product } from "../../../../api/interfaces/product";
 import statusText from "../../../../api/statustexts";
-import { getAllCategoriesFlattened } from "../../categories/public/getallcategoriesflattened";
-
-function getAllSubcategoryIds(categories, categoryId) {
-  const ids = [];
-  const stack = categories.filter((cat) => cat.id === categoryId);
-
-  while (stack.length > 0) {
-    const category = stack.pop();
-    ids.push(category.id);
-    if (category.subCategories) stack.push(...category.subCategories);
-  }
-  return ids;
-}
 
 function checkValues(minValue, maxValue) {
   if (minValue === null || maxValue === null) {
@@ -30,25 +15,8 @@ function checkValues(minValue, maxValue) {
   return isMinValueValid && isMaxValueValid && isMinLessThanMax;
 }
 
-const cache = {};
-
-const findCategoryParam = (categoryParam, categories) => {
-  if (cache[categoryParam]) {
-    return cache[categoryParam];
-  }
-
-  for (const category of categories) {
-    if (Object.values(category.localized_name).includes(categoryParam)) {
-      cache[categoryParam] = category.id;
-      return category.id;
-    }
-  }
-
-  cache[categoryParam] = categoryParam;
-  return categoryParam;
-};
-
 export async function getProducts(req) {
+  console.time("getProducts");
   const pageParam = req.query.page ?? 1;
   let categoryParam = req.query.category ?? null;
   const minValueParam = Number(req.query.minprice) ?? null;
@@ -59,26 +27,6 @@ export async function getProducts(req) {
   const getLimitsParam = req.query.getlimits ?? null;
 
   try {
-    const allCats = await getAllCategoriesFlattened();
-
-    const allCategories = allCats.map(CategoryConversion.fromJson);
-    const categoryMap = new Map(allCategories.map((cat) => [cat.id, cat]));
-
-    allCategories.forEach((cat) => {
-      cat.subCategories = [];
-    });
-
-    allCategories.forEach((cat) => {
-      if (cat.headCategory) {
-        const parent: Category = categoryMap.get(cat.headCategory.id);
-        if (parent) {
-          parent.subCategories.push(cat);
-        }
-      }
-    });
-
-    let categoriesToSearch: number[] = [];
-
     categoryParam ? (categoryParam = decodeURIComponent(categoryParam)) : null;
 
     if (categoryParam == "tous") {
@@ -89,14 +37,20 @@ export async function getProducts(req) {
       const parsedCategoryParam = parseInt(categoryParam, 10);
 
       if (isNaN(parsedCategoryParam)) {
-        categoryParam = findCategoryParam(categoryParam, allCategories);
+        categoryParam = (
+          await getCategoryFromString({ category: categoryParam })
+        ).id;
       } else {
         categoryParam = parsedCategoryParam;
       }
     }
 
+    let categoriesToSearch: number[] = [];
+
     if (categoryParam) {
-      categoriesToSearch = getAllSubcategoryIds(allCategories, categoryParam);
+      categoriesToSearch = await getAllSubcategoriesOfCategory({
+        id: categoryParam,
+      });
     }
 
     let fetchUrl: string =
@@ -138,30 +92,19 @@ export async function getProducts(req) {
       sortParam ? `&sort[0]=${sortParam}` : ""
     }${countParam ? `&pagination[pageSize]=${countParam}` : ""}`;
 
+    console.timeEnd("getProductsFetch");
+    console.time("getProductsFetch");
     const response = await fetch(fetchUrl, {
       headers: {
         Authorization: `Bearer ${process.env.API_KEY}`,
       },
     });
+    console.timeEnd("getProductsFetch");
 
     const data = await response.json();
 
     // sort productData array on product.product_extra.new from true to false
-    const sortedData: Product[] = data["data"]
-      .map((productData) => productData as Product)
-      .sort((a, b) => {
-        // Assuming product_extra.new is a boolean property
-        const isNewA = a.product_extra.new;
-        const isNewB = b.product_extra.new;
-
-        // If both are new or both are not new, maintain their original order
-        if (isNewA === isNewB) {
-          return 0;
-        }
-
-        // Sort new items first (true comes before false)
-        return isNewA ? -1 : 1;
-      });
+    const sortedData: Product[] = data["data"];
 
     const totalPages = data["meta"]["pagination"]["pageCount"];
 
@@ -188,6 +131,7 @@ export async function getProducts(req) {
       minValueFromAPI = answerMinValue.data[0].value;
     }
     const currentCategoryID = categoryParam;
+    console.timeEnd("getProducts");
     return {
       sortedData,
       totalPages,

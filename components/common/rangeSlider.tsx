@@ -1,5 +1,6 @@
 import useTranslation from "next-translate/useTranslation";
-import  { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
+import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 
 interface RangeSliderProps {
   initialMin: number;
@@ -135,7 +136,7 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
       </div>
       <div className="flex flex-row justify-between">
         <p>
-          {prefix} {minValue} - {prefix} {maxValue}
+          {formatCurrency(minValue / 1.21)} - {formatCurrency(maxValue / 1.21)}
         </p>
         <button
           name="resetRange"

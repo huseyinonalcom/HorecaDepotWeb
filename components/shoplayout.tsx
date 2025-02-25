@@ -1,11 +1,11 @@
+import useTranslation from "next-translate/useTranslation";
+import { Category } from "../api/interfaces/category";
 import componentThemes from "./componentThemes";
 import RangeSlider from "./common/rangeSlider";
-import useTranslation from "next-translate/useTranslation";
 import { ChevronLeft, X } from "react-feather";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { Category } from "../api/interfaces/category";
+import Link from "next/link";
 
 type Props = {
   children: React.ReactNode;

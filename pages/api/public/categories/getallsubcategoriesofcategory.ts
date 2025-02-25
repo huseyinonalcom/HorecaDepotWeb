@@ -11,6 +11,9 @@ let cache = {
 const CACHE_DURATION = 60 * 60 * 1000;
 
 export async function getAllSubcategoriesOfCategory({ id }: { id: number }) {
+  console.timeEnd("getAllSubcategoriesOfCategory");
+  console.time("getAllSubcategoriesOfCategory");
+
   if (cache[id] && Date.now() - cache[id].timestamp < CACHE_DURATION) {
     return cache[id].data;
   }
@@ -36,16 +39,12 @@ export async function getAllSubcategoriesOfCategory({ id }: { id: number }) {
 
     answer.push(fetchedCategory.id);
     answer = answer.concat(fetchedCategory.subCategories.map((cat) => cat.id));
-    answer = answer.concat(
-      fetchedCategory.subCategories.flatMap((cat) =>
-        cat.subCategories.map((subCat) => subCat.id),
-      ),
-    );
 
     cache[id] = {
       data: answer,
       timestamp: Date.now(),
     };
+    console.timeEnd("getAllSubcategoriesOfCategory");
     return answer;
   } catch (error) {
     return null;
