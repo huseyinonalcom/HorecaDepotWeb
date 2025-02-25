@@ -12,12 +12,16 @@ export default function ProductCard({ product }: { product: any }) {
   return (
     <div
       key={product.id}
-      className="flex w-full flex-col items-center rounded-md border-2 border-gray-300 bg-white p-2 shadow-md md:flex-row"
+      className="flex w-full flex-col items-start rounded-md border-2 border-gray-300 bg-white p-2 shadow-md lg:flex-row lg:items-center"
     >
-      <div className="flex flex-1 flex-col">
-        <div className="flex h-32 w-full min-w-0 flex-row items-center gap-2 overflow-x-auto">
+      <div className="flex max-w-full flex-1 flex-col overflow-hidden">
+        <div
+          id="images"
+          className="h-34 no-scrollbar flex w-full flex-row flex-nowrap items-center gap-2 overflow-x-auto"
+        >
           {product.images?.map((image) => (
             <button
+              className="h-full w-full flex-shrink-0 flex-grow-0"
               key={image.id}
               style={{ height: 128, width: 128 }}
               onClick={() => {
@@ -59,7 +63,7 @@ export default function ProductCard({ product }: { product: any }) {
           {product.reservations.reduce((acc, res) => acc + res.amount, 0)}
         </p>
       </div>
-      <div className="flex w-[234px] flex-shrink-0 flex-col items-end">
+      <div className="flex w-full flex-shrink-0 flex-col items-start lg:w-[234px] lg:items-end">
         <BarcodeToPng value={product.supplierCode} />
         <div className="flex flex-row-reverse items-center gap-2">
           <button

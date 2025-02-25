@@ -105,9 +105,9 @@ export default function Stock(props) {
         <title>{t("Products")}</title>
         <meta name="language" content={lang} />
       </Head>
-      <div className="flex w-full flex-col items-center gap-1">
-        <div className="flex w-full flex-col items-start gap-1 rounded-md border-2 border-gray-300 bg-white p-4 shadow-sm">
-          <div className="flex h-full flex-row items-center px-6 py-4 font-bold text-black">
+      <div className="flex w-full flex-col items-center gap-1 p-2">
+        <div className="flex w-full flex-col items-start gap-2 rounded-md border-2 border-gray-300 bg-white p-4 shadow-sm">
+          <div className="flex h-full flex-row items-center pl-4 font-bold text-black">
             {t("Category")}:{" "}
             {t(
               currentCategory
@@ -127,16 +127,13 @@ export default function Stock(props) {
             }}
           >
             <form
-              style={{ position: "relative" }}
               onSubmit={(e) => {
                 e.preventDefault();
                 router.push(createLink({ search: tempSearch, page: 1 }));
               }}
               role="search"
+              className="flex flex-row"
             >
-              <label htmlFor="searchInput" style={{ display: "none" }}>
-                {t("Search Products")}
-              </label>
               <input
                 id="searchInput"
                 className="placeholder-blue"
@@ -164,7 +161,6 @@ export default function Stock(props) {
                 href={createLink({ search: tempSearch, page: 1 })}
                 style={{
                   cursor: "pointer",
-                  position: "absolute",
                   top: 0,
                   right: 0,
                   bottom: 0,
