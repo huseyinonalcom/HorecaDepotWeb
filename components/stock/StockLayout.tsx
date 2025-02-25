@@ -42,35 +42,52 @@ export default function AdminLayout({ children }: Props) {
     <main>
       <div className="flex flex-row">
         <div
-          className={`w-full flex-shrink-0 flex-col items-center gap-2 border-r-2 border-gray-300 bg-gray-200 p-2 shadow-sm lg:w-[250px] ${showMenu ? "flex" : "hidden lg:flex"}`}
+          className={`w-full flex-shrink-0 flex-col items-center gap-2 border-gray-300 bg-gray-200 shadow-sm lg:w-[250px] ${showMenu ? "flex" : "hidden lg:flex"} lg:border-r-0`}
         >
-          <button
-            onClick={() => setShowMenu(false)}
-            className="flex w-full flex-row items-center justify-end pl-1 py-2 lg:hidden"
-          >
-            <X size={26} />
-          </button>
-          <Link
-            onClick={() => setShowMenu(false)}
-            href={`/stock/scanner`}
-            className="w-full rounded-md border-2 border-gray-400 bg-yellow-200 px-1 py-1 shadow-md"
-          >
-            Scanner
-          </Link>
-          <h2 className="text-xl font-semibold">Categories</h2>
-          <div className="flex w-full flex-col gap-1">
-            {categories
-              ?.sort((a, b) => (a.priority > b.priority ? 1 : -1))
-              .map((category) => (
-                <Link
-                  onClick={() => setShowMenu(false)}
-                  key={category.id}
-                  href={`/stock/list/${category.id}?page=1`}
-                  className="h-full w-full whitespace-nowrap rounded-md border-2 border-gray-400 bg-white p-1 shadow-sm hover:bg-blue-200"
-                >
-                  {t(category.localized_name[lang])}
-                </Link>
-              ))}
+          <div className="sticky left-0 top-0 flex w-full items-center justify-between bg-black px-2 py-2 text-white">
+            <Image
+              width={200}
+              height={42.19}
+              priority
+              className="flex"
+              src="/assets/header/logo.svg"
+              alt="Horeca Depot Logo"
+            />
+            <button
+              onClick={() => {
+                setShowMenu(false);
+                scrollTo({
+                  top: 0,
+                });
+              }}
+              className="lg:hidden"
+            >
+              <X size={26} />
+            </button>
+          </div>
+          <div className="flex w-full flex-col p-2">
+            <Link
+              onClick={() => setShowMenu(false)}
+              href={`/stock/scanner`}
+              className="w-full rounded-md border-2 border-gray-400 bg-yellow-200 px-1 py-1 shadow-md"
+            >
+              Scanner
+            </Link>
+            <h2 className="text-xl font-semibold">Categories</h2>
+            <div className="flex w-full flex-col gap-1">
+              {categories
+                ?.sort((a, b) => (a.priority > b.priority ? 1 : -1))
+                .map((category) => (
+                  <Link
+                    onClick={() => setShowMenu(false)}
+                    key={category.id}
+                    href={`/stock/list/${category.id}?page=1`}
+                    className="h-full w-full whitespace-nowrap rounded-md border-2 border-gray-400 bg-white p-1 shadow-sm hover:bg-blue-200"
+                  >
+                    {t(category.localized_name[lang])}
+                  </Link>
+                ))}
+            </div>
           </div>
         </div>
         <div

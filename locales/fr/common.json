@@ -119,6 +119,7 @@
   "Our Projects": "Nos Projets",
   "Our references": "Nos références",
   "Packaged Dimensions": "Dimensions de l'emballage",
+  "Dimensions": "Dimensions",
   "Packaged Weight Net": "Poids net emballé",
   "Packaged Weight": "Poids emballé",
   "password_notmatching": "Les mots de passe ne correspondent pas",
@@ -324,5 +325,8 @@
   "add-product": "Ajouter un produit",
   "shipping": "Frais de port",
   "vat-incl": "TVA incl.",
-  "reviews": "Avis"
+  "reviews": "Avis",
+  "VAT excl.": "TVA excl.",
+  "reserved": "Réservé",
+  "product-pdf": "Produit PDF"
 }

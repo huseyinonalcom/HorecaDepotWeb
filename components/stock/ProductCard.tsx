@@ -45,20 +45,29 @@ export default function ProductCard({ product }: { product: any }) {
         </p>
         <p>{product.product_extra.EAN ?? product.product_extra.supplierCode}</p>
         <p>
-          Dimensions (cm): {product.height} x {product.width} x {product.depth}
+          <b>{t("Dimensions")} (cm):</b> {product.height} x {product.width} x{" "}
+          {product.depth}
         </p>
         <p>
-          Dimensions de la boîte: {product.product_extra.packaged_dimensions}
+          <b>{t("Packaged Dimensions")}:</b>{" "}
+          {product.product_extra.packaged_dimensions}
         </p>
-        <p>Couleur: {product.product_color?.name ?? ""}</p>
-        <p>Matériau: {product.material}</p>
-        <p>Lien vers le PDF du produit: Voir le PDF</p>
         <p>
-          Total Stock:{" "}
+          <b>{t("Color")}:</b> {product.product_color?.name ?? ""}
+        </p>
+        <p>
+          <b>{t("Material")}:</b> {product.material}
+        </p>
+
+        <p>
+          <b>{t("product-pdf")}:</b> Voir le PDF
+        </p>
+        <p>
+          <b>{t("Stock")}:</b>{" "}
           {product.shelves.reduce((acc, shelf) => acc + shelf.stock, 0)}
         </p>
         <p>
-          Réservé:{" "}
+          <b>{t("reserved")}:</b>{" "}
           {product.reservations.reduce((acc, res) => acc + res.amount, 0)}
         </p>
       </div>

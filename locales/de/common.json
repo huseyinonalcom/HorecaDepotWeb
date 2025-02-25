@@ -119,6 +119,7 @@
   "Our Projects": "Unsere Projekte",
   "Our references": "Unsere Referenzen",
   "Packaged Dimensions": "Verpackungsmaße",
+  "Dimensions": "Abmessungen",
   "Packaged Weight Net": "Nettogewicht verpackt",
   "Packaged Weight": "Verpackungsgewicht",
   "password_notmatching": "Passwörter stimmen nicht überein",
@@ -293,6 +294,7 @@
   "Delete": "Löschen",
   "validators_empty_invalid": "Feld darf nicht leer sein",
   "Primary Details": "Primäre Details",
+  "Internal Code": "Interner Code",
   "Secondary Details": "Sekundäre Details",
   "Supplier Code": "Lieferantencode",
   "choose_supplier": "Lieferant auswählen",
@@ -320,5 +322,11 @@
   "add-product": "Produkt hinzufügen",
   "shipping": "Versandkosten",
   "vat-incl": "MwSt. inkl.",
-  "reviews": "Bewertungen"
+  "reviews": "Bewertungen",
+  "Chaises de Terrace": "Terrassenstühle",
+  "Success": "Succes",
+  "Tables de Terrace": "Terrassentische",
+  "VAT excl.": "MwSt. exkl.",
+  "reserved": "Reserviert",
+  "product-pdf": "Produkt PDF"
 }

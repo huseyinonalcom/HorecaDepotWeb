@@ -119,6 +119,7 @@
   "Our Projects": "Onze projecten",
   "Our references": "Onze referenties",
   "Packaged Dimensions": "Verpakkingsafmetingen",
+  "Dimensions": "Afmetingen",
   "Packaged Weight Net": "Netto gewicht verpakking",
   "Packaged Weight": "Gewicht verpakking",
   "password_notmatching": "Wachtwoorden komen niet overeen",
@@ -302,6 +303,7 @@
   "Paid": "Betaald",
   "document_order": "Bestelling",
   "choose_category": "Kies een categorie",
+  "Chaises de Terrace": "Terrasstoelen",
   "invoiced_to": "Gefactureerd aan",
   "invoiced_address": "Factuuradres",
   "delivery": "Levering",
@@ -322,5 +324,9 @@
   "add-product": "Product toevoegen",
   "shipping": "Verzendkosten",
   "vat-incl": "BTW incl.",
-  "reviews": "Beoordelingen"
+  "reviews": "Beoordelingen",
+  "Success": "Succes",
+  "Tables de Terrace": "Terrastafels",
+  "reserved": "Gereserveerd",
+  "product-pdf": "Product PDF"
 }

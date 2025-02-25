@@ -119,6 +119,7 @@
   "Our Projects": "Our Projects",
   "Our references": "Our references",
   "Packaged Dimensions": "Packaged Dimensions",
+  "Dimensions": "Dimensions",
   "Packaged Weight Net": "Packaged Weight Net",
   "Packaged Weight": "Packaged Weight",
   "password_notmatching": "Passwords do not match",
@@ -321,5 +322,11 @@
   "add-product": "Add Product",
   "shipping": "Shipping",
   "vat-incl": "VAT incl.",
-  "reviews": "Reviews"
+  "reviews": "Reviews",
+  "Chaises de Terrace": "Terrace Chairs",
+  "Success": "Succes",
+  "Tables de Terrace": "Terrace Tables",
+  "VAT excl.": "VAT excl.",
+  "reserved": "Reserved",
+  "product-pdf": "Product PDF"
 }
