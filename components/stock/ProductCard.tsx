@@ -7,39 +7,39 @@ import ImageWithURL from "../common/image";
 import { useState } from "react";
 
 export default function ProductCard({ product }: { product: any }) {
-  const { lang } = useTranslation("common");
+  const { t, lang } = useTranslation("common");
   const [lightBoxIndex, setLightBoxIndex] = useState(undefined);
   return (
     <div
       key={product.id}
       className="flex w-full flex-col items-center rounded-md border-2 border-gray-300 bg-white p-2 shadow-md md:flex-row"
     >
-      <div className="w-full">
-        <div className="flex h-24 w-full flex-row items-center gap-2 overflow-x-auto">
+      <div className="flex flex-1 flex-col">
+        <div className="flex h-32 w-full min-w-0 flex-row items-center gap-2 overflow-x-auto">
           {product.images?.map((image) => (
             <button
               key={image.id}
-              style={{ height: 96, width: 96 }}
+              style={{ height: 128, width: 128 }}
               onClick={() => {
                 setLightBoxIndex(0);
               }}
             >
               <ImageWithURL
-                height={96}
-                width={96}
+                height={128}
+                width={128}
                 src={image.url}
                 alt={product.name}
-                style={{ objectFit: "contain", height: 96, width: 96 }}
+                style={{ objectFit: "contain", height: 128, width: 128 }}
               />
             </button>
           ))}
         </div>
-        <h2>{product.name}</h2>
+        <h2 className="font-bold">{product.name}</h2>
         <p>
-          Catégorie:{" "}
+          <b>{t("Category")}:</b>{" "}
           {product.categories.map((cat) => cat.localized_name[lang]).join(", ")}
         </p>
-        <p>{formatCurrency(product.value)}</p>
+        <p>{formatCurrency(product.value / 1.21)}</p>
         <p>{product.product_extra.EAN ?? product.product_extra.supplierCode}</p>
         <p>
           Dimensions (cm): {product.height} x {product.width} x {product.depth}
@@ -59,7 +59,7 @@ export default function ProductCard({ product }: { product: any }) {
           {product.reservations.reduce((acc, res) => acc + res.amount, 0)}
         </p>
       </div>
-      <div className="flex flex-col items-end">
+      <div className="flex w-[234px] flex-shrink-0 flex-col items-end">
         <BarcodeToPng value={product.supplierCode} />
         <div className="flex flex-row-reverse items-center gap-2">
           <button

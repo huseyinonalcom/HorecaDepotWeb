@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from "react";
-import Head from "next/head";
 import useTranslation from "next-translate/useTranslation";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function Admin() {
   const router = useRouter();
@@ -27,6 +27,11 @@ export default function Admin() {
       const data = await fetch("/api/admin/checkloggedinuser");
 
       if (data.status == 200) {
+        if (router.query.destination) {
+          router.replace(
+            decodeURIComponent(router.query.destination as string),
+          );
+        }
         router.push("/admin/dashboard");
       }
     };
@@ -53,6 +58,11 @@ export default function Admin() {
       });
 
       if (response.ok) {
+        if (router.query.destination) {
+          router.replace(
+            decodeURIComponent(router.query.destination as string),
+          );
+        }
         router.push("/admin/stock/all");
       } else {
         setError(t("user_pass_invalid"));

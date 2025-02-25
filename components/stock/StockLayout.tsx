@@ -1,8 +1,8 @@
 import useTranslation from "next-translate/useTranslation";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { X } from "react-feather";
+import Link from "next/link";
 
 type Props = {
   children: React.ReactNode;
@@ -17,7 +17,9 @@ export default function AdminLayout({ children }: Props) {
   const validateSession = async () => {
     const data = await fetch("/api/admin/checkloggedinuser");
     if (data.status != 200) {
-      router.push("/admin");
+      router.push(
+        `/admin?destination=${encodeURIComponent("/stock/list/all")}`,
+      );
     }
   };
 
@@ -71,7 +73,7 @@ export default function AdminLayout({ children }: Props) {
           </div>
         </div>
         <div
-          className={`flex-shrink-1 flex w-full flex-col p-2 ${!showMenu ? "flex" : "hidden md:flex"}`}
+          className={`flex w-full flex-col p-2 md:max-w-[calc(100dvw-280px)] ${!showMenu ? "" : "hidden md:flex"}`}
         >
           <button
             onClick={() => setShowMenu(true)}
