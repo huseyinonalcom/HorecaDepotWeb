@@ -60,18 +60,20 @@ export default function AdminLayout({ children }: Props) {
               src="/assets/header/logo.svg"
               alt="Horeca Depot Logo"
             />
-            <LocaleSwitcher />
-            <button
-              onClick={() => {
-                setShowMenu(false);
-                scrollTo({
-                  top: 0,
-                });
-              }}
-              className="lg:hidden"
-            >
-              <X size={26} />
-            </button>
+            <div className="flex flex-row gap-2">
+              <LocaleSwitcher />
+              <button
+                onClick={() => {
+                  setShowMenu(false);
+                  scrollTo({
+                    top: 0,
+                  });
+                }}
+                className="lg:hidden"
+              >
+                <X size={26} />
+              </button>
+            </div>
           </div>
           <div className="no-scrollbar flex h-full w-full flex-col gap-2 overflow-auto p-2">
             <Link
