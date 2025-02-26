@@ -40,9 +40,6 @@ export const getProducts = async ({
     }
 
     if (ean) {
-      console.log(
-        fetchUrl + "?" + fetchParams + "&filters[supplierCode][$eq]=" + ean,
-      );
       const request = await fetch(
         fetchUrl + "?" + fetchParams + "&filters[supplierCode][$eq]=" + ean,
         {
@@ -114,7 +111,6 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   try {
-    console.log(req.query);
     const response = await getProducts({
       authToken: req.cookies.j,
       ean: req.query.ean as string,

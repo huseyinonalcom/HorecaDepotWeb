@@ -61,7 +61,6 @@ export default function Admin() {
 
       if (response.ok) {
         const answer = await response.json();
-        console.log(answer);
         if (router.query.destination) {
           router.push(decodeURIComponent(router.query.destination as string));
         } else {

@@ -1,12 +1,12 @@
-import { useEffect } from "react";
-import AdminDrawer from "./adminDrawer";
 import { useRouter } from "next/router";
+import AdminDrawer from "./adminDrawer";
+import { useEffect } from "react";
 
 type Props = {
   children: React.ReactNode;
 };
 
-const AdminLayout = ({ children }: Props) => {
+export default function AdminLayout({ children }: Props) {
   const router = useRouter();
   useEffect(() => {
     const validateSession = async () => {
@@ -33,6 +33,4 @@ const AdminLayout = ({ children }: Props) => {
       </div>
     </main>
   );
-};
-
-export default AdminLayout;
+}

@@ -44,8 +44,6 @@ export default async function logInAdmin(
 
       const answer2 = await request2.json();
 
-      console.log(answer2);
-
       if (validRoles.includes(Number(answer2.role.description))) {
         const isProduction = process.env.NODE_ENV === "production";
 
