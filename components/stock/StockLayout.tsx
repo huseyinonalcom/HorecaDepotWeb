@@ -44,8 +44,13 @@ export default function AdminLayout({ children }: Props) {
       <style>
         {`
         .font-lato {
-          visibility: hidden;
-        }`}
+          visibility: hidden !important;
+        }
+        
+        .tawk-min-container {
+          visibility: hidden !important;
+        }
+        `}
       </style>
       <div className="flex flex-row">
         <div
