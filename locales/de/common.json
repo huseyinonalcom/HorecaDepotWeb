@@ -111,7 +111,7 @@
   "No products selected": "Keine Produkte ausgewählt",
   "No_payment_part1": "Keine Zahlung gefunden, falls dies weiterhin auftritt",
   "No_payment_part2": "kontaktieren Sie uns per E-Mail, Telefon oder Kontaktformular.",
-  "no_stock": "Nicht auf Lager",
+
   "No": "Nein",
   "Not Featured": "Nicht empfohlen",
   "Order": "Bestellen",
@@ -328,5 +328,6 @@
   "Tables de Terrace": "Terrassentische",
   "VAT excl.": "MwSt. exkl.",
   "reserved": "Reserviert",
-  "product-pdf": "Produkt PDF"
+  "product-pdf": "Produkt PDF",
+  "no_stock": "Kontaktieren uns für Vorbestellung"
 }

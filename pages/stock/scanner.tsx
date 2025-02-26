@@ -28,7 +28,7 @@ export default function ScannerPage({}: {}) {
   }, [scannedCode]);
 
   return (
-    <div className="flex w-full flex-col items-center gap-2">
+    <div className="flex w-full flex-col items-center gap-2 p-2">
       {scanning ? (
         <Scanner
           onSuccess={(res) => {

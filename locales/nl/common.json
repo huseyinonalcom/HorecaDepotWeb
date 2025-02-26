@@ -111,7 +111,6 @@
   "No products selected": "Geen producten geselecteerd",
   "No_payment_part1": "Geen betaling gevonden, als dit aanhoudt",
   "No_payment_part2": "neem contact met ons op via e-mail, telefoon of contactformulier.",
-  "no_stock": "Geen voorraad",
   "No": "Nee",
   "Not Featured": "Niet uitgelicht",
   "Order": "Bestellen",
@@ -328,5 +327,6 @@
   "Success": "Succes",
   "Tables de Terrace": "Terrastafels",
   "reserved": "Gereserveerd",
-  "product-pdf": "Product PDF"
+  "product-pdf": "Product PDF",
+  "no_stock": "Contacteer ons voor voorbestelling"
 }

@@ -2,13 +2,12 @@ import useTranslation from "next-translate/useTranslation";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import Image from "next/image";
 
 export default function Admin() {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
-
   const [error, setError] = useState("");
-
   const [username, setUsername] = useState("");
 
   useEffect(() => {
@@ -24,13 +23,17 @@ export default function Admin() {
 
   useEffect(() => {
     const validateSession = async () => {
-      const data = await fetch("/api/admin/checkloggedinuser");
-
+      const data = await fetch("/api/private/auth/checkloggedinuser");
+      const answer = await data.json();
       if (data.status == 200) {
         if (router.query.destination) {
           router.push(decodeURIComponent(router.query.destination as string));
         } else {
-          router.push("/admin/dashboard");
+          if (answer.role.name == "Tier 9") {
+            router.push("/admin/dashboard");
+          } else {
+            router.push("/stock/list/all");
+          }
         }
       }
     };
@@ -57,10 +60,16 @@ export default function Admin() {
       });
 
       if (response.ok) {
+        const answer = await response.json();
+        console.log(answer);
         if (router.query.destination) {
           router.push(decodeURIComponent(router.query.destination as string));
         } else {
-          router.push("/admin/dashboard");
+          if (answer.role.name == "Tier 9") {
+            router.push("/admin/dashboard");
+          } else {
+            router.push("/stock/list/all");
+          }
         }
       } else {
         setError(t("user_pass_invalid"));
@@ -76,10 +85,20 @@ export default function Admin() {
         <title>Admin Login</title>
         <meta name="language" content={lang} />
       </Head>
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-2 bg-black">
+        <div className="relative h-32 w-full max-w-md">
+          <Image
+            src="/assets/header/logo.svg"
+            alt="Horeca Depot Logo"
+            sizes="400px"
+            priority
+            fill
+            style={{ objectFit: "contain" }}
+          />
+        </div>
         <form
           onSubmit={handleSubmit}
-          className="w-full max-w-md space-y-4  bg-white p-4 shadow-lg"
+          className="w-full max-w-md space-y-4 bg-white p-4 shadow-lg"
         >
           <h2 className="text-center text-xl font-bold">ADMIN LOGIN</h2>
           {error && (

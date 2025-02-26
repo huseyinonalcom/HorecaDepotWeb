@@ -111,7 +111,6 @@
   "No products selected": "No products selected",
   "No_payment_part1": "No payment has been found, if this persists",
   "No_payment_part2": "contact us by e-mail, phone or contact form.",
-  "no_stock": "No Stock",
   "No": "No",
   "Not Featured": "Not Featured",
   "Order": "Order",
@@ -328,5 +327,6 @@
   "Tables de Terrace": "Terrace Tables",
   "VAT excl.": "VAT excl.",
   "reserved": "Reserved",
-  "product-pdf": "Product PDF"
+  "product-pdf": "Product PDF",
+  "no_stock": "Contact us for Pre-Order"
 }

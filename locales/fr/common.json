@@ -111,7 +111,6 @@
   "No products selected": "Aucun produit sélectionné",
   "No_payment_part1": "Aucun paiement n'a été trouvé, si cela persiste",
   "No_payment_part2": "contactez-nous par e-mail, téléphone ou formulaire de contact.",
-  "no_stock": "Pas de Stock",
   "No": "Non",
   "Not Featured": "Pas en vedette",
   "Order": "Commande",
@@ -328,5 +327,6 @@
   "reviews": "Avis",
   "VAT excl.": "TVA excl.",
   "reserved": "Réservé",
-  "product-pdf": "Produit PDF"
+  "product-pdf": "Produit PDF",
+  "no_stock": "Contactez-nous pour la pré-commande"
 }

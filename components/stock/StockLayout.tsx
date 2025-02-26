@@ -16,7 +16,7 @@ export default function AdminLayout({ children }: Props) {
   const [showMenu, setShowMenu] = useState(false);
 
   const validateSession = async () => {
-    const data = await fetch("/api/admin/checkloggedinuser");
+    const data = await fetch("/api/private/auth/checkloggedinuser");
     if (data.status != 200) {
       router.push(
         `/admin?destination=${encodeURIComponent("/stock/list/all")}`,
@@ -40,6 +40,12 @@ export default function AdminLayout({ children }: Props) {
 
   return (
     <main>
+      <style>
+        {`
+        .font-lato {
+          visibility: hidden;
+        }`}
+      </style>
       <div className="flex flex-row">
         <div
           className={`w-full flex-shrink-0 flex-col items-center gap-2 border-gray-300 bg-gray-200 shadow-sm lg:w-[250px] ${showMenu ? "flex" : "hidden lg:flex"} lg:border-r-0`}

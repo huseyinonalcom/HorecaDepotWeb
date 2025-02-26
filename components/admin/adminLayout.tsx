@@ -10,22 +10,28 @@ const AdminLayout = ({ children }: Props) => {
   const router = useRouter();
   useEffect(() => {
     const validateSession = async () => {
-      const data = await fetch("/api/admin/checkloggedinuser");
-
-      if (data.status != 200) {
+      const data = await fetch("/api/private/auth/checkloggedinuser");
+      const answer = await data.json();
+      if (data.status == 200) {
+        if (answer.role.name != "Tier 9") {
+          router.push("/stock/list/all");
+        }
+      } else {
         router.push("/admin");
       }
     };
     validateSession();
   }, []);
 
-    return (
-      <main>
-        <div className="flex flex-row">
-          <AdminDrawer />
-          <div className="flex-shrink-1 w-full overflow-x-hidden px-2">{children}</div>
+  return (
+    <main>
+      <div className="flex flex-row">
+        <AdminDrawer />
+        <div className="flex-shrink-1 w-full overflow-x-hidden px-2">
+          {children}
         </div>
-      </main>
+      </div>
+    </main>
   );
 };
 

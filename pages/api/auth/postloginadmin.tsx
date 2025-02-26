@@ -6,7 +6,10 @@ const fetchUrl2 = `${process.env.API_URL}/api/users/me?populate=role`;
 
 const validRoles = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export default async function logInAdmin(req: NextApiRequest, res: NextApiResponse) {
+export default async function logInAdmin(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method === "POST") {
     const { identifier, password } = req.body;
 
@@ -41,10 +44,15 @@ export default async function logInAdmin(req: NextApiRequest, res: NextApiRespon
 
       const answer2 = await request2.json();
 
+      console.log(answer2);
+
       if (validRoles.includes(Number(answer2.role.description))) {
         const isProduction = process.env.NODE_ENV === "production";
 
-        res.setHeader("Set-Cookie", `j=${answer.jwt}; HttpOnly; Path=/; Max-Age=36000; SameSite=Strict${isProduction ? "; Secure" : ""}`);
+        res.setHeader(
+          "Set-Cookie",
+          `j=${answer.jwt}; HttpOnly; Path=/; Max-Age=36000; SameSite=Strict${isProduction ? "; Secure" : ""}`,
+        );
 
         return res.status(200).json(answer2.role.name);
       } else {

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import statusText from "../../../api/statustexts";
+import statusText from "../../../../api/statustexts";
 
 const fetchUrl = `${process.env.API_URL}/api/users/me?populate[role][fields][0]=name&fields=id`;
 
@@ -7,7 +7,7 @@ const validRoles = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export default async function checkLoggedInUserAdmin(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   if (req.method === "GET") {
     const cookies = req.cookies;
@@ -36,7 +36,7 @@ export default async function checkLoggedInUserAdmin(
         return res.status(404).json(statusText[404]);
       }
 
-      return res.status(200).json(statusText[200]);
+      return res.status(200).json({ role: answer.role.name });
     } catch (error) {
       return res.status(500).json(statusText[500]);
     }
