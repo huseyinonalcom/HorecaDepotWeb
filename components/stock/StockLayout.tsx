@@ -10,7 +10,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function AdminLayout({ children }: Props) {
+export default function StockLayout({ children }: Props) {
   const [categories, setCategories] = useState<any>();
   const router = useRouter();
   const { t, lang } = useTranslation("common");
@@ -41,17 +41,15 @@ export default function AdminLayout({ children }: Props) {
 
   return (
     <main>
-      <style>
-        {`
+      <style jsx global>{`
         .font-lato {
           visibility: hidden !important;
         }
-        
+
         .tawk-min-container {
           visibility: hidden !important;
         }
-        `}
-      </style>
+      `}</style>
       <div className="flex flex-row">
         <div
           className={`sticky top-0 max-h-[100dvh] w-full flex-shrink-0 flex-col items-center gap-2 border-gray-300 bg-gray-200 shadow-sm lg:w-[270px] ${showMenu ? "flex" : "hidden lg:flex"} lg:border-r-0`}
