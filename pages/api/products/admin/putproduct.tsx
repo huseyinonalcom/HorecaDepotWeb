@@ -447,22 +447,10 @@ export default async function putProduct(
 
       if (prodToPost.shelves && prodToPost.shelves.length > 0) {
         result.shelves = await updateShelves(authToken, prodToPost);
-        if (
-          prodToPost.shelves.reduce((acc, shelf) => acc + shelf.stock, 0) > 0
-        ) {
-          updateProductMain(prodID, authToken, { active: true });
-        } else {
-          updateProductMain(prodID, authToken, { active: false });
-        }
       }
 
       if (prodToPost.stock == 0 || prodToPost.stock) {
         result.stock = await updateStock(authToken, prodID, prodToPost.stock);
-        if (prodToPost.stock > 0) {
-          updateProductMain(prodID, authToken, { active: true });
-        } else {
-          updateProductMain(prodID, authToken, { active: false });
-        }
       }
     } catch (error) {
       console.error(error);
