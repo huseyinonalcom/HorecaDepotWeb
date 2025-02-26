@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { X } from "react-feather";
 import Link from "next/link";
 import Image from "next/image";
+import LocaleSwitcher from "../LocaleSwitcher";
 
 type Props = {
   children: React.ReactNode;
@@ -48,9 +49,9 @@ export default function AdminLayout({ children }: Props) {
       </style>
       <div className="flex flex-row">
         <div
-          className={`w-full flex-shrink-0 flex-col items-center gap-2 border-gray-300 bg-gray-200 shadow-sm lg:w-[250px] ${showMenu ? "flex" : "hidden lg:flex"} lg:border-r-0`}
+          className={`sticky top-0 max-h-[100dvh] w-full flex-shrink-0 flex-col items-center gap-2 border-gray-300 bg-gray-200 shadow-sm lg:w-[270px] ${showMenu ? "flex" : "hidden lg:flex"} lg:border-r-0`}
         >
-          <div className="sticky left-0 top-0 flex w-full items-center justify-between bg-black px-2 py-2 text-white">
+          <div className="flex w-full flex-row items-center justify-between bg-black px-2 py-2 text-white">
             <Image
               width={200}
               height={42.19}
@@ -59,6 +60,7 @@ export default function AdminLayout({ children }: Props) {
               src="/assets/header/logo.svg"
               alt="Horeca Depot Logo"
             />
+            <LocaleSwitcher />
             <button
               onClick={() => {
                 setShowMenu(false);
@@ -71,7 +73,7 @@ export default function AdminLayout({ children }: Props) {
               <X size={26} />
             </button>
           </div>
-          <div className="flex w-full flex-col p-2">
+          <div className="no-scrollbar flex h-full w-full flex-col gap-2 overflow-auto p-2">
             <Link
               onClick={() => setShowMenu(false)}
               href={`/stock/scanner`}
@@ -79,7 +81,7 @@ export default function AdminLayout({ children }: Props) {
             >
               Scanner
             </Link>
-            <h2 className="text-xl font-semibold">Categories</h2>
+            <h2 className="mr-auto text-xl font-semibold">{t("Categories")}</h2>
             <div className="flex w-full flex-col gap-1">
               {categories
                 ?.sort((a, b) => (a.priority > b.priority ? 1 : -1))
@@ -97,7 +99,7 @@ export default function AdminLayout({ children }: Props) {
           </div>
         </div>
         <div
-          className={`flex w-full flex-col lg:max-w-[calc(100dvw-280px)] ${!showMenu ? "" : "hidden lg:flex"}`}
+          className={`flex w-full flex-col lg:max-w-[calc(100dvw-290px)] ${!showMenu ? "" : "hidden lg:flex"}`}
         >
           <div className="sticky left-0 top-0 flex w-full items-center justify-between bg-black px-2 py-2 text-white lg:hidden">
             <Image
