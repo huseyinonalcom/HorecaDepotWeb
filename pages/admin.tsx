@@ -82,7 +82,7 @@ export default function Admin() {
   return (
     <div>
       <Head>
-        <title>Admin Login</title>
+        <title>Login</title>
         <meta name="language" content={lang} />
       </Head>
       <div className="flex min-h-screen flex-col items-center justify-center gap-2 bg-black">
@@ -100,7 +100,7 @@ export default function Admin() {
           onSubmit={handleSubmit}
           className="w-full max-w-md space-y-4 bg-white p-4 shadow-lg"
         >
-          <h2 className="text-center text-xl font-bold">ADMIN LOGIN</h2>
+          <h2 className="text-center text-xl font-bold">LOGIN</h2>
           {error && (
             <div className="bg-red-100 p-2 text-center text-red-700 ">
               {error}
