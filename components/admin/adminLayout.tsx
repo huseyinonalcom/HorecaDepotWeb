@@ -13,7 +13,7 @@ const AdminLayout = ({ children }: Props) => {
       const data = await fetch("/api/private/auth/checkloggedinuser");
       const answer = await data.json();
       if (data.status == 200) {
-        if (answer.role.name != "Tier 9") {
+        if (answer != "Tier 9") {
           router.push("/stock/list/all");
         }
       } else {
