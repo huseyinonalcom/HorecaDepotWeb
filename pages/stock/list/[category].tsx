@@ -116,67 +116,75 @@ export default function Stock(props) {
                 : t("All"),
             )}
           </div>
-          <div
-            className="min-w-[280px]"
-            style={{
-              borderRadius: "0.25rem",
-              boxShadow:
-                "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-              backgroundColor: "#f3f4f6",
-              padding: "8px",
-            }}
-          >
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                router.push(createLink({ search: tempSearch, page: 1 }));
+          <div className="flex flex-row gap-2 items-center">
+            <div
+              className="min-w-[280px]"
+              style={{
+                borderRadius: "0.25rem",
+                boxShadow:
+                  "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                backgroundColor: "#f3f4f6",
+                padding: "8px",
               }}
-              role="search"
-              className="flex flex-row"
             >
-              <input
-                id="searchInput"
-                className="placeholder-blue"
-                value={tempSearch}
-                onChange={(e) => setTempSearch(e.target.value)}
+              <form
                 onSubmit={(e) => {
                   e.preventDefault();
                   router.push(createLink({ search: tempSearch, page: 1 }));
                 }}
-                type="text"
-                style={{
-                  width: "100%",
-                  paddingLeft: "16px",
-                  paddingRight: "16px",
-                  paddingTop: "8px",
-                  paddingBottom: "8px",
-                  border: "2px solid",
-                  borderColor: "rgba(0, 0, 0, 0.1)",
-                  outline: "none",
-                }}
-                placeholder={t("Search Products")}
-                aria-label="Search"
-              />
-              <Link
-                href={createLink({ search: tempSearch, page: 1 })}
-                style={{
-                  cursor: "pointer",
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                }}
-                role="button"
-                aria-label="Submit search"
+                role="search"
+                className="flex flex-row"
               >
-                <Search
-                  style={{
-                    height: "100%",
-                    width: "28px",
-                    margin: "auto 8px",
+                <input
+                  id="searchInput"
+                  className="placeholder-blue"
+                  value={tempSearch}
+                  onChange={(e) => setTempSearch(e.target.value)}
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    router.push(createLink({ search: tempSearch, page: 1 }));
                   }}
+                  type="text"
+                  style={{
+                    width: "100%",
+                    paddingLeft: "16px",
+                    paddingRight: "16px",
+                    paddingTop: "8px",
+                    paddingBottom: "8px",
+                    border: "2px solid",
+                    borderColor: "rgba(0, 0, 0, 0.1)",
+                    outline: "none",
+                  }}
+                  placeholder={t("Search Products")}
+                  aria-label="Search"
                 />
-              </Link>
-            </form>
+                <Link
+                  href={createLink({ search: tempSearch, page: 1 })}
+                  style={{
+                    cursor: "pointer",
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                  }}
+                  role="button"
+                  aria-label="Submit search"
+                >
+                  <Search
+                    style={{
+                      height: "100%",
+                      width: "28px",
+                      margin: "auto 8px",
+                    }}
+                  />
+                </Link>
+              </form>
+            </div>
+            <Link
+              href={"/stock/scanner"}
+              className="flex w-[100px] flex-row items-center justify-center rounded-md border-2 border-gray-400 bg-black p-2 font-semibold text-white shadow-sm"
+            >
+              Scan
+            </Link>
           </div>
         </div>
         <div className="flex w-full flex-col items-start gap-2">

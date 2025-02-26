@@ -38,7 +38,7 @@ export default function ScannerPage({}: {}) {
         />
       ) : (
         <button
-          className="min-w-[100px] border-2 bg-blue-100 p-2 shadow-sm border-gray-400 rounded-md"
+          className="min-w-[100px] border-2 bg-black text-white font-semibold p-2 shadow-sm border-gray-400 rounded-md"
           type="button"
           onClick={() => setScanning(true)}
         >
