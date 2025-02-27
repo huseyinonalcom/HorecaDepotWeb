@@ -1,10 +1,10 @@
 import useTranslation from "next-translate/useTranslation";
+import LocaleSwitcher from "../LocaleSwitcher";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { X } from "react-feather";
-import Link from "next/link";
 import Image from "next/image";
-import LocaleSwitcher from "../LocaleSwitcher";
+import Link from "next/link";
 
 type Props = {
   children: React.ReactNode;
@@ -52,9 +52,9 @@ export default function StockLayout({ children }: Props) {
       `}</style>
       <div className="flex flex-row">
         <div
-          className={`sticky top-0 max-h-[100dvh] w-full flex-shrink-0 flex-col items-center gap-2 border-gray-300 bg-gray-200 shadow-sm lg:w-[270px] ${showMenu ? "flex" : "hidden lg:flex"} lg:border-r-0`}
+          className={`sticky top-0 max-h-[100dvh] w-full flex-shrink-0 flex-col items-center gap-2 border-gray-300 bg-black shadow-sm lg:w-[270px] ${showMenu ? "flex" : "hidden lg:flex"} lg:border-r-0`}
         >
-          <div className="flex w-full flex-row items-center justify-between bg-black px-2 py-2 text-white">
+          <div className="flex w-full flex-row items-center justify-between px-2 py-2 text-white">
             <Image
               width={200}
               height={42.19}
@@ -86,8 +86,17 @@ export default function StockLayout({ children }: Props) {
             >
               Scanner
             </Link>
-            <h2 className="mr-auto text-xl font-semibold">{t("Categories")}</h2>
+            <h2 className="mr-auto text-xl font-semibold text-white">
+              {t("Categories")}
+            </h2>
             <div className="flex w-full flex-col gap-1">
+              <Link
+                onClick={() => setShowMenu(false)}
+                href={`/stock/list/all?page=1`}
+                className={`h-full w-full whitespace-nowrap rounded-md border-2 border-gray-400 ${router.query.category == "all" ? "bg-blue-200" : "bg-white"} p-1 shadow-sm hover:bg-blue-200`}
+              >
+                {t("All")}
+              </Link>
               {categories
                 ?.sort((a, b) => (a.priority > b.priority ? 1 : -1))
                 .map((category) => (
@@ -95,7 +104,7 @@ export default function StockLayout({ children }: Props) {
                     onClick={() => setShowMenu(false)}
                     key={category.id}
                     href={`/stock/list/${category.id}?page=1`}
-                    className="h-full w-full whitespace-nowrap rounded-md border-2 border-gray-400 bg-white p-1 shadow-sm hover:bg-blue-200"
+                    className={`h-full w-full whitespace-nowrap rounded-md border-2 border-gray-400 ${router.query.category == category.id ? "bg-blue-200" : "bg-white"} p-1 shadow-sm hover:bg-blue-200`}
                   >
                     {t(category.localized_name[lang])}
                   </Link>
