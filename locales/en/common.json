@@ -328,5 +328,8 @@
   "VAT excl.": "VAT excl.",
   "reserved": "Reserved",
   "product-pdf": "Product PDF",
-  "no_stock": "Contact us for Pre-Order"
+  "no_stock": "Contact us for Pre-Order",
+  "required": "Required Field",
+  "login-to-your-account": "Login to your account",
+  "checkout-without-account": "Checkout without account"
 }

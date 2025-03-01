@@ -1,7 +1,7 @@
 import areAllPropertiesEmpty from "../api/utils/input_validators/are_all_properties_empty";
 import areAllPropertiesNull from "../api/utils/input_validators/are_all_properties_null";
 import validateEmpty from "../api/utils/input_validators/validate_empty";
-import { ClientConversion } from "../api/interfaces/client";
+import { Client, ClientConversion } from "../api/interfaces/client";
 import useTranslation from "next-translate/useTranslation";
 import ButtonShadow1 from "../components/buttons/shadow_1";
 import InputOutlined from "../components/inputs/outlined";
@@ -50,17 +50,9 @@ export default function Checkout(props) {
       const data = await fetch("/api/client/client/checkloggedinuser");
       if (data.status != 200) {
         clearClient();
-        await fetch("/api/client/client/logout");
-      } else {
       }
     }, 200);
   }, []);
-
-  const handleLogOut = async (event) => {
-    event.preventDefault();
-    clearClient();
-    await fetch("/api/client/client/logout").then(() => {});
-  };
 
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [newAddressExistingClient, setNewAddressExistingClient] =
@@ -73,83 +65,47 @@ export default function Checkout(props) {
       floor: "",
     });
 
-  const [
-    errorsNewAddressExistingClientForm,
-    setErrorsNewAddressExistingClientForm,
-  ] = useState({
-    country: null,
-    street: null,
-    doorNumber: null,
-    floor: null,
-    zipCode: null,
-    city: null,
-  });
-
   const handleNewAddressExistingClientFormSubmit = async (event) => {
     event.preventDefault();
 
-    setErrorsNewAddressExistingClientForm((e) => ({
-      country: null,
-      street: null,
-      doorNumber: null,
-      floor: null,
-      zipCode: null,
-      city: null,
-    }));
-
-    setErrorsNewAddressExistingClientForm((e) => ({
-      ...e,
-      country: validateEmpty(newAddressExistingClient.country),
-    }));
-    setErrorsNewAddressExistingClientForm((e) => ({
-      ...e,
-      street: validateEmpty(newAddressExistingClient.street),
-    }));
-    setErrorsNewAddressExistingClientForm((e) => ({
-      ...e,
-      doorNumber: validateEmpty(newAddressExistingClient.doorNumber),
-    }));
-    setErrorsNewAddressExistingClientForm((e) => ({
-      ...e,
-      floor: validateEmpty(newAddressExistingClient.floor),
-    }));
-    setErrorsNewAddressExistingClientForm((e) => ({
-      ...e,
-      zipCode: validateEmpty(newAddressExistingClient.zipCode),
-    }));
-    setErrorsNewAddressExistingClientForm((e) => ({
-      ...e,
-      city: validateEmpty(newAddressExistingClient.city),
-    }));
-  };
-
-  useEffect(() => {
-    if (
-      areAllPropertiesNull(errorsNewAddressExistingClientForm) &&
-      !areAllPropertiesEmpty(newAddressExistingClient)
-    ) {
-      const post = async () => {
-        const request = await fetch(
-          "/api/client/client/postnewaddress?client=" + client.client_info.id,
-          {
-            method: "POST",
-            body: JSON.stringify({
-              newAddressExistingClient,
-            }),
-          },
-        );
-        if (request.ok) {
-          setShowAddressForm(false);
-          const requestUpdatedClient = await fetch(
-            "/api/client/client/updateclientinfo",
-          );
-          const answerUpdatedClient = await requestUpdatedClient.json();
-          setCurrentClient(ClientConversion.fromJson(answerUpdatedClient));
-        }
-      };
-      post();
+    if (newAddressExistingClient.country == "") {
+      alert("Please select a country");
+      return;
     }
-  }, [errorsNewAddressExistingClientForm]);
+
+    if (newAddressExistingClient.street == "") {
+      alert("Please enter a street");
+      return;
+    }
+
+    if (newAddressExistingClient.zipCode == "") {
+      alert("Please enter a zip code");
+      return;
+    }
+
+    if (newAddressExistingClient.city == "") {
+      alert("Please enter a city");
+      return;
+    }
+
+    const request = await fetch(
+      "/api/client/client/postnewaddress?client=" + client.client_info.id,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          newAddressExistingClient,
+        }),
+      },
+    );
+    if (request.ok) {
+      setShowAddressForm(false);
+      const requestUpdatedClient = await fetch(
+        "/api/client/client/updateclientinfo",
+      );
+      const answerUpdatedClient = await requestUpdatedClient.json();
+      setCurrentClient(ClientConversion.fromJson(answerUpdatedClient));
+    }
+  };
 
   // might need to be checked
   const [promoError, setPromoError] = useState("");
@@ -359,6 +315,21 @@ export default function Checkout(props) {
     }
   }, [chosenDeliveryAddressId]);
 
+  const [showLogin, setShowLogin] = useState(false);
+
+  const [guestData, setGuestData] = useState<Client>({
+    email: "",
+    client_info: {
+      category: "Particulier",
+      firstName: "",
+      lastName: "",
+      phone: "",
+      addresses: [],
+      company: "",
+      taxID: "",
+    },
+  });
+
   return (
     <Layout>
       <Head>
@@ -367,10 +338,194 @@ export default function Checkout(props) {
         <meta name="language" content={lang} />
       </Head>
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-        <div className="order-2 mb-2 mt-1 p-3 shadow-lg sm:order-1">
-          {!client && <ClientLogin onLogin={() => {}} />}
+        <div className="order-2 mb-2 mt-1 flex w-full flex-col items-center p-3 shadow-lg sm:order-1">
+          {!client && !showLogin && (
+            <div className="w-1/2">
+              <button
+                onClick={() => setShowLogin(true)}
+                className={CustomTheme.greenSubmitButton}
+              >
+                {t("login-to-your-account")}
+              </button>
+            </div>
+          )}
+          {!client && showLogin && (
+            <div className="w-1/2">
+              <button
+                onClick={() => setShowLogin(false)}
+                className={CustomTheme.greenSubmitButton}
+              >
+                {t("checkout-without-account")}
+              </button>
+              <ClientLogin onLogin={() => {}} />
+            </div>
+          )}
+
+          {!client && !showLogin && (
+            <div className="flex w-full flex-col gap-2">
+              <h3 className="mt-3">{t("Business or Individual")}?</h3>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  name="setClientTypeToIndividual"
+                  aria-label="Set Client Type to Individual"
+                  type="button"
+                  onClick={() =>
+                    setGuestData({
+                      ...guestData,
+                      client_info: {
+                        ...guestData.client_info,
+                        category: "Particulier",
+                      },
+                    })
+                  }
+                  className={
+                    CustomTheme.outlinedButton +
+                    ` ${guestData.client_info.category == "Particulier" ? "bg-gray-300" : ""}`
+                  }
+                >
+                  {t("Individual")}
+                </button>
+                <button
+                  name="setClientTypeToIndividual"
+                  aria-label="Set Client Type to Individual"
+                  type="button"
+                  onClick={() =>
+                    setGuestData({
+                      ...guestData,
+                      client_info: {
+                        ...guestData.client_info,
+                        category: "Entreprise",
+                      },
+                    })
+                  }
+                  className={
+                    CustomTheme.outlinedButton +
+                    ` ${guestData.client_info.category == "Entreprise" ? "bg-gray-300" : ""}`
+                  }
+                >
+                  {t("Business")}
+                </button>
+              </div>
+              {guestData.client_info.category == `Entreprise` && (
+                <>
+                  <InputOutlined
+                    required
+                    type="text"
+                    name="Company"
+                    label="The name of your company"
+                    value={guestData.client_info.company}
+                    error={
+                      guestData.client_info.company == "" ? t("required") : ""
+                    }
+                    onChange={(e) =>
+                      setGuestData({
+                        ...guestData,
+                        client_info: {
+                          ...guestData.client_info,
+                          company: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                  <InputOutlined
+                    required
+                    type="text"
+                    name="TaxID"
+                    label="VAT number"
+                    value={guestData.client_info.taxID}
+                    error={
+                      guestData.client_info.taxID == "" ? t("required") : ""
+                    }
+                    onChange={(e) =>
+                      setGuestData({
+                        ...guestData,
+                        client_info: {
+                          ...guestData.client_info,
+                          taxID: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                </>
+              )}
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <div className="flex w-full flex-col sm:w-1/2">
+                  <InputOutlined
+                    required
+                    type="text"
+                    name="FirstName"
+                    label="Your first name"
+                    value={guestData.client_info.firstName}
+                    error={
+                      guestData.client_info.firstName == "" ? t("required") : ""
+                    }
+                    onChange={(e) =>
+                      setGuestData({
+                        ...guestData,
+                        client_info: {
+                          ...guestData.client_info,
+                          firstName: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                </div>
+                <div className="flex w-full flex-col sm:w-1/2">
+                  <InputOutlined
+                    required
+                    type="text"
+                    name="LastName"
+                    label="Your last name"
+                    value={guestData.client_info.lastName}
+                    error={
+                      guestData.client_info.lastName == "" ? t("required") : ""
+                    }
+                    onChange={(e) =>
+                      setGuestData({
+                        ...guestData,
+                        client_info: {
+                          ...guestData.client_info,
+                          lastName: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <InputOutlined
+                type="text"
+                name="Phone"
+                label="Your Phone"
+                value={guestData.client_info.phone}
+                onChange={(e) =>
+                  setGuestData({
+                    ...guestData,
+                    client_info: {
+                      ...guestData.client_info,
+                      phone: e.target.value,
+                    },
+                  })
+                }
+              />
+              <InputOutlined
+                required
+                type="email"
+                name="E-mail"
+                label="E-mail"
+                value={guestData.email}
+                error={guestData.email == "" ? t("required") : ""}
+                onChange={(e) =>
+                  setGuestData({
+                    ...guestData,
+                    email: e.target.value,
+                  })
+                }
+              />
+            </div>
+          )}
+
           {client && (
-            <div className="flex flex-col">
+            <div className="flex w-full flex-col">
               <h2 className="mb-2 text-xl font-bold">
                 {t("INVOICING DETAILS")}
               </h2>
@@ -396,7 +551,8 @@ export default function Checkout(props) {
                   <button
                     name="logOut"
                     aria-label="Log Out"
-                    onClick={handleLogOut}
+                    type="button"
+                    onClick={() => clearClient()}
                     className={CustomTheme.outlinedButton}
                   >
                     {t("Log Out")}
@@ -466,7 +622,11 @@ export default function Checkout(props) {
                       name="Country"
                       label="Country"
                       value={newAddressExistingClient.country}
-                      error={errorsNewAddressExistingClientForm.country}
+                      error={
+                        newAddressExistingClient.country == ""
+                          ? t("required")
+                          : ""
+                      }
                       onChange={(e) =>
                         setNewAddressExistingClient({
                           ...newAddressExistingClient,
@@ -483,7 +643,11 @@ export default function Checkout(props) {
                         name="Street"
                         label="Street"
                         value={newAddressExistingClient.street}
-                        error={errorsNewAddressExistingClientForm.street}
+                        error={
+                          newAddressExistingClient.street == ""
+                            ? t("required")
+                            : ""
+                        }
                         onChange={(e) =>
                           setNewAddressExistingClient({
                             ...newAddressExistingClient,
@@ -499,7 +663,11 @@ export default function Checkout(props) {
                         name="DoorNumber"
                         label="Door"
                         value={newAddressExistingClient.doorNumber}
-                        error={errorsNewAddressExistingClientForm.doorNumber}
+                        error={
+                          newAddressExistingClient.doorNumber == ""
+                            ? t("required")
+                            : ""
+                        }
                         onChange={(e) =>
                           setNewAddressExistingClient({
                             ...newAddressExistingClient,
@@ -515,7 +683,6 @@ export default function Checkout(props) {
                         name="Floor"
                         label="Floor"
                         value={newAddressExistingClient.floor}
-                        error={errorsNewAddressExistingClientForm.floor}
                         onChange={(e) =>
                           setNewAddressExistingClient({
                             ...newAddressExistingClient,
@@ -533,7 +700,11 @@ export default function Checkout(props) {
                         name="ZipCode"
                         label="Zip Code"
                         value={newAddressExistingClient.zipCode}
-                        error={errorsNewAddressExistingClientForm.zipCode}
+                        error={
+                          newAddressExistingClient.zipCode == ""
+                            ? t("required")
+                            : ""
+                        }
                         onChange={(e) =>
                           setNewAddressExistingClient({
                             ...newAddressExistingClient,
@@ -549,7 +720,11 @@ export default function Checkout(props) {
                         name="City"
                         label="City"
                         value={newAddressExistingClient.city}
-                        error={errorsNewAddressExistingClientForm.city}
+                        error={
+                          newAddressExistingClient.city == ""
+                            ? t("required")
+                            : ""
+                        }
                         onChange={(e) =>
                           setNewAddressExistingClient({
                             ...newAddressExistingClient,
@@ -571,29 +746,29 @@ export default function Checkout(props) {
                   </div>
                 </form>
               )}
-              {submitErrorDocument && (
-                <p className="text-red-500">{submitErrorDocument}</p>
-              )}
-              <button
-                name="orderSubmit"
-                aria-label="Order Submit"
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (!submitting) {
-                    setSubmitting(true);
-                    handleOrderSubmit();
-                  }
-                }}
-                className={CustomTheme.outlinedButton}
-              >
-                {submitting ? (
-                  <Loader className="mx-auto" />
-                ) : (
-                  t("Proceed with order")
-                )}
-              </button>
             </div>
+          )}
+          <button
+            name="orderSubmit"
+            aria-label="Order Submit"
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              if (!submitting) {
+                setSubmitting(true);
+                handleOrderSubmit();
+              }
+            }}
+            className={CustomTheme.outlinedButton}
+          >
+            {submitting ? (
+              <Loader className="mx-auto" />
+            ) : (
+              t("Proceed with order")
+            )}
+          </button>
+          {submitErrorDocument && (
+            <p className="text-red-500">{submitErrorDocument}</p>
           )}
         </div>
         <div className="order-1 my-2 grid grid-cols-1 p-4 shadow-lg sm:order-2">
@@ -677,10 +852,11 @@ export default function Checkout(props) {
               </div>
             ))}
           </div>
+
           {cart.length > 0 && (
             <div>
               <p>
-                {t("Shipping")}: €{" "}
+                {t("shipping")}: €{" "}
                 {(client?.client_info.addresses?.find(
                   (add) => add.id == chosenDeliveryAddressId,
                 )?.shippingDistance ?? 0) * props?.costPerKM}

@@ -328,5 +328,8 @@
   "Tables de Terrace": "Terrastafels",
   "reserved": "Gereserveerd",
   "product-pdf": "Product PDF",
-  "no_stock": "Contacteer ons voor voorbestelling"
+  "no_stock": "Contacteer ons voor voorbestelling",
+  "required": "Verplicht veld",
+  "login-to-your-account": "Inloggen op uw account",
+  "checkout-without-account": "Afrekenen zonder account"
 }

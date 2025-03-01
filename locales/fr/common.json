@@ -328,5 +328,8 @@
   "VAT excl.": "TVA excl.",
   "reserved": "Réservé",
   "product-pdf": "Produit PDF",
-  "no_stock": "Contactez-nous pour la pré-commande"
+  "no_stock": "Contactez-nous pour la pré-commande",
+  "required": "Champ obligatoire",
+  "login-to-your-account": "Connexion à votre compte",
+  "checkout-without-account": "Passer la commande sans compte"
 }

@@ -54,8 +54,9 @@ export const ClientProvider = ({ children }: ClientProviderProps) => {
     localStorage.setItem("client", JSON.stringify(newClient));
   };
 
-  const clearClient = () => {
+  const clearClient = async () => {
     setClient(null);
+    await fetch("/api/client/client/logout");
     localStorage.removeItem("client");
   };
 

@@ -329,5 +329,8 @@
   "VAT excl.": "MwSt. exkl.",
   "reserved": "Reserviert",
   "product-pdf": "Produkt PDF",
-  "no_stock": "Kontaktieren uns für Vorbestellung"
+  "no_stock": "Kontaktieren uns für Vorbestellung",
+  "required": "Pflichtfeld",
+  "login-to-your-account": "Login zu Ihrem Konto",
+  "checkout-without-account": "Zur Kasse ohne Konto"
 }
