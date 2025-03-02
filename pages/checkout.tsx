@@ -1,6 +1,3 @@
-import areAllPropertiesEmpty from "../api/utils/input_validators/are_all_properties_empty";
-import areAllPropertiesNull from "../api/utils/input_validators/are_all_properties_null";
-import validateEmpty from "../api/utils/input_validators/validate_empty";
 import { Client, ClientConversion } from "../api/interfaces/client";
 import useTranslation from "next-translate/useTranslation";
 import ButtonShadow1 from "../components/buttons/shadow_1";
@@ -362,7 +359,8 @@ export default function Checkout(props) {
           )}
 
           {!client && !showLogin && (
-            <div className="flex w-full flex-col gap-2">
+            <form className="flex w-full flex-col gap-2">
+              <h2 className="text-lg font-semibold">{t("invoice-details")}</h2>
               <h3 className="mt-3">{t("Business or Individual")}?</h3>
               <div className="grid grid-cols-2 gap-2">
                 <button
@@ -521,7 +519,121 @@ export default function Checkout(props) {
                   })
                 }
               />
-            </div>
+
+              <div className="mt-2 flex w-full flex-col">
+                <InputOutlined
+                  required
+                  type="text"
+                  name="Country"
+                  label="Country"
+                  value={newAddressExistingClient.country}
+                  error={
+                    newAddressExistingClient.country == "" ? t("required") : ""
+                  }
+                  onChange={(e) =>
+                    setNewAddressExistingClient({
+                      ...newAddressExistingClient,
+                      country: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <div className="flex w-full flex-col sm:w-7/12">
+                  <InputOutlined
+                    required
+                    type="text"
+                    name="Street"
+                    label="Street"
+                    value={newAddressExistingClient.street}
+                    error={
+                      newAddressExistingClient.street == "" ? t("required") : ""
+                    }
+                    onChange={(e) =>
+                      setNewAddressExistingClient({
+                        ...newAddressExistingClient,
+                        street: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="flex w-full flex-col sm:w-3/12">
+                  <InputOutlined
+                    required
+                    type="text"
+                    name="DoorNumber"
+                    label="Door"
+                    value={newAddressExistingClient.doorNumber}
+                    error={
+                      newAddressExistingClient.doorNumber == ""
+                        ? t("required")
+                        : ""
+                    }
+                    onChange={(e) =>
+                      setNewAddressExistingClient({
+                        ...newAddressExistingClient,
+                        doorNumber: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="flex w-full flex-col sm:w-2/12">
+                  <InputOutlined
+                    required
+                    type="text"
+                    name="Floor"
+                    label="Floor"
+                    value={newAddressExistingClient.floor}
+                    onChange={(e) =>
+                      setNewAddressExistingClient({
+                        ...newAddressExistingClient,
+                        floor: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <div className="flex w-full flex-col sm:w-4/12">
+                  <InputOutlined
+                    required
+                    type="text"
+                    name="ZipCode"
+                    label="Zip Code"
+                    value={newAddressExistingClient.zipCode}
+                    error={
+                      newAddressExistingClient.zipCode == ""
+                        ? t("required")
+                        : ""
+                    }
+                    onChange={(e) =>
+                      setNewAddressExistingClient({
+                        ...newAddressExistingClient,
+                        zipCode: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="flex w-full flex-col sm:w-8/12">
+                  <InputOutlined
+                    required
+                    type="text"
+                    name="City"
+                    label="City"
+                    value={newAddressExistingClient.city}
+                    error={
+                      newAddressExistingClient.city == "" ? t("required") : ""
+                    }
+                    onChange={(e) =>
+                      setNewAddressExistingClient({
+                        ...newAddressExistingClient,
+                        city: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+            </form>
           )}
 
           {client && (

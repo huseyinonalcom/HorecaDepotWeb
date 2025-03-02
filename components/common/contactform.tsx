@@ -1,7 +1,7 @@
-import useTranslation from "next-translate/useTranslation";
-import { MessageSquare } from "react-feather";
-import InputOutlined from "../inputs/outlined";
 import TextareaOutlined from "../inputs/textarea_outlined";
+import useTranslation from "next-translate/useTranslation";
+import InputOutlined from "../inputs/outlined";
+import { MessageSquare } from "react-feather";
 
 const ContactForm = () => {
   const { t } = useTranslation("common");
