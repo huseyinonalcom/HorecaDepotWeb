@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import { ChevronLeft, ChevronRight, Search } from "react-feather";
-import Link from "next/link";
-import Head from "next/head";
-import useTranslation from "next-translate/useTranslation";
 import StockLayout from "../../../components/stock/StockLayout";
 import ProductCard from "../../../components/stock/ProductCard";
+import useTranslation from "next-translate/useTranslation";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import Head from "next/head";
 
 export default function Stock() {
   const { t, lang } = useTranslation("common");
@@ -63,7 +63,7 @@ export default function Stock() {
     category?: string;
     search?: string;
     page?: number;
-  }) => {
+  }) => { 
     const params = new URLSearchParams();
     if (search) params.set("search", search);
     if (page) params.set("page", page.toString());
@@ -117,7 +117,8 @@ export default function Stock() {
       <div className="flex w-full flex-col items-center gap-1 p-2">
         <div className="flex w-full flex-col items-start gap-2 rounded-md border-2 border-gray-300 bg-white p-4 shadow-sm">
           <div className="flex h-full flex-row items-center pl-4 font-bold text-black">
-            {t("Category")}: {t(currentCategory?.localized_name?.[lang] ?? "All")}
+            {t("Category")}:{" "}
+            {t(currentCategory?.localized_name?.[lang] ?? "All")}
           </div>
           <div className="flex flex-row items-center gap-2">
             <form

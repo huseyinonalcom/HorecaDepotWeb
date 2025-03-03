@@ -72,17 +72,6 @@ export const getProducts = async ({
       categoryString = `&filters[categories][id][$eq]=${category}`;
     }
 
-    console.log(
-      fetchUrl +
-        "?filters[deleted][$eq]=false&" +
-        fetchParams +
-        categoryString +
-        pageString +
-        sort +
-        searchString +
-        pageSize,
-    );
-
     try {
       const request = await fetch(
         fetchUrl +
