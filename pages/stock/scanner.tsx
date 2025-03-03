@@ -5,7 +5,7 @@ import ProductCard from "../../components/stock/ProductCard";
 import { useEffect, useState } from "react";
 
 export default function ScannerPage({}: {}) {
-  const [scanning, setScanning] = useState(false);
+  const [scanning, setScanning] = useState(true);
   const [scannedCode, setScannedCode] = useState<string | undefined>("");
   const [product, setProduct] = useState<any>();
 
