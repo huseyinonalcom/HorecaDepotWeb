@@ -12,7 +12,7 @@ import Link from "next/link";
 import Head from "next/head";
 
 export default function Products(props) {
-  const { t, lang } = useTranslation("common");
+  const { t } = useTranslation("common");
 
   const currentPage = props.currentPage;
   const totalPages = props.totalPages;
@@ -78,10 +78,10 @@ export default function Products(props) {
           {hasSubCategories ? (
             <>
               <Link
-                href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+                href={`/${t("locale")}/shop/${encodeURIComponent(t(category.localized_name[t("locale")]))}?page=1`}
                 className="h-full whitespace-nowrap px-4 py-2"
               >
-                {t(category.localized_name[lang])}
+                {t(category.localized_name[t("locale")])}
               </Link>
               <div
                 className="w-full py-3 pr-4"
@@ -99,10 +99,10 @@ export default function Products(props) {
             </>
           ) : (
             <Link
-              href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+              href={`/${t("locale")}/shop/${encodeURIComponent(t(category.localized_name[t("locale")]))}?page=1`}
               className="h-full w-full whitespace-nowrap px-4 py-2"
             >
-              {t(category.localized_name[lang])}
+              {t(category.localized_name[t("locale")])}
             </Link>
           )}
         </div>
@@ -125,7 +125,7 @@ export default function Products(props) {
   const createLink = (props) => {
     let link = "/shop/";
     if (props.currentCategory) {
-      link += t(props.currentCategory.localized_name[lang]) + "?";
+      link += t(props.currentCategory.localized_name[t("locale")]) + "?";
     } else {
       link += "tous?";
     }
@@ -147,7 +147,7 @@ export default function Products(props) {
         <Head>
           <title>Horeca Depot</title>
           <meta name="description" content={t("main_description")} />
-          <meta name="language" content={lang} />
+          <meta name="language" content={t("locale")} />
         </Head>
         <div
           id={t("Shop")}
@@ -160,7 +160,7 @@ export default function Products(props) {
                   {currentCategory.subCategories.map((category) => (
                     <div key={`grid1-${category.id}`} className={``}>
                       <Link
-                        href={`/shop/${t(category.localized_name[lang])}?page=1`}
+                        href={`/shop/${t(category.localized_name[t("locale")])}?page=1`}
                         className="flex flex-col items-center gap-2"
                       >
                         <div className="relative aspect-[15/14] w-full overflow-hidden rounded-xl">
@@ -173,11 +173,13 @@ export default function Products(props) {
                                 ? category.image.url
                                 : "/uploads/placeholder_9db455d1f1.webp"
                             }
-                            alt={t(category.localized_name[lang]) + " image"}
+                            alt={
+                              t(category.localized_name[t("locale")]) + " image"
+                            }
                           />
                         </div>
                         <p className="font-semibold">
-                          {t(category.localized_name[lang])}
+                          {t(category.localized_name[t("locale")])}
                         </p>
                       </Link>
                     </div>
@@ -186,7 +188,7 @@ export default function Products(props) {
               )}
             <div className="flex flex-col md:flex-row">
               <h2 className="mt-2 flex w-full justify-center text-5xl font-bold">
-                {t(currentCategory?.localized_name[lang] ?? "Shop")}
+                {t(currentCategory?.localized_name[t("locale")] ?? "Shop")}
               </h2>
               <div className="my-auto flex h-fit flex-row gap-2 pl-4 pr-4">
                 <Link
@@ -310,7 +312,7 @@ export async function getServerSideProps({ res, query }) {
     return cached;
   }
 
-  const categoriesFlat = await getAllCategories({});
+  const categoriesFlat = await getAllCategories({ flat: true });
 
   const currentSort = query?.sort?.split(":").at(0) ?? "value";
   const currentSortDirection = query?.sort?.split(":").at(1) ?? "asc";
@@ -327,6 +329,10 @@ export async function getServerSideProps({ res, query }) {
   const currentCategory =
     categoriesFlat.find((cat) => cat.id == productsReq?.currentCategoryID) ??
     null;
+
+  console.log(productsReq?.currentCategoryID);
+
+  console.log(categoriesFlat);
 
   ssrCache.set(query, {
     products,
