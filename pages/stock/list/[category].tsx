@@ -181,7 +181,7 @@ export default function Stock() {
                     className={`border p-2 text-3xl hover:bg-gray-200 ${p == page ? "bg-gray-300" : "bg-white"}`}
                     href={createLink({
                       category: category ?? "all",
-                      page: p,
+                      page: p as number,
                       search,
                     })}
                   >
