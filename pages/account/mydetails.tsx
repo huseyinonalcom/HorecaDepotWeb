@@ -2,7 +2,7 @@ import LoadingIndicator from "../../components/common/loadingIndicator";
 import InputOutlined from "../../components/inputs/outlined";
 import useTranslation from "next-translate/useTranslation";
 import CustomTheme from "../../components/componentThemes";
-import { Client } from "../../api/interfaces/client";
+import { ClientUser } from "../../api/interfaces/client";
 import Layout from "../../components/public/layout";
 import Meta from "../../components/public/meta";
 import { ChevronLeft } from "react-feather";
@@ -12,7 +12,7 @@ import Link from "next/link";
 
 export default function MyDetails() {
   const { t, lang } = useTranslation("common");
-  const [clientDetails, setClientDetails] = useState<Client | null>(null);
+  const [clientDetails, setClientDetails] = useState<ClientUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);

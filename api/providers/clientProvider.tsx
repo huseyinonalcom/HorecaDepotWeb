@@ -1,11 +1,11 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
-import { Client, ClientConversion } from "../interfaces/client";
+import { ClientUser, ClientConversion } from "../interfaces/client";
 
 type ClientContextType = {
-  client: Client | null;
-  updateClient: (client: Client) => void;
+  client: ClientUser | null;
+  updateClient: (client: ClientUser) => void;
   clearClient: () => void;
-  setCurrentClient: (client: Client) => void;
+  setCurrentClient: (client: ClientUser) => void;
   isLoading: boolean;
 };
 
@@ -22,7 +22,7 @@ type ClientProviderProps = {
 };
 
 export const ClientProvider = ({ children }: ClientProviderProps) => {
-  const [client, setClient] = useState<Client | null>(null);
+  const [client, setClient] = useState<ClientUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -44,12 +44,12 @@ export const ClientProvider = ({ children }: ClientProviderProps) => {
     setIsLoading(false); // Set loading to false once we've checked localStorage
   }, []);
 
-  const updateClient = (newClient: Client) => {
+  const updateClient = (newClient: ClientUser) => {
     setClient(newClient);
     localStorage.setItem("client", JSON.stringify(newClient));
   };
 
-  const setCurrentClient = (newClient: Client) => {
+  const setCurrentClient = (newClient: ClientUser) => {
     setClient(newClient);
     localStorage.setItem("client", JSON.stringify(newClient));
   };

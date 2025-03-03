@@ -1,11 +1,11 @@
 import { Address, AddressConversion } from "./address";
 import { User } from "./user";
 
-export interface Client extends User {
-  client_info?: ClientInfo;
+export interface ClientUser extends User {
+  client_info?: Client;
 }
 
-interface ClientInfo {
+export interface Client {
   id?: number;
   firstName?: string;
   lastName?: string;
@@ -19,22 +19,22 @@ interface ClientInfo {
 }
 
 export class ClientConversion {
-  public static fromJson(json): Client {
+  public static fromJson(json): ClientUser {
     const jsonObject = json;
 
-    const client: Client = {
+    const client: ClientUser = {
       id: jsonObject.id,
       username: jsonObject.username,
       email: jsonObject.email,
       client_info: {
         id: jsonObject.client_info?.id,
+        email: jsonObject.email,
         firstName: jsonObject.client_info?.firstName,
         lastName: jsonObject.client_info?.lastName,
         phone: jsonObject.client_info?.phone,
         category: jsonObject.client_info?.category,
         company: jsonObject.client_info?.company,
         taxID: jsonObject.client_info?.taxID,
-        email: jsonObject.client_info?.email,
       },
     };
 
@@ -50,7 +50,7 @@ export class ClientConversion {
     return client;
   }
 
-  public static toJson(value: Client): string {
+  public static toJson(value: ClientUser): string {
     return JSON.stringify(value);
   }
 }

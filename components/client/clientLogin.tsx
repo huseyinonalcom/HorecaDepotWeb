@@ -1,7 +1,7 @@
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
 import { useState, useContext } from "react";
-import { Client, ClientConversion } from "../../api/interfaces/client";
+import { ClientUser, ClientConversion } from "../../api/interfaces/client";
 import { ClientContext } from "../../api/providers/clientProvider";
 import InputOutlined from "../inputs/outlined";
 import CustomTheme from "../componentThemes";
@@ -38,8 +38,8 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
 
       if (response.ok) {
         const answer = await response.json();
-        const authedClient: Client = ClientConversion.fromJson(answer);
-        updateClient(authedClient as Client);
+        const authedClient: ClientUser = ClientConversion.fromJson(answer);
+        updateClient(authedClient as ClientUser);
         onLogin && onLogin();
         !onLogin && router.push("/account/myaccount");
       } else {
@@ -66,11 +66,12 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
 
   const [registerMode, setRegisterMode] = useState(false);
   const options = ["Entreprise", "Particulier"];
-  const [newClient, setNewClient] = useState<Client>({
+  const [newClient, setNewClient] = useState<ClientUser>({
     username: "",
     email: "",
     password: "",
     client_info: {
+      email: "",
       firstName: "",
       lastName: "",
       phone: "",
@@ -130,7 +131,7 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
   };
 
   const postNewUser = async () => {
-    const clientToSend: Client = {
+    const clientToSend: ClientUser = {
       ...newClient,
       username: newClient.email,
       email: newClient.email,
@@ -171,6 +172,7 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
         password: "",
         blocked: true,
         client_info: {
+          email: "",
           deleted: false,
           firstName: "",
           lastName: "",

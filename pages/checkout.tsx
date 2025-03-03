@@ -1,6 +1,6 @@
 import { formatCurrency } from "../api/utils/formatters/formatcurrency";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { Client, ClientConversion } from "../api/interfaces/client";
+import { ClientUser, ClientConversion } from "../api/interfaces/client";
 import { getCoverImageUrl } from "../api/utils/getprodcoverimage";
 import { ClientContext } from "../api/providers/clientProvider";
 import { CartContext } from "../api/providers/cartProvider";
