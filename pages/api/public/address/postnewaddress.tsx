@@ -1,44 +1,7 @@
 import { getConfig } from "../../config/private/getconfig";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
-
-async function getShippingCost(destinationAddress) {
-  let config;
-  try {
-    config = await getConfig();
-  } catch (e) {
-    console.error(e);
-  }
-
-  const url = "https://maps.googleapis.com/maps/api/distancematrix/json";
-
-  const params = new URLSearchParams({
-    origins: "Rue de Ribaucourt 154, 1080 Bruxelles, Belgique",
-    destinations: destinationAddress,
-    key: config.google.GOOGLE_API_KEY,
-  });
-
-  try {
-    const response = await fetch(`${url}?${params}`);
-    const data = await response.json();
-
-    if (data.status === "OK") {
-      try {
-        const distanceString = data.rows[0].elements[0].distance.text;
-        const distance = parseFloat(
-          distanceString.replace(" km", "").replace(",", "."),
-        );
-        return distance * config.costPerKM;
-      } catch (e) {
-        return 0;
-      }
-    } else {
-      return 0;
-    }
-  } catch (error) {
-    return 0;
-  }
-}
+import { getShippingCostFromAddress } from "./getshippingcostfromaddress";
 
 export default async function postNewAddress(
   req: NextApiRequest,
@@ -51,10 +14,11 @@ export default async function postNewAddress(
     let addressData = JSON.parse(req.body as string).newAddressExistingClient;
     addressData.client = Number(clientID);
     addressData.name = "Addresse";
-    const addressString = `${addressData.street} ${addressData.doorNumber} ${addressData.zipCode} ${addressData.city} ${addressData.country}`;
     let shippingCost = 0;
     try {
-      shippingCost = await getShippingCost(addressString);
+      shippingCost = await getShippingCostFromAddress({
+        address: addressData,
+      });
     } catch (e) {
       console.error(e);
     }
