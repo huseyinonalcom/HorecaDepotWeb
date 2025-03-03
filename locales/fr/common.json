@@ -344,5 +344,14 @@
   "your-last-name": "Votre nom de famille",
   "your-phone": "Votre téléphone",
   "invoice-details": "Détails de facturation",
-  "address": "Adresse"
+  "address": "Adresse",
+  "Parking": "Parking",
+  "Particulier": "Particulier",
+  "Business": "Entreprise",
+  "Account": "Compte",
+  "invoice-address-different": "Adresse de facturation différente de l'adresse de livraison",
+  "invoice-address-same": "Adresse de facturation identique à l'adresse de livraison",
+  "invoice-address": "Adresse de facturation",
+  "error-for-country": "Erreur sur le pays",
+  "Login to your HorecaDepot account": "Connectez-vous à votre compte HorecaDepot"
 }

@@ -529,7 +529,7 @@ export default function Checkout() {
                       ` ${guestData.category == "Particulier" ? "bg-gray-300" : ""}`
                     }
                   >
-                    {t("Individual")}
+                    {t("Particulier")}
                   </button>
                   <button
                     name="setClientTypeToIndividual"
@@ -555,9 +555,9 @@ export default function Checkout() {
                       required
                       type="text"
                       name="Company"
-                      label={t("your-company-name")}
+                      label="your-company-name"
                       value={guestData.company}
-                      error={guestData.company == "" ? t("required") : ""}
+                      error={guestData.company == "" ? "required" : ""}
                       onChange={(e) =>
                         setGuestData({
                           ...guestData,
@@ -569,9 +569,9 @@ export default function Checkout() {
                       required
                       type="text"
                       name="TaxID"
-                      label={t("your-vat-number")}
+                      label="your-vat-number"
                       value={guestData.taxID}
-                      error={guestData.taxID == "" ? t("required") : ""}
+                      error={guestData.taxID == "" ? "required" : ""}
                       onChange={(e) =>
                         setGuestData({
                           ...guestData,
@@ -587,9 +587,9 @@ export default function Checkout() {
                       required
                       type="text"
                       name="FirstName"
-                      label={t("your-first-name")}
+                      label="your-first-name"
                       value={guestData.firstName}
-                      error={guestData.firstName == "" ? t("required") : ""}
+                      error={guestData.firstName == "" ? "required" : ""}
                       onChange={(e) =>
                         setGuestData({
                           ...guestData,
@@ -603,9 +603,9 @@ export default function Checkout() {
                       required
                       type="text"
                       name="LastName"
-                      label={t("your-last-name")}
+                      label="your-last-name"
                       value={guestData.lastName}
-                      error={guestData.lastName == "" ? t("required") : ""}
+                      error={guestData.lastName == "" ? "required" : ""}
                       onChange={(e) =>
                         setGuestData({
                           ...guestData,
@@ -621,7 +621,7 @@ export default function Checkout() {
                   name="E-mail"
                   label="E-mail"
                   value={guestData.email}
-                  error={guestData.email == "" ? t("required") : ""}
+                  error={guestData.email == "" ? "required" : ""}
                   onChange={(e) =>
                     setGuestData({
                       ...guestData,
@@ -632,7 +632,7 @@ export default function Checkout() {
                 <InputOutlined
                   type="text"
                   name="Phone"
-                  label={t("your-phone")}
+                  label="your-phone"
                   value={guestData.phone}
                   onChange={(e) =>
                     setGuestData({
@@ -693,7 +693,7 @@ export default function Checkout() {
                       label="street"
                       value={guestDeliveryAddress.street}
                       error={
-                        guestDeliveryAddress.street == "" ? t("required") : ""
+                        guestDeliveryAddress.street == "" ? "required" : ""
                       }
                       onChange={(e) =>
                         setGuestDeliveryAddress({
@@ -711,9 +711,7 @@ export default function Checkout() {
                       label={"door"}
                       value={guestDeliveryAddress.doorNumber}
                       error={
-                        guestDeliveryAddress.doorNumber == ""
-                          ? t("required")
-                          : ""
+                        guestDeliveryAddress.doorNumber == "" ? "required" : ""
                       }
                       onChange={(e) =>
                         setGuestDeliveryAddress({
@@ -748,7 +746,7 @@ export default function Checkout() {
                       label={"zip-code"}
                       value={guestDeliveryAddress.zipCode}
                       error={
-                        guestDeliveryAddress.zipCode == "" ? t("required") : ""
+                        guestDeliveryAddress.zipCode == "" ? "required" : ""
                       }
                       onChange={(e) =>
                         setGuestDeliveryAddress({
@@ -765,9 +763,7 @@ export default function Checkout() {
                       name="City"
                       label="city"
                       value={guestDeliveryAddress.city}
-                      error={
-                        guestDeliveryAddress.city == "" ? t("required") : ""
-                      }
+                      error={guestDeliveryAddress.city == "" ? "required" : ""}
                       onChange={(e) =>
                         setGuestDeliveryAddress({
                           ...guestDeliveryAddress,
@@ -849,9 +845,7 @@ export default function Checkout() {
                           label="street"
                           value={guestInvoiceAddress.street}
                           error={
-                            guestInvoiceAddress.street == ""
-                              ? t("required")
-                              : ""
+                            guestInvoiceAddress.street == "" ? "required" : ""
                           }
                           onChange={(e) =>
                             setGuestInvoiceAddress({
@@ -870,7 +864,7 @@ export default function Checkout() {
                           value={guestInvoiceAddress.doorNumber}
                           error={
                             guestInvoiceAddress.doorNumber == ""
-                              ? t("required")
+                              ? "required"
                               : ""
                           }
                           onChange={(e) =>
@@ -906,9 +900,7 @@ export default function Checkout() {
                           label={"zip-code"}
                           value={guestInvoiceAddress.zipCode}
                           error={
-                            guestInvoiceAddress.zipCode == ""
-                              ? t("required")
-                              : ""
+                            guestInvoiceAddress.zipCode == "" ? "required" : ""
                           }
                           onChange={(e) =>
                             setGuestInvoiceAddress({
@@ -926,7 +918,7 @@ export default function Checkout() {
                           label="city"
                           value={guestInvoiceAddress.city}
                           error={
-                            guestInvoiceAddress.city == "" ? t("required") : ""
+                            guestInvoiceAddress.city == "" ? "required" : ""
                           }
                           onChange={(e) =>
                             setGuestInvoiceAddress({
@@ -1108,7 +1100,7 @@ export default function Checkout() {
                         value={newAddressExistingClient.street}
                         error={
                           newAddressExistingClient.street == ""
-                            ? t("required")
+                            ? "required"
                             : ""
                         }
                         onChange={(e) =>
@@ -1128,7 +1120,7 @@ export default function Checkout() {
                         value={newAddressExistingClient.doorNumber}
                         error={
                           newAddressExistingClient.doorNumber == ""
-                            ? t("required")
+                            ? "required"
                             : ""
                         }
                         onChange={(e) =>
@@ -1165,7 +1157,7 @@ export default function Checkout() {
                         value={newAddressExistingClient.zipCode}
                         error={
                           newAddressExistingClient.zipCode == ""
-                            ? t("required")
+                            ? "required"
                             : ""
                         }
                         onChange={(e) =>
@@ -1184,9 +1176,7 @@ export default function Checkout() {
                         label="city"
                         value={newAddressExistingClient.city}
                         error={
-                          newAddressExistingClient.city == ""
-                            ? t("required")
-                            : ""
+                          newAddressExistingClient.city == "" ? "required" : ""
                         }
                         onChange={(e) =>
                           setNewAddressExistingClient({

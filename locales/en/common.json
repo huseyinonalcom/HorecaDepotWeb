@@ -344,5 +344,14 @@
   "your-last-name": "Your last name",
   "your-phone": "Your Phone",
   "invoice-details": "Invoice Details",
-  "address": "Address"
+  "address": "Address",
+  "Parking": "Parking",
+  "Particulier": "Individual",
+  "Business": "Business",
+  "Account": "Account",
+  "invoice-address-different": "Invoice Address Different from Delivery Address",
+  "invoice-address-same": "Invoice Address Same as Delivery Address",
+  "invoice-address": "Invoice Address",
+  "error-for-country": "Error on country",
+  "Login to your HorecaDepot account": "Login to your HorecaDepot account"
 }

@@ -23,7 +23,7 @@
   "bulk_tag_setter": "Bulk trefwoord instellen",
   "bulk_tags_modify": "Bulk tags wijzigen",
   "Bureaux": "Kantoor",
-  "Business or Individual": "Bedrijf of individu",
+  "Business or Individual": "Bedrijf of Particulier",
   "Cart Empty": "Winkelwagen leeg",
   "Cart": "Winkelmand",
   "Categories": "Categorieën",
@@ -344,5 +344,14 @@
   "your-last-name": "Uw achternaam",
   "your-phone": "Uw telefoonnummer",
   "invoice-details": "Factuurdetails",
-  "address": "Adres"
+  "address": "Adres",
+  "Parking": "Parking",
+  "Particulier": "Particulier",
+  "Business": "Bedrijf",
+  "Account": "Account",
+  "invoice-address-different": "Factuuradres anders dan afleveradres",
+  "invoice-address-same": "Factuuradres hetzelfde als afleveradres",
+  "invoice-address": "Factuuradres",
+  "error-for-country": "Fout bij land",
+  "Login to your HorecaDepot account": "Log in op uw HorecaDepot-account"
 }
