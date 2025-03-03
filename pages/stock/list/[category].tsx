@@ -31,8 +31,9 @@ export default function Stock() {
     const fetchData = async () => {
       try {
         const [categories, productsData] = await Promise.all([
-          (await fetch("/api/public/categories/getallcategories")).json(),
-
+          (
+            await fetch("/api/public/categories/getallcategories?flat=true")
+          ).json(),
           (
             await fetch(
               `/api/private/products/fetchproducts?page=${page}&category=${category !== "all" ? category : null}&search=${search}`,
@@ -116,12 +117,7 @@ export default function Stock() {
       <div className="flex w-full flex-col items-center gap-1 p-2">
         <div className="flex w-full flex-col items-start gap-2 rounded-md border-2 border-gray-300 bg-white p-4 shadow-sm">
           <div className="flex h-full flex-row items-center pl-4 font-bold text-black">
-            {t("Category")}:{" "}
-            {t(
-              allCategories.find((cat) => cat.id == category)?.localized_name[
-                lang
-              ] ?? "All",
-            )}
+            {t("Category")}: {t(currentCategory?.localized_name[lang] ?? "All")}
           </div>
           <div className="flex flex-row items-center gap-2">
             <form
@@ -165,7 +161,7 @@ export default function Stock() {
                   currentPage === 1
                     ? "#"
                     : createLink({
-                        category: currentCategory?.id ?? "all",
+                        category: category ?? "all",
                         page: currentPage - 1,
                         search,
                       })
@@ -174,22 +170,22 @@ export default function Stock() {
               >
                 <ChevronLeft size={36} />
               </Link>
-              {getPageNumbers().map((page, index) =>
-                page === "..." ? (
+              {getPageNumbers().map((p, index) =>
+                p === "..." ? (
                   <span key={index} className="p-2">
                     ...
                   </span>
                 ) : (
                   <Link
                     key={index}
-                    className={`border p-2 text-3xl hover:bg-gray-200 ${currentPage === page ? "bg-gray-300" : "bg-white"}`}
+                    className={`border p-2 text-3xl hover:bg-gray-200 ${p == page ? "bg-gray-300" : "bg-white"}`}
                     href={createLink({
-                      category: currentCategory?.id ?? "all",
-                      page: currentPage,
+                      category: category ?? "all",
+                      page: p,
                       search,
                     })}
                   >
-                    {page}
+                    {p}
                   </Link>
                 ),
               )}
@@ -198,7 +194,7 @@ export default function Stock() {
                   currentPage === totalPages
                     ? "#"
                     : createLink({
-                        category: currentCategory?.id ?? "all",
+                        category: category ?? "all",
                         page: currentPage + 1,
                         search,
                       })
