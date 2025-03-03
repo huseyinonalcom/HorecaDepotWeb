@@ -47,10 +47,10 @@ const CategoryItem = ({ category, onClick }) => {
     >
       <Link
         onClick={() => onClick()}
-        href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+        href={`/${lang}/shop/${encodeURIComponent(category.localized_name[lang])}?page=1`}
         className="flex w-full flex-row items-center justify-between px-3 py-2 text-left"
       >
-        {t(category.localized_name[lang])}
+        {category.localized_name[lang]}
         {hasSubCategories && (
           <ChevronLeft
             className={
@@ -166,12 +166,12 @@ const DesktopSearch = () => {
                   onClick={() => {
                     if (result.localized_name[lang]) {
                       router.push(
-                        `/shop/${encodeURIComponent(t(result.localized_name[lang]))}?page=1`,
+                        `/shop/${encodeURIComponent(result.localized_name[lang])}?page=1`,
                       );
                     }
                   }}
                 >
-                  {result.title || t(result.localized_name[lang])}
+                  {result.title || result.localized_name[lang]}
                 </li>
               ))}
           </ul>
@@ -265,12 +265,12 @@ const MobileSearch = () => {
                   onClick={() => {
                     if (result.localized_name[lang]) {
                       router.push(
-                        `/shop/${encodeURIComponent(t(result.localized_name[lang]))}?page=1`,
+                        `/shop/${encodeURIComponent(result.localized_name[lang])}?page=1`,
                       );
                     }
                   }}
                 >
-                  {result.title || t(result.localized_name[lang])}
+                  {result.title || result.localized_name[lang]}
                 </li>
               ))}
           </ul>
@@ -526,10 +526,10 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
           {hasSubCategories ? (
             <>
               <a
-                href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+                href={`/${lang}/shop/${encodeURIComponent(category.localized_name[lang])}?page=1`}
                 className="h-full whitespace-nowrap px-4 py-2"
               >
-                {t(category.localized_name[lang])}
+                {category.localized_name[lang]}
               </a>
               <div
                 className="w-full py-3 pr-4"
@@ -547,10 +547,10 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             </>
           ) : (
             <a
-              href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+              href={`/${lang}/shop/${encodeURIComponent(category.localized_name[lang])}?page=1`}
               className="h-full w-full whitespace-nowrap px-4 py-2"
             >
-              {t(category.localized_name[lang])}
+              {category.localized_name[lang]}
             </a>
           )}
         </div>
@@ -898,18 +898,12 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
             .map((category) => (
               <div key={category.id + "-column"}>
                 <Link
-                  href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+                  href={`/${lang}/shop/${encodeURIComponent(category.localized_name[lang])}?page=1`}
                   onClick={() => closeDrawer()}
                   className="font-semibold"
                 >
-                  {t(category.localized_name[lang])}
+                  {category.localized_name[lang]}
                 </Link>
-                {/* <a
-                  href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
-                  className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
-                >
-                  {t("All")} {t(category.localized_name[lang])}
-                </a> */}
                 {category.subCategories
                   .filter(
                     (subCategory) =>
@@ -934,17 +928,17 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
                   <div key={category.id + "-column"}>
                     <Link
                       onClick={() => closeDrawer()}
-                      href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+                      href={`/${lang}/shop/${encodeURIComponent(category.localized_name[lang])}?page=1`}
                       className="font-semibold"
                     >
-                      {t(category.localized_name[lang])}
+                      {category.localized_name[lang]}
                     </Link>
                     <Link
                       onClick={() => closeDrawer()}
-                      href={`/${lang}/shop/${encodeURIComponent(t(category.localized_name[lang]))}?page=1`}
+                      href={`/${lang}/shop/${encodeURIComponent(category.localized_name[lang])}?page=1`}
                       className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
                     >
-                      {t(category.localized_name[lang])}
+                      {category.localized_name[lang]}
                     </Link>
                     {category.subCategories.map((subCategory) => (
                       <CategoryItem

@@ -1,7 +1,6 @@
-import { getConfig } from "../../config/private/getconfig";
+import { getShippingDistance } from "./getshippingcostfromaddress";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
-import { getShippingCostFromAddress } from "./getshippingcostfromaddress";
 
 export default async function postNewAddress(
   req: NextApiRequest,
@@ -14,15 +13,15 @@ export default async function postNewAddress(
     let addressData = JSON.parse(req.body as string).newAddressExistingClient;
     addressData.client = Number(clientID);
     addressData.name = "Addresse";
-    let shippingCost = 0;
+    let shippingDistance = 200;
     try {
-      shippingCost = await getShippingCostFromAddress({
+      shippingDistance = await getShippingDistance({
         address: addressData,
       });
     } catch (e) {
       console.error(e);
     }
-    addressData = { ...addressData, shippingDistance: shippingCost };
+    addressData = { ...addressData, shippingDistance };
     const fetchUrlAddress = `${process.env.API_URL}/api/addresses?fields=id`;
     const requestAddress = await fetch(fetchUrlAddress, {
       method: "POST",
