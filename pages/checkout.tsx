@@ -412,7 +412,6 @@ export default function Checkout() {
       }),
     });
 
-    /* 
     if (request.ok) {
       const answer = await request.json();
       const orderID = answer.id;
@@ -435,7 +434,7 @@ export default function Checkout() {
       setSubmitErrorDocument(
         "Une erreur s'est produite lors de la création de votre commande!",
       );
-    } */
+    }
     setSubmitting(false);
   };
 

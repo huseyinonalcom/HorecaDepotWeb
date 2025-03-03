@@ -4,6 +4,7 @@ type mailProps = {
   to: string[];
   subject: string;
   html: string;
+  attachments?: string[];
   mailParams?: {
     mailUser: string;
     mailHost: string;
@@ -38,20 +39,21 @@ export const sendMail = async (mailOptions: mailProps) => {
 
   try {
     let transporter = nodemailer.createTransport({
-      host: mailConfig.mailHost,
-      port: mailConfig.mailPort,
+      host: process.env.MAIL_HOST,
+      port: "587",
       secure: false,
       auth: {
-        user: mailConfig.mailUser,
-        pass: mailConfig.mailPass,
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS,
       },
     });
 
     let mailParams = {
-      from: `"${mailConfig.mailSenderName}" <${mailConfig.mailSender}>`,
+      from: `"${process.env.MAIL_SENDER}" <${process.env.MAIL_USER}>`,
       to: mailOptions.to,
       subject: mailOptions.subject,
       html: mailOptions.html,
+      attachments: mailOptions.attachments,
     };
 
     const timestamp = Date.now();
@@ -65,6 +67,7 @@ export const sendMail = async (mailOptions: mailProps) => {
       info,
     };
   } catch (e) {
+    console.error(e);
     return {
       result: "error",
       error: e,

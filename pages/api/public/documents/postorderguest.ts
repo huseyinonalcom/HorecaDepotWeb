@@ -7,6 +7,9 @@ import { getConfig } from "../../config/private/getconfig";
 import { sendMail } from "../../../../api/utils/sendmail";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
+import { getShippingCostFromAddress } from "../address/getshippingcostfromaddress";
+import { renderToBuffer, renderToStream } from "@react-pdf/renderer";
+import { PDFInvoice } from "../../../../components/pdf/pdfinvoice";
 
 const calculateTotalWithPromo = (promoDetails, cart) => {
   const cartAfterPromo = JSON.parse(JSON.stringify(cart));
@@ -161,9 +164,6 @@ export default async function postOrder(
         return res.status(500).json(statusText[500]);
       }
 
-      console.log(productsToPost);
-
-      return res.status(200).json(productsToPost);
       if (usedPromo) {
         try {
           const response = await fetch(
@@ -211,6 +211,70 @@ export default async function postOrder(
         return res.status(404).json(statusText[404]);
       }
 
+      try {
+        const postDeliveryAddress = await fetch(
+          `${process.env.API_URL}/api/addresses`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              data: {
+                name: "Livraison",
+                ...order.delAddress,
+              },
+            }),
+          },
+        );
+        const answer = await postDeliveryAddress.json();
+        console.log(answer);
+        if (postDeliveryAddress.ok) {
+          order.delAddress = answer.data;
+        }
+      } catch (e) {
+        console.error(e);
+        return res.status(404).json(statusText[404]);
+      }
+
+      try {
+        if (
+          order.docAddress.country != order.delAddress.country ||
+          order.docAddress.street != order.delAddress.street ||
+          order.docAddress.zipCode != order.delAddress.zipCode ||
+          order.docAddress.city != order.delAddress.city ||
+          order.docAddress.floor != order.delAddress.floor
+        ) {
+          const postDeliveryAddress = await fetch(
+            `${process.env.API_URL}/api/addresses`,
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                data: {
+                  name: "Facture",
+                  ...order.delAddress,
+                },
+              }),
+            },
+          );
+          const answer = await postDeliveryAddress.json();
+          console.log(answer);
+          if (postDeliveryAddress.ok) {
+            order.delAddress = answer.data;
+          }
+        } else {
+          order.docAddress = order.delAddress;
+        }
+      } catch (e) {
+        console.error(e);
+        return res.status(404).json(statusText[404]);
+      }
+
       const today = new Date();
       var documentToPost = {
         number: documentNumber,
@@ -228,8 +292,6 @@ export default async function postOrder(
         docAddress: order.docAddress,
         delAddress: order.delAddress,
       };
-
-      return res.status(200).json(documentToPost);
 
       try {
         const fetchUrl = `${process.env.API_URL}/api/documents?fields=id`;
@@ -279,27 +341,15 @@ export default async function postOrder(
               }
             }
 
-            let shippingCost = 100;
+            let shippingCost = 200;
 
-            let addressData;
-            try {
-              const addressReq = await fetch(
-                `${process.env.API_URL}/api/addresses/${productsFromRequest.documentToPost.docAddress.id}`,
-                {
-                  method: "GET",
-                  headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                    Authorization: `Bearer ${process.env.API_KEY}`,
-                  },
-                },
-              );
-              addressData = (await addressReq.json()).data;
-              let config = await getConfig();
-              shippingCost = addressData.shippingDistance * config.costPerKM;
-            } catch (e) {
-              console.error(e);
-            }
+            shippingCost = await getShippingCostFromAddress({
+              address: order.delAddress,
+              documentTotal: productsToPost.reduce(
+                (acc, prd) => acc + prd.subTotal / 1.21,
+                0,
+              ),
+            });
 
             await fetch(fetchUrl, {
               method: "POST",
@@ -319,21 +369,41 @@ export default async function postOrder(
               }),
             });
 
-            const document = {};
+            const finishedDocument = await fetch(
+              `${process.env.API_URL}/api/documents/${documentID}?populate=*`,
+              {
+                method: "GET",
+                headers: {
+                  Authorization: `Bearer ${authToken}`,
+                },
+              },
+            );
+            const answer = await finishedDocument.json();
+
+            const doc = answer.data;
 
             let mailOptionsCompany = {
-              to: ["info@horecadepot.be", "horecadepothoreca@gmail.com"], // List of recipients
-              subject: "Nouvelle Commande sur horecadepot.be", // Subject line
-              html: orderMailEstablishment({ document }),
+              to: ["info@horecadepot.be", "horecadepothoreca@gmail.com"],
+              subject: "Nouvelle Commande sur horecadepot.be",
+              html: orderMailEstablishment({ document: doc }),
             };
 
             sendMail(mailOptionsCompany);
 
-            // Setup email data for Client
             let mailOptionsClient = {
-              to: [clientEmail], // List of recipients
-              subject: "Votre Commande Chez Nous - Horeca Depot", // Subject line
-              html: orderMailClient({ document }),
+              to: [clientEmail],
+              subject: "Votre Commande Chez Nous - Horeca Depot",
+              html: orderMailClient({ document: doc }),
+              attachments: [
+                {
+                  filename: "facture.pdf",
+                  content: await renderToStream(
+                    PDFInvoice({ invoiceDocument: doc }),
+                  ),
+                  encoding: "base64",
+                  contentType: "application/pdf",
+                },
+              ],
             };
 
             sendMail(mailOptionsClient);
