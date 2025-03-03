@@ -26,10 +26,11 @@
     "react-feather": "latest",
     "react-icons": "^5.2.1",
     "react-jsbarcode": "^0.4.2",
+    "react-select": "^5.10.0",
     "react-simple-star-rating": "^5.1.7",
-    "yet-another-react-lightbox-lite": "^1.7.0",
     "sharp": "latest",
-    "xlsx": "latest"
+    "xlsx": "latest",
+    "yet-another-react-lightbox-lite": "^1.7.0"
   },
   "devDependencies": {
     "@types/gtag.js": "^0.0.20",

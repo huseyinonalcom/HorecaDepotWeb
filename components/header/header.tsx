@@ -1,9 +1,15 @@
+import { WishlistContext } from "../../api/providers/wishlistProvider";
+import { BannerContext } from "../../api/providers/bannerProdiver";
+import { ClientContext } from "../../api/providers/clientProvider";
 import { useContext, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import Image from "next/image";
+import { CartContext } from "../../api/providers/cartProvider";
+import ProductPreview3 from "../products/product-preview3";
 import useTranslation from "next-translate/useTranslation";
 import setLanguage from "next-translate/setLanguage";
+import { Rating } from "react-simple-star-rating";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import Link from "next/link";
 import {
   ChevronLeft,
   Globe,
@@ -20,12 +26,6 @@ import {
   X,
   Compass,
 } from "react-feather";
-import { CartContext } from "../../api/providers/cartProvider";
-import { ClientContext } from "../../api/providers/clientProvider";
-import { WishlistContext } from "../../api/providers/wishlistProvider";
-import ProductPreview3 from "../products/product-preview3";
-import { BannerContext } from "../../api/providers/bannerProdiver";
-import { Rating } from "react-simple-star-rating";
 
 const CategoryItem = ({ category, onClick }) => {
   const { t, lang } = useTranslation("common");

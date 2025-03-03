@@ -111,7 +111,6 @@
   "No products selected": "Keine Produkte ausgewählt",
   "No_payment_part1": "Keine Zahlung gefunden, falls dies weiterhin auftritt",
   "No_payment_part2": "kontaktieren Sie uns per E-Mail, Telefon oder Kontaktformular.",
-
   "No": "Nein",
   "Not Featured": "Nicht empfohlen",
   "Order": "Bestellen",
@@ -332,5 +331,18 @@
   "no_stock": "Kontaktieren uns für Vorbestellung",
   "required": "Pflichtfeld",
   "login-to-your-account": "Login zu Ihrem Konto",
-  "checkout-without-account": "Zur Kasse ohne Konto"
+  "checkout-without-account": "Zur Kasse ohne Konto",
+  "country": "Land",
+  "street": "Straße",
+  "door": "Tür",
+  "floor": "Stockwerk",
+  "zip-code": "Postleitzahl",
+  "city": "Stadt",
+  "your-company-name": "Der Name Ihres Unternehmens",
+  "your-vat-number": "Umsatzsteuer-Identifikationsnummer",
+  "your-first-name": "Ihr Vorname",
+  "your-last-name": "Ihr Nachname",
+  "your-phone": "Ihre Telefonnummer",
+  "invoice-details": "Rechnungsdetails",
+  "address": "Adresse"
 }

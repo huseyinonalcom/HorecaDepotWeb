@@ -1,16 +1,21 @@
+import { getConfig } from "../../config/private/getconfig";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
-import { getConfig } from "../../config/private/getconfig";
 
-const costPerKM = 1;
+async function getShippingCost(destinationAddress) {
+  let config;
+  try {
+    config = await getConfig();
+  } catch (e) {
+    console.error(e);
+  }
 
-async function getShippingCost(originAddress, destinationAddress, apiKey) {
   const url = "https://maps.googleapis.com/maps/api/distancematrix/json";
 
   const params = new URLSearchParams({
-    origins: originAddress,
+    origins: "Rue de Ribaucourt 154, 1080 Bruxelles, Belgique",
     destinations: destinationAddress,
-    key: apiKey,
+    key: config.google.GOOGLE_API_KEY,
   });
 
   try {
@@ -23,7 +28,7 @@ async function getShippingCost(originAddress, destinationAddress, apiKey) {
         const distance = parseFloat(
           distanceString.replace(" km", "").replace(",", "."),
         );
-        return distance * costPerKM;
+        return distance * config.costPerKM;
       } catch (e) {
         return 0;
       }
@@ -35,19 +40,11 @@ async function getShippingCost(originAddress, destinationAddress, apiKey) {
   }
 }
 
-const originAdd = "Rue de Ribaucourt 154, 1080 Bruxelles, Belgique";
-
 export default async function postNewAddress(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
-    let config;
-    try {
-      config = await getConfig();
-    } catch (e) {
-      console.error(e);
-    }
     const cookies = req.cookies;
     const authToken = cookies.cj;
     const clientID = req.query.client;
@@ -57,11 +54,7 @@ export default async function postNewAddress(
     const addressString = `${addressData.street} ${addressData.doorNumber} ${addressData.zipCode} ${addressData.city} ${addressData.country}`;
     let shippingCost = 0;
     try {
-      shippingCost = await getShippingCost(
-        originAdd,
-        addressString,
-        config.google.GOOGLE_API_KEY,
-      );
+      shippingCost = await getShippingCost(addressString);
     } catch (e) {
       console.error(e);
     }

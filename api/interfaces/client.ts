@@ -15,6 +15,7 @@ interface ClientInfo {
   company?: string;
   taxID?: string;
   addresses?: Address[];
+  email?: string;
 }
 
 export class ClientConversion {
@@ -33,6 +34,7 @@ export class ClientConversion {
         category: jsonObject.client_info?.category,
         company: jsonObject.client_info?.company,
         taxID: jsonObject.client_info?.taxID,
+        email: jsonObject.client_info?.email,
       },
     };
 

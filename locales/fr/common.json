@@ -331,5 +331,18 @@
   "no_stock": "Contactez-nous pour la pré-commande",
   "required": "Champ obligatoire",
   "login-to-your-account": "Connexion à votre compte",
-  "checkout-without-account": "Passer la commande sans compte"
+  "checkout-without-account": "Passer la commande sans compte",
+  "country": "Pays",
+  "street": "Rue",
+  "door": "Porte",
+  "floor": "Étage",
+  "zip-code": "Code postal",
+  "city": "Ville",
+  "your-company-name": "Le nom de votre entreprise",
+  "your-vat-number": "Numéro de TVA",
+  "your-first-name": "Votre prénom",
+  "your-last-name": "Votre nom de famille",
+  "your-phone": "Votre téléphone",
+  "invoice-details": "Détails de facturation",
+  "address": "Adresse"
 }

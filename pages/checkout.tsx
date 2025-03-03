@@ -1,23 +1,35 @@
 import { Client, ClientConversion } from "../api/interfaces/client";
-import useTranslation from "next-translate/useTranslation";
-import ButtonShadow1 from "../components/buttons/shadow_1";
-import InputOutlined from "../components/inputs/outlined";
-import CustomTheme from "../components/componentThemes";
-import { Document } from "../api/interfaces/document";
-import { Address } from "../api/interfaces/address";
-import Layout from "../components/public/layout";
-import { AutoTextSize } from "auto-text-size";
-import { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import Head from "next/head";
-import ImageWithURL from "../components/common/image";
 import { getCoverImageUrl } from "../api/utils/getprodcoverimage";
 import { ClientContext } from "../api/providers/clientProvider";
 import { CartContext } from "../api/providers/cartProvider";
+import useTranslation from "next-translate/useTranslation";
 import { getConfig } from "./api/config/private/getconfig";
+import ButtonShadow1 from "../components/buttons/shadow_1";
 import ClientLogin from "../components/client/clientLogin";
+import InputOutlined from "../components/inputs/outlined";
+import { useContext, useEffect, useState } from "react";
+import CustomTheme from "../components/componentThemes";
+import ImageWithURL from "../components/common/image";
+import { Document } from "../api/interfaces/document";
+import { Address } from "../api/interfaces/address";
+import { countries } from "../api/utils/countries";
+import Layout from "../components/public/layout";
+import { AutoTextSize } from "auto-text-size";
+import { useRouter } from "next/router";
 import { Loader } from "react-feather";
+import Select from "react-select";
+import Head from "next/head";
+import Link from "next/link";
+import React from "react";
+
+const emptyAddress = {
+  country: "",
+  city: "",
+  zipCode: "",
+  doorNumber: "",
+  street: "",
+  floor: "",
+};
 
 export default function Checkout(props) {
   const { t, lang } = useTranslation("common");
@@ -53,14 +65,7 @@ export default function Checkout(props) {
 
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [newAddressExistingClient, setNewAddressExistingClient] =
-    useState<Address>({
-      country: "",
-      city: "",
-      zipCode: "",
-      doorNumber: "",
-      street: "",
-      floor: "",
-    });
+    useState<Address>(emptyAddress);
 
   const handleNewAddressExistingClientFormSubmit = async (event) => {
     event.preventDefault();
@@ -86,7 +91,7 @@ export default function Checkout(props) {
     }
 
     const request = await fetch(
-      "/api/client/client/postnewaddress?client=" + client.client_info.id,
+      "/api/public/address/postnewaddress?client=" + client.client_info.id,
       {
         method: "POST",
         body: JSON.stringify({
@@ -324,8 +329,15 @@ export default function Checkout(props) {
       addresses: [],
       company: "",
       taxID: "",
+      email: "",
     },
   });
+
+  const [guestInvoiceAddress, setGuestInvoiceAddress] =
+    useState<Address>(emptyAddress);
+
+  const [guestDeliveryAddress, setGuestDeliveryAddress] =
+    useState<Address>(emptyAddress);
 
   return (
     <Layout>
@@ -361,7 +373,7 @@ export default function Checkout(props) {
           {!client && !showLogin && (
             <form className="flex w-full flex-col gap-2">
               <h2 className="text-lg font-semibold">{t("invoice-details")}</h2>
-              <h3 className="mt-3">{t("Business or Individual")}?</h3>
+              <h3>{t("Business or Individual")}?</h3>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   name="setClientTypeToIndividual"
@@ -410,7 +422,7 @@ export default function Checkout(props) {
                     required
                     type="text"
                     name="Company"
-                    label="The name of your company"
+                    label={t("your-company-name")}
                     value={guestData.client_info.company}
                     error={
                       guestData.client_info.company == "" ? t("required") : ""
@@ -429,7 +441,7 @@ export default function Checkout(props) {
                     required
                     type="text"
                     name="TaxID"
-                    label="VAT number"
+                    label={t("your-vat-number")}
                     value={guestData.client_info.taxID}
                     error={
                       guestData.client_info.taxID == "" ? t("required") : ""
@@ -452,7 +464,7 @@ export default function Checkout(props) {
                     required
                     type="text"
                     name="FirstName"
-                    label="Your first name"
+                    label={t("your-first-name")}
                     value={guestData.client_info.firstName}
                     error={
                       guestData.client_info.firstName == "" ? t("required") : ""
@@ -473,7 +485,7 @@ export default function Checkout(props) {
                     required
                     type="text"
                     name="LastName"
-                    label="Your last name"
+                    label={t("your-last-name")}
                     value={guestData.client_info.lastName}
                     error={
                       guestData.client_info.lastName == "" ? t("required") : ""
@@ -491,21 +503,6 @@ export default function Checkout(props) {
                 </div>
               </div>
               <InputOutlined
-                type="text"
-                name="Phone"
-                label="Your Phone"
-                value={guestData.client_info.phone}
-                onChange={(e) =>
-                  setGuestData({
-                    ...guestData,
-                    client_info: {
-                      ...guestData.client_info,
-                      phone: e.target.value,
-                    },
-                  })
-                }
-              />
-              <InputOutlined
                 required
                 type="email"
                 name="E-mail"
@@ -519,24 +516,63 @@ export default function Checkout(props) {
                   })
                 }
               />
-
+              <InputOutlined
+                type="text"
+                name="Phone"
+                label={t("your-phone")}
+                value={guestData.client_info.phone}
+                onChange={(e) =>
+                  setGuestData({
+                    ...guestData,
+                    client_info: {
+                      ...guestData.client_info,
+                      phone: e.target.value,
+                    },
+                  })
+                }
+              />
               <div className="mt-2 flex w-full flex-col">
-                <InputOutlined
-                  required
-                  type="text"
-                  name="Country"
-                  label="Country"
-                  value={newAddressExistingClient.country}
-                  error={
-                    newAddressExistingClient.country == "" ? t("required") : ""
-                  }
-                  onChange={(e) =>
-                    setNewAddressExistingClient({
-                      ...newAddressExistingClient,
-                      country: e.target.value,
-                    })
-                  }
+                <h3 className="text-lg font-bold">{t("address")}</h3>
+                <Select
+                  name={t("country")}
+                  placeholder={t("country")}
+                  styles={{
+                    control: (styles) => ({
+                      ...styles,
+                      border: "2px solid #d1d5db",
+                      borderRadius: "0px",
+                    }),
+                    menu: (styles) => ({
+                      ...styles,
+                      zIndex: 20,
+                    }),
+                  }}
+                  options={[
+                    ...countries.flatMap((country) => {
+                      return [
+                        ...country.names.map((name) => {
+                          return {
+                            value: name,
+                            label: name,
+                          };
+                        }),
+                      ];
+                    }),
+                  ]}
+                  onChange={(e) => {
+                    setGuestDeliveryAddress({
+                      ...guestDeliveryAddress,
+                      country: e.value,
+                    });
+                  }}
+                  className="w-full"
                 />
+                <p
+                  aria-label={`${t("error_for country")}`}
+                  className="pl-3 text-xs text-red-600"
+                >
+                  {guestDeliveryAddress.country == "" ? t("required") : ""}
+                </p>
               </div>
               <div className="flex flex-col gap-2 sm:flex-row">
                 <div className="flex w-full flex-col sm:w-7/12">
@@ -544,14 +580,14 @@ export default function Checkout(props) {
                     required
                     type="text"
                     name="Street"
-                    label="Street"
-                    value={newAddressExistingClient.street}
+                    label={t("street")}
+                    value={guestDeliveryAddress.street}
                     error={
-                      newAddressExistingClient.street == "" ? t("required") : ""
+                      guestDeliveryAddress.street == "" ? t("required") : ""
                     }
                     onChange={(e) =>
-                      setNewAddressExistingClient({
-                        ...newAddressExistingClient,
+                      setGuestDeliveryAddress({
+                        ...guestDeliveryAddress,
                         street: e.target.value,
                       })
                     }
@@ -562,16 +598,14 @@ export default function Checkout(props) {
                     required
                     type="text"
                     name="DoorNumber"
-                    label="Door"
-                    value={newAddressExistingClient.doorNumber}
+                    label={t("door")}
+                    value={guestDeliveryAddress.doorNumber}
                     error={
-                      newAddressExistingClient.doorNumber == ""
-                        ? t("required")
-                        : ""
+                      guestDeliveryAddress.doorNumber == "" ? t("required") : ""
                     }
                     onChange={(e) =>
-                      setNewAddressExistingClient({
-                        ...newAddressExistingClient,
+                      setGuestDeliveryAddress({
+                        ...guestDeliveryAddress,
                         doorNumber: e.target.value,
                       })
                     }
@@ -582,11 +616,11 @@ export default function Checkout(props) {
                     required
                     type="text"
                     name="Floor"
-                    label="Floor"
-                    value={newAddressExistingClient.floor}
+                    label={t("floor")}
+                    value={guestDeliveryAddress.floor}
                     onChange={(e) =>
-                      setNewAddressExistingClient({
-                        ...newAddressExistingClient,
+                      setGuestDeliveryAddress({
+                        ...guestDeliveryAddress,
                         floor: e.target.value,
                       })
                     }
@@ -599,16 +633,14 @@ export default function Checkout(props) {
                     required
                     type="text"
                     name="ZipCode"
-                    label="Zip Code"
-                    value={newAddressExistingClient.zipCode}
+                    label={t("zip-code")}
+                    value={guestDeliveryAddress.zipCode}
                     error={
-                      newAddressExistingClient.zipCode == ""
-                        ? t("required")
-                        : ""
+                      guestDeliveryAddress.zipCode == "" ? t("required") : ""
                     }
                     onChange={(e) =>
-                      setNewAddressExistingClient({
-                        ...newAddressExistingClient,
+                      setGuestDeliveryAddress({
+                        ...guestDeliveryAddress,
                         zipCode: e.target.value,
                       })
                     }
@@ -619,14 +651,12 @@ export default function Checkout(props) {
                     required
                     type="text"
                     name="City"
-                    label="City"
-                    value={newAddressExistingClient.city}
-                    error={
-                      newAddressExistingClient.city == "" ? t("required") : ""
-                    }
+                    label={t("city")}
+                    value={guestDeliveryAddress.city}
+                    error={guestDeliveryAddress.city == "" ? t("required") : ""}
                     onChange={(e) =>
-                      setNewAddressExistingClient({
-                        ...newAddressExistingClient,
+                      setGuestDeliveryAddress({
+                        ...guestDeliveryAddress,
                         city: e.target.value,
                       })
                     }
@@ -728,23 +758,39 @@ export default function Checkout(props) {
                   className="m-2 flex flex-col gap-2 bg-white px-1 pb-1"
                 >
                   <div className="mt-2 flex w-full flex-col">
-                    <InputOutlined
-                      required
-                      type="text"
-                      name="Country"
-                      label="Country"
-                      value={newAddressExistingClient.country}
-                      error={
-                        newAddressExistingClient.country == ""
-                          ? t("required")
-                          : ""
-                      }
-                      onChange={(e) =>
+                    <Select
+                      name={t("country")}
+                      placeholder={t("country")}
+                      styles={{
+                        control: (styles) => ({
+                          ...styles,
+                          border: "2px solid #d1d5db",
+                          borderRadius: "0px",
+                        }),
+                        menu: (styles) => ({
+                          ...styles,
+                          zIndex: 20,
+                        }),
+                      }}
+                      options={[
+                        ...countries.flatMap((country) => {
+                          return [
+                            ...country.names.map((name) => {
+                              return {
+                                value: name,
+                                label: name,
+                              };
+                            }),
+                          ];
+                        }),
+                      ]}
+                      onChange={(e) => {
                         setNewAddressExistingClient({
                           ...newAddressExistingClient,
-                          country: e.target.value,
-                        })
-                      }
+                          country: e.value,
+                        });
+                      }}
+                      className="w-full"
                     />
                   </div>
                   <div className="flex flex-col gap-2 sm:flex-row">

@@ -17,8 +17,6 @@ export async function getCategoryFromString({
 }: {
   category: string;
 }) {
-  console.timeEnd("getCategoryFromString");
-  console.time("getCategoryFromString");
   const string = decodeURIComponent(category);
   if (cache[string] && Date.now() - cache[string].timestamp < CACHE_DURATION) {
     return cache[string].data;
@@ -64,7 +62,6 @@ export async function getCategoryFromString({
       timestamp: Date.now(),
     };
 
-    console.timeEnd("getCategoryFromString");
     return answer;
   } catch (error) {
     return null;
@@ -72,6 +69,9 @@ export async function getCategoryFromString({
 }
 
 export default async function handler(req, res) {
+  if (req.method !== "GET") {
+    return res.status(405).json(statusText[405]);
+  }
   try {
     const { string } = req.query;
 

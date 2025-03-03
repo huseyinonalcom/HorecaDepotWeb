@@ -61,6 +61,9 @@ export async function getAllCategories({ flat }: { flat?: boolean }) {
 }
 
 export default async function handler(req, res) {
+  if (req.method !== "GET") {
+    return res.status(405).json(statusText[405]);
+  }
   try {
     const { flat } = req.query;
     const response = await getAllCategories({ flat });

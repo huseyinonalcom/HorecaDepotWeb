@@ -331,5 +331,18 @@
   "no_stock": "Contact us for Pre-Order",
   "required": "Required Field",
   "login-to-your-account": "Login to your account",
-  "checkout-without-account": "Checkout without account"
+  "checkout-without-account": "Checkout without account",
+  "country": "Country",
+  "street": "Street",
+  "door": "Door",
+  "floor": "Floor",
+  "zip-code": "Zip Code",
+  "city": "City",
+  "your-company-name": "The name of your company",
+  "your-vat-number": "VAT number",
+  "your-first-name": "Your first name",
+  "your-last-name": "Your last name",
+  "your-phone": "Your Phone",
+  "invoice-details": "Invoice Details",
+  "address": "Address"
 }

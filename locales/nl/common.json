@@ -331,5 +331,18 @@
   "no_stock": "Contacteer ons voor voorbestelling",
   "required": "Verplicht veld",
   "login-to-your-account": "Inloggen op uw account",
-  "checkout-without-account": "Afrekenen zonder account"
+  "checkout-without-account": "Afrekenen zonder account",
+  "country": "Land",
+  "street": "Straat",
+  "door": "Deur",
+  "floor": "Verdieping",
+  "zip-code": "Postcode",
+  "city": "Stad",
+  "your-company-name": "De naam van uw bedrijf",
+  "your-vat-number": "BTW-nummer",
+  "your-first-name": "Uw voornaam",
+  "your-last-name": "Uw achternaam",
+  "your-phone": "Uw telefoonnummer",
+  "invoice-details": "Factuurdetails",
+  "address": "Adres"
 }

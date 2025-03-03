@@ -11,9 +11,6 @@ let cache = {
 const CACHE_DURATION = 60 * 60 * 1000;
 
 export async function getAllSubcategoriesOfCategory({ id }: { id: number }) {
-  console.timeEnd("getAllSubcategoriesOfCategory");
-  console.time("getAllSubcategoriesOfCategory");
-
   if (cache[id] && Date.now() - cache[id].timestamp < CACHE_DURATION) {
     return cache[id].data;
   }
@@ -44,7 +41,6 @@ export async function getAllSubcategoriesOfCategory({ id }: { id: number }) {
       data: answer,
       timestamp: Date.now(),
     };
-    console.timeEnd("getAllSubcategoriesOfCategory");
     return answer;
   } catch (error) {
     return null;
@@ -52,6 +48,9 @@ export async function getAllSubcategoriesOfCategory({ id }: { id: number }) {
 }
 
 export default async function handler(req, res) {
+  if (req.method !== "GET") {
+    return res.status(405).json(statusText[405]);
+  }
   try {
     const { id } = req.query;
     const response = await getAllSubcategoriesOfCategory({ id });

@@ -16,7 +16,6 @@ function checkValues(minValue, maxValue) {
 }
 
 export async function getProducts(req) {
-  console.time("getProducts");
   const pageParam = req.query.page ?? 1;
   let categoryParam = req.query.category ?? null;
   const minValueParam = Number(req.query.minprice) ?? null;
@@ -92,14 +91,11 @@ export async function getProducts(req) {
       sortParam ? `&sort[0]=${sortParam}` : ""
     }${countParam ? `&pagination[pageSize]=${countParam}` : ""}`;
 
-    console.timeEnd("getProductsFetch");
-    console.time("getProductsFetch");
     const response = await fetch(fetchUrl, {
       headers: {
         Authorization: `Bearer ${process.env.API_KEY}`,
       },
     });
-    console.timeEnd("getProductsFetch");
 
     const data = await response.json();
 
@@ -131,7 +127,6 @@ export async function getProducts(req) {
       minValueFromAPI = answerMinValue.data[0].value;
     }
     const currentCategoryID = categoryParam;
-    console.timeEnd("getProducts");
     return {
       sortedData,
       totalPages,
