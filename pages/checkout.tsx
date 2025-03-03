@@ -336,8 +336,14 @@ export default function Checkout() {
         guestDeliveryAddress,
         calculateTotal().totalAfterDiscount,
       );
+    } else if (chosenDeliveryAddressId) {
+      const address = client.client_info.addresses.find(
+        (ad) => ad.id == chosenDeliveryAddressId,
+      );
+      console.log(address);
+      debouncedGetShippingCost(address, calculateTotal().totalAfterDiscount);
     }
-  }, [guestDeliveryAddress, cart]);
+  }, [guestDeliveryAddress, cart, chosenDeliveryAddressId]);
 
   // might need to be checked
   const handleOrderSubmitGuest = async () => {
@@ -716,7 +722,6 @@ export default function Checkout() {
                   </div>
                   <div className="flex w-full flex-col sm:w-2/12">
                     <InputOutlined
-                      required
                       type="text"
                       name="Floor"
                       label={"floor"}
@@ -870,7 +875,6 @@ export default function Checkout() {
                       </div>
                       <div className="flex w-full flex-col sm:w-2/12">
                         <InputOutlined
-                          required
                           type="text"
                           name="Floor"
                           label={"floor"}
@@ -1126,7 +1130,6 @@ export default function Checkout() {
                     </div>
                     <div className="flex w-full flex-col sm:w-2/12">
                       <InputOutlined
-                        required
                         type="text"
                         name="Floor"
                         label={"floor"}

@@ -1,4 +1,4 @@
-import { getShippingDistance } from "./getshippingcostfromaddress";
+import { getShippingCostFromAddress } from "./getshippingcostfromaddress";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
 
@@ -15,7 +15,7 @@ export default async function postNewAddress(
     addressData.name = "Addresse";
     let shippingDistance = 200;
     try {
-      shippingDistance = await getShippingDistance({
+      shippingDistance = await getShippingCostFromAddress({
         address: addressData,
       });
     } catch (e) {

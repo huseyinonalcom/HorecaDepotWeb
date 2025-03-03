@@ -19,6 +19,7 @@ export const countries = [
     names: [
       "Belgique",
       "Belgien",
+      "Belgie",
       "Belgio",
       "Bélgica",
       "België",

@@ -323,16 +323,14 @@ export default async function postOrder(
                 body: JSON.stringify({
                   data: {
                     name: productsToPost[i].name,
-                    // description: productToPost[i].description,
                     value: productsToPost[i].value,
                     subTotal: productsToPost[i].subTotal,
                     discount: productsToPost[i].discount,
                     amount: productsToPost[i].amount,
                     tax: productsToPost[i].tax,
                     taxSubTotal: productsToPost[i].taxSubTotal,
-                    delivered: false,
-                    document: documentID,
                     product: productsToPost[i].product,
+                    document: documentID,
                   },
                 }),
               });
