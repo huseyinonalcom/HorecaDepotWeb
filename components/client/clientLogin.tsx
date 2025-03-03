@@ -450,7 +450,7 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
     );
   } else {
     return (
-      <div className="mx-auto flex w-full min-w-[350px] max-w-md flex-col">
+      <div className="mx-auto flex w-full min-w-[350px] max-w-xl flex-col">
         <p className="text-2xl font-bold">
           {t("Login to your HorecaDepot account")}
         </p>

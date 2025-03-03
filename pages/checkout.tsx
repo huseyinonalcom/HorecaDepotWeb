@@ -487,7 +487,7 @@ export default function Checkout() {
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         <div className="order-2 mb-2 mt-1 flex w-full flex-col items-center p-3 shadow-lg sm:order-1">
           {!client && showLogin && (
-            <div className="w-1/2">
+            <div className="mx-auto w-1/2">
               <button
                 onClick={() => setShowLogin(false)}
                 className={CustomTheme.greenSubmitButton}
