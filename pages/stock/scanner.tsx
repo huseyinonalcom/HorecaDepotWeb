@@ -38,7 +38,7 @@ export default function ScannerPage({}: {}) {
           type="button"
           onClick={() => setScanning(true)}
         >
-          Scan2
+          Scan
         </button>
       )}
       <InputOutlined
