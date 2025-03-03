@@ -414,7 +414,6 @@ export default function Checkout() {
 
     if (request.ok) {
       const answer = await request.json();
-      const orderID = answer.id;
       const paymentReq = await fetch(
         `/api/payment/createpaymentlink?test=false`,
         {
@@ -427,7 +426,7 @@ export default function Checkout() {
         if (response.url != 0) {
           window.location.href = response.url;
         } else {
-          router.push(`/account/order?id=${orderID}`);
+          router.push(`/`);
         }
       }
     } else {
