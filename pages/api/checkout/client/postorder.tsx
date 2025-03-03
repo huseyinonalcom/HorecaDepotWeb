@@ -1,9 +1,9 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import statusText from "../../../../api/statustexts";
 import { DocumentProduct } from "../../../../api/interfaces/documentProduct";
 import { Product } from "../../../../api/interfaces/product";
 import { getConfig } from "../../config/private/getconfig";
 import { sendMail } from "../../../../api/utils/sendmail";
+import { NextApiRequest, NextApiResponse } from "next";
+import statusText from "../../../../api/statustexts";
 
 const calculateTotalWithPromo = (promoDetails, cart) => {
   const cartAfterPromo = JSON.parse(JSON.stringify(cart));
