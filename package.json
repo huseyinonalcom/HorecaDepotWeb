@@ -26,8 +26,10 @@
     "react-feather": "latest",
     "react-icons": "^5.2.1",
     "react-jsbarcode": "^0.4.2",
+    "react-media-devices": "^1.1.5",
     "react-select": "^5.10.0",
     "react-simple-star-rating": "^5.1.7",
+    "react-zxing": "^2.1.0",
     "sharp": "latest",
     "xlsx": "latest",
     "yet-another-react-lightbox-lite": "^1.7.0"

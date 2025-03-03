@@ -3,9 +3,11 @@ import InputOutlined from "../../components/inputs/outlined";
 import ProductCard from "../../components/stock/ProductCard";
 import Scanner from "../../components/stock/Scanner";
 import { useEffect, useState } from "react";
+import { BarcodeScanner } from "../../components/stock/Barcode";
 
 export default function ScannerPage({}: {}) {
   const [scanning, setScanning] = useState(false);
+  const [scanning2, setScanning2] = useState(false);
   const [scannedCode, setScannedCode] = useState<string | undefined>("");
   const [product, setProduct] = useState<any>();
 
@@ -38,11 +40,22 @@ export default function ScannerPage({}: {}) {
         />
       ) : (
         <button
-          className="min-w-[100px] border-2 bg-black text-white font-semibold p-2 shadow-sm border-gray-400 rounded-md"
+          className="min-w-[100px] rounded-md border-2 border-gray-400 bg-black p-2 font-semibold text-white shadow-sm"
           type="button"
           onClick={() => setScanning(true)}
         >
           Scan
+        </button>
+      )}
+      {scanning2 ? (
+        <BarcodeScanner onScan={(res) => setScannedCode(res)} />
+      ) : (
+        <button
+          className="min-w-[100px] rounded-md border-2 border-gray-400 bg-black p-2 font-semibold text-white shadow-sm"
+          type="button"
+          onClick={() => setScanning2(true)}
+        >
+          Scan2
         </button>
       )}
       <InputOutlined

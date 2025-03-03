@@ -2,9 +2,10 @@ import useTranslation from "next-translate/useTranslation";
 import LocaleSwitcher from "../LocaleSwitcher";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { X } from "react-feather";
+import { LogOut, X } from "react-feather";
 import Image from "next/image";
 import Link from "next/link";
+import logOutAdmin from "../../pages/api/admin/logout";
 
 type Props = {
   children: React.ReactNode;
@@ -41,15 +42,6 @@ export default function StockLayout({ children }: Props) {
 
   return (
     <main>
-      <style jsx global>{`
-        .font-lato {
-          visibility: hidden !important;
-        }
-
-        .tawk-min-container {
-          visibility: hidden !important;
-        }
-      `}</style>
       <div className="flex flex-row">
         <div
           className={`sticky top-0 max-h-[100dvh] w-full flex-shrink-0 flex-col items-center gap-2 border-gray-300 bg-black shadow-sm lg:w-[270px] ${showMenu ? "flex" : "hidden lg:flex"} lg:border-r-0`}
@@ -110,6 +102,19 @@ export default function StockLayout({ children }: Props) {
                   </Link>
                 ))}
             </div>
+            <button
+              name="logout"
+              aria-label="Logout"
+              className={`flex w-full mt-12 flex-row gap-3 whitespace-nowrap rounded-md border-2 border-gray-400 p-1 text-white shadow-sm hover:bg-blue-800`}
+              onClick={async () => {
+                await fetch("/api/admin/logout").then(() => {
+                  router.push(`/`);
+                });
+              }}
+            >
+              <LogOut />
+              {t("Logout")}
+            </button>
           </div>
         </div>
         <div
