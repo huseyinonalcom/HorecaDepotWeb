@@ -1,14 +1,17 @@
-import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 import useTranslation from "next-translate/useTranslation";
 import Lightbox from "yet-another-react-lightbox-lite";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import componentThemes from "../componentThemes";
 import BarcodeToPng from "../common/barcodepng";
 import { LuClipboard } from "react-icons/lu";
 import ImageWithURL from "../common/image";
 import { useState } from "react";
+import PDFBarcode from "../pdf/barcodepdf";
 
 export default function ProductCard({ product }: { product: any }) {
   const { t, lang } = useTranslation("common");
   const [lightBoxIndex, setLightBoxIndex] = useState(undefined);
+  const [barcodePng, setBarcodePng] = useState("");
   return (
     <div
       key={product.id}
@@ -72,7 +75,10 @@ export default function ProductCard({ product }: { product: any }) {
         </p>
       </div>
       <div className="flex w-full flex-shrink-0 flex-col items-start lg:w-[234px] lg:items-end">
-        <BarcodeToPng value={product.supplierCode} />
+        <BarcodeToPng
+          value={product.supplierCode}
+          onGenerated={setBarcodePng}
+        />
         <div className="flex flex-row-reverse items-center gap-2">
           <button
             className="peer"
@@ -89,6 +95,22 @@ export default function ProductCard({ product }: { product: any }) {
           </p>
           <p className="">{"EAN : "}</p>
         </div>
+        <PDFDownloadLink
+          fileName={`${product.supplierCode}.pdf`}
+          document={
+            <PDFBarcode
+              value={
+                product.categories.at(0).localized_name[lang] +
+                " - " +
+                product.name
+              }
+              png={barcodePng}
+            />
+          }
+          className={`${componentThemes.greenSubmitButton} flex flex-row items-center justify-center whitespace-nowrap text-xl`}
+        >
+          📄 <p className="ml-1">{t("Download PDF")}</p>
+        </PDFDownloadLink>
       </div>
       {lightBoxIndex != undefined && (
         <Lightbox

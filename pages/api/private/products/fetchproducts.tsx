@@ -68,9 +68,20 @@ export const getProducts = async ({
       searchString = `&filters[$or][0][name][$containsi]=${search}&filters[$or][1][supplierCode][$containsi]=${search}&filters[$or][2][internalCode][$containsi]=${search}`;
     }
 
-    if (category && category != "0") {
+    if (category && category != "0" && category != "null") {
       categoryString = `&filters[categories][id][$eq]=${category}`;
     }
+
+    console.log(
+      fetchUrl +
+        "?filters[deleted][$eq]=false&" +
+        fetchParams +
+        categoryString +
+        pageString +
+        sort +
+        searchString +
+        pageSize,
+    );
 
     try {
       const request = await fetch(
@@ -115,6 +126,9 @@ export default async function handler(
       authToken: req.cookies.j,
       ean: req.query.ean as string,
       id: Number(req.query.id as string),
+      page: Number(req.query.page as string),
+      category: req.query.category as string,
+      search: req.query.search as string,
     });
 
     if (!response) {

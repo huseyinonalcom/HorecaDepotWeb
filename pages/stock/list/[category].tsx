@@ -1,29 +1,77 @@
-import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
-import { getProducts } from "../../api/private/products/fetchproducts";
-import { ChevronLeft, ChevronRight, Search } from "react-feather";
-import StockLayout from "../../../components/stock/StockLayout";
-import ProductCard from "../../../components/stock/ProductCard";
-import useTranslation from "next-translate/useTranslation";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { ChevronLeft, ChevronRight, Search } from "react-feather";
 import Link from "next/link";
 import Head from "next/head";
+import useTranslation from "next-translate/useTranslation";
+import StockLayout from "../../../components/stock/StockLayout";
+import ProductCard from "../../../components/stock/ProductCard";
 
-export default function Stock(props) {
+export default function Stock() {
   const { t, lang } = useTranslation("common");
   const router = useRouter();
-  const allProducts = props.allProducts;
-  const totalPages = props.totalPages;
-  const currentPage = props.currentPage;
-  const currentSearch = props.currentSearch;
-  const [tempSearch, setTempSearch] = useState<string | null>(
-    currentSearch ?? "",
-  );
-  const currentCategory = props.currentCategory ?? "all";
-  const allCategories = props.allCategories;
+  const {
+    category = "all",
+    search = "",
+    page = "1",
+  } = router.query as {
+    category?: string;
+    search?: string;
+    page?: string;
+  };
+
+  const [allCategories, setAllCategories] = useState<any[]>([]);
+  const [allProducts, setAllProducts] = useState<any[]>([]);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [tempSearch, setTempSearch] = useState(search);
+  const [currentCategory, setCurrentCategory] = useState<any>();
+  const currentPage = Number(page);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [categories, productsData] = await Promise.all([
+          (await fetch("/api/public/categories/getallcategories")).json(),
+
+          (
+            await fetch(
+              `/api/private/products/fetchproducts?page=${page}&category=${category !== "all" ? category : null}&search=${search}`,
+            )
+          ).json(),
+        ]);
+
+        setAllCategories(categories);
+        setCurrentCategory(
+          categories.find((cat) => cat.id == category) ?? "all",
+        );
+        setAllProducts(productsData.data);
+        setTotalPages(productsData.meta.pagination.pageCount);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [category, search, currentPage]);
+
+  const createLink = ({
+    category,
+    search,
+    page,
+  }: {
+    category?: string;
+    search?: string;
+    page?: number;
+  }) => {
+    const params = new URLSearchParams();
+    if (search) params.set("search", search);
+    if (page) params.set("page", page.toString());
+
+    return `/stock/list/${category ?? "all"}${params.size ? `?${params.toString()}` : ""}`;
+  };
 
   const getPageNumbers = () => {
-    let pages = [];
+    let pages: (number | string)[] = [];
     let startPage, endPage;
 
     if (totalPages <= 6) {
@@ -44,9 +92,7 @@ export default function Stock(props) {
 
     if (startPage > 1) {
       pages.push(1);
-      if (startPage > 2) {
-        pages.push("...");
-      }
+      if (startPage > 2) pages.push("...");
     }
 
     for (let i = startPage; i <= endPage; i++) {
@@ -54,49 +100,11 @@ export default function Stock(props) {
     }
 
     if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        pages.push("...");
-      }
+      if (endPage < totalPages - 1) pages.push("...");
       pages.push(totalPages);
     }
 
     return pages;
-  };
-
-  const createLink = ({
-    category,
-    search,
-    page,
-  }: {
-    category?: string;
-    search?: string;
-    page?: number;
-  }) => {
-    let link = "/stock/list/";
-
-    if (category) {
-      link += `${category}`;
-    } else if (currentCategory) {
-      link += `${currentCategory}`;
-    } else {
-      link += `all`;
-    }
-
-    if (page) {
-      link += `?page=${page}`;
-    } else if (currentPage) {
-      link += `?page=${currentPage}`;
-    } else {
-      link += `?page=1`;
-    }
-
-    if (search) {
-      link += `&search=${search}`;
-    } else if (tempSearch) {
-      link += `&search=${tempSearch}`;
-    }
-
-    return link;
   };
 
   return (
@@ -110,181 +118,103 @@ export default function Stock(props) {
           <div className="flex h-full flex-row items-center pl-4 font-bold text-black">
             {t("Category")}:{" "}
             {t(
-              currentCategory
-                ? allCategories.find((cat) => cat.id == currentCategory)
-                    ?.localized_name[lang] ?? t("All")
-                : t("All"),
+              allCategories.find((cat) => cat.id == category)?.localized_name[
+                lang
+              ] ?? "All",
             )}
           </div>
-          <div className="flex flex-row gap-2 items-center">
-            <div
-              className="min-w-[280px]"
-              style={{
-                borderRadius: "0.25rem",
-                boxShadow:
-                  "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                backgroundColor: "#f3f4f6",
-                padding: "8px",
+          <div className="flex flex-row items-center gap-2">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                router.push(createLink({ search: tempSearch, page: 1 }));
               }}
+              role="search"
+              className="flex flex-row items-center rounded-md bg-gray-100 p-2 shadow-sm"
             >
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  router.push(createLink({ search: tempSearch, page: 1 }));
-                }}
-                role="search"
-                className="flex flex-row"
-              >
-                <input
-                  id="searchInput"
-                  className="placeholder-blue"
-                  value={tempSearch}
-                  onChange={(e) => setTempSearch(e.target.value)}
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    router.push(createLink({ search: tempSearch, page: 1 }));
-                  }}
-                  type="text"
-                  style={{
-                    width: "100%",
-                    paddingLeft: "16px",
-                    paddingRight: "16px",
-                    paddingTop: "8px",
-                    paddingBottom: "8px",
-                    border: "2px solid",
-                    borderColor: "rgba(0, 0, 0, 0.1)",
-                    outline: "none",
-                  }}
-                  placeholder={t("Search Products")}
-                  aria-label="Search"
-                />
-                <Link
-                  href={createLink({ search: tempSearch, page: 1 })}
-                  style={{
-                    cursor: "pointer",
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                  }}
-                  role="button"
-                  aria-label="Submit search"
-                >
-                  <Search
-                    style={{
-                      height: "100%",
-                      width: "28px",
-                      margin: "auto 8px",
-                    }}
-                  />
-                </Link>
-              </form>
-            </div>
+              <input
+                className="w-full border border-gray-300 px-4 py-2 outline-none"
+                value={tempSearch}
+                onChange={(e) => setTempSearch(e.target.value)}
+                type="text"
+                placeholder={t("Search Products")}
+                aria-label="Search"
+              />
+              <button type="submit" className="p-2">
+                <Search className="h-6 w-6 text-gray-600" />
+              </button>
+            </form>
             <Link
-              href={"/stock/scanner"}
-              className="flex w-[100px] flex-row items-center justify-center rounded-md border-2 border-gray-400 bg-black p-2 font-semibold text-white shadow-sm"
+              href="/stock/scanner"
+              className="flex w-[100px] items-center justify-center rounded-md border-2 border-gray-400 bg-black p-2 font-semibold text-white shadow-sm"
             >
               Scan
             </Link>
           </div>
         </div>
         <div className="flex w-full flex-col items-start gap-2">
-          {allProducts?.map((product) => (
+          {allProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
-        <>
-          {allProducts.length > 0 ? (
-            <div className="mt-2 flex w-full flex-row justify-center p-2 px-6">
-              <div className="flex items-center justify-center space-x-1">
-                <Link
-                  href={
-                    currentPage == 1
-                      ? "#"
-                      : createLink({ page: currentPage - 1 })
-                  }
-                  className="border bg-white p-2 hover:bg-gray-200"
-                >
-                  <ChevronLeft size={36} />
-                </Link>
-                {getPageNumbers().map((page, index) =>
-                  page === "..." ? (
-                    <span key={index} className="p-2">
-                      ...
-                    </span>
-                  ) : (
-                    <Link
-                      key={index}
-                      className={`border p-2 text-3xl hover:bg-gray-200 ${
-                        currentPage === page ? "bg-gray-300" : "bg-white"
-                      }`}
-                      href={createLink({ page: page })}
-                    >
-                      {page}
-                    </Link>
-                  ),
-                )}
-                <Link
-                  href={
-                    currentPage == totalPages
-                      ? "#"
-                      : createLink({ page: currentPage + 1 })
-                  }
-                  className="border bg-white p-2 hover:bg-gray-200"
-                >
-                  <ChevronRight size={36} />
-                </Link>
-              </div>
+        {allProducts.length > 0 && (
+          <div className="mt-2 flex w-full flex-row justify-center p-2 px-6">
+            <div className="flex items-center justify-center space-x-1">
+              <Link
+                href={
+                  currentPage === 1
+                    ? "#"
+                    : createLink({
+                        category: currentCategory?.id ?? "all",
+                        page: currentPage - 1,
+                        search,
+                      })
+                }
+                className="border bg-white p-2 hover:bg-gray-200"
+              >
+                <ChevronLeft size={36} />
+              </Link>
+              {getPageNumbers().map((page, index) =>
+                page === "..." ? (
+                  <span key={index} className="p-2">
+                    ...
+                  </span>
+                ) : (
+                  <Link
+                    key={index}
+                    className={`border p-2 text-3xl hover:bg-gray-200 ${currentPage === page ? "bg-gray-300" : "bg-white"}`}
+                    href={createLink({
+                      category: currentCategory?.id ?? "all",
+                      page: page as number,
+                      search,
+                    })}
+                  >
+                    {page}
+                  </Link>
+                ),
+              )}
+              <Link
+                href={
+                  currentPage === totalPages
+                    ? "#"
+                    : createLink({
+                        category: currentCategory?.id ?? "all",
+                        page: currentPage + 1,
+                        search,
+                      })
+                }
+                className="border bg-white p-2 hover:bg-gray-200"
+              >
+                <ChevronRight size={36} />
+              </Link>
             </div>
-          ) : (
-            <p></p>
-          )}
-        </>
+          </div>
+        )}
       </div>
     </>
   );
 }
 
-Stock.getLayout = function getLayout(page) {
+Stock.getLayout = function getLayout(page: React.ReactNode) {
   return <StockLayout>{page}</StockLayout>;
 };
-
-export async function getServerSideProps(context) {
-  const req = context.req;
-  req.query = context.query;
-  const currentCategory = req.query.category ?? null;
-  const currentSearch = req.query.search ?? null;
-
-  if (req.query.category == "all") {
-    delete req.query.category;
-  }
-  let allCategories = [];
-  let currentPage = 1;
-  let totalPages = 1;
-  let allProducts = [];
-
-  try {
-    const productsData = await getProducts({
-      authToken: req.cookies.j,
-      category: req.query.category != `all` ? req.query.category : null,
-      page: Number((req.query.page ?? "1") as string),
-      search: req.query.search as string,
-    });
-    allProducts = productsData.data;
-    currentPage = productsData.meta.pagination.page;
-    allCategories = await getAllCategoriesFlattened();
-    totalPages = productsData.meta.pagination.pageCount;
-  } catch (error) {
-    console.error(error);
-  }
-
-  return {
-    props: {
-      allCategories,
-      currentSearch,
-      allProducts,
-      currentPage,
-      totalPages,
-      currentCategory,
-    },
-  };
-}

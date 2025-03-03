@@ -2,7 +2,13 @@ import { useRef, useEffect, useState } from "react";
 import Barcode from "react-jsbarcode";
 import { Canvg } from "canvg";
 
-const BarcodeToPng = ({ value }) => {
+const BarcodeToPng = ({
+  value,
+  onGenerated,
+}: {
+  value: string;
+  onGenerated?: (png: string) => void;
+}) => {
   if (!value || value.length !== 13) {
     return <div></div>;
   }
@@ -32,6 +38,9 @@ const BarcodeToPng = ({ value }) => {
       ) as HTMLImageElement;
       if (imgElement) {
         imgElement.src = pngUrl;
+      }
+      if (onGenerated) {
+        onGenerated(pngUrl);
       }
     }
   }, [value]);
