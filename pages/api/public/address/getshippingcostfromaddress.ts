@@ -23,8 +23,6 @@ export async function getShippingDistance({ address }: { address: Address }) {
     const response = await fetch(`${url}?${params}`);
     const data = await response.json();
 
-    console.log(data);
-
     if (data.status === "OK") {
       try {
         const distanceString = data.rows[0].elements[0].distance.text;

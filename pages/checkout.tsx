@@ -82,7 +82,7 @@ export default function Checkout() {
   }) => {
     const cost = await fetch("/api/public/address/getshippingcostfromaddress", {
       method: "POST",
-      body: JSON.stringify({ address, documentTotal }),
+      body: JSON.stringify({ address, documentTotal: documentTotal / 1.21 }),
     });
     if (cost.ok) {
       const answer = await cost.json();
@@ -343,8 +343,6 @@ export default function Checkout() {
   const handleOrderSubmitGuest = async () => {
     setSubmitErrorDocument(null);
 
-    console.log(guestData);
-
     if (
       guestData.firstName == "" ||
       guestData.lastName == "" ||
@@ -406,18 +404,15 @@ export default function Checkout() {
       docAddress: guestInvoiceAddress ?? guestDeliveryAddress,
     };
 
-    console.log(JSON.stringify(documentToPost));
+    const request = await fetch("/api/public/documents/postorderguest", {
+      method: "POST",
+      body: JSON.stringify({
+        ...documentToPost,
+        promo: usedPromoCode,
+      }),
+    });
 
-    /*     const request = await fetch(
-      "/api/checkout/client/postorder?final=true&promo=" + usedPromoCode,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          documentToPost,
-        }),
-      },
-    );
-
+    /* 
     if (request.ok) {
       const answer = await request.json();
       const orderID = answer.id;
@@ -1270,17 +1265,13 @@ export default function Checkout() {
                 <div className="mb-2 flex w-full flex-row items-end justify-center">
                   <p className="mb-1 mr-1 text-sm text-gray-400 line-through">
                     {product.priceBeforeDiscount > product.value
-                      ? "€ " +
-                        (product.priceBeforeDiscount * product.amount)
-                          .toFixed(2)
-                          .replaceAll(".", ",")
+                      ? formatCurrency(
+                          (product.priceBeforeDiscount * product.amount) / 1.21,
+                        )
                       : ""}
                   </p>
                   <p className="text-lg font-bold text-black">
-                    €{" "}
-                    {(product.value * product.amount)
-                      .toFixed(2)
-                      .replaceAll(".", ",")}
+                    {formatCurrency((product.value * product.amount) / 1.21)}
                   </p>
                 </div>
 
@@ -1315,7 +1306,7 @@ export default function Checkout() {
               <p>
                 {t("Total")}:{" "}
                 {formatCurrency(
-                  calculateTotal().totalAfterDiscount + shippingCost,
+                  calculateTotal().totalAfterDiscount / 1.21 + shippingCost,
                 )}
               </p>
               <p>

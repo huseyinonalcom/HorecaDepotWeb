@@ -2,6 +2,7 @@ import { orderMailEstablishment } from "../../../../api/utils/mail/order/orderMa
 import { orderMailClient } from "../../../../api/utils/mail/order/orderMailClient";
 import { DocumentProduct } from "../../../../api/interfaces/documentProduct";
 import { Product } from "../../../../api/interfaces/product";
+import { countries } from "../../../../api/utils/countries";
 import { getConfig } from "../../config/private/getconfig";
 import { sendMail } from "../../../../api/utils/sendmail";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -58,43 +59,51 @@ export default async function postOrder(
 ) {
   try {
     if (req.method === "POST") {
-      const cookies = req.cookies;
-      const authToken = cookies.cj;
-      const createDocument: boolean = req.query.final == "true";
-      const usedPromo = req.query.promo;
-      let isClientProfessional: boolean = false;
-      const productsFromRequest = await JSON.parse(req.body);
-      const productsFromCart =
-        productsFromRequest.documentToPost.document_products;
+      const authToken = process.env.API_KEY;
+
+      const order = await JSON.parse(req.body);
+
+      const usedPromo = order.promo;
+
+      let taxExempt = false;
+
+      if (order.client.category == "Entreprise") {
+        if (
+          !countries
+            .find((country) => country.name == "Belgium")
+            .names.includes(order.docAddress.country)
+        ) {
+          taxExempt = true;
+        }
+      }
+
+      const productsFromCart = order.document_products;
+
       var productsToPost: DocumentProduct[] = [];
+
       let documentID: number = 0;
+
       var clientID: number;
       var clientEmail: string;
-      var clientFirstName: string;
-      var clientLastName: string;
 
       try {
-        const request = await fetch(
-          `${process.env.API_URL}/api/users/me?populate[client_info][populate][0]=addresses&populate[client_info][populate][1]=establishment&populate=role`,
-          {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
+        const client = order.client;
+
+        const request = await fetch(`${process.env.API_URL}/api/clients`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json",
           },
-        );
+          body: JSON.stringify({
+            data: { ...client },
+          }),
+        });
 
         const answer = await request.json();
-        clientID = answer.client_info.id;
-        clientEmail = answer.email;
-        clientFirstName = answer.client_info.firstName;
-        clientLastName = answer.client_info.lastName;
-        if (answer.client_info.category == "Entreprise") {
-          isClientProfessional = true;
-        } else {
-          isClientProfessional = false;
-        }
+        clientID = answer.data.id;
+        clientEmail = answer.data.email;
       } catch (e) {
-        console.error(e);
         return res.status(401).json(statusText[401]);
       }
 
@@ -112,20 +121,21 @@ export default async function postOrder(
 
           const answer = await response.json();
           const productFromAPI: Product = answer.data;
-          let productCalculated: DocumentProduct = { category: {} };
-          productCalculated.category.id = productFromAPI.categories[0].id;
-          productCalculated.product = productID;
-          productCalculated.name = productFromAPI.name;
-          productCalculated.amount = productsFromCart[i].amount;
-          productCalculated.shelf = productFromAPI.shelves.find(
-            (shelf) => shelf.establishment.id === 3,
-          ).id;
-          productCalculated.shelfStock = productFromAPI.shelves.find(
-            (shelf) => shelf.establishment.id === 3,
-          ).stock;
-          productCalculated.priceBeforeDiscount =
-            productFromAPI.priceBeforeDiscount;
-          productCalculated.value = productFromAPI.value;
+          let productCalculated: DocumentProduct = {
+            category: {
+              id: productFromAPI.categories[0].id,
+            },
+            product: productID,
+            name: productFromAPI.name,
+            amount: productsFromCart[i].amount,
+            shelf: productFromAPI.shelves.find(
+              (shelf) => shelf.establishment.id === 3,
+            ).id,
+            priceBeforeDiscount: productFromAPI.priceBeforeDiscount,
+            value: productFromAPI.value,
+            tax: taxExempt ? 0 : productFromAPI.tax,
+          };
+
           if (
             productCalculated.priceBeforeDiscount <= productCalculated.value
           ) {
@@ -135,19 +145,25 @@ export default async function postOrder(
             productCalculated.discount =
               productCalculated.priceBeforeDiscount - productCalculated.value;
           }
+
           productCalculated.discount *= productCalculated.amount;
+
           productCalculated.subTotal =
-            productCalculated.value * productCalculated.amount; // total (tax included)
-          productCalculated.tax = productFromAPI.tax; // tax percentage as integer (10% is 10 ...)
+            productCalculated.value * productCalculated.amount;
+
           productCalculated.taxSubTotal =
             productCalculated.subTotal -
             productCalculated.subTotal / (1 + productCalculated.tax / 100);
+
           productsToPost.push(productCalculated);
         }
       } catch (e) {
         return res.status(500).json(statusText[500]);
       }
 
+      console.log(productsToPost);
+
+      return res.status(200).json(productsToPost);
       if (usedPromo) {
         try {
           const response = await fetch(
@@ -209,129 +225,129 @@ export default async function postOrder(
         client: clientID,
         phase: 0,
         establishment: 1,
-        docAddress: productsFromRequest.documentToPost.docAddress.id,
-        delAddress: productsFromRequest.documentToPost.delAddress.id,
+        docAddress: order.docAddress,
+        delAddress: order.delAddress,
       };
 
-      if (createDocument) {
-        try {
-          const fetchUrl = `${process.env.API_URL}/api/documents?fields=id`;
-          const request = await fetch(fetchUrl, {
-            method: "POST",
-            headers: {
+      return res.status(200).json(documentToPost);
+
+      try {
+        const fetchUrl = `${process.env.API_URL}/api/documents?fields=id`;
+        const request = await fetch(fetchUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${process.env.API_KEY}`,
+          },
+          body: JSON.stringify({
+            data: documentToPost,
+          }),
+        });
+        if (request.ok) {
+          const answer = await request.json();
+          documentID = answer.data.id;
+          try {
+            const fetchUrl = `${process.env.API_URL}/api/document-products`;
+            const headers = {
               "Content-Type": "application/json",
               Accept: "application/json",
               Authorization: `Bearer ${process.env.API_KEY}`,
-            },
-            body: JSON.stringify({
-              data: documentToPost,
-            }),
-          });
-          if (request.ok) {
-            const answer = await request.json();
-            documentID = answer.data.id;
-            try {
-              const fetchUrl = `${process.env.API_URL}/api/document-products`;
-              const headers = {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-                Authorization: `Bearer ${process.env.API_KEY}`,
-              };
-              for (let i = 0; i < productsToPost.length; i++) {
-                const response = await fetch(fetchUrl, {
-                  method: "POST",
-                  headers: headers,
-                  body: JSON.stringify({
-                    data: {
-                      name: productsToPost[i].name,
-                      // description: productToPost[i].description,
-                      value: productsToPost[i].value,
-                      subTotal: productsToPost[i].subTotal,
-                      discount: productsToPost[i].discount,
-                      amount: productsToPost[i].amount,
-                      tax: productsToPost[i].tax,
-                      taxSubTotal: productsToPost[i].taxSubTotal,
-                      delivered: false,
-                      document: documentID,
-                      product: productsToPost[i].product,
-                    },
-                  }),
-                });
-                if (!response.ok) {
-                  return res.status(400).json(statusText[400]);
-                }
-              }
-
-              let shippingCost = 100;
-
-              let addressData;
-              try {
-                const addressReq = await fetch(
-                  `${process.env.API_URL}/api/addresses/${productsFromRequest.documentToPost.docAddress.id}`,
-                  {
-                    method: "GET",
-                    headers: {
-                      "Content-Type": "application/json",
-                      Accept: "application/json",
-                      Authorization: `Bearer ${process.env.API_KEY}`,
-                    },
-                  },
-                );
-                addressData = (await addressReq.json()).data;
-                let config = await getConfig();
-                shippingCost = addressData.shippingDistance * config.costPerKM;
-              } catch (e) {
-                console.error(e);
-              }
-
-              await fetch(fetchUrl, {
+            };
+            for (let i = 0; i < productsToPost.length; i++) {
+              const response = await fetch(fetchUrl, {
                 method: "POST",
                 headers: headers,
                 body: JSON.stringify({
                   data: {
-                    name: "livraison",
-                    value: shippingCost,
-                    subTotal: shippingCost,
-                    discount: 0,
-                    amount: 1,
-                    tax: 21,
-                    taxSubTotal: shippingCost - shippingCost / 1.21,
+                    name: productsToPost[i].name,
+                    // description: productToPost[i].description,
+                    value: productsToPost[i].value,
+                    subTotal: productsToPost[i].subTotal,
+                    discount: productsToPost[i].discount,
+                    amount: productsToPost[i].amount,
+                    tax: productsToPost[i].tax,
+                    taxSubTotal: productsToPost[i].taxSubTotal,
                     delivered: false,
                     document: documentID,
+                    product: productsToPost[i].product,
                   },
                 }),
               });
+              if (!response.ok) {
+                return res.status(400).json(statusText[400]);
+              }
+            }
 
-              let mailOptionsCompany = {
-                to: ["info@horecadepot.be", "horecadepothoreca@gmail.com"], // List of recipients
-                subject: "Nouvelle Commande sur horecadepot.be", // Subject line
-                html: orderMailEstablishment({ document }),
-              };
+            let shippingCost = 100;
 
-              sendMail(mailOptionsCompany);
-
-              // Setup email data for Client
-              let mailOptionsClient = {
-                to: [clientEmail], // List of recipients
-                subject: "Votre Commande Chez Nous - Horeca Depot", // Subject line
-                html: orderMailClient({ document }),
-              };
-
-              sendMail(mailOptionsClient);
-              return res.status(200).json({ id: documentID });
+            let addressData;
+            try {
+              const addressReq = await fetch(
+                `${process.env.API_URL}/api/addresses/${productsFromRequest.documentToPost.docAddress.id}`,
+                {
+                  method: "GET",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${process.env.API_KEY}`,
+                  },
+                },
+              );
+              addressData = (await addressReq.json()).data;
+              let config = await getConfig();
+              shippingCost = addressData.shippingDistance * config.costPerKM;
             } catch (e) {
               console.error(e);
-              return res.status(500).json(statusText[500]);
             }
-          } else {
-            return res.status(400).json(statusText[400]);
+
+            await fetch(fetchUrl, {
+              method: "POST",
+              headers: headers,
+              body: JSON.stringify({
+                data: {
+                  name: "livraison",
+                  value: shippingCost,
+                  subTotal: shippingCost,
+                  discount: 0,
+                  amount: 1,
+                  tax: 21,
+                  taxSubTotal: shippingCost - shippingCost / 1.21,
+                  delivered: false,
+                  document: documentID,
+                },
+              }),
+            });
+
+            const document = {};
+
+            let mailOptionsCompany = {
+              to: ["info@horecadepot.be", "horecadepothoreca@gmail.com"], // List of recipients
+              subject: "Nouvelle Commande sur horecadepot.be", // Subject line
+              html: orderMailEstablishment({ document }),
+            };
+
+            sendMail(mailOptionsCompany);
+
+            // Setup email data for Client
+            let mailOptionsClient = {
+              to: [clientEmail], // List of recipients
+              subject: "Votre Commande Chez Nous - Horeca Depot", // Subject line
+              html: orderMailClient({ document }),
+            };
+
+            sendMail(mailOptionsClient);
+            return res.status(200).json({ id: documentID });
+          } catch (e) {
+            console.error(e);
+            return res.status(500).json(statusText[500]);
           }
-        } catch (e) {
-          console.error(e);
-          return res.status(500).json(statusText[500]);
+        } else {
+          return res.status(400).json(statusText[400]);
         }
-      } else {
-        return res.status(200).json(documentToPost);
+      } catch (e) {
+        console.error(e);
+        return res.status(500).json(statusText[500]);
       }
     } else {
       return res.status(405).json(statusText[405]);
