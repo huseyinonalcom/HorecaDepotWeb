@@ -404,6 +404,7 @@ export default async function postOrder(
               ],
             };
 
+            // @ts-expect-error
             sendMail(mailOptionsClient);
             return res.status(200).json({ id: documentID });
           } catch (e) {
