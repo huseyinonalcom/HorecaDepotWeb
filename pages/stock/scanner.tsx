@@ -1,13 +1,11 @@
+import { BarcodeScanner } from "../../components/stock/Barcode";
 import StockLayout from "../../components/stock/StockLayout";
 import InputOutlined from "../../components/inputs/outlined";
 import ProductCard from "../../components/stock/ProductCard";
-import Scanner from "../../components/stock/Scanner";
 import { useEffect, useState } from "react";
-import { BarcodeScanner } from "../../components/stock/Barcode";
 
 export default function ScannerPage({}: {}) {
   const [scanning, setScanning] = useState(false);
-  const [scanning2, setScanning2] = useState(false);
   const [scannedCode, setScannedCode] = useState<string | undefined>("");
   const [product, setProduct] = useState<any>();
 
@@ -23,6 +21,7 @@ export default function ScannerPage({}: {}) {
       return;
     }
     setProduct(res.data.at(0));
+    setScanning(false);
   };
 
   useEffect(() => {
@@ -32,28 +31,12 @@ export default function ScannerPage({}: {}) {
   return (
     <div className="flex w-full flex-col items-center gap-2 p-2">
       {scanning ? (
-        <Scanner
-          onSuccess={(res) => {
-            setScannedCode(res);
-            setScanning(false);
-          }}
-        />
-      ) : (
-        <button
-          className="min-w-[100px] rounded-md border-2 border-gray-400 bg-black p-2 font-semibold text-white shadow-sm"
-          type="button"
-          onClick={() => setScanning(true)}
-        >
-          Scan
-        </button>
-      )}
-      {scanning2 ? (
         <BarcodeScanner onScan={(res) => setScannedCode(res)} />
       ) : (
         <button
           className="min-w-[100px] rounded-md border-2 border-gray-400 bg-black p-2 font-semibold text-white shadow-sm"
           type="button"
-          onClick={() => setScanning2(true)}
+          onClick={() => setScanning(true)}
         >
           Scan2
         </button>
