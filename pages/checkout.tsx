@@ -340,7 +340,6 @@ export default function Checkout() {
       const address = client.client_info.addresses.find(
         (ad) => ad.id == chosenDeliveryAddressId,
       );
-      console.log(address);
       debouncedGetShippingCost(address, calculateTotal().totalAfterDiscount);
     }
   }, [guestDeliveryAddress, cart, chosenDeliveryAddressId]);

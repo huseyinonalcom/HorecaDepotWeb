@@ -274,8 +274,6 @@ export default async function postOrder(
 
             let shippingCost = 200;
 
-            console.log(documentToPost.delAddress);
-
             shippingCost = await getShippingCostFromAddress({
               address: productsFromRequest.documentToPost.delAddress,
               documentTotal: productsToPost.reduce(

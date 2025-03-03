@@ -229,7 +229,6 @@ export default async function postOrder(
           },
         );
         const answer = await postDeliveryAddress.json();
-        console.log(answer);
         if (postDeliveryAddress.ok) {
           order.delAddress = answer.data;
         }
@@ -263,7 +262,6 @@ export default async function postOrder(
             },
           );
           const answer = await postDeliveryAddress.json();
-          console.log(answer);
           if (postDeliveryAddress.ok) {
             order.delAddress = answer.data;
           }

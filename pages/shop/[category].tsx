@@ -330,10 +330,6 @@ export async function getServerSideProps({ res, query }) {
     categoriesFlat.find((cat) => cat.id == productsReq?.currentCategoryID) ??
     null;
 
-  console.log(productsReq?.currentCategoryID);
-
-  console.log(categoriesFlat);
-
   ssrCache.set(query, {
     products,
     totalPages,
