@@ -29,7 +29,7 @@ export default function Admin() {
         if (router.query.destination) {
           router.push(decodeURIComponent(router.query.destination as string));
         } else {
-          if (answer.role == "Tier 9") {
+          if (answer.role == "Tier 9" || answer.role == "Tier 8") {
             router.push("/admin/dashboard");
           } else {
             router.push("/stock/list/all");
@@ -64,7 +64,7 @@ export default function Admin() {
         if (router.query.destination) {
           router.push(decodeURIComponent(router.query.destination as string));
         } else {
-          if (answer == "Tier 9") {
+          if (answer.role == "Tier 9" || answer.role == "Tier 8") {
             router.push("/admin/dashboard");
           } else {
             router.push("/stock/list/all");

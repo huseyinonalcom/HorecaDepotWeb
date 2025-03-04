@@ -13,7 +13,7 @@ export default function AdminLayout({ children }: Props) {
       const data = await fetch("/api/private/auth/checkloggedinuser");
       const answer = await data.json();
       if (data.status == 200) {
-        if (answer.role != "Tier 9") {
+        if (answer.role != "Tier 9" || answer.role != "Tier 8") {
           router.push("/stock/list/all");
         }
       } else {

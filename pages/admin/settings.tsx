@@ -136,9 +136,10 @@ export default function Settings(props) {
             label={t("Google API Key")}
           />
           <InputOutlined
+            inputMode="decimal"
             defaultValue={props.config.costPerKM ?? ""}
             className="w-full border border-gray-300 p-2"
-            type="number"
+            type="decimal"
             name="costPerKM"
             label="€ / Km"
           />
@@ -240,7 +241,10 @@ export default function Settings(props) {
             className={componentThemes.greenSubmitButton}
           >
             {loading ? (
-              <Loader className="animate-spin mx-auto text-orange-500" size={24} />
+              <Loader
+                className="mx-auto animate-spin text-orange-500"
+                size={24}
+              />
             ) : (
               t("test-mail")
             )}
