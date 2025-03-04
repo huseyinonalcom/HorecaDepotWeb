@@ -12,7 +12,7 @@ export default function Banners(props) {
   const banners = props.banners;
 
   return (
-    <AdminLayout>
+    <>
       <Head>
         <title>Website</title>
         <meta name="language" content={lang} />
@@ -39,9 +39,13 @@ export default function Banners(props) {
           </div>
         )}
       </div>
-    </AdminLayout>
+    </>
   );
 }
+
+Banners.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};
 
 export async function getServerSideProps(context) {
   const banners = await getBanners({});

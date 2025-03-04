@@ -3,7 +3,9 @@ import { formatCurrency } from "../../../api/utils/formatters/formatcurrency";
 import { getAllSuppliers } from "../../api/suppliers/admin/getallsuppliers";
 import { getAllCategories } from "../../api/categories/getallcategories";
 import { getAllProducts } from "../../api/products/admin/getallproducts";
+import { getCoverImageUrl } from "../../../api/utils/getprodcoverimage";
 import AdminLayout from "../../../components/admin/adminLayout";
+import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -20,8 +22,6 @@ import {
   PlusCircle,
   Search,
 } from "react-feather";
-import ImageWithURL from "../../../components/common/image";
-import { getCoverImageUrl } from "../../../api/utils/getprodcoverimage";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");
@@ -318,7 +318,7 @@ export default function Products(props) {
     }, 0);
   };
   return (
-    <AdminLayout>
+    <>
       <Head>
         <title>{t("Products")}</title>
         <meta name="language" content={lang} />
@@ -602,9 +602,13 @@ export default function Products(props) {
           </div>
         </div>
       </div>
-    </AdminLayout>
+    </>
   );
 }
+
+Products.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};
 
 export async function getServerSideProps(context) {
   const req = context.req;

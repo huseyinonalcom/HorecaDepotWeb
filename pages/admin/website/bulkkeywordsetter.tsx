@@ -7,7 +7,7 @@ import Head from "next/head";
 import componentThemes from "../../../components/componentThemes";
 import { Check, Search, X } from "react-feather";
 
-export default function Order() {
+export default function Keywords() {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -47,7 +47,7 @@ export default function Order() {
 
   if (isLoading) {
     return (
-      <AdminLayout>
+      <>
         <Head>
           <title>horecadepot</title>
           <meta name="description" content="horecadepot" />
@@ -58,12 +58,12 @@ export default function Order() {
             <LoadingIndicator />
           </div>
         </div>
-      </AdminLayout>
+      </>
     );
   } else if (!allProducts) {
     router.push("/admin/website");
     return (
-      <AdminLayout>
+      <>
         <Head>
           <title>horecadepot</title>
           <meta name="description" content="horecadepot" />
@@ -74,7 +74,7 @@ export default function Order() {
             <LoadingIndicator />
           </div>
         </div>
-      </AdminLayout>
+      </>
     );
   } else {
     const putTags = async (e) => {
@@ -88,7 +88,7 @@ export default function Order() {
     };
 
     return (
-      <AdminLayout>
+      <>
         <Head>
           <title>horecadepot</title>
           <meta name="description" content="horecadepot" />
@@ -206,7 +206,11 @@ export default function Order() {
             <div></div>
           </form>
         </div>
-      </AdminLayout>
+      </>
     );
   }
 }
+
+Keywords.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};

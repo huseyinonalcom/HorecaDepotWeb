@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import Head from "next/head";
-import useTranslation from "next-translate/useTranslation";
-import AdminLayout from "../../../components/admin/adminLayout";
+import { LocalizedInput } from "../../../components/inputs/localized_input";
 import componentThemes from "../../../components/componentThemes";
+import AdminLayout from "../../../components/admin/adminLayout";
 import InputOutlined from "../../../components/inputs/outlined";
 import { uploadFileToAPI } from "../../api/files/uploadfile";
 import ImageWithURL from "../../../components/common/image";
+import useTranslation from "next-translate/useTranslation";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { LocalizedInput } from "../../../components/inputs/localized_input";
+import Head from "next/head";
 
 function compareArrays(arr1, arr2) {
   const isEqual = (obj1, obj2) => JSON.stringify(obj1) === JSON.stringify(obj2);
@@ -21,7 +21,7 @@ function compareArrays(arr1, arr2) {
   return differences;
 }
 
-export default function HomePageAdmin() {
+export default function CategoriesAdmin() {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
   const [categories, setCategories] = useState(null);
@@ -77,7 +77,7 @@ export default function HomePageAdmin() {
   }, []);
 
   return (
-    <AdminLayout>
+    <>
       <Head>
         <title>Website</title>
         <meta name="language" content={lang} />
@@ -239,6 +239,10 @@ export default function HomePageAdmin() {
           </div>
         )} */}
       </div>
-    </AdminLayout>
+    </>
   );
 }
+
+CategoriesAdmin.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};

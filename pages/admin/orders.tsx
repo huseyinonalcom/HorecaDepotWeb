@@ -75,7 +75,7 @@ export default function Orders() {
   };
 
   return (
-    <AdminLayout>
+    <>
       <Head>
         <title>{t("document_orders")}</title>
         <meta name="language" content={lang} />
@@ -208,6 +208,10 @@ export default function Orders() {
           )}
         </>
       </div>
-    </AdminLayout>
+    </>
   );
 }
+
+Orders.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};

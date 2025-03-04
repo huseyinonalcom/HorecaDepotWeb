@@ -16,7 +16,7 @@ const navIconDivClass = "flex flex-row justify-center flex-shrink-0 w-[35px]";
 const iconClass = "flex-shrink-0";
 const textClass = "mx-2 font-bold text-left";
 
-export default function Order() {
+export default function Collection() {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -70,7 +70,7 @@ export default function Order() {
 
   if (isLoading) {
     return (
-      <AdminLayout>
+      <>
         <Head>
           <title>horecadepot</title>
           <meta name="description" content="horecadepot" />
@@ -81,7 +81,7 @@ export default function Order() {
             <LoadingIndicator />
           </div>
         </div>
-      </AdminLayout>
+      </>
     );
   } else if (!currentCollection) {
     const postCollection = async (e) => {
@@ -98,7 +98,7 @@ export default function Order() {
       }
     };
     return (
-      <AdminLayout>
+      <>
         <Head>
           <title>horecadepot</title>
           <meta name="description" content="horecadepot" />
@@ -131,7 +131,7 @@ export default function Order() {
             )}
           </form>
         </div>
-      </AdminLayout>
+      </>
     );
   } else {
     const putCollection = async (e) => {
@@ -192,7 +192,7 @@ export default function Order() {
     };
 
     return (
-      <AdminLayout>
+      <>
         <Head>
           <title>horecadepot</title>
           <meta name="description" content="horecadepot" />
@@ -428,7 +428,11 @@ export default function Order() {
             }}
           />
         </div>
-      </AdminLayout>
+      </>
     );
   }
 }
+
+Collection.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};

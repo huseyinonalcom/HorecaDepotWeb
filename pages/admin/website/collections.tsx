@@ -37,7 +37,7 @@ export default function Collections() {
   }, []);
 
   return (
-    <AdminLayout>
+    <>
       <Head>
         <title>Website</title>
         <meta name="language" content={lang} />
@@ -59,6 +59,10 @@ export default function Collections() {
           </div>
         )}
       </div>
-    </AdminLayout>
+    </>
   );
 }
+
+Collections.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};
