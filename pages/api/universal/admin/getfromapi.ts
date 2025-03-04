@@ -1,13 +1,18 @@
 import statusText from "../../../../api/statustexts";
 import getAuthCookie from "../../cookies";
 
-export async function getFromApi({ req }) {
+export async function getFromApi({
+  collection,
+  id,
+  qs,
+  authToken,
+}: {
+  id?: number;
+  collection: string;
+  qs?: string;
+  authToken: string;
+}) {
   try {
-    const authToken = getAuthCookie({ type: "admin", req });
-    const collection = req.query.collectiontoput;
-    const id = req.query.idtoput;
-    const qs = req.query.qs;
-
     const request = await fetch(
       `${process.env.API_URL}/api/${collection}${id ? `/${id}` : ""}${qs ? `?${qs}` : ""}`,
       {
@@ -19,28 +24,30 @@ export async function getFromApi({ req }) {
       },
     );
 
+    const answer = await request.json();
+
     if (request.ok) {
-      return true;
+      return answer;
     } else {
       return false;
     }
-  } catch (_) {
+  } catch (e) {
     return false;
   }
 }
 
 export default async function handler(req, res) {
   try {
-    const response = await getFromApi({ req });
-
+    const authToken = getAuthCookie({ type: "admin", req });
+    const collection = req.query.collection;
+    const id = req.query.id;
+    const qs = req.query.qs;
+    const response = await getFromApi({ collection, id, qs, authToken });
     if (!response) {
       return res.status(400).json(statusText[400]);
     }
-    try {
-      res.revalidate("/");
-    } catch (_) {}
 
-    return res.status(200).json(statusText[200]);
+    return res.status(200).json(response);
   } catch (e) {
     return res.status(500).json(statusText[500]);
   }
