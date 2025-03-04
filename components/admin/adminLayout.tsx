@@ -1,6 +1,6 @@
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import AdminDrawer from "./adminDrawer";
-import { useEffect, useState } from "react";
 
 type Props = {
   children: React.ReactNode;
@@ -13,7 +13,6 @@ export default function AdminLayout({ children }: Props) {
     const validateSession = async () => {
       const data = await fetch("/api/private/auth/checkloggedinuser");
       const answer = await data.json();
-      console.log(answer);
       if (data.status == 200) {
         if (answer.role != "Tier 9" && answer.role != "Tier 8") {
           router.push("/stock/list/all");

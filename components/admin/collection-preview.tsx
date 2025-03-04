@@ -1,10 +1,10 @@
-import Link from "next/link";
-import Image from "next/image";
 import useTranslation from "next-translate/useTranslation";
-import { ArrowLeft } from "react-feather";
-import { useEffect, useState } from "react";
 import componentThemes from "../componentThemes";
+import { useEffect, useState } from "react";
 import ImageWithURL from "../common/image";
+import { ArrowLeft } from "react-feather";
+import Image from "next/image";
+import Link from "next/link";
 
 type Props = {
   collection;

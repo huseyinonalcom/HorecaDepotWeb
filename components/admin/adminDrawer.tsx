@@ -1,4 +1,12 @@
-import { BookOpen, Globe, Grid, LogOut, Package, Table, Users } from "react-feather";
+import {
+  BookOpen,
+  Globe,
+  Grid,
+  LogOut,
+  Package,
+  Table,
+  Users,
+} from "react-feather";
 import { VscPreview, VscSymbolKeyword } from "react-icons/vsc";
 import useTranslation from "next-translate/useTranslation";
 import { MdOutlineTextRotationNone } from "react-icons/md";
@@ -21,7 +29,7 @@ const AdminDrawer = ({ userTier }: { userTier: number }) => {
   const navIconDivClass =
     "flex flex-row justify-center min-w-[40px] flex-shrink-0";
   const buttonClass =
-    "flex items-center justify-start bg-white py-2 shadow-lg hover:bg-orange-400 overflow-hidden duration-500";
+    "flex items-center justify-start bg-white py-2 shadow-lg hover:bg-orange-400 overflow-hidden duration-300";
 
   return (
     <div

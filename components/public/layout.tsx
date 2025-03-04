@@ -1,7 +1,9 @@
 import useTranslation from "next-translate/useTranslation";
 import { Heart, ShoppingCart, User } from "react-feather";
+import { CookieBanner } from "../googleanal";
 import CartDrawer from "../cart/cartDrawer";
 import { useEffect, useState } from "react";
+import ImageWithURL from "../common/image";
 import { useRouter } from "next/router";
 import localFont from "next/font/local";
 import Header from "../header/header";
@@ -9,8 +11,6 @@ import Follow from "../common/follow";
 import Image from "next/image";
 import Link from "next/link";
 import Meta from "./meta";
-import ImageWithURL from "../common/image";
-import { CookieBanner } from "../googleanal";
 
 const roboto = localFont({
   src: [

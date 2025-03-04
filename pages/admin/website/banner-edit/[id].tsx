@@ -16,7 +16,7 @@ export default function BannerEdit(props) {
   const [editedBanner, setEditedBanner] = useState(banner);
   const router = useRouter();
   return (
-    <AdminLayout>
+    <>
       <Head>
         <title>Banner</title>
         <meta name="language" content={lang} />
@@ -200,9 +200,13 @@ export default function BannerEdit(props) {
           <Check color="green" size={64} />
         </button>
       </div>
-    </AdminLayout>
+    </>
   );
 }
+
+BannerEdit.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};
 
 export async function getServerSideProps(context) {
   let banner = await getBanners({ id: context.params.id });

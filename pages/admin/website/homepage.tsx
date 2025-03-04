@@ -24,7 +24,7 @@ export default function HomePageAdmin({
         <title>Website</title>
         <meta name="language" content={lang} />
       </Head>
-      <div className="mx-auto flex w-[95%] flex-col items-center p-2">
+      <div className="ml-9 flex w-full flex-col items-center">
         {bannersFromAPI && (
           <Index
             banners={bannersFromAPI}
