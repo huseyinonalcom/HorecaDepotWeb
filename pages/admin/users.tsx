@@ -43,63 +43,6 @@ export default function Users(props) {
                 <td>{t(user.blocked ? "blocked" : "active")}</td>
               </tr>
             ))}
-            {props.allUsers.map((user, index) => (
-              <tr
-                key={user.id}
-                className={`cursor-pointer ${
-                  index % 2 === 0 ? "bg-slate-300" : ""
-                }`}
-                onMouseOver={(e) =>
-                  e.currentTarget.classList.add("hover:bg-slate-500")
-                }
-                onMouseOut={(e) =>
-                  e.currentTarget.classList.remove("hover:bg-slate-500")
-                }
-              >
-                <td>{user.user_info.firstName}</td>
-                <td>{user.email}</td>
-                <td>{rankFromRole(user.role.name)}</td>
-                <td>{t(user.blocked ? "blocked" : "active")}</td>
-              </tr>
-            ))}
-            {props.allUsers.map((user, index) => (
-              <tr
-                key={user.id}
-                className={`cursor-pointer ${
-                  index % 2 === 0 ? "bg-slate-300" : ""
-                }`}
-                onMouseOver={(e) =>
-                  e.currentTarget.classList.add("hover:bg-slate-500")
-                }
-                onMouseOut={(e) =>
-                  e.currentTarget.classList.remove("hover:bg-slate-500")
-                }
-              >
-                <td>{user.user_info.firstName}</td>
-                <td>{user.email}</td>
-                <td>{rankFromRole(user.role.name)}</td>
-                <td>{t(user.blocked ? "blocked" : "active")}</td>
-              </tr>
-            ))}
-            {props.allUsers.map((user, index) => (
-              <tr
-                key={user.id}
-                className={`cursor-pointer ${
-                  index % 2 === 0 ? "bg-slate-300" : ""
-                }`}
-                onMouseOver={(e) =>
-                  e.currentTarget.classList.add("hover:bg-slate-500")
-                }
-                onMouseOut={(e) =>
-                  e.currentTarget.classList.remove("hover:bg-slate-500")
-                }
-              >
-                <td>{user.user_info.firstName}</td>
-                <td>{user.email}</td>
-                <td>{rankFromRole(user.role.name)}</td>
-                <td>{t(user.blocked ? "blocked" : "active")}</td>
-              </tr>
-            ))}
           </tbody>
         </table>
       </div>
