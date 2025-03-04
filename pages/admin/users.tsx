@@ -1,19 +1,15 @@
-import { formatDateTimeAPIToBe } from "../../api/utils/formatters/formatdateapibe";
+import { getFromApi } from "../api/universal/admin/getfromapi";
 import AdminLayout from "../../components/admin/adminLayout";
 import useTranslation from "next-translate/useTranslation";
-import { Check, ChevronLeft, X } from "react-feather";
-import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { getFromApi } from "../api/universal/admin/getfromapi";
 
-export default function Orders(props) {
-  const router = useRouter();
+export default function Users(props) {
   const { t, lang } = useTranslation("common");
 
   console.log(props.allUsers);
   return (
-    <AdminLayout>
+    <>
       <Head>
         <title>{t("document_orders")}</title>
         <meta name="language" content={lang} />
@@ -45,9 +41,13 @@ export default function Orders(props) {
           </tbody>
         </table>
       </div>
-    </AdminLayout>
+    </>
   );
 }
+
+Users.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};
 
 export async function getServerSideProps(context) {
   const req = context.req;
@@ -56,6 +56,13 @@ export async function getServerSideProps(context) {
     authToken: req.cookies.j,
     qs: "populate=role,user_info&filters[role][name][$contains]=Tier",
   });
+
+  const roles = await getFromApi({
+    collection: "users-permissions/roles",
+    authToken: req.cookies.j,
+  });
+
+  console.log(roles);
 
   return {
     props: {
