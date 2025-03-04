@@ -1,12 +1,12 @@
 import { getFromApi } from "../api/universal/admin/getfromapi";
 import AdminLayout from "../../components/admin/adminLayout";
 import useTranslation from "next-translate/useTranslation";
+import { rankFromRole } from "../../api/utils/ranks";
 import Head from "next/head";
 
 export default function Users(props) {
   const { t, lang } = useTranslation("common");
 
-  console.log(props.allUsers);
   return (
     <>
       <Head>
@@ -20,6 +20,7 @@ export default function Users(props) {
               <th>{t("name")}</th>
               <th>{t("email")}</th>
               <th>{t("role")}</th>
+              <th>{t("status")}</th>
             </tr>
           </thead>
           <tbody>
@@ -38,7 +39,8 @@ export default function Users(props) {
               >
                 <td>{user.user_info.firstName}</td>
                 <td>{user.email}</td>
-                <td>{user.role.name}</td>
+                <td>{rankFromRole(user.role.name)}</td>
+                <td>{t(user.blocked ? "blocked" : "active")}</td>
               </tr>
             ))}
           </tbody>
