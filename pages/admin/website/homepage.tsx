@@ -19,7 +19,7 @@ export default function HomePageAdmin({
   const { t, lang } = useTranslation("common");
 
   return (
-    <AdminLayout>
+    <>
       <Head>
         <title>Website</title>
         <meta name="language" content={lang} />
@@ -56,9 +56,13 @@ export default function HomePageAdmin({
       >
         <Check color="green" size={64} />
       </button>
-    </AdminLayout>
+    </>
   );
 }
+
+HomePageAdmin.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};
 
 export const getServerSideProps = async ({ locale }) => {
   const homePageFromAPI = await getHomePage();

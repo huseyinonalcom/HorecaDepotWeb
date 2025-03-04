@@ -8,7 +8,7 @@ export default function Website() {
   const { t, lang } = useTranslation("common");
 
   return (
-    <AdminLayout>
+    <>
       <Head>
         <title>Website</title>
         <meta name="language" content={lang} />
@@ -53,6 +53,10 @@ export default function Website() {
           </Link>
         </div>
       </div>
-    </AdminLayout>
+    </>
   );
 }
+
+Website.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};

@@ -8,7 +8,7 @@ import ImageWithURL from "../../../components/common/image";
 import { useRouter } from "next/router";
 import { Check, X } from "react-feather";
 
-export default function HomePageAdmin() {
+export default function PopupAdmin() {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
   const [popup, setPopup] = useState(null);
@@ -88,7 +88,7 @@ export default function HomePageAdmin() {
   };
 
   return (
-    <AdminLayout>
+    <>
       <Head>
         <title>Website</title>
         <meta name="language" content={lang} />
@@ -152,6 +152,10 @@ export default function HomePageAdmin() {
           </div>
         )}
       </div>
-    </AdminLayout>
+    </>
   );
 }
+
+PopupAdmin.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};

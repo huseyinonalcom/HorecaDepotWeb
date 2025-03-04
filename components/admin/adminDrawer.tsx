@@ -1,15 +1,15 @@
-import { BookOpen, Globe, Grid, LogOut, Package, Table } from "react-feather";
+import { BookOpen, Globe, Grid, LogOut, Package, Table, Users } from "react-feather";
+import { VscPreview, VscSymbolKeyword } from "react-icons/vsc";
 import useTranslation from "next-translate/useTranslation";
+import { MdOutlineTextRotationNone } from "react-icons/md";
+import { PiBoxArrowUpThin, PiGear } from "react-icons/pi";
 import setLanguage from "next-translate/setLanguage";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { MdOutlineTextRotationNone } from "react-icons/md";
-import { PiBoxArrowUpThin, PiGear } from "react-icons/pi";
-import { VscPreview, VscSymbolKeyword } from "react-icons/vsc";
 
-const AdminDrawer = () => {
+const AdminDrawer = ({ userTier }: { userTier: number }) => {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
   const [showLanguages, setShowLanguages] = useState(false);
@@ -78,12 +78,6 @@ const AdminDrawer = () => {
               </div>
               <span className={textClass}>{t("Popup")}</span>
             </Link>
-            <Link className={buttonClass} href="/admin/settings">
-              <div className={navIconDivClass}>
-                <PiGear className={iconClass} />
-              </div>
-              <span className={textClass}>{t("Settings")}</span>
-            </Link>
             <Link
               className={buttonClass}
               href="/admin/website/bulkkeywordsetter"
@@ -93,6 +87,22 @@ const AdminDrawer = () => {
               </div>
               <span className={textClass}>{t("Keywords")}</span>
             </Link>
+            {userTier == 9 && (
+              <>
+                <Link className={buttonClass} href="/admin/users">
+                  <div className={navIconDivClass}>
+                    <Users className={iconClass} />
+                  </div>
+                  <span className={textClass}>{t("users")}</span>
+                </Link>
+                <Link className={buttonClass} href="/admin/settings">
+                  <div className={navIconDivClass}>
+                    <PiGear className={iconClass} />
+                  </div>
+                  <span className={textClass}>{t("Settings")}</span>
+                </Link>
+              </>
+            )}
           </div>
           <div className="flex flex-col gap-1">
             <div className="relative mr-auto flex flex-row items-center justify-center pl-1 text-sm text-white duration-300">
