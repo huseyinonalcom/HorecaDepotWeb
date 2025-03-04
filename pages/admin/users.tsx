@@ -1,7 +1,6 @@
 import { getFromApi } from "../api/universal/admin/getfromapi";
 import AdminLayout from "../../components/admin/adminLayout";
 import useTranslation from "next-translate/useTranslation";
-import { useRouter } from "next/router";
 import Head from "next/head";
 
 export default function Users(props) {
@@ -18,7 +17,9 @@ export default function Users(props) {
         <table className="w-full gap-2">
           <thead className="sticky top-0 bg-[#c0c1c3]">
             <tr>
-              <th>{t("firstname")}</th>
+              <th>{t("name")}</th>
+              <th>{t("email")}</th>
+              <th>{t("role")}</th>
             </tr>
           </thead>
           <tbody>
@@ -36,6 +37,8 @@ export default function Users(props) {
                 }
               >
                 <td>{user.user_info.firstName}</td>
+                <td>{user.email}</td>
+                <td>{user.role.name}</td>
               </tr>
             ))}
           </tbody>
