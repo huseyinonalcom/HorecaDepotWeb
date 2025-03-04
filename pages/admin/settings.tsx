@@ -1,11 +1,11 @@
-import Head from "next/head";
-import useTranslation from "next-translate/useTranslation";
-import AdminLayout from "../../components/admin/adminLayout";
-import { getConfig } from "../api/config/private/getconfig";
 import componentThemes from "../../components/componentThemes";
 import InputOutlined from "../../components/inputs/outlined";
-import { useState } from "react";
+import AdminLayout from "../../components/admin/adminLayout";
+import { getConfig } from "../api/config/private/getconfig";
+import useTranslation from "next-translate/useTranslation";
 import { Loader } from "react-feather";
+import { useState } from "react";
+import Head from "next/head";
 
 export default function Settings(props) {
   const { t, lang } = useTranslation("common");
@@ -37,7 +37,7 @@ export default function Settings(props) {
   };
 
   return (
-    <AdminLayout>
+    <>
       <Head>
         <title>Configuration</title>
         <meta name="language" content={lang} />
@@ -254,9 +254,13 @@ export default function Settings(props) {
           </button>
         </form>
       </div>
-    </AdminLayout>
+    </>
   );
 }
+
+Settings.getLayout = function (page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};
 
 export async function getServerSideProps(context) {
   const config = await getConfig();
