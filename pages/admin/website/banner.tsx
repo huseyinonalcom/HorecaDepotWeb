@@ -1,20 +1,23 @@
-import  { useEffect, useState } from "react";
-import Head from "next/head";
-import useTranslation from "next-translate/useTranslation";
-import AdminLayout from "../../../components/admin/adminLayout";
 import componentThemes from "../../../components/componentThemes";
+import AdminLayout from "../../../components/admin/adminLayout";
 import InputOutlined from "../../../components/inputs/outlined";
+import useTranslation from "next-translate/useTranslation";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
-export default function HomePageAdmin() {
+export default function BannerAdmin() {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
   const [banner, setBanner] = useState(null);
 
   const fetchBanners = async () => {
-    const fetchWebsiteRequest = await fetch(`/api/banners/getbanners?fresh=true`, {
-      method: "GET",
-    });
+    const fetchWebsiteRequest = await fetch(
+      `/api/banners/getbanners?fresh=true`,
+      {
+        method: "GET",
+      },
+    );
     if (fetchWebsiteRequest.ok) {
       const fetchWebsiteRequestAnswer = await fetchWebsiteRequest.json();
       return fetchWebsiteRequestAnswer;
@@ -49,7 +52,7 @@ export default function HomePageAdmin() {
   }, []);
 
   return (
-    <AdminLayout>
+    <>
       <Head>
         <title>Website</title>
         <meta name="language" content={lang} />
@@ -130,6 +133,10 @@ export default function HomePageAdmin() {
           </div>
         )}
       </div>
-    </AdminLayout>
+    </>
   );
 }
+
+BannerAdmin.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};
