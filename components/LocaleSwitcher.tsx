@@ -56,7 +56,6 @@ export default function LocaleSwitcher() {
                 name={label}
                 aria-label={label}
                 onClick={() => handleLanguageChange(code)}
-                className="underline-animation-white whitespace-nowrap px-4 font-bold duration-300"
               >
                 <Image
                   src={`/assets/header/${code.toUpperCase()}.svg`}

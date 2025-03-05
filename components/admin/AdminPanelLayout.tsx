@@ -149,7 +149,7 @@ export default function AdminPanelLayout({
                   <Image
                     alt="Horeca Depot Logo"
                     src="/assets/header/logob.png"
-                    className="h-8 w-auto"
+                    priority
                     height={32}
                     width={179}
                   />
@@ -214,7 +214,7 @@ export default function AdminPanelLayout({
               <Image
                 alt="Horeca Depot Logo"
                 src="/assets/header/logob.png"
-                className="h-8 w-auto"
+                priority
                 height={32}
                 width={179}
               />

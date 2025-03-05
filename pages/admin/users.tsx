@@ -7,8 +7,6 @@ import Head from "next/head";
 export default function Users(props) {
   const { t } = useTranslation("common");
 
-  console.log(props);
-
   return (
     <>
       <Head>
@@ -16,15 +14,12 @@ export default function Users(props) {
       </Head>
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto"></div>
-          <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-            <button
-              type="button"
-              className="shadow-xs block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              {t("user-add")}
-            </button>
-          </div>
+          <button
+            type="button"
+            className="shadow-xs block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            {t("user-add")}
+          </button>
         </div>
         <div className="mt-8 flow-root">
           <div className="no-scrollbar -mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
