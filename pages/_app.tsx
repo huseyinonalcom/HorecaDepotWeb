@@ -22,6 +22,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   return getLayout(
     <>
+      <GoogleAnalytics gaId="G-3R8DQVPZVD" />
       <GoogleTagManager gtmId="GTM-5DMMM9F" />
       <CategoryProvider>
         <BannerProvider>
