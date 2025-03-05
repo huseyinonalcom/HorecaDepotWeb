@@ -75,27 +75,23 @@ export default function Order() {
   if (isLoading) {
     return (
       <>
-        <AdminLayout>
-          <Head>
-            <title>{t("order")}</title>
-          </Head>
-          <div className="mx-auto w-[90vw] py-2">
-            <LoadingIndicator />
-          </div>
-        </AdminLayout>
+        <Head>
+          <title>{t("order")}</title>
+        </Head>
+        <div className="mx-auto w-[90vw] py-2">
+          <LoadingIndicator />
+        </div>
       </>
     );
   } else if (!currentOrder) {
     return (
       <>
-        <AdminLayout>
-          <Head>
-            <title>{t("order")}</title>
-          </Head>
-          <div className="mx-auto w-[90vw] py-2">
-            {t("An error has occurred.")}
-          </div>
-        </AdminLayout>
+        <Head>
+          <title>{t("order")}</title>
+        </Head>
+        <div className="mx-auto w-[90vw] py-2">
+          {t("An error has occurred.")}
+        </div>
       </>
     );
   } else {
