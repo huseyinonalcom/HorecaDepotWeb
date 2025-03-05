@@ -6,6 +6,7 @@ import useTranslation from "next-translate/useTranslation";
 import { Loader } from "react-feather";
 import { useState } from "react";
 import Head from "next/head";
+import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
 
 export default function Settings(props) {
   const { t, lang } = useTranslation("common");
@@ -41,7 +42,7 @@ export default function Settings(props) {
       <Head>
         <title>{t("configuration")}</title>
       </Head>
-      <div className="mx-auto flex w-[95vw] flex-col items-center justify-start">
+      <div className="mx-auto flex w-full flex-col items-center justify-start">
         <div className="w-full py-2 text-center text-xl font-semibold">
           {t("Settings")}
         </div>
@@ -258,7 +259,8 @@ export default function Settings(props) {
 }
 
 Settings.getLayout = function (page) {
-  return <AdminLayout>{page}</AdminLayout>;
+  const { t } = useTranslation("common");
+  return <AdminPanelLayout title={t("settings")}>{page}</AdminPanelLayout>;
 };
 
 export async function getServerSideProps(context) {

@@ -83,8 +83,7 @@ export default function AdminPanelLayout({
 
   useEffect(() => {
     validateSession();
-    console.log(router.pathname);
-    console.log(title);
+    setSidebarOpen(false);
   }, [router.pathname]);
 
   const validateSession = async () => {
@@ -103,8 +102,10 @@ export default function AdminPanelLayout({
     }
   };
 
+  let activeNav = [];
+
   if (userTier == 9) {
-    navigation.push(...adminNavigation);
+    activeNav = [...navigation, ...adminNavigation];
   }
 
   return (
@@ -157,7 +158,7 @@ export default function AdminPanelLayout({
                   <ul role="list" className="flex flex-1 flex-col gap-y-7">
                     <li>
                       <ul role="list" className="-mx-2 space-y-1">
-                        {navigation.map((item) => (
+                        {activeNav.map((item) => (
                           <li key={item.name}>
                             <Link
                               href={item.href}
@@ -222,7 +223,7 @@ export default function AdminPanelLayout({
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
                 <li>
                   <ul role="list" className="-mx-2 space-y-1">
-                    {navigation.map((item) => (
+                    {activeNav.map((item) => (
                       <li key={item.name}>
                         <Link
                           href={item.href}
