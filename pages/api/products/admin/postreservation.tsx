@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
 import { Product } from "../../../../api/interfaces/product";
 
-export default async function putProduct(
+export default async function postReservation(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {

@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import statusText from "../../../../api/statustexts";
 
-export default async function putProduct(
+export default async function putTagsBulk(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

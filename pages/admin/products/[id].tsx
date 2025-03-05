@@ -1543,7 +1543,7 @@ export default function ProductPage(props) {
                   >
                     <X color="red" />
                   </button>
-                  <p>{t(cat.localized_name[lang])}</p>
+                  <p>{cat.localized_name[lang]}</p>
                 </div>
               ))}
               <div className="group relative">
@@ -1581,7 +1581,7 @@ export default function ProductPage(props) {
                           }
                         }}
                       >
-                        {t(cat.localized_name[lang])}
+                        {cat.localized_name[lang]} 
                       </button>
                     ))}
                 </div>

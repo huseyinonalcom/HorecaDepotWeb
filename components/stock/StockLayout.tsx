@@ -98,7 +98,7 @@ export default function StockLayout({ children }: Props) {
                     href={`/stock/list/${category.id}?page=1`}
                     className={`h-full w-full whitespace-nowrap rounded-md border-2 border-gray-400 ${router.query.category == category.id ? "bg-blue-200" : "bg-white"} p-1 shadow-sm hover:bg-blue-200`}
                   >
-                    {t(category.localized_name[lang])}
+                    {category.localized_name[lang]}
                   </Link>
                 ))}
             </div>

@@ -1,8 +1,8 @@
-import Fuse from "fuse.js";
-import statusText from "../../../../api/statustexts";
 import { getAllCategoriesFlattened } from "../../categories/public/getallcategoriesflattened";
 import { getCollections } from "../../collections/public/getcollections";
 import { getProducts } from "../../products/public/getproducts";
+import statusText from "../../../../api/statustexts";
+import Fuse from "fuse.js";
 
 const cache = {
   data: null,

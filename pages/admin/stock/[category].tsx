@@ -106,7 +106,7 @@ export default function Products(props) {
                   setisHovered(!isHovered);
                 }}
               >
-                {t(category?.localized_name[lang])}
+                {category?.localized_name[lang]}
               </div>
               <div
                 onClick={() => {
@@ -130,7 +130,7 @@ export default function Products(props) {
               className="h-full w-full whitespace-nowrap px-4 py-2"
               href={createLink({ category: category.id, page: 1 })}
             >
-              {t(category?.localized_name[lang])}
+              {category?.localized_name[lang]}
             </Link>
           )}
         </div>
@@ -328,12 +328,10 @@ export default function Products(props) {
           <div className="my-2 flex w-full flex-wrap items-center gap-2 rounded-md bg-white p-4 shadow-sm">
             <div className="group relative h-full">
               <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-4 pl-3 pr-2 font-bold text-black">
-                {t(
-                  currentCategory
-                    ? allCategories.find((cat) => cat.id == currentCategory)
-                        ?.localized_name[lang] ?? t("choose_category")
-                    : t("choose_category"),
-                )}
+                {currentCategory
+                  ? allCategories.find((cat) => cat.id == currentCategory)
+                      ?.localized_name[lang] ?? t("choose_category")
+                  : t("choose_category")}
                 <ChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />
               </div>
               <div className="invisible absolute -left-5 top-8 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">

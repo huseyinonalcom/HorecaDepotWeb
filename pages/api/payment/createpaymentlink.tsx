@@ -216,6 +216,7 @@ export default async function createPaymentLink(req, res) {
           config.mollie.MOLLIE_SECRET,
           document.prefix + document.number,
         );
+        console.log(answer);
         url = answer._links.checkout.href;
         idFromProvider = answer.id;
         break;

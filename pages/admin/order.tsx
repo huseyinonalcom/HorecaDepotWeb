@@ -1,16 +1,16 @@
-import Head from "next/head";
-import useTranslation from "next-translate/useTranslation";
-import { useEffect, useState } from "react";
-import LoadingIndicator from "../../components/common/loadingIndicator";
-import { useRouter } from "next/router";
 import { formatDateAPIToBe } from "../../api/utils/formatters/formatdateapibe";
-import AdminLayout from "../../components/admin/adminLayout";
-import Image from "next/image";
+import LoadingIndicator from "../../components/common/loadingIndicator";
 import componentThemes from "../../components/componentThemes";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import AdminLayout from "../../components/admin/adminLayout";
 import { PDFInvoice } from "../../components/pdf/pdfinvoice";
-import CustomTheme from "../../components/componentThemes";
 import TypeWriter from "../../components/common/typewriter";
+import useTranslation from "next-translate/useTranslation";
+import CustomTheme from "../../components/componentThemes";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import Head from "next/head";
 
 export default function Order() {
   const { t, lang } = useTranslation("common");
@@ -41,6 +41,10 @@ export default function Order() {
       if (orderID) {
         fetchOrder(orderID)
           .then((order) => {
+            console.log(order);
+            if (!order.docAddress) {
+              order.docAddress = order.delAddress;
+            }
             setCurrentOrder(order);
           })
           .catch((_) => {})
@@ -215,7 +219,7 @@ export default function Order() {
                 <div className="flex flex-col">
                   {currentOrder.client.category == "Entreprise" ? (
                     <>
-                      <h4 className=" font-bold">Facturé à:</h4>
+                      <h4 className="font-bold">Facturé à:</h4>
                       <p className="">{currentOrder.client.company}</p>
                       <p className="">{currentOrder.client.taxID}</p>
                       <p className="">{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
@@ -223,14 +227,14 @@ export default function Order() {
                     </>
                   ) : (
                     <>
-                      <h4 className=" font-bold">Facturé à:</h4>
+                      <h4 className="font-bold">Facturé à:</h4>
                       <p className="">{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
                       <p className="">{currentOrder.client.phone}</p>
                     </>
                   )}
                 </div>
                 <div className="flex flex-col">
-                  <h4 className=" font-bold">Addresse Facture:</h4>
+                  <h4 className="font-bold">Addresse Facture:</h4>
                   <p className="">{`${currentOrder.docAddress.street} ${currentOrder.docAddress.doorNumber}`}</p>
                   <p className="">{`${currentOrder.docAddress.zipCode} ${currentOrder.docAddress.city}`}</p>
                   <p className="">{`${currentOrder.docAddress.province ?? ""} ${
@@ -243,7 +247,7 @@ export default function Order() {
                   )}
                 </div>
                 <div className="flex flex-col">
-                  <h4 className=" font-bold">Livraison:</h4>
+                  <h4 className="font-bold">Livraison:</h4>
                   <p className="">{`${currentOrder.delAddress.street} ${currentOrder.delAddress.doorNumber}`}</p>
                   <p className="">{`${currentOrder.delAddress.zipCode} ${currentOrder.delAddress.city}`}</p>
                   <p className="">{`${currentOrder.delAddress.province ?? ""} ${

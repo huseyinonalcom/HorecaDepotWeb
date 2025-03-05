@@ -15,7 +15,6 @@ export async function getAllSuppliers(req) {
 
     const data = await response.json();
 
-
     if (!response.ok) {
       return null;
     }
