@@ -1,9 +1,10 @@
-import {
-  Dialog,
-  DialogPanel,
-  DialogBackdrop,
-  TransitionChild,
-} from "@headlessui/react";
+import useTranslation from "next-translate/useTranslation";
+import LocaleSwitcher from "../LocaleSwitcher";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import Head from "next/head";
+import Link from "next/link";
 import {
   TagIcon,
   HomeIcon,
@@ -20,16 +21,53 @@ import {
   ChatBubbleBottomCenterIcon,
   ArrowRightStartOnRectangleIcon,
 } from "@heroicons/react/24/outline";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import LocaleSwitcher from "../LocaleSwitcher";
-import useTranslation from "next-translate/useTranslation";
-import Link from "next/link";
+import {
+  Dialog,
+  DialogPanel,
+  DialogBackdrop,
+  TransitionChild,
+} from "@headlessui/react";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
+const navigation = [
+  { name: "stock", href: "/admin/stock/all", icon: ArchiveBoxIcon },
+  { name: "orders", href: "/admin/orders", icon: ClipboardDocumentListIcon },
+  { name: "homepage", href: "/admin/website/homepage", icon: HomeIcon },
+  {
+    name: "categories",
+    href: "/admin/website/categories",
+    icon: FolderIcon,
+  },
+  {
+    name: "collections",
+    href: "/admin/website/collections",
+    icon: BookOpenIcon,
+  },
+  {
+    name: "banners",
+    href: "/admin/website/banners",
+    icon: RectangleGroupIcon,
+  },
+  { name: "banner", href: "/admin/website/banner", icon: Bars2Icon },
+  {
+    name: "popup",
+    href: "/admin/website/popup",
+    icon: ChatBubbleBottomCenterIcon,
+  },
+  {
+    name: "bulkkeywordsetter",
+    href: "/admin/website/bulkkeywordsetter",
+    icon: TagIcon,
+  },
+];
+
+const adminNavigation = [
+  { name: "users", href: "/admin/users", icon: UsersIcon },
+  { name: "settings", href: "/admin/settings", icon: Cog8ToothIcon },
+];
 
 export default function AdminPanelLayout({
   title,
@@ -45,6 +83,8 @@ export default function AdminPanelLayout({
 
   useEffect(() => {
     validateSession();
+    console.log(router.pathname);
+    console.log(title);
   }, [router.pathname]);
 
   const validateSession = async () => {
@@ -57,46 +97,11 @@ export default function AdminPanelLayout({
         setUserTier(Number(answer.role.replaceAll("Tier ", "")));
       }
     } else {
-      router.push("/admin");
+      router.push(
+        `/admin?destination=${encodeURIComponent(window.location.pathname)}`,
+      );
     }
   };
-
-  const navigation = [
-    { name: "stock", href: "/admin/stock/all", icon: ArchiveBoxIcon },
-    { name: "orders", href: "/admin/orders", icon: ClipboardDocumentListIcon },
-    { name: "homepage", href: "/admin/website/homepage", icon: HomeIcon },
-    {
-      name: "categories",
-      href: "/admin/website/categories",
-      icon: FolderIcon,
-    },
-    {
-      name: "collections",
-      href: "/admin/website/collections",
-      icon: BookOpenIcon,
-    },
-    {
-      name: "banners",
-      href: "/admin/website/banners",
-      icon: RectangleGroupIcon,
-    },
-    { name: "banner", href: "/admin/website/banner", icon: Bars2Icon },
-    {
-      name: "popup",
-      href: "/admin/website/popup",
-      icon: ChatBubbleBottomCenterIcon,
-    },
-    {
-      name: "bulkkeywordsetter",
-      href: "/admin/website/bulkkeywordsetter",
-      icon: TagIcon,
-    },
-  ];
-
-  const adminNavigation = [
-    { name: "users", href: "/admin/users", icon: UsersIcon },
-    { name: "settings", href: "/admin/settings", icon: Cog8ToothIcon },
-  ];
 
   if (userTier == 9) {
     navigation.push(...adminNavigation);
@@ -140,10 +145,12 @@ export default function AdminPanelLayout({
               </TransitionChild>
               <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-2">
                 <div className="flex h-16 shrink-0 items-center">
-                  <img
+                  <Image
                     alt="Horeca Depot Logo"
                     src="/assets/header/logob.png"
                     className="h-8 w-auto"
+                    height={32}
+                    width={179}
                   />
                 </div>
                 <nav className="flex flex-1 flex-col">
@@ -155,7 +162,7 @@ export default function AdminPanelLayout({
                             <Link
                               href={item.href}
                               className={classNames(
-                                item.name == title
+                                t(item.name) == title
                                   ? "bg-gray-50 text-indigo-600"
                                   : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
                                 "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold",
@@ -164,7 +171,7 @@ export default function AdminPanelLayout({
                               <item.icon
                                 aria-hidden="true"
                                 className={classNames(
-                                  item.name == title
+                                  t(item.name) == title
                                     ? "text-indigo-600"
                                     : "text-gray-400 group-hover:text-indigo-600",
                                   "size-6 shrink-0",
@@ -203,10 +210,12 @@ export default function AdminPanelLayout({
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
             <div className="flex h-16 shrink-0 items-center">
-              <img
+              <Image
                 alt="Horeca Depot Logo"
                 src="/assets/header/logob.png"
                 className="h-8 w-auto"
+                height={32}
+                width={179}
               />
             </div>
             <nav className="flex flex-1 flex-col">
@@ -218,7 +227,7 @@ export default function AdminPanelLayout({
                         <Link
                           href={item.href}
                           className={classNames(
-                            item.name == title
+                            t(item.name) == title
                               ? "bg-gray-50 text-indigo-600"
                               : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
                             "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold",
@@ -227,7 +236,7 @@ export default function AdminPanelLayout({
                           <item.icon
                             aria-hidden="true"
                             className={classNames(
-                              item.name == title
+                              t(item.name) == title
                                 ? "text-indigo-600"
                                 : "text-gray-400 group-hover:text-indigo-600",
                               "size-6 shrink-0",

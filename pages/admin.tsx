@@ -106,6 +106,7 @@ export default function Admin() {
               className="w-full border border-gray-300 p-2"
               type="text"
               id="username"
+              autoComplete="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               onKeyDown={handleKeyPress}

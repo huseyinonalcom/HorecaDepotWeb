@@ -7,6 +7,8 @@ import Head from "next/head";
 export default function Users(props) {
   const { t } = useTranslation("common");
 
+  console.log(props);
+
   return (
     <>
       <Head>
@@ -64,7 +66,7 @@ export default function Users(props) {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
-                    {props.allUsers.map((user) => (
+                    {props?.allUsers?.map((user) => (
                       <tr key={user.email}>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm  sm:pl-6">
                           {user.user_info.firstName}
@@ -106,16 +108,19 @@ Users.getLayout = function getLayout(page) {
 
 export async function getServerSideProps(context) {
   const req = context.req;
-  const allUsers = await getFromApi({
-    collection: "users",
-    authToken: req.cookies.j,
-    qs: "populate=role,user_info&filters[role][name][$contains]=Tier",
-  });
 
-  const allRoles = await getFromApi({
-    collection: "users-permissions/roles",
-    authToken: req.cookies.j,
-  });
+  const allUsers =
+    (await getFromApi({
+      collection: "users",
+      authToken: req.cookies.j,
+      qs: "populate=role,user_info&filters[role][name][$contains]=Tier",
+    })) || [];
+
+  const allRoles =
+    (await getFromApi({
+      collection: "users-permissions/roles",
+      authToken: req.cookies.j,
+    })) || [];
 
   return {
     props: {

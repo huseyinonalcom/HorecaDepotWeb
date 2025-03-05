@@ -3,40 +3,37 @@ import setLanguage from "next-translate/setLanguage";
 import { useState, useCallback } from "react";
 import Image from "next/image";
 
-const languages = [
+const languages: { code: string; label: string }[] = [
   {
     code: "en",
-    label: "Set Language to English",
-    alt: "Change language to English",
+    label: "Change language to English",
   },
   {
     code: "fr",
-    label: "Set Language to French",
-    alt: "Changer la langue en français",
+    label: "Changer la langue en français",
   },
   {
     code: "nl",
-    label: "Set Language to Dutch",
-    alt: "Verander de taal naar Nederlands",
+    label: "Verander de taal naar Nederlands",
   },
   {
     code: "de",
-    label: "Set Language to German",
-    alt: "Sprache auf Deutsch umstellen",
+    label: "Sprache auf Deutsch umstellen",
   },
 ];
 
 export default function LocaleSwitcher() {
   const { t, lang } = useTranslation("common");
+
   const [showSwitcher, setShowSwitcher] = useState(false);
 
-  const handleLanguageChange = useCallback(async (code: string) => {
-    await setLanguage(code);
+  const handleLanguageChange = useCallback((code: string) => {
+    setLanguage(code);
     setShowSwitcher(false);
   }, []);
 
   return (
-    <>
+    <div className="flex w-full flex-row pl-2">
       <button type="button" onClick={() => setShowSwitcher(true)}>
         <Image
           src={`/assets/header/${lang.toUpperCase()}.svg`}
@@ -52,7 +49,7 @@ export default function LocaleSwitcher() {
           onClick={() => setShowSwitcher(false)}
           className="fixed inset-0 z-[999] flex flex-col items-center justify-center gap-2 bg-black duration-300"
         >
-          {languages.map(({ code, label, alt }) =>
+          {languages.map(({ code, label }) =>
             lang !== code ? (
               <button
                 key={code}
@@ -63,7 +60,7 @@ export default function LocaleSwitcher() {
               >
                 <Image
                   src={`/assets/header/${code.toUpperCase()}.svg`}
-                  alt={alt}
+                  alt={label}
                   width={70}
                   height={46}
                   className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
@@ -73,6 +70,6 @@ export default function LocaleSwitcher() {
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }
