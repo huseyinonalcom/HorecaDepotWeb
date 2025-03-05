@@ -70,8 +70,8 @@ export default function Settings(props) {
                 STRIPE_SECRET_KEY: formData.get("stripeSecret"),
               },
               ogone: {
-                OGONE_KEY: formData.get("OGONE_KEY"),
-                OGONE_SECRET: formData.get("OGONE_SECRET"),
+                OGONE_KEY: formData.get("ogoneKey"),
+                OGONE_SECRET: formData.get("ogoneSecret"),
               },
               google: { GOOGLE_API_KEY: formData.get("GOOGLE_API_KEY") },
               costPerKM: formData.get("costPerKM"),
