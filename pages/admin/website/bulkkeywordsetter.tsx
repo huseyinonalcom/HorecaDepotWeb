@@ -49,9 +49,7 @@ export default function Keywords() {
     return (
       <>
         <Head>
-          <title>horecadepot</title>
-          <meta name="description" content="horecadepot" />
-          <meta name="language" content={lang} />
+          <title>{t("keywords")}</title>
         </Head>
         <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
           <div className="mx-auto py-2">
@@ -65,9 +63,7 @@ export default function Keywords() {
     return (
       <>
         <Head>
-          <title>horecadepot</title>
-          <meta name="description" content="horecadepot" />
-          <meta name="language" content={lang} />
+          <title>{t("keywords")}</title>
         </Head>
         <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
           <div className="mx-auto py-2">
@@ -90,9 +86,7 @@ export default function Keywords() {
     return (
       <>
         <Head>
-          <title>horecadepot</title>
-          <meta name="description" content="horecadepot" />
-          <meta name="language" content={lang} />
+          <title>{t("keywords")}</title>
         </Head>
         <div className="mx-auto flex w-[95vw] flex-col items-center justify-start">
           <div className="w-full py-2 text-center text-xl font-semibold">

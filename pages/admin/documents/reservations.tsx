@@ -1,10 +1,10 @@
+import { formatDateAPIToBe } from "../../../api/utils/formatters/formatdateapibe";
 import AdminLayout from "../../../components/admin/adminLayout";
 import useTranslation from "next-translate/useTranslation";
 import { useState, useEffect } from "react";
 import { ChevronLeft } from "react-feather";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { formatDateAPIToBe } from "../../../api/utils/formatters/formatdateapibe";
 
 export default function Reservations() {
   const router = useRouter();
@@ -72,10 +72,9 @@ export default function Reservations() {
   };
 
   return (
-    <AdminLayout>
+    <>
       <Head>
-        <title>Produits</title>
-        <meta name="language" content={lang} />
+        <title>{t("reservations")}</title>
       </Head>
       <div className="flex w-full flex-col items-center pt-2">
         <div>
@@ -193,6 +192,10 @@ export default function Reservations() {
           </>
         </div>
       </div>
-    </AdminLayout>
+    </>
   );
 }
+
+Reservations.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};

@@ -320,8 +320,7 @@ export default function Products(props) {
   return (
     <>
       <Head>
-        <title>{t("Products")}</title>
-        <meta name="language" content={lang} />
+        <title>{t("stock")}</title>
       </Head>
       <div className="flex w-full flex-row items-center">
         <div className="flex w-full flex-col items-center pb-1 pt-1">

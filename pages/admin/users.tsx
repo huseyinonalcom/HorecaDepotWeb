@@ -10,7 +10,7 @@ export default function Users(props) {
   return (
     <>
       <Head>
-        <title>{t("document_orders")}</title>
+        <title>{t("users")}</title>
         <meta name="language" content={lang} />
       </Head>
       <div className="flex w-full flex-row justify-center">

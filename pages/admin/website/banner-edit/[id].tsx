@@ -18,8 +18,7 @@ export default function BannerEdit(props) {
   return (
     <>
       <Head>
-        <title>Banner</title>
-        <meta name="language" content={lang} />
+        <title>{t("banner")}</title>
       </Head>
       <div className={`flex items-center justify-center bg-white`}>
         <div className="flex flex-wrap items-center justify-center gap-12 p-4">

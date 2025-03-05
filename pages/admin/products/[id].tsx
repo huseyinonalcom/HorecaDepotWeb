@@ -463,10 +463,9 @@ export default function ProductPage(props) {
   };
 
   return (
-    <AdminLayout>
+    <>
       <Head>
-        <title>Produit</title>
-        <meta name="language" content={lang} />
+        <title>{t("products")}</title>
       </Head>
       <form
         className={`flex w-full flex-col items-center justify-center gap-2 overflow-hidden p-2`}
@@ -1124,7 +1123,11 @@ export default function ProductPage(props) {
                       target="_blank"
                       className="absolute right-2 top-12"
                       href={
-                        "https://hdcdn.hocecomv1.com" + selectedImage.url.replace("https://hdcdn.hocecomv1.com", "")
+                        "https://hdcdn.hocecomv1.com" +
+                        selectedImage.url.replace(
+                          "https://hdcdn.hocecomv1.com",
+                          "",
+                        )
                       }
                     >
                       <Download className="h-8 w-8" color="green" />
@@ -1581,7 +1584,7 @@ export default function ProductPage(props) {
                           }
                         }}
                       >
-                        {cat.localized_name[lang]} 
+                        {cat.localized_name[lang]}
                       </button>
                     ))}
                 </div>
@@ -1606,9 +1609,13 @@ export default function ProductPage(props) {
           </div>
         </div>
       </form>
-    </AdminLayout>
+    </>
   );
 }
+
+ProductPage.getLayout = function getLayout(page) {
+  return <AdminLayout>{page}</AdminLayout>;
+};
 
 export async function getServerSideProps(context) {
   const req = context.req;

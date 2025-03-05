@@ -79,8 +79,7 @@ export default function CategoriesAdmin() {
   return (
     <>
       <Head>
-        <title>Website</title>
-        <meta name="language" content={lang} />
+        <title>{t("categories")}</title>
       </Head>
       <div className="mx-auto flex w-[95%] flex-col items-center p-2">
         {categories && (

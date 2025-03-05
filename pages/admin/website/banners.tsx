@@ -14,8 +14,7 @@ export default function Banners(props) {
   return (
     <>
       <Head>
-        <title>Website</title>
-        <meta name="language" content={lang} />
+        <title>{t("banners")}</title>
       </Head>
       <div className="mx-auto flex w-[95%] flex-col items-center p-2">
         <div className="flex flex-row">
