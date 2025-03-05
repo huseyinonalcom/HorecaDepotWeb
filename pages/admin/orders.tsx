@@ -77,8 +77,7 @@ export default function Orders() {
   return (
     <>
       <Head>
-        <title>{t("document_orders")}</title>
-        <meta name="language" content={lang} />
+        <title>{t("orders")}</title>
       </Head>
       <div className="flex w-full flex-col items-center overflow-x-auto rounded-md bg-white p-4 shadow-sm">
         <table className="w-full gap-2">
