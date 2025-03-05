@@ -1,34 +1,31 @@
-import { useEffect, useState } from "react";
 import {
   Dialog,
-  DialogBackdrop,
   DialogPanel,
+  DialogBackdrop,
   TransitionChild,
 } from "@headlessui/react";
 import {
-  ArchiveBoxIcon,
-  ArrowRightStartOnRectangleIcon,
+  TagIcon,
+  HomeIcon,
+  UsersIcon,
   Bars2Icon,
   Bars3Icon,
-  BookOpenIcon,
-  CalendarIcon,
-  ChartPieIcon,
-  ChatBubbleBottomCenterIcon,
-  ClipboardDocumentListIcon,
-  Cog8ToothIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
-  RectangleGroupIcon,
-  RectangleStackIcon,
-  TagIcon,
-  UsersIcon,
   XMarkIcon,
+  FolderIcon,
+  BookOpenIcon,
+  Cog8ToothIcon,
+  ArchiveBoxIcon,
+  RectangleGroupIcon,
+  ClipboardDocumentListIcon,
+  ChatBubbleBottomCenterIcon,
+  ArrowRightStartOnRectangleIcon,
 } from "@heroicons/react/24/outline";
-import useTranslation from "next-translate/useTranslation";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import LocaleSwitcher from "../LocaleSwitcher";
+import useTranslation from "next-translate/useTranslation";
+import Link from "next/link";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -77,7 +74,6 @@ export default function AdminPanelLayout({
       name: "collections",
       href: "/admin/website/collections",
       icon: BookOpenIcon,
-      current: false,
     },
     {
       name: "banners",
@@ -94,7 +90,6 @@ export default function AdminPanelLayout({
       name: "bulkkeywordsetter",
       href: "/admin/website/bulkkeywordsetter",
       icon: TagIcon,
-      current: false,
     },
   ];
 
@@ -157,7 +152,7 @@ export default function AdminPanelLayout({
                       <ul role="list" className="-mx-2 space-y-1">
                         {navigation.map((item) => (
                           <li key={item.name}>
-                            <a
+                            <Link
                               href={item.href}
                               className={classNames(
                                 item.name == title
@@ -176,7 +171,7 @@ export default function AdminPanelLayout({
                                 )}
                               />
                               {t(item.name)}
-                            </a>
+                            </Link>
                           </li>
                         ))}
                       </ul>
@@ -195,12 +190,7 @@ export default function AdminPanelLayout({
                   >
                     <ArrowRightStartOnRectangleIcon
                       aria-hidden="true"
-                      className={classNames(
-                        false
-                          ? "text-indigo-600"
-                          : "text-gray-400 group-hover:text-indigo-600",
-                        "size-6 shrink-0",
-                      )}
+                      className="size-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
                     />
                     {t("logout")}
                   </button>
@@ -210,7 +200,6 @@ export default function AdminPanelLayout({
           </div>
         </Dialog>
 
-        {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
             <div className="flex h-16 shrink-0 items-center">
@@ -226,7 +215,7 @@ export default function AdminPanelLayout({
                   <ul role="list" className="-mx-2 space-y-1">
                     {navigation.map((item) => (
                       <li key={item.name}>
-                        <a
+                        <Link
                           href={item.href}
                           className={classNames(
                             item.name == title
@@ -245,7 +234,7 @@ export default function AdminPanelLayout({
                             )}
                           />
                           {t(item.name)}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -264,12 +253,7 @@ export default function AdminPanelLayout({
               >
                 <ArrowRightStartOnRectangleIcon
                   aria-hidden="true"
-                  className={classNames(
-                    false
-                      ? "text-indigo-600"
-                      : "text-gray-400 group-hover:text-indigo-600",
-                    "size-6 shrink-0",
-                  )}
+                  className="size-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
                 />
                 {t("logout")}
               </button>
