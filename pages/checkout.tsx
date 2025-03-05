@@ -368,6 +368,18 @@ export default function Checkout() {
     }
 
     if (
+      !guestDeliveryAddress.country ||
+      !guestDeliveryAddress.street ||
+      !guestDeliveryAddress.zipCode ||
+      !guestDeliveryAddress.city ||
+      !guestDeliveryAddress.doorNumber
+    ) {
+      setSubmitErrorDocument(t("no-delivery-address"));
+      setSubmitting(false);
+      return;
+    }
+
+    if (
       guestInvoiceAddress &&
       (!guestInvoiceAddress.country ||
         !guestInvoiceAddress.street ||
@@ -379,17 +391,7 @@ export default function Checkout() {
       setSubmitting(false);
       return;
     }
-    if (
-      !guestDeliveryAddress.country ||
-      !guestDeliveryAddress.street ||
-      !guestDeliveryAddress.zipCode ||
-      !guestDeliveryAddress.city ||
-      !guestDeliveryAddress.doorNumber
-    ) {
-      setSubmitErrorDocument(t("no-delivery-address"));
-      setSubmitting(false);
-      return;
-    }
+
     if (calculateTotal().totalAfterDiscount < 0) {
       setSubmitErrorDocument(t("cart-empty"));
       setSubmitting(false);
