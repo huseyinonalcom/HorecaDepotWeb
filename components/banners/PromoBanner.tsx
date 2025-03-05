@@ -79,7 +79,7 @@ export const PromoBanner = ({
           <div className="relative z-20 aspect-[320/171] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full">
             <ImageWithURL
               src={image.image.url}
-              alt={banner.localized_title[lang]}
+              alt={banner.localized_title[lang] ?? "homepage decoration image"}
               sizes="90vw, md:42vw, 2xl:30vw"
               fill
               priority
