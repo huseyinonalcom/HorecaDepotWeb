@@ -14,13 +14,44 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
+function InputField({ label, name, defaultValue = "", type = "text" }) {
+  return (
+    <div className="col-span-full">
+      <label htmlFor={name} className="block text-sm font-medium text-gray-900">
+        {label}
+      </label>
+      <div className="mt-2">
+        <input
+          defaultValue={defaultValue}
+          id={name}
+          name={name}
+          type={type}
+          className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+        />
+      </div>
+    </div>
+  );
+}
+
+function ConfigSection({ title, children }) {
+  return (
+    <div className="border-b border-gray-900/10 pb-12">
+      <h2 className="text-base font-semibold text-gray-900">{title}</h2>
+      <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        {children}
+      </div>
+    </div>
+  );
+}
+
 export default function Settings(props) {
   const { t } = useTranslation("common");
+  const config = props.config;
 
   return (
     <>
       <Head>
-        <title>{t("configuration")}</title>
+        <title>{t("settings")}</title>
       </Head>
 
       <form
@@ -35,8 +66,8 @@ export default function Settings(props) {
               activeProvider: formData.get("activeProvider"),
               mollie: { MOLLIE_SECRET: formData.get("mollieSecret") },
               stripe: {
-                STRIPE_LIVE_KEY: formData.get("STRIPE_LIVE_KEY"),
-                STRIPE_SECRET_KEY: formData.get("STRIPE_SECRET_KEY"),
+                STRIPE_LIVE_KEY: formData.get("stripePublishable"),
+                STRIPE_SECRET_KEY: formData.get("stripeSecret"),
               },
               ogone: {
                 OGONE_KEY: formData.get("OGONE_KEY"),
@@ -56,153 +87,38 @@ export default function Settings(props) {
           }).then(async (res) => alert(t(await res.json())));
         }}
       >
-        <div className="px-4 py-5 sm:p-6">
-          <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base/7 font-semibold text-gray-900">Mollie</h2>
-            <div>
-              <label
-                htmlFor="mollieSecret"
-                className="block text-sm/6 font-medium text-gray-900"
-              >
-                Mollie Secret Key
-              </label>
-              <div className="mt-2">
-                <input
-                  id="mollieSecret"
-                  name="mollieSecret"
-                  type="text"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base/7 font-semibold text-gray-900">Mollie</h2>
-            <div>
-              <label
-                htmlFor="mollieSecret"
-                className="block text-sm/6 font-medium text-gray-900"
-              >
-                Mollie Secret Key
-              </label>
-              <div className="mt-2">
-                <input
-                  id="mollieSecret"
-                  name="mollieSecret"
-                  type="text"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
-            </div>
-          </div>
-
-          <h2 className="text-xl font-semibold">{t("Stripe")}</h2>
-          <InputOutlined
-            defaultValue={props.config.stripe.STRIPE_LIVE_KEY}
-            className="w-full border border-gray-300 p-2"
-            type="text"
-            name="STRIPE_LIVE_KEY"
-            label={t("Stripe Publishable Key")}
-          />
-          <InputOutlined
-            defaultValue={props.config.stripe.STRIPE_SECRET_KEY}
-            className="w-full border border-gray-300 p-2"
-            type="text"
-            name="STRIPE_SECRET_KEY"
-            label={t("Stripe Secret Key")}
-          />
-          <h2 className="text-xl font-semibold">{t("Ogone")}</h2>
-          <InputOutlined
-            defaultValue={props.config.ogone.OGONE_KEY}
-            className="w-full border border-gray-300 p-2"
-            type="text"
-            name="OGONE_KEY"
-            label={t("Ogone Key")}
-          />
-          <InputOutlined
-            defaultValue={props.config.ogone.OGONE_SECRET}
-            className="w-full border border-gray-300 p-2"
-            type="text"
-            name="OGONE_SECRET"
-            label={t("Ogone Secret")}
-          />
-          <h2 className="text-xl font-semibold">{t("Active")}</h2>
-          <select
-            defaultValue={props.config.activeProvider}
-            className="w-full border border-gray-300 p-2"
-            name="activeProvider"
-          >
-            <option value="mollie">{t("Mollie")}</option>
-            <option value="stripe">{t("Stripe")}</option>
-            <option value="ogone">{t("Ogone")}</option>
-          </select>
-          <h2 className="text-xl font-semibold">{t("Google")}</h2>
-          <InputOutlined
-            defaultValue={props.config.google?.GOOGLE_API_KEY ?? ""}
-            className="w-full border border-gray-300 p-2"
-            type="text"
-            name="GOOGLE_API_KEY"
-            label={t("Google API Key")}
-          />
-          <InputOutlined
-            inputMode="decimal"
-            defaultValue={props.config.costPerKM ?? ""}
-            className="w-full border border-gray-300 p-2"
-            type="decimal"
-            name="costPerKM"
-            label="€ / Km"
-          />
-          <h2 className="text-xl font-semibold">{t("mail")}</h2>
-          <InputOutlined
-            defaultValue={props.config.mail?.mailUser ?? ""}
-            className="w-full border border-gray-300 p-2"
-            type="text"
-            name="mailUser"
-            label={t("mail-user")}
-          />
-          <InputOutlined
-            defaultValue={props.config.mail?.mailPass ?? ""}
-            className="w-full border border-gray-300 p-2"
-            type="text"
-            name="mailPass"
-            label={t("mail-pass")}
-          />
-          <InputOutlined
-            defaultValue={props.config.mail?.mailHost ?? ""}
-            className="w-full border border-gray-300 p-2"
-            type="text"
-            name="mailHost"
-            label={t("mail-host")}
-          />
-          <InputOutlined
-            defaultValue={props.config.mail?.mailPort ?? ""}
-            className="w-full border border-gray-300 p-2"
-            type="text"
-            name="mailPort"
-            label={t("mail-port")}
-          />
-          <InputOutlined
-            defaultValue={props.config.mail?.mailSender ?? ""}
-            className="w-full border border-gray-300 p-2"
-            type="text"
-            name="mailSender"
-            label={t("mail-sender")}
-          />
-          <InputOutlined
-            defaultValue={props.config.mail?.mailSenderName ?? ""}
-            className="w-full border border-gray-300 p-2"
-            type="text"
-            name="mailSenderName"
-            label={t("mail-sender-name")}
-          />
-          <h2 className="text-xl font-semibold">{t("mail-test")}</h2>
-          <InputOutlined
-            className="w-full border border-gray-300 p-2"
-            type="text"
-            name="mailTo"
-            label={t("mail-to")}
-          />
-
+        <div className="space-y-12 px-4 py-5 sm:p-6">
+          <ConfigSection title="Mollie">
+            <InputField
+              name="mollieSecret"
+              label="Mollie Secret Key"
+              defaultValue={config.mollie.MOLLIE_SECRET}
+            />
+          </ConfigSection>
+          <ConfigSection title="Stripe">
+            <InputField
+              name="stripePublishable"
+              label="Stripe Publishable Key"
+              defaultValue={config.stripe.STRIPE_LIVE_KEY}
+            />
+            <InputField
+              name="stripeSecret"
+              label="Stripe Secret Key"
+              defaultValue={config.stripe.STRIPE_SECRET_KEY}
+            />
+          </ConfigSection>
+          <ConfigSection title="Ogone">
+            <InputField
+              name="ogoneKey"
+              label="Ogone Key"
+              defaultValue={config.ogone.OGONE_KEY}
+            />
+            <InputField
+              name="ogoneSecret"
+              label="Ogone Secret"
+              defaultValue={config.ogone.OGONE_SECRET}
+            />
+          </ConfigSection>
           <div className="mt-6 flex items-center justify-end gap-x-6">
             <button
               type="submit"
@@ -222,7 +138,7 @@ Settings.getLayout = function (page) {
   return <AdminPanelLayout title={t("settings")}>{page}</AdminPanelLayout>;
 };
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const config = await getConfig();
   return {
     props: {
