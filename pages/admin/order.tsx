@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Head from "next/head";
+import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 
 export default function Order() {
   const { t, lang } = useTranslation("common");
@@ -76,9 +77,7 @@ export default function Order() {
       <>
         <AdminLayout>
           <Head>
-            <title>horecadepot</title>
-            <meta name="description" content="horecadepot" />
-            <meta name="language" content={lang} />
+            <title>{t("order")}</title>
           </Head>
           <div className="mx-auto w-[90vw] py-2">
             <LoadingIndicator />
@@ -91,9 +90,7 @@ export default function Order() {
       <>
         <AdminLayout>
           <Head>
-            <title>horecadepot</title>
-            <meta name="description" content="horecadepot" />
-            <meta name="language" content={lang} />
+            <title>{t("order")}</title>
           </Head>
           <div className="mx-auto w-[90vw] py-2">
             {t("An error has occurred.")}
@@ -120,9 +117,7 @@ export default function Order() {
       <>
         <AdminLayout>
           <Head>
-            <title>horecadepot</title>
-            <meta name="description" content="horecadepot" />
-            <meta name="language" content={lang} />
+            <title>{t("order")}</title>
           </Head>
 
           <div className="w-full px-2 py-2">
@@ -153,34 +148,6 @@ export default function Order() {
                   </h3>
                 </div>
                 <div className="flex flex-shrink-0 flex-row items-center gap-2 print:hidden">
-                  {/* {balance > 0 && (
-                    <>
-                      {verificationMessage && verificationMessage}
-
-                      {verificationRunning ? (
-                        <button
-                          className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
-                        >
-                          <div className="w-[100px] flex flex-row justify-center">
-                            <TypeWriter textTypeWriter={["...."]} />
-                          </div>
-                        </button>
-                      ) : (
-                        <button
-                          className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
-                          onClick={submitCheckPayment}
-                        >
-                          {t("Verify payment")}
-                        </button>
-                      )}
-                      <button
-                        className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
-                        onClick={submitPayment}
-                      >
-                        {t("Proceed to payment")}
-                      </button>
-                    </>
-                  )} */}
                   {balance > 0 && (
                     <>
                       {verificationMessage && verificationMessage}
@@ -288,22 +255,13 @@ export default function Order() {
                         <td>{documentProduct.product?.color ?? ""}</td>
                         <td align="center">{documentProduct.amount}</td>
                         <td align="right">
-                          €{" "}
-                          {documentProduct.value
-                            .toFixed(2)
-                            .replaceAll(".", ",")}
+                          {formatCurrency(documentProduct.value)}
                         </td>
                         <td align="right">
-                          €{" "}
-                          {documentProduct.discount
-                            .toFixed(2)
-                            .replaceAll(".", ",")}
+                          {formatCurrency(documentProduct.discount)}
                         </td>
                         <td align="right">
-                          €{" "}
-                          {documentProduct.subTotal
-                            .toFixed(2)
-                            .replaceAll(".", ",")}
+                          {formatCurrency(documentProduct.subTotal)}
                         </td>
                       </tr>
                     ),
@@ -317,13 +275,14 @@ export default function Order() {
                     </td>
                     <td align="right">
                       <b>
-                        €{" "}
-                        {currentOrder.document_products
-                          .reduce((accumulator, currentItem) => {
-                            return accumulator + currentItem.subTotal;
-                          }, 0)
-                          .toFixed(2)
-                          .replaceAll(".", ",")}
+                        {formatCurrency(
+                          currentOrder.document_products.reduce(
+                            (accumulator, currentItem) => {
+                              return accumulator + currentItem.subTotal;
+                            },
+                            0,
+                          ),
+                        )}
                       </b>
                     </td>
                     <td>
@@ -331,168 +290,25 @@ export default function Order() {
                     </td>
                     <td align="right">
                       <b>
-                        €{" "}
-                        {(
+                        {formatCurrency(
                           currentOrder.document_products.reduce(
                             (accumulator, currentItem) => {
                               return accumulator + currentItem.subTotal;
                             },
                             0,
                           ) -
-                          currentOrder.payments
-                            .filter((pay) => !pay.deleted && pay.verified)
-                            .reduce((accumulator, currentItem) => {
-                              return accumulator + currentItem.value;
-                            }, 0)
-                        )
-                          .toFixed(2)
-                          .replaceAll(".", ",")}
+                            currentOrder.payments
+                              .filter((pay) => !pay.deleted && pay.verified)
+                              .reduce((accumulator, currentItem) => {
+                                return accumulator + currentItem.value;
+                              }, 0),
+                        )}
                       </b>
                     </td>
                   </tr>
                 </tbody>
               </table>
-
-              {/* {balance > 0 && (
-                <div className="flex flex-row print:hidden">
-                  <div className="ml-auto">
-                    <button
-                      className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
-                      onClick={submitPayment}
-                    >
-                      {t("Proceed to payment")}
-                    </button>
-                  </div>
-                </div>
-              )} */}
             </div>
-            {/* <div className="shadow-lg my-2 mx-2  p-4">
-              <h1 className="text-2xl font-bold">{currentOrder.type}</h1>
-              <h2 className="text-xl font-bold">{currentOrder.prefix + currentOrder.number}</h2>
-              <h3 className="text-lg font-bold">{formatDateAPIToBe(currentOrder.date)}</h3>
-              <div className="flex flex-row gap-6">
-                <div className="flex flex-col mt-2">
-                  {currentOrder.client.category == "Entreprise" ? (
-                    <>
-                      <h4 className="text-lg font-bold">Facturé à:</h4>
-                      <p className="text-lg">{currentOrder.client.company}</p>
-                      <p className="text-lg">{currentOrder.client.taxID}</p>
-                      <p className="text-lg">{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
-                      <p className="text-lg">{currentOrder.client.phone}</p>
-                    </>
-                  ) : (
-                    <>
-                      <h4 className="text-lg font-bold">Facturé à:</h4>
-                      <p className="text-lg">{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
-                      <p className="text-lg">{currentOrder.client.phone}</p>
-                    </>
-                  )}
-                </div>
-                <div className="flex flex-col mt-7">
-                  <p className="text-lg mt-2">{`${currentOrder.docAddress.street} ${currentOrder.docAddress.doorNumber}`}</p>
-                  <p className="text-lg">{`${currentOrder.docAddress.zipCode} ${currentOrder.docAddress.city}`}</p>
-                  <p className="text-lg">{`${currentOrder.docAddress.province ?? ""} ${currentOrder.docAddress.country}`}</p>
-                  {currentOrder.docAddress.floor ? <p className="text-lg">Étage: {currentOrder.docAddress.floor}</p> : <></>}
-                </div>
-                <div className="flex flex-col mt-2">
-                  <h4 className="text-lg font-bold">Livraison:</h4>
-                  <p className="text-lg">{`${currentOrder.docAddress.street} ${currentOrder.docAddress.doorNumber}`}</p>
-                  <p className="text-lg">{`${currentOrder.docAddress.zipCode} ${currentOrder.docAddress.city}`}</p>
-                  <p className="text-lg">{`${currentOrder.docAddress.province ?? ""} ${currentOrder.docAddress.country}`}</p>
-                  {currentOrder.docAddress.floor ? <p className="text-lg">Étage: {currentOrder.docAddress.floor}</p> : <></>}
-                </div>
-              </div>
-              <table className=" overflow-x-auto shadow-lg bg-gray-100 p-2 mt-2">
-                <thead>
-                  <tr>
-                    <th>{t("Name")}</th>
-                    <th>{t("Quantity")}</th>
-                    <th>{t("Price")}</th>
-                    <th>{t("Discount")}</th>
-                    <th>{t("Subtotal")}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentOrder.document_products.map((documentProduct, index) => (
-                    <tr key={index} className={`${index % 2 === 0 ? "bg-slate-300" : ""}`}>
-                      <td>{documentProduct.name}</td>
-                      <td>{documentProduct.amount}</td>
-                      <td>€ {documentProduct.value.toFixed(2).replaceAll(".", ",")}</td>
-                      <td>€ {documentProduct.discount.toFixed(2).replaceAll(".", ",")}</td>
-                      <td>€ {documentProduct.subTotal.toFixed(2).replaceAll(".", ",")}</td>
-                    </tr>
-                  ))}
-                  <tr>
-                    <td></td>
-                    <td>
-                      <b>Total</b>
-                    </td>
-                    <td>
-                      <b>
-                        €{" "}
-                        {currentOrder.document_products
-                          .reduce((accumulator, currentItem) => {
-                            return accumulator + currentItem.subTotal;
-                          }, 0)
-                          .toFixed(2)
-                          .replaceAll(".", ",")}
-                      </b>
-                    </td>
-                    <td>{t("To pay")}</td>
-                    <td>
-                      <b>
-                        €{" "}
-                        {(
-                          currentOrder.document_products.reduce((accumulator, currentItem) => {
-                            return accumulator + currentItem.subTotal;
-                          }, 0) -
-                          currentOrder.payments.reduce((accumulator, currentItem) => {
-                            return accumulator + currentItem.value;
-                          }, 0)
-                        )
-                          .toFixed(2)
-                          .replaceAll(".", ",")}
-                      </b>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <table className=" overflow-x-auto shadow-lg bg-gray-100 p-2 mt-2">
-                <thead>
-                  <tr>
-                    <th>{t("Date")}</th>
-                    <th>{t("Method")}</th>
-                    <th>{t("Value")}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentOrder.payments.map((payment, index) => (
-                    <tr key={index} className={`${index % 2 === 0 ? "bg-slate-300" : ""}`}>
-                      <td>{formatDateAPIToBe(payment.date)}</td>
-                      <td>{payment.method}</td>
-                      <td>€ {payment.value.toFixed(2).replaceAll(".", ",")}</td>
-                    </tr>
-                  ))}
-                  <tr className="border-t-2 border-black">
-                    <td></td>
-                    <td>
-                      <b>Total</b>
-                    </td>
-                    <td>
-                      <b>
-                        €{" "}
-                        {currentOrder.payments
-                          .reduce((accumulator, currentItem) => {
-                            return accumulator + currentItem.value;
-                          }, 0)
-                          .toFixed(2)
-                          .replaceAll(".", ",")}
-                      </b>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div> */}
           </div>
         </AdminLayout>
       </>

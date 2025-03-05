@@ -39,8 +39,7 @@ export default function Collections() {
   return (
     <>
       <Head>
-        <title>Website</title>
-        <meta name="language" content={lang} />
+        <title>{t("collections")}</title>
       </Head>
       <div className="mx-auto flex w-[95%] flex-col items-center p-2">
         <div className="flex flex-row">

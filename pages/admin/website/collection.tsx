@@ -194,9 +194,7 @@ export default function Collection() {
     return (
       <>
         <Head>
-          <title>horecadepot</title>
-          <meta name="description" content="horecadepot" />
-          <meta name="language" content={lang} />
+          <title>{t("collection")}</title>
         </Head>
         <div className="mx-auto flex w-full flex-col items-center justify-start">
           <div className="w-full py-2 text-center text-xl font-semibold">
