@@ -66,9 +66,11 @@ export function CookieBanner() {
   useEffect(() => {
     const newValue = cookieConsent ? "granted" : "denied";
 
-    window.gtag("consent", "update", {
-      analytics_storage: newValue,
-    });
+    try {
+      window.gtag("consent", "update", {
+        analytics_storage: newValue,
+      });
+    } catch (e) {}
 
     setLocalStorage("cookie_consent", cookieConsent);
   }, [cookieConsent]);
