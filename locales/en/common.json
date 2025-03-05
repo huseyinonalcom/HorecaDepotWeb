@@ -380,5 +380,7 @@
   "edit": "Edit",
   "admin": "Admin",
   "active": "Active",
-  "blocked": "Blocked"
+  "blocked": "Blocked",
+  "active-payment-processor": "Active Payment Processor",
+  "delivery-cost": "Delivery Cost"
 }

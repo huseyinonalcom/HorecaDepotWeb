@@ -380,5 +380,7 @@
   "edit": "Modifier",
   "admin": "Admin",
   "active": "Actif",
-  "blocked": "Bloqué"
+  "blocked": "Bloqué",
+  "active-payment-processor": "Processeur de paiement actif",
+  "delivery-cost": "Frais de livraison"
 }

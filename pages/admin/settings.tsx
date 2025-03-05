@@ -1,18 +1,7 @@
-import componentThemes from "../../components/componentThemes";
-import InputOutlined from "../../components/inputs/outlined";
-import AdminLayout from "../../components/admin/adminLayout";
+import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
 import { getConfig } from "../api/config/private/getconfig";
 import useTranslation from "next-translate/useTranslation";
-import { Loader } from "react-feather";
-import { useState } from "react";
 import Head from "next/head";
-import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
-import {
-  ChevronDownIcon,
-  PhotoIcon,
-  UserCircleIcon,
-} from "@heroicons/react/24/outline";
-import Link from "next/link";
 
 function InputField({ label, name, defaultValue = "", type = "text" }) {
   return (
@@ -41,6 +30,33 @@ function ConfigSection({ title, children }) {
         {children}
       </div>
     </div>
+  );
+}
+
+function RadioGroup({ name, options, selectedValue }) {
+  return (
+    <fieldset>
+      <div className="mt-6 space-y-6">
+        {options.map(({ value, label }) => (
+          <div key={value} className="flex items-center gap-x-3">
+            <input
+              defaultChecked={selectedValue === value}
+              id={`${name}-${value}`}
+              name={name}
+              type="radio"
+              value={value}
+              className="not-checked:before:hidden relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden"
+            />
+            <label
+              htmlFor={`${name}-${value}`}
+              className="block text-sm font-medium text-gray-900"
+            >
+              {label}
+            </label>
+          </div>
+        ))}
+      </div>
+    </fieldset>
   );
 }
 
@@ -73,7 +89,7 @@ export default function Settings(props) {
                 OGONE_KEY: formData.get("ogoneKey"),
                 OGONE_SECRET: formData.get("ogoneSecret"),
               },
-              google: { GOOGLE_API_KEY: formData.get("GOOGLE_API_KEY") },
+              google: { GOOGLE_API_KEY: formData.get("googleApiKey") },
               costPerKM: formData.get("costPerKM"),
               mail: {
                 mailUser: formData.get("mailUser"),
@@ -117,6 +133,31 @@ export default function Settings(props) {
               name="ogoneSecret"
               label="Ogone Secret"
               defaultValue={config.ogone.OGONE_SECRET}
+            />
+          </ConfigSection>
+          <ConfigSection title={t("active-payment-processor")}>
+            <RadioGroup
+              name="activeProvider"
+              selectedValue={config.activeProvider}
+              options={[
+                { value: "mollie", label: "Mollie" },
+                { value: "stripe", label: "Stripe" },
+                { value: "ogone", label: "Ogone" },
+              ]}
+            />
+          </ConfigSection>
+          <ConfigSection title="Google">
+            <InputField
+              name="googleApiKey"
+              label="Google API Key"
+              defaultValue={config.google.GOOGLE_API_KEY}
+            />
+          </ConfigSection>
+          <ConfigSection title={t("delivery-cost")}>
+            <InputField
+              name="costPerKM"
+              label="€ / Km"
+              defaultValue={config.costPerKM}
             />
           </ConfigSection>
           <div className="mt-6 flex items-center justify-end gap-x-6">

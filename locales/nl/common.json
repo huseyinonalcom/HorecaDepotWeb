@@ -380,5 +380,7 @@
   "edit": "Bewerken",
   "admin": "Admin",
   "active": "Actief",
-  "blocked": "Geblokkeerd"
+  "blocked": "Geblokkeerd",
+  "active-payment-processor": "Actieve betalingsverwerker",
+  "delivery-cost": "Bezorgkosten"
 }

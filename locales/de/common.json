@@ -380,5 +380,7 @@
   "edit": "Bearbeiten",
   "admin": "Admin",
   "active": "Aktiv",
-  "blocked": "Gesperrt"
+  "blocked": "Gesperrt",
+  "active-payment-processor": "Aktiver Zahlungsanbieter",
+  "delivery-cost": "Lieferkosten"
 }
