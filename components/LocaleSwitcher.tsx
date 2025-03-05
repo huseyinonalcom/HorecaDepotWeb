@@ -27,7 +27,7 @@ const languages = [
 ];
 
 export default function LocaleSwitcher() {
-  const { t, lang } = useTranslation();
+  const { t, lang } = useTranslation("common");
   const [showSwitcher, setShowSwitcher] = useState(false);
 
   const handleLanguageChange = useCallback(async (code: string) => {

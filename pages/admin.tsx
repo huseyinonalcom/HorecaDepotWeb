@@ -1,17 +1,27 @@
 import useTranslation from "next-translate/useTranslation";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
-import Head from "next/head";
 import Image from "next/image";
+import Head from "next/head";
 
 export default function Admin() {
-  const router = useRouter();
-  const { t, lang } = useTranslation("common");
-  const [error, setError] = useState("");
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { t } = useTranslation("common");
+  const passwordInput = useRef(null);
+  const router = useRouter();
+
+  const goToPassword = () => {
+    passwordInput.current?.focus();
+  };
 
   useEffect(() => {
     document.getElementById("username")?.focus();
+  }, []);
+
+  useEffect(() => {
+    validateSession();
   }, []);
 
   const handleKeyPress = (event) => {
@@ -21,31 +31,13 @@ export default function Admin() {
     }
   };
 
-  useEffect(() => {
-    const validateSession = async () => {
-      const data = await fetch("/api/private/auth/checkloggedinuser");
-      const answer = await data.json();
-      if (data.status == 200) {
-        if (router.query.destination) {
-          router.push(decodeURIComponent(router.query.destination as string));
-        } else {
-          if (answer.role == "Tier 9" || answer.role == "Tier 8") {
-            router.push("/admin/dashboard");
-          } else {
-            router.push("/stock/list/all");
-          }
-        }
-      }
-    };
-    validateSession();
-  }, []);
-
-  const goToPassword = () => {
-    passwordInput.current?.focus();
+  const validateSession = async () => {
+    const req = await fetch("/api/private/auth/checkloggedinuser");
+    if (req.ok) {
+      const answer = await req.json();
+      navigateToDashboard(answer.role, router.query.destination);
+    }
   };
-
-  const [password, setPassword] = useState("");
-  const passwordInput = useRef(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -61,15 +53,7 @@ export default function Admin() {
 
       if (response.ok) {
         const answer = await response.json();
-        if (router.query.destination) {
-          router.push(decodeURIComponent(router.query.destination as string));
-        } else {
-          if (answer.role == "Tier 9" || answer.role == "Tier 8") {
-            router.push("/admin/dashboard");
-          } else {
-            router.push("/stock/list/all");
-          }
-        }
+        navigateToDashboard(answer, router.query.destination);
       } else {
         setError(t("user_pass_invalid"));
       }
@@ -78,11 +62,20 @@ export default function Admin() {
     }
   };
 
+  const navigateToDashboard = (role, destination) => {
+    if (destination) {
+      router.push(decodeURIComponent(destination as string));
+    } else if (role == "Tier 9" || role == "Tier 8") {
+      router.push("/admin/dashboard");
+    } else {
+      router.push("/stock/list/all");
+    }
+  };
+
   return (
     <div>
       <Head>
         <title>Login</title>
-        <meta name="language" content={lang} />
       </Head>
       <div className="flex min-h-screen flex-col items-center justify-center gap-2 bg-black">
         <div className="relative h-32 w-full max-w-md">
@@ -101,7 +94,7 @@ export default function Admin() {
         >
           <h2 className="text-center text-xl font-bold">LOGIN</h2>
           {error && (
-            <div className="bg-red-100 p-2 text-center text-red-700 ">
+            <div className="bg-red-100 p-2 text-center text-red-700">
               {error}
             </div>
           )}
@@ -110,7 +103,7 @@ export default function Admin() {
               {t("user")}
             </label>
             <input
-              className="w-full border  border-gray-300 p-2"
+              className="w-full border border-gray-300 p-2"
               type="text"
               id="username"
               value={username}
@@ -124,7 +117,7 @@ export default function Admin() {
               {t("password")}
             </label>
             <input
-              className="w-full border  border-gray-300 p-2"
+              className="w-full border border-gray-300 p-2"
               type="password"
               ref={passwordInput}
               autoComplete="current-password"
@@ -135,7 +128,7 @@ export default function Admin() {
           </div>
           <button
             type="submit"
-            className="w-full bg-black py-2 text-white hover:bg-gray-600 "
+            className="w-full bg-black py-2 text-white hover:bg-gray-600"
           >
             Login
           </button>

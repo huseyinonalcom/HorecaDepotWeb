@@ -51,7 +51,7 @@ export default async function logInAdmin(
           "Set-Cookie",
           `j=${answer.jwt}; HttpOnly; Path=/; Max-Age=36000; SameSite=Strict${isProduction ? "; Secure" : ""}`,
         );
-
+        
         return res.status(200).json(answer2.role.name);
       } else {
         return res.status(500).json(statusText[500]);
