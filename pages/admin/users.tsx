@@ -13,9 +13,12 @@ export default function Users(props) {
         <title>{t("document_orders")}</title>
         <meta name="language" content={lang} />
       </Head>
-      <div className="flex w-full flex-col items-center overflow-x-auto rounded-md bg-white p-4 shadow-sm">
-        <table className="w-full gap-2">
-          <thead>
+      <div className="flex w-full flex-row justify-center">
+        <h1 className="text-2xl font-semibold">{t("users")}</h1>
+      </div>
+      <div className="mt-4 flex w-full flex-col items-center overflow-x-auto rounded-md bg-white p-4 shadow-sm">
+        <table className="w-full">
+          <thead className="bg-gray-400">
             <tr>
               <th>{t("name")}</th>
               <th>{t("email")}</th>
@@ -24,18 +27,10 @@ export default function Users(props) {
             </tr>
           </thead>
           <tbody>
-            {props.allUsers.map((user, index) => (
+            {props.allUsers.map((user) => (
               <tr
                 key={user.id}
-                className={`cursor-pointer ${
-                  index % 2 === 0 ? "bg-slate-300" : ""
-                }`}
-                onMouseOver={(e) =>
-                  e.currentTarget.classList.add("hover:bg-slate-500")
-                }
-                onMouseOut={(e) =>
-                  e.currentTarget.classList.remove("hover:bg-slate-500")
-                }
+                className="cursor-pointer odd:bg-slate-300 hover:bg-slate-400"
               >
                 <td>{user.user_info.firstName}</td>
                 <td>{user.email}</td>
@@ -62,16 +57,15 @@ export async function getServerSideProps(context) {
     qs: "populate=role,user_info&filters[role][name][$contains]=Tier",
   });
 
-  const roles = await getFromApi({
+  const allRoles = await getFromApi({
     collection: "users-permissions/roles",
     authToken: req.cookies.j,
   });
 
-  console.log(roles);
-
   return {
     props: {
       allUsers,
+      allRoles,
     },
   };
 }
