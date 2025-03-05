@@ -353,5 +353,10 @@
   "invoice-address-same": "Factuuradres hetzelfde als afleveradres",
   "invoice-address": "Factuuradres",
   "error-for-country": "Fout bij land",
-  "Login to your HorecaDepot account": "Log in op uw HorecaDepot-account"
+  "Login to your HorecaDepot account": "Log in op uw HorecaDepot-account",
+  "no-client-info": "Vul de vereiste velden van het factuurgegevensformulier in.",
+  "no-company-info": "Vul uw bedrijfsgegevens in.",
+  "no-delivery-address": "Voer een afleveradres in.",
+  "no-invoice-address": "Voer een factuuradres in.",
+  "cart-empty": "Uw winkelwagen is leeg."
 }

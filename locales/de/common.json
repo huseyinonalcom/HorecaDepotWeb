@@ -353,5 +353,10 @@
   "invoice-address-same": "Rechnungsadresse entspricht Lieferadresse",
   "invoice-address": "Rechnungsadresse",
   "error-for-country": "Fehler beim Land",
-  "Login to your HorecaDepot account": "Melden Sie sich bei Ihrem HorecaDepot-Konto an"
+  "Login to your HorecaDepot account": "Melden Sie sich bei Ihrem HorecaDepot-Konto an",
+  "no-client-info": "Bitte füllen Sie die erforderlichen Felder des Rechnungsformulars aus.",
+  "no-company-info": "Bitte geben Sie Ihre Firmendaten ein.",
+  "no-delivery-address": "Bitte geben Sie eine Lieferadresse ein.",
+  "no-invoice-address": "Bitte geben Sie eine Rechnungsadresse ein.",
+  "cart-empty": "Ihr Warenkorb ist leer."
 }

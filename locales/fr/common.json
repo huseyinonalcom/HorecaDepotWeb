@@ -353,5 +353,10 @@
   "invoice-address-same": "Adresse de facturation identique à l'adresse de livraison",
   "invoice-address": "Adresse de facturation",
   "error-for-country": "Erreur sur le pays",
-  "Login to your HorecaDepot account": "Connectez-vous à votre compte HorecaDepot"
+  "Login to your HorecaDepot account": "Connectez-vous à votre compte HorecaDepot",
+  "no-client-info": "Veuillez remplir les champs requis du formulaire de détails de facture.",
+  "no-company-info": "Veuillez renseigner les informations de votre entreprise.",
+  "no-delivery-address": "Veuillez entrer une adresse de livraison.",
+  "no-invoice-address": "Veuillez entrer une adresse de facturation.",
+  "cart-empty": "Votre panier est vide."
 }

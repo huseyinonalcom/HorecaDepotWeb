@@ -353,5 +353,10 @@
   "invoice-address-same": "Invoice Address Same as Delivery Address",
   "invoice-address": "Invoice Address",
   "error-for-country": "Error on country",
-  "Login to your HorecaDepot account": "Login to your HorecaDepot account"
+  "Login to your HorecaDepot account": "Login to your HorecaDepot account",
+  "no-client-info": "Please fill in the required fields of the invoice details form.",
+  "no-company-info": "Please fill in your company details.",
+  "no-delivery-address": "Please enter a delivery address.",
+  "no-invoice-address": "Please enter an invoice address.",
+  "cart-empty": "Your cart is empty."
 }
