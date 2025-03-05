@@ -94,7 +94,7 @@ const Layout = ({ children }: Props) => {
         src="https://embed.tawk.to/66ed67e0e5982d6c7bb18e39/1i87lrhj5"
         async
       ></script>
-      <main className={`${roboto.className} min-h-[80dvh]`}>
+      <main className={`${roboto.className} min-h-[80dvh] bg-white`}>
         {showPopup && (
           <div
             onClick={handlePopupClose}

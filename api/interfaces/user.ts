@@ -7,6 +7,18 @@ export interface User {
   blocked?: boolean;
   username?: string;
   password?: string;
+  user_info?: UserInfo;
+  role?: Role;
+}
+
+export interface UserInfo {
+  firstName?: string;
+  lastName?: string;
+}
+
+export interface Role {
+  id?: number;
+  name?: string;
 }
 
 export class UserConversion {

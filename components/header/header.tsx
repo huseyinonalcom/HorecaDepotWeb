@@ -7,6 +7,7 @@ import ProductPreview3 from "../products/product-preview3";
 import useTranslation from "next-translate/useTranslation";
 import setLanguage from "next-translate/setLanguage";
 import { Rating } from "react-simple-star-rating";
+import LocaleSwitcher from "../LocaleSwitcher";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
@@ -382,87 +383,7 @@ const TopBar = () => {
           initialValue={rating?.rating ?? 5}
         />
       </div>
-      <div className="group relative z-50 hidden w-[55px] flex-shrink-0 lg:inline-block">
-        <Image
-          src={`/assets/header/${lang.toUpperCase()}.svg`}
-          alt={t("locale")}
-          width={43}
-          height={28}
-          style={{ width: "43px", height: "28px" }}
-          className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-        />
-
-        <ul className="invisible absolute right-0 mx-auto block w-max items-center pt-1 text-gray-700 opacity-0 shadow-md duration-300 group-hover:visible group-hover:opacity-100">
-          <li className="bg-black pb-1">
-            <button
-              name="setLanguageToEN"
-              aria-label="Set Language to English"
-              onClick={async () => await setLanguage("en")}
-              className={`${flagButtonClass} ${lang == "en" ? "hidden" : ""}`}
-            >
-              <Image
-                src={`/assets/header/EN.svg`}
-                alt={t("locale")}
-                width={35}
-                height={23}
-                style={{ width: "35px", height: "23px" }}
-                className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-              />
-            </button>
-          </li>
-          <li className="bg-black pb-1">
-            <button
-              name="setLanguageToFR"
-              aria-label="Set Language to French"
-              onClick={async () => await setLanguage("fr")}
-              className={`${flagButtonClass} ${lang == "fr" ? "hidden" : ""}`}
-            >
-              <Image
-                src={`/assets/header/FR.svg`}
-                alt={t("locale")}
-                width={35}
-                height={23}
-                style={{ width: "35px", height: "23px" }}
-                className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-              />
-            </button>
-          </li>
-          <li className="bg-black pb-1">
-            <button
-              name="setLanguageToNL"
-              aria-label="Set Language to Dutch"
-              onClick={async () => await setLanguage("nl")}
-              className={`${flagButtonClass} ${lang == "nl" ? "hidden" : ""}`}
-            >
-              <Image
-                src={`/assets/header/NL.svg`}
-                alt={t("locale")}
-                width={35}
-                height={23}
-                style={{ width: "35px", height: "23px" }}
-                className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-              />
-            </button>
-          </li>
-          <li className="bg-black pb-1">
-            <button
-              name="setLanguageToDE"
-              aria-label="Set Language to German"
-              onClick={async () => await setLanguage("de")}
-              className={`${flagButtonClass} ${lang == "de" ? "hidden" : ""}`}
-            >
-              <Image
-                src={`/assets/header/DE.svg`}
-                alt={t("locale")}
-                width={35}
-                height={23}
-                style={{ width: "35px", height: "23px" }}
-                className="shadow-[0_0_15px_rgba(255,255,255,0.4)]"
-              />
-            </button>
-          </li>
-        </ul>
-      </div>
+      <LocaleSwitcher />
     </div>
   );
 };

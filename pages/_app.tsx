@@ -1,14 +1,14 @@
-import { AppProps } from "next/app";
-import "../global.css";
-import { CategoryProvider } from "../api/providers/categoryProvider";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
+import { CategoryProvider } from "../api/providers/categoryProvider";
 import { WishlistProvider } from "../api/providers/wishlistProvider";
 import { BannerProvider } from "../api/providers/bannerProdiver";
-import { CartProvider } from "../api/providers/cartProvider";
 import { ClientProvider } from "../api/providers/clientProvider";
-import { ReactElement, ReactNode } from "react";
-import { NextPage } from "next";
+import { CartProvider } from "../api/providers/cartProvider";
 import "yet-another-react-lightbox-lite/styles.css";
+import { ReactElement, ReactNode } from "react";
+import { AppProps } from "next/app";
+import { NextPage } from "next";
+import "../global.css";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;

@@ -35,7 +35,7 @@ export default function AdminLayout({ children }) {
       <main>
         <div className="flex flex-row">
           <AdminDrawer userTier={userTier} />
-          <div className="flex-shrink-1 w-full overflow-x-hidden px-2">
+          <div className="flex-shrink-1 w-full overflow-x-hidden bg-stone-100 px-2">
             {children}
           </div>
         </div>

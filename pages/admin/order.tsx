@@ -1,4 +1,5 @@
 import { formatDateAPIToBe } from "../../api/utils/formatters/formatdateapibe";
+import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 import LoadingIndicator from "../../components/common/loadingIndicator";
 import componentThemes from "../../components/componentThemes";
 import AdminLayout from "../../components/admin/adminLayout";
@@ -11,7 +12,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Head from "next/head";
-import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 
 export default function Order() {
   const { t, lang } = useTranslation("common");
@@ -114,7 +114,6 @@ export default function Order() {
         <Head>
           <title>{t("order")}</title>
         </Head>
-
         <div className="w-full px-2 py-2">
           <div className="w-full p-4 shadow-lg print:ml-0 print:p-0 print:shadow-none">
             <div className="flex flex-row justify-between">
