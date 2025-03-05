@@ -11,7 +11,6 @@ export default function Users(props) {
     <>
       <Head>
         <title>{t("users")}</title>
-        <meta name="language" content={lang} />
       </Head>
       <div className="flex w-full flex-row justify-center">
         <h1 className="text-2xl font-semibold">{t("users")}</h1>

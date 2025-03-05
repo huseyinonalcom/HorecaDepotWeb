@@ -39,8 +39,7 @@ export default function Settings(props) {
   return (
     <>
       <Head>
-        <title>Configuration</title>
-        <meta name="language" content={lang} />
+        <title>{t("configuration")}</title>
       </Head>
       <div className="mx-auto flex w-[95vw] flex-col items-center justify-start">
         <div className="w-full py-2 text-center text-xl font-semibold">
