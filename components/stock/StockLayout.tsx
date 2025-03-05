@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { LogOut, X } from "react-feather";
 import Image from "next/image";
 import Link from "next/link";
-import logOutAdmin from "../../pages/api/admin/logout";
 
 type Props = {
   children: React.ReactNode;
@@ -21,7 +20,7 @@ export default function StockLayout({ children }: Props) {
     const data = await fetch("/api/private/auth/checkloggedinuser");
     if (data.status != 200) {
       router.push(
-        `/admin?destination=${encodeURIComponent("/stock/list/all")}`,
+        `/admin?destination=${encodeURIComponent(window.location.pathname)}`,
       );
     }
   };
@@ -105,7 +104,7 @@ export default function StockLayout({ children }: Props) {
             <button
               name="logout"
               aria-label="Logout"
-              className={`flex w-full mt-12 flex-row gap-3 whitespace-nowrap rounded-md border-2 border-gray-400 p-1 text-white shadow-sm hover:bg-blue-800`}
+              className={`mt-12 flex w-full flex-row gap-3 whitespace-nowrap rounded-md border-2 border-gray-400 p-1 text-white shadow-sm hover:bg-blue-800`}
               onClick={async () => {
                 await fetch("/api/admin/logout").then(() => {
                   router.push(`/`);
