@@ -6,18 +6,29 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import {
+  ArchiveBoxIcon,
+  ArrowRightStartOnRectangleIcon,
+  Bars2Icon,
   Bars3Icon,
+  BookOpenIcon,
   CalendarIcon,
   ChartPieIcon,
+  ChatBubbleBottomCenterIcon,
+  ClipboardDocumentListIcon,
+  Cog8ToothIcon,
   DocumentDuplicateIcon,
   FolderIcon,
   HomeIcon,
+  RectangleGroupIcon,
+  RectangleStackIcon,
+  TagIcon,
   UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import useTranslation from "next-translate/useTranslation";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import LocaleSwitcher from "../LocaleSwitcher";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -54,34 +65,42 @@ export default function AdminPanelLayout({
   };
 
   const navigation = [
-    { name: "stock", href: "/admin/stock/all", icon: HomeIcon },
-    { name: "orders", href: "/admin/orders", icon: UsersIcon },
-    { name: "homepage", href: "/admin/website/homepage", icon: FolderIcon },
+    { name: "stock", href: "/admin/stock/all", icon: ArchiveBoxIcon },
+    { name: "orders", href: "/admin/orders", icon: ClipboardDocumentListIcon },
+    { name: "homepage", href: "/admin/website/homepage", icon: HomeIcon },
     {
       name: "categories",
       href: "/admin/website/categories",
-      icon: CalendarIcon,
+      icon: FolderIcon,
     },
     {
       name: "collections",
       href: "/admin/website/collections",
-      icon: DocumentDuplicateIcon,
+      icon: BookOpenIcon,
       current: false,
     },
-    { name: "banners", href: "/admin/website/banners", icon: ChartPieIcon },
-    { name: "banner", href: "/admin/website/banner", icon: ChartPieIcon },
-    { name: "popup", href: "/admin/website/popup", icon: ChartPieIcon },
+    {
+      name: "banners",
+      href: "/admin/website/banners",
+      icon: RectangleGroupIcon,
+    },
+    { name: "banner", href: "/admin/website/banner", icon: Bars2Icon },
+    {
+      name: "popup",
+      href: "/admin/website/popup",
+      icon: ChatBubbleBottomCenterIcon,
+    },
     {
       name: "bulkkeywordsetter",
       href: "/admin/website/bulkkeywordsetter",
-      icon: ChartPieIcon,
+      icon: TagIcon,
       current: false,
     },
   ];
 
   const adminNavigation = [
     { name: "users", href: "/admin/users", icon: UsersIcon },
-    { name: "settings", href: "/admin/settings", icon: ChartPieIcon },
+    { name: "settings", href: "/admin/settings", icon: Cog8ToothIcon },
   ];
 
   if (userTier == 9) {
@@ -124,12 +143,11 @@ export default function AdminPanelLayout({
                   </button>
                 </div>
               </TransitionChild>
-              {/* Sidebar component, swap this element with another sidebar if you like */}
               <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-2">
                 <div className="flex h-16 shrink-0 items-center">
                   <img
-                    alt="Your Company"
-                    src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+                    alt="Horeca Depot Logo"
+                    src="/assets/header/logob.png"
                     className="h-8 w-auto"
                   />
                 </div>
@@ -157,13 +175,35 @@ export default function AdminPanelLayout({
                                   "size-6 shrink-0",
                                 )}
                               />
-                              {item.name}
+                              {t(item.name)}
                             </a>
                           </li>
                         ))}
                       </ul>
                     </li>
                   </ul>
+                  <LocaleSwitcher />
+                  <button
+                    name="logout"
+                    aria-label="Logout"
+                    onClick={async () => {
+                      await fetch("/api/admin/logout").then(() => {
+                        router.push(`/`);
+                      });
+                    }}
+                    className="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
+                  >
+                    <ArrowRightStartOnRectangleIcon
+                      aria-hidden="true"
+                      className={classNames(
+                        false
+                          ? "text-indigo-600"
+                          : "text-gray-400 group-hover:text-indigo-600",
+                        "size-6 shrink-0",
+                      )}
+                    />
+                    {t("logout")}
+                  </button>
                 </nav>
               </div>
             </DialogPanel>
@@ -172,12 +212,11 @@ export default function AdminPanelLayout({
 
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-          {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
             <div className="flex h-16 shrink-0 items-center">
               <img
-                alt="Your Company"
-                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+                alt="Horeca Depot Logo"
+                src="/assets/header/logob.png"
                 className="h-8 w-auto"
               />
             </div>
@@ -205,13 +244,35 @@ export default function AdminPanelLayout({
                               "size-6 shrink-0",
                             )}
                           />
-                          {item.name}
+                          {t(item.name)}
                         </a>
                       </li>
                     ))}
                   </ul>
                 </li>
               </ul>
+              <LocaleSwitcher />
+              <button
+                name="logout"
+                aria-label="Logout"
+                onClick={async () => {
+                  await fetch("/api/admin/logout").then(() => {
+                    router.push(`/`);
+                  });
+                }}
+                className="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
+              >
+                <ArrowRightStartOnRectangleIcon
+                  aria-hidden="true"
+                  className={classNames(
+                    false
+                      ? "text-indigo-600"
+                      : "text-gray-400 group-hover:text-indigo-600",
+                    "size-6 shrink-0",
+                  )}
+                />
+                {t("logout")}
+              </button>
             </nav>
           </div>
         </div>
