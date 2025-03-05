@@ -7,86 +7,95 @@ import { Loader } from "react-feather";
 import { useState } from "react";
 import Head from "next/head";
 import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
+import {
+  ChevronDownIcon,
+  PhotoIcon,
+  UserCircleIcon,
+} from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 export default function Settings(props) {
-  const { t, lang } = useTranslation("common");
-  const [mailParams, setMailParams] = useState({
-    mailUser: props?.config?.mail?.mailUser ?? "",
-    mailHost: props?.config?.mail?.mailHost ?? "",
-    mailPass: props?.config?.mail?.mailPass ?? "",
-    mailPort: props?.config?.mail?.mailPort ?? "",
-    mailSender: props?.config?.mail?.mailSender ?? "",
-    mailSenderName: props?.config?.mail?.mailSenderName ?? "",
-    mailTo: "",
-  });
-  const [loading, setLoading] = useState(false);
-
-  const testMail = () => {
-    if (loading) {
-      return;
-    }
-    setLoading(true);
-    fetch("/api/admin/testmail", {
-      method: "post",
-      body: JSON.stringify(mailParams),
-    })
-      .then(async (ans) => {
-        let answer = await ans.text();
-        alert(answer);
-      })
-      .finally(() => setLoading(false));
-  };
+  const { t } = useTranslation("common");
 
   return (
     <>
       <Head>
         <title>{t("configuration")}</title>
       </Head>
-      <div className="mx-auto flex w-full flex-col items-center justify-start">
-        <div className="w-full py-2 text-center text-xl font-semibold">
-          {t("Settings")}
-        </div>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            const formData = new FormData(e.currentTarget);
 
-            fetch("/api/config/admin/updateconfig", {
-              method: "PUT",
-              body: JSON.stringify({
-                activeProvider: formData.get("activeProvider"),
-                mollie: { MOLLIE_SECRET: formData.get("MOLLIE_SECRET") },
-                stripe: {
-                  STRIPE_LIVE_KEY: formData.get("STRIPE_LIVE_KEY"),
-                  STRIPE_SECRET_KEY: formData.get("STRIPE_SECRET_KEY"),
-                },
-                ogone: {
-                  OGONE_KEY: formData.get("OGONE_KEY"),
-                  OGONE_SECRET: formData.get("OGONE_SECRET"),
-                },
-                google: { GOOGLE_API_KEY: formData.get("GOOGLE_API_KEY") },
-                costPerKM: formData.get("costPerKM"),
-                mail: {
-                  mailUser: formData.get("mailUser"),
-                  mailHost: formData.get("mailHost"),
-                  mailPass: formData.get("mailPass"),
-                  mailPort: formData.get("mailPort"),
-                  mailSender: formData.get("mailSender"),
-                  mailSenderName: formData.get("mailSenderName"),
-                },
-              }),
-            }).then(async (res) => alert(t(await res.json())));
-          }}
-          className="grid w-full grid-cols-1 gap-2"
-        >
-          <h2 className="text-xl font-semibold">{t("Mollie")}</h2>
-          <InputOutlined
-            defaultValue={props.config.mollie.MOLLIE_SECRET}
-            className="w-full border border-gray-300 p-2"
-            type="text"
-            name="MOLLIE_SECRET"
-            label={t("Mollie Secret Key")}
-          />
+      <form
+        className="overflow-hidden rounded-lg bg-white shadow-sm"
+        onSubmit={(e) => {
+          e.preventDefault();
+          const formData = new FormData(e.currentTarget);
+
+          fetch("/api/config/admin/updateconfig", {
+            method: "PUT",
+            body: JSON.stringify({
+              activeProvider: formData.get("activeProvider"),
+              mollie: { MOLLIE_SECRET: formData.get("mollieSecret") },
+              stripe: {
+                STRIPE_LIVE_KEY: formData.get("STRIPE_LIVE_KEY"),
+                STRIPE_SECRET_KEY: formData.get("STRIPE_SECRET_KEY"),
+              },
+              ogone: {
+                OGONE_KEY: formData.get("OGONE_KEY"),
+                OGONE_SECRET: formData.get("OGONE_SECRET"),
+              },
+              google: { GOOGLE_API_KEY: formData.get("GOOGLE_API_KEY") },
+              costPerKM: formData.get("costPerKM"),
+              mail: {
+                mailUser: formData.get("mailUser"),
+                mailHost: formData.get("mailHost"),
+                mailPass: formData.get("mailPass"),
+                mailPort: formData.get("mailPort"),
+                mailSender: formData.get("mailSender"),
+                mailSenderName: formData.get("mailSenderName"),
+              },
+            }),
+          }).then(async (res) => alert(t(await res.json())));
+        }}
+      >
+        <div className="px-4 py-5 sm:p-6">
+          <div className="border-b border-gray-900/10 pb-12">
+            <h2 className="text-base/7 font-semibold text-gray-900">Mollie</h2>
+            <div>
+              <label
+                htmlFor="mollieSecret"
+                className="block text-sm/6 font-medium text-gray-900"
+              >
+                Mollie Secret Key
+              </label>
+              <div className="mt-2">
+                <input
+                  id="mollieSecret"
+                  name="mollieSecret"
+                  type="text"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="border-b border-gray-900/10 pb-12">
+            <h2 className="text-base/7 font-semibold text-gray-900">Mollie</h2>
+            <div>
+              <label
+                htmlFor="mollieSecret"
+                className="block text-sm/6 font-medium text-gray-900"
+              >
+                Mollie Secret Key
+              </label>
+              <div className="mt-2">
+                <input
+                  id="mollieSecret"
+                  name="mollieSecret"
+                  type="text"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                />
+              </div>
+            </div>
+          </div>
+
           <h2 className="text-xl font-semibold">{t("Stripe")}</h2>
           <InputOutlined
             defaultValue={props.config.stripe.STRIPE_LIVE_KEY}
@@ -149,12 +158,6 @@ export default function Settings(props) {
             className="w-full border border-gray-300 p-2"
             type="text"
             name="mailUser"
-            onChange={(e) =>
-              setMailParams((mp) => ({
-                ...mp,
-                mailUser: e.target.value,
-              }))
-            }
             label={t("mail-user")}
           />
           <InputOutlined
@@ -162,12 +165,6 @@ export default function Settings(props) {
             className="w-full border border-gray-300 p-2"
             type="text"
             name="mailPass"
-            onChange={(e) =>
-              setMailParams((mp) => ({
-                ...mp,
-                mailPass: e.target.value,
-              }))
-            }
             label={t("mail-pass")}
           />
           <InputOutlined
@@ -175,12 +172,6 @@ export default function Settings(props) {
             className="w-full border border-gray-300 p-2"
             type="text"
             name="mailHost"
-            onChange={(e) =>
-              setMailParams((mp) => ({
-                ...mp,
-                mailHost: e.target.value,
-              }))
-            }
             label={t("mail-host")}
           />
           <InputOutlined
@@ -188,12 +179,6 @@ export default function Settings(props) {
             className="w-full border border-gray-300 p-2"
             type="text"
             name="mailPort"
-            onChange={(e) =>
-              setMailParams((mp) => ({
-                ...mp,
-                mailPort: e.target.value,
-              }))
-            }
             label={t("mail-port")}
           />
           <InputOutlined
@@ -201,12 +186,6 @@ export default function Settings(props) {
             className="w-full border border-gray-300 p-2"
             type="text"
             name="mailSender"
-            onChange={(e) =>
-              setMailParams((mp) => ({
-                ...mp,
-                mailSender: e.target.value,
-              }))
-            }
             label={t("mail-sender")}
           />
           <InputOutlined
@@ -214,12 +193,6 @@ export default function Settings(props) {
             className="w-full border border-gray-300 p-2"
             type="text"
             name="mailSenderName"
-            onChange={(e) =>
-              setMailParams((mp) => ({
-                ...mp,
-                mailSenderName: e.target.value,
-              }))
-            }
             label={t("mail-sender-name")}
           />
           <h2 className="text-xl font-semibold">{t("mail-test")}</h2>
@@ -227,33 +200,19 @@ export default function Settings(props) {
             className="w-full border border-gray-300 p-2"
             type="text"
             name="mailTo"
-            onChange={(e) =>
-              setMailParams((mp) => ({
-                ...mp,
-                mailTo: e.target.value,
-              }))
-            }
             label={t("mail-to")}
           />
-          <button
-            type="button"
-            onClick={() => testMail()}
-            className={componentThemes.greenSubmitButton}
-          >
-            {loading ? (
-              <Loader
-                className="mx-auto animate-spin text-orange-500"
-                size={24}
-              />
-            ) : (
-              t("test-mail")
-            )}
-          </button>
-          <button type="submit" className={componentThemes.greenSubmitButton}>
-            {t("update_config")}
-          </button>
-        </form>
-      </div>
+
+          <div className="mt-6 flex items-center justify-end gap-x-6">
+            <button
+              type="submit"
+              className="shadow-xs rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </form>
     </>
   );
 }
