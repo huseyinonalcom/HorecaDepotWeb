@@ -390,5 +390,7 @@
   "user-created-fail": "Erreur lors de la création de l'utilisateur, essayez une autre adresse e-mail",
   "user-update-fail": "Erreur lors de la mise à jour de l'utilisateur",
   "user-create": "Créer un utilisateur",
-  "user-edit": "Modifier l'utilisateur"
+  "user-edit": "Modifier l'utilisateur",
+  "firstname": "Prénom",
+  "email": "E-mail"
 }

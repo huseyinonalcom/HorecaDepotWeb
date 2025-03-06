@@ -367,7 +367,7 @@
   "banners": "Banners",
   "banner": "Banner",
   "popup": "Pop-Up",
-  "bulkkeywordsetter": "Keywods",
+  "bulkkeywordsetter": "Keywords",
   "users": "Users",
   "settings": "Settings",
   "logout": "Log Out",
@@ -390,5 +390,7 @@
   "user-created-fail": "Error while creating user, try another email address",
   "user-update-fail": "Error while updating user",
   "user-create": "Create User",
-  "user-edit": "Edit User"
+  "user-edit": "Edit User",
+  "firstname": "First Name",
+  "email": "E-mail"
 }

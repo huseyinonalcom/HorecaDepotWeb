@@ -66,9 +66,9 @@ export default function ProductCard({ product }: { product: any }) {
           <b>{t("Material")}:</b> {product.material}
         </p>
 
-        <p>
+        {/*  <p>
           <b>{t("product-pdf")}:</b> Voir le PDF
-        </p>
+        </p> */}
         <p>
           <b>{t("Stock")}:</b>{" "}
           {product.shelves.reduce((acc, shelf) => acc + shelf.stock, 0)}

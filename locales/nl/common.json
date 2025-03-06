@@ -390,5 +390,7 @@
   "user-created-fail": "Fout bij het aanmaken van gebruiker, probeer een ander e-mailadres",
   "user-update-fail": "Fout bij het bijwerken van gebruiker",
   "user-create": "Gebruiker aanmaken",
-  "user-edit": "Gebruiker bewerken"
+  "user-edit": "Gebruiker bewerken",
+  "firstname": "Voornaam",
+  "email": "E-mail"
 }

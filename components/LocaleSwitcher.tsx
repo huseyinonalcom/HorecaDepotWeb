@@ -33,7 +33,7 @@ export default function LocaleSwitcher() {
   }, []);
 
   return (
-    <div className="flex w-full flex-row pl-2">
+    <div className="flex flex-row pl-2">
       <button type="button" onClick={() => setShowSwitcher(true)}>
         <Image
           src={`/assets/header/${lang.toUpperCase()}.svg`}

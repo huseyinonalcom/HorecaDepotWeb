@@ -120,12 +120,12 @@ export default function User(props) {
         <StyledFormSection title={t("user-details")}>
           <InputField
             name="firstName"
-            label="Prénom"
+            label={t("firstname")}
             defaultValue={props.user.user_info.firstName}
           />
           <InputField
             name="email"
-            label="Email"
+            label={t("email")}
             defaultValue={props.user.email}
           />
         </StyledFormSection>
