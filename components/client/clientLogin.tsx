@@ -464,7 +464,7 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
               password,
             });
           }}
-          className="mb-6 mt-4 w-full max-w-md space-y-4"
+          className="mb-6 mt-4 w-full max-w-xl space-y-4"
         >
           {error && (
             <div className="bg-red-100 p-2 text-center text-red-700 ">

@@ -3,7 +3,7 @@ import statusText from "../../../../api/statustexts";
 
 const fetchUrl = `${process.env.API_URL}/api/users/me?populate[role][fields][0]=name&fields=id`;
 
-const validRoles = [8, 9];
+const validRoles = [7, 8, 9];
 
 export default async function checkLoggedInUserAdmin(
   req: NextApiRequest,
