@@ -2,7 +2,6 @@ import { formatDateAPIToBe } from "../../api/utils/formatters/formatdateapibe";
 import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 import LoadingIndicator from "../../components/common/loadingIndicator";
 import componentThemes from "../../components/componentThemes";
-import AdminLayout from "../../components/admin/adminLayout";
 import { PDFInvoice } from "../../components/pdf/pdfinvoice";
 import TypeWriter from "../../components/common/typewriter";
 import useTranslation from "next-translate/useTranslation";
@@ -12,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Head from "next/head";
+import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
 
 export default function Order() {
   const { t, lang } = useTranslation("common");
@@ -148,7 +148,7 @@ export default function Order() {
 
                     {verificationRunning ? (
                       <button
-                        className={`${CustomTheme.greenSubmitButton} whitespace-nowrap text-xl`}
+                        className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
                       >
                         <div className="flex w-[100px] flex-row justify-start">
                           <TypeWriter textTypeWriter={["...."]} />
@@ -156,7 +156,7 @@ export default function Order() {
                       </button>
                     ) : (
                       <button
-                        className={`${CustomTheme.greenSubmitButton} whitespace-nowrap text-xl`}
+                        className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
                         onClick={submitCheckPayment}
                       >
                         {t("Verify payment")}
@@ -169,7 +169,7 @@ export default function Order() {
                   <PDFDownloadLink
                     fileName={currentOrder.prefix + currentOrder.number}
                     document={<PDFInvoice invoiceDocument={currentOrder} />}
-                    className={`${componentThemes.greenSubmitButton} flex flex-row items-center whitespace-nowrap text-xl`}
+                    className={`${componentThemes.greenSubmitButton} flex flex-row items-center text-xl whitespace-nowrap`}
                   >
                     📄 <p className="ml-1">{t("Download PDF")}</p>
                   </PDFDownloadLink>
@@ -221,7 +221,7 @@ export default function Order() {
                 )}
               </div>
             </div>
-            <table className=" mt-3 overflow-x-auto bg-gray-100 p-2 shadow-lg print:border-2 print:border-black print:bg-transparent print:shadow-none">
+            <table className="mt-3 overflow-x-auto bg-gray-100 p-2 shadow-lg print:border-2 print:border-black print:bg-transparent print:shadow-none">
               <thead className="border-b-2 border-black">
                 <tr>
                   <th>{t("Internal Code")}</th>
@@ -310,5 +310,6 @@ export default function Order() {
 }
 
 Order.getLayout = function getLayout(children) {
-  return <AdminLayout>{children}</AdminLayout>;
+  const { t } = useTranslation("common");
+  return <AdminPanelLayout title={t("orders")}>{children}</AdminPanelLayout>;
 };

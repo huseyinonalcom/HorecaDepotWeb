@@ -1,10 +1,10 @@
 import componentThemes from "../../../components/componentThemes";
-import AdminLayout from "../../../components/admin/adminLayout";
 import InputOutlined from "../../../components/inputs/outlined";
 import useTranslation from "next-translate/useTranslation";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 
 export default function BannerAdmin() {
   const router = useRouter();
@@ -136,6 +136,7 @@ export default function BannerAdmin() {
   );
 }
 
-BannerAdmin.getLayout = function getLayout(page) {
-  return <AdminLayout>{page}</AdminLayout>;
+BannerAdmin.getLayout = function getLayout(children) {
+  const { t } = useTranslation("common");
+  return <AdminPanelLayout title={t("banner")}>{children}</AdminPanelLayout>;
 };

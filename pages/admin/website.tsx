@@ -1,8 +1,8 @@
 import Head from "next/head";
 import useTranslation from "next-translate/useTranslation";
-import AdminLayout from "../../components/admin/adminLayout";
 import Link from "next/link";
 import componentThemes from "../../components/componentThemes";
+import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
 
 export default function Website() {
   const { t, lang } = useTranslation("common");
@@ -56,6 +56,7 @@ export default function Website() {
   );
 }
 
-Website.getLayout = function getLayout(page) {
-  return <AdminLayout>{page}</AdminLayout>;
+Website.getLayout = function getLayout(children) {
+  const { t } = useTranslation("common");
+  return <AdminPanelLayout title={t("orders")}>{children}</AdminPanelLayout>;
 };

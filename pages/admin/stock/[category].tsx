@@ -4,7 +4,6 @@ import { getAllSuppliers } from "../../api/suppliers/admin/getallsuppliers";
 import { getAllCategories } from "../../api/categories/getallcategories";
 import { getAllProducts } from "../../api/products/admin/getallproducts";
 import { getCoverImageUrl } from "../../../api/utils/getprodcoverimage";
-import AdminLayout from "../../../components/admin/adminLayout";
 import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
@@ -22,6 +21,7 @@ import {
   PlusCircle,
   Search,
 } from "react-feather";
+import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");
@@ -98,7 +98,7 @@ export default function Products(props) {
           {hasSubCategories ? (
             <>
               <div
-                className="h-full whitespace-nowrap px-4 py-2"
+                className="h-full px-4 py-2 whitespace-nowrap"
                 // onClick={() => {
                 //   setCurrentCategory(category.id);
                 // }}
@@ -127,7 +127,7 @@ export default function Products(props) {
             </>
           ) : (
             <Link
-              className="h-full w-full whitespace-nowrap px-4 py-2"
+              className="h-full w-full px-4 py-2 whitespace-nowrap"
               href={createLink({ category: category.id, page: 1 })}
             >
               {category?.localized_name[lang]}
@@ -323,20 +323,20 @@ export default function Products(props) {
         <title>{t("stock")}</title>
       </Head>
       <div className="flex w-full flex-row items-center">
-        <div className="flex w-full flex-col items-center pb-1 pt-1">
+        <div className="flex w-full flex-col items-center pt-1 pb-1">
           <div className="my-2 flex w-full flex-wrap items-center gap-2 rounded-md bg-white p-4 shadow-sm">
             <div className="group relative h-full">
-              <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-4 pl-3 pr-2 font-bold text-black">
+              <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-4 pr-2 pl-3 font-bold text-black">
                 {currentCategory
-                  ? allCategories.find((cat) => cat.id == currentCategory)
-                      ?.localized_name[lang] ?? t("choose_category")
+                  ? (allCategories.find((cat) => cat.id == currentCategory)
+                      ?.localized_name[lang] ?? t("choose_category"))
                   : t("choose_category")}
                 <ChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />
               </div>
-              <div className="invisible absolute -left-5 top-8 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
+              <div className="invisible absolute top-8 -left-5 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
                 <div className="flex w-full cursor-pointer items-center justify-between text-left hover:bg-gray-200">
                   <Link
-                    className="h-full w-full whitespace-nowrap px-4 py-2"
+                    className="h-full w-full px-4 py-2 whitespace-nowrap"
                     href={createLink({ category: "all", page: 1 })}
                   >
                     {t("All")}
@@ -348,16 +348,16 @@ export default function Products(props) {
               </div>
             </div>
             <div className="group relative h-full">
-              <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-4 pl-3 pr-2 font-bold text-black">
+              <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-4 pr-2 pl-3 font-bold text-black">
                 {currentSupplier
                   ? allSuppliers.find((sup) => sup.id == currentSupplier)?.name
                   : t("choose_supplier")}
                 <ChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />
               </div>
-              <div className="invisible absolute -left-5 top-8 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
+              <div className="invisible absolute top-8 -left-5 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
                 <div className="flex w-full cursor-pointer items-center justify-between text-left hover:bg-gray-200">
                   <Link
-                    className="h-full w-full whitespace-nowrap px-4 py-2"
+                    className="h-full w-full px-4 py-2 whitespace-nowrap"
                     href={createLink({ supplier: 0, page: 1 })}
                   >
                     {t("All")}
@@ -450,13 +450,13 @@ export default function Products(props) {
                 <ArrowUp
                   height={36}
                   width={36}
-                  className={` border-2 border-blue-500 bg-white p-1 duration-500 ${
+                  className={`border-2 border-blue-500 bg-white p-1 duration-500 ${
                     currentSortDirection == "asc" ? "rotate-0" : "rotate-180"
                   }`}
                 />
               </Link>
               <Link
-                className={` border-2 bg-white px-2 py-1 ${
+                className={`border-2 bg-white px-2 py-1 ${
                   currentSort == "id" ? "border-blue-500" : ""
                 }`}
                 href={createLink({ sort: "id", page: 1 })}
@@ -464,7 +464,7 @@ export default function Products(props) {
                 {t("Date")}
               </Link>
               <Link
-                className={` border-2 bg-white px-2 py-1 ${
+                className={`border-2 bg-white px-2 py-1 ${
                   currentSort == "value" ? "border-blue-500" : ""
                 }`}
                 href={createLink({ sort: "value", page: 1 })}
@@ -551,7 +551,7 @@ export default function Products(props) {
 
             <>
               {allProducts.length > 0 ? (
-                <div className="mb-2 mt-2 flex flex-row justify-center px-6">
+                <div className="mt-2 mb-2 flex flex-row justify-center px-6">
                   <div className="flex items-center justify-center space-x-1">
                     <Link
                       href={
@@ -604,7 +604,8 @@ export default function Products(props) {
 }
 
 Products.getLayout = function getLayout(page) {
-  return <AdminLayout>{page}</AdminLayout>;
+  const { t } = useTranslation("common");
+  return <AdminPanelLayout title={t("stock")}>{page}</AdminPanelLayout>;
 };
 
 export async function getServerSideProps(context) {

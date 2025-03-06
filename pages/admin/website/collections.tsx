@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import useTranslation from "next-translate/useTranslation";
-import AdminLayout from "../../../components/admin/adminLayout";
 import componentThemes from "../../../components/componentThemes";
 import CollectionPreview from "../../../components/admin/collection-preview";
 import Link from "next/link";
+import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 
 export default function Collections() {
   const { t, lang } = useTranslation("common");
@@ -62,6 +62,7 @@ export default function Collections() {
   );
 }
 
-Collections.getLayout = function getLayout(page) {
-  return <AdminLayout>{page}</AdminLayout>;
+Collections.getLayout = function getLayout(children) {
+  const { t } = useTranslation("common");
+  return <AdminPanelLayout title={t("collections")}>{children}</AdminPanelLayout>;
 };

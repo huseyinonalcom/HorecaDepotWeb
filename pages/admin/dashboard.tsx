@@ -1,4 +1,4 @@
-import AdminLayout from "../../components/admin/adminLayout";
+import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
 import Head from "next/head";
 
 export default function Dashboard() {
@@ -12,5 +12,5 @@ export default function Dashboard() {
 }
 
 Dashboard.getLayout = function getLayout(page) {
-  return <AdminLayout>{page}</AdminLayout>;
+  return <AdminPanelLayout title="Dashboard">{page}</AdminPanelLayout>;
 };

@@ -1,11 +1,11 @@
 import LoadingIndicator from "../../../components/common/loadingIndicator";
-import AdminLayout from "../../../components/admin/adminLayout";
 import useTranslation from "next-translate/useTranslation";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import componentThemes from "../../../components/componentThemes";
 import { Check, Search, X } from "react-feather";
+import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 
 export default function Keywords() {
   const router = useRouter();
@@ -51,7 +51,7 @@ export default function Keywords() {
         <Head>
           <title>{t("keywords")}</title>
         </Head>
-        <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
+        <div className="mx-auto flex w-full flex-row items-start justify-start">
           <div className="mx-auto py-2">
             <LoadingIndicator />
           </div>
@@ -65,7 +65,7 @@ export default function Keywords() {
         <Head>
           <title>{t("keywords")}</title>
         </Head>
-        <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
+        <div className="mx-auto flex w-full flex-row items-start justify-start">
           <div className="mx-auto py-2">
             <LoadingIndicator />
           </div>
@@ -88,7 +88,7 @@ export default function Keywords() {
         <Head>
           <title>{t("keywords")}</title>
         </Head>
-        <div className="mx-auto flex w-[95vw] flex-col items-center justify-start">
+        <div className="mx-auto flex w-full flex-col items-center justify-start">
           <div className="w-full py-2 text-center text-xl font-semibold">
             {t("bulk_tag_setter")}
           </div>
@@ -176,7 +176,7 @@ export default function Keywords() {
             </div>
             <div className="flex flex-col justify-center">
               <textarea
-                className="w-full border  border-gray-300 p-2"
+                className="w-full border border-gray-300 p-2"
                 id="tags"
                 required
                 value={inputTags}
@@ -205,6 +205,11 @@ export default function Keywords() {
   }
 }
 
-Keywords.getLayout = function getLayout(page) {
-  return <AdminLayout>{page}</AdminLayout>;
+Keywords.getLayout = function getLayout(children) {
+  const { t } = useTranslation("common");
+  return (
+    <AdminPanelLayout title={t("bulkkeywordsetter")}>
+      {children}
+    </AdminPanelLayout>
+  );
 };

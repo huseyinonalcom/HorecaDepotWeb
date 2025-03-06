@@ -1,5 +1,5 @@
 import { formatDateAPIToBe } from "../../../api/utils/formatters/formatdateapibe";
-import AdminLayout from "../../../components/admin/adminLayout";
+import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import useTranslation from "next-translate/useTranslation";
 import { useState, useEffect } from "react";
 import { ChevronLeft } from "react-feather";
@@ -78,7 +78,7 @@ export default function Reservations() {
       </Head>
       <div className="flex w-full flex-col items-center pt-2">
         <div>
-          <div className="flex-shrink-1 flex w-full flex-col items-center overflow-y-hidden pt-1">
+          <div className="flex w-full flex-shrink-1 flex-col items-center overflow-y-hidden pt-1">
             <div className="flex max-w-full flex-col overflow-x-auto overflow-y-auto">
               <table className="relative w-full bg-gray-100 p-2 shadow-lg">
                 <thead className="sticky top-0 bg-[#c0c1c3]">
@@ -153,7 +153,7 @@ export default function Reservations() {
                 <div className="mt-2">
                   <div className="flex items-center justify-center space-x-1">
                     <button
-                      className="border p-2  hover:bg-gray-200"
+                      className="border p-2 hover:bg-gray-200"
                       onClick={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
                     >
@@ -167,7 +167,7 @@ export default function Reservations() {
                       ) : (
                         <button
                           key={index}
-                          className={`border p-2  hover:bg-gray-200 ${
+                          className={`border p-2 hover:bg-gray-200 ${
                             currentPage === page ? "bg-gray-300" : ""
                           }`}
                           onClick={() => goToPage(page)}
@@ -177,7 +177,7 @@ export default function Reservations() {
                       ),
                     )}
                     <button
-                      className="border p-2  hover:bg-gray-200"
+                      className="border p-2 hover:bg-gray-200"
                       onClick={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
                     >
@@ -197,5 +197,6 @@ export default function Reservations() {
 }
 
 Reservations.getLayout = function getLayout(page) {
-  return <AdminLayout>{page}</AdminLayout>;
+  const { t } = useTranslation("common");
+  return <AdminPanelLayout title={t("reservations")}>{page}</AdminPanelLayout>;
 };

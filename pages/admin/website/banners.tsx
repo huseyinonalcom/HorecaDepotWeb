@@ -1,10 +1,10 @@
 import { PromoBanner } from "../../../components/banners/PromoBanner";
 import componentThemes from "../../../components/componentThemes";
 import { getBanners } from "../../api/website/public/getbanners";
-import AdminLayout from "../../../components/admin/adminLayout";
 import useTranslation from "next-translate/useTranslation";
 import Head from "next/head";
 import Link from "next/link";
+import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 
 export default function Banners(props) {
   const { t, lang } = useTranslation("common");
@@ -42,8 +42,9 @@ export default function Banners(props) {
   );
 }
 
-Banners.getLayout = function getLayout(page) {
-  return <AdminLayout>{page}</AdminLayout>;
+Banners.getLayout = function getLayout(children) {
+  const { t } = useTranslation("common");
+  return <AdminPanelLayout title={t("banners")}>{children}</AdminPanelLayout>;
 };
 
 export async function getServerSideProps(context) {

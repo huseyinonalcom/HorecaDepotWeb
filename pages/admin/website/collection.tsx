@@ -3,7 +3,6 @@ import TextareaOutlined from "../../../components/inputs/textarea_outlined";
 import LoadingIndicator from "../../../components/common/loadingIndicator";
 import componentThemes from "../../../components/componentThemes";
 import InputOutlined from "../../../components/inputs/outlined";
-import AdminLayout from "../../../components/admin/adminLayout";
 import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
 import { useEffect, useState } from "react";
@@ -11,6 +10,7 @@ import { Upload, X } from "react-feather";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import ButtonShadow1 from "../../../components/buttons/shadow_1";
+import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 
 const navIconDivClass = "flex flex-row justify-center flex-shrink-0 w-[35px]";
 const iconClass = "flex-shrink-0";
@@ -427,6 +427,7 @@ export default function Collection() {
   }
 }
 
-Collection.getLayout = function getLayout(page) {
-  return <AdminLayout>{page}</AdminLayout>;
+Collection.getLayout = function getLayout(children) {
+  const { t } = useTranslation("common");
+  return <AdminPanelLayout title={t("collections")}>{children}</AdminPanelLayout>;
 };

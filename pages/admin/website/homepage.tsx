@@ -2,12 +2,12 @@ import { getAllCategoriesFlattened } from "../../api/categories/public/getallcat
 import { getCollections } from "../../api/collections/public/getcollections";
 import { getHomePage } from "../../api/website/public/gethomepage";
 import { getBanners } from "../../api/website/public/getbanners";
-import AdminLayout from "../../../components/admin/adminLayout";
 import useTranslation from "next-translate/useTranslation";
 import { Check } from "react-feather";
 import { useState } from "react";
 import Head from "next/head";
 import Index from "../..";
+import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 
 export default function HomePageAdmin({
   homePageFromAPI,
@@ -59,8 +59,9 @@ export default function HomePageAdmin({
   );
 }
 
-HomePageAdmin.getLayout = function getLayout(page) {
-  return <AdminLayout>{page}</AdminLayout>;
+HomePageAdmin.getLayout = function getLayout(children) {
+  const { t } = useTranslation("common");
+  return <AdminPanelLayout title={t("homepage")}>{children}</AdminPanelLayout>;
 };
 
 export const getServerSideProps = async ({ locale }) => {

@@ -29,7 +29,6 @@ export async function getShippingDistance({ address }: { address: Address }) {
         const distance = parseFloat(
           distanceString.replace(" km", "").replace(",", ""),
         );
-        console.log(distance);
         return distance;
       } catch (e) {
         console.error(e);

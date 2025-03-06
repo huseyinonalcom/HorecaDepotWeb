@@ -1,4 +1,3 @@
-import AdminLayout from "../../components/admin/adminLayout";
 import useTranslation from "next-translate/useTranslation";
 import { useState, useEffect } from "react";
 import { Check, ChevronLeft, X } from "react-feather";
@@ -8,6 +7,7 @@ import {
   formatDateAPIToBe,
   formatDateTimeAPIToBe,
 } from "../../api/utils/formatters/formatdateapibe";
+import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
 
 export default function Orders() {
   const router = useRouter();
@@ -169,7 +169,7 @@ export default function Orders() {
               <div className="mt-2">
                 <div className="flex items-center justify-center space-x-1">
                   <button
-                    className="border p-2  hover:bg-gray-200"
+                    className="border p-2 hover:bg-gray-200"
                     onClick={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
                   >
@@ -183,7 +183,7 @@ export default function Orders() {
                     ) : (
                       <button
                         key={index}
-                        className={`border p-2  hover:bg-gray-200 ${
+                        className={`border p-2 hover:bg-gray-200 ${
                           currentPage === page ? "bg-gray-300" : ""
                         }`}
                         onClick={() => goToPage(page)}
@@ -193,7 +193,7 @@ export default function Orders() {
                     ),
                   )}
                   <button
-                    className="border p-2  hover:bg-gray-200"
+                    className="border p-2 hover:bg-gray-200"
                     onClick={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
                   >
@@ -211,6 +211,7 @@ export default function Orders() {
   );
 }
 
-Orders.getLayout = function getLayout(page) {
-  return <AdminLayout>{page}</AdminLayout>;
+Orders.getLayout = function getLayout(children) {
+  const { t } = useTranslation("common");
+  return <AdminPanelLayout title={t("orders")}>{children}</AdminPanelLayout>;
 };

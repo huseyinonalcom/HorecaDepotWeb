@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import useTranslation from "next-translate/useTranslation";
-import AdminLayout from "../../../components/admin/adminLayout";
 import componentThemes from "../../../components/componentThemes";
 import InputOutlined from "../../../components/inputs/outlined";
 import ImageWithURL from "../../../components/common/image";
 import { useRouter } from "next/router";
 import { Check, X } from "react-feather";
+import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 
 export default function PopupAdmin() {
   const router = useRouter();
@@ -155,6 +155,7 @@ export default function PopupAdmin() {
   );
 }
 
-PopupAdmin.getLayout = function getLayout(page) {
-  return <AdminLayout>{page}</AdminLayout>;
+PopupAdmin.getLayout = function getLayout(children) {
+  const { t } = useTranslation("common");
+  return <AdminPanelLayout title={t("popup")}>{children}</AdminPanelLayout>;
 };

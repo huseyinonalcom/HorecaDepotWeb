@@ -1,7 +1,6 @@
 import TextareaOutlined from "../../../../components/inputs/textarea_outlined";
 import { getBanners } from "../../../api/website/public/getbanners";
 import InputOutlined from "../../../../components/inputs/outlined";
-import AdminLayout from "../../../../components/admin/adminLayout";
 import { uploadFileToAPI } from "../../../api/files/uploadfile";
 import ImageWithURL from "../../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
@@ -9,6 +8,7 @@ import { useRouter } from "next/router";
 import { Check } from "react-feather";
 import { useState } from "react";
 import Head from "next/head";
+import AdminPanelLayout from "../../../../components/admin/AdminPanelLayout";
 
 export default function BannerEdit(props) {
   const { t, lang } = useTranslation("common");
@@ -103,7 +103,7 @@ export default function BannerEdit(props) {
         </div>
         <button
           type="button"
-          className="absolute bottom-4 right-4"
+          className="absolute right-4 bottom-4"
           onClick={() => {
             if (!editedBanner.images.find((img) => img?.image)) {
               alert("Please add an image");
@@ -203,8 +203,9 @@ export default function BannerEdit(props) {
   );
 }
 
-BannerEdit.getLayout = function getLayout(page) {
-  return <AdminLayout>{page}</AdminLayout>;
+BannerEdit.getLayout = function getLayout(children) {
+  const { t } = useTranslation("common");
+  return <AdminPanelLayout title={t("orders")}>{children}</AdminPanelLayout>;
 };
 
 export async function getServerSideProps(context) {

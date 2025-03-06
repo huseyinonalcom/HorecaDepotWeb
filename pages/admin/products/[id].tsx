@@ -22,7 +22,6 @@ import { LuPackage, LuPackageOpen, LuPackageX } from "react-icons/lu";
 import componentThemes from "../../../components/componentThemes";
 import ButtonShadow1 from "../../../components/buttons/shadow_1";
 import BarcodeToPng from "../../../components/common/barcodepng";
-import AdminLayout from "../../../components/admin/adminLayout";
 import InputOutlined from "../../../components/inputs/outlined";
 import useTranslation from "next-translate/useTranslation";
 import { MdAutoAwesome, MdHeight, MdOutlineChair } from "react-icons/md";
@@ -37,6 +36,7 @@ import Head from "next/head";
 import ImageWithURL from "../../../components/common/image";
 import { ColorChooser } from "../../../components/inputs/ColorChooser";
 import { LocalizedInput } from "../../../components/inputs/localized_input";
+import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 
 export default function ProductPage(props) {
   const { t, lang } = useTranslation("common");
@@ -465,7 +465,7 @@ export default function ProductPage(props) {
   return (
     <>
       <Head>
-        <title>{t("products")}</title>
+        <title>{t("product")}</title>
       </Head>
       <form
         className={`flex w-full flex-col items-center justify-center gap-2 overflow-hidden p-2`}
@@ -474,7 +474,7 @@ export default function ProductPage(props) {
         <div className="mb-2 flex flex-row items-center justify-end gap-2">
           {currentProduct.id != 0 && (
             <div
-              className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-red-600 p-1`}
+              className={`flex cursor-pointer flex-col items-center justify-center border-1 border-black bg-red-600 p-1`}
               onClick={deleteProduct}
             >
               {t("Delete")}
@@ -483,14 +483,14 @@ export default function ProductPage(props) {
           {currentProduct.id != 0 &&
             (currentProduct.product_extra.new ? (
               <div
-                className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-green-300 p-1`}
+                className={`flex cursor-pointer flex-col items-center justify-center border-1 border-black bg-green-300 p-1`}
                 onClick={toggleProductNew}
               >
                 {t("Featured")}
               </div>
             ) : (
               <div
-                className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-red-300 p-1`}
+                className={`flex cursor-pointer flex-col items-center justify-center border-1 border-black bg-red-300 p-1`}
                 onClick={toggleProductNew}
               >
                 {t("Not Featured")}
@@ -499,14 +499,14 @@ export default function ProductPage(props) {
           {currentProduct.id != 0 &&
             (currentProduct.active ? (
               <div
-                className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-green-300 p-1`}
+                className={`flex cursor-pointer flex-col items-center justify-center border-1 border-black bg-green-300 p-1`}
                 onClick={toggleProductActive}
               >
                 {t("Active")}
               </div>
             ) : (
               <div
-                className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-red-300 p-1`}
+                className={`flex cursor-pointer flex-col items-center justify-center border-1 border-black bg-red-300 p-1`}
                 onClick={toggleProductActive}
               >
                 {t("Inactive")}
@@ -1114,14 +1114,14 @@ export default function ProductPage(props) {
                       style={{ objectFit: "contain" }}
                     />
                     <div
-                      className="absolute right-2 top-2 z-50"
+                      className="absolute top-2 right-2 z-50"
                       onClick={() => handleImageDelete(selectedImage.id)}
                     >
                       <X className="h-8 w-8" color="red" />
                     </div>
                     <Link
                       target="_blank"
-                      className="absolute right-2 top-12"
+                      className="absolute top-12 right-2"
                       href={
                         "https://hdcdn.hocecomv1.com" +
                         selectedImage.url.replace(
@@ -1614,7 +1614,8 @@ export default function ProductPage(props) {
 }
 
 ProductPage.getLayout = function getLayout(page) {
-  return <AdminLayout>{page}</AdminLayout>;
+  const { t } = useTranslation("common");
+  return <AdminPanelLayout title={t("stock")}>{page}</AdminPanelLayout>;
 };
 
 export async function getServerSideProps(context) {

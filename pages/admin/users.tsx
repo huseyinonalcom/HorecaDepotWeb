@@ -17,7 +17,7 @@ export default function Users(props) {
         <div className="sm:flex sm:items-center">
           <Link
             href="/admin/user"
-            className="shadow-xs block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             {t("user-add")}
           </Link>
@@ -31,7 +31,7 @@ export default function Users(props) {
                     <tr>
                       <th
                         scope="col"
-                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                        className="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                       >
                         {t("name")}
                       </th>
@@ -55,7 +55,7 @@ export default function Users(props) {
                       </th>
                       <th
                         scope="col"
-                        className="relative py-3.5 pl-3 pr-4 sm:pr-6"
+                        className="relative py-3.5 pr-4 pl-3 sm:pr-6"
                       >
                         <span className="sr-only">{t("edit")}</span>
                       </th>
@@ -64,25 +64,25 @@ export default function Users(props) {
                   <tbody className="divide-y divide-gray-200 bg-white">
                     {props?.allUsers?.map((user) => (
                       <tr key={user.email}>
-                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm  sm:pl-6">
+                        <td className="py-4 pr-3 pl-4 text-sm whitespace-nowrap sm:pl-6">
                           {user.user_info.firstName}
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
                           {t(rankFromRole(user.role.name).toString())}
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
                           {user.email}
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
                           {user.blocked ? t("blocked") : t("active")}
                         </td>
-                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                          <a
+                        <td className="relative py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
+                          <Link
                             href={`/admin/user?id=${user.id}`}
                             className="text-indigo-600 hover:text-indigo-900"
                           >
                             {t("edit")}
-                          </a>
+                          </Link>
                         </td>
                       </tr>
                     ))}
