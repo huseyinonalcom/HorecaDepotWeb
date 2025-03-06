@@ -30,7 +30,6 @@ export async function putToAPI({ req, res }) {
 
     if (request.ok) {
       let ans = await request.json();
-      console.log(ans);
       if (req.query.nodata) {
         return ans.id;
       }

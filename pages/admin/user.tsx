@@ -6,9 +6,9 @@ import useTranslation from "next-translate/useTranslation";
 import InputField from "../../components/form/InputField";
 import StyledForm from "../../components/form/StyledForm";
 import { Field, Label, Switch } from "@headlessui/react";
-import Head from "next/head";
-import { randomBytes } from "crypto";
 import { useRouter } from "next/router";
+import { randomBytes } from "crypto";
+import Head from "next/head";
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -76,10 +76,10 @@ export default function User(props) {
   const { t } = useTranslation("common");
   const router = useRouter();
 
-  const validRoles = ["Tier 8"];
+  const validRoles = ["Tier 7"];
 
   const roleNames = {
-    "Tier 8": t("seller"),
+    "Tier 7": t("seller"),
   };
 
   const ranks = props.allRoles
@@ -97,7 +97,6 @@ export default function User(props) {
       <StyledForm
         onSubmit={(e) =>
           handleSubmit(e).then((res) => {
-            console.log(res);
             if (res.id) {
               router.replace("/admin/user?id=" + res.id);
               if (props.user.id == 0) {
@@ -133,7 +132,7 @@ export default function User(props) {
           <StyledRadioGroup
             name="role"
             selectedValue={Number(
-              props.allRoles.find((role) => role.name == "Tier 8").id,
+              props.allRoles.find((role) => role.name == "Tier 7").id,
             )}
             options={ranks}
           />
