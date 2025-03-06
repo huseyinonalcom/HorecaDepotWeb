@@ -12,16 +12,17 @@ export const BarcodeScanner = ({
     audioRef.current = new Audio("/assets/sounds/beep.mpeg");
   }, []);
 
-  const beep = () => {
+  const beep = async () => {
     if (audioRef.current) {
-      audioRef.current.play().catch((_) => {});
+      await audioRef.current.play().catch((_) => {});
     }
   };
 
   const { ref } = useZxing({
     onDecodeResult(result) {
-      beep();
-      onScan(result.getText());
+      beep().then(() => {
+        onScan(result.getText());
+      });
     },
   });
 
