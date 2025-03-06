@@ -8,12 +8,6 @@ export async function postToAPI({ req, res }) {
     const collection = req.query.collection;
     const bodyToPut = req.body;
 
-    console.log(
-      JSON.stringify({
-        data: bodyToPut,
-      }),
-    );
-
     const request = await fetch(`${process.env.API_URL}/api/${collection}`, {
       method: "POST",
       headers: {
@@ -24,6 +18,12 @@ export async function postToAPI({ req, res }) {
         data: JSON.parse(bodyToPut),
       }),
     });
+
+    console.log(
+      JSON.stringify({
+        data: JSON.parse(bodyToPut),
+      }),
+    );
 
     if (request.ok) {
       let ans = await request.json();

@@ -33,7 +33,6 @@ const handleSubmit = async (e) => {
           blocked: formData.get("blocked") ? false : true,
         }),
       );
-      const randomString = randomBytes(16).toString("hex");
       fetch(`/api/universal/admin/posttoapi?collection=users`, {
         method: "POST",
         body: JSON.stringify({
@@ -81,8 +80,6 @@ export default function User(props) {
       value: Number(role.id),
       label: roleNames[role.name] ?? role.name,
     }));
-
-  console.log(props.user);
 
   return (
     <>
