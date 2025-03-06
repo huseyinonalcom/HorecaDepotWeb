@@ -9,7 +9,7 @@ export const BarcodeScanner = ({
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    audioRef.current = new Audio("/assets/sounds/beep.mpeg");
+    audioRef.current = new Audio("/assets/sounds/beep.mp3");
   }, []);
 
   const beep = async () => {
