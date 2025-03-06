@@ -61,7 +61,6 @@ const handleSubmit = async (e) => {
             role: Number(formData.get("role")),
             email: formData.get("email"),
             username: formData.get("email"),
-            password: randomBytes(16).toString("hex"),
             blocked: formData.get("blocked") ? false : true,
           }),
         },

@@ -1,4 +1,3 @@
-import { revalidatePath } from "next/cache";
 import statusText from "../../../../api/statustexts";
 import getAuthCookie from "../../cookies";
 
