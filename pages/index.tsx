@@ -295,7 +295,7 @@ export default function Index({
               fillEmptyFields(newBanner.localized_description);
 
               delete newBanner.id;
-              fetch(`/api/universal/admin/posttoapi?collectiontopost=banners`, {
+              fetch(`/api/universal/admin/posttoapi?collection=banners`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",

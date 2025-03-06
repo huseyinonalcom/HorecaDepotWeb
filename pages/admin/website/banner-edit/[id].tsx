@@ -168,7 +168,7 @@ export default function BannerEdit(props) {
 
             if (editedBanner.id == "new") {
               delete editedBanner.id;
-              fetch(`/api/universal/admin/posttoapi?collectiontopost=banners`, {
+              fetch(`/api/universal/admin/posttoapi?collection=banners`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",

@@ -7,6 +7,7 @@ import { LuClipboard } from "react-icons/lu";
 import ImageWithURL from "../common/image";
 import { useState } from "react";
 import PDFBarcode from "../pdf/barcodepdf";
+import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 
 export default function ProductCard({ product }: { product: any }) {
   const { t, lang } = useTranslation("common");
@@ -42,6 +43,9 @@ export default function ProductCard({ product }: { product: any }) {
           ))}
         </div>
         <h2 className="font-bold">{product.name}</h2>
+        <h3 className="font-semibold">
+          {formatCurrency(product.value / 1.21)}
+        </h3>
         <p>
           <b>{t("Category")}:</b>{" "}
           {product.categories.map((cat) => cat.localized_name[lang]).join(", ")}

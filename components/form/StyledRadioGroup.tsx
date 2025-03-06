@@ -5,7 +5,7 @@ export default function StyledRadioGroup({
 }: {
   name: string;
   options: { value: string; label: string }[];
-  selectedValue: string;
+  selectedValue: string | number;
 }) {
   return (
     <fieldset>

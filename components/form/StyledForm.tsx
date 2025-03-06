@@ -1,3 +1,5 @@
+import useTranslation from "next-translate/useTranslation";
+
 export default function StyledForm({
   children,
   onSubmit,
@@ -5,6 +7,7 @@ export default function StyledForm({
   children: React.ReactNode;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }) {
+  const { t } = useTranslation("common");
   return (
     <form
       className="overflow-hidden rounded-lg bg-white shadow-sm"
@@ -17,7 +20,7 @@ export default function StyledForm({
             type="submit"
             className="shadow-xs rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Save
+            {t("save")}
           </button>
         </div>
       </div>

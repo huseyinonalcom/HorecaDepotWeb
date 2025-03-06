@@ -382,5 +382,7 @@
   "active": "Actief",
   "blocked": "Geblokkeerd",
   "active-payment-processor": "Actieve betalingsverwerker",
-  "delivery-cost": "Bezorgkosten"
+  "delivery-cost": "Bezorgkosten",
+  "seller": "Verkoper",
+  "user-details": "Gebruikersgegevens"
 }

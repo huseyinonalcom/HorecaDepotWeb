@@ -5,8 +5,14 @@ import getAuthCookie from "../../cookies";
 export async function postToAPI({ req, res }) {
   try {
     const authToken = getAuthCookie({ type: "admin", req });
-    const collection = req.query.collectiontopost;
+    const collection = req.query.collection;
     const bodyToPut = req.body;
+
+    console.log(
+      JSON.stringify({
+        data: bodyToPut,
+      }),
+    );
 
     const request = await fetch(`${process.env.API_URL}/api/${collection}`, {
       method: "POST",
@@ -15,18 +21,20 @@ export async function postToAPI({ req, res }) {
         Authorization: `Bearer ${authToken}`,
       },
       body: JSON.stringify({
-        data: bodyToPut,
+        data: JSON.parse(bodyToPut),
       }),
     });
 
-    let ans = await request.json();
-
     if (request.ok) {
+      let ans = await request.json();
       return ans.data.id ?? true;
     } else {
+      let ans = await request.text();
+      console.error(ans);
       return false;
     }
   } catch (e) {
+    console.error(e);
     return false;
   }
 }
@@ -38,12 +46,6 @@ export default async function handler(req, res) {
     if (!response) {
       return res.status(400).json(statusText[400]);
     }
-    try {
-      res.revalidate("/");
-    } catch (_) {}
-    try {
-      revalidatePath("/");
-    } catch (_) {}
 
     return res.status(200).json({ id: response });
   } catch (e) {

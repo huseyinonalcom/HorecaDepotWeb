@@ -382,5 +382,7 @@
   "active": "Active",
   "blocked": "Blocked",
   "active-payment-processor": "Active Payment Processor",
-  "delivery-cost": "Delivery Cost"
+  "delivery-cost": "Delivery Cost",
+  "seller": "Seller",
+  "user-details": "User Details"
 }

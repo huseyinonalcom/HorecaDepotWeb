@@ -382,5 +382,7 @@
   "active": "Actif",
   "blocked": "Bloqué",
   "active-payment-processor": "Processeur de paiement actif",
-  "delivery-cost": "Frais de livraison"
+  "delivery-cost": "Frais de livraison",
+  "seller": "Vendeur",
+  "user-details": "Détails utilisateur"
 }

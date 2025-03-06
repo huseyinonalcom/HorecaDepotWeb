@@ -382,5 +382,7 @@
   "active": "Aktiv",
   "blocked": "Gesperrt",
   "active-payment-processor": "Aktiver Zahlungsanbieter",
-  "delivery-cost": "Lieferkosten"
+  "delivery-cost": "Lieferkosten",
+  "seller": "Verkäufer",
+  "user-details": "Benutzerdetails"
 }
