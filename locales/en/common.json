@@ -384,5 +384,11 @@
   "active-payment-processor": "Active Payment Processor",
   "delivery-cost": "Delivery Cost",
   "seller": "Seller",
-  "user-details": "User Details"
+  "user-details": "User Details",
+  "user-created-success": "User created successfully",
+  "user-update-success": "User updated successfully",
+  "user-created-fail": "Error while creating user, try another email address",
+  "user-update-fail": "Error while updating user",
+  "user-create": "Create User",
+  "user-edit": "Edit User"
 }

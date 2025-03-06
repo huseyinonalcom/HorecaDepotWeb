@@ -384,5 +384,11 @@
   "active-payment-processor": "Actieve betalingsverwerker",
   "delivery-cost": "Bezorgkosten",
   "seller": "Verkoper",
-  "user-details": "Gebruikersgegevens"
+  "user-details": "Gebruikersgegevens",
+  "user-created-success": "Gebruiker succesvol aangemaakt",
+  "user-update-success": "Gebruiker succesvol bijgewerkt",
+  "user-created-fail": "Fout bij het aanmaken van gebruiker, probeer een ander e-mailadres",
+  "user-update-fail": "Fout bij het bijwerken van gebruiker",
+  "user-create": "Gebruiker aanmaken",
+  "user-edit": "Gebruiker bewerken"
 }

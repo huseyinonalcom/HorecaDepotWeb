@@ -8,65 +8,74 @@ import StyledForm from "../../components/form/StyledForm";
 import { Field, Label, Switch } from "@headlessui/react";
 import Head from "next/head";
 import { randomBytes } from "crypto";
+import { useRouter } from "next/router";
 
 const handleSubmit = async (e) => {
   e.preventDefault();
   const formData = new FormData(e.currentTarget);
-  let url;
-  let method;
+  let res;
   if (formData.get("id") == "0") {
-    fetch("/api/universal/admin/posttoapi?collection=user-infos", {
+    await fetch("/api/universal/admin/posttoapi?collection=user-infos", {
       method: "POST",
       body: JSON.stringify({
         email: formData.get("email"),
         firstName: formData.get("firstName"),
       }),
-    }).then(async (res) => {
-      const ans = await res.json();
-      console.log(
-        JSON.stringify({
-          user_info: ans.id,
-          role: formData.get("role"),
-          email: formData.get("email"),
-          username: formData.get("email"),
-          password: randomBytes(16).toString("hex"),
-          blocked: formData.get("blocked") ? false : true,
-        }),
-      );
-      fetch(`/api/universal/admin/posttoapi?collection=users`, {
-        method: "POST",
-        body: JSON.stringify({
-          user_info: ans.id,
-          role: formData.get("role"),
-          email: formData.get("email"),
-          username: formData.get("email"),
-          password: randomBytes(16).toString("hex"),
-          blocked: formData.get("blocked") ? false : true,
-        }),
+    }).then(async (ansa) => {
+      const ans = await ansa.json();
+      await fetch(
+        `/api/universal/admin/posttoapi?collection=users&nodata=true`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            user_info: ans.id,
+            role: Number(formData.get("role")),
+            email: formData.get("email"),
+            username: formData.get("email"),
+            password: randomBytes(16).toString("hex"),
+            blocked: formData.get("blocked") ? false : true,
+          }),
+        },
+      ).then(async (ansb) => {
+        res = await ansb.json();
       });
     });
   } else {
-    url = `/api/universal/puttoapi?collection=users&id=${formData.get("id")}`;
-    method = "PUT";
+    await fetch(
+      "/api/universal/admin/puttoapi?collection=user-infos&id=" +
+        formData.get("infoId"),
+      {
+        method: "POST",
+        body: JSON.stringify({
+          email: formData.get("email"),
+          firstName: formData.get("firstName"),
+        }),
+      },
+    ).then(async () => {
+      await fetch(
+        `/api/universal/admin/puttoapi?collection=users&nodata=true&id=` +
+          formData.get("id"),
+        {
+          method: "POST",
+          body: JSON.stringify({
+            role: Number(formData.get("role")),
+            email: formData.get("email"),
+            username: formData.get("email"),
+            password: randomBytes(16).toString("hex"),
+            blocked: formData.get("blocked") ? false : true,
+          }),
+        },
+      ).then(async (ansb) => {
+        res = await ansb.json();
+      });
+    });
   }
-  // fetch(url, {
-  //   method,
-  //   body: JSON.stringify({
-  //
-  //       role: formData.get("role"),
-  //       email: formData.get("email"),
-  //       username: formData.get("email"),
-  //       blocked: formData.get("blocked"),
-  //       user_info: {
-  //         email: formData.get("email"),
-  //         firstName: formData.get("firstName"),
-  //       },
-  //   }),
-  // });
+  return res;
 };
 
 export default function User(props) {
   const { t } = useTranslation("common");
+  const router = useRouter();
 
   const validRoles = ["Tier 8"];
 
@@ -84,10 +93,31 @@ export default function User(props) {
   return (
     <>
       <Head>
-        <title>{t("user-edit")}</title>
+        <title>{t(props.user.id == 0 ? "user-create" : "user-edit")}</title>
       </Head>
-      <StyledForm onSubmit={handleSubmit}>
+      <StyledForm
+        onSubmit={(e) =>
+          handleSubmit(e).then((res) => {
+            console.log(res);
+            if (res.id) {
+              router.replace("/admin/user?id=" + res.id);
+              if (props.user.id == 0) {
+                alert(t("user-created-success"));
+              } else {
+                alert(t("user-update-success"));
+              }
+            } else {
+              if (props.user.id == 0) {
+                alert(t("user-created-fail"));
+              } else {
+                alert(t("user-update-fail"));
+              }
+            }
+          })
+        }
+      >
         <input type="hidden" name="id" value={props.user.id} />
+        <input type="hidden" name="infoId" value={props.user.user_info.id} />
         <StyledFormSection title={t("user-details")}>
           <InputField
             name="firstName"
@@ -172,8 +202,6 @@ export async function getServerSideProps(context) {
       qs: "populate=role,user_info&filters[role][name][$contains]=Tier",
     });
   }
-
-  console.log(user);
 
   const allRoles =
     (await getFromApi({

@@ -5,9 +5,17 @@ import getAuthCookie from "../../cookies";
 export async function putToAPI({ req, res }) {
   try {
     const authToken = getAuthCookie({ type: "admin", req });
-    const collection = req.query.collectiontoput;
-    const id = req.query.idtoput;
+    const collection = req.query.collection;
+    const id = req.query.id;
     const bodyToPut = req.body;
+
+    let reqBody = bodyToPut;
+
+    if (!req.query.nodata) {
+      reqBody = JSON.stringify({
+        data: JSON.parse(bodyToPut),
+      });
+    }
 
     const request = await fetch(
       `${process.env.API_URL}/api/${collection}${id ? `/${id}` : ""}`,
@@ -17,20 +25,24 @@ export async function putToAPI({ req, res }) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${authToken}`,
         },
-        body: JSON.stringify({
-          data: bodyToPut,
-        }),
+        body: reqBody,
       },
     );
 
-    let ans = await request.json();
-
     if (request.ok) {
-      return true;
+      let ans = await request.json();
+      console.log(ans);
+      if (req.query.nodata) {
+        return ans.id;
+      }
+      return ans.data.id ?? true;
     } else {
+      let ans = await request.text();
+      console.error(ans);
       return false;
     }
   } catch (e) {
+    console.error(e);
     return false;
   }
 }
@@ -42,14 +54,8 @@ export default async function handler(req, res) {
     if (!response) {
       return res.status(400).json(statusText[400]);
     }
-    try {
-      res.revalidate("/");
-    } catch (_) {}
-    try {
-      revalidatePath("/");
-    } catch (_) {}
 
-    return res.status(200).json(statusText[200]);
+    return res.status(200).json({ id: response });
   } catch (e) {
     return res.status(500).json(statusText[500]);
   }

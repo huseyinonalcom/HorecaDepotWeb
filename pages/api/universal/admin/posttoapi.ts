@@ -5,7 +5,15 @@ export async function postToAPI({ req, res }) {
   try {
     const authToken = getAuthCookie({ type: "admin", req });
     const collection = req.query.collection;
-    const bodyToPut = req.body;
+    const bodyToPost = req.body;
+
+    let reqBody = bodyToPost;
+
+    if (!req.query.nodata) {
+      reqBody = JSON.stringify({
+        data: JSON.parse(bodyToPost),
+      });
+    }
 
     const request = await fetch(`${process.env.API_URL}/api/${collection}`, {
       method: "POST",
@@ -13,19 +21,14 @@ export async function postToAPI({ req, res }) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${authToken}`,
       },
-      body: JSON.stringify({
-        data: JSON.parse(bodyToPut),
-      }),
+      body: reqBody,
     });
-
-    console.log(
-      JSON.stringify({
-        data: JSON.parse(bodyToPut),
-      }),
-    );
 
     if (request.ok) {
       let ans = await request.json();
+      if (req.query.nodata) {
+        return ans.id;
+      }
       return ans.data.id ?? true;
     } else {
       let ans = await request.text();
