@@ -3,6 +3,7 @@ import { getFromApi } from "../api/universal/admin/getfromapi";
 import useTranslation from "next-translate/useTranslation";
 import { rankFromRole } from "../../api/utils/ranks";
 import Head from "next/head";
+import Link from "next/link";
 
 export default function Users(props) {
   const { t } = useTranslation("common");
@@ -14,12 +15,12 @@ export default function Users(props) {
       </Head>
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-center">
-          <button
-            type="button"
+          <Link
+            href="/admin/user"
             className="shadow-xs block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             {t("user-add")}
-          </button>
+          </Link>
         </div>
         <div className="mt-8 flow-root">
           <div className="no-scrollbar -mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
