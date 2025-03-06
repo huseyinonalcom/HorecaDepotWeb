@@ -3,9 +3,9 @@ export const rankFromRole = (role: string) => {
     case "Tier 9":
       return "admin";
     case "Tier 8":
-      return "vendeur";
+      return "seller";
     case "Tier 7":
-      return "vendeur";
+      return "seller";
     case "client":
       return "customer";
     default:
