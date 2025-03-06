@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useZxing } from "react-zxing";
 
 export const BarcodeScanner = ({
@@ -6,17 +6,17 @@ export const BarcodeScanner = ({
 }: {
   onScan: (result: string) => void;
 }) => {
-  let audio;
-
-  const beep = () => {
-    try {
-      audio.play().catch((e) => console.error("Playback failed:", e));
-    } catch (_) {}
-  };
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    audio = new Audio("/assets/sounds/beep.mpeg");
+    audioRef.current = new Audio("/assets/sounds/beep.mpeg");
   }, []);
+
+  const beep = () => {
+    if (audioRef.current) {
+      audioRef.current.play().catch((_) => {});
+    }
+  };
 
   const { ref } = useZxing({
     onDecodeResult(result) {
@@ -25,9 +25,5 @@ export const BarcodeScanner = ({
     },
   });
 
-  return (
-    <>
-      <video ref={ref} />
-    </>
-  );
+  return <video ref={ref} />;
 };
