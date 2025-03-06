@@ -27,19 +27,20 @@ export async function getShippingDistance({ address }: { address: Address }) {
       try {
         const distanceString = data.rows[0].elements[0].distance.text;
         const distance = parseFloat(
-          distanceString.replace(" km", "").replace(",", "."),
+          distanceString.replace(" km", "").replace(",", ""),
         );
+        console.log(distance);
         return distance;
       } catch (e) {
         console.error(e);
-        return 200;
+        return 500;
       }
     } else {
-      return 200;
+      return 500;
     }
   } catch (error) {
     console.error(error);
-    return 200;
+    return 500;
   }
 }
 
@@ -73,7 +74,7 @@ export async function getShippingCostFromAddress({
     }
   } catch (error) {
     console.error(error);
-    return 200;
+    return 500;
   }
 }
 
