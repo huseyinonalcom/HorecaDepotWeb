@@ -43,9 +43,11 @@ export default function ProductCard({ product }: { product: any }) {
           ))}
         </div>
         <h2 className="font-bold">{product.name}</h2>
-        <h3 className="font-semibold">
-          {formatCurrency(product.value / 1.21)}
-        </h3>
+        <div className="flex flex-row items-end gap-2">
+          <h3 className="font-semibold text-lg">{formatCurrency(product.value)}</h3>
+          <p className="text-xs pb-1">{t("vat-incl")}</p>
+        </div>
+
         <p>
           <b>{t("Category")}:</b>{" "}
           {product.categories.map((cat) => cat.localized_name[lang]).join(", ")}
@@ -65,7 +67,6 @@ export default function ProductCard({ product }: { product: any }) {
         <p>
           <b>{t("Material")}:</b> {product.material}
         </p>
-
         {/*  <p>
           <b>{t("product-pdf")}:</b> Voir le PDF
         </p> */}

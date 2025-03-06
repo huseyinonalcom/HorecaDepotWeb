@@ -10,6 +10,7 @@ import { WishlistProduct } from "../../api/interfaces/wishlistProduct";
 import { TiTick } from "react-icons/ti";
 import ImageWithURL from "../common/image";
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
+import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 
 type Props = {
   product: Product;
@@ -54,7 +55,7 @@ const ProductPreview = ({ product }: Props) => {
       href={`/products/${product.categories.at(0).localized_name[lang]}/${product.name}/${product.id}`}
       draggable={false}
       id={`${product.id}-preview`}
-      className={`border-1 group flex w-full flex-col items-center rounded-xl border border-black/30 p-2 text-black`}
+      className={`border-1 group flex w-full flex-col items-center rounded-xl border-black/30 p-2 text-black`}
     >
       <div
         draggable={false}
@@ -118,19 +119,19 @@ const ProductPreview = ({ product }: Props) => {
               {product.internalCode != "0" ? product.internalCode : ""}
             </p>
           )}
-          <div draggable={false} className="flex flex-row items-end gap-1 text-lg">
+          <div
+            draggable={false}
+            className="flex flex-row items-end gap-1 text-lg"
+          >
             <p draggable={false} className="font-bold">
-              {"€ " + (product.value / 1.21).toFixed(2).replaceAll(".", ",")}
+              {formatCurrency(product.value / 1.21)}
             </p>
             {product.priceBeforeDiscount > product.value && (
               <p
                 draggable={false}
                 className="mb-0.5 text-base text-gray-700 line-through"
               >
-                {"€ " +
-                  (product.priceBeforeDiscount / 1.21)
-                    .toFixed(2)
-                    .replaceAll(".", ",")}
+                {formatCurrency(product.priceBeforeDiscount / 1.21)}
               </p>
             )}
             {product.priceBeforeDiscount > product.value ? (

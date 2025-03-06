@@ -1,26 +1,27 @@
 import { getAllCategoriesFlattened } from "../../../api/categories/public/getallcategoriesflattened";
+import { useDragScroll } from "../../../../components/common/use-drag-scroll";
+import ProductPreview from "../../../../components/products/product-preview";
+import ProductButtons from "../../../../components/products/product-buttons";
+import { getCoverImageUrl } from "../../../../api/utils/getprodcoverimage";
+import ProductImages from "../../../../components/products/product-images";
+import { MdHeight, MdOutlineChair, MdWhatsapp } from "react-icons/md";
+import { Product } from "../../../../api/interfaces/product";
+import useTranslation from "next-translate/useTranslation";
+import Layout from "../../../../components/public/layout";
+import { Fragment, useEffect, useState } from "react";
+import Meta from "../../../../components/public/meta";
+import { GoCircleSlash } from "react-icons/go";
+import { AutoTextSize } from "auto-text-size";
 import {
   getAllProductIDs,
   getProductByID,
   getProducts,
 } from "../../../../api/calls/productCalls";
-import ProductPreview from "../../../../components/products/product-preview";
-import ProductButtons from "../../../../components/products/product-buttons";
-import { Fragment, useEffect, useState } from "react";
-import useTranslation from "next-translate/useTranslation";
-import { Product } from "../../../../api/interfaces/product";
-import Layout from "../../../../components/public/layout";
 import { Facebook } from "react-feather";
-import Meta from "../../../../components/public/meta";
+import { TiTick } from "react-icons/ti";
 import Head from "next/head";
 import Link from "next/link";
-import { useDragScroll } from "../../../../components/common/use-drag-scroll";
-import { AutoTextSize } from "auto-text-size";
-import ProductImages from "../../../../components/products/product-images";
-import { TiTick } from "react-icons/ti";
-import { MdHeight, MdOutlineChair, MdWhatsapp } from "react-icons/md";
-import { GoCircleSlash } from "react-icons/go";
-import { getCoverImageUrl } from "../../../../api/utils/getprodcoverimage";
+import { formatCurrency } from "../../../../api/utils/formatters/formatcurrency";
 
 type Props = {
   relatedProducts: Product[];
@@ -125,14 +126,11 @@ const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
             <div className="flex flex-row items-center gap-2 text-2xl">
               {product.priceBeforeDiscount <= product.value ? null : (
                 <h3 className="font-bold text-gray-800 line-through">
-                  {"€ " +
-                    (product.priceBeforeDiscount / 1.21)
-                      .toFixed(2)
-                      .replaceAll(".", ",")}
+                  {formatCurrency(product.priceBeforeDiscount / 1.21)}
                 </h3>
               )}
               <h3 className="font-bold">
-                {"€ " + (product.value / 1.21).toFixed(2).replaceAll(".", ",")}
+                {formatCurrency(product.value / 1.21)}
               </h3>
               {product.priceBeforeDiscount > product.value ? (
                 <p
@@ -151,13 +149,10 @@ const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
             <div className="flex flex-row items-center gap-2">
               {product.priceBeforeDiscount <= product.value ? null : (
                 <h3 className="font-bold text-gray-800 line-through">
-                  {"€ " +
-                    product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
+                  {formatCurrency(product.priceBeforeDiscount)}
                 </h3>
               )}
-              <h3 className="font-bold">
-                {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
-              </h3>
+              <h3 className="font-bold">{formatCurrency(product.value)}</h3>
               <p>{t("vat-incl")}</p>
             </div>
 
