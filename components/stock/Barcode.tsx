@@ -5,12 +5,17 @@ export const BarcodeScanner = ({
 }: {
   onScan: (result: string) => void;
 }) => {
+  const audio = new Audio("/assets/sounds/beep.mpeg");
+
+  const beep = () => {
+    try {
+      audio.play().catch((e) => console.error("Playback failed:", e));
+    } catch (_) {}
+  };
+
   const { ref } = useZxing({
     onDecodeResult(result) {
-      try {
-        const audio = new Audio("/assets/sounds/beep.mpeg");
-        audio.play().catch((e) => console.error("Playback failed:", e));
-      } catch (_) {}
+      beep();
       onScan(result.getText());
     },
   });
