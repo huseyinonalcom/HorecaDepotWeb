@@ -59,8 +59,7 @@ const BarcodeToPng = ({
             value={value}
             options={{
               format: "EAN13",
-              height: 100,
-              width: 3,
+              height: 45,
               valid: (v) => {
                 if (v) {
                   setIsValid(true);

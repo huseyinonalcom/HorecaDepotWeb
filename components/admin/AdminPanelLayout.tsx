@@ -20,6 +20,7 @@ import {
   ClipboardDocumentListIcon,
   ChatBubbleBottomCenterIcon,
   ArrowRightStartOnRectangleIcon,
+  Squares2X2Icon,
 } from "@heroicons/react/24/outline";
 import {
   Dialog,
@@ -34,6 +35,7 @@ function classNames(...classes) {
 
 const navigation = [
   { name: "stock", href: "/admin/stock/all", icon: ArchiveBoxIcon },
+  { name: "stock-dash", href: "/stock", icon: Squares2X2Icon },
   { name: "orders", href: "/admin/orders", icon: ClipboardDocumentListIcon },
   { name: "homepage", href: "/admin/website/homepage", icon: HomeIcon },
   {

@@ -392,5 +392,6 @@
   "user-create": "Create User",
   "user-edit": "Edit User",
   "firstname": "First Name",
-  "email": "E-mail"
+  "email": "E-mail",
+  "stock-dash": "Stock Dashboard"
 }

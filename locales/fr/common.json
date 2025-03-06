@@ -392,5 +392,6 @@
   "user-create": "Créer un utilisateur",
   "user-edit": "Modifier l'utilisateur",
   "firstname": "Prénom",
-  "email": "E-mail"
+  "email": "E-mail",
+  "stock-dash": "Tableau de bord du stock"
 }

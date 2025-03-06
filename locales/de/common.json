@@ -392,5 +392,6 @@
   "user-create": "Benutzer erstellen",
   "user-edit": "Benutzer bearbeiten",
   "firstname": "Vorname",
-  "email": "E-Mail"
+  "email": "E-Mail",
+  "stock-dash": "Lagerbestand"
 }
