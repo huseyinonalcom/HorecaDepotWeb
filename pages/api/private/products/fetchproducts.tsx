@@ -13,6 +13,7 @@ export const getProducts = async ({
   category,
   ean,
   id,
+  count,
 }: {
   authToken: string;
   page?: number;
@@ -20,6 +21,7 @@ export const getProducts = async ({
   category?: string;
   ean?: string;
   id?: number;
+  count?: string;
 }) => {
   try {
     if (!authToken) {
@@ -60,7 +62,7 @@ export const getProducts = async ({
 
     const pageString = "&pagination[page]=" + (page ?? 1);
     const sort = "&sort=name";
-    const pageSize = "&pagination[pageSize]=15";
+    const pageSize = `&pagination[pageSize]=${count ?? "15"}`;
     let searchString = "";
     let categoryString = "";
 
@@ -118,6 +120,7 @@ export default async function handler(
       page: Number(req.query.page as string),
       category: req.query.category as string,
       search: req.query.search as string,
+      count: req.query.count as string,
     });
 
     if (!response) {

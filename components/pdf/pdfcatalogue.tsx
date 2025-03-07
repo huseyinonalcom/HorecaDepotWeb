@@ -1,5 +1,5 @@
+import { useEffect, useState } from "react";
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
-import useTranslation from "next-translate/useTranslation";
 import componentThemes from "../componentThemes";
 import {
   Page,
@@ -9,6 +9,7 @@ import {
   Document,
   PDFDownloadLink,
 } from "@react-pdf/renderer";
+import search from "../../pages/api/search/public/search";
 
 export const PDFCatalogue = ({ products }) => {
   return (
@@ -91,16 +92,3 @@ export const PDFCatalogue = ({ products }) => {
     </Document>
   );
 };
-
-export default function PDFCatalogueButton({ products }) {
-  const { t } = useTranslation("common");
-  return (
-    <PDFDownloadLink
-      fileName={`${t("catalogue")}.pdf`}
-      document={<PDFCatalogue products={products} />}
-      className={`${componentThemes.outlinedButton} flex flex-row items-center justify-center whitespace-nowrap text-xl`}
-    >
-      📄 <p className="ml-1">{t("Download PDF")}</p>
-    </PDFDownloadLink>
-  );
-}

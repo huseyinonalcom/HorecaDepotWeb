@@ -4,17 +4,8 @@ import ProductCard from "../../../components/stock/ProductCard";
 import useTranslation from "next-translate/useTranslation";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import Head from "next/head";
-
-const PDFCatalogueButton = dynamic(
-  () => import("../../../components/pdf/pdfcatalogue"),
-  {
-    ssr: false,
-    loading: () => <p>Loading...</p>,
-  },
-);
 
 export default function Stock() {
   const { t, lang } = useTranslation("common");
@@ -154,7 +145,14 @@ export default function Stock() {
             >
               Scan
             </Link>
-            <PDFCatalogueButton products={allProducts} />
+            <a
+              href="/api/private/products/generatestocklist"
+              download="stock-list.pdf"
+              target="_blank"
+              className="flex w-[100px] items-center justify-center rounded-md border-2 border-gray-400 bg-black p-2 font-semibold text-white shadow-sm"
+            >
+              Stock List
+            </a>
           </div>
         </div>
         <div className="flex w-full flex-col items-start gap-2">
