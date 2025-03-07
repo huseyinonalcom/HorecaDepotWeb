@@ -20,7 +20,7 @@ const TextareaOutlined = ({ label, error, rounded, ...rest }: Props) => {
           {...rest}
           aria-label={t(label)}
           id="input"
-          className={`peer block w-full border-2 border-gray-300 bg-white px-2.5 pt-3 pb-1.5 text-sm text-black outline-none focus:border-black focus:ring-0 ${rounded ? "rounded-2xl" : ""}`}
+          className={`peer block w-full border-2 border-gray-300 bg-white px-2.5 pb-1.5 pt-3 text-sm text-black outline-none focus:border-black focus:ring-0 ${rounded ? "rounded-2xl" : ""}`}
           placeholder=""
         />
         <label
