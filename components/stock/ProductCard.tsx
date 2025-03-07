@@ -130,6 +130,7 @@ export default function ProductCard({ product }: { product: any }) {
             slide: ({ slide }) => {
               return (
                 <ImageWithURL
+                  key={slide.src}
                   src={slide.src}
                   alt={slide.alt || ""}
                   sizes="100vw"

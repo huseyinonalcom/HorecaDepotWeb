@@ -238,7 +238,7 @@ const MobileSearch = () => {
         aria-label="Search bar input"
         type="text"
         onChange={handleSearchChange}
-        className="w-full rounded-2xl border-2 py-2 pl-4 pr-4 text-black outline-none focus:border-black focus:ring-transparent"
+        className="w-full rounded-2xl border-2 py-2 pl-4 pr-4 bg-white text-black outline-none focus:border-black focus:ring-transparent"
         placeholder={t("Search Products")}
       />
       <div className="absolute inset-y-0 right-0 flex">
@@ -1019,8 +1019,8 @@ const Header = () => {
       </div>
       {banners?.at(0)?.content[lang] &&
         banners.map((banner) => (
-          <div className="flex h-12 w-full flex-col gap-2 py-3">
-            <Link href={banner.url} key={banner.id} className="w-full">
+          <div key={banner.id} className="flex h-12 w-full flex-col gap-2 py-3">
+            <Link href={banner.url} className="w-full">
               {banner.content[lang]}
             </Link>
           </div>

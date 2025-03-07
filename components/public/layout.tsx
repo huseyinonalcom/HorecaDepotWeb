@@ -98,7 +98,7 @@ const Layout = ({ children }: Props) => {
         {showPopup && (
           <div
             onClick={handlePopupClose}
-            className="fixed z-50 flex h-screen w-screen flex-col items-center justify-center bg-black/70 px-8"
+            className="max-w-screen fixed z-50 flex h-screen flex-col items-center justify-center bg-black/70 px-8"
           >
             <a target="_blank" href={popup.url}>
               <ImageWithURL
@@ -119,7 +119,7 @@ const Layout = ({ children }: Props) => {
         <CartDrawer />
         <Link
           target="_blank"
-          className="fixed right-10 bottom-14 z-40 print:hidden"
+          className="fixed bottom-14 right-10 z-40 print:hidden"
           href={`https://api.whatsapp.com/send?phone=32499738373&text=${encodeURI(`Nous sommes interessés en cette produit: https://horecadepot.be${router.asPath}`)}`}
         >
           <Image
@@ -129,7 +129,7 @@ const Layout = ({ children }: Props) => {
             src={"/assets/img/wa.png"}
           />
         </Link>
-        <div className="z-30 flex w-full flex-col items-center border-t border-neutral-200 bg-neutral-100 px-3 pt-4 pb-4 print:hidden">
+        <div className="z-30 flex w-full flex-col items-center border-t border-neutral-200 bg-neutral-100 px-3 pb-4 pt-4 print:hidden">
           <div className="flex w-full max-w-screen-2xl flex-col items-center justify-center">
             <div className="mb-4 grid w-full grid-cols-1 gap-3 px-12 md:grid-cols-2 xl:grid-cols-4">
               <div className="flex flex-col gap-2 pl-2">
@@ -380,7 +380,7 @@ const Layout = ({ children }: Props) => {
               </div>
             </div>
             <div className="flex w-fit flex-row">
-              <p className="mx-auto px-2 pt-6 text-sm whitespace-nowrap">
+              <p className="mx-auto whitespace-nowrap px-2 pt-6 text-sm">
                 © Horeca Depot. {new Date().getFullYear()}.{" "}
                 {t("All Rights Reserved")}
               </p>

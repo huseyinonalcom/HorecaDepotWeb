@@ -23,7 +23,7 @@ export default function HomePageAdmin({
       <Head>
         <title>{t("homepage")}</title>
       </Head>
-      <div className="ml-9 flex w-full flex-col items-center">
+      <div className="flex w-full flex-col items-center">
         {bannersFromAPI && (
           <Index
             banners={bannersFromAPI}
