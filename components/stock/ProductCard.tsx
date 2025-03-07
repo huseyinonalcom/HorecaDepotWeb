@@ -1,3 +1,6 @@
+"use client";
+
+import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 import useTranslation from "next-translate/useTranslation";
 import Lightbox from "yet-another-react-lightbox-lite";
 import { PDFDownloadLink } from "@react-pdf/renderer";
@@ -5,9 +8,8 @@ import componentThemes from "../componentThemes";
 import BarcodeToPng from "../common/barcodepng";
 import { LuClipboard } from "react-icons/lu";
 import ImageWithURL from "../common/image";
-import { useState } from "react";
 import PDFBarcode from "../pdf/barcodepdf";
-import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
+import { useState } from "react";
 
 export default function ProductCard({ product }: { product: any }) {
   const { t, lang } = useTranslation("common");
@@ -44,8 +46,10 @@ export default function ProductCard({ product }: { product: any }) {
         </div>
         <h2 className="font-bold">{product.name}</h2>
         <div className="flex flex-row items-end gap-2">
-          <h3 className="font-semibold text-lg">{formatCurrency(product.value)}</h3>
-          <p className="text-xs pb-1">{t("vat-incl")}</p>
+          <h3 className="text-lg font-semibold">
+            {formatCurrency(product.value)}
+          </h3>
+          <p className="pb-1 text-xs">{t("vat-incl")}</p>
         </div>
 
         <p>
@@ -114,7 +118,7 @@ export default function ProductCard({ product }: { product: any }) {
           }
           className={`${componentThemes.outlinedButton} flex flex-row items-center justify-center whitespace-nowrap text-xl`}
         >
-          📄 <p className="ml-1">{t("Download PDF")}</p>
+          📄 <p className="ml-1">EAN PDF</p>
         </PDFDownloadLink>
       </div>
       {lightBoxIndex != undefined && (

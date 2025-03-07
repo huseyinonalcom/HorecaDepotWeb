@@ -1,8 +1,8 @@
-import Head from "next/head";
-import useTranslation from "next-translate/useTranslation";
-import Link from "next/link";
-import componentThemes from "../../components/componentThemes";
 import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
+import componentThemes from "../../components/componentThemes";
+import useTranslation from "next-translate/useTranslation";
+import Head from "next/head";
+import Link from "next/link";
 
 export default function Website() {
   const { t, lang } = useTranslation("common");

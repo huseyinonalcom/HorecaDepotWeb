@@ -4,8 +4,17 @@ import ProductCard from "../../../components/stock/ProductCard";
 import useTranslation from "next-translate/useTranslation";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import Head from "next/head";
+
+const PDFCatalogueButton = dynamic(
+  () => import("../../../components/pdf/pdfcatalogue"),
+  {
+    ssr: false,
+    loading: () => <p>Loading...</p>,
+  },
+);
 
 export default function Stock() {
   const { t, lang } = useTranslation("common");
@@ -20,7 +29,6 @@ export default function Stock() {
     page?: string;
   };
 
-  const [allCategories, setAllCategories] = useState<any[]>([]);
   const [allProducts, setAllProducts] = useState<any[]>([]);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [tempSearch, setTempSearch] = useState(search);
@@ -41,7 +49,6 @@ export default function Stock() {
           ).json(),
         ]);
 
-        setAllCategories(categories);
         setCurrentCategory(
           categories.find((cat) => cat.id == category) ?? "all",
         );
@@ -63,7 +70,7 @@ export default function Stock() {
     category?: string;
     search?: string;
     page?: number;
-  }) => { 
+  }) => {
     const params = new URLSearchParams();
     if (search) params.set("search", search);
     if (page) params.set("page", page.toString());
@@ -147,6 +154,7 @@ export default function Stock() {
             >
               Scan
             </Link>
+            <PDFCatalogueButton products={allProducts} />
           </div>
         </div>
         <div className="flex w-full flex-col items-start gap-2">
