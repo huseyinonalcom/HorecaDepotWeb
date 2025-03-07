@@ -147,7 +147,6 @@ export default function Stock() {
             </Link>
             <a
               href="/api/private/products/generatestocklist"
-              download="stock-list.pdf"
               target="_blank"
               className="flex w-[100px] items-center justify-center rounded-md border-2 border-gray-400 bg-black p-2 font-semibold text-white shadow-sm"
             >
