@@ -442,7 +442,7 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
               name="submitNewClient"
               aria-label="Submit New Client"
               type="submit"
-              className={CustomTheme.greenSubmitButton}
+              className={CustomTheme.outlinedButton}
             >
               {t("Proceed")}
             </button>

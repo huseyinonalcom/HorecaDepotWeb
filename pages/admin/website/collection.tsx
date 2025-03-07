@@ -117,7 +117,7 @@ export default function Collection() {
               }
               label={t("Name")}
             />
-            <button className={componentThemes.greenSubmitButton}>
+            <button className={componentThemes.outlinedButton}>
               {t("collection_create")}
             </button>
             {submitError && (
@@ -400,7 +400,7 @@ export default function Collection() {
               )} */}
             </div>
 
-            <button className={componentThemes.greenSubmitButton}>
+            <button className={componentThemes.outlinedButton}>
               {t("collection_modify")}
             </button>
             {submitError && (

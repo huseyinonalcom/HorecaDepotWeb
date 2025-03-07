@@ -148,7 +148,7 @@ export default function Order() {
 
                     {verificationRunning ? (
                       <button
-                        className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
+                        className={`${CustomTheme.outlinedButton} text-xl whitespace-nowrap`}
                       >
                         <div className="flex w-[100px] flex-row justify-start">
                           <TypeWriter textTypeWriter={["...."]} />
@@ -156,7 +156,7 @@ export default function Order() {
                       </button>
                     ) : (
                       <button
-                        className={`${CustomTheme.greenSubmitButton} text-xl whitespace-nowrap`}
+                        className={`${CustomTheme.outlinedButton} text-xl whitespace-nowrap`}
                         onClick={submitCheckPayment}
                       >
                         {t("Verify payment")}
@@ -169,7 +169,7 @@ export default function Order() {
                   <PDFDownloadLink
                     fileName={currentOrder.prefix + currentOrder.number}
                     document={<PDFInvoice invoiceDocument={currentOrder} />}
-                    className={`${componentThemes.greenSubmitButton} flex flex-row items-center text-xl whitespace-nowrap`}
+                    className={`${componentThemes.outlinedButton} flex flex-row items-center text-xl whitespace-nowrap`}
                   >
                     📄 <p className="ml-1">{t("Download PDF")}</p>
                   </PDFDownloadLink>

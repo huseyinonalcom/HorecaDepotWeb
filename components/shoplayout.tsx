@@ -216,7 +216,7 @@ export default function ShopLayout({ children }: Props) {
                   </div>
                   <div className="flex flex-row justify-between">
                     <button
-                      className={componentThemes.greenSubmitButton}
+                      className={componentThemes.outlinedButton}
                       onClick={() => {
                         setIsFilterDrawerOpen(false);
                       }}

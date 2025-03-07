@@ -935,7 +935,7 @@ export default function ProductPage(props) {
                           </p>
                           <button
                             onClick={() => submitStock(3)}
-                            className={componentThemes.greenSubmitButton}
+                            className={componentThemes.outlinedButton}
                           >
                             {t("Save")}
                           </button>
@@ -979,7 +979,7 @@ export default function ProductPage(props) {
                           </p>
                           <button
                             onClick={() => submitStock(1)}
-                            className={componentThemes.greenSubmitButton}
+                            className={componentThemes.outlinedButton}
                           >
                             {t("Save")}
                           </button>
@@ -1052,7 +1052,7 @@ export default function ProductPage(props) {
                             />
                             <button
                               type="button"
-                              className={componentThemes.greenSubmitButton}
+                              className={componentThemes.outlinedButton}
                               onClick={(e) => {
                                 e.preventDefault();
                                 sendNewReservation();

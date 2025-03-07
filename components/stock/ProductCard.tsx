@@ -112,7 +112,7 @@ export default function ProductCard({ product }: { product: any }) {
               png={barcodePng}
             />
           }
-          className={`${componentThemes.greenSubmitButton} flex flex-row items-center justify-center whitespace-nowrap text-xl`}
+          className={`${componentThemes.outlinedButton} flex flex-row items-center justify-center whitespace-nowrap text-xl`}
         >
           📄 <p className="ml-1">{t("Download PDF")}</p>
         </PDFDownloadLink>

@@ -167,7 +167,7 @@ export default function Order() {
 
                       {verificationRunning ? (
                         <button
-                          className={`${CustomTheme.greenSubmitButton} whitespace-nowrap text-xl`}
+                          className={`${CustomTheme.outlinedButton} whitespace-nowrap text-xl`}
                         >
                           <div className="flex w-[100px] flex-row justify-start">
                             <TypeWriter textTypeWriter={["...."]} />
@@ -175,14 +175,14 @@ export default function Order() {
                         </button>
                       ) : (
                         <button
-                          className={`${CustomTheme.greenSubmitButton} whitespace-nowrap text-xl`}
+                          className={`${CustomTheme.outlinedButton} whitespace-nowrap text-xl`}
                           onClick={submitCheckPayment}
                         >
                           {t("Verify payment")}
                         </button>
                       )}
                       <button
-                        className={`${CustomTheme.greenSubmitButton} whitespace-nowrap text-xl`}
+                        className={`${CustomTheme.outlinedButton} whitespace-nowrap text-xl`}
                         onClick={submitPayment}
                       >
                         {t("Proceed to payment")}
@@ -193,7 +193,7 @@ export default function Order() {
                     <PDFDownloadLink
                       fileName={currentOrder.prefix + currentOrder.number}
                       document={<PDFInvoice invoiceDocument={currentOrder} />}
-                      className={`${componentThemes.greenSubmitButton} flex flex-row items-center justify-center whitespace-nowrap text-xl`}
+                      className={`${componentThemes.outlinedButton} flex flex-row items-center justify-center whitespace-nowrap text-xl`}
                     >
                       📄 <p className="ml-1">{t("Download PDF")}</p>
                     </PDFDownloadLink>
@@ -345,7 +345,7 @@ export default function Order() {
                 <div className="flex flex-row">
                   <div className="ml-auto">
                     <button
-                      className={`${CustomTheme.greenSubmitButton} whitespace-nowrap text-xl`}
+                      className={`${CustomTheme.outlinedButton} whitespace-nowrap text-xl`}
                       onClick={submitPayment}
                     >
                       {t("Proceed to payment")}

@@ -490,7 +490,7 @@ export default function Checkout() {
             <div className="mx-auto">
               <button
                 onClick={() => setShowLogin(false)}
-                className={CustomTheme.greenSubmitButton}
+                className={CustomTheme.outlinedButton}
               >
                 {t("checkout-without-account")}
               </button>
@@ -503,7 +503,7 @@ export default function Checkout() {
               <div className="w-1/2">
                 <button
                   onClick={() => setShowLogin(true)}
-                  className={CustomTheme.greenSubmitButton}
+                  className={CustomTheme.outlinedButton}
                 >
                   {t("login-to-your-account")}
                 </button>
@@ -780,7 +780,7 @@ export default function Checkout() {
                         guestInvoiceAddress ? null : emptyAddress,
                       )
                     }
-                    className={CustomTheme.greenSubmitButton}
+                    className={CustomTheme.outlinedButton}
                   >
                     {guestInvoiceAddress
                       ? t("invoice-address-same")

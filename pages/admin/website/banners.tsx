@@ -19,7 +19,7 @@ export default function Banners(props) {
       <div className="mx-auto flex w-[95%] flex-col items-center p-2">
         <div className="flex flex-row">
           <Link
-            className={componentThemes.greenSubmitButton}
+            className={componentThemes.outlinedButton}
             href={"/admin/website/banner-edit/new"}
           >
             {t("banner-new")}

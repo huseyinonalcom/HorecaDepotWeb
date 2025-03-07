@@ -159,7 +159,7 @@ const CollectionPreview = ({ collection }: Props) => {
               )}
             </div>
             <Link
-              className={componentThemes.greenSubmitButton}
+              className={componentThemes.outlinedButton}
               href={"/admin/website/collection?id=" + collection.id}
             >
               {t("Modify")}

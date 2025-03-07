@@ -184,7 +184,7 @@ export default function Keywords() {
                 placeholder={t("Tags")}
               />
               <button
-                className={componentThemes.greenSubmitButton}
+                className={componentThemes.outlinedButton}
                 type="submit"
               >
                 {t("bulk_tags_modify")}

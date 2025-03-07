@@ -136,7 +136,7 @@ const OrderPreview = ({ order }) => {
         </div>
         <Link
           href={`/account/order?id=${order.id}`}
-          className={`${componentThemes.greenSubmitButton} flex flex-col items-center justify-center md:col-span-2`}
+          className={`${componentThemes.outlinedButton} flex flex-col items-center justify-center md:col-span-2`}
         >
           {t("View Details")}
         </Link>
