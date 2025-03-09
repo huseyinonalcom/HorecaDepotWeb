@@ -29,7 +29,7 @@ import {
 } from "react-feather";
 
 const CategoryItem = ({ category, onClick }) => {
-  const { t, lang } = useTranslation("common");
+  const { lang } = useTranslation("common");
   const [isHovered, setisHovered] = useState(false);
   const hasSubCategories =
     category.subCategories && category.subCategories.length > 0;
