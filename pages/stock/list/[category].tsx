@@ -1,4 +1,3 @@
-import { ChevronLeft, ChevronRight, Search } from "react-feather";
 import StockLayout from "../../../components/stock/StockLayout";
 import ProductCard from "../../../components/stock/ProductCard";
 import useTranslation from "next-translate/useTranslation";
@@ -6,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Head from "next/head";
+import { FiSearch, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 export default function Stock() {
   const { t, lang } = useTranslation("common");
@@ -136,7 +136,7 @@ export default function Stock() {
                 aria-label="Search"
               />
               <button type="submit" className="p-2">
-                <Search className="h-6 w-6 text-gray-600" />
+                <FiSearch className="h-6 w-6 text-gray-600" />
               </button>
             </form>
             <Link
@@ -174,7 +174,7 @@ export default function Stock() {
                 }
                 className="border bg-white p-2 hover:bg-gray-200"
               >
-                <ChevronLeft size={36} />
+                <FiChevronLeft size={36} />
               </Link>
               {getPageNumbers().map((p, index) =>
                 p === "..." ? (
@@ -207,7 +207,7 @@ export default function Stock() {
                 }
                 className="border bg-white p-2 hover:bg-gray-200"
               >
-                <ChevronRight size={36} />
+                <FiChevronRight size={36} />
               </Link>
             </div>
           </div>

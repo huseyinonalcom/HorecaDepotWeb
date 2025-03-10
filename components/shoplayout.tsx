@@ -2,10 +2,10 @@ import useTranslation from "next-translate/useTranslation";
 import { Category } from "../api/interfaces/category";
 import componentThemes from "./componentThemes";
 import RangeSlider from "./common/rangeSlider";
-import { ChevronLeft, X } from "react-feather";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { FiChevronLeft, FiX } from "react-icons/fi";
 
 type Props = {
   children: React.ReactNode;
@@ -133,7 +133,7 @@ export default function ShopLayout({ children }: Props) {
               className="w-full py-3 pr-4"
               onClick={() => toggleCategory(category.id)}
             >
-              <ChevronLeft
+              <FiChevronLeft
                 className={
                   "ml-auto h-4 w-4 duration-300 " +
                   (isCategoryExpanded(category.id) ? "rotate-270" : "rotate-90")
@@ -171,7 +171,7 @@ export default function ShopLayout({ children }: Props) {
                   onClick={() => setIsFilterDrawerOpen(false)}
                   className="flex w-full flex-shrink-0 flex-row justify-end bg-slate-300 px-3 py-2"
                 >
-                  <X />
+                  <FiX />
                 </button>
                 <div className="flex h-full w-full flex-col justify-end bg-white ">
                   <div>

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
 import { Product } from "../../api/interfaces/product";
-import { Heart, ShoppingCart } from "react-feather";
 import { CartContext } from "../../api/providers/cartProvider";
 import { useContext } from "react";
 import { CartProduct } from "../../api/interfaces/cartProduct";
@@ -10,6 +9,7 @@ import { WishlistProduct } from "../../api/interfaces/wishlistProduct";
 import { TiTick } from "react-icons/ti";
 import ImageWithURL from "../common/image";
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
+import { FiHeart, FiShoppingCart } from "react-icons/fi";
 
 type Props = {
   product: Product;
@@ -54,7 +54,7 @@ const ProductPreview2 = ({ product }: Props) => {
       href={`/products/${product.categories.at(0).localized_name[lang]}/${product.name}/${product.id}`}
       draggable={false}
       id={`${product.id}-preview`}
-      className={`border-1 group flex w-full flex-col items-center rounded-xl border border-black/30 p-2 text-black`}
+      className={`border-1 group flex w-full flex-col items-center rounded-xl border-black/30 p-2 text-black`}
     >
       <div
         draggable={false}
@@ -134,7 +134,7 @@ const ProductPreview2 = ({ product }: Props) => {
                 addToCart(convertToCartProduct(product));
               }}
             >
-              <ShoppingCart />
+              <FiShoppingCart />
               <p className="text-sm">{t("add_to_cart")}</p>
             </button>
             <button
@@ -148,7 +148,7 @@ const ProductPreview2 = ({ product }: Props) => {
                 addToWishlist(convertToWishlistProduct(product));
               }}
             >
-              <Heart />
+              <FiHeart />
             </button>
           </div>
           {product.shelves && product.shelves.length > 0 && (

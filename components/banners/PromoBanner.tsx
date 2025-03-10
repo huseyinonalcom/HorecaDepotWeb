@@ -3,8 +3,8 @@ import { useSortable } from "@dnd-kit/sortable";
 import ImageWithURL from "../common/image";
 import { CSS } from "@dnd-kit/utilities";
 import { CSSProperties } from "react";
-import { X } from "react-feather";
 import Link from "next/link";
+import { FiX } from "react-icons/fi";
 
 export const PromoBanner = ({
   homePage,
@@ -71,7 +71,7 @@ export const PromoBanner = ({
               }}
               type="button"
             >
-              <X size={18} color="red" />
+              <FiX size={18} color="red" />
             </button>
           </div>
         )}

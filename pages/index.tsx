@@ -2,7 +2,6 @@ import { getAllCategoriesFlattened } from "./api/categories/public/getallcategor
 import CollectionShowcase from "../components/public/collection-showcase";
 import { getCollections } from "./api/collections/public/getcollections";
 import { CategoryBanner } from "../components/banners/CategoryBanner";
-import { Check, ChevronLeft, PlusSquare, X } from "react-feather";
 import useTranslation from "next-translate/useTranslation";
 import ImageWithURL from "../components/common/image";
 import { Category } from "../api/interfaces/category";
@@ -29,6 +28,7 @@ import {
   horizontalListSortingStrategy,
   SortableContext,
 } from "@dnd-kit/sortable";
+import { FiPlusSquare, FiX, FiCheck, FiChevronLeft } from "react-icons/fi";
 
 export default function Index({
   homePage,
@@ -75,7 +75,7 @@ export default function Index({
     return (
       <>
         {order == "1" && (
-          <PlusSquare
+          <FiPlusSquare
             className="m-auto flex-shrink-0"
             size={64}
             onClick={() => {
@@ -102,7 +102,7 @@ export default function Index({
             type="button"
             className="absolute left-4 top-4"
           >
-            <X color="red" size={64} />
+            <FiX color="red" size={64} />
           </button>
           <div className="flex flex-wrap items-center justify-center gap-12 p-4">
             <div className="flex h-[50vh] w-[420px] flex-col gap-2 overflow-y-auto">
@@ -306,7 +306,7 @@ export default function Index({
               });
             }}
           >
-            <Check color="green" size={64} />
+            <FiCheck color="green" size={64} />
           </button>
         </div>
       </>
@@ -501,11 +501,11 @@ export default function Index({
             )}
           </div>
           <div className="ml-4 mt-2 flex w-[90vw] max-w-screen-2xl flex-row justify-start gap-2 2xl:hidden">
-            <ChevronLeft
+            <FiChevronLeft
               onClick={() => handleScrollSlider("left")}
               className="h-8 w-8"
             />
-            <ChevronLeft
+            <FiChevronLeft
               onClick={() => handleScrollSlider("right")}
               className="h-8 w-8 rotate-180"
             />
@@ -538,7 +538,7 @@ export default function Index({
           ))}
           {onEdit && (
             <>
-              <PlusSquare
+              <FiPlusSquare
                 className="m-auto"
                 size={64}
                 onClick={() => {
@@ -553,7 +553,7 @@ export default function Index({
                   type="button"
                   className="absolute left-4 top-4"
                 >
-                  <X color="red" size={64} />
+                  <FiX color="red" size={64} />
                 </button>
                 <div className="flex flex-wrap items-center justify-center gap-12 p-4">
                   {allCategories

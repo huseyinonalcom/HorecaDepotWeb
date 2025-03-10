@@ -4,9 +4,9 @@ import useTranslation from "next-translate/useTranslation";
 import componentThemes from "../../../components/componentThemes";
 import InputOutlined from "../../../components/inputs/outlined";
 import ImageWithURL from "../../../components/common/image";
-import { useRouter } from "next/router";
-import { Check, X } from "react-feather";
+import { useRouter } from "next/router"; 
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
+import { FiCheck, FiX } from "react-icons/fi";
 
 export default function PopupAdmin() {
   const router = useRouter();
@@ -105,12 +105,12 @@ export default function PopupAdmin() {
               />
               <div className="text flex flex-row text-green-600">
                 <p>https://horecadepot.be/shop/...</p>
-                <Check />
+                <FiCheck />
               </div>
 
               <div className="text flex flex-row text-red-600">
                 <p>horecadepot.be/shop/...</p>
-                <X />
+                <FiX />
               </div>
               <input type="file" onChange={uploadFiles} />
               {popup.img && (

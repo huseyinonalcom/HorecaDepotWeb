@@ -4,11 +4,11 @@ import InputOutlined from "../../../../components/inputs/outlined";
 import { uploadFileToAPI } from "../../../api/files/uploadfile";
 import ImageWithURL from "../../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
-import { useRouter } from "next/router";
-import { Check } from "react-feather";
+import { useRouter } from "next/router"; 
 import { useState } from "react";
 import Head from "next/head";
 import AdminPanelLayout from "../../../../components/admin/AdminPanelLayout";
+import { FiCheck } from "react-icons/fi";
 
 export default function BannerEdit(props) {
   const { t, lang } = useTranslation("common");
@@ -196,7 +196,7 @@ export default function BannerEdit(props) {
             }
           }}
         >
-          <Check color="green" size={64} />
+          <FiCheck color="green" size={64} />
         </button>
       </div>
     </>

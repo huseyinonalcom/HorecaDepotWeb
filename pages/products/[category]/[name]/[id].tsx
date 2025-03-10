@@ -16,12 +16,12 @@ import {
   getAllProductIDs,
   getProductByID,
   getProducts,
-} from "../../../../api/calls/productCalls";
-import { Facebook } from "react-feather";
+} from "../../../../api/calls/productCalls"; 
 import { TiTick } from "react-icons/ti";
 import Head from "next/head";
 import Link from "next/link";
 import { formatCurrency } from "../../../../api/utils/formatters/formatcurrency";
+import { FiFacebook } from "react-icons/fi";
 
 type Props = {
   relatedProducts: Product[];
@@ -322,7 +322,7 @@ const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
                   aria-label="Share via Facebook"
                   href={`https://www.facebook.com/sharer/sharer.php?u=https://horecadepot.be/products/${product.categories.at(0).localized_name[lang]}/${product.name}/${product.id}`}
                 >
-                  <Facebook
+                  <FiFacebook
                     width={60}
                     height={60}
                     className="h-6 w-6 text-black duration-300 hover:text-blue-600"

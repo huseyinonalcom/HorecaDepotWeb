@@ -3,13 +3,13 @@ import ProductPreview2 from "../../components/products/product-preview2";
 import { getProducts } from "../api/products/public/getproducts";
 import useTranslation from "next-translate/useTranslation";
 import ImageWithURL from "../../components/common/image";
-import { Product } from "../../api/interfaces/product";
-import { ArrowUp, ChevronLeft } from "react-feather";
+import { Product } from "../../api/interfaces/product"; 
 import ShopLayout from "../../components/shoplayout";
 import Layout from "../../components/public/layout";
 import { useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
+import { FiChevronLeft, FiArrowUp } from "react-icons/fi";
 
 export default function Products(props) {
   const { t } = useTranslation("common");
@@ -89,7 +89,7 @@ export default function Products(props) {
                   setisHovered(!isHovered);
                 }}
               >
-                <ChevronLeft
+                <FiChevronLeft
                   className={
                     "ml-auto h-4 w-4 duration-300 " +
                     (isHovered ? "rotate-270" : "rotate-90")
@@ -199,7 +199,7 @@ export default function Products(props) {
                       currentSortDirection == "asc" ? "desc" : "asc",
                   })}
                 >
-                  <ArrowUp
+                  <FiArrowUp
                     height={36}
                     width={36}
                     className={`flex cursor-pointer flex-row items-center border-2 border-black bg-white p-1 duration-500 ${currentSortDirection == "asc" ? "rotate-0" : "rotate-180"}`}
@@ -256,7 +256,7 @@ export default function Products(props) {
                       className="border p-2 hover:bg-gray-200"
                       aria-label="Previous page"
                     >
-                      <ChevronLeft />
+                      <FiChevronLeft />
                     </Link>
                     {getPageNumbers().map((page, index) =>
                       page === "..." ? (
@@ -285,7 +285,7 @@ export default function Products(props) {
                       className="border p-2 hover:bg-gray-200"
                       aria-label="Next page"
                     >
-                      <ChevronLeft className="rotate-180" />
+                      <FiChevronLeft className="rotate-180" />
                     </Link>
                   </div>
                 </div>

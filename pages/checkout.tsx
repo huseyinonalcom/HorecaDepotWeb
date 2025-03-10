@@ -16,12 +16,12 @@ import { countries } from "../api/utils/countries";
 import Layout from "../components/public/layout";
 import { AutoTextSize } from "auto-text-size";
 import debounce from "../api/utils/debounce";
-import { useRouter } from "next/router";
-import { Loader } from "react-feather";
+import { useRouter } from "next/router"; 
 import Select from "react-select";
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
+import { FiLoader } from "react-icons/fi";
 
 const emptyAddress = {
   country: "",
@@ -944,7 +944,7 @@ export default function Checkout() {
                   className={CustomTheme.outlinedButton}
                 >
                   {submitting ? (
-                    <Loader className="mx-auto" />
+                    <FiLoader className="mx-auto" />
                   ) : (
                     t("Proceed with order")
                   )}
@@ -1211,7 +1211,7 @@ export default function Checkout() {
                 className={CustomTheme.outlinedButton}
               >
                 {submitting ? (
-                  <Loader className="mx-auto" />
+                  <FiLoader className="mx-auto" />
                 ) : (
                   t("Proceed with order")
                 )}

@@ -1,10 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import useTranslation from "next-translate/useTranslation";
-import { ArrowLeft } from "react-feather";
+import useTranslation from "next-translate/useTranslation"; 
 import { useEffect, useState } from "react";
 import { formatDateAPIToBe } from "../../api/utils/formatters/formatdateapibe";
 import componentThemes from "../componentThemes";
+import { FiArrowLeft } from "react-icons/fi";
 
 const OrderPreview = ({ order }) => {
   const { t } = useTranslation("common");
@@ -79,7 +79,7 @@ const OrderPreview = ({ order }) => {
             className="absolute left-0 z-40 flex h-full flex-col justify-center bg-slate-100 opacity-40"
             onClick={slidePrevious}
           >
-            <ArrowLeft />
+            <FiArrowLeft />
           </div>
         ) : (
           <div></div>
@@ -89,7 +89,7 @@ const OrderPreview = ({ order }) => {
             className="absolute right-0 z-40 flex h-full flex-col justify-center bg-slate-100 opacity-40"
             onClick={slideNext}
           >
-            <ArrowLeft className="rotate-180" />
+            <FiArrowLeft className="rotate-180" />
           </div>
         ) : (
           <div></div>

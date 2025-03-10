@@ -1,10 +1,10 @@
 import { formatDateAPIToBe } from "../../../api/utils/formatters/formatdateapibe";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import useTranslation from "next-translate/useTranslation";
-import { useState, useEffect } from "react";
-import { ChevronLeft } from "react-feather";
+import { useState, useEffect } from "react"; 
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { FiChevronLeft } from "react-icons/fi";
 
 export default function Reservations() {
   const router = useRouter();
@@ -157,7 +157,7 @@ export default function Reservations() {
                       onClick={() => goToPage(currentPage - 1)}
                       disabled={currentPage === 1}
                     >
-                      <ChevronLeft />
+                      <FiChevronLeft />
                     </button>
                     {getPageNumbers().map((page, index) =>
                       page === "..." ? (
@@ -181,7 +181,7 @@ export default function Reservations() {
                       onClick={() => goToPage(currentPage + 1)}
                       disabled={currentPage === totalPages}
                     >
-                      <ChevronLeft className="rotate-180" />
+                      <FiChevronLeft className="rotate-180" />
                     </button>
                   </div>
                 </div>

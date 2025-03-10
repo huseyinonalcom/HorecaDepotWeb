@@ -2,12 +2,12 @@ import { getAllCategoriesFlattened } from "../../api/categories/public/getallcat
 import { getCollections } from "../../api/collections/public/getcollections";
 import { getHomePage } from "../../api/website/public/gethomepage";
 import { getBanners } from "../../api/website/public/getbanners";
-import useTranslation from "next-translate/useTranslation";
-import { Check } from "react-feather";
+import useTranslation from "next-translate/useTranslation"; 
 import { useState } from "react";
 import Head from "next/head";
 import Index from "../..";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
+import { FiCheck } from "react-icons/fi";
 
 export default function HomePageAdmin({
   homePageFromAPI,
@@ -53,7 +53,7 @@ export default function HomePageAdmin({
           });
         }}
       >
-        <Check color="green" size={64} />
+        <FiCheck color="green" size={64} />
       </button>
     </>
   );

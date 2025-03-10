@@ -11,17 +11,9 @@ import { useState } from "react";
 import { LuDot } from "react-icons/lu";
 import { utils, write } from "xlsx";
 import Link from "next/link";
-import Head from "next/head";
-import {
-  ArrowUp,
-  ChevronLeft,
-  ChevronRight,
-  ChevronUp,
-  Download,
-  PlusCircle,
-  Search,
-} from "react-feather";
+import Head from "next/head"; 
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
+import { FiChevronUp, FiSearch, FiArrowUp, FiDownload, FiPlusCircle, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");
@@ -117,7 +109,7 @@ export default function Products(props) {
                 //   setisHovered(!isHovered);
                 // }}
               >
-                <ChevronUp
+                <FiChevronUp
                   className={
                     "ml-auto h-4 w-4 duration-300 " +
                     (isHovered ? "rotate-180" : "")
@@ -331,7 +323,7 @@ export default function Products(props) {
                   ? (allCategories.find((cat) => cat.id == currentCategory)
                       ?.localized_name[lang] ?? t("choose_category"))
                   : t("choose_category")}
-                <ChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />
+                <FiChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />
               </div>
               <div className="invisible absolute top-8 -left-5 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
                 <div className="flex w-full cursor-pointer items-center justify-between text-left hover:bg-gray-200">
@@ -352,7 +344,7 @@ export default function Products(props) {
                 {currentSupplier
                   ? allSuppliers.find((sup) => sup.id == currentSupplier)?.name
                   : t("choose_supplier")}
-                <ChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />
+                <FiChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />
               </div>
               <div className="invisible absolute top-8 -left-5 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
                 <div className="flex w-full cursor-pointer items-center justify-between text-left hover:bg-gray-200">
@@ -429,7 +421,7 @@ export default function Products(props) {
                   role="button"
                   aria-label="Submit search"
                 >
-                  <Search
+                  <FiSearch
                     style={{
                       height: "100%",
                       width: "28px",
@@ -447,7 +439,7 @@ export default function Products(props) {
                     : createLink({ sortDirection: "desc", page: 1 })
                 }
               >
-                <ArrowUp
+                <FiArrowUp
                   height={36}
                   width={36}
                   className={`border-2 border-blue-500 bg-white p-1 duration-500 ${
@@ -477,13 +469,13 @@ export default function Products(props) {
               onClick={() => generateXlsx()}
             >
               <div className={navIconDivClass}>
-                <Download className={iconClass} />
+                <FiDownload className={iconClass} />
               </div>
               <span className={textClass}>{t("Download Excel")}</span>
             </button>
             <Link className={buttonClass} href={"/admin/products/0"}>
               <div className={navIconDivClass}>
-                <PlusCircle className={iconClass} />
+                <FiPlusCircle className={iconClass} />
               </div>
               <span className={textClass}>{t("Create New Product")}</span>
             </Link>
@@ -561,7 +553,7 @@ export default function Products(props) {
                       }
                       className="border p-2 hover:bg-gray-200"
                     >
-                      <ChevronLeft />
+                      <FiChevronLeft />
                     </Link>
                     {getPageNumbers().map((page, index) =>
                       page === "..." ? (
@@ -588,7 +580,7 @@ export default function Products(props) {
                       }
                       className="border p-2 hover:bg-gray-200"
                     >
-                      <ChevronRight />
+                      <FiChevronRight />
                     </Link>
                   </div>
                 </div>

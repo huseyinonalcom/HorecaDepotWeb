@@ -1,10 +1,10 @@
 import useTranslation from "next-translate/useTranslation";
 import LocaleSwitcher from "../LocaleSwitcher";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { LogOut, X } from "react-feather";
+import { useRouter } from "next/router"; 
 import Image from "next/image";
 import Link from "next/link";
+import { FiLogOut, FiX } from "react-icons/fi";
 
 type Props = {
   children: React.ReactNode;
@@ -65,7 +65,7 @@ export default function StockLayout({ children }: Props) {
                 }}
                 className="lg:hidden"
               >
-                <X size={26} />
+                <FiX size={26} />
               </button>
             </div>
           </div>
@@ -111,7 +111,7 @@ export default function StockLayout({ children }: Props) {
                 });
               }}
             >
-              <LogOut />
+              <FiLogOut />
               {t("Logout")}
             </button>
           </div>

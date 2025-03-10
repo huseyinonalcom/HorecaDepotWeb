@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import componentThemes from "../../../components/componentThemes";
-import { Check, Search, X } from "react-feather";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
+import { FiSearch, FiCheck, FiX } from "react-icons/fi";
 
 export default function Keywords() {
   const router = useRouter();
@@ -130,7 +130,7 @@ export default function Keywords() {
                       }}
                       placeholder={t("Internal Code / Nom / Couleur")}
                     />
-                    <Search
+                    <FiSearch
                       onClick={() => {
                         setProducts(
                           allProducts.filter(
@@ -164,9 +164,9 @@ export default function Keywords() {
                       }}
                     >
                       {chosenProducts.some((p) => p.id === prod.id) ? (
-                        <Check color="green" />
+                        <FiCheck color="green" />
                       ) : (
-                        <X />
+                        <FiX />
                       )}
                       {prod.internalCode} - {prod.name} - {prod.color}
                     </div>
@@ -183,10 +183,7 @@ export default function Keywords() {
                 onChange={(e) => setInputTags(e.target.value)}
                 placeholder={t("Tags")}
               />
-              <button
-                className={componentThemes.outlinedButton}
-                type="submit"
-              >
+              <button className={componentThemes.outlinedButton} type="submit">
                 {t("bulk_tags_modify")}
               </button>
               {submitError && (

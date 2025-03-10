@@ -1,7 +1,6 @@
 import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
-import { Product } from "../../api/interfaces/product";
-import { Heart, ShoppingCart } from "react-feather";
+import { Product } from "../../api/interfaces/product"; 
 import { CartContext } from "../../api/providers/cartProvider";
 import { useContext } from "react";
 import { CartProduct } from "../../api/interfaces/cartProduct";
@@ -11,6 +10,7 @@ import { TiTick } from "react-icons/ti";
 import ImageWithURL from "../common/image";
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
 import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
+import { FiShoppingCart, FiHeart } from "react-icons/fi";
 
 type Props = {
   product: Product;
@@ -89,7 +89,7 @@ const ProductPreview = ({ product }: Props) => {
               addToCart(convertToCartProduct(product));
             }}
           >
-            <ShoppingCart className="mx-auto" />
+            <FiShoppingCart className="mx-auto" />
           </button>
           <button
             draggable={false}
@@ -102,7 +102,7 @@ const ProductPreview = ({ product }: Props) => {
               addToWishlist(convertToWishlistProduct(product));
             }}
           >
-            <Heart className="mx-auto" />
+            <FiHeart className="mx-auto" />
           </button>
         </div>
       </div>

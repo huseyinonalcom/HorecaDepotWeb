@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import ProductPreview from "../products/product-preview";
-import { ChevronLeft } from "react-feather";
+import { FiChevronLeft } from "react-icons/fi";
 
 type Props = {
   collection;
@@ -38,8 +38,8 @@ const CollectionShowcase = ({ collection, id }: Props) => {
       <div className="flex flex-row justify-between">
         <p className={`mb-4 text-2xl font-bold`}>{collection.name}</p>
         <div className="flex flex-row">
-          <ChevronLeft size={32} onClick={() => scroll("left")} />
-          <ChevronLeft
+          <FiChevronLeft size={32} onClick={() => scroll("left")} />
+          <FiChevronLeft
             size={32}
             onClick={() => scroll("right")}
             className="rotate-180"

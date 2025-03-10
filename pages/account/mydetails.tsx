@@ -5,10 +5,10 @@ import CustomTheme from "../../components/componentThemes";
 import { ClientUser } from "../../api/interfaces/client";
 import Layout from "../../components/public/layout";
 import Meta from "../../components/public/meta";
-import { ChevronLeft } from "react-feather";
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { FiChevronLeft } from "react-icons/fi";
 
 export default function MyDetails() {
   const { t, lang } = useTranslation("common");
@@ -61,7 +61,7 @@ export default function MyDetails() {
       <div className="mx-auto flex w-full flex-col items-start justify-start pt-2">
         <div className="mb-3 flex flex-row items-center gap-4">
           <Link href="/account/myaccount" className="group flex text-black">
-            <ChevronLeft className="group-hover:animate-bounceHorizontal" />
+            <FiChevronLeft className="group-hover:animate-bounceHorizontal" />
             <p>{t("Back to Account")}</p>
           </Link>
           <h2 className="text-xl font-semibold">{t("My Details")}</h2>

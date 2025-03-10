@@ -1,12 +1,12 @@
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
 import { CartContext } from "../../api/providers/cartProvider";
 import useTranslation from "next-translate/useTranslation";
-import { Minus, Plus, X } from "react-feather";
 import { AutoTextSize } from "auto-text-size";
 import CustomTheme from "../componentThemes";
 import ImageWithURL from "../common/image";
 import { useContext } from "react";
 import Link from "next/link";
+import { FiX, FiMinus, FiPlus } from "react-icons/fi";
 
 const CartDrawer = () => {
   const { t } = useTranslation("common");
@@ -42,7 +42,7 @@ const CartDrawer = () => {
         >
           <div className="group flex w-full flex-row justify-between border-b border-gray-300 py-1 pl-2 pr-1">
             <p className="font-bold">{t("Cart")}</p>
-            <X className="-rotate-180 duration-700 group-hover:rotate-180" />
+            <FiX className="-rotate-180 duration-700 group-hover:rotate-180" />
           </div>
         </button>
 
@@ -100,10 +100,10 @@ const CartDrawer = () => {
                     onClick={() => removeFromCart(product.id)}
                     className="mr-2.5"
                   >
-                    <X color="red" />
+                    <FiX color="red" />
                   </button>
                   <div className="mr-2 flex h-fit flex-row items-center justify-center rounded-md border-2 border-black bg-black p-0.5 duration-300">
-                    <Minus
+                    <FiMinus
                       name="decreaseQuantity"
                       aria-label="Decrease Quantity"
                       className="h-6 w-6 cursor-pointer rounded-md bg-white px-1 duration-300 hover:text-red-500"
@@ -112,7 +112,7 @@ const CartDrawer = () => {
                     <p className="mx-1.25 w-[40px] text-center text-white">
                       {product.amount}
                     </p>
-                    <Plus
+                    <FiPlus
                       name="increaseQuantity"
                       aria-label="Increase Quantity"
                       className="h-6 w-6 cursor-pointer rounded-md bg-white px-1 duration-300  hover:text-green-500"

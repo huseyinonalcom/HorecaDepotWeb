@@ -1,4 +1,4 @@
-import { ChevronLeft } from "react-feather";
+import { FiChevronLeft } from "react-icons/fi";
 
 export const Paging = ({
   currentPage,
@@ -59,7 +59,7 @@ export const Paging = ({
             className="border p-2 hover:bg-gray-200"
             aria-label="Previous page"
           >
-            <ChevronLeft />
+            <FiChevronLeft />
           </button>
           {getPageNumbers().map((page, index) =>
             page === "..." ? (
@@ -81,7 +81,7 @@ export const Paging = ({
             className="border p-2 hover:bg-gray-200"
             aria-label="Next page"
           >
-            <ChevronLeft className="rotate-180" />
+            <FiChevronLeft className="rotate-180" />
           </button>
         </div>
       </div>

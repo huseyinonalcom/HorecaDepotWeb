@@ -5,12 +5,12 @@ import componentThemes from "../../../components/componentThemes";
 import InputOutlined from "../../../components/inputs/outlined";
 import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
-import { useEffect, useState } from "react";
-import { Upload, X } from "react-feather";
+import { useEffect, useState } from "react"; 
 import { useRouter } from "next/router";
 import Head from "next/head";
 import ButtonShadow1 from "../../../components/buttons/shadow_1";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
+import { FiUpload, FiX } from "react-icons/fi";
 
 const navIconDivClass = "flex flex-row justify-center flex-shrink-0 w-[35px]";
 const iconClass = "flex-shrink-0";
@@ -259,7 +259,7 @@ export default function Collection() {
                   className="flex cursor-pointer flex-row items-center  justify-start overflow-hidden py-2 shadow-lg duration-500 hover:bg-orange-400"
                 >
                   <div className={navIconDivClass}>
-                    <Upload className={iconClass} />
+                    <FiUpload className={iconClass} />
                   </div>
                   <span className={textClass}>{t("Upload Image")}</span>
                 </label>
@@ -291,7 +291,7 @@ export default function Collection() {
                   }
                   className="absolute right-2 top-2 text-red-500"
                 >
-                  <X />
+                  <FiX />
                 </button>
               </div>
             )}

@@ -12,21 +12,21 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  ChevronLeft,
-  Globe,
-  Heart,
-  Info,
-  MapPin,
-  Menu,
-  Phone,
-  Search,
-  ShoppingBag,
-  ShoppingCart,
-  User,
-  Clipboard,
-  X,
-  Compass,
-} from "react-feather";
+  FiChevronLeft,
+  FiSearch,
+  FiMapPin,
+  FiPhone,
+  FiX,
+  FiShoppingCart,
+  FiUser,
+  FiHeart,
+  FiClipboard,
+  FiGlobe,
+  FiInfo,
+  FiCompass,
+  FiShoppingBag,
+  FiMenu,
+} from "react-icons/fi";
 
 const CategoryItem = ({ category, onClick }) => {
   const { lang } = useTranslation("common");
@@ -53,7 +53,7 @@ const CategoryItem = ({ category, onClick }) => {
       >
         {category.localized_name[lang]}
         {hasSubCategories && (
-          <ChevronLeft
+          <FiChevronLeft
             className={
               "h-4 w-4 duration-300 " + (isHovered ? "rotate-180" : "")
             }
@@ -140,7 +140,7 @@ const DesktopSearch = () => {
         aria-label="Search bar input"
         type="text"
         onChange={handleSearchChange}
-        className="w-full rounded-2xl border-2 py-2 pl-4 pr-4 bg-white text-black outline-none focus:border-black focus:ring-transparent"
+        className="w-full rounded-2xl border-2 bg-white py-2 pl-4 pr-4 text-black outline-none focus:border-black focus:ring-transparent"
         placeholder={t("Search Products")}
       />
       <div className="absolute inset-y-0 right-0 flex">
@@ -149,7 +149,7 @@ const DesktopSearch = () => {
           type="submit"
           className="h-full w-[45px] cursor-pointer text-black"
         >
-          <Search className="mx-auto my-auto h-6 w-6 pr-1" />
+          <FiSearch className="mx-auto my-auto h-6 w-6 pr-1" />
         </button>
       </div>
       {searchResults.length > 0 && (
@@ -247,7 +247,7 @@ const MobileSearch = () => {
           type="submit"
           className="h-full w-[45px] cursor-pointer text-black"
         >
-          <Search className="mx-auto my-auto h-6 w-6 pr-1" />
+          <FiSearch className="mx-auto my-auto h-6 w-6 pr-1" />
         </button>
       </div>
       {searchResults.length > 0 && (
@@ -312,12 +312,12 @@ const TopBar = () => {
     <div className="hidden w-full flex-row items-center justify-between gap-4 border-b border-gray-500 px-5 pb-2 md:flex">
       <div className="flex flex-row items-center gap-4">
         <Link className="flex flex-row items-center gap-4" href="/contact">
-          <MapPin className="h-4 w-4" />
+          <FiMapPin className="h-4 w-4" />
           <p className={navLinkClass}>{t("location")}</p>
         </Link>
         <p className="text-gray-500">|</p>
         <a href="tel:+32499738373" className="flex flex-row items-center gap-4">
-          <Phone className="h-4 w-4" />
+          <FiPhone className="h-4 w-4" />
           <p className={navLinkClass}>+32 499 73 83 73</p>
         </a>
         <p className="text-gray-500">|</p>
@@ -458,7 +458,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
                   setisHovered(!isHovered);
                 }}
               >
-                <ChevronLeft
+                <FiChevronLeft
                   className={
                     "ml-auto h-4 w-4 duration-300 " +
                     (isHovered ? "rotate-270" : "rotate-90")
@@ -523,7 +523,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             name="Mobile navigation menu closing button"
             onClick={onClickOutside}
           >
-            <X className="h-8 w-8 -rotate-180 duration-700 hover:rotate-180" />
+            <FiX className="h-8 w-8 -rotate-180 duration-700 hover:rotate-180" />
           </button>
           <div className="relative">
             <button
@@ -624,7 +624,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             className={navButtonsClass}
             href="/shop/tous?page=1"
           >
-            <ShoppingCart /> {t("Shop")}
+            <FiShoppingCart /> {t("Shop")}
           </Link>
           <button
             name="showCategories"
@@ -632,7 +632,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             className={navButtonsClass}
             onClick={() => setShowCategories(!showCategories)}
           >
-            <ChevronLeft
+            <FiChevronLeft
               className={
                 "duration-300 " + (showCategories ? "rotate-270" : "rotate-90")
               }
@@ -656,42 +656,42 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             className={navButtonsClass}
             href="/account/myaccount"
           >
-            <User /> {t("Account")}
+            <FiUser /> {t("Account")}
           </Link>
           <Link
             aria-label="Link to Wishlist"
             className={navButtonsClass}
             href="/wishlist"
           >
-            <Heart /> {t("Wishlist")}
+            <FiHeart /> {t("Wishlist")}
           </Link>
           <Link
             aria-label="Link to Projects"
             className={navButtonsClass}
             href="/projects"
           >
-            <Clipboard /> {t("Projects")}
+            <FiClipboard /> {t("Projects")}
           </Link>
           <Link
             aria-label="Link to References"
             className={navButtonsClass}
             href="/references"
           >
-            <Globe /> {t("References")}
+            <FiGlobe /> {t("References")}
           </Link>
           <Link
             aria-label="Link to Contact us"
             className={navButtonsClass}
             href="/contact"
           >
-            <MapPin /> {t("Contact")}
+            <FiMapPin /> {t("Contact")}
           </Link>
           <Link
             aria-label="Link to About us"
             className={navButtonsClass}
             href="/about"
           >
-            <Info />
+            <FiInfo />
             {t("About us")}
           </Link>
           <Link
@@ -699,7 +699,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
             className={navButtonsClass}
             href="/parking"
           >
-            <Compass />
+            <FiCompass />
             {t("Parking")}
           </Link>
         </div>
@@ -723,7 +723,7 @@ const HeaderButtons = ({ cartItems }) => {
           className={`${navButtonsClass} hidden lg:flex`}
           href="/account/myaccount"
         >
-          <User />
+          <FiUser />
         </Link>
       ) : (
         <Link
@@ -731,7 +731,7 @@ const HeaderButtons = ({ cartItems }) => {
           className={`${navButtonsClass} hidden lg:flex`}
           href="/login"
         >
-          <User />
+          <FiUser />
         </Link>
       )}
       <Link
@@ -739,7 +739,7 @@ const HeaderButtons = ({ cartItems }) => {
         className={`${navButtonsClass} hidden lg:flex`}
         href="/wishlist"
       >
-        <Heart />
+        <FiHeart />
         <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-red-600 px-1 py-0.5 text-xs font-bold leading-none text-white">
           {wishlist.length}
         </span>
@@ -750,7 +750,7 @@ const HeaderButtons = ({ cartItems }) => {
         className={navButtonsClass}
         onClick={openDrawer}
       >
-        <ShoppingBag />
+        <FiShoppingBag />
         <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-red-600 px-1 py-0.5 text-xs font-bold leading-none">
           {cartItems}
         </span>
@@ -774,7 +774,7 @@ const CategoryDrawerMobile = ({ isOpen, categoriesToShow, closeDrawer }) => {
             aria-label="Close Categoires"
             onClick={closeDrawer}
           >
-            <X />
+            <FiX />
           </button>
         </div>
         <div className="my-4 flex w-full flex-col border-b border-t bg-white py-2 text-gray-500 duration-300">
@@ -810,7 +810,7 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
             aria-label="Close Categoires"
             onClick={closeDrawer}
           >
-            <X />
+            <FiX />
           </button>
         </div>
         <div className="my-4 grid grid-cols-4 gap-4 border-t bg-white py-2 text-gray-500 duration-300">
@@ -965,7 +965,7 @@ const Header = () => {
               aria-label="Mobile Navigation Menu"
               onClick={() => setIsHeaderDrawerOpen(true)}
             >
-              <Menu />
+              <FiMenu />
             </button>
             <div className="flex flex-row items-center gap-8 text-sm text-white">
               <Link
@@ -1000,7 +1000,7 @@ const Header = () => {
                 className="hidden flex-row items-center gap-2 rounded-lg border-2 py-2 pl-3.5 pr-5 lg:flex"
                 onClick={() => setShowCategories(true)}
               >
-                <Menu className="mb-[1px]" />
+                <FiMenu className="mb-[1px]" />
                 <p className="font-semibold">{t("CATEGORIES")}</p>
               </button>
             </div>

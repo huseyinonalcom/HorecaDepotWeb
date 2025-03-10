@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { ClientContext } from "../../api/providers/clientProvider";
-import useTranslation from "next-translate/useTranslation";
-import { Heart, Package, User } from "react-feather";
+import useTranslation from "next-translate/useTranslation"; 
 import Link from "next/link";
 import { useRouter } from "next/router";
 import CustomTheme from "../componentThemes";
+import { FiPackage, FiHeart, FiUser } from "react-icons/fi";
 
 export default function MyAccountDash() {
   const { t } = useTranslation("common");
@@ -66,7 +66,7 @@ export default function MyAccountDash() {
           className="group flex flex-col items-center gap-2 rounded-xl border-2 border-black p-6"
         >
           <p className="text-2xl font-semibold">{t("My Orders")}</p>
-          <Package
+          <FiPackage
             className="duration-100 ease-in-out group-hover:-translate-y-2"
             size={42}
           />
@@ -76,7 +76,7 @@ export default function MyAccountDash() {
           className="group flex flex-col items-center gap-2 rounded-xl border-2 border-black p-6"
         >
           <p className="text-2xl font-semibold">{t("My Wishlist")}</p>
-          <Heart
+          <FiHeart
             className="duration-100 ease-in-out group-hover:-translate-y-2"
             size={42}
           />
@@ -86,7 +86,7 @@ export default function MyAccountDash() {
           className="group flex flex-col items-center gap-2 rounded-xl border-2 border-black p-6"
         >
           <p className="text-2xl font-semibold">{t("My Personal Details")}</p>
-          <User
+          <FiUser
             className="duration-100 ease-in-out group-hover:-translate-y-2"
             size={42}
           />

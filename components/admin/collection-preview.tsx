@@ -2,7 +2,7 @@ import useTranslation from "next-translate/useTranslation";
 import componentThemes from "../componentThemes";
 import { useEffect, useState } from "react";
 import ImageWithURL from "../common/image";
-import { ArrowLeft } from "react-feather";
+import { FiArrowLeft } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -124,7 +124,7 @@ const CollectionPreview = ({ collection }: Props) => {
                 className="absolute left-0 z-40 flex h-full flex-col justify-center bg-slate-100 opacity-40"
                 onClick={slidePrevious}
               >
-                <ArrowLeft />
+                <FiArrowLeft />
               </div>
             ) : (
               <div></div>
@@ -134,7 +134,7 @@ const CollectionPreview = ({ collection }: Props) => {
                 className="absolute right-0 z-40 flex h-full flex-col justify-center bg-slate-100 opacity-40"
                 onClick={slideNext}
               >
-                <ArrowLeft className="rotate-180" />
+                <FiArrowLeft className="rotate-180" />
               </div>
             ) : (
               <div></div>

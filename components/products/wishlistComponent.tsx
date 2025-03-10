@@ -1,10 +1,10 @@
 import Link from "next/link";
-import useTranslation from "next-translate/useTranslation";
-import { ShoppingCart, X } from "react-feather";
+import useTranslation from "next-translate/useTranslation"; 
 import { useContext } from "react";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import ImageWithURL from "../common/image";
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
+import { FiShoppingCart, FiX } from "react-icons/fi";
 
 const WishListComponent = () => {
   const { wishlist, moveItemToCart, removeFromWishlist } =
@@ -81,7 +81,7 @@ const WishListComponent = () => {
                   onClick={() => moveItemToCart(product)}
                 >
                   <div className="flex h-full w-full flex-row items-center justify-center">
-                    <ShoppingCart />
+                    <FiShoppingCart />
                   </div>
                 </button>
                 <button
@@ -91,7 +91,7 @@ const WishListComponent = () => {
                   onClick={() => removeFromWishlist(product.id)}
                 >
                   <div className="flex h-full w-full flex-row items-center justify-center">
-                    <X color="red" />
+                    <FiX color="red" />
                   </div>
                 </button>
               </div>

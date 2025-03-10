@@ -2,20 +2,6 @@ import { getAllCategoriesFlattened } from "../../api/categories/public/getallcat
 import validateDecimal from "../../../api/utils/input_validators/validate_decimal";
 import validateInteger from "../../../api/utils/input_validators/validate_integer";
 import validateEmpty from "../../../api/utils/input_validators/validate_empty";
-import {
-  ArrowDown,
-  ArrowDownLeft,
-  ArrowDownRight,
-  ArrowLeft,
-  ArrowRight,
-  ArrowUp,
-  Check,
-  ChevronDown,
-  Copy,
-  Download,
-  Upload,
-  X,
-} from "react-feather";
 import { getAllSuppliers } from "../../api/suppliers/admin/getallsuppliers";
 import { getProductByID } from "../../api/products/admin/getproductbyid";
 import { LuPackage, LuPackageOpen, LuPackageX } from "react-icons/lu";
@@ -37,6 +23,20 @@ import ImageWithURL from "../../../components/common/image";
 import { ColorChooser } from "../../../components/inputs/ColorChooser";
 import { LocalizedInput } from "../../../components/inputs/localized_input";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
+import {
+  FiCopy,
+  FiCheck,
+  FiChevronDown,
+  FiX,
+  FiDownload,
+  FiUpload,
+  FiArrowLeft,
+  FiArrowDownLeft,
+  FiArrowUp,
+  FiArrowDown,
+  FiArrowDownRight,
+  FiArrowRight,
+} from "react-icons/fi";
 
 export default function ProductPage(props) {
   const { t, lang } = useTranslation("common");
@@ -474,7 +474,7 @@ export default function ProductPage(props) {
         <div className="mb-2 flex flex-row items-center justify-end gap-2">
           {currentProduct.id != 0 && (
             <div
-              className={`flex cursor-pointer flex-col items-center justify-center border-1 border-black bg-red-600 p-1`}
+              className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-red-600 p-1`}
               onClick={deleteProduct}
             >
               {t("Delete")}
@@ -483,14 +483,14 @@ export default function ProductPage(props) {
           {currentProduct.id != 0 &&
             (currentProduct.product_extra.new ? (
               <div
-                className={`flex cursor-pointer flex-col items-center justify-center border-1 border-black bg-green-300 p-1`}
+                className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-green-300 p-1`}
                 onClick={toggleProductNew}
               >
                 {t("Featured")}
               </div>
             ) : (
               <div
-                className={`flex cursor-pointer flex-col items-center justify-center border-1 border-black bg-red-300 p-1`}
+                className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-red-300 p-1`}
                 onClick={toggleProductNew}
               >
                 {t("Not Featured")}
@@ -499,14 +499,14 @@ export default function ProductPage(props) {
           {currentProduct.id != 0 &&
             (currentProduct.active ? (
               <div
-                className={`flex cursor-pointer flex-col items-center justify-center border-1 border-black bg-green-300 p-1`}
+                className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-green-300 p-1`}
                 onClick={toggleProductActive}
               >
                 {t("Active")}
               </div>
             ) : (
               <div
-                className={`flex cursor-pointer flex-col items-center justify-center border-1 border-black bg-red-300 p-1`}
+                className={`border-1 flex cursor-pointer flex-col items-center justify-center border-black bg-red-300 p-1`}
                 onClick={toggleProductActive}
               >
                 {t("Inactive")}
@@ -528,7 +528,7 @@ export default function ProductPage(props) {
               }}
             >
               <div className="bg-white p-2">
-                <Copy />
+                <FiCopy />
               </div>
             </ButtonShadow1>
           )}
@@ -539,7 +539,7 @@ export default function ProductPage(props) {
           )}
           <ButtonShadow1 type="submit">
             <div className="flex flex-row gap-2 bg-white p-2">
-              <Check color="green" />
+              <FiCheck color="green" />
               <p>{t("Save")}</p>
             </div>
           </ButtonShadow1>
@@ -682,7 +682,7 @@ export default function ProductPage(props) {
                     <div className="group relative w-full">
                       <div className="flex w-full flex-row justify-between rounded-md bg-blue-300 p-1">
                         <p>{currentProduct.supplier.name}</p>
-                        <ChevronDown />
+                        <FiChevronDown />
                       </div>
                       <div
                         className={`absolute z-40 hidden max-h-[300px] w-full grid-cols-1 items-start overflow-y-auto bg-gray-100 p-2 group-hover:grid`}
@@ -1080,7 +1080,7 @@ export default function ProductPage(props) {
                                           deleteReservation(res.id);
                                         }}
                                       >
-                                        <X color="red" />
+                                        <FiX color="red" />
                                       </button>
                                     </div>
                                   ),
@@ -1114,14 +1114,14 @@ export default function ProductPage(props) {
                       style={{ objectFit: "contain" }}
                     />
                     <div
-                      className="absolute top-2 right-2 z-50"
+                      className="absolute right-2 top-2 z-50"
                       onClick={() => handleImageDelete(selectedImage.id)}
                     >
-                      <X className="h-8 w-8" color="red" />
+                      <FiX className="h-8 w-8" color="red" />
                     </div>
                     <Link
                       target="_blank"
-                      className="absolute top-12 right-2"
+                      className="absolute right-2 top-12"
                       href={
                         "https://hdcdn.hocecomv1.com" +
                         selectedImage.url.replace(
@@ -1130,7 +1130,7 @@ export default function ProductPage(props) {
                         )
                       }
                     >
-                      <Download className="h-8 w-8" color="green" />
+                      <FiDownload className="h-8 w-8" color="green" />
                     </Link>
                   </div>
                 )}
@@ -1188,7 +1188,7 @@ export default function ProductPage(props) {
                         }
                       >
                         <div className={navIconDivClass}>
-                          <Upload className={iconClass} />
+                          <FiUpload className={iconClass} />
                         </div>
                       </label>
                       <input
@@ -1203,7 +1203,7 @@ export default function ProductPage(props) {
                       ></input>
                     </>
                   )}
-                  <ArrowLeft />
+                  <FiArrowLeft />
                 </div>
                 <div className="flex flex-col items-center">
                   {currentProduct.images?.find(
@@ -1241,7 +1241,7 @@ export default function ProductPage(props) {
                         }
                       >
                         <div className={navIconDivClass}>
-                          <Upload className={iconClass} />
+                          <FiUpload className={iconClass} />
                         </div>
                       </label>
                       <input
@@ -1256,7 +1256,7 @@ export default function ProductPage(props) {
                       ></input>
                     </>
                   )}
-                  <ArrowDownLeft />
+                  <FiArrowDownLeft />
                 </div>
                 <div className="flex flex-col items-center">
                   {currentProduct.images?.find(
@@ -1294,7 +1294,7 @@ export default function ProductPage(props) {
                         }
                       >
                         <div className={navIconDivClass}>
-                          <Upload className={iconClass} />
+                          <FiUpload className={iconClass} />
                         </div>
                       </label>
                       <input
@@ -1309,7 +1309,7 @@ export default function ProductPage(props) {
                       ></input>
                     </>
                   )}
-                  <ArrowUp />
+                  <FiArrowUp />
                 </div>
                 <div className="flex flex-col items-center">
                   {currentProduct.images?.find(
@@ -1347,7 +1347,7 @@ export default function ProductPage(props) {
                         }
                       >
                         <div className={navIconDivClass}>
-                          <Upload className={iconClass} />
+                          <FiUpload className={iconClass} />
                         </div>
                       </label>
                       <input
@@ -1362,7 +1362,7 @@ export default function ProductPage(props) {
                       ></input>
                     </>
                   )}
-                  <ArrowDown />
+                  <FiArrowDown />
                 </div>
                 <div className="flex flex-col items-center">
                   {currentProduct.images?.find(
@@ -1400,7 +1400,7 @@ export default function ProductPage(props) {
                         }
                       >
                         <div className={navIconDivClass}>
-                          <Upload className={iconClass} />
+                          <FiUpload className={iconClass} />
                         </div>
                       </label>
                       <input
@@ -1415,7 +1415,7 @@ export default function ProductPage(props) {
                       ></input>
                     </>
                   )}
-                  <ArrowDownRight />
+                  <FiArrowDownRight />
                 </div>
                 <div className="flex flex-col items-center">
                   {currentProduct.images?.find(
@@ -1453,7 +1453,7 @@ export default function ProductPage(props) {
                         }
                       >
                         <div className={navIconDivClass}>
-                          <Upload className={iconClass} />
+                          <FiUpload className={iconClass} />
                         </div>
                       </label>
                       <input
@@ -1468,7 +1468,7 @@ export default function ProductPage(props) {
                       ></input>
                     </>
                   )}
-                  <ArrowRight />
+                  <FiArrowRight />
                 </div>
                 <div className="flex flex-col items-center">
                   {currentProduct.images?.find(
@@ -1506,7 +1506,7 @@ export default function ProductPage(props) {
                         }
                       >
                         <div className={navIconDivClass}>
-                          <Upload className={iconClass} />
+                          <FiUpload className={iconClass} />
                         </div>
                       </label>
                       <input
@@ -1544,7 +1544,7 @@ export default function ProductPage(props) {
                       });
                     }}
                   >
-                    <X color="red" />
+                    <FiX color="red" />
                   </button>
                   <p>{cat.localized_name[lang]}</p>
                 </div>
@@ -1554,7 +1554,7 @@ export default function ProductPage(props) {
                   <p className={`${errors.category ? "text-red-500" : ""}`}>
                     {t("Select Category")}
                   </p>
-                  <ChevronDown />
+                  <FiChevronDown />
                 </div>
                 <div
                   className={`absolute z-40 hidden max-h-[300px] w-full grid-cols-1 items-start overflow-y-auto bg-gray-100 p-2 group-hover:grid`}

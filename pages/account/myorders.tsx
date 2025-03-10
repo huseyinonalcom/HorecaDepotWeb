@@ -5,8 +5,8 @@ import Meta from "../../components/public/meta";
 import { useEffect, useState } from "react";
 import LoadingIndicator from "../../components/common/loadingIndicator";
 import OrderPreview from "../../components/orders/order-preview";
-import Link from "next/link";
-import { ChevronLeft } from "react-feather";
+import Link from "next/link"; 
+import { FiChevronLeft } from "react-icons/fi";
 
 export default function MyOrders() {
   const { t, lang } = useTranslation("common");
@@ -44,7 +44,7 @@ export default function MyOrders() {
         <div className="flex w-full flex-col items-center gap-2 pt-2">
           <div className="mb-3 flex w-full flex-row items-center justify-start gap-4">
             <Link href="/account/myaccount" className="group flex text-black">
-              <ChevronLeft className="group-hover:animate-bounceHorizontal" />
+              <FiChevronLeft className="group-hover:animate-bounceHorizontal" />
               <p>{t("Back to Account")}</p>
             </Link>
             <h2 className="text-xl font-semibold">{t("My Orders")}</h2>

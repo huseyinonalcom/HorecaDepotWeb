@@ -1,7 +1,7 @@
 import useTranslation from "next-translate/useTranslation";
 import { Category } from "../../api/interfaces/category";
 import ImageWithURL from "../common/image";
-import { X } from "react-feather";
+import { FiX } from "react-icons/fi";
 import Link from "next/link";
 
 export const CategoryBanner = ({
@@ -41,7 +41,7 @@ export const CategoryBanner = ({
           }}
           type="button"
         >
-          <X size={18} color="red" />
+          <FiX size={18} color="red" />
         </button>
       )}
       {onRemoveCategory || disabled ? (

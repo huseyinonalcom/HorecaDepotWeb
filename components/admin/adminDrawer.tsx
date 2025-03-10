@@ -1,12 +1,3 @@
-import {
-  BookOpen,
-  Globe,
-  Grid,
-  LogOut,
-  Package,
-  Table,
-  Users,
-} from "react-feather";
 import { VscPreview, VscSymbolKeyword } from "react-icons/vsc";
 import useTranslation from "next-translate/useTranslation";
 import { MdOutlineTextRotationNone } from "react-icons/md";
@@ -16,6 +7,15 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  FiBookOpen,
+  FiGlobe,
+  FiGrid,
+  FiLogOut,
+  FiPackage,
+  FiTable,
+  FiUsers,
+} from "react-icons/fi";
 
 const AdminDrawer = ({ userTier }: { userTier: number }) => {
   const router = useRouter();
@@ -40,31 +40,31 @@ const AdminDrawer = ({ userTier }: { userTier: number }) => {
           <div className="flex flex-col gap-1">
             <Link className={buttonClass} href="/admin/stock/all">
               <div className={navIconDivClass}>
-                <Table className={iconClass} />
+                <FiTable className={iconClass} />
               </div>
               <span className={textClass}>{t("Stock")}</span>
             </Link>
             <Link className={buttonClass} href="/admin/orders">
               <div className={navIconDivClass}>
-                <Package className={iconClass} />
+                <FiPackage className={iconClass} />
               </div>
               <span className={textClass}>{t("Orders")}</span>
             </Link>
             <Link className={buttonClass} href="/admin/website/homepage">
               <div className={navIconDivClass}>
-                <Globe className={iconClass} />
+                <FiGlobe className={iconClass} />
               </div>
               <span className={textClass}>{t("Homepage")}</span>
             </Link>
             <Link className={buttonClass} href="/admin/website/categories">
               <div className={navIconDivClass}>
-                <BookOpen className={iconClass} />
+                <FiBookOpen className={iconClass} />
               </div>
               <span className={textClass}>{t("Categories")}</span>
             </Link>
             <Link className={buttonClass} href="/admin/website/collections">
               <div className={navIconDivClass}>
-                <Grid className={iconClass} />
+                <FiGrid className={iconClass} />
               </div>
               <span className={textClass}>{t("Collections")}</span>
             </Link>
@@ -99,7 +99,7 @@ const AdminDrawer = ({ userTier }: { userTier: number }) => {
               <>
                 <Link className={buttonClass} href="/admin/users">
                   <div className={navIconDivClass}>
-                    <Users className={iconClass} />
+                    <FiUsers className={iconClass} />
                   </div>
                   <span className={textClass}>{t("users")}</span>
                 </Link>
@@ -208,7 +208,7 @@ const AdminDrawer = ({ userTier }: { userTier: number }) => {
               }}
             >
               <div className={navIconDivClass}>
-                <LogOut className={iconClass} />
+                <FiLogOut className={iconClass} />
               </div>
               <span className={textClass}>{t("Logout")}</span>
             </button>

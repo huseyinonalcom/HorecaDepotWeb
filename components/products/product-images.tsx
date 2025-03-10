@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { ArrowLeft, X } from "react-feather";
+import { useState, useEffect } from "react"; 
+import { FiArrowLeft, FiX } from "react-icons/fi";
 
 const ProductImages = ({ product }) => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -91,7 +91,7 @@ const ProductImages = ({ product }) => {
           className="absolute left-0 z-40 flex h-full w-[30%] flex-col items-start justify-center"
           onClick={slidePrevious}
         >
-          <ArrowLeft />
+          <FiArrowLeft />
         </div>
       ) : null}
       {product.images && product.images.length > 1 ? (
@@ -99,13 +99,13 @@ const ProductImages = ({ product }) => {
           className="absolute right-0 z-40 flex h-full w-[30%] flex-col items-end justify-center"
           onClick={slideNext}
         >
-          <ArrowLeft className="rotate-180" />
+          <FiArrowLeft className="rotate-180" />
         </div>
       ) : null}
       {selectedImageIndex !== null && (
         <div className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-white/90">
           <div className="flex w-full flex-row justify-end">
-            <X
+            <FiX
               size={38}
               className="text-black"
               color="black"

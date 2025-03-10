@@ -4,7 +4,7 @@ import Layout from "../components/public/layout";
 import Link from "next/link";
 import Head from "next/head";
 import { LuClock2, LuMail, LuMapPin, LuPhone } from "react-icons/lu";
-import { Compass } from "react-feather";
+import { FiCompass } from "react-icons/fi";
 export default function Contact() {
   const { t, lang } = useTranslation("common");
   return (
@@ -75,8 +75,11 @@ export default function Contact() {
                   </a>
                 </div>
 
-                <Link href="/parking" className="flex flex-row  items-center gap-2">
-                  <Compass className="h-9 w-9 p-1" color="black" />
+                <Link
+                  href="/parking"
+                  className="flex flex-row  items-center gap-2"
+                >
+                  <FiCompass className="h-9 w-9 p-1" color="black" />
                   <p>{t("parking")}</p>
                 </Link>
 

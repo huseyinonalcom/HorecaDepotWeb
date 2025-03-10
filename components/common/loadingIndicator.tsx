@@ -1,4 +1,4 @@
-import { Loader } from "react-feather";
+import { FiLoader } from "react-icons/fi";
 
 type Props = {
   label?: String;
@@ -7,7 +7,7 @@ type Props = {
 const LoadingIndicator = ({ label }: Props) => {
   return (
     <div className="flex min-h-[80dvh] flex-col items-center justify-center">
-      <Loader className="animate-spin text-orange-500" size={48} />
+      <FiLoader className="animate-spin text-orange-500" size={48} />
       {label && <p>{label}</p>}
     </div>
   );

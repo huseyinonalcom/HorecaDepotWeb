@@ -1,6 +1,5 @@
 import useTranslation from "next-translate/useTranslation";
-import { useState, useEffect } from "react";
-import { Check, ChevronLeft, X } from "react-feather";
+import { useState, useEffect } from "react"; 
 import { useRouter } from "next/router";
 import Head from "next/head";
 import {
@@ -8,6 +7,7 @@ import {
   formatDateTimeAPIToBe,
 } from "../../api/utils/formatters/formatdateapibe";
 import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
+import { FiX, FiCheck, FiChevronLeft } from "react-icons/fi";
 
 export default function Orders() {
   const router = useRouter();
@@ -154,9 +154,9 @@ export default function Orders() {
                       0,
                     ) >
                   0 ? (
-                    <X className="text-red-500" />
+                    <FiX className="text-red-500" />
                   ) : (
-                    <Check className="text-green-500" />
+                    <FiCheck className="text-green-500" />
                   )}
                 </td>
               </tr>
@@ -173,7 +173,7 @@ export default function Orders() {
                     onClick={() => goToPage(currentPage - 1)}
                     disabled={currentPage === 1}
                   >
-                    <ChevronLeft />
+                    <FiChevronLeft />
                   </button>
                   {getPageNumbers().map((page, index) =>
                     page === "..." ? (
@@ -197,7 +197,7 @@ export default function Orders() {
                     onClick={() => goToPage(currentPage + 1)}
                     disabled={currentPage === totalPages}
                   >
-                    <ChevronLeft className="rotate-180" />
+                    <FiChevronLeft className="rotate-180" />
                   </button>
                 </div>
               </div>

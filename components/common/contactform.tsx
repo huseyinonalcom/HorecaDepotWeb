@@ -1,7 +1,7 @@
 import TextareaOutlined from "../inputs/textarea_outlined";
 import useTranslation from "next-translate/useTranslation";
-import InputOutlined from "../inputs/outlined";
-import { MessageSquare } from "react-feather";
+import InputOutlined from "../inputs/outlined"; 
+import { FiMessageSquare } from "react-icons/fi";
 
 const ContactForm = () => {
   const { t } = useTranslation("common");
@@ -14,7 +14,7 @@ const ContactForm = () => {
     >
       <h2 className="flex flex-row items-center gap-2 text-4xl font-bold text-[#363332]">
         {t("Send us a message")}
-        <MessageSquare />
+        <FiMessageSquare />
       </h2>
       <div className="flex w-full flex-col gap-2 md:flex-row">
         <div className="w-full md:w-6/12">

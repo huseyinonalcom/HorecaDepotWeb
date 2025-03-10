@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Color } from "../../api/interfaces/color";
-import { PlusCircle } from "react-feather";
+import { Color } from "../../api/interfaces/color"; 
 import useTranslation from "next-translate/useTranslation";
+import { FiPlusCircle } from "react-icons/fi";
 
 export const ColorChooser = ({
   onSelect,
@@ -137,7 +137,7 @@ export const ColorChooser = ({
             }
           }}
         >
-          <PlusCircle color="green" />
+          <FiPlusCircle color="green" />
         </button>
       </div>
     </div>
