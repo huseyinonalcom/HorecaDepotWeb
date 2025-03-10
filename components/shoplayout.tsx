@@ -1,11 +1,11 @@
 import useTranslation from "next-translate/useTranslation";
 import { Category } from "../api/interfaces/category";
+import { FiChevronLeft, FiX } from "react-icons/fi";
 import componentThemes from "./componentThemes";
 import RangeSlider from "./common/rangeSlider";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { FiChevronLeft, FiX } from "react-icons/fi";
 
 type Props = {
   children: React.ReactNode;
