@@ -723,7 +723,7 @@ const HeaderButtons = ({ cartItems }) => {
           className={`${navButtonsClass} hidden lg:flex`}
           href="/account/myaccount"
         >
-          <FiUser />
+          <FiUser size={24} />
         </Link>
       ) : (
         <Link
@@ -731,7 +731,7 @@ const HeaderButtons = ({ cartItems }) => {
           className={`${navButtonsClass} hidden lg:flex`}
           href="/login"
         >
-          <FiUser />
+          <FiUser size={24} />
         </Link>
       )}
       <Link
@@ -739,7 +739,7 @@ const HeaderButtons = ({ cartItems }) => {
         className={`${navButtonsClass} hidden lg:flex`}
         href="/wishlist"
       >
-        <FiHeart />
+        <FiHeart size={24} />
         <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-red-600 px-1 py-0.5 text-xs font-bold leading-none text-white">
           {wishlist.length}
         </span>
@@ -750,7 +750,7 @@ const HeaderButtons = ({ cartItems }) => {
         className={navButtonsClass}
         onClick={openDrawer}
       >
-        <FiShoppingBag />
+        <FiShoppingBag size={24} />
         <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-red-600 px-1 py-0.5 text-xs font-bold leading-none">
           {cartItems}
         </span>

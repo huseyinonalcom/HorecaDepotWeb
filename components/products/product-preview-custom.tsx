@@ -30,7 +30,7 @@ const ProductPreviewCustom = ({ product, onClick }: Props) => {
       onClick={() => onClick(product)}
       draggable={false}
       id={`${product.id}-preview`}
-      className={`border-1 group flex w-full flex-col items-center rounded-xl border border-black/30 p-2 text-black`}
+      className={`border-1 group flex w-full flex-col items-center rounded-xl border-black/30 p-2 text-black`}
     >
       <div
         draggable={false}

@@ -1,8 +1,8 @@
-import Link from "next/link";
-import { Product } from "../../api/interfaces/product";
-import ImageWithURL from "../common/image";
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
 import useTranslation from "next-translate/useTranslation";
+import { Product } from "../../api/interfaces/product";
+import ImageWithURL from "../common/image";
+import Link from "next/link";
 
 type Props = {
   product: Product;
@@ -16,7 +16,7 @@ const ProductPreview3 = ({ product }: Props) => {
         href={`/products/${product.categories.at(0).localized_name[lang]}/${product.name}/${product.id}`}
         draggable={false}
         id={`${product.id}-preview`}
-        className={`border-1 group flex w-full flex-col items-center rounded-xl border border-black/30 p-2 text-black`}
+        className={`border-1 group flex w-full flex-col items-center rounded-xl border-black/30 p-2 text-black`}
       >
         <div
           draggable={false}

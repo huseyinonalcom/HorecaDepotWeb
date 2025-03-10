@@ -1,8 +1,8 @@
 import useTranslation from "next-translate/useTranslation";
 import componentThemes from "../componentThemes";
+import { FiArrowLeft } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import ImageWithURL from "../common/image";
-import { FiArrowLeft } from "react-icons/fi";
 import Image from "next/image";
 import Link from "next/link";
 

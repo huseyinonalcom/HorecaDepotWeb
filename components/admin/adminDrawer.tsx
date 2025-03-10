@@ -1,6 +1,6 @@
 import { VscPreview, VscSymbolKeyword } from "react-icons/vsc";
-import useTranslation from "next-translate/useTranslation";
 import { MdOutlineTextRotationNone } from "react-icons/md";
+import useTranslation from "next-translate/useTranslation";
 import { PiBoxArrowUpThin, PiGear } from "react-icons/pi";
 import setLanguage from "next-translate/setLanguage";
 import { useRouter } from "next/router";
