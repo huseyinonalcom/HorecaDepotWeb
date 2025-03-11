@@ -123,12 +123,21 @@ export default function Users(props) {
                           {user.blocked ? t("blocked") : t("active")}
                         </td>
                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                          <Link
-                            href={`/admin/user?id=${user.id}`}
-                            className="text-indigo-600 hover:text-indigo-900"
-                          >
-                            {t("edit")}
-                          </Link>
+                          {filter.role != 14 ? (
+                            <Link
+                              href={`/admin/user?id=${user.id}`}
+                              className="text-indigo-600 hover:text-indigo-900"
+                            >
+                              {t("edit")}
+                            </Link>
+                          ) : (
+                            <Link
+                              href={`/admin/client?id=${user.id}`}
+                              className="text-indigo-600 hover:text-indigo-900"
+                            >
+                              {t("details")}
+                            </Link>
+                          )}
                         </td>
                       </tr>
                     ))}
