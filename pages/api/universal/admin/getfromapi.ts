@@ -13,6 +13,9 @@ export async function getFromApi({
   authToken: string;
 }) {
   try {
+    console.log(
+      `${process.env.API_URL}/api/${collection}${id ? `/${id}` : ""}${qs ? `?${qs}` : ""}`,
+    );
     const request = await fetch(
       `${process.env.API_URL}/api/${collection}${id ? `/${id}` : ""}${qs ? `?${qs}` : ""}`,
       {
