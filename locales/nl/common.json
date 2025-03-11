@@ -393,9 +393,11 @@
   "user-edit": "Gebruiker bewerken",
   "firstname": "Voornaam",
   "email": "E-mail",
-  "stock-dash": "Voorraad Dashboard",  "previous": "Vorige",
+  "stock-dash": "Voorraad Dashboard",
+  "previous": "Vorige",
   "next": "Volgende",
   "customer": "Klant",
   "warehouse-worker": "Magazijnmedewerker",
-  "details": "Details"
+  "details": "Details",
+  "code": "Code"
 }

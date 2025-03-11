@@ -398,5 +398,6 @@
   "next": "Next",
   "customer": "Customer",
   "warehouse-worker": "Warehouse Worker",
-  "details": "Details"
+  "details": "Details",
+  "code": "Code"
 }
