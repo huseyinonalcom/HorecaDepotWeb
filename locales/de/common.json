@@ -393,5 +393,10 @@
   "user-edit": "Benutzer bearbeiten",
   "firstname": "Vorname",
   "email": "E-Mail",
-  "stock-dash": "Lagerbestand"
+  "stock-dash": "Lagerbestand",
+  "previous": "Zurück",
+  "next": "Weiter",
+  "customer": "Kunde",
+  "warehouse-worker": "Lagerarbeiter",
+  "details": "Details"
 }

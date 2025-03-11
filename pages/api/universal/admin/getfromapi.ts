@@ -13,9 +13,6 @@ export async function getFromApi({
   authToken: string;
 }) {
   try {
-    console.log(
-      `${process.env.API_URL}/api/${collection}${id ? `/${id}` : ""}${qs ? `?${qs}` : ""}`,
-    );
     const request = await fetch(
       `${process.env.API_URL}/api/${collection}${id ? `/${id}` : ""}${qs ? `?${qs}` : ""}`,
       {
@@ -31,12 +28,9 @@ export async function getFromApi({
       const answer = await request.json();
       return answer;
     } else {
-      const answer = await request.text();
-      console.log(answer);
       return false;
     }
   } catch (e) {
-    console.log(e);
     return false;
   }
 }

@@ -203,8 +203,6 @@ export async function getServerSideProps(context) {
     });
   }
 
-  console.log({ user });
-
   const allRoles =
     (await getFromApi({
       collection: "users-permissions/roles",

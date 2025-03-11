@@ -29,7 +29,10 @@ export default function Users(props) {
     role: 14,
     page: 1,
   });
-  const [users, setUsers] = useState({ data: [], meta: {} });
+  const [users, setUsers] = useState({
+    data: [],
+    meta: { pagination: { pageCount: 0 } },
+  });
 
   useEffect(() => {
     fetchUsers(filter)
@@ -114,7 +117,7 @@ export default function Users(props) {
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
                     {users.data.map((user) => (
-                      <tr key={user.id}>
+                      <tr key={user.login?.role?.name + "-" + user.id}>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                           {user.firstName} {user.lastName}
                         </td>
@@ -122,16 +125,18 @@ export default function Users(props) {
                           {user.email ?? user.login?.email}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {user.blocked ? t("blocked") : t("active")}
+                          {user.login.blocked ? t("blocked") : t("active")}
                         </td>
                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                           {filter.role != 14 ? (
-                            <Link
-                              href={`/admin/user?id=${user.id}`}
-                              className="text-indigo-600 hover:text-indigo-900"
-                            >
-                              {t("edit")}
-                            </Link>
+                            filter.role != 4 && (
+                              <Link
+                                href={`/admin/user?id=${user.login.id}`}
+                                className="text-indigo-600 hover:text-indigo-900"
+                              >
+                                {t("edit")}
+                              </Link>
+                            )
                           ) : (
                             <Link
                               href={`/admin/client?id=${user.id}`}
@@ -150,11 +155,11 @@ export default function Users(props) {
                     onClick={
                       filter.page > 1
                         ? () => {
-                            setFilter({ ...filter, page: filter.page - 1 });
                             scroll({
                               top: 0,
                               behavior: "smooth",
                             });
+                            setFilter({ ...filter, page: filter.page - 1 });
                           }
                         : undefined
                     }
@@ -170,11 +175,11 @@ export default function Users(props) {
                     onClick={
                       filter.page < users?.meta?.pagination?.pageCount
                         ? () => {
-                            setFilter({ ...filter, page: filter.page + 1 });
                             scroll({
                               top: 0,
                               behavior: "smooth",
                             });
+                            setFilter({ ...filter, page: filter.page + 1 });
                           }
                         : undefined
                     }
@@ -205,10 +210,12 @@ export async function getServerSideProps(context) {
       authToken: req.cookies.j,
     })) || [];
 
+  const valiedRoles = ["Tier 7", "Tier 8", "Tier 9", "Client"];
+
   return {
     props: {
       allRoles: allRoles.roles
-        .filter((role) => role.name != "Public" && role.name != "Authenticated")
+        .filter((role) => valiedRoles.includes(role.name))
         .sort((a, b) => a.name.localeCompare(b.name)),
     },
   };

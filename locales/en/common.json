@@ -393,5 +393,10 @@
   "user-edit": "Edit User",
   "firstname": "First Name",
   "email": "E-mail",
-  "stock-dash": "Stock Dashboard"
+  "stock-dash": "Stock Dashboard",
+  "previous": "Previous",
+  "next": "Next",
+  "customer": "Customer",
+  "warehouse-worker": "Warehouse Worker",
+  "details": "Details"
 }

@@ -42,7 +42,6 @@ export default function Order() {
       if (orderID) {
         fetchOrder(orderID)
           .then((order) => {
-            console.log(order);
             if (!order.docAddress) {
               order.docAddress = order.delAddress;
             }
