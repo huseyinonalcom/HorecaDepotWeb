@@ -29,9 +29,11 @@ export async function getFromApi({
       return answer;
     } else {
       const answer = await request.text();
+      console.log(answer);
       return false;
     }
   } catch (e) {
+    console.log(e);
     return false;
   }
 }

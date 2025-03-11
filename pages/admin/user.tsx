@@ -9,6 +9,7 @@ import { Field, Label, Switch } from "@headlessui/react";
 import { useRouter } from "next/router";
 import { randomBytes } from "crypto";
 import Head from "next/head";
+import { rankFromRole } from "../../api/utils/ranks";
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -76,10 +77,11 @@ export default function User(props) {
   const { t } = useTranslation("common");
   const router = useRouter();
 
-  const validRoles = ["Tier 7"];
+  const validRoles = ["Tier 7", "Tier 8"];
 
   const roleNames = {
-    "Tier 7": t("seller"),
+    "Tier 7": t(rankFromRole("Tier 7").toString()),
+    "Tier 8": t(rankFromRole("Tier 8").toString()),
   };
 
   const ranks = props.allRoles
@@ -115,12 +117,12 @@ export default function User(props) {
         }
       >
         <input type="hidden" name="id" value={props.user.id} />
-        <input type="hidden" name="infoId" value={props.user.user_info.id} />
+        <input type="hidden" name="infoId" value={props.user.user_info?.id} />
         <StyledFormSection title={t("user-details")}>
           <InputField
             name="firstName"
             label={t("firstname")}
-            defaultValue={props.user.user_info.firstName}
+            defaultValue={props.user.user_info?.firstName}
           />
           <InputField
             name="email"
@@ -197,9 +199,11 @@ export async function getServerSideProps(context) {
       collection: "users",
       authToken: req.cookies.j,
       id: query.id,
-      qs: "populate=role,user_info&filters[role][name][$contains]=Tier",
+      qs: "populate=role,user_info",
     });
   }
+
+  console.log({ user });
 
   const allRoles =
     (await getFromApi({
