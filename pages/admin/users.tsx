@@ -9,7 +9,6 @@ import { Select } from "../../components/styled/select";
 import { useEffect, useState } from "react";
 import {
   Pagination,
-  PaginationGap,
   PaginationList,
   PaginationNext,
   PaginationPage,
@@ -18,7 +17,7 @@ import {
 
 const fetchUsers = async (filter) => {
   const allUsers = await fetch(
-    `/api/universal/admin/getfromapi?collection=${filter.role == 14 ? "clients" : "users"}&qs=${encodeURIComponent(`filters[login][role][id][$eq]=${filter.role}&populate=login&pagination[page]=${filter.page}`)}`,
+    `/api/universal/admin/getfromapi?collection=${filter.role == 14 ? "clients" : "user-infos"}&qs=${encodeURIComponent(`filters[login][role][id][$eq]=${filter.role}&populate=login&pagination[page]=${filter.page}`)}`,
   );
 
   return allUsers;
@@ -36,7 +35,6 @@ export default function Users(props) {
     fetchUsers(filter)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.meta);
         setUsers(data);
       });
   }, [filter]);
@@ -55,7 +53,11 @@ export default function Users(props) {
                 name="role"
                 value={filter.role}
                 onChange={(e) =>
-                  setFilter({ ...filter, role: Number(e.target.value) })
+                  setFilter({
+                    ...filter,
+                    role: Number(e.target.value),
+                    page: 1,
+                  })
                 }
               >
                 {props?.allRoles &&
@@ -112,7 +114,7 @@ export default function Users(props) {
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
                     {users.data.map((user) => (
-                      <tr key={user.email}>
+                      <tr key={user.id}>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                           {user.firstName} {user.lastName}
                         </td>

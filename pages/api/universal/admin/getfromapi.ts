@@ -24,11 +24,11 @@ export async function getFromApi({
       },
     );
 
-    const answer = await request.json();
-
     if (request.ok) {
+      const answer = await request.json();
       return answer;
     } else {
+      const answer = await request.text();
       return false;
     }
   } catch (e) {
