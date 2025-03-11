@@ -12,6 +12,15 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Head from "next/head";
 import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
+import {
+  Table,
+  TableHead,
+  TableRow,
+  TableHeader,
+  TableBody,
+  TableCell,
+} from "../../components/styled/table";
+import users from "./users";
 
 export default function Order() {
   const { t, lang } = useTranslation("common");
@@ -147,7 +156,7 @@ export default function Order() {
 
                     {verificationRunning ? (
                       <button
-                        className={`${CustomTheme.outlinedButton} text-xl whitespace-nowrap`}
+                        className={`${CustomTheme.outlinedButton} whitespace-nowrap text-xl`}
                       >
                         <div className="flex w-[100px] flex-row justify-start">
                           <TypeWriter textTypeWriter={["...."]} />
@@ -155,7 +164,7 @@ export default function Order() {
                       </button>
                     ) : (
                       <button
-                        className={`${CustomTheme.outlinedButton} text-xl whitespace-nowrap`}
+                        className={`${CustomTheme.outlinedButton} whitespace-nowrap text-xl`}
                         onClick={submitCheckPayment}
                       >
                         {t("Verify payment")}
@@ -168,7 +177,7 @@ export default function Order() {
                   <PDFDownloadLink
                     fileName={currentOrder.prefix + currentOrder.number}
                     document={<PDFInvoice invoiceDocument={currentOrder} />}
-                    className={`${componentThemes.outlinedButton} flex flex-row items-center text-xl whitespace-nowrap`}
+                    className={`${componentThemes.outlinedButton} flex flex-row items-center whitespace-nowrap text-xl`}
                   >
                     📄 <p className="ml-1">{t("Download PDF")}</p>
                   </PDFDownloadLink>
@@ -220,53 +229,51 @@ export default function Order() {
                 )}
               </div>
             </div>
-            <table className="mt-3 overflow-x-auto bg-gray-100 p-2 shadow-lg print:border-2 print:border-black print:bg-transparent print:shadow-none">
-              <thead className="border-b-2 border-black">
-                <tr>
-                  <th>{t("Internal Code")}</th>
-                  <th>{t("Name")}</th>
-                  <th>{t("Color")}</th>
-                  <th>{t("Quantity")}</th>
-                  <th>{t("Price")}</th>
-                  <th>{t("Discount")}</th>
-                  <th>{t("Subtotal")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentOrder.document_products.map(
-                  (documentProduct, index) => (
-                    <tr
-                      key={index}
-                      className={`${
-                        index % 2 === 0
-                          ? "bg-slate-300 print:bg-transparent"
-                          : ""
-                      }`}
-                    >
-                      <td>{documentProduct.product?.internalCode ?? ""}</td>
-                      <td>{documentProduct.name}</td>
-                      <td>{documentProduct.product?.color ?? ""}</td>
-                      <td align="center">{documentProduct.amount}</td>
-                      <td align="right">
-                        {formatCurrency(documentProduct.value)}
-                      </td>
-                      <td align="right">
-                        {formatCurrency(documentProduct.discount)}
-                      </td>
-                      <td align="right">
-                        {formatCurrency(documentProduct.subTotal)}
-                      </td>
-                    </tr>
-                  ),
-                )}
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>
+            <Table striped>
+              <TableHead>
+                <TableRow>
+                  <TableHeader>{t("Internal Code")}</TableHeader>
+                  <TableHeader>{t("Name")}</TableHeader>
+                  <TableHeader>{t("Color")}</TableHeader>
+                  <TableHeader>{t("Quantity")}</TableHeader>
+                  <TableHeader>{t("Price")}</TableHeader>
+                  <TableHeader>{t("Discount")}</TableHeader>
+                  <TableHeader>{t("Subtotal")}</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {currentOrder.document_products.map((documentProduct) => (
+                  <TableRow key={documentProduct.id}>
+                    <TableCell>
+                      {documentProduct.product?.internalCode ?? ""}
+                    </TableCell>
+                    <TableCell>{documentProduct.name}</TableCell>
+                    <TableCell>
+                      {documentProduct.product?.color ?? ""}
+                    </TableCell>
+                    <TableCell align="center">
+                      {documentProduct.amount}
+                    </TableCell>
+                    <TableCell align="right">
+                      {formatCurrency(documentProduct.value)}
+                    </TableCell>
+                    <TableCell align="right">
+                      {formatCurrency(documentProduct.discount)}
+                    </TableCell>
+                    <TableCell align="right">
+                      {formatCurrency(documentProduct.subTotal)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <Table className="ml-auto w-fit">
+              <TableBody>
+                <TableRow>
+                  <TableCell>
                     <b>{t("Total")}</b>
-                  </td>
-                  <td align="right">
+                  </TableCell>
+                  <TableCell>
                     <b>
                       {formatCurrency(
                         currentOrder.document_products.reduce(
@@ -277,11 +284,13 @@ export default function Order() {
                         ),
                       )}
                     </b>
-                  </td>
-                  <td>
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>
                     <b>{t("To pay")}</b>
-                  </td>
-                  <td align="right">
+                  </TableCell>
+                  <TableCell>
                     <b>
                       {formatCurrency(
                         currentOrder.document_products.reduce(
@@ -297,10 +306,10 @@ export default function Order() {
                             }, 0),
                       )}
                     </b>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
           </div>
         </div>
       </>

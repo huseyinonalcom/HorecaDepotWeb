@@ -12,6 +12,15 @@ import TypeWriter from "../../components/common/typewriter";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { PDFInvoice } from "../../components/pdf/pdfinvoice";
 import ClientLogin from "../../components/client/clientLogin";
+import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
+import {
+  Table,
+  TableHead,
+  TableRow,
+  TableHeader,
+  TableBody,
+  TableCell,
+} from "../../components/styled/table";
 
 export default function Order() {
   const { t, lang } = useTranslation("common");
@@ -249,98 +258,83 @@ export default function Order() {
                   )}
                 </div>
               </div>
-              <div className="overflow-x-auto">
-                <table className="mt-3 bg-gray-100 shadow-lg">
-                  <thead className="border-b-2 border-black">
-                    <tr>
-                      <th>{t("Name")}</th>
-                      <th>{t("Quantity")}</th>
-                      <th>{t("Price")}</th>
-                      <th>{t("Discount")}</th>
-                      <th>{t("Subtotal")}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {currentOrder.document_products.map(
-                      (documentProduct, index) => (
-                        <tr
-                          key={index}
-                          className={`${index % 2 === 0 ? "bg-slate-300" : ""}`}
-                        >
-                          <td>{documentProduct.name}</td>
-                          <td align="center">{documentProduct.amount}</td>
-                          <td align="right">
-                            €{" "}
-                            {documentProduct.value
-                              .toFixed(2)
-                              .replaceAll(".", ",")}
-                          </td>
-                          <td align="right">
-                            €{" "}
-                            {documentProduct.discount
-                              .toFixed(2)
-                              .replaceAll(".", ",")}
-                          </td>
-                          <td align="right">
-                            €{" "}
-                            {documentProduct.subTotal
-                              .toFixed(2)
-                              .replaceAll(".", ",")}
-                          </td>
-                        </tr>
-                      ),
-                    )}
-                    <tr>
-                      <td></td>
-                      <td>
-                        <b>{t("Total")}</b>
-                      </td>
-                      <td align="right">
-                        <b>
-                          €{" "}
-                          {currentOrder.document_products
-                            .reduce((accumulator, currentItem) => {
+              <Table striped>
+                <TableHead>
+                  <TableRow>
+                    <TableHeader>{t("Name")}</TableHeader>
+                    <TableHeader>{t("Color")}</TableHeader>
+                    <TableHeader>{t("Quantity")}</TableHeader>
+                    <TableHeader>{t("Price")}</TableHeader>
+                    <TableHeader>{t("Discount")}</TableHeader>
+                    <TableHeader>{t("Subtotal")}</TableHeader>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {currentOrder.document_products.map((documentProduct) => (
+                    <TableRow key={documentProduct.id}>
+                      <TableCell>{documentProduct.name}</TableCell>
+                      <TableCell>
+                        {documentProduct.product?.color ?? ""}
+                      </TableCell>
+                      <TableCell align="center">
+                        {documentProduct.amount}
+                      </TableCell>
+                      <TableCell align="right">
+                        {formatCurrency(documentProduct.value)}
+                      </TableCell>
+                      <TableCell align="right">
+                        {formatCurrency(documentProduct.discount)}
+                      </TableCell>
+                      <TableCell align="right">
+                        {formatCurrency(documentProduct.subTotal)}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <Table className="ml-auto w-fit">
+                <TableBody>
+                  <TableRow>
+                    <TableCell>
+                      <b>{t("Total")}</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>
+                        {formatCurrency(
+                          currentOrder.document_products.reduce(
+                            (accumulator, currentItem) => {
                               return accumulator + currentItem.subTotal;
-                            }, 0)
-                            .toFixed(2)
-                            .replaceAll(".", ",")}
-                        </b>
-                      </td>
-                      <td>
-                        <b>{t("To pay")}</b>
-                      </td>
-                      <td align="right">
-                        <b>
-                          €{" "}
-                          {(
-                            currentOrder.document_products.reduce(
-                              (accumulatedSubTotal, currentDocProd) => {
-                                return (
-                                  accumulatedSubTotal + currentDocProd.subTotal
-                                );
-                              },
-                              0,
-                            ) -
+                            },
+                            0,
+                          ),
+                        )}
+                      </b>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <b>{t("To pay")}</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>
+                        {formatCurrency(
+                          currentOrder.document_products.reduce(
+                            (accumulator, currentItem) => {
+                              return accumulator + currentItem.subTotal;
+                            },
+                            0,
+                          ) -
                             currentOrder.payments
-                              .filter(
-                                (payment) =>
-                                  !payment.deleted && payment.verified,
-                              )
-                              .reduce((accumulatedPayments, currentPayment) => {
-                                return (
-                                  accumulatedPayments + currentPayment.value
-                                );
-                              }, 0)
-                          )
-                            .toFixed(2)
-                            .replaceAll(".", ",")}
-                        </b>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
+                              .filter((pay) => !pay.deleted && pay.verified)
+                              .reduce((accumulator, currentItem) => {
+                                return accumulator + currentItem.value;
+                              }, 0),
+                        )}
+                      </b>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
               {balance > 0 && (
                 <div className="flex flex-row">
                   <div className="ml-auto">
