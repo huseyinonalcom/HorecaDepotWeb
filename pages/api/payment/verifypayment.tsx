@@ -51,7 +51,6 @@ const checkMolliePayment = async (paymentID, config) => {
 };
 
 const checkOgonePayment = async (paymentID, config) => {
-  console.log("checkOgonePayment");
   let paymentSuccess = false;
 
   try {
@@ -75,7 +74,6 @@ const checkOgonePayment = async (paymentID, config) => {
           {},
         );
 
-      console.log(getHostedCheckoutResponse);
       if (
         getHostedCheckoutResponse.body.createdPaymentOutput
           .paymentStatusCategory == "SUCCESSFUL"
