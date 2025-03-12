@@ -50,63 +50,51 @@ const checkMolliePayment = async (paymentID, config) => {
   return status;
 };
 
-const checkOgonePayment = async (paymentID) => {
-  const directSdk = require("onlinepayments-sdk-nodejs");
-
-  const directSdkClient = directSdk.init({
-    integrator: "ATKSPRL",
-    host: "payment.direct.worldline-solutions.com",
-    scheme: "https",
-    port: 443,
-    enableLogging: false,
-    apiKeyId: process.env.OGONE_KEY,
-    secretApiKey: process.env.OGONE_SECRET,
-  });
-
+const checkOgonePayment = async (paymentID, config) => {
+  console.log("checkOgonePayment");
   let paymentSuccess = false;
 
-  // if (ogoneID) {
-  //   const getHostedCheckoutResponse =
-  //     await directSdkClient.hostedCheckout.getHostedCheckout(
-  //       "ATKSPRL",
-  //       ogoneID,
-  //       {},
-  //     );
-  //   if (
-  //     getHostedCheckoutResponse.body.createdPaymentOutput
-  //       .paymentStatusCategory == "SUCCESSFUL"
-  //   ) {
-  //     paymentSuccess = true;
-  //   }
-  // } else {
-  //   return res.status(400).json(statusText[400]);
-  // }
+  try {
+    const directSdk = require("onlinepayments-sdk-nodejs");
 
-  // if (paymentSuccess) {
-  //   const putPaymentStatus = await fetch(
-  //     `${process.env.API_URL}/api/payments/${documentID}?fields=id`,
-  //     {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Accept: "application/json",
-  //         Authorization: `Bearer ${process.env.API_KEY}`,
-  //       },
-  //       body: JSON.stringify({
-  //         data: {
-  //           verified: paymentSuccess,
-  //         },
-  //       }),
-  //     },
-  //   );
-  //   if (putPaymentStatus.ok) {
-  //     return res.status(200).json(statusText[200]);
-  //   } else {
-  //     return res.status(404).json(statusText[404]);
-  //   }
-  // } else {
-  //   return res.status(200).json({ paymentSuccess: paymentSuccess });
-  // }
+    const directSdkClient = directSdk.init({
+      integrator: "ATKSPRL",
+      host: "payment.direct.worldline-solutions.com",
+      scheme: "https",
+      port: 443,
+      enableLogging: false,
+      apiKeyId: config.ogone.OGONE_KEY,
+      secretApiKey: config.ogone.OGONE_SECRET,
+    });
+
+    if (paymentID) {
+      const getHostedCheckoutResponse =
+        await directSdkClient.hostedCheckout.getHostedCheckout(
+          "ATKSPRL",
+          paymentID,
+          {},
+        );
+
+      console.log(getHostedCheckoutResponse);
+      if (
+        getHostedCheckoutResponse.body.createdPaymentOutput
+          .paymentStatusCategory == "SUCCESSFUL"
+      ) {
+        paymentSuccess = true;
+      }
+    } else {
+      return false;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
+  if (paymentSuccess) {
+    paymentSuccess = true;
+  } else {
+    return false;
+  }
+
   return paymentSuccess;
 };
 
@@ -171,7 +159,7 @@ export async function verifyPayments(id) {
             }
             break;
           case "ogone":
-            if (await checkOgonePayment(payment.origin.split("-")[1])) {
+            if (await checkOgonePayment(payment.origin.split("-")[1], config)) {
               await updatePaymentStatus(payment.id, true).then((result) => {
                 if (result) {
                   fetch(
