@@ -1,16 +1,14 @@
+import { orderMailEstablishment } from "../../../../api/utils/mail/order/orderMailEstablishment";
+import { getShippingCostFromAddress } from "../../public/address/getshippingcostfromaddress";
+import { orderMailClient } from "../../../../api/utils/mail/order/orderMailClient";
 import { DocumentProduct } from "../../../../api/interfaces/documentProduct";
+import { PDFInvoice } from "../../../../components/pdf/pdfinvoice";
 import { Product } from "../../../../api/interfaces/product";
-import { getConfig } from "../../config/private/getconfig";
+import { countries } from "../../../../api/utils/countries";
 import { sendMail } from "../../../../api/utils/sendmail";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
-import { orderMailEstablishment } from "../../../../api/utils/mail/order/orderMailEstablishment";
-import { orderMailClient } from "../../../../api/utils/mail/order/orderMailClient";
 import { renderToStream } from "@react-pdf/renderer";
-import { PDFInvoice } from "../../../../components/pdf/pdfinvoice";
-import { getShippingCostFromAddress } from "../../public/address/getshippingcostfromaddress";
-import { countries } from "../../../../api/utils/countries";
-import getClientDetails from "../../client/client/getclientdetails";
 
 const calculateTotalWithPromo = (promoDetails, cart) => {
   const cartAfterPromo = JSON.parse(JSON.stringify(cart));
@@ -277,7 +275,7 @@ export default async function postOrder(
             shippingCost = await getShippingCostFromAddress({
               address: productsFromRequest.documentToPost.delAddress,
               documentTotal: productsToPost.reduce(
-                (acc, prd) => acc + prd.subTotal / 1.21,
+                (acc, prd) => acc + prd.subTotal / (1 + prd.tax / 100),
                 0,
               ),
             });
@@ -292,8 +290,10 @@ export default async function postOrder(
                   subTotal: shippingCost,
                   discount: 0,
                   amount: 1,
-                  tax: 21,
-                  taxSubTotal: shippingCost - shippingCost / 1.21,
+                  tax: taxExempt ? 0 : 21,
+                  taxSubTotal: taxExempt
+                    ? 0
+                    : shippingCost - shippingCost / 1.21,
                   delivered: false,
                   document: documentID,
                 },
