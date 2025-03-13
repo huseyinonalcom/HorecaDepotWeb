@@ -1,6 +1,5 @@
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import { BannerContext } from "../../api/providers/bannerProdiver";
-import { ClientContext } from "../../api/providers/clientProvider";
 import { useContext, useEffect, useRef, useState } from "react";
 import { CartContext } from "../../api/providers/cartProvider";
 import ProductPreview3 from "../products/product-preview3";
@@ -675,7 +674,6 @@ const HeaderDrawer = ({ onClickOutside, isOpen, allCategories }) => {
 };
 
 const HeaderButtons = ({ cartItems }) => {
-  const { client } = useContext(ClientContext);
   const { openDrawer } = useContext(CartContext);
   const { wishlist } = useContext(WishlistContext);
   const navButtonsClass =
@@ -683,23 +681,13 @@ const HeaderButtons = ({ cartItems }) => {
 
   return (
     <>
-      {client ? (
-        <Link
-          aria-label="Link to User Account Dashboard"
-          className={`${navButtonsClass} hidden lg:flex`}
-          href="/account/myaccount"
-        >
-          <FiUser size={24} />
-        </Link>
-      ) : (
-        <Link
-          aria-label="Link to User Login"
-          className={`${navButtonsClass} hidden lg:flex`}
-          href="/login"
-        >
-          <FiUser size={24} />
-        </Link>
-      )}
+      <Link
+        aria-label="Link to User Account Dashboard"
+        className={`${navButtonsClass} hidden lg:flex`}
+        href={"/account/myaccount"}
+      >
+        <FiUser size={24} />
+      </Link>
       <Link
         aria-label="Link to Wishlist"
         className={`${navButtonsClass} hidden lg:flex`}
