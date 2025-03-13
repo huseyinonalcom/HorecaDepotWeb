@@ -28,11 +28,7 @@ export const BannerProvider = ({ children }: BannerProviderProps) => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const response = await fetch(`/api/banners/getbanners`, {
-          headers: {
-            Authorization: `Bearer ${process.env.API_KEY}`,
-          },
-        });
+        const response = await fetch(`/api/banners/getbanners`);
 
         if (!response.ok) {
           throw new Error("Network response was not ok");
