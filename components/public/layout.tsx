@@ -1,7 +1,8 @@
-import useTranslation from "next-translate/useTranslation"; 
+import { FiShoppingCart, FiUser, FiHeart } from "react-icons/fi";
+import useTranslation from "next-translate/useTranslation";
 import { CookieBanner } from "../googleanal";
-import CartDrawer from "../cart/cartDrawer";
 import { useEffect, useState } from "react";
+import CartDrawer from "../cart/cartDrawer";
 import ImageWithURL from "../common/image";
 import { useRouter } from "next/router";
 import localFont from "next/font/local";
@@ -10,7 +11,6 @@ import Follow from "../common/follow";
 import Image from "next/image";
 import Link from "next/link";
 import Meta from "./meta";
-import { FiShoppingCart, FiUser, FiHeart } from "react-icons/fi";
 
 const roboto = localFont({
   src: [

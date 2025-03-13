@@ -1,16 +1,14 @@
 import Layout from "../components/public/layout";
 import Head from "next/head";
-import useTranslation from "next-translate/useTranslation";
 
 export default function Legal() {
-  const { t, lang } = useTranslation("common");
   return (
     <>
       <Layout>
         <Head>
           <title>horecadepot</title>
           <meta name="description" content="horecadepot" />
-          <meta name="language" content={lang} />
+          <meta name="language" content="fr" />
         </Head>
 
         <div className="mx-auto w-full py-2">
@@ -34,8 +32,9 @@ export default function Legal() {
               au traitement des données à caractère personnel.
             </p>
             <p>
-              Le DPO peut être contacté comme suit : info@horecadepot.be (horaire de bureau Lundi – Samedi 09:30 à 19:00 |
-              Dimanche – Fermé)
+              Le DPO peut être contacté comme suit : info@horecadepot.be
+              (horaire de bureau Lundi – Samedi 09:30 à 19:00 | Dimanche –
+              Fermé)
             </p>
             <p>Droits des utilisateurs</p>
             <p>
