@@ -3,13 +3,20 @@ import statusText from "../../../../api/statustexts";
 
 const parseDate = (dateString: string): Date => new Date(dateString);
 
-const isDateBetween = (startDateString: string, endDateString: string, currentDate: Date): boolean => {
+const isDateBetween = (
+  startDateString: string,
+  endDateString: string,
+  currentDate: Date,
+): boolean => {
   const startDate = parseDate(startDateString);
   const endDate = parseDate(endDateString);
   return currentDate >= startDate && currentDate <= endDate;
 };
 
-export default async function validatePromo(req: NextApiRequest, res: NextApiResponse) {
+export default async function validatePromo(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method === "GET") {
     const cookies = req.cookies;
     const authToken = cookies.cj;

@@ -1,7 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
 
-export default async function getOrderDetails(req: NextApiRequest, res: NextApiResponse) {
+export default async function getOrderDetails(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   try {
     if (req.method === "GET") {
       const cookies = req.cookies;

@@ -1,3 +1,4 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../api/statustexts";
 import { sendMail } from "../../../api/utils/sendmail";
 
@@ -12,7 +13,10 @@ export async function sendTestMail(mailParams) {
   return answer;
 }
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method !== "POST") {
     return res.status(405).json(statusText[405]);
   }

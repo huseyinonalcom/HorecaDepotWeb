@@ -388,7 +388,7 @@ const TopBar = () => {
   );
 };
 
-const HeaderDrawer = ({ onClickOutside, isOpen }) => {
+const HeaderDrawer = ({ onClickOutside, isOpen, allCategories }) => {
   const { t, lang } = useTranslation("common");
   const [showLanguages, setShowLanguages] = useState(false);
   const drawerClass = isOpen ? "fixed z-50 right-0" : "fixed right-[-100%]";
@@ -398,40 +398,6 @@ const HeaderDrawer = ({ onClickOutside, isOpen }) => {
   const navButtonsClass = "flex flex-row gap-2 py-3 font-bold items-center";
   const flagButtonsClass = "flex flex-row gap-2 py-2 font-bold items-center";
 
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch(
-        "/api/categories/getallcategories?flat=false",
-      );
-      const categories = await response.json();
-      const validCategories = [];
-      categories.forEach((category) => {
-        if (category.products_multi_categories.length > 0) {
-          validCategories.push(category);
-        } else if (category.subCategories) {
-          category.subCategories.forEach((subCategory) => {
-            if (subCategory.products_multi_categories.length > 0) {
-              validCategories.push(category);
-            } else if (subCategory.subCategories) {
-              subCategory.subCategories.forEach((subSubCategory) => {
-                if (subSubCategory.products_multi_categories.length > 0) {
-                  validCategories.push(category);
-                }
-              });
-            }
-          });
-        }
-      });
-      let dedupedCategories = new Set(validCategories);
-      setCategories(Array.from(dedupedCategories));
-    } catch (error) {}
-  };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  const [allCategories, setCategories] = useState([]);
   const [showCategories, setShowCategories] = useState(false);
 
   const CategoryItem = ({ category, onClick }) => {
@@ -950,6 +916,7 @@ const Header = () => {
       </div>
       <div className="flex w-full flex-col gap-2 pb-3">
         <HeaderDrawer
+          allCategories={allCategories}
           isOpen={isHeaderDrawerOpen}
           onClickOutside={() => setIsHeaderDrawerOpen(false)}
         />
@@ -1000,7 +967,7 @@ const Header = () => {
                 className="hidden flex-row items-center gap-2 rounded-lg border-2 py-2 pl-3.5 pr-5 lg:flex"
                 onClick={() => setShowCategories(true)}
               >
-                <FiMenu className="mb-[1px]" />
+                <FiMenu size={20} className="mb-[1px]" />
                 <p className="font-semibold">{t("CATEGORIES")}</p>
               </button>
             </div>
