@@ -30,8 +30,6 @@ export default async function deleteProduct(
         redirect: "follow",
       });
 
-      let answer = await response.json();
-
       if (!response.ok) {
         return res.status(400).json(statusText[400]);
       } else {

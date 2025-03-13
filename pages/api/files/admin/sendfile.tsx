@@ -4,7 +4,7 @@ import { createReadStream } from "fs";
 
 export const config = {
   api: {
-    bodyParser: false, // Disables the default body parser
+    bodyParser: false,
   },
 };
 
@@ -27,7 +27,7 @@ function streamToBlob(stream, mimeType) {
   });
 }
 
-export default async function postFile(
+export default async function sendfile(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
