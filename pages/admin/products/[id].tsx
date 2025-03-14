@@ -37,6 +37,24 @@ import {
   FiArrowDownRight,
   FiArrowRight,
 } from "react-icons/fi";
+import {
+  ChevronDownIcon,
+  CurrencyEuroIcon,
+  PhotoIcon,
+  UserCircleIcon,
+} from "@heroicons/react/24/outline";
+import { Button } from "../../../components/styled/button";
+import { Divider } from "../../../components/styled/divider";
+import {
+  Field,
+  FieldGroup,
+  Fieldset,
+  Label,
+  Legend,
+} from "../../../components/styled/fieldset";
+import { Input, InputGroup } from "../../../components/styled/input";
+import { Textarea } from "../../../components/styled/textarea";
+import { Select } from "../../../components/styled/select";
 
 export default function ProductPage(props) {
   const { t, lang } = useTranslation("common");
@@ -467,6 +485,127 @@ export default function ProductPage(props) {
       <Head>
         <title>{t("product")}</title>
       </Head>
+
+      <form onSubmit={handleFormSubmit}>
+        <div className="space-y-12">
+          <Fieldset>
+            <Legend>{t("primary-details")}</Legend>
+            <FieldGroup>
+              <Input
+                label={t("name")}
+                error={t(errors.name ?? "")}
+                name="name"
+                value={currentProduct?.name ?? ""}
+                onChange={(e) =>
+                  handleChange("name", e.target.value, false, [validateEmpty])
+                }
+              />
+              <Input
+                label={t("price-undiscounted")}
+                error={t(errors.priceBeforeDiscount ?? "")}
+                name="priceBeforeDiscount"
+                type="number"
+                value={currentProduct?.priceBeforeDiscount ?? ""}
+                onChange={(e) =>
+                  handleChange("priceBeforeDiscount", e.target.value, false, [
+                    validateDecimal,
+                  ])
+                }
+                icon={<CurrencyEuroIcon />}
+              />
+              <Input
+                label={t("price")}
+                error={t(errors.value ?? "")}
+                name="value"
+                type="number"
+                value={currentProduct?.value ?? ""}
+                onChange={(e) =>
+                  handleChange("value", e.target.value, false, [
+                    validateDecimal,
+                    validateEmpty,
+                  ])
+                }
+                icon={<CurrencyEuroIcon />}
+              />
+              <Input
+                label="EAN"
+                error={t(errors.barcode ?? "")}
+                name="barcode"
+                type="number"
+                value={currentProduct?.product_extra?.barcode ?? ""}
+                onChange={(e) =>
+                  handleChange("barcode", e.target.value, true, [validateEmpty])
+                }
+              />
+              {currentProduct.id != 0 && (
+                <BarcodeToPng value={currentProduct.supplierCode} />
+              )}
+              <Input
+                label={t("code-model")}
+                error={t(errors.internalCode ?? "")}
+                name="internalCode"
+                value={currentProduct?.internalCode ?? ""}
+                onChange={(e) =>
+                  handleChange("internalCode", e.target.value, false, [
+                    validateEmpty,
+                  ])
+                }
+              />
+              <Field>
+                <Label>{t("supplier")}</Label>
+                <Select
+                  name="supplier"
+                  onChange={(e) => {
+                    setCurrentProduct((pp) => ({
+                      ...pp,
+                      supplier: allSuppliers.find(
+                        (sup) => sup.id == e.target.value,
+                      ),
+                    }));
+                  }}
+                  value={currentProduct?.supplier?.id ?? ""}
+                >
+                  {allSuppliers.map((sup) => (
+                    <option key={sup.id} value={sup.id}>
+                      {t(sup.name)}
+                    </option>
+                  ))}
+                </Select>
+              </Field>
+            </FieldGroup>
+          </Fieldset>
+          <Divider />
+          <Fieldset>
+            <Legend>{t("description")}</Legend>
+            <FieldGroup>
+              <LocalizedInput
+                value={
+                  currentProduct?.localized_description ?? {
+                    nl: currentProduct?.description,
+                    en: currentProduct?.description,
+                    fr: currentProduct?.description,
+                    de: currentProduct?.description,
+                  }
+                }
+                onChange={(value) => {
+                  setCurrentProduct((pp) => ({
+                    ...pp,
+                    localized_description: value,
+                  }));
+                }}
+              />
+            </FieldGroup>
+          </Fieldset>
+          <Divider />
+          <Fieldset></Fieldset>
+          <Divider />
+        </div>
+
+        <div className="mt-6 flex items-center justify-end gap-x-6">
+          <Button type="submit">Save</Button>
+        </div>
+      </form>
+
       <form
         className={`flex w-full flex-col items-center justify-center gap-2 overflow-hidden p-2`}
         onSubmit={handleFormSubmit}
@@ -546,176 +685,6 @@ export default function ProductPage(props) {
         </div>
         <div className="flex w-full flex-row gap-2">
           <div className="flex w-2/3 flex-col gap-2">
-            <div className="flex h-fit w-full flex-col gap-2 rounded-md bg-gray-200 p-4">
-              <div className="flex flex-row text-3xl font-semibold">
-                {t("Primary Details")}
-              </div>
-              <div className="flex w-full flex-col items-center justify-between gap-2">
-                <div className="w-full">
-                  <InputOutlined
-                    label="Name"
-                    type="text"
-                    error={errors.name}
-                    value={currentProduct?.name ?? ""}
-                    onChange={(e) =>
-                      handleChange("name", e.target.value, false, [
-                        validateEmpty,
-                      ])
-                    }
-                  />
-                </div>
-                {/*  <div className={"w-full"}>
-                  <TextareaOutlined
-                    label="Description"
-                    value={currentProduct?.description ?? ""}
-                    onChange={(e) =>
-                      handleChange("description", e.target.value, false, [])
-                    }
-                  />
-                </div> */}
-                <div className={"w-full"}>
-                  <LocalizedInput
-                    title="Description"
-                    value={
-                      currentProduct?.localized_description ?? {
-                        nl: currentProduct?.description,
-                        en: currentProduct?.description,
-                        fr: currentProduct?.description,
-                        de: currentProduct?.description,
-                      }
-                    }
-                    onChange={(value) => {
-                      setCurrentProduct((pp) => ({
-                        ...pp,
-                        localized_description: value,
-                      }));
-                    }}
-                  />
-                </div>
-                <div className="flex w-full flex-row gap-2">
-                  <div className="flex w-1/2 flex-row items-center">
-                    <InputOutlined
-                      label="Code Model"
-                      type="text"
-                      error={errors.internalCode}
-                      value={currentProduct?.internalCode ?? ""}
-                      onChange={(e) =>
-                        handleChange("internalCode", e.target.value, false, [
-                          validateEmpty,
-                        ])
-                      }
-                    />
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        autoCode();
-                      }}
-                    >
-                      <MdAutoAwesome
-                        size={28}
-                        className="m-1 flex-shrink-0 rounded-md bg-white p-1"
-                      />
-                    </button>
-                  </div>
-                  <div className="w-1/2">
-                    <InputOutlined
-                      label="EAN"
-                      type="number"
-                      error={errors.barcode}
-                      value={currentProduct?.product_extra?.barcode ?? ""}
-                      onChange={(e) =>
-                        handleChange("barcode", e.target.value, true, [
-                          validateEmpty,
-                        ])
-                      }
-                    />
-                  </div>
-                  <div className="hidden">
-                    <InputOutlined
-                      label="Supplier Code"
-                      type="number"
-                      error={errors.supplierCode}
-                      value={currentProduct?.supplierCode ?? ""}
-                      onChange={(e) =>
-                        handleChange("supplierCode", e.target.value, false, [])
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="flex w-full flex-row gap-2">
-                  <div className="w-1/2">
-                    <InputOutlined
-                      label="Price Before Discount"
-                      type="number"
-                      error={errors.priceBeforeDiscount}
-                      value={currentProduct?.priceBeforeDiscount ?? ""}
-                      onChange={(e) =>
-                        handleChange(
-                          "priceBeforeDiscount",
-                          e.target.value,
-                          false,
-                          [validateDecimal],
-                        )
-                      }
-                    />
-                  </div>
-                  <div className="w-1/2">
-                    <InputOutlined
-                      label="Selling Price"
-                      type="number"
-                      value={currentProduct?.value ?? ""}
-                      error={errors.value}
-                      onChange={(e) =>
-                        handleChange("value", e.target.value, false, [
-                          validateDecimal,
-                          validateEmpty,
-                        ])
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="flex w-full flex-row gap-2">
-                  <div className="flex w-1/2 flex-col gap-2 rounded-md bg-slate-300 p-1">
-                    Fournisseur:
-                    <div className="group relative w-full">
-                      <div className="flex w-full flex-row justify-between rounded-md bg-blue-300 p-1">
-                        <p>{currentProduct.supplier.name}</p>
-                        <FiChevronDown />
-                      </div>
-                      <div
-                        className={`absolute z-40 hidden max-h-[300px] w-full grid-cols-1 items-start overflow-y-auto bg-gray-100 p-2 group-hover:grid`}
-                      >
-                        {allSuppliers
-                          .filter(
-                            (sup) => sup.id != currentProduct?.supplier?.id,
-                          )
-                          .map((sup) => (
-                            <button
-                              key={sup.id}
-                              className="flex flex-row items-start gap-2 p-1 hover:bg-blue-200"
-                              onClick={() => {
-                                setCurrentProduct({
-                                  ...currentProduct,
-                                  supplier: sup,
-                                });
-                              }}
-                            >
-                              {t(sup.name)}
-                            </button>
-                          ))}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex w-1/2 flex-row">
-                    {currentProduct.id != 0 && (
-                      <BarcodeToPng value={currentProduct.supplierCode} />
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
             <div className="flex h-fit w-full flex-col gap-2 rounded-md bg-gray-200 p-4">
               <div className="flex flex-row text-3xl font-semibold">
                 {t("Secondary Details")}
