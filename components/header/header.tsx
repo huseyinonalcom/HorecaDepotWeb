@@ -290,8 +290,6 @@ const MobileSearch = () => {
 
 const TopBar = () => {
   const { t, lang } = useTranslation("common");
-  const flagButtonClass =
-    "px-4 duration-300 font-bold underline-animation-white whitespace-nowrap";
   const navLinkClass =
     "duration-500 font-semibold hover:decoration-white decoration-transparent underline underline-offset-2 decoration-2 whitespace-nowrap";
 
