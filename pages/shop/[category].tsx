@@ -2,14 +2,14 @@ import { getAllCategories } from "../api/public/categories/getallcategories";
 import ProductPreview2 from "../../components/products/product-preview2";
 import { getProducts } from "../api/products/public/getproducts";
 import useTranslation from "next-translate/useTranslation";
+import { FiChevronLeft, FiArrowUp } from "react-icons/fi";
 import ImageWithURL from "../../components/common/image";
-import { Product } from "../../api/interfaces/product"; 
+import { Product } from "../../api/interfaces/product";
 import ShopLayout from "../../components/shoplayout";
 import Layout from "../../components/public/layout";
 import { useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import { FiChevronLeft, FiArrowUp } from "react-icons/fi";
 
 export default function Products(props) {
   const { t } = useTranslation("common");
@@ -200,6 +200,7 @@ export default function Products(props) {
                   })}
                 >
                   <FiArrowUp
+                    size={36}
                     height={36}
                     width={36}
                     className={`flex cursor-pointer flex-row items-center border-2 border-black bg-white p-1 duration-500 ${currentSortDirection == "asc" ? "rotate-0" : "rotate-180"}`}
@@ -209,21 +210,21 @@ export default function Products(props) {
                   href={createLink({
                     ...props,
                     page: 1,
-                    currentSort: "id",
+                    currentSort: "value",
                   })}
-                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "id" && "border-black"} cursor-pointer`}
+                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 hover:border-gray-700 ${currentSort == "value" ? "border-black" : "border-gray-300 "} cursor-pointer`}
                 >
-                  {t("Date")}
+                  {t("Price")}
                 </Link>
                 <Link
                   href={createLink({
                     ...props,
                     page: 1,
-                    currentSort: "value",
+                    currentSort: "id",
                   })}
-                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 ${currentSort == "value" && "border-black"} cursor-pointer`}
+                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 hover:border-gray-700 ${currentSort == "id" ? "border-black" : "border-gray-300 "} cursor-pointer`}
                 >
-                  {t("Price")}
+                  {t("Date")}
                 </Link>
               </div>
             </div>
@@ -256,7 +257,7 @@ export default function Products(props) {
                       className="border p-2 hover:bg-gray-200"
                       aria-label="Previous page"
                     >
-                      <FiChevronLeft />
+                      <FiChevronLeft size={24} />
                     </Link>
                     {getPageNumbers().map((page, index) =>
                       page === "..." ? (
@@ -285,7 +286,7 @@ export default function Products(props) {
                       className="border p-2 hover:bg-gray-200"
                       aria-label="Next page"
                     >
-                      <FiChevronLeft className="rotate-180" />
+                      <FiChevronLeft size={24} className="rotate-180" />
                     </Link>
                   </div>
                 </div>

@@ -1,6 +1,6 @@
-import { useRef } from "react";
 import ProductPreview from "../products/product-preview";
 import { FiChevronLeft } from "react-icons/fi";
+import { useRef } from "react";
 
 type Props = {
   collection;

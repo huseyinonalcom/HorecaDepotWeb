@@ -1,15 +1,15 @@
-import Link from "next/link";
-import useTranslation from "next-translate/useTranslation";
-import { Product } from "../../api/interfaces/product";
-import { CartContext } from "../../api/providers/cartProvider";
-import { useContext } from "react";
-import { CartProduct } from "../../api/interfaces/cartProduct";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import { WishlistProduct } from "../../api/interfaces/wishlistProduct";
-import { TiTick } from "react-icons/ti";
-import ImageWithURL from "../common/image";
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
+import { CartContext } from "../../api/providers/cartProvider";
+import { CartProduct } from "../../api/interfaces/cartProduct";
+import useTranslation from "next-translate/useTranslation";
 import { FiHeart, FiShoppingCart } from "react-icons/fi";
+import { Product } from "../../api/interfaces/product";
+import ImageWithURL from "../common/image";
+import { TiTick } from "react-icons/ti";
+import { useContext } from "react";
+import Link from "next/link";
 
 type Props = {
   product: Product;
