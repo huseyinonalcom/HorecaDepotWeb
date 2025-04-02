@@ -1,5 +1,5 @@
 import useTranslation from "next-translate/useTranslation";
-import { useState, useEffect } from "react"; 
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import {
@@ -8,6 +8,7 @@ import {
 } from "../../api/utils/formatters/formatdateapibe";
 import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
 import { FiX, FiCheck, FiChevronLeft } from "react-icons/fi";
+import Link from "next/link";
 
 export default function Orders() {
   const router = useRouter();
@@ -97,67 +98,94 @@ export default function Orders() {
                 key={order.id}
                 className={`cursor-pointer ${
                   index % 2 === 0 ? "bg-slate-300" : ""
-                }`}
-                onClick={() => router.push(`/admin/order?id=${order.id}`)}
-                onMouseOver={(e) =>
-                  e.currentTarget.classList.add("hover:bg-slate-500")
-                }
-                onMouseOut={(e) =>
-                  e.currentTarget.classList.remove("hover:bg-slate-500")
-                }
+                } hover:bg-slate-500`}
               >
-                <td>{order.prefix + order.number}</td>
-                <td className="flex flex-row items-end gap-1">
-                  {formatDateTimeAPIToBe(order.createdAt).date}
-                  <p className="text-xs">
-                    {formatDateTimeAPIToBe(order.createdAt).time}
-                  </p>
-                </td>
-                <td>{`${order.client.firstName} ${order.client.lastName}`}</td>
                 <td>
-                  €{" "}
-                  {order.document_products
-                    .reduce((total, product) => total + product.subTotal, 0)
-                    .toFixed(2)
-                    .replaceAll(".", ",")}
+                  <Link
+                    href={`/admin/order?id=${order.id}`}
+                    className="flex w-full"
+                  >
+                    {order.prefix + order.number}
+                  </Link>
+                </td>
+                <td className="flex w-full">
+                  <Link
+                    href={`/admin/order?id=${order.id}`}
+                    className="flex w-full flex-row items-end gap-1"
+                  >
+                    {formatDateTimeAPIToBe(order.createdAt).date}
+                    <p className="text-xs">
+                      {formatDateTimeAPIToBe(order.createdAt).time}
+                    </p>
+                  </Link>
                 </td>
                 <td>
-                  €{" "}
-                  {(
-                    order.document_products.reduce(
+                  <Link
+                    href={`/admin/order?id=${order.id}`}
+                    className="flex w-full"
+                  >
+                    {`${order.client.firstName} ${order.client.lastName}`}
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    href={`/admin/order?id=${order.id}`}
+                    className="flex w-full"
+                  >
+                    €{" "}
+                    {order.document_products
+                      .reduce((total, product) => total + product.subTotal, 0)
+                      .toFixed(2)
+                      .replaceAll(".", ",")}
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    href={`/admin/order?id=${order.id}`}
+                    className="flex w-full"
+                  >
+                    €{" "}
+                    {(
+                      order.document_products.reduce(
+                        (total, product) => total + product.subTotal,
+                        0,
+                      ) -
+                      order.payments.reduce(
+                        (total, payment) =>
+                          total +
+                          (payment.deleted || !payment.verified
+                            ? 0
+                            : payment.value),
+                        0,
+                      )
+                    )
+                      .toFixed(2)
+                      .replaceAll(".", ",")}
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    href={`/admin/order?id=${order.id}`}
+                    className="flex w-full"
+                  >
+                    {order.document_products.reduce(
                       (total, product) => total + product.subTotal,
                       0,
                     ) -
-                    order.payments.reduce(
-                      (total, payment) =>
-                        total +
-                        (payment.deleted || !payment.verified
-                          ? 0
-                          : payment.value),
-                      0,
-                    )
-                  )
-                    .toFixed(2)
-                    .replaceAll(".", ",")}
-                </td>
-                <td>
-                  {order.document_products.reduce(
-                    (total, product) => total + product.subTotal,
-                    0,
-                  ) -
-                    order.payments.reduce(
-                      (total, payment) =>
-                        total +
-                        (payment.deleted || !payment.verified
-                          ? 0
-                          : payment.value),
-                      0,
-                    ) >
-                  0 ? (
-                    <FiX className="text-red-500" />
-                  ) : (
-                    <FiCheck className="text-green-500" />
-                  )}
+                      order.payments.reduce(
+                        (total, payment) =>
+                          total +
+                          (payment.deleted || !payment.verified
+                            ? 0
+                            : payment.value),
+                        0,
+                      ) >
+                    0 ? (
+                      <FiX className="text-red-500" />
+                    ) : (
+                      <FiCheck className="text-green-500" />
+                    )}
+                  </Link>
                 </td>
               </tr>
             ))}
