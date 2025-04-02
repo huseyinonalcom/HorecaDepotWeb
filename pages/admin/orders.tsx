@@ -1,18 +1,13 @@
-import useTranslation from "next-translate/useTranslation";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import Head from "next/head";
-import {
-  formatDateAPIToBe,
-  formatDateTimeAPIToBe,
-} from "../../api/utils/formatters/formatdateapibe";
+import { formatDateTimeAPIToBe } from "../../api/utils/formatters/formatdateapibe";
 import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
 import { FiX, FiCheck, FiChevronLeft } from "react-icons/fi";
+import useTranslation from "next-translate/useTranslation";
+import { useState, useEffect } from "react";
+import Head from "next/head";
 import Link from "next/link";
 
 export default function Orders() {
-  const router = useRouter();
-  const { t, lang } = useTranslation("common");
+  const { t } = useTranslation("common");
   const [allOrders, setAllOrders] = useState([]);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
