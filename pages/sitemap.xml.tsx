@@ -1,5 +1,5 @@
-import { getProducts } from "../api/calls/productCalls";
 import { getAllCategoriesFlattened } from "./api/categories/public/getallcategoriesflattened";
+import { getProducts } from "../api/calls/productCalls";
 
 const URL = "horecadepot.be";
 
