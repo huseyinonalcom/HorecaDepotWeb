@@ -93,7 +93,6 @@ export default function CategoriesAdmin() {
                   <div className="flex w-[250px] flex-shrink-0 flex-col gap-2">
                     <div className={"w-full"}>
                       <LocalizedInput
-                        title={t("name")}
                         value={
                           category.localized_name ?? {
                             nl: category?.Name,
