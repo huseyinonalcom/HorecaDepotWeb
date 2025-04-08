@@ -49,12 +49,16 @@ export default function Users(props) {
       </Head>
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-center">
-          <div className="sm:flex-auto">
+          <div className="flex sm:flex-auto">
             <Field>
-              <Label>{t("role")}</Label>
+              <Label style={{ color: "black" }}>{t("role")}</Label>
               <Select
                 name="role"
                 value={filter.role}
+                style={{
+                  color: "black",
+                  backgroundColor: "white",
+                }}
                 onChange={(e) =>
                   setFilter({
                     ...filter,
@@ -164,7 +168,7 @@ export default function Users(props) {
                         : undefined
                     }
                   >
-                    {t("previous")}
+                    <p className="text-black">{t("previous")}</p>
                   </PaginationPrevious>
                   <PaginationList>
                     <PaginationPage className="data-disabled:opacity-100">
@@ -184,7 +188,7 @@ export default function Users(props) {
                         : undefined
                     }
                   >
-                    {t("next")}
+                    <p className="text-black">{t("next")}</p>
                   </PaginationNext>
                 </Pagination>
               </div>
