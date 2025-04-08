@@ -1,0 +1,15 @@
+reservation yaparken musteri kayit olacak (yeni musteri kayit gibi her alan olacak)
+
+rezervasyon veya siparis silince stok duzelecek
+
+odeme girilebilecek (satici user)
+
+dugmeler siyah beyaz (renkli olmasin)
+
+istatisikler ekranı (hangi sayfalara kac kisi giriyor, sepette kalan urunler...)
+
+rol ekrani vs bazi yazi renkleri yanlis
+
+banners ekrani kaydet dugmesini daha belirgin, drawerda order secili gibi, daha kolay editleme
+
+adminler icin stocktan admine gecis butonu
