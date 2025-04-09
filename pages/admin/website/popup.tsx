@@ -84,11 +84,12 @@ export default function PopupAdmin(props) {
             const formData = new FormData(e.currentTarget);
             const updatedPopup = {
               url: formData.get("url"),
-              img: formData.get("img"),
+              img: popup.img,
             };
+            console.log(updatedPopup);
             putPopup(updatedPopup).then((res) => {
               if (res == true) {
-                router.reload();
+                // router.reload();
               }
             });
           }}
@@ -123,9 +124,9 @@ export default function PopupAdmin(props) {
           <div className="col-span-full">
             <label
               htmlFor="img"
-              className="focus-within:outline-hidden relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+              className="relative cursor-pointer rounded-md bg-white font-semibold"
             >
-              <div className="group relative mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+              <div className="group relative mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 hover:border-indigo-600">
                 {popup.img ? (
                   <>
                     <ImageWithURL
@@ -134,7 +135,7 @@ export default function PopupAdmin(props) {
                       height={1000}
                       width={1000}
                     />
-                    <div className="invisible absolute inset-0 flex items-center justify-center bg-gray-400/50  group-hover:visible">
+                    <div className="invisible absolute inset-0 flex cursor-default items-center justify-center bg-gray-400/50 group-hover:visible">
                       <button
                         type="button"
                         onClick={(e) => {
@@ -146,7 +147,7 @@ export default function PopupAdmin(props) {
                           });
                         }}
                       >
-                        <TrashIcon className="translate-[-50%] absolute left-1/2 top-1/2 h-10 w-10 rounded-lg bg-black p-2 text-red-500" />
+                        <TrashIcon className="translate-[-50%] absolute left-1/2 top-1/2 h-10 w-10 cursor-pointer rounded-lg bg-black p-2 text-red-500" />
                       </button>
                     </div>
                   </>
