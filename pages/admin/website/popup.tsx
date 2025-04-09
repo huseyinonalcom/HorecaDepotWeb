@@ -1,10 +1,6 @@
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
-import componentThemes from "../../../components/componentThemes";
-import InputOutlined from "../../../components/inputs/outlined";
 import StyledForm from "../../../components/form/StyledForm";
-import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
-import { PhotoIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { FiCheck, FiX } from "react-icons/fi";
 import { useState } from "react";
 import { useRouter } from "next/router";
