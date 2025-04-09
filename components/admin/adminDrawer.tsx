@@ -1,7 +1,7 @@
 import { VscPreview, VscSymbolKeyword } from "react-icons/vsc";
 import { MdOutlineTextRotationNone } from "react-icons/md";
 import useTranslation from "next-translate/useTranslation";
-import { PiBoxArrowUpThin, PiGear } from "react-icons/pi";
+import { PiBoxArrowUpThin, PiFileDashed, PiGear } from "react-icons/pi";
 import setLanguage from "next-translate/setLanguage";
 import { useRouter } from "next/router";
 import { useState } from "react";
