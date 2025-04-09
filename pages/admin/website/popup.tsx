@@ -16,6 +16,7 @@ import {
   Field,
   Fieldset,
 } from "../../../components/styled/fieldset";
+import { InputImage } from "../../../components/form/InputImage";
 
 export default function PopupAdmin(props) {
   const router = useRouter();
@@ -121,57 +122,18 @@ export default function PopupAdmin(props) {
               </Description>
             </Field>
           </Fieldset>
-          <div className="col-span-full">
-            <label
-              htmlFor="img"
-              className="relative cursor-pointer rounded-md bg-white font-semibold"
-            >
-              <div className="group relative mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 hover:border-indigo-600">
-                {popup.img ? (
-                  <>
-                    <ImageWithURL
-                      src={popup.img}
-                      alt={""}
-                      height={1000}
-                      width={1000}
-                    />
-                    <div className="invisible absolute inset-0 flex cursor-default items-center justify-center bg-gray-400/50 group-hover:visible">
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          setPopup({
-                            ...popup,
-                            img: null,
-                          });
-                        }}
-                      >
-                        <TrashIcon className="translate-[-50%] absolute left-1/2 top-1/2 h-10 w-10 cursor-pointer rounded-lg bg-black p-2 text-red-500" />
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <div className="text-center">
-                    <PhotoIcon
-                      aria-hidden="true"
-                      className="mx-auto size-12 text-gray-300"
-                    />
-                    <div className="mt-4 flex text-sm/6 text-gray-600">
-                      <span>{t("upload-file")}</span>
-                      <input
-                        id="img"
-                        name="img"
-                        type="file"
-                        className="sr-only"
-                        onChange={uploadFile}
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-            </label>
-          </div>
+          <InputImage
+            url={popup.img}
+            onChange={uploadFile}
+            onDelete={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setPopup({
+                ...popup,
+                img: null,
+              });
+            }}
+          />
         </StyledForm>
       )}
     </>

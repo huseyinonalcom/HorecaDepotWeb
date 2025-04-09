@@ -665,6 +665,7 @@ export default function Index({
           </Link>
         )}
 
+
         <div className="flex w-full flex-col items-center">
           {collections.length > 1 && (
             <div key={"collection2"} className="w-full">
