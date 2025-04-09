@@ -399,5 +399,7 @@
   "customer": "Klant",
   "warehouse-worker": "Magazijnmedewerker",
   "details": "Details",
-  "code": "Code"
+  "code": "Code",
+  "url": "url",
+  "upload-file": "Upload bestand"
 }

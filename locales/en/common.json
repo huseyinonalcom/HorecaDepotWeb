@@ -399,5 +399,7 @@
   "customer": "Customer",
   "warehouse-worker": "Warehouse Worker",
   "details": "Details",
-  "code": "Code"
+  "code": "Code",
+  "url": "url",
+  "upload-file": "Upload File"
 }

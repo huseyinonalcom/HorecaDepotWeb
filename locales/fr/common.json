@@ -399,5 +399,7 @@
   "customer": "Client",
   "warehouse-worker": "Magasinier",
   "details": "Détails",
-  "code": "Code"
+  "code": "Code",
+  "url": "url",
+  "upload-file": "Télécharger un fichier"
 }

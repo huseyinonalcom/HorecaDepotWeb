@@ -399,5 +399,7 @@
   "customer": "Kunde",
   "warehouse-worker": "Lagerarbeiter",
   "details": "Details",
-  "code": "Code"
+  "code": "Code",
+  "url": "url",
+  "upload-file": "Datei hochladen"
 }

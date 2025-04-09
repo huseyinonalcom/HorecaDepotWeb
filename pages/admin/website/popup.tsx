@@ -4,7 +4,7 @@ import InputOutlined from "../../../components/inputs/outlined";
 import StyledForm from "../../../components/form/StyledForm";
 import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
-import { PhotoIcon } from "@heroicons/react/24/outline";
+import { PhotoIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { FiCheck, FiX } from "react-icons/fi";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -22,12 +22,12 @@ export default function PopupAdmin(props) {
   const { t } = useTranslation("common");
   const [popup, setPopup] = useState(props.popup);
 
-  const putPopup = async () => {
+  const putPopup = async (updatedPopup) => {
     const putWebsiteRequest = await fetch("/api/popup/putpopup", {
       method: "PUT",
       body: JSON.stringify({
-        url: popup.url,
-        img: popup.img,
+        url: updatedPopup.url,
+        img: updatedPopup.img,
       }),
     });
     if (putWebsiteRequest.ok) {
@@ -37,7 +37,7 @@ export default function PopupAdmin(props) {
     }
   };
 
-  const uploadFiles = async (e) => {
+  const uploadFile = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -78,7 +78,21 @@ export default function PopupAdmin(props) {
         <title>{t("popup")}</title>
       </Head>
       {popup && (
-        <StyledForm onSubmit={(e) => e.preventDefault()}>
+        <StyledForm
+          onSubmit={(e) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            const updatedPopup = {
+              url: formData.get("url"),
+              img: formData.get("img"),
+            };
+            putPopup(updatedPopup).then((res) => {
+              if (res == true) {
+                router.reload();
+              }
+            });
+          }}
+        >
           <Fieldset>
             <Field>
               <InputField
@@ -86,78 +100,77 @@ export default function PopupAdmin(props) {
                 label={t("url")}
                 defaultValue={popup.url}
               />
-              <Description>
-                <div className="text flex flex-row items-center text-green-600">
-                  <p>https://horecadepot.be/shop/...</p>
-                  <FiCheck />
-                </div>
-
-                <div className="text flex flex-row items-center text-red-600">
-                  <p>horecadepot.be/shop/...</p>
-                  <FiX />
-                </div>
+              <Description
+                style={{
+                  color: "green",
+                }}
+                className="text flex flex-row items-center"
+              >
+                https://horecadepot.be/shop/...
+                <FiCheck />
+              </Description>
+              <Description
+                style={{
+                  color: "red",
+                }}
+                className="text flex flex-row items-center"
+              >
+                horecadepot.be/shop/...
+                <FiX />
               </Description>
             </Field>
           </Fieldset>
           <div className="col-span-full">
-            <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-              <div className="text-center">
-                <PhotoIcon
-                  aria-hidden="true"
-                  className="mx-auto size-12 text-gray-300"
-                />
-                <div className="mt-4 flex text-sm/6 text-gray-600">
-                  <label
-                    htmlFor="file-upload"
-                    className="focus-within:outline-hidden relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                  >
-                    <span>{t("upload-file")}</span>
-                    <input
-                      id="file-upload"
-                      name="file-upload"
-                      type="file"
-                      className="sr-only"
-                      onChange={uploadFiles}
-                      onDrop={uploadFiles}
+            <label
+              htmlFor="img"
+              className="focus-within:outline-hidden relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+            >
+              <div className="group relative mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                {popup.img ? (
+                  <>
+                    <ImageWithURL
+                      src={popup.img}
+                      alt={""}
+                      height={1000}
+                      width={1000}
                     />
-                  </label>
-                  <p className="pl-1">{t("or-drag-drop")}</p>
-                </div>
+                    <div className="invisible absolute inset-0 flex items-center justify-center bg-gray-400/50  group-hover:visible">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setPopup({
+                            ...popup,
+                            img: null,
+                          });
+                        }}
+                      >
+                        <TrashIcon className="translate-[-50%] absolute left-1/2 top-1/2 h-10 w-10 rounded-lg bg-black p-2 text-red-500" />
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center">
+                    <PhotoIcon
+                      aria-hidden="true"
+                      className="mx-auto size-12 text-gray-300"
+                    />
+                    <div className="mt-4 flex text-sm/6 text-gray-600">
+                      <span>{t("upload-file")}</span>
+                      <input
+                        id="img"
+                        name="img"
+                        type="file"
+                        className="sr-only"
+                        onChange={uploadFile}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
+            </label>
           </div>
-          {popup.img && (
-            <div className="flex flex-col gap-2">
-              <ImageWithURL
-                src={popup.img}
-                alt={""}
-                height={1000}
-                width={1000}
-              />
-              <button
-                onClick={() => {
-                  setPopup({
-                    ...popup,
-                    img: null,
-                  });
-                }}
-                className={componentThemes.outlinedButton}
-              >
-                {t("delete")}
-              </button>
-            </div>
-          )}
-          <button
-            onClick={async () => {
-              const response = await putPopup();
-              if (response == true) {
-                router.reload();
-              }
-            }}
-            className={componentThemes.outlinedButton}
-          >
-            {t("save")}
-          </button>
         </StyledForm>
       )}
     </>
