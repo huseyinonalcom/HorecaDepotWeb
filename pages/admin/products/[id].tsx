@@ -42,6 +42,7 @@ import {
 import { N } from "framer-motion/dist/types.d-6pKw1mTI";
 import validateDecimal from "../../../api/utils/input_validators/validate_decimal";
 import isValidDecimal from "../../../api/utils/input_validators/validate_decimal";
+import parseDecimal from "../../../api/utils/input_parsers/parseDecimal";
 
 export default function ProductPage(props) {
   const { t, lang } = useTranslation("common");
@@ -268,8 +269,8 @@ export default function ProductPage(props) {
       return false;
     }
 
-    const priceBeforeDiscount = Number(
-      currentProduct.priceBeforeDiscount.replaceAll(",", "."),
+    const priceBeforeDiscount = parseDecimal(
+      currentProduct.priceBeforeDiscount,
     );
 
     if (priceBeforeDiscount <= 0) return false;
@@ -284,9 +285,7 @@ export default function ProductPage(props) {
       return false;
     }
 
-    const price = Number(
-      currentProduct.priceBeforeDiscount.replaceAll(",", "."),
-    );
+    const price = parseDecimal(currentProduct.value);
 
     if (price <= 0) return false;
 
@@ -1002,6 +1001,7 @@ export async function getServerSideProps(context) {
   const req = context.req;
   const allCategories = await getAllCategoriesFlattened();
   const allSuppliers = await getAllSuppliers(req);
+  console.log(allSuppliers);
   let currentProduct: Product = {
     id: 0,
     supplier: allSuppliers.at(0),
