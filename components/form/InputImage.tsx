@@ -5,24 +5,37 @@ import { ChangeEvent } from "react";
 
 export const InputImage = ({
   url,
+  id,
   onChange,
   onDelete,
+  height,
+  width,
+  children,
 }: {
   url?: string;
+  id?: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onDelete: (e: ChangeEvent<HTMLInputElement>) => void;
+  height?: number;
+  width?: number;
+  children?: React.ReactNode;
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("common");
   return (
     <div className="col-span-full">
       <label
-        htmlFor="img"
+        htmlFor={id}
         className="relative cursor-pointer rounded-md bg-white font-semibold"
       >
-        <div className="group relative mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 hover:border-indigo-600">
+        <div className="group relative mt-2 flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 hover:border-indigo-600">
           {url ? (
             <>
-              <ImageWithURL src={url} alt={""} height={1000} width={1000} />
+              <ImageWithURL
+                src={url}
+                alt={""}
+                height={height ?? 1000}
+                width={width ?? 1000}
+              />
               <div className="invisible absolute inset-0 flex cursor-default items-center justify-center bg-gray-400/50 group-hover:visible">
                 <button
                   type="button"
@@ -45,7 +58,7 @@ export const InputImage = ({
               <div className="mt-4 flex text-sm/6 text-gray-600">
                 <span>{t("upload-file")}</span>
                 <input
-                  id="img"
+                  id={id}
                   name="img"
                   type="file"
                   className="sr-only"
@@ -54,6 +67,7 @@ export const InputImage = ({
               </div>
             </div>
           )}
+          {children}
         </div>
       </label>
     </div>
