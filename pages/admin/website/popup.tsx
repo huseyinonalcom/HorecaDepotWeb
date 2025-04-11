@@ -120,9 +120,7 @@ export default function PopupAdmin(props) {
           <InputImage
             url={popup.img}
             onChange={uploadFile}
-            onDelete={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
+            onDelete={() => {
               setPopup({
                 ...popup,
                 img: null,
