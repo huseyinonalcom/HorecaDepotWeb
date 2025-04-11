@@ -83,7 +83,6 @@ export default function PopupAdmin(props) {
               url: formData.get("url"),
               img: popup.img,
             };
-            console.log(updatedPopup);
             putPopup(updatedPopup).then((res) => {
               if (res == true) {
                 // router.reload();
@@ -121,9 +120,7 @@ export default function PopupAdmin(props) {
           <InputImage
             url={popup.img}
             onChange={uploadFile}
-            onDelete={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
+            onDelete={() => {
               setPopup({
                 ...popup,
                 img: null,
