@@ -39,8 +39,6 @@ import {
   FiArrowRight,
   FiTrash,
 } from "react-icons/fi";
-import { N } from "framer-motion/dist/types.d-6pKw1mTI";
-import validateDecimal from "../../../api/utils/input_validators/validate_decimal";
 import isValidDecimal from "../../../api/utils/input_validators/validate_decimal";
 import parseDecimal from "../../../api/utils/input_parsers/parseDecimal";
 
