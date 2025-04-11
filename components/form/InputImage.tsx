@@ -15,7 +15,7 @@ export const InputImage = ({
   url?: string;
   id?: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onDelete: (e: ChangeEvent<HTMLInputElement>) => void;
+  onDelete: () => void;
   height?: number;
   width?: number;
   children?: React.ReactNode;
@@ -42,7 +42,7 @@ export const InputImage = ({
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    onDelete(e);
+                    onDelete();
                   }}
                 >
                   <TrashIcon className="translate-[-50%] absolute left-1/2 top-1/2 h-10 w-10 cursor-pointer rounded-lg bg-black p-2 text-red-500" />

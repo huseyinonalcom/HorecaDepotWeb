@@ -535,9 +535,7 @@ export default function ProductPage(props) {
                     width={80}
                     url={img.url}
                     onChange={() => {}}
-                    onDelete={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
+                    onDelete={() => {
                       handleImageDelete(currentProduct.imageDirections?.l);
                     }}
                   >
@@ -554,9 +552,7 @@ export default function ProductPage(props) {
                   )?.url
                 }
                 onChange={(e) => uploadFile(e, "l")}
-                onDelete={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
+                onDelete={() => {
                   handleImageDelete(currentProduct.imageDirections?.l);
                 }}
               >
@@ -572,9 +568,7 @@ export default function ProductPage(props) {
                   )?.url
                 }
                 onChange={(e) => uploadFile(e, "fl")}
-                onDelete={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
+                onDelete={() => {
                   handleImageDelete(currentProduct.imageDirections?.fl);
                 }}
               >
@@ -590,9 +584,7 @@ export default function ProductPage(props) {
                   )?.url
                 }
                 onChange={(e) => uploadFile(e, "b")}
-                onDelete={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
+                onDelete={() => {
                   handleImageDelete(currentProduct.imageDirections?.b);
                 }}
               >
@@ -608,9 +600,7 @@ export default function ProductPage(props) {
                   )?.url
                 }
                 onChange={(e) => uploadFile(e, "f")}
-                onDelete={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
+                onDelete={() => {
                   handleImageDelete(currentProduct.imageDirections?.f);
                 }}
               >
@@ -626,9 +616,7 @@ export default function ProductPage(props) {
                   )?.url
                 }
                 onChange={(e) => uploadFile(e, "fr")}
-                onDelete={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
+                onDelete={() => {
                   handleImageDelete(currentProduct.imageDirections?.fr);
                 }}
               >
@@ -644,9 +632,7 @@ export default function ProductPage(props) {
                   )?.url
                 }
                 onChange={(e) => uploadFile(e, "r")}
-                onDelete={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
+                onDelete={() => {
                   handleImageDelete(currentProduct.imageDirections?.r);
                 }}
               >
@@ -662,9 +648,7 @@ export default function ProductPage(props) {
                   )?.url
                 }
                 onChange={(e) => uploadFile(e, "d")}
-                onDelete={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
+                onDelete={() => {
                   handleImageDelete(currentProduct.imageDirections?.d);
                 }}
               >
@@ -1001,7 +985,6 @@ export async function getServerSideProps(context) {
   const req = context.req;
   const allCategories = await getAllCategoriesFlattened();
   const allSuppliers = await getAllSuppliers(req);
-  console.log(allSuppliers);
   let currentProduct: Product = {
     id: 0,
     supplier: allSuppliers.at(0),
