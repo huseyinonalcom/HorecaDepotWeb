@@ -703,74 +703,200 @@ export default function ProductPage(props) {
             <Input
               label={t("material")}
               name="material"
-              value={currentProduct?.material ?? ""}
+              defaultValue={currentProduct?.material ?? ""}
+              onChange={(e) => {
+                setCurrentProduct((pp) => ({
+                  ...pp,
+                  material: e.target.value,
+                }));
+              }}
             />
             <Input
               label={t("color")}
               name="color"
-              value={currentProduct?.color ?? ""}
+              defaultValue={currentProduct?.color ?? ""}
+              onChange={(e) => {
+                setCurrentProduct((pp) => ({
+                  ...pp,
+                  color: e.target.value,
+                }));
+              }}
             />
             <Input
               label={t("weight")}
               name="weight"
-              value={currentProduct?.product_extra?.weight ?? ""}
+              defaultValue={currentProduct?.product_extra?.weight ?? ""}
+              onChange={(e) => {
+                setCurrentProduct((pp) => ({
+                  ...pp,
+                  product_extra: {
+                    ...pp.product_extra,
+                    weight: e.target.value,
+                  },
+                }));
+              }}
             />
             <Input
               label={t("packaged_weight_net")}
               name="packaged_weight_net"
-              value={currentProduct?.product_extra?.packaged_weight_net ?? ""}
+              defaultValue={
+                currentProduct?.product_extra?.packaged_weight_net ?? ""
+              }
+              onChange={(e) => {
+                setCurrentProduct((pp) => ({
+                  ...pp,
+                  product_extra: {
+                    ...pp.product_extra,
+                    packaged_weight_net: e.target.value,
+                  },
+                }));
+              }}
             />
             <Input
               label={t("packaged_weight")}
               name="packaged_weight"
-              value={currentProduct?.product_extra?.packaged_weight ?? ""}
+              defaultValue={
+                currentProduct?.product_extra?.packaged_weight ?? ""
+              }
+              onChange={(e) => {
+                setCurrentProduct((pp) => ({
+                  ...pp,
+                  product_extra: {
+                    ...pp.product_extra,
+                    packaged_weight: e.target.value,
+                  },
+                }));
+              }}
             />
             <Input
               label={t("packaged_dimensions")}
               name="packaged_dimensions"
-              value={currentProduct?.product_extra?.packaged_dimensions ?? ""}
+              defaultValue={
+                currentProduct?.product_extra?.packaged_dimensions ?? ""
+              }
+              onChange={(e) => {
+                setCurrentProduct((pp) => ({
+                  ...pp,
+                  product_extra: {
+                    ...pp.product_extra,
+                    packaged_dimensions: e.target.value,
+                  },
+                }));
+              }}
             />
             <Input
               label={t("per_box")}
               name="per_box"
-              value={currentProduct?.product_extra?.per_box ?? ""}
+              defaultValue={currentProduct?.product_extra?.per_box ?? ""}
+              onChange={(e) => {
+                setCurrentProduct((pp) => ({
+                  ...pp,
+                  product_extra: {
+                    ...pp.product_extra,
+                    per_box: e.target.value,
+                  },
+                }));
+              }}
             />
             <Input
               label={t("height")}
               name="height"
-              value={currentProduct?.height ?? ""}
+              defaultValue={currentProduct?.height ?? ""}
+              onChange={(e) => {
+                setCurrentProduct((pp) => ({
+                  ...pp,
+                  product_extra: {
+                    ...pp.product_extra,
+                    height: e.target.value,
+                  },
+                }));
+              }}
             />
             <Input
               label={t("width")}
               name="width"
-              value={currentProduct?.width ?? ""}
+              defaultValue={currentProduct?.width ?? ""}
+              onChange={(e) => {
+                setCurrentProduct((pp) => ({
+                  ...pp,
+                  product_extra: {
+                    ...pp.product_extra,
+                    width: e.target.value,
+                  },
+                }));
+              }}
             />
             <Input
               label={t("depth")}
               name="depth"
-              value={currentProduct?.depth ?? ""}
+              defaultValue={currentProduct?.depth ?? ""}
+              onChange={(e) => {
+                setCurrentProduct((pp) => ({
+                  ...pp,
+                  product_extra: {
+                    ...pp.product_extra,
+                    depth: e.target.value,
+                  },
+                }));
+              }}
             />
             <Input
               label={t("diameter")}
               name="diameter"
-              value={currentProduct?.product_extra?.diameter ?? ""}
+              defaultValue={currentProduct?.product_extra?.diameter ?? ""}
+              onChange={(e) => {
+                setCurrentProduct((pp) => ({
+                  ...pp,
+                  product_extra: {
+                    ...pp.product_extra,
+                    diameter: e.target.value,
+                  },
+                }));
+              }}
             />
             <Input
               label={t("seat_height")}
               name="seat_height"
-              value={currentProduct?.product_extra?.seat_height ?? ""}
+              defaultValue={currentProduct?.product_extra?.seat_height ?? ""}
+              onChange={(e) => {
+                setCurrentProduct((pp) => ({
+                  ...pp,
+                  product_extra: {
+                    ...pp.product_extra,
+                    seat_height: e.target.value,
+                  },
+                }));
+              }}
             />
             <Input
               label={t("armrest_height")}
               name="armrest_height"
-              value={currentProduct?.product_extra?.armrest_height ?? ""}
+              defaultValue={currentProduct?.product_extra?.armrest_height ?? ""}
+              onChange={(e) => {
+                setCurrentProduct((pp) => ({
+                  ...pp,
+                  product_extra: {
+                    ...pp.product_extra,
+                    armrest_height: e.target.value,
+                  },
+                }));
+              }}
             />
             <Field>
               <Label>{t("tags")}</Label>
               <Textarea
                 rows={5}
                 name="tags"
-                value={currentProduct?.product_extra?.tags ?? ""}
+                defaultValue={currentProduct?.product_extra?.tags ?? ""}
+                onChange={(e) => {
+                  setCurrentProduct((pp) => ({
+                    ...pp,
+                    product_extra: {
+                      ...pp.product_extra,
+                      tags: e.target.value,
+                    },
+                  }));
+                }}
               />
             </Field>
           </FieldGroup>
@@ -785,21 +911,51 @@ export default function ProductPage(props) {
                   label={t("stock-warehouse")}
                   type="number"
                   name="stockWarehouse"
-                  value={
+                  defaultValue={
                     currentProduct?.shelves?.find(
                       (shelf) => shelf.establishment.id == 3,
                     ).stock
                   }
+                  onChange={(e) => {
+                    setCurrentProduct((pp) => ({
+                      ...pp,
+                      shelves: pp.shelves.map((shelf) => {
+                        if (shelf.establishment.id == 3) {
+                          return {
+                            ...shelf,
+                            stock: e.target.value,
+                          };
+                        } else {
+                          return shelf;
+                        }
+                      }),
+                    }));
+                  }}
                 />
                 <Input
                   label={t("stock-store")}
                   type="number"
                   name="stockStore"
-                  value={
+                  defaultValue={
                     currentProduct?.shelves?.find(
                       (shelf) => shelf.establishment.id == 1,
                     ).stock
                   }
+                  onChange={(e) => {
+                    setCurrentProduct((pp) => ({
+                      ...pp,
+                      shelves: pp.shelves.map((shelf) => {
+                        if (shelf.establishment.id == 1) {
+                          return {
+                            ...shelf,
+                            stock: e.target.value,
+                          };
+                        } else {
+                          return shelf;
+                        }
+                      }),
+                    }));
+                  }}
                 />
               </FieldGroup>
             </Fieldset>
@@ -821,6 +977,7 @@ export default function ProductPage(props) {
                       ...pr.product_extra,
                       barcode: "0",
                     },
+                    shelves: [],
                   }));
                 }}
               >
