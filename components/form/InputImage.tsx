@@ -1,8 +1,7 @@
 import { TrashIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import useTranslation from "next-translate/useTranslation";
+import { ChangeEvent, useState } from "react";
 import ImageWithURL from "../common/image";
-import { ChangeEvent } from "react";
-import { useState } from "react";
 
 export const InputImage = ({
   url,
