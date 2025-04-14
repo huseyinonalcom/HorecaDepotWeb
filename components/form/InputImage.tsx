@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { TrashIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import useTranslation from "next-translate/useTranslation";
 import ImageWithURL from "../common/image";
 import { ChangeEvent } from "react";
+import { useState } from "react";
 
 export const InputImage = ({
   url,
@@ -56,7 +56,7 @@ export const InputImage = ({
                 width={width ?? 1000}
               />
               {overlayVisible && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-400/50 rounded-lg">
+                <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-gray-400/50">
                   <button
                     type="button"
                     onClick={handleDeleteClick}
