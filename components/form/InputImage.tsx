@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { TrashIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import useTranslation from "next-translate/useTranslation";
 import ImageWithURL from "../common/image";
@@ -21,33 +22,50 @@ export const InputImage = ({
   children?: React.ReactNode;
 }) => {
   const { t } = useTranslation("common");
+  const [overlayVisible, setOverlayVisible] = useState(false);
+
+  const handleImageClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setOverlayVisible((prev) => !prev);
+  };
+
+  const handleDeleteClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onDelete();
+    setOverlayVisible(false);
+  };
+
   return (
     <div className="col-span-full">
       <label
         htmlFor={id}
         className="relative cursor-pointer rounded-md bg-white font-semibold"
       >
-        <div className="group relative mt-2 flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 hover:border-indigo-600">
+        <div
+          className="relative mt-2 flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
+          onClick={url ? handleImageClick : undefined}
+        >
           {url ? (
             <>
               <ImageWithURL
                 src={url}
-                alt={""}
+                alt=""
                 height={height ?? 1000}
                 width={width ?? 1000}
               />
-              <div className="invisible absolute inset-0 flex cursor-default items-center justify-center bg-gray-400/50 group-hover:visible">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    onDelete();
-                  }}
-                >
-                  <TrashIcon className="translate-[-50%] absolute left-1/2 top-1/2 h-10 w-10 cursor-pointer rounded-lg bg-black p-2 text-red-500" />
-                </button>
-              </div>
+              {overlayVisible && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-400/50 rounded-lg">
+                  <button
+                    type="button"
+                    onClick={handleDeleteClick}
+                    className="cursor-pointer"
+                  >
+                    <TrashIcon className="translate-[-50%] absolute left-1/2 top-1/2 h-10 w-10 rounded-lg bg-black p-2 text-red-500" />
+                  </button>
+                </div>
+              )}
             </>
           ) : (
             <div className="text-center">
@@ -62,7 +80,7 @@ export const InputImage = ({
                   name="img"
                   type="file"
                   className="sr-only"
-                  onChange={(e) => onChange(e)}
+                  onChange={onChange}
                 />
               </div>
             </div>
