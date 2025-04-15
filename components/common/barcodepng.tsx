@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import Barcode from "react-jsbarcode";
+import { ReactBarcode } from "react-jsbarcode";
 import { Canvg } from "canvg";
 
 const BarcodeToPng = ({
@@ -54,7 +54,7 @@ const BarcodeToPng = ({
     return (
       <>
         <div ref={barcodeRef}>
-          <Barcode
+          <ReactBarcode
             className="hidden"
             value={value}
             options={{

@@ -219,7 +219,7 @@ export const PDFInvoice = ({ invoiceDocument }) => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                border: "1",
+                border: 1,
                 paddingHorizontal: 15,
                 alignContent: "center",
                 justifyContent: "center",
@@ -260,7 +260,7 @@ export const PDFInvoice = ({ invoiceDocument }) => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                border: "1",
+                border: 1,
                 paddingHorizontal: 15,
                 alignContent: "center",
                 justifyContent: "center",
@@ -329,7 +329,7 @@ export const PDFInvoice = ({ invoiceDocument }) => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                border: "1",
+                border: 1,
                 paddingHorizontal: 15,
                 alignContent: "center",
                 justifyContent: "center",
@@ -512,7 +512,7 @@ export const PDFInvoice = ({ invoiceDocument }) => {
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
-              border: "1",
+              border: 1,
               borderRadius: 10,
               paddingHorizontal: 5,
               marginTop: "auto",
