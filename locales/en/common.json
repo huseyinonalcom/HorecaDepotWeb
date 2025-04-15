@@ -427,5 +427,9 @@
   "armrest_height": "Armrest Height",
   "tags": "Tags",
   "stock-warehouse": "Stock Warehouse",
-  "stock-store": "Stock Store"
+  "stock-store": "Stock Store",
+  "reset-email-sent": "An email with instructions will be sent to your email address.",
+  "try-again": "An unexpected error occured. Please try again.",
+  "cancel": "Cancel",
+  "send": "Send"
 }

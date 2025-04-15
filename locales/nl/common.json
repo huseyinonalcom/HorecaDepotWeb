@@ -427,5 +427,9 @@
   "armrest_height": "Armleuninghoogte",
   "tags": "Tags",
   "stock-warehouse": "Voorraad Magazijn",
-  "stock-store": "Voorraad Winkel"
+  "stock-store": "Voorraad Winkel",
+  "reset-email-sent": "Een e-mail met instructies wordt naar uw e-mailadres gestuurd.",
+  "try-again": "Er is een onverwachte fout opgetreden. Probeer het opnieuw.",
+  "cancel": "Annuleren",
+  "send": "Verzenden"
 }

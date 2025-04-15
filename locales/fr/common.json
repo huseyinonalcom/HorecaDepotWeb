@@ -427,5 +427,9 @@
   "armrest_height": "Hauteur des Accoudoirs",
   "tags": "Tags",
   "stock-warehouse": "Stock Entrepôt",
-  "stock-store": "Stock Magasin"
+  "stock-store": "Stock Magasin",
+  "reset-email-sent": "Un e-mail contenant des instructions sera envoyé à votre adresse e-mail.",
+  "try-again": "Une erreur inattendue s'est produite. Veuillez réessayer.",
+  "cancel": "Annuler",
+  "send": "Envoyer"
 }

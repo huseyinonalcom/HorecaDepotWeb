@@ -1,4 +1,4 @@
-import { Strong, TextLink, Text } from "../components/styled/text";
+import { Strong, Text } from "../components/styled/text";
 import { AuthLayout } from "../components/styled/auth-layout";
 import { Field, Label } from "../components/styled/fieldset";
 import useTranslation from "next-translate/useTranslation";
@@ -8,12 +8,19 @@ import { Input } from "../components/styled/input";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Head from "next/head";
+import {
+  Dialog,
+  DialogActions,
+  DialogBody,
+  DialogTitle,
+} from "../components/styled/dialog";
 
 export default function Admin() {
   const [error, setError] = useState("");
   const { t } = useTranslation("common");
   const passwordInput = useRef(null);
   const router = useRouter();
+  const [showForgotDialog, setShowForgotDialog] = useState(false);
 
   const goToPassword = () => {
     passwordInput.current?.focus();
@@ -46,7 +53,7 @@ export default function Admin() {
     event.preventDefault();
     setError("");
     try {
-      const formData = new FormData(event.currentTarget); // 👈 this is the key
+      const formData = new FormData(event.currentTarget);
       const username = formData.get("username");
       const password = formData.get("password");
 
@@ -76,6 +83,24 @@ export default function Admin() {
       router.push("/admin/dashboard");
     } else {
       router.push("/stock/list/all");
+    }
+  };
+
+  const handleSubmitReset = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData(e.currentTarget);
+      const username = formData.get("username-forgot");
+
+      fetch("/api/auth/forgotpass", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: username }),
+      }).then(() => alert(t("reset-email-sent")));
+    } catch (error) {
+      alert(t("try-again"));
     }
   };
 
@@ -125,14 +150,45 @@ export default function Admin() {
           <Button type="submit" className="w-full">
             {t("Login")}
           </Button>
-          <div className="flex items-center justify-between">
-            <Text color="white">
-              <TextLink href="#">
-                <Strong> {t("forgot_password")}</Strong>
-              </TextLink>
-            </Text>
-          </div>
         </form>
+        <div className="flex items-center justify-between">
+          <Text>
+            <button
+              className="cursor-pointer"
+              type="button"
+              onClick={() => setShowForgotDialog(true)}
+            >
+              <Strong>{t("forgot_password")}</Strong>
+            </button>
+          </Text>
+        </div>
+        <Dialog open={showForgotDialog} onClose={setShowForgotDialog}>
+          <form onSubmit={handleSubmitReset}>
+            <DialogTitle>{t("forgot_password")}</DialogTitle>
+            <DialogBody>
+              <Field>
+                <Label>{t("user")}</Label>
+                <Input
+                  type="text"
+                  name="username-forgot"
+                  autoComplete="username"
+                />
+              </Field>
+            </DialogBody>
+            <DialogActions>
+              <Button
+                type="button"
+                plain
+                onClick={() => setShowForgotDialog(false)}
+              >
+                {t("cancel")}
+              </Button>
+              <Button plain type="submit">
+                {t("send")}
+              </Button>
+            </DialogActions>
+          </form>
+        </Dialog>
       </AuthLayout>
     </>
   );

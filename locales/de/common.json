@@ -427,5 +427,9 @@
   "armrest_height": "Armlehnenhöhe",
   "tags": "Tags",
   "stock-warehouse": "Lagerbestand",
-  "stock-store": "Filialbestand"
+  "stock-store": "Filialbestand",
+  "reset-email-sent": "Eine E-Mail mit Anweisungen wird an Ihre E-Mail-Adresse gesendet.",
+  "try-again": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+  "cancel": "Abbrechen",
+  "send": "Senden"
 }
