@@ -86,10 +86,10 @@ export default function Users(props) {
             </Link>
           </div>
         </div>
-        <div className="mt-8 flow-root">
+        <div className="mt-8 flow-root px-[1px]">
           <div className="no-scrollbar -mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-              <div className="overflow-hidden shadow-sm ring-1 ring-black/5 sm:rounded-lg">
+              <div className="overflow-hidden shadow-sm ring-1 ring-black/5 sm:rounded-lg sm:rounded-b-none">
                 <table className="min-w-full divide-y divide-gray-300">
                   <thead className="bg-gray-50">
                     <tr>
@@ -154,47 +154,47 @@ export default function Users(props) {
                     ))}
                   </tbody>
                 </table>
-                <Pagination className="m-1">
-                  <PaginationPrevious
-                    onClick={
-                      filter.page > 1
-                        ? () => {
-                            scroll({
-                              top: 0,
-                              behavior: "smooth",
-                            });
-                            setFilter({ ...filter, page: filter.page - 1 });
-                          }
-                        : undefined
-                    }
-                  >
-                    <p className="text-black">{t("previous")}</p>
-                  </PaginationPrevious>
-                  <PaginationList>
-                    <PaginationPage className="data-disabled:opacity-100">
-                      {filter.page}
-                    </PaginationPage>
-                  </PaginationList>
-                  <PaginationNext
-                    onClick={
-                      filter.page < users?.meta?.pagination?.pageCount
-                        ? () => {
-                            scroll({
-                              top: 0,
-                              behavior: "smooth",
-                            });
-                            setFilter({ ...filter, page: filter.page + 1 });
-                          }
-                        : undefined
-                    }
-                  >
-                    <p className="text-black">{t("next")}</p>
-                  </PaginationNext>
-                </Pagination>
               </div>
             </div>
           </div>
         </div>
+        <Pagination className="border-1 sticky bottom-0 -mt-1 flex w-full rounded-lg rounded-t-none border-zinc-950/10 bg-white p-4">
+          <PaginationPrevious
+            onClick={
+              filter.page > 1
+                ? () => {
+                    scroll({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                    setFilter({ ...filter, page: filter.page - 1 });
+                  }
+                : undefined
+            }
+          >
+            <p className="text-black">{t("previous")}</p>
+          </PaginationPrevious>
+          <PaginationList>
+            <PaginationPage className="data-disabled:opacity-100">
+              {filter.page}
+            </PaginationPage>
+          </PaginationList>
+          <PaginationNext
+            onClick={
+              filter.page < users?.meta?.pagination?.pageCount
+                ? () => {
+                    scroll({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                    setFilter({ ...filter, page: filter.page + 1 });
+                  }
+                : undefined
+            }
+          >
+            <p className="text-black">{t("next")}</p>
+          </PaginationNext>
+        </Pagination>
       </div>
     </>
   );
