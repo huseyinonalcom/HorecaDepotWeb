@@ -1,12 +1,15 @@
 import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
+import isValidDecimal from "../../../api/utils/input_validators/validate_decimal";
 import { getAllSuppliers } from "../../api/suppliers/admin/getallsuppliers";
 import { LocalizedInput } from "../../../components/inputs/localized_input";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
+import parseDecimal from "../../../api/utils/input_parsers/parseDecimal";
 import { getProductByID } from "../../api/products/admin/getproductbyid";
 import { Switch, SwitchField } from "../../../components/styled/switch";
 import { ColorChooser } from "../../../components/inputs/ColorChooser";
 import BarcodeToPng from "../../../components/common/barcodepng";
 import { InputImage } from "../../../components/form/InputImage";
+import { BadgeButton } from "../../../components/styled/badge";
 import { CurrencyEuroIcon } from "@heroicons/react/24/outline";
 import { Textarea } from "../../../components/styled/textarea";
 import { Divider } from "../../../components/styled/divider";
@@ -29,7 +32,6 @@ import {
 } from "../../../components/styled/fieldset";
 import {
   FiCopy,
-  FiChevronDown,
   FiX,
   FiArrowLeft,
   FiArrowDownLeft,
@@ -39,8 +41,6 @@ import {
   FiArrowRight,
   FiTrash,
 } from "react-icons/fi";
-import isValidDecimal from "../../../api/utils/input_validators/validate_decimal";
-import parseDecimal from "../../../api/utils/input_parsers/parseDecimal";
 
 export default function ProductPage(props) {
   const { t, lang } = useTranslation("common");
@@ -359,7 +359,6 @@ export default function ProductPage(props) {
           label="EAN"
           required
           name="barcode"
-          type="number"
           defaultValue={currentProduct?.product_extra?.barcode ?? ""}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
@@ -413,62 +412,76 @@ export default function ProductPage(props) {
     <Fieldset>
       <Legend>{t("categories")}</Legend>
       <FieldGroup>
-        <div className="group relative">
-          <div className="flex w-full flex-row justify-between rounded-md bg-blue-300 p-1">
-            <p className="">{t("Select Category")}</p>
-            <FiChevronDown />
-          </div>
-          <div
-            className={`absolute z-40 hidden max-h-[300px] w-full grid-cols-1 items-start overflow-y-auto bg-gray-100 p-2 group-hover:grid`}
+        <Field>
+          <Label>{t("Select Category")}</Label>
+          <Select
+            name="categories"
+            onChange={(e) => {
+              setCurrentProduct({
+                ...currentProduct,
+                categories: [
+                  ...(currentProduct.categories ?? []),
+                  allCategories.find((c) => c.id == e.target.value),
+                ],
+              });
+            }}
           >
+            <option>{t("Select Category")}</option>
             {allCategories
               .filter(
                 (cat) =>
-                  !currentProduct.categories?.some((c) => c.id == cat.id),
+                  !currentProduct.categories?.some((c) => c.id === cat.id),
               )
-              .map((cat) => (
-                <button
-                  key={cat.id + "-cat"}
-                  className={`flex flex-row items-start gap-2 p-1 hover:bg-blue-200 ${cat.headCategory ? "ml-2" : ""}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setCurrentProduct({
-                      ...currentProduct,
-                      categories: [...(currentProduct.categories ?? []), cat],
-                    });
-                  }}
-                >
-                  {cat.localized_name[lang]}
-                </button>
-              ))}
-          </div>
-        </div>
-        <div className="flex flex-col gap-1">
+              .map((cat) => {
+                const isSubcategory = !!cat.headCategory;
+                const hasHeadParent =
+                  isSubcategory &&
+                  !!allCategories.find(
+                    (parent) => parent.id === cat.headCategory?.id,
+                  )?.headCategory;
+
+                const prefix = isSubcategory
+                  ? hasHeadParent
+                    ? "--"
+                    : "-"
+                  : "";
+
+                return (
+                  <option key={`${cat.id}-cat`} value={cat.id}>
+                    {prefix}
+                    {cat.localized_name[lang]}
+                  </option>
+                );
+              })}
+          </Select>
+        </Field>
+        <div className="flex flex-wrap gap-3">
           {currentProduct.categories?.map((cat) => (
-            <div
+            <BadgeButton
               key={cat.id}
-              className="flex flex-row items-center gap-2 bg-blue-100 p-1"
+              className="bg-transparent"
+              onClick={() => {
+                setCurrentProduct({
+                  ...currentProduct,
+                  categories: currentProduct.categories.filter(
+                    (c) => c.id != cat.id,
+                  ),
+                });
+              }}
             >
-              <button
-                onClick={() => {
-                  setCurrentProduct({
-                    ...currentProduct,
-                    categories: currentProduct.categories.filter(
-                      (c) => c.id != cat.id,
-                    ),
-                  });
-                }}
-              >
-                <FiX color="red" />
-              </button>
-              <p>{cat.localized_name[lang]}</p>
-            </div>
+              {cat.localized_name[lang]}
+              <FiX color="red" />
+            </BadgeButton>
           ))}
         </div>
       </FieldGroup>
     </Fieldset>
   );
+
+  // TODO: improve color functionality
+  // add color image
+  // make colors editable
+  // make new page to manage colors
 
   const Color = (
     <Fieldset>
@@ -952,6 +965,7 @@ export default function ProductPage(props) {
                         shelves: [],
                       }));
                     }}
+                    color="white"
                   >
                     <div className="p-2">
                       <FiCopy />
