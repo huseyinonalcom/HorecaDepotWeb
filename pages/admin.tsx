@@ -1,12 +1,15 @@
+import { Strong, TextLink, Text } from "../components/styled/text";
+import { AuthLayout } from "../components/styled/auth-layout";
+import { Field, Label } from "../components/styled/fieldset";
 import useTranslation from "next-translate/useTranslation";
+import { Button } from "../components/styled/button";
 import { useState, useEffect, useRef } from "react";
+import { Input } from "../components/styled/input";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Head from "next/head";
 
 export default function Admin() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { t } = useTranslation("common");
   const passwordInput = useRef(null);
@@ -43,6 +46,10 @@ export default function Admin() {
     event.preventDefault();
     setError("");
     try {
+      const formData = new FormData(event.currentTarget); // 👈 this is the key
+      const username = formData.get("username");
+      const password = formData.get("password");
+
       const response = await fetch("/api/auth/postloginadmin", {
         method: "POST",
         headers: {
@@ -73,68 +80,60 @@ export default function Admin() {
   };
 
   return (
-    <div>
+    <>
       <Head>
-        <title>Login</title>
+        <title>{t("Login")}</title>
       </Head>
-      <div className="flex min-h-screen flex-col items-center justify-center gap-2 bg-black">
-        <div className="relative h-32 w-full max-w-md">
-          <Image
-            src="/assets/header/logo.svg"
-            alt="Horeca Depot Logo"
-            sizes="400px"
-            priority
-            fill
-            style={{ objectFit: "contain" }}
-          />
-        </div>
+      <AuthLayout>
         <form
           onSubmit={handleSubmit}
-          className="w-full max-w-md space-y-4 bg-white p-4 shadow-lg"
+          className="grid w-full max-w-sm grid-cols-1 gap-8"
         >
-          <h2 className="text-center text-xl font-bold">LOGIN</h2>
+          <div className="relative h-32 w-full max-w-md">
+            <Image
+              src="/assets/header/logob.png"
+              alt="Horeca Depot Logo"
+              sizes="400px"
+              priority
+              fill
+              style={{ objectFit: "contain" }}
+            />
+          </div>
+          <Field>
+            <Label>{t("user")}</Label>
+            <Input
+              type="text"
+              name="username"
+              onKeyDown={handleKeyPress}
+              autoComplete="username"
+            />
+          </Field>
+          <Field>
+            <Label>{t("password")}</Label>
+            <Input
+              type="password"
+              name="password"
+              ref={passwordInput}
+              autoComplete="current-password"
+            />
+          </Field>
           {error && (
             <div className="bg-red-100 p-2 text-center text-red-700">
               {error}
             </div>
           )}
-          <div>
-            <label htmlFor="username" className="text-lg font-bold">
-              {t("user")}
-            </label>
-            <input
-              className="w-full border border-gray-300 p-2"
-              type="text"
-              id="username"
-              autoComplete="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              onKeyDown={handleKeyPress}
-              placeholder={t("user")}
-            />
+          <Button type="submit" className="w-full">
+            {t("Login")}
+          </Button>
+          <div className="flex items-center justify-between">
+            <Text color="white">
+              <TextLink href="#">
+                <Strong> {t("forgot_password")}</Strong>
+              </TextLink>
+            </Text>
           </div>
-          <div>
-            <label htmlFor="password" className="text-lg font-bold">
-              {t("password")}
-            </label>
-            <input
-              className="w-full border border-gray-300 p-2"
-              type="password"
-              ref={passwordInput}
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder={t("password")}
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-black py-2 text-white hover:bg-gray-600"
-          >
-            Login
-          </button>
         </form>
-      </div>
-    </div>
+      </AuthLayout>
+    </>
   );
 }
