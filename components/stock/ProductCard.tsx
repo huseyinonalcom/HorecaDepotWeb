@@ -10,11 +10,25 @@ import { LuClipboard } from "react-icons/lu";
 import ImageWithURL from "../common/image";
 import PDFBarcode from "../pdf/barcodepdf";
 import { useState } from "react";
+import { Button } from "../styled/button";
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 
 export default function ProductCard({ product }: { product: any }) {
   const { t, lang } = useTranslation("common");
   const [lightBoxIndex, setLightBoxIndex] = useState(undefined);
   const [barcodePng, setBarcodePng] = useState("");
+
+  const addToCart = (productId: string) => {
+    const cart = JSON.parse(localStorage.getItem("stock-cart") ?? "[]");
+    if (cart.includes(productId)) {
+      const index = cart.indexOf(productId);
+      cart[index].amount++;
+    } else {
+      cart.push({ ...product, amount: 1 });
+    }
+    localStorage.setItem("stock-cart", JSON.stringify(cart));
+  };
+
   return (
     <div
       key={product.id}
@@ -23,7 +37,7 @@ export default function ProductCard({ product }: { product: any }) {
       <div className="flex max-w-full flex-1 flex-col overflow-hidden">
         <div
           id="images"
-          className="h-34 no-scrollbar flex w-full flex-row flex-nowrap items-center gap-2 overflow-x-auto"
+          className="no-scrollbar flex h-34 w-full flex-row flex-nowrap items-center gap-2 overflow-x-auto"
         >
           {product.images?.map((image) => (
             <button
@@ -83,7 +97,7 @@ export default function ProductCard({ product }: { product: any }) {
           {product.reservations.reduce((acc, res) => acc + res.amount, 0)}
         </p>
       </div>
-      <div className="flex w-full flex-shrink-0 flex-col items-start lg:w-[234px] lg:items-end">
+      <div className="flex w-full flex-shrink-0 flex-col items-start lg:w-[314px] lg:items-end">
         <BarcodeToPng
           value={product.supplierCode}
           onGenerated={setBarcodePng}
@@ -116,10 +130,18 @@ export default function ProductCard({ product }: { product: any }) {
               png={barcodePng}
             />
           }
-          className={`${componentThemes.outlinedButton} flex flex-row items-center justify-center whitespace-nowrap text-xl`}
+          className={`${componentThemes.outlinedButton} flex flex-row items-center justify-center gap-1 text-xl whitespace-nowrap`}
         >
-          📄 <p className="ml-1">EAN PDF</p>
+          📄 <p>EAN PDF</p>
         </PDFDownloadLink>
+        <button
+          type="button"
+          onClick={() => addToCart(product.id)}
+          className={`${componentThemes.outlinedButton} flex flex-row items-center justify-center gap-1 text-xl whitespace-nowrap`}
+        >
+          <ShoppingCartIcon height={24} />
+          {t("Add to cart")}
+        </button>
       </div>
       {lightBoxIndex != undefined && (
         <Lightbox
