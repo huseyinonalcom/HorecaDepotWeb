@@ -431,5 +431,9 @@
   "reset-email-sent": "Eine E-Mail mit Anweisungen wird an Ihre E-Mail-Adresse gesendet.",
   "try-again": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
   "cancel": "Abbrechen",
-  "send": "Senden"
+  "send": "Senden",
+  "close": "Schließen",
+  "clear-cart-confirm": "Möchten Sie den Warenkorb wirklich leeren?",
+  "clear-cart": "Warenkorb leeren",
+  "reserve": "Artikel reservieren"
 }

@@ -431,5 +431,9 @@
   "reset-email-sent": "An email with instructions will be sent to your email address.",
   "try-again": "An unexpected error occured. Please try again.",
   "cancel": "Cancel",
-  "send": "Send"
+  "send": "Send",
+  "close": "Close",
+  "clear-cart-confirm": "Are you sure you want to empty the cart?",
+  "clear-cart": "Empty Cart",
+  "reserve": "Reserve Items"
 }

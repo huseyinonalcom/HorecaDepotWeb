@@ -431,5 +431,9 @@
   "reset-email-sent": "Un e-mail contenant des instructions sera envoyé à votre adresse e-mail.",
   "try-again": "Une erreur inattendue s'est produite. Veuillez réessayer.",
   "cancel": "Annuler",
-  "send": "Envoyer"
+  "send": "Envoyer",
+  "close": "Fermer",
+  "clear-cart-confirm": "Êtes-vous sûr de vouloir vider le panier ?",
+  "clear-cart": "Vider le panier",
+  "reserve": "Réserver les articles"
 }

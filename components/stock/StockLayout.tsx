@@ -1,10 +1,19 @@
 import useTranslation from "next-translate/useTranslation";
 import LocaleSwitcher from "../LocaleSwitcher";
+import { FiLogOut, FiX } from "react-icons/fi";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router"; 
+import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
-import { FiLogOut, FiX } from "react-icons/fi";
+import {
+  Dialog,
+  DialogActions,
+  DialogBody,
+  DialogTitle,
+} from "../styled/dialog";
+import { Button } from "../styled/button";
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { PiBarcodeLight } from "react-icons/pi";
 
 type Props = {
   children: React.ReactNode;
@@ -25,8 +34,14 @@ export default function StockLayout({ children }: Props) {
     }
   };
 
+  const getCart = async () => {
+    const cart = localStorage.getItem("stock-cart");
+    setCart(cart ? JSON.parse(cart) : []);
+  };
+
   useEffect(() => {
     validateSession();
+    getCart();
   }, []);
 
   useEffect(() => {
@@ -38,6 +53,14 @@ export default function StockLayout({ children }: Props) {
     };
     fetchCategories();
   }, []);
+
+  const clearCart = () => {
+    localStorage.removeItem("stock-cart");
+    setCart([]);
+  };
+
+  const [cart, setCart] = useState<any[]>([]);
+  const [showCart, setShowCart] = useState(false);
 
   return (
     <main>
@@ -73,10 +96,18 @@ export default function StockLayout({ children }: Props) {
             <Link
               onClick={() => setShowMenu(false)}
               href={`/stock/scanner`}
-              className="w-full rounded-md border-2 border-gray-400 bg-yellow-200 px-1 py-1 shadow-md"
+              className="flex w-full flex-row items-center gap-2 rounded-md border-2 border-gray-400 bg-yellow-200 px-1 py-1 shadow-md"
             >
-              Scanner
+              <PiBarcodeLight size={24} /> Scanner
             </Link>
+            <button
+              onClick={() => setShowCart(true)}
+              type="button"
+              className="flex w-full cursor-pointer flex-row items-center gap-2 rounded-md border-2 border-gray-400 bg-yellow-200 px-1 py-1 shadow-md"
+            >
+              <ShoppingCartIcon height={24} />
+              {t("Cart")}
+            </button>
             <h2 className="mr-auto text-xl font-semibold text-white">
               {t("Categories")}
             </h2>
@@ -84,7 +115,7 @@ export default function StockLayout({ children }: Props) {
               <Link
                 onClick={() => setShowMenu(false)}
                 href={`/stock/list/all?page=1`}
-                className={`h-full w-full whitespace-nowrap rounded-md border-2 border-gray-400 ${router.query.category == "all" ? "bg-blue-200" : "bg-white"} p-1 shadow-sm hover:bg-blue-200`}
+                className={`h-full w-full rounded-md border-2 border-gray-400 whitespace-nowrap ${router.query.category == "all" ? "bg-blue-200" : "bg-white"} p-1 shadow-sm hover:bg-blue-200`}
               >
                 {t("All")}
               </Link>
@@ -95,7 +126,7 @@ export default function StockLayout({ children }: Props) {
                     onClick={() => setShowMenu(false)}
                     key={category.id}
                     href={`/stock/list/${category.id}?page=1`}
-                    className={`h-full w-full whitespace-nowrap rounded-md border-2 border-gray-400 ${router.query.category == category.id ? "bg-blue-200" : "bg-white"} p-1 shadow-sm hover:bg-blue-200`}
+                    className={`h-full w-full rounded-md border-2 border-gray-400 whitespace-nowrap ${router.query.category == category.id ? "bg-blue-200" : "bg-white"} p-1 shadow-sm hover:bg-blue-200`}
                   >
                     {category.localized_name[lang]}
                   </Link>
@@ -104,7 +135,7 @@ export default function StockLayout({ children }: Props) {
             <button
               name="logout"
               aria-label="Logout"
-              className={`mt-12 flex w-full flex-row gap-3 whitespace-nowrap rounded-md border-2 border-gray-400 p-1 text-white shadow-sm hover:bg-blue-800`}
+              className={`mt-12 flex w-full flex-row items-center gap-3 rounded-md border-2 border-gray-400 p-1 whitespace-nowrap text-white shadow-sm hover:bg-blue-800`}
               onClick={async () => {
                 await fetch("/api/admin/logout").then(() => {
                   router.push(`/`);
@@ -119,7 +150,7 @@ export default function StockLayout({ children }: Props) {
         <div
           className={`flex w-full flex-col lg:max-w-[calc(100dvw-290px)] ${!showMenu ? "" : "hidden lg:flex"}`}
         >
-          <div className="sticky left-0 top-0 flex w-full items-center justify-between bg-black px-2 py-2 text-white lg:hidden">
+          <div className="sticky top-0 left-0 flex w-full items-center justify-between bg-black px-2 py-2 text-white lg:hidden">
             <Image
               width={200}
               height={42.19}
@@ -156,6 +187,33 @@ export default function StockLayout({ children }: Props) {
           {children}
         </div>
       </div>
+      <Dialog open={showCart} onClose={setShowCart} size="xl">
+        <DialogTitle>{t("Cart")}</DialogTitle>
+        <DialogBody className="text-sm/6 text-zinc-900 dark:text-white">
+          {cart.map((item) => (
+            <p>{item.product.name}</p>
+          ))}
+        </DialogBody>
+        <DialogActions>
+          <Button plain type="button" onClick={() => setShowCart(false)}>
+            {t("close")}
+          </Button>
+          <Button
+            plain
+            type="button"
+            onClick={() => {
+              confirm(t("clear-cart-confirm")) ? clearCart() : null;
+            }}
+          >
+            {t("clear-cart")}
+          </Button>
+          <Link href="/stock/reserve">
+            <Button plain type="button">
+              {t("reserve")}
+            </Button>
+          </Link>
+        </DialogActions>
+      </Dialog>
     </main>
   );
 }

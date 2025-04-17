@@ -76,3 +76,7 @@ a {
 html {
   overflow-y: scroll;
 }
+
+button {
+  cursor: pointer;
+}
