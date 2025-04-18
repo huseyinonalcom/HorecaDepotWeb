@@ -1,5 +1,6 @@
 import { calculateProductStock, getProducts } from "../api/calls/productCalls";
 import { getCoverImageUrl } from "../api/utils/getprodcoverimage";
+import { sanitizeXml } from "../api/utils/sanitizexml";
 
 function generateFeed(products) {
   return `<?xml version="1.0"?>
@@ -13,13 +14,13 @@ ${products
   .map((prd) => {
     return `
 <item>
-<g:id>${prd.internalCode}</g:id>
-<g:title>${prd.categories.at(0).localized_name.fr + " " + prd.name}</g:title>
-<g:description>${prd.name + " " + (prd.localized_description?.fr ?? prd.categories.map((c) => c.localized_name.fr).join(", "))}</g:description>
-<g:link>https://www.horecadepot.be/products/${prd.categories.at(0).localized_name.fr}/${prd.name}/${prd.id}</g:link> <g:image_link>https://hdcdn.hocecomv1.com${getCoverImageUrl(prd)}</g:image_link> <g:condition>new</g:condition>
+<g:id>${sanitizeXml(prd.internalCode)}</g:id>
+<g:title>${sanitizeXml(prd.categories.at(0).localized_name.fr + " " + prd.name)}</g:title>
+<g:description>${sanitizeXml(prd.name) + " " + sanitizeXml(prd.localized_description?.fr ?? prd.categories.map((c) => c.localized_name.fr).join(", "))}</g:description>
+<g:link>https://www.horecadepot.be/products/${sanitizeXml(prd.categories.at(0).localized_name.fr)}/${sanitizeXml(prd.name)}/${prd.id}</g:link> <g:image_link>https://hdcdn.hocecomv1.com${getCoverImageUrl(prd)}</g:image_link> <g:condition>new</g:condition>
 <g:availability>in_stock</g:availability>
 <g:price>${prd.value} EUR</g:price>
-<g:gtin>${prd.supplierCode}</g:gtin>
+<g:gtin>${sanitizeXml(prd.supplierCode)}</g:gtin>
 <g:quantity>${calculateProductStock(prd)}</g:quantity>
 
 <g:shipping>

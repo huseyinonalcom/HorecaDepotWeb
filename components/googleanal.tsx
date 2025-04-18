@@ -76,10 +76,7 @@ export function CookieBanner() {
   }, [cookieConsent]);
   return (
     <div
-      className={`${cookieConsent != null ? "hidden" : "flex"} fixed bottom-0 left-0 right-0
-                        mx-auto my-10 flex max-w-max 
-                        flex-col items-center justify-between gap-4 rounded-lg bg-gray-700 px-3 py-3 text-white shadow  
-                         sm:flex-row md:max-w-screen-sm md:px-4`}
+      className={`${cookieConsent != null ? "hidden" : "flex"} fixed right-0 bottom-0 left-0 mx-auto my-10 flex max-w-max flex-col items-center justify-between gap-4 rounded-lg bg-gray-700 px-3 py-3 text-white shadow sm:flex-row md:max-w-screen-sm md:px-4`}
     >
       <div className="text-center">
         <p className="text-sm">{t("cookie_disclaimer")}</p>
