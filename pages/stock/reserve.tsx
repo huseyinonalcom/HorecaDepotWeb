@@ -1,3 +1,4 @@
+import { calculateCartTotals } from "../../api/utils/calculations/document";
 import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
 import StockLayout from "../../components/stock/StockLayout";
@@ -39,6 +40,8 @@ export default function Reserve() {
   useEffect(() => {
     getCart();
   }, []);
+
+  const totals = calculateCartTotals({ cart });
 
   return (
     <div>
@@ -122,24 +125,25 @@ export default function Reserve() {
             </ul>
 
             <dl className="space-y-6 border-t border-white/10 pt-6 text-sm font-medium">
-              <div className="flex items-center justify-between">
-                <dt>Subtotal</dt>
-                <dd>$570.00</dd>
+              {/*    <div className="flex items-center justify-between">
+                <dt>{t("shipping")}</dt>
+                <dd>{formatCurrency(shippingCost)}</dd>
               </div>
+            */}
 
-              <div className="flex items-center justify-between">
-                <dt>Shipping</dt>
-                <dd>$25.00</dd>
+              <div className="flex items-center justify-between border-t border-white/10 pt-6">
+                <dt className="text-base">{t("Total")}</dt>
+                <dd className="text-base">
+                  {formatCurrency(totals.totalAfterDiscount / 1.21 + 0)}
+                </dd>
               </div>
-
-              <div className="flex items-center justify-between">
-                <dt>Taxes</dt>
-                <dd>$47.60</dd>
-              </div>
-
-              <div className="flex items-center justify-between border-t border-white/10 pt-6 text-white">
-                <dt className="text-base">Total</dt>
-                <dd className="text-base">$642.60</dd>
+              <div className="flex items-center justify-between border-t border-white/10 pt-6">
+                <dt className="text-base">
+                  {t("Total")} {t("vat-incl")}
+                </dt>
+                <dd className="text-base">
+                  {formatCurrency(totals.totalAfterDiscount + 0)}
+                </dd>
               </div>
             </dl>
           </div>
