@@ -65,7 +65,7 @@ export const StockCart = ({
       <DialogTitle>{t("Cart")}</DialogTitle>
       <DialogBody className="text-sm/6 text-zinc-900 dark:text-white">
         {cart.map((product) => (
-          <div key={product.id} className="my-1 mb-2 border-b pb-2">
+          <div key={product.id} className="my-1 mb-2 w-full border-b pb-2">
             <div className="flex flex-row items-center">
               <ImageWithURL
                 src={
@@ -156,7 +156,11 @@ export const StockCart = ({
         >
           {t("clear-cart")}
         </Button>
-        <Link className="w-full text-center" href="/stock/reserve">
+        <Link
+          className="w-full text-center"
+          onClick={onClose}
+          href="/stock/reserve"
+        >
           <Button plain type="button">
             {t("reserve")}
           </Button>

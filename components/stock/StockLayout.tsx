@@ -1,23 +1,13 @@
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import useTranslation from "next-translate/useTranslation";
+import { PiBarcodeLight } from "react-icons/pi";
 import LocaleSwitcher from "../LocaleSwitcher";
-import { FiLogOut, FiMinus, FiPlus, FiX } from "react-icons/fi";
+import { FiLogOut, FiX } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { StockCart } from "./Cart";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Dialog,
-  DialogActions,
-  DialogBody,
-  DialogTitle,
-} from "../styled/dialog";
-import { Button } from "../styled/button";
-import { ShoppingCartIcon } from "@heroicons/react/24/outline";
-import { PiBarcodeLight } from "react-icons/pi";
-import { AutoTextSize } from "auto-text-size";
-import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
-import ImageWithURL from "../common/image";
-import { StockCart } from "./Cart";
 
 type Props = {
   children: React.ReactNode;
@@ -38,11 +28,6 @@ export default function StockLayout({ children }: Props) {
     }
   };
 
-  const getCart = async () => {
-    const cart = localStorage.getItem("stock-cart");
-    setCart(cart ? JSON.parse(cart) : []);
-  };
-
   useEffect(() => {
     validateSession();
   }, []);
@@ -57,19 +42,7 @@ export default function StockLayout({ children }: Props) {
     fetchCategories();
   }, []);
 
-  const clearCart = () => {
-    localStorage.removeItem("stock-cart");
-    setCart([]);
-  };
-
-  const [cart, setCart] = useState<any[]>([]);
   const [showCart, setShowCart] = useState(false);
-
-  useEffect(() => {
-    if (showCart) {
-      getCart();
-    }
-  }, [showCart]);
 
   return (
     <main>
