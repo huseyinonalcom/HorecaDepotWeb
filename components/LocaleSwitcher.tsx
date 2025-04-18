@@ -2,6 +2,7 @@ import useTranslation from "next-translate/useTranslation";
 import setLanguage from "next-translate/setLanguage";
 import { useState, useCallback } from "react";
 import Image from "next/image";
+import { Dialog, DialogBody } from "./styled/dialog";
 
 const languages: { code: string; label: string }[] = [
   {
@@ -44,11 +45,8 @@ export default function LocaleSwitcher() {
         />
       </button>
 
-      {showSwitcher && (
-        <div
-          onClick={() => setShowSwitcher(false)}
-          className="fixed inset-0 z-[999] flex flex-col items-center justify-center gap-2 bg-black duration-300"
-        >
+      <Dialog open={showSwitcher} onClose={setShowSwitcher} size="xs">
+        <DialogBody className="flex flex-col items-center gap-4 text-sm/6 text-zinc-900">
           {languages.map(({ code, label }) =>
             lang !== code ? (
               <button
@@ -67,8 +65,8 @@ export default function LocaleSwitcher() {
               </button>
             ) : null,
           )}
-        </div>
-      )}
+        </DialogBody>
+      </Dialog>
     </div>
   );
 }

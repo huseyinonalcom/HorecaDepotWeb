@@ -63,7 +63,7 @@ export const StockCart = ({
   return (
     <Dialog open={showCart} onClose={onClose} size="xl">
       <DialogTitle>{t("Cart")}</DialogTitle>
-      <DialogBody className="text-sm/6 text-zinc-900 dark:text-white">
+      <DialogBody className="text-sm/6 text-zinc-900 ">
         {cart.map((product) => (
           <div key={product.id} className="my-1 mb-2 w-full border-b pb-2">
             <div className="flex flex-row items-center">
