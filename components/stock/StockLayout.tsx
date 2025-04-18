@@ -84,14 +84,14 @@ export default function StockLayout({ children }: Props) {
             <Link
               onClick={() => setShowMenu(false)}
               href={`/stock/scanner`}
-              className="flex w-full flex-row items-center gap-2 rounded-md border-2 border-gray-400 bg-yellow-200 px-1 py-1 shadow-md"
+              className="flex w-full flex-row items-center gap-2 rounded-md border-2 border-gray-400 bg-white px-1 py-1 shadow-md hover:bg-blue-200"
             >
               <PiBarcodeLight size={24} /> Scanner
             </Link>
             <button
               onClick={() => setShowCart(true)}
               type="button"
-              className="flex w-full cursor-pointer flex-row items-center gap-2 rounded-md border-2 border-gray-400 bg-yellow-200 px-1 py-1 shadow-md"
+              className="flex w-full cursor-pointer flex-row items-center gap-2 rounded-md border-2 border-gray-400 bg-white px-1 py-1 shadow-md hover:bg-blue-200"
             >
               <ShoppingCartIcon height={24} />
               {t("Cart")}
