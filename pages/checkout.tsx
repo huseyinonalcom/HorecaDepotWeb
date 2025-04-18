@@ -1,8 +1,8 @@
 import { formatCurrency } from "../api/utils/formatters/formatcurrency";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { ClientUser, ClientConversion } from "../api/interfaces/client";
 import { getCoverImageUrl } from "../api/utils/getprodcoverimage";
 import { ClientContext } from "../api/providers/clientProvider";
+import { ClientConversion } from "../api/interfaces/client";
 import { CartContext } from "../api/providers/cartProvider";
 import useTranslation from "next-translate/useTranslation";
 import ButtonShadow1 from "../components/buttons/shadow_1";
@@ -16,12 +16,12 @@ import { countries } from "../api/utils/countries";
 import Layout from "../components/public/layout";
 import { AutoTextSize } from "auto-text-size";
 import debounce from "../api/utils/debounce";
-import { useRouter } from "next/router"; 
+import { FiLoader } from "react-icons/fi";
+import { useRouter } from "next/router";
 import Select from "react-select";
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
-import { FiLoader } from "react-icons/fi";
 
 const emptyAddress = {
   country: "",
@@ -485,7 +485,7 @@ export default function Checkout() {
         <meta name="language" content={lang} />
       </Head>
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-        <div className="order-2 mb-2 mt-1 flex w-full flex-col items-center p-3 shadow-lg sm:order-1">
+        <div className="order-2 mt-1 mb-2 flex w-full flex-col items-center p-3 shadow-lg sm:order-1">
           {!client && showLogin && (
             <div className="mx-auto">
               <button
@@ -1242,7 +1242,7 @@ export default function Checkout() {
             {cart.map((product) => (
               <div
                 key={product.id}
-                className="mb-2 flex w-full flex-col bg-white pb-3 pt-2 shadow-lg"
+                className="mb-2 flex w-full flex-col bg-white pt-2 pb-3 shadow-lg"
               >
                 <div className="flex flex-row justify-center">
                   <ImageWithURL
@@ -1265,7 +1265,7 @@ export default function Checkout() {
                   </AutoTextSize>
                 </h4>
                 <div className="mb-2 flex w-full flex-row items-end justify-center">
-                  <p className="mb-1 mr-1 text-sm text-gray-400 line-through">
+                  <p className="mr-1 mb-1 text-sm text-gray-400 line-through">
                     {product.priceBeforeDiscount > product.value
                       ? formatCurrency(
                           (product.priceBeforeDiscount * product.amount) / 1.21,
