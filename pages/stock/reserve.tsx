@@ -4,18 +4,35 @@ import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
 import StockLayout from "../../components/stock/StockLayout";
 import useTranslation from "next-translate/useTranslation";
 import ImageWithURL from "../../components/common/image";
+import { ClientUser } from "../../api/interfaces/client";
 import { Button } from "../../components/styled/button";
 import { FiMinus, FiPlus, FiX } from "react-icons/fi";
 import { useEffect, useState } from "react";
 
+const emptyAddress = {
+  country: "",
+  city: "",
+  zipCode: "",
+  doorNumber: "",
+  street: "",
+  floor: "",
+};
+
 export default function Reserve() {
   const { t } = useTranslation("common");
+
   const [cart, setCart] = useState<any[]>([]);
+
+  const totals = calculateCartTotals({ cart });
 
   const getCart = async () => {
     const cart = localStorage.getItem("stock-cart");
     setCart(cart ? JSON.parse(cart) : []);
   };
+
+  useEffect(() => {
+    getCart();
+  }, []);
 
   const removeFromCart = (productId: number) => {
     const cart = JSON.parse(localStorage.getItem("stock-cart") ?? "[]");
@@ -37,11 +54,19 @@ export default function Reserve() {
     setCart(cart);
   };
 
-  useEffect(() => {
-    getCart();
-  }, []);
-
-  const totals = calculateCartTotals({ cart });
+  const [customer, setCustomer] = useState<ClientUser>({
+    id: 0,
+    client_info: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      category: "",
+      company: "",
+      taxID: "",
+      addresses: [],
+    },
+  });
 
   return (
     <div>
@@ -154,7 +179,7 @@ export default function Reserve() {
           className="py-16 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:w-full lg:max-w-lg lg:pt-0 lg:pb-24"
         >
           <h2 id="payment-and-shipping-heading" className="sr-only">
-            Payment and shipping details
+            {t("customer-details")}
           </h2>
 
           <form>

@@ -1,8 +1,8 @@
 import useTranslation from "next-translate/useTranslation";
 import setLanguage from "next-translate/setLanguage";
+import { Dialog, DialogBody } from "./styled/dialog";
 import { useState, useCallback } from "react";
 import Image from "next/image";
-import { Dialog, DialogBody } from "./styled/dialog";
 
 const languages: { code: string; label: string }[] = [
   {

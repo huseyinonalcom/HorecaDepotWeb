@@ -1,3 +1,4 @@
+import { calculateCartTotals } from "../api/utils/calculations/document";
 import { formatCurrency } from "../api/utils/formatters/formatcurrency";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { getCoverImageUrl } from "../api/utils/getprodcoverimage";
@@ -22,7 +23,6 @@ import Select from "react-select";
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
-import { calculateCartTotals } from "../api/utils/calculations/document";
 
 const emptyAddress = {
   country: "",

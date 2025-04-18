@@ -18,6 +18,7 @@ export default function StockLayout({ children }: Props) {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
   const [showMenu, setShowMenu] = useState(false);
+  const [userType, setUserType] = useState("regular");
 
   const validateSession = async () => {
     const data = await fetch("/api/private/auth/checkloggedinuser");
@@ -25,6 +26,11 @@ export default function StockLayout({ children }: Props) {
       router.push(
         `/admin?destination=${encodeURIComponent(window.location.pathname)}`,
       );
+    } else {
+      const answer = await data.json();
+      if (answer.role == "Tier 9") {
+        setUserType("admin");
+      }
     }
   };
 
@@ -114,10 +120,18 @@ export default function StockLayout({ children }: Props) {
                   </Link>
                 ))}
             </div>
+            {userType == "admin" && (
+              <Link
+                href={"/admin"}
+                className={`mt-12 flex w-full flex-row items-center gap-3 rounded-md border-2 border-gray-400 p-1 whitespace-nowrap text-white shadow-sm hover:bg-blue-800`}
+              >
+                Admin
+              </Link>
+            )}
             <button
               name="logout"
               aria-label="Logout"
-              className={`mt-12 flex w-full flex-row items-center gap-3 rounded-md border-2 border-gray-400 p-1 whitespace-nowrap text-white shadow-sm hover:bg-blue-800`}
+              className={`mt-2 flex w-full flex-row items-center gap-3 rounded-md border-2 border-gray-400 p-1 whitespace-nowrap text-white shadow-sm hover:bg-blue-800`}
               onClick={async () => {
                 await fetch("/api/admin/logout").then(() => {
                   router.push(`/`);
