@@ -8,6 +8,12 @@ import { ClientUser } from "../../api/interfaces/client";
 import { Button } from "../../components/styled/button";
 import { FiMinus, FiPlus, FiX } from "react-icons/fi";
 import { useEffect, useState } from "react";
+import { CustomerSelector } from "../../components/selector/CustomerSelector";
+import {
+  Dialog,
+  DialogBody,
+  DialogTitle,
+} from "../../components/styled/dialog";
 
 const emptyAddress = {
   country: "",
@@ -68,6 +74,8 @@ export default function Reserve() {
     },
   });
 
+  const [showCustomerSelector, setShowCustomerSelector] = useState(false);
+
   return (
     <div>
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-x-16 lg:grid-cols-2 lg:px-8 lg:pt-16">
@@ -75,7 +83,7 @@ export default function Reserve() {
 
         <section
           aria-labelledby="summary-heading"
-          className="py-12 md:px-10 lg:col-start-2 lg:row-start-1 lg:mx-auto lg:w-full lg:max-w-lg lg:bg-transparent lg:px-0 lg:pt-0 lg:pb-24"
+          className="py-12 md:px-10 lg:col-start-2 lg:row-start-1 lg:mx-auto lg:w-full lg:max-w-lg lg:bg-transparent lg:px-0 lg:pb-24 lg:pt-0"
         >
           <div className="mx-auto max-w-2xl px-4 lg:max-w-none lg:px-0">
             <h2 id="summary-heading" className="sr-only">
@@ -176,13 +184,31 @@ export default function Reserve() {
 
         <section
           aria-labelledby="payment-and-shipping-heading"
-          className="py-16 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:w-full lg:max-w-lg lg:pt-0 lg:pb-24"
+          className="py-16 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:w-full lg:max-w-lg lg:pb-24 lg:pt-0"
         >
           <h2 id="payment-and-shipping-heading" className="sr-only">
             {t("customer-details")}
           </h2>
 
-          <form></form>
+          <form>
+            <Button onClick={() => setShowCustomerSelector(true)}>
+              {t("choose-customer")}
+            </Button>
+            <Dialog
+              size="5xl"
+              open={showCustomerSelector}
+              onClose={setShowCustomerSelector}
+            >
+              <DialogTitle>{t("choose-customer")}</DialogTitle>
+              <DialogBody>
+                <CustomerSelector
+                  onCustomerSelected={(customer) => {
+                    console.log(customer);
+                  }}
+                />
+              </DialogBody>
+            </Dialog>
+          </form>
         </section>
       </div>
     </div>

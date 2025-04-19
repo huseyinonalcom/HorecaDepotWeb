@@ -1,34 +1,34 @@
 import { getAllCategoriesFlattened } from "./api/categories/public/getallcategoriesflattened";
+import { FiPlusSquare, FiX, FiCheck, FiChevronLeft } from "react-icons/fi";
 import CollectionShowcase from "../components/public/collection-showcase";
 import { getCollections } from "./api/collections/public/getcollections";
+import TextareaOutlined from "../components/inputs/textarea_outlined";
 import { CategoryBanner } from "../components/banners/CategoryBanner";
+import { PromoBanner } from "../components/banners/PromoBanner";
+import { getHomePage } from "./api/website/public/gethomepage";
+import { getBanners } from "./api/website/public/getbanners";
 import useTranslation from "next-translate/useTranslation";
+import InputOutlined from "../components/inputs/outlined";
+import { uploadFileToAPI } from "./api/files/uploadfile";
 import ImageWithURL from "../components/common/image";
 import { Category } from "../api/interfaces/category";
 import Layout from "../components/public/layout";
 import Meta from "../components/public/meta";
-import { ReactElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { PiPencil } from "react-icons/pi";
 import Head from "next/head";
 import Link from "next/link";
-import { getHomePage } from "./api/website/public/gethomepage";
-import { PromoBanner } from "../components/banners/PromoBanner";
-import { getBanners } from "./api/website/public/getbanners";
-import InputOutlined from "../components/inputs/outlined";
-import { uploadFileToAPI } from "./api/files/uploadfile";
-import TextareaOutlined from "../components/inputs/textarea_outlined";
-import { PiPencil } from "react-icons/pi";
 import {
-  closestCenter,
-  DndContext,
-  PointerSensor,
-  useSensor,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
   horizontalListSortingStrategy,
   SortableContext,
+  arrayMove,
 } from "@dnd-kit/sortable";
-import { FiPlusSquare, FiX, FiCheck, FiChevronLeft } from "react-icons/fi";
+import {
+  closestCenter,
+  PointerSensor,
+  DndContext,
+  useSensor,
+} from "@dnd-kit/core";
 
 export default function Index({
   homePage,
@@ -664,7 +664,6 @@ export default function Index({
             />
           </Link>
         )}
-
 
         <div className="flex w-full flex-col items-center">
           {collections.length > 1 && (

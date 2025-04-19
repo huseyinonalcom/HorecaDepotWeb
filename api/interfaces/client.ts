@@ -16,6 +16,7 @@ export interface Client {
   taxID?: string;
   addresses?: Address[];
   email?: string;
+  login?: User;
 }
 
 export class ClientConversion {

@@ -3,8 +3,8 @@ import { useSortable } from "@dnd-kit/sortable";
 import ImageWithURL from "../common/image";
 import { CSS } from "@dnd-kit/utilities";
 import { CSSProperties } from "react";
-import Link from "next/link";
 import { FiX } from "react-icons/fi";
+import Link from "next/link";
 
 export const PromoBanner = ({
   homePage,
