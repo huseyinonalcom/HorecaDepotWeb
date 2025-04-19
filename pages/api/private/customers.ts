@@ -143,8 +143,6 @@ export default async function handler(
         break;
     }
 
-    console.log(JSON.stringify(response));
-
     if (!response) {
       return res.status(500).json(statusText[500]);
     }
