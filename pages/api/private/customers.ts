@@ -29,16 +29,16 @@ export const getCustomers = async ({
     }
     return response;
   } else {
-    const pageString = "&pagination[page]=" + (page ?? 1);
+    const pageString = "&pagination[pageSize]=30&pagination[page]=" + (page ?? 1);
     let searchString = "";
 
     if (search) {
-      searchString = `&pagination[pageSize]=30&sort=firstName&filters[$or][0][firstName][$containsi]=${search}&filters[$or][1][lastName][$containsi]=${search}&filters[$or][2][email][$containsi]=${search}`;
+      searchString = `&filters[$or][0][firstName][$containsi]=${search}&filters[$or][1][lastName][$containsi]=${search}&filters[$or][2][login][email][$containsi]=${search}`;
     }
 
     const request = await fetch(
       fetchUrl +
-        "?filters[deleted][$eq]=false&" +
+        "?filters[deleted][$eq]=false&sort=firstName&" +
         fetchParams +
         pageString +
         searchString,
@@ -142,6 +142,8 @@ export default async function handler(
         });
         break;
     }
+
+    console.log(response);
 
     if (!response) {
       return res.status(500).json(statusText[500]);

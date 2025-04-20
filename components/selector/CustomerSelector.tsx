@@ -9,6 +9,7 @@ import {
   PaginationPage,
   PaginationPrevious,
 } from "../styled/pagination";
+import { Input } from "../styled/input";
 
 const fetchCustomers = async ({
   search,
@@ -42,6 +43,7 @@ export const CustomerSelector = ({
       search: filter.search,
       page: filter.page,
     }).then((ans) => {
+      console.log(ans);
       setCustomers(ans.data);
       setFilter((currFilter) => ({
         ...currFilter,
@@ -51,9 +53,13 @@ export const CustomerSelector = ({
   }, [filter.page, filter.search]);
 
   return (
-    <div className="flex w-full flex-col items-center gap-2">
+    <div className="flex w-full flex-col items-start gap-2">
       <h3 className="text-lg font-semibold">{t("customers")}</h3>
-      <div className="mt-8 flow-root px-[1px] w-full">
+      <Input
+        label={t("search")}
+        onChange={(e) => setFilter({ ...filter, search: e.target.value })}
+      />
+      <div className="mt-8 flow-root w-full px-[1px]">
         <div className="no-scrollbar -mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
             <div className="overflow-hidden shadow-sm ring-1 ring-black/5 sm:rounded-lg sm:rounded-b-none">
@@ -62,7 +68,7 @@ export const CustomerSelector = ({
                   <tr>
                     <th
                       scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                      className="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                     >
                       {t("name")}
                     </th>
@@ -74,7 +80,7 @@ export const CustomerSelector = ({
                     </th>
                     <th
                       scope="col"
-                      className="relative py-3.5 pl-3 pr-4 sm:pr-6"
+                      className="relative py-3.5 pr-4 pl-3 sm:pr-6"
                     >
                       <span className="sr-only">{t("select")}</span>
                     </th>
@@ -83,13 +89,13 @@ export const CustomerSelector = ({
                 <tbody className="divide-y divide-gray-200 bg-white">
                   {customers.map((customer) => (
                     <tr key={customer.login?.role?.name + "-" + customer.id}>
-                      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                      <td className="py-4 pr-3 pl-4 text-sm whitespace-nowrap sm:pl-6">
                         {customer.firstName} {customer.lastName}
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
                         {customer.email ?? customer.login?.email}
                       </td>
-                      <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                      <td className="relative py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
                         <Button
                           type="button"
                           onClick={() => onCustomerSelected(customer)}
@@ -105,7 +111,7 @@ export const CustomerSelector = ({
           </div>
         </div>
       </div>
-      <Pagination className="border-1 sticky bottom-0 -mt-1 flex w-full rounded-lg rounded-t-none border-zinc-950/10 bg-white p-4">
+      <Pagination className="sticky bottom-0 -mt-1 flex w-full rounded-lg rounded-t-none border-1 border-zinc-950/10 bg-white p-4">
         <PaginationPrevious
           onClick={
             filter.page > 1

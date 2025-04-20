@@ -1,3 +1,4 @@
+import { CustomerSelector } from "../../components/selector/CustomerSelector";
 import { calculateCartTotals } from "../../api/utils/calculations/document";
 import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
@@ -8,7 +9,6 @@ import { ClientUser } from "../../api/interfaces/client";
 import { Button } from "../../components/styled/button";
 import { FiMinus, FiPlus, FiX } from "react-icons/fi";
 import { useEffect, useState } from "react";
-import { CustomerSelector } from "../../components/selector/CustomerSelector";
 import {
   Dialog,
   DialogBody,
@@ -76,14 +76,18 @@ export default function Reserve() {
 
   const [showCustomerSelector, setShowCustomerSelector] = useState(false);
 
+  const submitReservation = async (e) => {
+    e.preventDefault();
+  };
+
   return (
     <div>
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-x-16 lg:grid-cols-2 lg:px-8 lg:pt-16">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-x-16 lg:grid-cols-2 lg:px-4 lg:pt-16">
         <h1 className="sr-only">{t("create-reservation")}</h1>
 
         <section
           aria-labelledby="summary-heading"
-          className="py-12 md:px-10 lg:col-start-2 lg:row-start-1 lg:mx-auto lg:w-full lg:max-w-lg lg:bg-transparent lg:px-0 lg:pb-24 lg:pt-0"
+          className="bg-white p-4 md:p-12 lg:col-start-2 lg:row-start-1 lg:mx-auto lg:w-full lg:max-w-lg lg:rounded-lg"
         >
           <div className="mx-auto max-w-2xl px-4 lg:max-w-none lg:px-0">
             <h2 id="summary-heading" className="sr-only">
@@ -184,15 +188,15 @@ export default function Reserve() {
 
         <section
           aria-labelledby="payment-and-shipping-heading"
-          className="py-16 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:w-full lg:max-w-lg lg:pb-24 lg:pt-0"
+          className="py-16 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:w-full lg:max-w-lg lg:pt-0 lg:pb-24"
         >
           <h2 id="payment-and-shipping-heading" className="sr-only">
             {t("customer-details")}
           </h2>
 
-          <form>
-            <Button onClick={() => setShowCustomerSelector(true)}>
-              {t("choose-customer")}
+          <form onSubmit={submitReservation}>
+            <Button type="button" onClick={() => setShowCustomerSelector(true)}>
+              {t("existing-customer")}
             </Button>
             <Dialog
               size="5xl"
@@ -203,7 +207,7 @@ export default function Reserve() {
               <DialogBody>
                 <CustomerSelector
                   onCustomerSelected={(customer) => {
-                    console.log(customer);
+                    setCustomer(customer);
                   }}
                 />
               </DialogBody>
