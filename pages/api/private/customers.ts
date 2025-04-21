@@ -67,21 +67,24 @@ export const createCustomer = async ({
   authToken: string;
   customer: ClientUser;
 }) => {
-  const request = await fetch(fetchUrl + "?" + fetchParams, {
+  console.log(customer);
+
+  /*  const request = await fetch(fetchUrl + "?" + fetchParams, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${authToken}`,
     },
     body: JSON.stringify(customer),
-  });
+  }); */
 
-  if (!request.ok) {
+  /*   if (!request.ok) {
     console.error(await request.text());
     return null;
   } else {
     return await request.json();
-  }
+  } */
+  return "test";
 };
 
 export const updateCustomer = async ({
