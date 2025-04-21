@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Head from "next/head";
 
-export default function ReservationStock() {
+export default function ReservationAdmin() {
   const { t, lang } = useTranslation("common");
 
   return (
@@ -20,6 +20,6 @@ export default function ReservationStock() {
   );
 }
 
-ReservationStock.getLayout = function getLayout(page: React.ReactNode) {
+ReservationAdmin.getLayout = function getLayout(page: React.ReactNode) {
   return <StockLayout>{page}</StockLayout>;
 };
