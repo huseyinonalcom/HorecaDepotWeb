@@ -53,7 +53,7 @@ export default function StockLayout({ children }: Props) {
   return (
     <main>
       <div className="flex flex-row">
-        <div
+        <header
           className={`sticky top-0 max-h-[100dvh] w-full flex-shrink-0 flex-col items-center gap-2 border-gray-300 bg-black shadow-sm lg:w-[270px] ${showMenu ? "flex" : "hidden lg:flex"} lg:border-r-0`}
         >
           <div className="flex w-full flex-row items-center justify-between px-2 py-2 text-white">
@@ -149,11 +149,11 @@ export default function StockLayout({ children }: Props) {
               {t("Logout")}
             </button>
           </div>
-        </div>
-        <div
+        </header>
+        <main
           className={`flex w-full flex-col lg:max-w-[calc(100dvw-290px)] ${!showMenu ? "" : "hidden lg:flex"}`}
         >
-          <div className="sticky top-0 left-0 flex w-full items-center justify-between bg-black px-2 py-2 text-white lg:hidden">
+          <div className="sticky top-0 left-0 z-99 mb-12 flex w-full items-center justify-between bg-black px-2 py-2 text-white lg:hidden">
             <Image
               width={200}
               height={42.19}
@@ -188,7 +188,7 @@ export default function StockLayout({ children }: Props) {
             </button>
           </div>
           {children}
-        </div>
+        </main>
       </div>
       <StockCart showCart={showCart} onClose={() => setShowCart(false)} />
     </main>

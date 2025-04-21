@@ -1,33 +1,31 @@
+import { Radio, RadioField, RadioGroup } from "../../components/styled/radio";
 import { CustomerSelector } from "../../components/selector/CustomerSelector";
 import { calculateCartTotals } from "../../api/utils/calculations/document";
 import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
+import { Switch, SwitchField } from "../../components/styled/switch";
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
 import StockLayout from "../../components/stock/StockLayout";
 import useTranslation from "next-translate/useTranslation";
+import StyledForm from "../../components/form/StyledForm";
 import ImageWithURL from "../../components/common/image";
 import { ClientUser } from "../../api/interfaces/client";
+import { Select } from "../../components/styled/select";
 import { Button } from "../../components/styled/button";
 import { FiMinus, FiPlus, FiX } from "react-icons/fi";
-import { useEffect, useState } from "react";
-import {
-  Dialog,
-  DialogBody,
-  DialogTitle,
-} from "../../components/styled/dialog";
 import { Input } from "../../components/styled/input";
 import { countries } from "../../api/utils/countries";
-import { Select } from "../../components/styled/select";
-import { Radio, RadioField, RadioGroup } from "../../components/styled/radio";
+import { useEffect, useState } from "react";
 import {
-  Description,
   Field,
   Fieldset,
   Label,
   Legend,
 } from "../../components/styled/fieldset";
-import { Text } from "../../components/styled/text";
-import StyledForm from "../../components/form/StyledForm";
-import { Switch, SwitchField } from "../../components/styled/switch";
+import {
+  Dialog,
+  DialogBody,
+  DialogTitle,
+} from "../../components/styled/dialog";
 
 const emptyAddress = {
   country: "",
@@ -94,12 +92,14 @@ export default function Reserve() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
-
-    console.log(data);
+    const body = {
+      customer: data,
+      documentProducts: cart,
+    };
     const request = await fetch("/api/private/documents", {
       method: "POST",
       body: JSON.stringify(data),
-    }); 
+    });
   };
 
   const [customerType, setCustomerType] = useState("individual");
@@ -107,12 +107,12 @@ export default function Reserve() {
 
   return (
     <div>
-      <div className="ww-full mx-auto grid grid-cols-1 gap-x-16 lg:grid-cols-2 lg:px-4 lg:pt-16">
+      <div className="ww-full mx-auto grid grid-cols-1 gap-x-16 lg:grid-cols-2 lg:px-4 lg:py-16">
         <h1 className="sr-only">{t("create-reservation")}</h1>
 
         <section
           aria-labelledby="summary-heading"
-          className="w-full bg-white p-4 md:p-12 lg:col-start-2 lg:row-start-1 lg:rounded-lg"
+          className="w-full bg-white p-4 shadow-sm md:p-12 lg:col-start-2 lg:row-start-1 lg:rounded-lg"
         >
           <h2 id="summary-heading" className="sr-only">
             {t("reservation-summary")}
