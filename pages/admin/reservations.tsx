@@ -12,8 +12,9 @@ import {
   PaginationPage,
   PaginationPrevious,
 } from "../../components/styled/pagination";
+import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
 
-export default function Reservations() {
+export default function ReservationsAdmin() {
   const { t, lang } = useTranslation("common");
   const [allReservations, setAllReservations] = useState<any[]>([]);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -40,7 +41,7 @@ export default function Reservations() {
   }, [search, page]);
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
+    <div>
       <Head>
         <title>{t("reservations")}</title>
         <meta name="language" content={lang} />
@@ -87,6 +88,7 @@ export default function Reservations() {
   );
 }
 
-Reservations.getLayout = function getLayout(page: React.ReactNode) {
-  return <StockLayout>{page}</StockLayout>;
+ReservationsAdmin.getLayout = function getLayout(page: React.ReactNode) {
+  const { t } = useTranslation("common");
+  return <AdminPanelLayout title={t("reservations")}>{page}</AdminPanelLayout>;
 };

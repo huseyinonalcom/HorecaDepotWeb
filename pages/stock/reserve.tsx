@@ -99,7 +99,7 @@ export default function Reserve() {
     const request = await fetch("/api/private/documents", {
       method: "POST",
       body: JSON.stringify(data),
-    });
+    }); 
   };
 
   const [customerType, setCustomerType] = useState("individual");
