@@ -454,5 +454,8 @@
   "taxID": "BTW-nummer",
   "choose-country": "Kies een land",
   "delivery-address": "Afleveradres",
-  "same-as-invoice": "Zelfde als factuuradres"
+  "same-as-invoice": "Zelfde als factuuradres",
+  "customers": "Klanten",
+  "search": "Zoeken",
+  "select": "Selecteren"
 }

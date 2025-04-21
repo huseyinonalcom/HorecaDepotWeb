@@ -454,5 +454,8 @@
   "taxID": "Tax ID",
   "choose-country": "Choose a Country",
   "delivery-address": "Delivery Address",
-  "same-as-invoice": "Same as invoice address"
+  "same-as-invoice": "Same as invoice address",
+  "customers": "Customers",
+  "search": "Search",
+  "select": "Select"
 }

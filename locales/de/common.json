@@ -454,5 +454,8 @@
   "taxID": "Steuernummer",
   "choose-country": "Wählen Sie ein Land",
   "delivery-address": "Lieferadresse",
-  "same-as-invoice": "Gleich wie Rechnungsadresse"
+  "same-as-invoice": "Gleich wie Rechnungsadresse",
+  "customers": "Kunden",
+  "search": "Suchen",
+  "select": "Auswählen"
 }

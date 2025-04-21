@@ -454,5 +454,8 @@
   "taxID": "Identifiant fiscal",
   "choose-country": "Choisir un pays",
   "delivery-address": "Adresse de livraison",
-  "same-as-invoice": "Identique à l'adresse de facturation"
+  "same-as-invoice": "Identique à l'adresse de facturation",
+  "customers": "Clients",
+  "search": "Rechercher",
+  "select": "Sélectionner"
 }

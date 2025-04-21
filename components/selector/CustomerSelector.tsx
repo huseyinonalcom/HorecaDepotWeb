@@ -1,7 +1,9 @@
 import useTranslation from "next-translate/useTranslation";
 import { Client } from "../../api/interfaces/client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import debounce from "../../api/utils/debounce";
 import { Button } from "../styled/button";
+import { Input } from "../styled/input";
 import {
   Pagination,
   PaginationList,
@@ -9,7 +11,6 @@ import {
   PaginationPage,
   PaginationPrevious,
 } from "../styled/pagination";
-import { Input } from "../styled/input";
 
 const fetchCustomers = async ({
   search,
@@ -43,21 +44,27 @@ export const CustomerSelector = ({
       search: filter.search,
       page: filter.page,
     }).then((ans) => {
-      console.log(ans);
       setCustomers(ans.data);
       setFilter((currFilter) => ({
         ...currFilter,
         totalPages: ans.meta.pagination.pageCount,
+        page: 1,
       }));
     });
   }, [filter.page, filter.search]);
+
+  const debouncedSetSearch = useRef(
+    debounce((value: string) => {
+      setFilter((curr) => ({ ...curr, search: value, page: 1 }));
+    }, 300),
+  ).current;
 
   return (
     <div className="flex w-full flex-col items-start gap-2">
       <h3 className="text-lg font-semibold">{t("customers")}</h3>
       <Input
         label={t("search")}
-        onChange={(e) => setFilter({ ...filter, search: e.target.value })}
+        onChange={(e) => debouncedSetSearch(e.target.value)}
       />
       <div className="mt-8 flow-root w-full px-[1px]">
         <div className="no-scrollbar -mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
