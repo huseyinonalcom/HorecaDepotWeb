@@ -14,6 +14,20 @@ import {
   DialogBody,
   DialogTitle,
 } from "../../components/styled/dialog";
+import { Input } from "../../components/styled/input";
+import { countries } from "../../api/utils/countries";
+import { Select } from "../../components/styled/select";
+import { Radio, RadioField, RadioGroup } from "../../components/styled/radio";
+import {
+  Description,
+  Field,
+  Fieldset,
+  Label,
+  Legend,
+} from "../../components/styled/fieldset";
+import { Text } from "../../components/styled/text";
+import StyledForm from "../../components/form/StyledForm";
+import { Switch, SwitchField } from "../../components/styled/switch";
 
 const emptyAddress = {
   country: "",
@@ -78,123 +92,124 @@ export default function Reserve() {
 
   const submitReservation = async (e) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+
+    console.log(data);
   };
+
+  const [customerType, setCustomerType] = useState("individual");
+  const [sameAsInvoice, setSameAsInvoice] = useState(true);
 
   return (
     <div>
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-x-16 lg:grid-cols-2 lg:px-4 lg:pt-16">
+      <div className="ww-full mx-auto grid grid-cols-1 gap-x-16 lg:grid-cols-2 lg:px-4 lg:pt-16">
         <h1 className="sr-only">{t("create-reservation")}</h1>
 
         <section
           aria-labelledby="summary-heading"
-          className="bg-white p-4 md:p-12 lg:col-start-2 lg:row-start-1 lg:mx-auto lg:w-full lg:max-w-lg lg:rounded-lg"
+          className="w-full bg-white p-4 md:p-12 lg:col-start-2 lg:row-start-1 lg:rounded-lg"
         >
-          <div className="mx-auto max-w-2xl px-4 lg:max-w-none lg:px-0">
-            <h2 id="summary-heading" className="sr-only">
-              {t("reservation-summary")}
-            </h2>
+          <h2 id="summary-heading" className="sr-only">
+            {t("reservation-summary")}
+          </h2>
 
-            <ul
-              role="list"
-              className="divide-y divide-white/10 text-sm font-medium"
-            >
-              {cart.map((product) => (
-                <li
-                  key={product.id}
-                  className="flex items-start space-x-4 py-6"
-                >
-                  <ImageWithURL
-                    src={
-                      product.images != null
-                        ? getCoverImageUrl(product)
-                        : "/uploads/placeholder_9db455d1f1.webp"
-                    }
-                    alt={product.name}
-                    width={80}
-                    height={80}
-                    className="size-20 flex-none rounded-md object-cover"
-                  />
-                  <div className="flex-auto space-y-1">
-                    <h3>{product.name}</h3>
-                    <p>{product.internalCode}</p>
-                    <p>{product.color}</p>
-                    <p>{product.size}</p>
-                  </div>
-                  <div className="flex flex-col items-center gap-2">
-                    <p className="flex-none text-base font-medium">
-                      {formatCurrency(product.value * product.amount)}
-                    </p>
+          <ul
+            role="list"
+            className="divide-y divide-white/10 text-sm font-medium"
+          >
+            {cart.map((product) => (
+              <li key={product.id} className="flex items-start space-x-4 py-6">
+                <ImageWithURL
+                  src={
+                    product.images != null
+                      ? getCoverImageUrl(product)
+                      : "/uploads/placeholder_9db455d1f1.webp"
+                  }
+                  alt={product.name}
+                  width={80}
+                  height={80}
+                  className="size-20 flex-none rounded-md object-cover"
+                />
+                <div className="flex-auto space-y-1">
+                  <h3>{product.name}</h3>
+                  <p>{product.internalCode}</p>
+                  <p>{product.color}</p>
+                  <p>{product.size}</p>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <p className="flex-none text-base font-medium">
+                    {formatCurrency(product.value * product.amount)}
+                  </p>
 
-                    <div className="flex flex-row items-center justify-center">
-                      <button
-                        name="removeFromCart"
-                        aria-label="Remove from Cart"
-                        onClick={() => removeFromCart(product.id)}
-                        className="mr-2.5"
-                      >
-                        <FiX color="red" />
-                      </button>
-                      <div className="mr-2 flex h-fit flex-row items-center justify-center rounded-md border-2 border-black bg-black p-0.5 duration-300">
-                        <FiMinus
-                          name="decreaseQuantity"
-                          aria-label="Decrease Quantity"
-                          className="h-6 w-6 cursor-pointer rounded-md bg-white px-1 duration-300 hover:text-red-500"
-                          onClick={() =>
-                            setAmount(product.id, product.amount - 1)
-                          }
-                        />
-                        <p className="mx-1.25 w-[40px] text-center text-white">
-                          {product.amount}
-                        </p>
-                        <FiPlus
-                          name="increaseQuantity"
-                          aria-label="Increase Quantity"
-                          className="h-6 w-6 cursor-pointer rounded-md bg-white px-1 duration-300 hover:text-green-500"
-                          onClick={() =>
-                            setAmount(product.id, product.amount + 1)
-                          }
-                        />
-                      </div>
+                  <div className="flex flex-row items-center justify-center">
+                    <button
+                      name="removeFromCart"
+                      aria-label="Remove from Cart"
+                      onClick={() => removeFromCart(product.id)}
+                      className="mr-2.5"
+                    >
+                      <FiX color="red" />
+                    </button>
+                    <div className="mr-2 flex h-fit flex-row items-center justify-center rounded-md border-2 border-black bg-black p-0.5 duration-300">
+                      <FiMinus
+                        name="decreaseQuantity"
+                        aria-label="Decrease Quantity"
+                        className="h-6 w-6 cursor-pointer rounded-md bg-white px-1 duration-300 hover:text-red-500"
+                        onClick={() =>
+                          setAmount(product.id, product.amount - 1)
+                        }
+                      />
+                      <p className="mx-1.25 w-[40px] text-center text-white">
+                        {product.amount}
+                      </p>
+                      <FiPlus
+                        name="increaseQuantity"
+                        aria-label="Increase Quantity"
+                        className="h-6 w-6 cursor-pointer rounded-md bg-white px-1 duration-300 hover:text-green-500"
+                        onClick={() =>
+                          setAmount(product.id, product.amount + 1)
+                        }
+                      />
                     </div>
                   </div>
-                </li>
-              ))}
-            </ul>
+                </div>
+              </li>
+            ))}
+          </ul>
 
-            <dl className="space-y-6 border-t border-white/10 pt-6 text-sm font-medium">
-              {/*    <div className="flex items-center justify-between">
+          <dl className="space-y-6 border-t border-white/10 pt-6 text-sm font-medium">
+            {/*    <div className="flex items-center justify-between">
                 <dt>{t("shipping")}</dt>
                 <dd>{formatCurrency(shippingCost)}</dd>
               </div>
             */}
 
-              <div className="flex items-center justify-between border-t border-white/10 pt-6">
-                <dt className="text-base">{t("Total")}</dt>
-                <dd className="text-base">
-                  {formatCurrency(totals.totalAfterDiscount / 1.21 + 0)}
-                </dd>
-              </div>
-              <div className="flex items-center justify-between border-t border-white/10 pt-6">
-                <dt className="text-base">
-                  {t("Total")} {t("vat-incl")}
-                </dt>
-                <dd className="text-base">
-                  {formatCurrency(totals.totalAfterDiscount + 0)}
-                </dd>
-              </div>
-            </dl>
-          </div>
+            <div className="flex items-center justify-between border-t border-white/10 pt-6">
+              <dt className="text-base">{t("Total")}</dt>
+              <dd className="text-base">
+                {formatCurrency(totals.totalAfterDiscount / 1.21 + 0)}
+              </dd>
+            </div>
+            <div className="flex items-center justify-between border-t border-white/10 pt-6">
+              <dt className="text-base">
+                {t("Total")} {t("vat-incl")}
+              </dt>
+              <dd className="text-base">
+                {formatCurrency(totals.totalAfterDiscount + 0)}
+              </dd>
+            </div>
+          </dl>
         </section>
 
         <section
           aria-labelledby="payment-and-shipping-heading"
-          className="py-16 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:w-full lg:max-w-lg lg:pt-0 lg:pb-24"
+          className="w-full py-16 lg:col-start-1 lg:row-start-1 lg:pt-0 lg:pb-24"
         >
           <h2 id="payment-and-shipping-heading" className="sr-only">
             {t("customer-details")}
           </h2>
-
-          <form onSubmit={submitReservation}>
+          <StyledForm onSubmit={submitReservation}>
             <Button type="button" onClick={() => setShowCustomerSelector(true)}>
               {t("existing-customer")}
             </Button>
@@ -212,7 +227,104 @@ export default function Reserve() {
                 />
               </DialogBody>
             </Dialog>
-          </form>
+            <Fieldset>
+              <Legend>{t("customer-type")}</Legend>
+              <RadioGroup
+                name="customerType"
+                defaultValue="individual"
+                onChange={(value) => setCustomerType(value)}
+              >
+                <RadioField>
+                  <Radio value="individual" />
+                  <Label>{t("individual")}</Label>
+                </RadioField>
+                <RadioField>
+                  <Radio value="business" />
+                  <Label>{t("business")}</Label>
+                </RadioField>
+              </RadioGroup>
+            </Fieldset>
+            {customerType === "business" && (
+              <Fieldset>
+                <Legend>{t("business-information")}</Legend>
+                <Input name="company" label={t("company")} required />
+                <Input name="taxID" label={t("taxID")} required />
+              </Fieldset>
+            )}
+            <Fieldset>
+              <Legend>{t("customer-information")}</Legend>
+              <Input name="firstName" label={t("firstname")} required />
+              <Input name="lastName" label={t("lastname")} required />
+              <Input name="email" label={t("email")} required />
+              <Input name="phone" label={t("phone")} />
+            </Fieldset>
+            <Fieldset>
+              <Legend>{t("invoice-address")}</Legend>
+              <Field>
+                <Label>{t("country")}</Label>
+                <Select required name="invoiceCountry">
+                  <option value="none">{t("choose-country")}</option>
+                  {countries
+                    .flatMap((country) => country.names)
+                    .filter((name, index, arr) => arr.indexOf(name) === index)
+                    .sort((a, b) => a.localeCompare(b))
+                    .map((name) => (
+                      <option key={`${name}`} value={name}>
+                        {name}
+                      </option>
+                    ))}
+                </Select>
+              </Field>
+              <Input name="invoiceStreet" label={t("street")} required />
+              <Input
+                name="invoiceDoorNumber"
+                label={t("doorNumber")}
+                required
+              />
+              <Input name="invoiceFloor" label={t("floor")} />
+              <Input name="invoiceZipCode" label={t("zipCode")} required />
+              <Input name="invoiceCity" label={t("city")} required />
+            </Fieldset>
+            <Fieldset>
+              <Legend>{t("delivery-address")}</Legend>
+              <SwitchField>
+                <Label>{t("same-as-invoice")}</Label>
+                <Switch
+                  name="deliverySameAsInvoice"
+                  defaultChecked={true}
+                  onChange={(checked) => {
+                    setSameAsInvoice(checked);
+                  }}
+                />
+              </SwitchField>
+              {!sameAsInvoice && (
+                <>
+                  <Field>
+                    <Label>{t("country")}</Label>
+                    <Select required name="deliveryCountry">
+                      <option value="none">{t("choose-country")}</option>
+                      {countries
+                        .flatMap((country) => country.names)
+                        .filter(
+                          (name, index, arr) => arr.indexOf(name) === index,
+                        )
+                        .sort((a, b) => a.localeCompare(b))
+                        .map((name) => (
+                          <option key={`${name}`} value={name}>
+                            {name}
+                          </option>
+                        ))}
+                    </Select>
+                  </Field>
+                  <Input name="deliveryStreet" label={t("street")} required />
+                  <Input name="deliveryDoorNumber" label={t("doorNumber")} />
+                  <Input name="deliveryFloor" label={t("floor")} />
+                  <Input name="deliveryZipCode" label={t("zipCode")} required />
+                  <Input name="deliveryCity" label={t("city")} required />
+                </>
+              )}
+            </Fieldset>
+          </StyledForm>
         </section>
       </div>
     </div>
