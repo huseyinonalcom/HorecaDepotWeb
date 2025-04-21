@@ -37,11 +37,11 @@ export const getDocuments = async ({
     let filterString = "";
 
     if (search) {
-      filterString = ``;
+      filterString += ``;
     }
 
     if (type) {
-      filterString = `&filters[type][$eq]=${type}`;
+      filterString += `&filters[type][$eq]=${type}`;
     }
 
     const request = await fetch(

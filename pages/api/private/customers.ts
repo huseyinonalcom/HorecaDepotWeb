@@ -29,7 +29,8 @@ export const getCustomers = async ({
     }
     return response;
   } else {
-    const pageString = "&pagination[pageSize]=30&pagination[page]=" + (page ?? 1);
+    const pageString =
+      "&pagination[pageSize]=30&pagination[page]=" + (page ?? 1);
     let searchString = "";
 
     if (search) {
