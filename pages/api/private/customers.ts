@@ -17,17 +17,13 @@ export const getCustomers = async ({
   search?: string;
   authToken: string;
 }) => {
+  let request;
   if (id) {
-    const request = await fetch(fetchUrl + "/" + id + "?" + fetchParams, {
+    request = await fetch(fetchUrl + "/" + id + "?" + fetchParams, {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
     });
-    const response = await request.json();
-    if (!request.ok) {
-      return null;
-    }
-    return response;
   } else {
     const pageString =
       "&pagination[pageSize]=30&pagination[page]=" + (page ?? 1);
@@ -37,7 +33,7 @@ export const getCustomers = async ({
       searchString = `&filters[$or][0][firstName][$containsi]=${search}&filters[$or][1][lastName][$containsi]=${search}&filters[$or][2][login][email][$containsi]=${search}`;
     }
 
-    const request = await fetch(
+    request = await fetch(
       fetchUrl +
         "?filters[deleted][$eq]=false&sort=firstName&" +
         fetchParams +
@@ -50,13 +46,13 @@ export const getCustomers = async ({
         },
       },
     );
+  }
 
-    if (!request.ok) {
-      console.error(await request.text());
-      return null;
-    } else {
-      return await request.json();
-    }
+  if (!request.ok) {
+    console.error(await request.text());
+    return null;
+  } else {
+    return await request.json();
   }
 };
 

@@ -4,7 +4,7 @@ import statusText from "../../../api/statustexts";
 
 const fetchUrl = `${process.env.API_URL}/api/users`;
 
-const fetchParams = "populate=user_info";
+const fetchParams = "populate=user_info,client,info";
 
 export const getUser = async ({
   self,
@@ -17,7 +17,7 @@ export const getUser = async ({
 }) => {
   let request;
   if (self) {
-    request = await fetch(`${fetchUrl}/me?populate=user_info`, {
+    request = await fetch(`${fetchUrl}/me?${fetchParams}`, {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
