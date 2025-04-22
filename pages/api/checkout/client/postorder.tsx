@@ -9,6 +9,7 @@ import { sendMail } from "../../../../api/utils/sendmail";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
 import { renderToStream } from "@react-pdf/renderer";
+import { getUser } from "../../private/user";
 
 const calculateTotalWithPromo = (promoDetails, cart) => {
   const cartAfterPromo = JSON.parse(JSON.stringify(cart));
@@ -76,16 +77,7 @@ export default async function postOrder(
       let client;
 
       try {
-        const request = await fetch(
-          `${process.env.API_URL}/api/users/me?populate[client_info][populate][0]=addresses&populate[client_info][populate][1]=establishment&populate=role`,
-          {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          },
-        );
-
-        const answer = await request.json();
+        const answer = await getUser({ self: true, authToken });
         client = answer.client_info;
 
         clientID = answer.client_info.id;
@@ -99,7 +91,7 @@ export default async function postOrder(
         for (let i = 0; i < productsFromCart.length; i++) {
           const productID = productsFromCart[i].product;
 
-          const fetchUrl = `${process.env.API_URL}/api/products/${productID}?fields[0]=name&fields[1]=productLine&fields[2]=internalCode&fields[3]=priceBeforeDiscount&fields[4]=value&fields[5]=tax&populate[categories][fields][0]=id&populate[shelves][populate][establishment][fields][0]=name&populate[shelves][fields][0]=stock`;
+          const fetchUrl = `${process.env.API_URL}/api/products/${productID}?populate[categories][fields][0]=id&populate[shelves][populate][establishment][fields][0]=name&populate[shelves][fields][0]=stock`;
 
           const response = await fetch(fetchUrl, {
             headers: {
