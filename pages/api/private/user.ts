@@ -1,18 +1,18 @@
-import { ClientUser } from "../../../api/interfaces/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../api/statustexts";
+import { User } from "../../../api/interfaces/user";
 
 const fetchUrl = `${process.env.API_URL}/api/users`;
 
 const fetchParams = "populate=user_info,client,info";
 
 export const getUser = async ({
-  self,
   id,
+  self,
   authToken,
 }: {
-  self?: boolean;
   id?: number;
+  self?: boolean;
   authToken: string;
 }) => {
   let request;
@@ -44,12 +44,24 @@ export const createUser = async ({
   user,
   authToken,
 }: {
+  user: User;
   authToken: string;
-  user: ClientUser;
 }) => {
-  console.log(user);
+  const request = await fetch(fetchUrl + "?" + fetchParams, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${authToken}`,
+    },
+    body: JSON.stringify(user),
+  });
 
-  return "test";
+  if (!request.ok) {
+    console.error(await request.text());
+    return null;
+  } else {
+    return await request.json();
+  }
 };
 
 export const updateUser = async ({
@@ -58,12 +70,24 @@ export const updateUser = async ({
   authToken,
 }: {
   id: number;
+  user: User;
   authToken: string;
-  user: ClientUser;
 }) => {
-  console.log(user);
+  const request = await fetch(fetchUrl + "/" + id + "?" + fetchParams, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${authToken}`,
+    },
+    body: JSON.stringify(user),
+  });
 
-  return "test";
+  if (!request.ok) {
+    console.error(await request.text());
+    return null;
+  } else {
+    return await request.json();
+  }
 };
 
 export default async function handler(
@@ -75,6 +99,7 @@ export default async function handler(
       return res.status(401).json(statusText[401]);
     }
     const authToken = req.cookies.j;
+
     let response;
     switch (req.method) {
       case "GET":

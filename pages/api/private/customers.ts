@@ -1,6 +1,6 @@
+import { Client } from "../../../api/interfaces/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../api/statustexts";
-import { ClientUser } from "../../../api/interfaces/client";
 
 const fetchUrl = `${process.env.API_URL}/api/clients`;
 
@@ -61,26 +61,25 @@ export const createCustomer = async ({
   authToken,
 }: {
   authToken: string;
-  customer: ClientUser;
+  customer: Client;
 }) => {
   console.log(customer);
 
-  /*  const request = await fetch(fetchUrl + "?" + fetchParams, {
+  const request = await fetch(fetchUrl + "?" + fetchParams, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${authToken}`,
     },
     body: JSON.stringify(customer),
-  }); */
+  });
 
-  /*   if (!request.ok) {
+  if (!request.ok) {
     console.error(await request.text());
     return null;
   } else {
     return await request.json();
-  } */
-  return "test";
+  }
 };
 
 export const updateCustomer = async ({
@@ -90,7 +89,7 @@ export const updateCustomer = async ({
 }: {
   id: number;
   authToken: string;
-  customer: ClientUser;
+  customer: Client;
 }) => {
   const request = await fetch(fetchUrl + "/" + id + "?" + fetchParams, {
     method: "PUT",
