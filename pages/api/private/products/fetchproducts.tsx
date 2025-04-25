@@ -15,13 +15,13 @@ export const getProducts = async ({
   id,
   count,
 }: {
-  authToken: string;
-  page?: number;
-  search?: string;
   category?: string;
+  authToken: string;
+  search?: string;
+  count?: string;
+  page?: number;
   ean?: string;
   id?: number;
-  count?: string;
 }) => {
   try {
     if (!authToken) {
