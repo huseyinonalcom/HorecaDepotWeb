@@ -5,6 +5,7 @@ type mailProps = {
   subject: string;
   html: string;
   attachments?: string[];
+  replyTo?: string;
   mailParams?: {
     mailUser: string;
     mailHost: string;
@@ -51,6 +52,7 @@ export const sendMail = async (mailOptions: mailProps) => {
     let mailParams = {
       from: `"${process.env.MAIL_SENDER}" <${process.env.MAIL_USER}>`,
       to: mailOptions.to,
+      replyTo: mailOptions.replyTo,
       subject: mailOptions.subject,
       html: mailOptions.html,
       attachments: mailOptions.attachments,
