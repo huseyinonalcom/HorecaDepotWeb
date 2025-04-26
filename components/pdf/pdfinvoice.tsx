@@ -208,7 +208,7 @@ export const PDFInvoice = ({ invoiceDocument }) => {
         <View style={styles.section}>
           <View style={styles.row_jb}>
             <View style={{ width: "45%" }}>
-              <Image src={"/assets/header/logob.png"} />
+              <Image src={"https://horecadepot.be/assets/header/logob.png"} />
             </View>
             <View style={styles.col}>
               <Text style={styles.text}>Rue de Ribaucourt 154</Text>
@@ -312,7 +312,7 @@ export const PDFInvoice = ({ invoiceDocument }) => {
                   backgroundColor: "#56585c",
                   padding: 5,
                 }}
-                src={"/assets/header/whatsapp.png"}
+                src={"https://horecadepot.be/assets/header/whatsapp.png"}
               />
             </View>
             <Text style={styles.text}>+32 (0) 499 73 83 73</Text>
