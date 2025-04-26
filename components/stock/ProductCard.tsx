@@ -122,7 +122,6 @@ export default function ProductCard({ product }: { product: any }) {
           </p>
           <p className="">{"EAN : "}</p>
         </div>
-        <p>png: {barcodePng}</p>
         <PDFDownloadLink
           fileName={`${product.supplierCode}.pdf`}
           document={
