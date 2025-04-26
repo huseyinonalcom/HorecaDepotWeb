@@ -102,9 +102,7 @@ export default function ProductCard({ product }: { product: any }) {
         </p>
       </div>
       <div className="flex w-full flex-shrink-0 flex-col items-start lg:w-[314px] lg:items-end">
-        <BarcodeToPng
-          value={product.supplierCode}
-        />
+        <BarcodeToPng value={product.supplierCode} id={"all"} />
         <div className="flex flex-row-reverse items-center gap-2">
           <button
             className="peer"
