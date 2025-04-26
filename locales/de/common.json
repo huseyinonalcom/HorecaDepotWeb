@@ -457,5 +457,6 @@
   "same-as-invoice": "Gleich wie Rechnungsadresse",
   "customers": "Kunden",
   "search": "Suchen",
-  "select": "Auswählen"
+  "select": "Auswählen",
+  "package-details": "Paketdetails"
 }

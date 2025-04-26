@@ -457,5 +457,6 @@
   "same-as-invoice": "Same as invoice address",
   "customers": "Customers",
   "search": "Search",
-  "select": "Select"
+  "select": "Select",
+  "package-details": "Package Details"
 }

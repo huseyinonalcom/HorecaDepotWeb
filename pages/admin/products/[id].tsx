@@ -757,6 +757,39 @@ export default function ProductPage(props) {
           }}
         />
         <Input
+          label={t("height")}
+          name="height"
+          defaultValue={currentProduct?.height ?? ""}
+          onChange={(e) => {
+            setCurrentProduct((pp) => ({
+              ...pp,
+              height: e.target.value,
+            }));
+          }}
+        />
+        <Input
+          label={t("width")}
+          name="width"
+          defaultValue={currentProduct?.width ?? ""}
+          onChange={(e) => {
+            setCurrentProduct((pp) => ({
+              ...pp,
+              width: e.target.value,
+            }));
+          }}
+        />
+        <Input
+          label={t("depth")}
+          name="depth"
+          defaultValue={currentProduct?.depth ?? ""}
+          onChange={(e) => {
+            setCurrentProduct((pp) => ({
+              ...pp,
+              depth: e.target.value,
+            }));
+          }}
+        />
+        <Input
           label={t("weight")}
           name="weight"
           defaultValue={currentProduct?.product_extra?.weight ?? ""}
@@ -766,6 +799,70 @@ export default function ProductPage(props) {
               product_extra: {
                 ...pp.product_extra,
                 weight: e.target.value,
+              },
+            }));
+          }}
+        />
+        <Input
+          label={t("diameter")}
+          name="diameter"
+          defaultValue={currentProduct?.product_extra?.diameter ?? ""}
+          onChange={(e) => {
+            setCurrentProduct((pp) => ({
+              ...pp,
+              product_extra: {
+                ...pp.product_extra,
+                diameter: e.target.value,
+              },
+            }));
+          }}
+        />
+        <Input
+          label={t("seat_height")}
+          name="seat_height"
+          defaultValue={currentProduct?.product_extra?.seat_height ?? ""}
+          onChange={(e) => {
+            setCurrentProduct((pp) => ({
+              ...pp,
+              product_extra: {
+                ...pp.product_extra,
+                seat_height: e.target.value,
+              },
+            }));
+          }}
+        />
+        <Input
+          label={t("armrest_height")}
+          name="armrest_height"
+          defaultValue={currentProduct?.product_extra?.armrest_height ?? ""}
+          onChange={(e) => {
+            setCurrentProduct((pp) => ({
+              ...pp,
+              product_extra: {
+                ...pp.product_extra,
+                armrest_height: e.target.value,
+              },
+            }));
+          }}
+        />
+      </FieldGroup>
+    </Fieldset>
+  );
+
+  const PackageDetails = (
+    <Fieldset>
+      <Legend>{t("package-details")}</Legend>
+      <FieldGroup>
+        <Input
+          label={t("per_box")}
+          name="per_box"
+          defaultValue={currentProduct?.product_extra?.per_box ?? ""}
+          onChange={(e) => {
+            setCurrentProduct((pp) => ({
+              ...pp,
+              product_extra: {
+                ...pp.product_extra,
+                per_box: e.target.value,
               },
             }));
           }}
@@ -816,95 +913,14 @@ export default function ProductPage(props) {
             }));
           }}
         />
-        <Input
-          label={t("per_box")}
-          name="per_box"
-          defaultValue={currentProduct?.product_extra?.per_box ?? ""}
-          onChange={(e) => {
-            setCurrentProduct((pp) => ({
-              ...pp,
-              product_extra: {
-                ...pp.product_extra,
-                per_box: e.target.value,
-              },
-            }));
-          }}
-        />
-        <Input
-          label={t("height")}
-          name="height"
-          defaultValue={currentProduct?.height ?? ""}
-          onChange={(e) => {
-            setCurrentProduct((pp) => ({
-              ...pp,
-              height: e.target.value,
-            }));
-          }}
-        />
-        <Input
-          label={t("width")}
-          name="width"
-          defaultValue={currentProduct?.width ?? ""}
-          onChange={(e) => {
-            setCurrentProduct((pp) => ({
-              ...pp,
-              width: e.target.value,
-            }));
-          }}
-        />
-        <Input
-          label={t("depth")}
-          name="depth"
-          defaultValue={currentProduct?.depth ?? ""}
-          onChange={(e) => {
-            setCurrentProduct((pp) => ({
-              ...pp,
-              depth: e.target.value,
-            }));
-          }}
-        />
-        <Input
-          label={t("diameter")}
-          name="diameter"
-          defaultValue={currentProduct?.product_extra?.diameter ?? ""}
-          onChange={(e) => {
-            setCurrentProduct((pp) => ({
-              ...pp,
-              product_extra: {
-                ...pp.product_extra,
-                diameter: e.target.value,
-              },
-            }));
-          }}
-        />
-        <Input
-          label={t("seat_height")}
-          name="seat_height"
-          defaultValue={currentProduct?.product_extra?.seat_height ?? ""}
-          onChange={(e) => {
-            setCurrentProduct((pp) => ({
-              ...pp,
-              product_extra: {
-                ...pp.product_extra,
-                seat_height: e.target.value,
-              },
-            }));
-          }}
-        />
-        <Input
-          label={t("armrest_height")}
-          name="armrest_height"
-          defaultValue={currentProduct?.product_extra?.armrest_height ?? ""}
-          onChange={(e) => {
-            setCurrentProduct((pp) => ({
-              ...pp,
-              product_extra: {
-                ...pp.product_extra,
-                armrest_height: e.target.value,
-              },
-            }));
-          }}
-        />
+      </FieldGroup>
+    </Fieldset>
+  );
+
+  const Tags = (
+    <Fieldset>
+      <Legend>{t("tags")}</Legend>
+      <FieldGroup>
         <Field>
           <Label>{t("tags")}</Label>
           <Textarea
@@ -981,6 +997,8 @@ export default function ProductPage(props) {
             {Color}
             <Divider />
             {Description}
+            <Divider />
+            {Tags}
             {currentProduct.id != 0 && (
               <>
                 <Divider />
@@ -994,6 +1012,8 @@ export default function ProductPage(props) {
             {Categories}
             <Divider />
             {SecondaryDetails}
+            <Divider />
+            {PackageDetails}
           </div>
         </div>
         <div className="flex flex-col space-y-12 lg:hidden">

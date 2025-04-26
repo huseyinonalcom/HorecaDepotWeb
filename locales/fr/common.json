@@ -457,5 +457,6 @@
   "same-as-invoice": "Identique à l'adresse de facturation",
   "customers": "Clients",
   "search": "Rechercher",
-  "select": "Sélectionner"
+  "select": "Sélectionner",
+  "package-details": "Détails du colis"
 }
