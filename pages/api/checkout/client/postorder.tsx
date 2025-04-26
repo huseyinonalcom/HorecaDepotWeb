@@ -315,6 +315,7 @@ export default async function postOrder(
 
             let mailOptionsClient = {
               to: [clientEmail],
+              replyTo: "info@horecadepot.be",
               subject: "Votre Commande Chez Nous - Horeca Depot",
               html: orderMailClient({ document: doc }),
               attachments: [
