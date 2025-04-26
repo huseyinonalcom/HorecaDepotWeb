@@ -15,9 +15,8 @@
     "@react-pdf/renderer": "4.3.0",
     "@tailwindcss/postcss": "4.1.4",
     "auto-text-size": "0.2.3",
-    "canvg": "4.0.3",
-    "formidable": "3.5.2",
-    "framer-motion": "12.7.4",
+    "formidable": "3.5.4",
+    "framer-motion": "12.9.2",
     "fuse.js": "7.1.0",
     "next-translate": "2.6.2",
     "next": "14.2.28",
@@ -34,7 +33,7 @@
     "react": "18.3.1",
     "sharp": "0.34.1",
     "xlsx": "0.18.5",
-    "yet-another-react-lightbox-lite": "1.8.1"
+    "yet-another-react-lightbox-lite": "1.8.2"
   },
   "devDependencies": {
     "@types/gtag.js": "0.0.20",
