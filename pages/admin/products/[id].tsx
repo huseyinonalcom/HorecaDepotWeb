@@ -279,7 +279,7 @@ export default function ProductPage(props) {
     return true;
   };
 
-  const PrimaryDetails = (
+  const PrimaryDetails = (test) => (
     <Fieldset>
       <Legend>{t("primary-details")}</Legend>
       <FieldGroup>
@@ -371,7 +371,9 @@ export default function ProductPage(props) {
           }}
         />
         {currentProduct.id != 0 && (
-          <BarcodeToPng value={currentProduct.supplierCode} />
+          <div className="flex w-full flex-shrink-0 flex-col">
+            <BarcodeToPng value={currentProduct.supplierCode} test={test} />
+          </div>
         )}
         <Input
           label={t("code-model")}
@@ -991,7 +993,7 @@ export default function ProductPage(props) {
       >
         <div className="hidden flex-row space-x-6 lg:flex">
           <div className="flex w-1/2 flex-col space-y-12 border-r border-zinc-950/10 pr-6">
-            {PrimaryDetails}
+            {PrimaryDetails("a")}
             <Divider />
             {Color}
             <Divider />
@@ -1016,7 +1018,7 @@ export default function ProductPage(props) {
           </div>
         </div>
         <div className="flex flex-col space-y-12 lg:hidden">
-          {PrimaryDetails}
+          {PrimaryDetails("b")}
           <Divider />
           {Images}
           <Divider />

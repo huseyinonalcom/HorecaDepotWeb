@@ -4,9 +4,11 @@ import { Canvg } from "canvg";
 
 const BarcodeToPng = ({
   value,
+  test,
   onGenerated,
 }: {
   value: string;
+  test?: string;
   onGenerated?: (png: string) => void;
 }) => {
   if (!value || value.length !== 13) {
@@ -34,7 +36,7 @@ const BarcodeToPng = ({
       const pngUrl = canvas.toDataURL("image/png");
 
       const imgElement = document.getElementById(
-        `barcode-${value}`,
+        `barcode-${value}-${test}`,
       ) as HTMLImageElement;
       if (imgElement) {
         imgElement.src = pngUrl;
@@ -46,7 +48,6 @@ const BarcodeToPng = ({
   }, [value]);
 
   const [isValid, setIsValid] = useState(true);
-
   try {
     if (!isValid) {
       return <div></div>;
@@ -71,7 +72,7 @@ const BarcodeToPng = ({
             }}
           />
         </div>
-        <img id={`barcode-${value}`} alt={value ?? "Barcode as PNG"} />
+        <img id={`barcode-${value}-${test}`} alt={value ?? "Barcode as PNG"} />
       </>
     );
   } catch (e) {

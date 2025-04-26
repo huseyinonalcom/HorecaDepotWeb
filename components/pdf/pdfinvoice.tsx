@@ -208,7 +208,7 @@ export const PDFInvoice = ({ invoiceDocument }) => {
         <View style={styles.section}>
           <View style={styles.row_jb}>
             <View style={{ width: "45%" }}>
-              <Image src={"https://horecadepot.be/assets/header/logob.png"} />
+              <Image src={"/assets/header/logob.png"} />
             </View>
             <View style={styles.col}>
               <Text style={styles.text}>Rue de Ribaucourt 154</Text>
@@ -219,7 +219,7 @@ export const PDFInvoice = ({ invoiceDocument }) => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                border: 1,
+                borderWidth: 1,
                 paddingHorizontal: 15,
                 alignContent: "center",
                 justifyContent: "center",
@@ -260,7 +260,7 @@ export const PDFInvoice = ({ invoiceDocument }) => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                border: 1,
+                borderWidth: 1,
                 paddingHorizontal: 15,
                 alignContent: "center",
                 justifyContent: "center",
@@ -312,7 +312,7 @@ export const PDFInvoice = ({ invoiceDocument }) => {
                   backgroundColor: "#56585c",
                   padding: 5,
                 }}
-                src={"https://horecadepot.be/assets/header/whatsapp.png"}
+                src={"/assets/header/whatsapp.png"}
               />
             </View>
             <Text style={styles.text}>+32 (0) 499 73 83 73</Text>
@@ -329,7 +329,7 @@ export const PDFInvoice = ({ invoiceDocument }) => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                border: 1,
+                borderWidth: 1,
                 paddingHorizontal: 15,
                 alignContent: "center",
                 justifyContent: "center",
@@ -497,7 +497,7 @@ export const PDFInvoice = ({ invoiceDocument }) => {
               display: "flex",
               flexDirection: "row",
               justifyContent: "center",
-              border: 1,
+              borderWidth: 1,
               paddingHorizontal: 5,
               height: 50,
             }}
@@ -512,7 +512,7 @@ export const PDFInvoice = ({ invoiceDocument }) => {
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
-              border: 1,
+              borderWidth: 1,
               borderRadius: 10,
               paddingHorizontal: 5,
               marginTop: "auto",

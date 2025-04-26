@@ -104,7 +104,6 @@ export default function ProductCard({ product }: { product: any }) {
       <div className="flex w-full flex-shrink-0 flex-col items-start lg:w-[314px] lg:items-end">
         <BarcodeToPng
           value={product.supplierCode}
-          onGenerated={setBarcodePng}
         />
         <div className="flex flex-row-reverse items-center gap-2">
           <button
