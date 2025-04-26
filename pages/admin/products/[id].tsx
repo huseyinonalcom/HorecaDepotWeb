@@ -279,7 +279,7 @@ export default function ProductPage(props) {
     return true;
   };
 
-  const PrimaryDetails = ({ barcodeID }: { barcodeID: string }) => (
+  const PrimaryDetails = (
     <Fieldset>
       <Legend>{t("primary-details")}</Legend>
       <FieldGroup>
@@ -317,7 +317,7 @@ export default function ProductPage(props) {
           label={t("name")}
           required
           name="name"
-          defaultValue={currentProduct?.name}
+          value={currentProduct?.name}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
@@ -331,7 +331,7 @@ export default function ProductPage(props) {
           name="priceBeforeDiscount"
           type="number"
           invalid={!isValidPriceBeforeDiscount()}
-          defaultValue={currentProduct?.priceBeforeDiscount}
+          value={currentProduct?.priceBeforeDiscount}
           icon={<CurrencyEuroIcon />}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
@@ -345,7 +345,7 @@ export default function ProductPage(props) {
           required
           name="value"
           type="number"
-          defaultValue={currentProduct?.value ?? ""}
+          value={currentProduct?.value ?? ""}
           icon={<CurrencyEuroIcon />}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
@@ -359,7 +359,7 @@ export default function ProductPage(props) {
           label="EAN"
           required
           name="barcode"
-          defaultValue={currentProduct?.product_extra?.barcode ?? ""}
+          value={currentProduct?.product_extra?.barcode ?? ""}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
@@ -515,7 +515,7 @@ export default function ProductPage(props) {
           label={t("stock-warehouse")}
           type="number"
           name="stockWarehouse"
-          defaultValue={
+          value={
             currentProduct?.shelves?.find(
               (shelf) => shelf.establishment.id == 3,
             ).stock
@@ -540,7 +540,7 @@ export default function ProductPage(props) {
           label={t("stock-store")}
           type="number"
           name="stockStore"
-          defaultValue={
+          value={
             currentProduct?.shelves?.find(
               (shelf) => shelf.establishment.id == 1,
             ).stock
@@ -739,7 +739,7 @@ export default function ProductPage(props) {
         <Input
           label={t("material")}
           name="material"
-          defaultValue={currentProduct?.material ?? ""}
+          value={currentProduct?.material ?? ""}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
@@ -750,7 +750,7 @@ export default function ProductPage(props) {
         <Input
           label={t("color")}
           name="color"
-          defaultValue={currentProduct?.color ?? ""}
+          value={currentProduct?.color ?? ""}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
@@ -761,7 +761,7 @@ export default function ProductPage(props) {
         <Input
           label={t("height")}
           name="height"
-          defaultValue={currentProduct?.height ?? ""}
+          value={currentProduct?.height ?? ""}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
@@ -772,7 +772,7 @@ export default function ProductPage(props) {
         <Input
           label={t("width")}
           name="width"
-          defaultValue={currentProduct?.width ?? ""}
+          value={currentProduct?.width ?? ""}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
@@ -783,7 +783,7 @@ export default function ProductPage(props) {
         <Input
           label={t("depth")}
           name="depth"
-          defaultValue={currentProduct?.depth ?? ""}
+          value={currentProduct?.depth ?? ""}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
@@ -794,7 +794,7 @@ export default function ProductPage(props) {
         <Input
           label={t("weight")}
           name="weight"
-          defaultValue={currentProduct?.product_extra?.weight ?? ""}
+          value={currentProduct?.product_extra?.weight ?? ""}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
@@ -808,7 +808,7 @@ export default function ProductPage(props) {
         <Input
           label={t("diameter")}
           name="diameter"
-          defaultValue={currentProduct?.product_extra?.diameter ?? ""}
+          value={currentProduct?.product_extra?.diameter ?? ""}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
@@ -822,7 +822,7 @@ export default function ProductPage(props) {
         <Input
           label={t("seat_height")}
           name="seat_height"
-          defaultValue={currentProduct?.product_extra?.seat_height ?? ""}
+          value={currentProduct?.product_extra?.seat_height ?? ""}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
@@ -836,7 +836,7 @@ export default function ProductPage(props) {
         <Input
           label={t("armrest_height")}
           name="armrest_height"
-          defaultValue={currentProduct?.product_extra?.armrest_height ?? ""}
+          value={currentProduct?.product_extra?.armrest_height ?? ""}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
@@ -858,7 +858,7 @@ export default function ProductPage(props) {
         <Input
           label={t("per_box")}
           name="per_box"
-          defaultValue={currentProduct?.product_extra?.per_box ?? ""}
+          value={currentProduct?.product_extra?.per_box ?? ""}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
@@ -872,9 +872,7 @@ export default function ProductPage(props) {
         <Input
           label={t("packaged_weight_net")}
           name="packaged_weight_net"
-          defaultValue={
-            currentProduct?.product_extra?.packaged_weight_net ?? ""
-          }
+          value={currentProduct?.product_extra?.packaged_weight_net ?? ""}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
@@ -888,7 +886,7 @@ export default function ProductPage(props) {
         <Input
           label={t("packaged_weight")}
           name="packaged_weight"
-          defaultValue={currentProduct?.product_extra?.packaged_weight ?? ""}
+          value={currentProduct?.product_extra?.packaged_weight ?? ""}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
@@ -902,9 +900,7 @@ export default function ProductPage(props) {
         <Input
           label={t("packaged_dimensions")}
           name="packaged_dimensions"
-          defaultValue={
-            currentProduct?.product_extra?.packaged_dimensions ?? ""
-          }
+          value={currentProduct?.product_extra?.packaged_dimensions ?? ""}
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
@@ -927,7 +923,7 @@ export default function ProductPage(props) {
           <Textarea
             rows={5}
             name="tags"
-            defaultValue={currentProduct?.product_extra?.tags ?? ""}
+            value={currentProduct?.product_extra?.tags ?? ""}
             onChange={(e) => {
               setCurrentProduct((pp) => ({
                 ...pp,
@@ -965,12 +961,11 @@ export default function ProductPage(props) {
                       setCurrentProduct((pr) => ({
                         ...pr,
                         id: 0,
-                        supplierCode: "0",
+                        supplierCode: "",
                         product_extra: {
                           ...pr.product_extra,
-                          barcode: "0",
+                          barcode: "",
                         },
-                        shelves: [],
                       }));
                     }}
                     color="white"
@@ -993,7 +988,7 @@ export default function ProductPage(props) {
       >
         <div className="hidden flex-row space-x-6 lg:flex">
           <div className="flex w-1/2 flex-col space-y-12 border-r border-zinc-950/10 pr-6">
-            {PrimaryDetails({ barcodeID: "desktop" })}
+            {PrimaryDetails}
             <Divider />
             {Color}
             <Divider />
@@ -1018,7 +1013,7 @@ export default function ProductPage(props) {
           </div>
         </div>
         <div className="flex flex-col space-y-12 lg:hidden">
-          {PrimaryDetails({ barcodeID: "mobile" })}
+          {PrimaryDetails}
           <Divider />
           {Images}
           <Divider />
