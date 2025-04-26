@@ -372,7 +372,7 @@ export default function ProductPage(props) {
         />
         {currentProduct.id != 0 && (
           <div className="flex w-full flex-shrink-0 flex-col">
-            <BarcodeToPng value={currentProduct.supplierCode} id={barcodeID} />
+            <BarcodeToPng value={currentProduct.supplierCode} />
           </div>
         )}
         <Input

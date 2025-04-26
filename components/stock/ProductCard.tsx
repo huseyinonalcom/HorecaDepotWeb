@@ -15,7 +15,7 @@ import { StockCart } from "./Cart";
 
 export default function ProductCard({ product }: { product: any }) {
   const { t, lang } = useTranslation("common");
-  const [barcodePng, setBarcodePng] = useState("");
+  const [barcodePng, setBarcodePng] = useState(null);
   const [lightBoxIndex, setLightBoxIndex] = useState(undefined);
 
   const addToCart = () => {
@@ -102,7 +102,10 @@ export default function ProductCard({ product }: { product: any }) {
         </p>
       </div>
       <div className="flex w-full flex-shrink-0 flex-col items-start lg:w-[314px] lg:items-end">
-        <BarcodeToPng value={product.supplierCode} id={"all"} />
+        <BarcodeToPng
+          value={product.supplierCode}
+          onGenerated={setBarcodePng}
+        />
         <div className="flex flex-row-reverse items-center gap-2">
           <button
             className="peer"
@@ -119,6 +122,7 @@ export default function ProductCard({ product }: { product: any }) {
           </p>
           <p className="">{"EAN : "}</p>
         </div>
+        <p>png: {barcodePng}</p>
         <PDFDownloadLink
           fileName={`${product.supplierCode}.pdf`}
           document={
