@@ -922,7 +922,6 @@ export default function ProductPage(props) {
       <Legend>{t("tags")}</Legend>
       <FieldGroup>
         <Field>
-          <Label>{t("tags")}</Label>
           <Textarea
             rows={5}
             name="tags"
@@ -1026,6 +1025,8 @@ export default function ProductPage(props) {
           {Color}
           <Divider />
           {Description}
+          <Divider />
+          {Tags}
           {currentProduct.id != 0 && (
             <>
               <Divider />
@@ -1034,6 +1035,8 @@ export default function ProductPage(props) {
           )}
           <Divider />
           {SecondaryDetails}
+          <Divider />
+          {PackageDetails}
         </div>
       </StyledForm>
     </>
