@@ -837,10 +837,7 @@ export default function ProductPage(props) {
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
-              product_extra: {
-                ...pp.product_extra,
-                height: e.target.value,
-              },
+              height: e.target.value,
             }));
           }}
         />
@@ -851,10 +848,7 @@ export default function ProductPage(props) {
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
-              product_extra: {
-                ...pp.product_extra,
-                width: e.target.value,
-              },
+              width: e.target.value,
             }));
           }}
         />
@@ -865,10 +859,7 @@ export default function ProductPage(props) {
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
-              product_extra: {
-                ...pp.product_extra,
-                depth: e.target.value,
-              },
+              depth: e.target.value,
             }));
           }}
         />
