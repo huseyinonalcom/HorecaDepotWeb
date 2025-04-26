@@ -4,7 +4,7 @@ import { User } from "../../../api/interfaces/user";
 
 const fetchUrl = `${process.env.API_URL}/api/users`;
 
-const fetchParams = "populate=user_info,client,info";
+const fetchParams = "populate=user_info,client_info";
 
 export const getUser = async ({
   id,
