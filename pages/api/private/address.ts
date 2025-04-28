@@ -37,7 +37,6 @@ export const createAddress = async ({
   authToken: string;
   address: Address;
 }) => {
-
   const request = await fetch(fetchUrl, {
     method: "POST",
     headers: {
@@ -79,7 +78,6 @@ export default async function handler(
         });
         break;
     }
-
 
     if (!response) {
       return res.status(500).json(statusText[500]);
