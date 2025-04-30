@@ -1,16 +1,13 @@
 import StockLayout from "../../../components/stock/StockLayout";
-import useTranslation from "next-translate/useTranslation";
-import Head from "next/head";
+import { useRouter } from "next/router";
+import Order from "../../admin/order";
 
 export default function ReservationStock() {
-  const { t, lang } = useTranslation("common");
+  const router = useRouter();
 
   return (
     <>
-      <Head>
-        <title>{t("reservation")}</title>
-        <meta name="language" content={lang} />
-      </Head>
+      <Order id={Number(router.query.id)} />
     </>
   );
 }

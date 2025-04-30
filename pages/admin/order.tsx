@@ -21,15 +21,15 @@ import {
   TableCell,
 } from "../../components/styled/table";
 
-export default function Order() {
+export default function Order({ id }: { id?: number }) {
   const { t } = useTranslation("common");
   const router = useRouter();
   const [currentOrder, setCurrentOrder] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (router.isReady && router.query.id) {
-      const idParam = router.query.id;
+    if ((router.isReady && router.query.id )|| id) {
+      const idParam = router.query.id || id;
       let orderID = Number(idParam);
       if (!Number.isInteger(orderID) || orderID <= 0) {
         orderID = null;
