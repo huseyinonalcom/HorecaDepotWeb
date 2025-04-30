@@ -111,41 +111,31 @@ export default function Orders({ href }: { href: string }) {
                   </OrderLink>
                 </td>
                 <td className="flex w-full">
-                  <Link
-                    href={`/admin/order?id=${order.id}`}
-                    className="flex w-full flex-row items-end gap-1"
-                  >
-                    {formatDateTimeAPIToBe(order.createdAt).date}
-                    <p className="text-xs">
-                      {formatDateTimeAPIToBe(order.createdAt).time}
-                    </p>
-                  </Link>
+                  <OrderLink id={order.id}>
+                    <div className="flex w-full flex-row items-end gap-1">
+                      {formatDateTimeAPIToBe(order.createdAt).date}
+                      <p className="text-xs">
+                        {formatDateTimeAPIToBe(order.createdAt).time}
+                      </p>
+                    </div>
+                  </OrderLink>
                 </td>
                 <td>
-                  <Link
-                    href={`/admin/order?id=${order.id}`}
-                    className="flex w-full"
-                  >
+                  <OrderLink id={order.id}>
                     {`${order.client.firstName} ${order.client.lastName}`}
-                  </Link>
+                  </OrderLink>
                 </td>
                 <td>
-                  <Link
-                    href={`/admin/order?id=${order.id}`}
-                    className="flex w-full"
-                  >
+                  <OrderLink id={order.id}>
                     €{" "}
                     {order.document_products
                       .reduce((total, product) => total + product.subTotal, 0)
                       .toFixed(2)
                       .replaceAll(".", ",")}
-                  </Link>
+                  </OrderLink>
                 </td>
                 <td>
-                  <Link
-                    href={`/admin/order?id=${order.id}`}
-                    className="flex w-full"
-                  >
+                  <OrderLink id={order.id}>
                     €{" "}
                     {(
                       order.document_products.reduce(
@@ -163,13 +153,10 @@ export default function Orders({ href }: { href: string }) {
                     )
                       .toFixed(2)
                       .replaceAll(".", ",")}
-                  </Link>
+                  </OrderLink>
                 </td>
                 <td>
-                  <Link
-                    href={`/admin/order?id=${order.id}`}
-                    className="flex w-full"
-                  >
+                  <OrderLink id={order.id}>
                     {order.document_products.reduce(
                       (total, product) => total + product.subTotal,
                       0,
@@ -187,7 +174,7 @@ export default function Orders({ href }: { href: string }) {
                     ) : (
                       <FiCheck className="text-green-500" />
                     )}
-                  </Link>
+                  </OrderLink>
                 </td>
               </tr>
             ))}
