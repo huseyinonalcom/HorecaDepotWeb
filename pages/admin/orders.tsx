@@ -2,15 +2,19 @@ import { formatDateTimeAPIToBe } from "../../api/utils/formatters/formatdateapib
 import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
 import { FiX, FiCheck, FiChevronLeft } from "react-icons/fi";
 import useTranslation from "next-translate/useTranslation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import Head from "next/head";
 import Link from "next/link";
 
-export default function Orders() {
+export default function Orders({ href }: { href: string }) {
   const { t } = useTranslation("common");
   const [allOrders, setAllOrders] = useState([]);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
+
+  if (!href) {
+    href = "/admin/order?id=";
+  }
 
   const getPageNumbers = () => {
     let pages = [];
@@ -70,6 +74,12 @@ export default function Orders() {
     setCurrentPage(pageNumber);
   };
 
+  const OrderLink = ({ id, children }: { id: number; children: ReactNode }) => (
+    <Link href={`${href}${id}`} className="flex w-full">
+      {children}
+    </Link>
+  );
+
   return (
     <>
       <Head>
@@ -96,12 +106,9 @@ export default function Orders() {
                 } hover:bg-slate-500`}
               >
                 <td>
-                  <Link
-                    href={`/admin/order?id=${order.id}`}
-                    className="flex w-full"
-                  >
+                  <OrderLink id={order.id}>
                     {order.prefix + order.number}
-                  </Link>
+                  </OrderLink>
                 </td>
                 <td className="flex w-full">
                   <Link

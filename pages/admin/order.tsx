@@ -1,6 +1,7 @@
 import { formatDateAPIToBe } from "../../api/utils/formatters/formatdateapibe";
 import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 import LoadingIndicator from "../../components/common/loadingIndicator";
+import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
 import componentThemes from "../../components/componentThemes";
 import { PDFInvoice } from "../../components/pdf/pdfinvoice";
 import TypeWriter from "../../components/common/typewriter";
@@ -11,7 +12,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Head from "next/head";
-import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
 import {
   Table,
   TableHead,
@@ -20,10 +20,9 @@ import {
   TableBody,
   TableCell,
 } from "../../components/styled/table";
-import users from "./users";
 
 export default function Order() {
-  const { t, lang } = useTranslation("common");
+  const { t } = useTranslation("common");
   const router = useRouter();
   const [currentOrder, setCurrentOrder] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -156,7 +155,7 @@ export default function Order() {
 
                     {verificationRunning ? (
                       <button
-                        className={`${CustomTheme.outlinedButton} whitespace-nowrap text-xl`}
+                        className={`${CustomTheme.outlinedButton} text-xl whitespace-nowrap`}
                       >
                         <div className="flex w-[100px] flex-row justify-start">
                           <TypeWriter textTypeWriter={["...."]} />
@@ -164,7 +163,7 @@ export default function Order() {
                       </button>
                     ) : (
                       <button
-                        className={`${CustomTheme.outlinedButton} whitespace-nowrap text-xl`}
+                        className={`${CustomTheme.outlinedButton} text-xl whitespace-nowrap`}
                         onClick={submitCheckPayment}
                       >
                         {t("Verify payment")}
@@ -177,7 +176,7 @@ export default function Order() {
                   <PDFDownloadLink
                     fileName={currentOrder.prefix + currentOrder.number}
                     document={<PDFInvoice invoiceDocument={currentOrder} />}
-                    className={`${componentThemes.outlinedButton} flex flex-row items-center whitespace-nowrap text-xl`}
+                    className={`${componentThemes.outlinedButton} flex flex-row items-center text-xl whitespace-nowrap`}
                   >
                     📄 <p className="ml-1">{t("Download PDF")}</p>
                   </PDFDownloadLink>
