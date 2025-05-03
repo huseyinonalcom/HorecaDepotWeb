@@ -1,11 +1,10 @@
 import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
+import { Field, Label } from "../../components/styled/fieldset";
 import { getFromApi } from "../api/universal/admin/getfromapi";
 import useTranslation from "next-translate/useTranslation";
-import { rankFromRole } from "../../api/utils/ranks";
-import Head from "next/head";
-import Link from "next/link";
-import { Field, Label } from "../../components/styled/fieldset";
 import { Select } from "../../components/styled/select";
+import { Input } from "../../components/styled/input";
+import { rankFromRole } from "../../api/utils/ranks";
 import { useEffect, useState } from "react";
 import {
   Pagination,
@@ -14,10 +13,12 @@ import {
   PaginationPage,
   PaginationPrevious,
 } from "../../components/styled/pagination";
+import Head from "next/head";
+import Link from "next/link";
 
 const fetchUsers = async (filter) => {
   const allUsers = await fetch(
-    `/api/universal/admin/getfromapi?collection=${filter.role == 14 ? "clients" : "user-infos"}&qs=${encodeURIComponent(`filters[login][role][id][$eq]=${filter.role}&populate=login&pagination[page]=${filter.page}`)}`,
+    `/api/universal/admin/getfromapi?collection=${filter.role == 14 ? "clients" : "user-infos"}&qs=${encodeURIComponent(`filters[login][role][id][$eq]=${filter.role}&populate=login&pagination[page]=${filter.page}&filters[$or][0][firstName][$containsi]=${filter.search}&filters[$or][1][lastName][$containsi]=${filter.search}&sort[0]=firstName`)}`,
   );
 
   return allUsers;
@@ -28,6 +29,7 @@ export default function Users(props) {
   const [filter, setFilter] = useState({
     role: 14,
     page: 1,
+    search: "",
   });
   const [users, setUsers] = useState({
     data: [],
@@ -49,7 +51,7 @@ export default function Users(props) {
       </Head>
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-center">
-          <div className="flex sm:flex-auto">
+          <div className="flex gap-2 sm:flex-auto">
             <Field>
               <Label style={{ color: "black" }}>{t("role")}</Label>
               <Select
@@ -75,12 +77,17 @@ export default function Users(props) {
                   ))}
               </Select>
             </Field>
+            <Input
+              label={t("search")}
+              name="search"
+              onChange={(e) => setFilter({ ...filter, search: e.target.value })}
+              value={filter.search}
+            />
           </div>
-
-          <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+          <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
             <Link
               href="/admin/user"
-              className="shadow-xs block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               {t("user-add")}
             </Link>
@@ -95,7 +102,7 @@ export default function Users(props) {
                     <tr>
                       <th
                         scope="col"
-                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                        className="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                       >
                         {t("name")}
                       </th>
@@ -113,7 +120,7 @@ export default function Users(props) {
                       </th>
                       <th
                         scope="col"
-                        className="relative py-3.5 pl-3 pr-4 sm:pr-6"
+                        className="relative py-3.5 pr-4 pl-3 sm:pr-6"
                       >
                         <span className="sr-only">{t("edit")}</span>
                       </th>
@@ -122,16 +129,16 @@ export default function Users(props) {
                   <tbody className="divide-y divide-gray-200 bg-white">
                     {users.data.map((user) => (
                       <tr key={user.login?.role?.name + "-" + user.id}>
-                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                        <td className="py-4 pr-3 pl-4 text-sm whitespace-nowrap sm:pl-6">
                           {user.firstName} {user.lastName}
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
                           {user.email ?? user.login?.email}
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
                           {user.login.blocked ? t("blocked") : t("active")}
                         </td>
-                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                        <td className="relative py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
                           {filter.role != 14 ? (
                             filter.role != 4 && (
                               <Link
@@ -158,7 +165,7 @@ export default function Users(props) {
             </div>
           </div>
         </div>
-        <Pagination className="border-1 sticky bottom-0 -mt-1 flex w-full rounded-lg rounded-t-none border-zinc-950/10 bg-white p-4">
+        <Pagination className="sticky bottom-0 -mt-1 flex w-full rounded-lg rounded-t-none border-1 border-zinc-950/10 bg-white p-4">
           <PaginationPrevious
             onClick={
               filter.page > 1
