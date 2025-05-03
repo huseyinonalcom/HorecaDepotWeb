@@ -110,7 +110,7 @@ export function TableRow({
           href &&
             "has-[[data-row-link][data-focus]]:outline-2 has-[[data-row-link][data-focus]]:-outline-offset-2 has-[[data-row-link][data-focus]]:outline-blue-500",
           striped && "even:bg-zinc-950/[2.5%]",
-          href && striped && "hover:bg-zinc-950/5",
+          href && striped && "hover:bg-zinc-950/15",
           href && !striped && "hover:bg-zinc-950/[2.5%]",
         )}
       />

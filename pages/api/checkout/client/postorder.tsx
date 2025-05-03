@@ -73,6 +73,7 @@ export default async function postOrder(
       let documentID: number = 0;
       var clientID: number;
       var clientEmail: string;
+      const today = new Date();
 
       let client;
 
@@ -181,6 +182,16 @@ export default async function postOrder(
         if (requestLastOrder.ok) {
           const answer = await requestLastOrder.json();
           documentNumber = Number(answer.data[0].number) + 1;
+          // documentnumber starts with current year
+          // we need to replace the year in the last documentnumber with the current year
+          documentNumber = Number(
+            documentNumber
+              .toString()
+              .replace(
+                documentNumber.toString().substring(0, 4),
+                today.getFullYear().toString(),
+              ),
+          );
         } else {
         }
       } catch (e) {
@@ -188,7 +199,6 @@ export default async function postOrder(
         return res.status(404).json(statusText[404]);
       }
 
-      const today = new Date();
       var documentToPost = {
         number: documentNumber,
         type: "Commande",
