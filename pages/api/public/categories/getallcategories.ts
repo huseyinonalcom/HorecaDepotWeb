@@ -7,7 +7,7 @@ let cache = {
 };
 
 const CACHE_DURATION = 15 * 60 * 1000;
-const fetchUrl = `${process.env.API_URL}/api/categories?populate[headCategory][fields][0]=localized_name&populate[subCategories][fields][0]=localized_name&fields[0]=localized_name&fields[1]=code&fields[2]=localized_name&populate[image][fields][0]=url&populate[products_multi_categories][fields][0]=id&populate[products_multi_categories][fields][1]=active&sort=priority&pagination[pageSize]=100`;
+const fetchUrl = `${process.env.API_URL}/api/categories?populate[headCategory][fields][0]=localized_name&populate[subCategories][fields][0]=localized_name&populate[subCategories][populate][0]=image&fields[0]=localized_name&fields[1]=code&fields[2]=localized_name&populate[image][fields][0]=url&populate[products_multi_categories][fields][0]=id&populate[products_multi_categories][fields][1]=active&sort=priority&pagination[pageSize]=100`;
 
 export async function getAllCategories({ flat }: { flat?: boolean }) {
   if (cache.data && Date.now() - cache.timestamp < CACHE_DURATION) {

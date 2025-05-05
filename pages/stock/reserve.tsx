@@ -262,7 +262,7 @@ export default function Reserve() {
               <Input name="email" label={t("email")} required />
               <Input name="phone" label={t("phone")} />
             </Fieldset>
-          {/*   <Fieldset>
+            {/*   <Fieldset>
               <Legend>{t("invoice-address")}</Legend>
               <Field>
                 <Label>{t("country")}</Label>

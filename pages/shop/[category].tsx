@@ -141,6 +141,8 @@ export default function Products(props) {
     return link;
   };
 
+  console.log(currentCategory);
+
   return (
     <Layout>
       <ShopLayout>
@@ -299,19 +301,19 @@ export default function Products(props) {
   );
 }
 
-const ssrCache = new Map();
+// const ssrCache = new Map();
 
 export async function getServerSideProps({ res, query }) {
-  res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=1800, stale-while-revalidate=59",
-  );
+  // res.setHeader(
+  //   "Cache-Control",
+  //   "public, s-maxage=1800, stale-while-revalidate=59",
+  // );
 
-  const cached = ssrCache.get(query);
+  // const cached = ssrCache.get(query);
 
-  if (cached) {
-    return cached;
-  }
+  // if (cached) {
+  //   return cached;
+  // }
 
   const categoriesFlat = await getAllCategories({ flat: true });
 
@@ -331,16 +333,16 @@ export async function getServerSideProps({ res, query }) {
     categoriesFlat.find((cat) => cat.id == productsReq?.currentCategoryID) ??
     null;
 
-  ssrCache.set(query, {
-    products,
-    totalPages,
-    currentPage,
-    currentCategory,
-    currentSort,
-    currentSortDirection,
-  });
+  // ssrCache.set(query, {
+  //   products,
+  //   totalPages,
+  //   currentPage,
+  //   currentCategory,
+  //   currentSort,
+  //   currentSortDirection,
+  // });
 
-  setTimeout(() => ssrCache.delete(query), 1000 * 60 * 30);
+  // setTimeout(() => ssrCache.delete(query), 1000 * 60 * 30);
 
   return {
     props: {

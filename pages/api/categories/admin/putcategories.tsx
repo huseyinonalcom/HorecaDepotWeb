@@ -48,7 +48,7 @@ export default async function handler(req, res) {
       return res.status(400).json(statusText[400]);
     }
     try {
-      res.revalidate("/");
+      res.revalidate("/shop");
     } catch (_) {}
 
     return res.status(200).json(statusText[200]);
