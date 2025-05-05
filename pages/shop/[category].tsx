@@ -141,8 +141,6 @@ export default function Products(props) {
     return link;
   };
 
-  console.log(currentCategory);
-
   return (
     <Layout>
       <ShopLayout>
