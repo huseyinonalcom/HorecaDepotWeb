@@ -1,18 +1,18 @@
 import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
 import { formatCurrency } from "../../../api/utils/formatters/formatcurrency";
 import { getAllSuppliers } from "../../api/suppliers/admin/getallsuppliers";
+import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import { getAllCategories } from "../../api/categories/getallcategories";
 import { getAllProducts } from "../../api/products/admin/getallproducts";
 import { getCoverImageUrl } from "../../../api/utils/getprodcoverimage";
 import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { LuDot } from "react-icons/lu";
 import { utils, write } from "xlsx";
+import { useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import {
   FiChevronUp,
   FiSearch,
@@ -98,7 +98,7 @@ export default function Products(props) {
           {hasSubCategories ? (
             <>
               <div
-                className="h-full whitespace-nowrap px-4 py-2"
+                className="h-full px-4 py-2 whitespace-nowrap"
                 // onClick={() => {
                 //   setCurrentCategory(category.id);
                 // }}
@@ -127,7 +127,7 @@ export default function Products(props) {
             </>
           ) : (
             <Link
-              className="h-full w-full whitespace-nowrap px-4 py-2"
+              className="h-full w-full px-4 py-2 whitespace-nowrap"
               href={createLink({ category: category.id, page: 1 })}
             >
               {category?.localized_name[lang]}
@@ -201,10 +201,6 @@ export default function Products(props) {
 
     if (search) {
       link += `&search=${search}`;
-    } else if (tempSearch) {
-      link += `&search=${tempSearch}`;
-    } else if (currentSearch) {
-      link += `&search=${currentSearch}`;
     }
 
     if (supplier == 0) {
@@ -323,20 +319,20 @@ export default function Products(props) {
         <title>{t("stock")}</title>
       </Head>
       <div className="flex w-full flex-row items-center">
-        <div className="flex w-full flex-col items-center pb-1 pt-1">
+        <div className="flex w-full flex-col items-center pt-1 pb-1">
           <div className="my-2 flex w-full flex-wrap items-center gap-2 rounded-md bg-white p-4 shadow-sm">
             <div className="group relative h-full">
-              <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-4 pl-3 pr-2 font-bold text-black">
+              <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-4 pr-2 pl-3 font-bold text-black">
                 {currentCategory
                   ? (allCategories.find((cat) => cat.id == currentCategory)
                       ?.localized_name[lang] ?? t("choose_category"))
                   : t("choose_category")}
                 <FiChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />
               </div>
-              <div className="invisible absolute -left-5 top-8 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
+              <div className="invisible absolute top-8 -left-5 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
                 <div className="flex w-full cursor-pointer items-center justify-between text-left hover:bg-gray-200">
                   <Link
-                    className="h-full w-full whitespace-nowrap px-4 py-2"
+                    className="h-full w-full px-4 py-2 whitespace-nowrap"
                     href={createLink({ category: "all", page: 1 })}
                   >
                     {t("All")}
@@ -348,16 +344,16 @@ export default function Products(props) {
               </div>
             </div>
             <div className="group relative h-full">
-              <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-4 pl-3 pr-2 font-bold text-black">
+              <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-4 pr-2 pl-3 font-bold text-black">
                 {currentSupplier
                   ? allSuppliers.find((sup) => sup.id == currentSupplier)?.name
                   : t("choose_supplier")}
                 <FiChevronUp className="ml-1 h-4 w-4 transform duration-300 group-hover:rotate-180" />
               </div>
-              <div className="invisible absolute -left-5 top-8 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
+              <div className="invisible absolute top-8 -left-5 z-50 mt-4 w-[240px] bg-white py-2 text-gray-500 opacity-0 shadow-lg duration-300 group-hover:visible group-hover:opacity-100">
                 <div className="flex w-full cursor-pointer items-center justify-between text-left hover:bg-gray-200">
                   <Link
-                    className="h-full w-full whitespace-nowrap px-4 py-2"
+                    className="h-full w-full px-4 py-2 whitespace-nowrap"
                     href={createLink({ supplier: 0, page: 1 })}
                   >
                     {t("All")}
@@ -528,7 +524,11 @@ export default function Products(props) {
                         className="aspect-square h-[80px] flex-shrink-0 object-cover"
                       />
                     </td>
-                    <td>{product.localized_name ? product.localized_name[lang] : product.name}</td>
+                    <td>
+                      {product.localized_name
+                        ? product.localized_name[lang]
+                        : product.name}
+                    </td>
                     <td>{product.internalCode}</td>
                     <td>{product.supplierCode}</td>
                     <td>{formatCurrency(product.value)}</td>
@@ -551,7 +551,7 @@ export default function Products(props) {
 
             <>
               {allProducts.length > 0 ? (
-                <div className="mb-2 mt-2 flex flex-row justify-center px-6">
+                <div className="mt-2 mb-2 flex flex-row justify-center px-6">
                   <div className="flex items-center justify-center space-x-1">
                     <Link
                       href={
