@@ -1,3 +1,4 @@
+import { adminHandler } from "../../../../api/api/requestHandlers";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
 
@@ -8,12 +9,12 @@ const fetchParams =
 
 export const getProducts = async ({
   authToken,
-  page,
-  search,
   category,
+  search,
+  count,
+  page,
   ean,
   id,
-  count,
 }: {
   category?: string;
   authToken: string;
@@ -108,7 +109,7 @@ export const getProducts = async ({
   }
 };
 
-export default async function handler(
+/* export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
@@ -128,6 +129,40 @@ export default async function handler(
     }
 
     return res.status(200).json(response);
+  } catch (e) {
+    return res.status(500).json(statusText[500]);
+  }
+} */
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
+  try {
+    adminHandler({
+      handlers: {
+        GET: async (req, res) => {
+          const response = await getProducts({
+            authToken: req.cookies.j,
+            ean: req.query.ean as string,
+            id: Number(req.query.id as string),
+            page: Number(req.query.page as string),
+            category: req.query.category as string,
+            search: req.query.search as string,
+            count: req.query.count as string,
+          });
+
+          if (!response) {
+            return res.status(500).json(statusText[500]);
+          }
+
+          return res.status(200).json(response);
+        },
+        POST: async (req, res) => res.status(501).json(statusText[501]),
+        PUT: async (req, res) => res.status(501).json(statusText[501]),
+        DELETE: async (req, res) => res.status(501).json(statusText[501]),
+      },
+    })(req, res);
   } catch (e) {
     return res.status(500).json(statusText[500]);
   }

@@ -1,4 +1,4 @@
-export type httpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+export type httpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
 export type EndpointInput<T = any> = {
   method: httpMethod;

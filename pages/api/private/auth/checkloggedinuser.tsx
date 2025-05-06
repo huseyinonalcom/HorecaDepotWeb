@@ -49,29 +49,32 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   let response = null;
-  if (req.method === "GET") {
-    try {
-      response = await checkLoggedInUserAdminEndpoint({
-        method: "GET",
-        data: {
-          authToken: req.cookies.j,
-        },
-      });
+  try {
+    response = await checkLoggedInUserAdminEndpoint({
+      method: "GET",
+      data: {
+        authToken: req.cookies.j,
+      },
+    });
 
-      if (response.error) {
-        if (response.error.type === "auth") {
-          return res.status(401).json({ error: statusText[401] });
-        }
-        return res.status(500).json({ error: statusText[500] });
+    if (response.error) {
+      console.error("Error in checkLoggedInUserAdminEndpoint", response.error);
+      switch (response.error.type) {
+        case "handler":
+          return res.status(500).json({ error: statusText[500] });
+        case "method":
+          return res.status(405).json({ error: statusText[405] });
       }
-
-      return res.status(200).json(response.result);
-    } catch (e) {
-      return res.status(500).json({
-        error: statusText[500],
-      });
     }
-  }
 
-  return res.status(405).json({ error: statusText[405], result: null });
+    return res.status(200).json(response.result);
+  } catch (e) {
+    console.error(
+      "Error in checkLoggedInUserAdminEndpoint handler",
+      response.error,
+    );
+    return res.status(500).json({
+      error: statusText[500],
+    });
+  }
 }
