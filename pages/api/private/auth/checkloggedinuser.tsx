@@ -33,7 +33,7 @@ export default async function checkLoggedInUserAdmin(
       if (
         !validRoles.includes(Number(answer.role.name.replaceAll("Tier ", "")))
       ) {
-        return res.status(404).json(statusText[404]);
+        return res.status(401).json(statusText[401]);
       }
 
       return res.status(200).json({ role: answer.role.name });
