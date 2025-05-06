@@ -56,7 +56,7 @@ const ProductPreviewCustom = ({ product, onClick }: Props) => {
         className={"mt-2 flex w-full flex-col items-start"}
       >
         <div draggable={false} className="flex flex-col items-start">
-          <p className="font-bold">{product.name}</p>
+          <p className="font-bold">{product.localized_name ? product.localized_name[lang] : product.name}</p>
           <p>{product.categories[0]?.localized_name[lang] ?? ""}</p>
           {product.internalCode && (
             <p className="text-sm">

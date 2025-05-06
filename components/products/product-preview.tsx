@@ -55,7 +55,7 @@ const ProductPreview = ({ product }: Props) => {
       href={`/products/${product.categories.at(0).localized_name[lang]}/${product.name}/${product.id}`}
       draggable={false}
       id={`${product.id}-preview`}
-      className={`border-1 group flex w-full flex-col items-center rounded-xl border-black/30 p-2 text-black`}
+      className={`group flex w-full flex-col items-center rounded-xl border-1 border-black/30 p-2 text-black`}
     >
       <div
         draggable={false}
@@ -76,7 +76,7 @@ const ProductPreview = ({ product }: Props) => {
         />
         <div
           draggable={false}
-          className="absolute right-2 top-2 hidden flex-col gap-2 opacity-100 duration-500 group-hover:top-2 group-hover:opacity-100 md:flex lg:top-6 lg:opacity-0"
+          className="absolute top-2 right-2 hidden flex-col gap-2 opacity-100 duration-500 group-hover:top-2 group-hover:opacity-100 md:flex lg:top-6 lg:opacity-0"
         >
           <button
             draggable={false}
@@ -112,7 +112,11 @@ const ProductPreview = ({ product }: Props) => {
         className={"mt-2 flex w-full flex-col items-start"}
       >
         <div draggable={false} className="flex flex-col items-start">
-          <p className="font-bold">{product.name}</p>
+          <p className="font-bold">
+            {product.localized_name
+              ? product.localized_name[lang]
+              : product.name}
+          </p>
           <p>{product.categories[0]?.localized_name[lang] ?? ""}</p>
           {product.internalCode && (
             <p className="text-sm">

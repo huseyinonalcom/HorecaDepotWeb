@@ -645,7 +645,7 @@ export default function Index({
                 .find((banner) => banner.id == homePage.layout["4"].content)
                 .images.find((img) => img.locale == lang).linked_url
             }
-            className="relative aspect-[21/9] w-full overflow-hidden rounded-xl md:aspect-[205/7] lg:aspect-[205/78]"
+            className="relative aspect-[21/9] w-full overflow-hidden rounded-xl md:aspect-[205/78] lg:aspect-[205/78]"
           >
             <ImageWithURL
               src={
@@ -687,7 +687,7 @@ export default function Index({
                 .find((banner) => banner.id == homePage.layout["5"].content)
                 .images.find((img) => img.locale == lang).linked_url
             }
-            className="relative aspect-[21/9] w-full overflow-hidden rounded-xl md:aspect-[205/7] lg:aspect-[205/78]"
+            className="relative aspect-[21/9] w-full overflow-hidden rounded-xl md:aspect-[205/78] lg:aspect-[205/78]"
           >
             <ImageWithURL
               src={
