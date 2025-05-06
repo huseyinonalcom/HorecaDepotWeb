@@ -62,7 +62,10 @@ export default function ProductCard({ product }: { product: any }) {
             </button>
           ))}
         </div>
-        <h2 className="font-bold">{product.name}</h2>
+        <h2 className="font-bold">
+          {product.localized_name ? product.localized_name[lang] : product.name}
+        </h2>
+
         <div className="flex flex-row items-end gap-2">
           <h3 className="text-lg font-semibold">
             {formatCurrency(product.value)}
