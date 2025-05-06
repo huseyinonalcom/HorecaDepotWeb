@@ -1,7 +1,7 @@
+import { checkLoggedInUserAdmin } from "../../pages/api/private/auth/checkloggedinuser";
 import { NextApiRequest, NextApiResponse } from "next";
 import { httpMethod } from "./endpoint";
 import statusText from "../statustexts";
-import { checkLoggedInUserAdmin } from "../../pages/api/private/auth/checkloggedinuser";
 
 type HandlerFunction = (
   req: NextApiRequest,
