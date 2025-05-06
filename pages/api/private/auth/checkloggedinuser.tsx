@@ -1,46 +1,77 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
+import { endpoint } from "../../../../api/api/endpoint";
 
 const fetchUrl = `${process.env.API_URL}/api/users/me?populate[role][fields][0]=name&fields=id`;
-
 const validRoles = [7, 8, 9];
 
-export default async function checkLoggedInUserAdmin(
+export async function checkLoggedInUserAdmin({
+  authToken,
+}: {
+  authToken: string;
+}) {
+  if (!authToken) {
+    throw new Error("Missing auth token");
+  }
+
+  const request = await fetch(fetchUrl, {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  });
+
+  if (!request.ok) {
+    throw new Error("Failed to fetch user data");
+  }
+
+  const answer = await request.json();
+
+  const roleName = answer.role.name.replaceAll("Tier ", "");
+  if (!validRoles.includes(Number(roleName))) {
+    throw new Error("Unauthorized role");
+  }
+
+  return { role: answer.role.name };
+}
+
+const checkLoggedInUserAdminEndpoint = endpoint<
+  { authToken: string },
+  { role: string }
+>({
+  methods: ["GET"],
+  handler: async (input) => {
+    return await checkLoggedInUserAdmin({ authToken: input.data.authToken });
+  },
+});
+
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  let response = null;
   if (req.method === "GET") {
-    const cookies = req.cookies;
-    const authToken = cookies.j;
-
-    if (!authToken) {
-      return res.status(401).json(statusText[401]);
-    }
-
     try {
-      const request = await fetch(fetchUrl, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
+      response = await checkLoggedInUserAdminEndpoint({
+        method: "GET",
+        data: {
+          authToken: req.cookies.j,
         },
       });
 
-      if (!request.ok) {
-        return res.status(400).json(statusText[400]);
+      if (response.error) {
+        if (response.error.type === "auth") {
+          return res.status(401).json({ error: statusText[401] });
+        }
+        return res.status(500).json({ error: statusText[500] });
       }
 
-      const answer = await request.json();
-
-      if (
-        !validRoles.includes(Number(answer.role.name.replaceAll("Tier ", "")))
-      ) {
-        return res.status(401).json(statusText[401]);
-      }
-
-      return res.status(200).json({ role: answer.role.name });
-    } catch (error) {
-      return res.status(500).json(statusText[500]);
+      return res.status(200).json(response.result);
+    } catch (e) {
+      return res.status(500).json({
+        error: statusText[500],
+      });
     }
-  } else {
-    return res.status(405).json(statusText[405]);
   }
+
+  return res.status(405).json({ error: statusText[405], result: null });
 }
