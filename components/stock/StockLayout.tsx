@@ -96,6 +96,26 @@ export default function StockLayout({ children }: Props) {
               <ShoppingCartIcon height={24} />
               {t("Cart")}
             </button>
+            <Link
+              href={"/stock/orders"}
+              className={`flex w-full flex-row items-center gap-3 rounded-md border-2 border-gray-400 p-1 whitespace-nowrap text-white shadow-sm hover:bg-blue-800`}
+            >
+              {t("orders")}
+            </Link>
+            <Link
+              href={"/stock/reservations"}
+              className={`flex w-full flex-row items-center gap-3 rounded-md border-2 border-gray-400 p-1 whitespace-nowrap text-white shadow-sm hover:bg-blue-800`}
+            >
+              {t("reservations")}
+            </Link>
+            {userType == "admin" && (
+              <Link
+                href={"/admin"}
+                className={`flex w-full flex-row items-center gap-3 rounded-md border-2 border-gray-400 p-1 whitespace-nowrap text-white shadow-sm hover:bg-blue-800`}
+              >
+                Admin
+              </Link>
+            )}
             <h2 className="mr-auto text-xl font-semibold text-white">
               {t("Categories")}
             </h2>
@@ -121,26 +141,6 @@ export default function StockLayout({ children }: Props) {
                 ))}
             </div>
             <div className="mt-10" />
-            <Link
-              href={"/stock/orders"}
-              className={`mt-2 flex w-full flex-row items-center gap-3 rounded-md border-2 border-gray-400 p-1 whitespace-nowrap text-white shadow-sm hover:bg-blue-800`}
-            >
-              {t("orders")}
-            </Link>
-            <Link
-              href={"/stock/reservations"}
-              className={`mt-2 flex w-full flex-row items-center gap-3 rounded-md border-2 border-gray-400 p-1 whitespace-nowrap text-white shadow-sm hover:bg-blue-800`}
-            >
-              {t("reservations")}
-            </Link>
-            {userType == "admin" && (
-              <Link
-                href={"/admin"}
-                className={`mt-2 flex w-full flex-row items-center gap-3 rounded-md border-2 border-gray-400 p-1 whitespace-nowrap text-white shadow-sm hover:bg-blue-800`}
-              >
-                Admin
-              </Link>
-            )}
             <button
               name="logout"
               aria-label="Logout"

@@ -528,7 +528,7 @@ export default function Products(props) {
                         className="aspect-square h-[80px] flex-shrink-0 object-cover"
                       />
                     </td>
-                    <td>{product.name}</td>
+                    <td>{product.localized_name ? product.localized_name[lang] : product.name}</td>
                     <td>{product.internalCode}</td>
                     <td>{product.supplierCode}</td>
                     <td>{formatCurrency(product.value)}</td>

@@ -28,6 +28,7 @@ export default async function postProduct(
             categories: prodToPost.categories.map((cat) => cat.id),
             description: prodToPost.description,
             localized_description: prodToPost.localized_description,
+            localized_name: prodToPost.localized_name,
             supplierCode: prodToPost.supplierCode.toString() ?? "0",
             internalCode: prodToPost.internalCode ?? "0",
             value: prodToPost.value ?? 0,

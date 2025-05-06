@@ -79,7 +79,7 @@ export default function Products(props) {
             <>
               <Link
                 href={`/${t("locale")}/shop/${encodeURIComponent(t(category.localized_name[t("locale")]))}?page=1`}
-                className="h-full whitespace-nowrap px-4 py-2"
+                className="h-full px-4 py-2 whitespace-nowrap"
               >
                 {t(category.localized_name[t("locale")])}
               </Link>
@@ -100,7 +100,7 @@ export default function Products(props) {
           ) : (
             <Link
               href={`/${t("locale")}/shop/${encodeURIComponent(t(category.localized_name[t("locale")]))}?page=1`}
-              className="h-full w-full whitespace-nowrap px-4 py-2"
+              className="h-full w-full px-4 py-2 whitespace-nowrap"
             >
               {t(category.localized_name[t("locale")])}
             </Link>
@@ -190,7 +190,7 @@ export default function Products(props) {
               <h2 className="mt-2 flex w-full justify-center text-5xl font-bold">
                 {t(currentCategory?.localized_name[t("locale")] ?? "Shop")}
               </h2>
-              <div className="my-auto flex h-fit flex-row gap-2 pl-4 pr-4">
+              <div className="my-auto flex h-fit flex-row gap-2 pr-4 pl-4">
                 <Link
                   href={createLink({
                     ...props,
@@ -212,7 +212,7 @@ export default function Products(props) {
                     page: 1,
                     currentSort: "value",
                   })}
-                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 hover:border-gray-700 ${currentSort == "value" ? "border-black" : "border-gray-300 "} cursor-pointer`}
+                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 hover:border-gray-700 ${currentSort == "value" ? "border-black" : "border-gray-300"} cursor-pointer`}
                 >
                   {t("Price")}
                 </Link>
@@ -222,7 +222,7 @@ export default function Products(props) {
                     page: 1,
                     currentSort: "id",
                   })}
-                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 hover:border-gray-700 ${currentSort == "id" ? "border-black" : "border-gray-300 "} cursor-pointer`}
+                  className={`flex flex-row items-center border-2 bg-white px-2 py-1 hover:border-gray-700 ${currentSort == "id" ? "border-black" : "border-gray-300"} cursor-pointer`}
                 >
                   {t("Date")}
                 </Link>
@@ -235,7 +235,7 @@ export default function Products(props) {
             ) : (
               <div className="grid w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
                 {allProducts.map((product) => (
-                  <div key={product.id} className="mb-2 mt-2 w-full px-4">
+                  <div key={product.id} className="mt-2 mb-2 w-full px-4">
                     <ProductPreview2 product={product} />
                   </div>
                 ))}

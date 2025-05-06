@@ -313,18 +313,26 @@ export default function ProductPage(props) {
             />
           </SwitchField>
         )}
-        <Input
-          label={t("name")}
-          required
-          name="name"
-          value={currentProduct?.name}
-          onChange={(e) => {
-            setCurrentProduct((pp) => ({
-              ...pp,
-              name: e.target.value,
-            }));
-          }}
-        />
+        <Field>
+          <Label>{t("name")}</Label>
+          <LocalizedInput
+            value={
+              currentProduct?.localized_name ?? {
+                nl: currentProduct?.name,
+                en: currentProduct?.name,
+                fr: currentProduct?.name,
+                de: currentProduct?.name,
+              }
+            }
+            onChange={(value) => {
+              setCurrentProduct((pp) => ({
+                ...pp,
+                localized_name: value,
+              }));
+            }}
+          />
+        </Field>
+        <Divider />
         <Input
           label={t("price-undiscounted")}
           required

@@ -180,6 +180,23 @@ const updateProductMain = async (
     };
   }
 
+  if (prodToPost.localized_name) {
+    body.data = {
+      ...body.data,
+      localized_name: prodToPost.localized_name,
+    };
+  } else {
+    body.data = {
+      ...body.data,
+      localized_name: {
+        en: prodToPost.name,
+        nl: prodToPost.name,
+        fr: prodToPost.name,
+        de: prodToPost.name,
+      },
+    };
+  }
+
   const response = await fetch(
     `${process.env.API_URL}/api/products/${prodID}`,
     {

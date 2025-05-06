@@ -28,6 +28,7 @@ export interface Product {
   priceBeforeDiscount?: number;
   description?: string;
   localized_description?: Record<string, string>;
+  localized_name?: Record<string, string>;
   material?: string;
   product_color?: Color;
   color?: string;
