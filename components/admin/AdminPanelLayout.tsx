@@ -194,7 +194,7 @@ export default function AdminPanelLayout({
                     name="logout"
                     aria-label="Logout"
                     onClick={async () => {
-                      await fetch("/api/admin/logout").then(() => {
+                      await fetch("/api/private/auth/logout").then(() => {
                         router.push(`/`);
                       });
                     }}
@@ -259,7 +259,7 @@ export default function AdminPanelLayout({
                 name="logout"
                 aria-label="Logout"
                 onClick={async () => {
-                  await fetch("/api/admin/logout").then(() => {
+                  await fetch("/api/private/auth/logout").then(() => {
                     router.push(`/`);
                   });
                 }}

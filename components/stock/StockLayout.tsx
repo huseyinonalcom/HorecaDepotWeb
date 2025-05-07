@@ -146,7 +146,7 @@ export default function StockLayout({ children }: Props) {
               aria-label="Logout"
               className={`mt-2 flex w-full flex-row items-center gap-3 rounded-md border-2 border-gray-400 p-1 whitespace-nowrap text-white shadow-sm hover:bg-blue-800`}
               onClick={async () => {
-                await fetch("/api/admin/logout").then(() => {
+                await fetch("/api/private/auth/logout").then(() => {
                   router.push(`/`);
                 });
               }}

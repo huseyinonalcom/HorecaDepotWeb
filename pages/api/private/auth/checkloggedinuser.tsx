@@ -1,6 +1,6 @@
+import { endpoint } from "../../../../api/api/endpoint";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
-import { endpoint } from "../../../../api/api/endpoint";
 
 const fetchUrl = `${process.env.API_URL}/api/users/me?populate[role][fields][0]=name&fields=id`;
 const validRoles = [7, 8, 9];

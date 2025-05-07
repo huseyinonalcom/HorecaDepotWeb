@@ -35,7 +35,7 @@ export default function MyAccountDash() {
   const handleLogOut = async (event) => {
     event.preventDefault();
     clearClient();
-    await fetch("/api/client/client/logout").then(() => {});
+    await fetch("/api/public/auth/logout").then(() => {});
     router.push("/");
   };
 
