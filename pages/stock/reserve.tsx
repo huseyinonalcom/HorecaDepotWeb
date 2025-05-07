@@ -106,7 +106,7 @@ export default function Reserve() {
 
   return (
     <div>
-      <div className="ww-full mx-auto grid grid-cols-1 gap-x-16 lg:grid-cols-2 lg:px-4 lg:py-16">
+      <div className="ww-full mx-auto grid grid-cols-1 gap-x-4 lg:grid-cols-2 lg:px-4 lg:py-4">
         <h1 className="sr-only">{t("create-reservation")}</h1>
 
         <section
