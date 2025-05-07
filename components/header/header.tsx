@@ -67,7 +67,7 @@ const CategoryItem = ({ category, onClick }) => {
           onMouseLeave={() => {
             setisHovered(false);
           }}
-          className="absolute left-full top-0 z-50 min-w-[200px] bg-white shadow-lg"
+          className="absolute top-0 left-full z-50 min-w-[200px] bg-white shadow-lg"
         >
           {category.subCategories
             .filter(
@@ -131,7 +131,7 @@ const DesktopSearch = () => {
     <form
       name="Search"
       aria-label="Search"
-      className="relative ml-auto mr-12 hidden w-full max-w-[500px] duration-300 md:flex"
+      className="relative mr-12 ml-auto hidden w-full max-w-[500px] duration-300 md:flex"
       onSubmit={handleSearchSubmit}
     >
       <input
@@ -139,7 +139,7 @@ const DesktopSearch = () => {
         aria-label="Search bar input"
         type="text"
         onChange={handleSearchChange}
-        className="w-full rounded-2xl border-2 bg-white py-2 pl-4 pr-4 text-black outline-none focus:border-black focus:ring-transparent"
+        className="w-full rounded-2xl border-2 bg-white py-2 pr-4 pl-4 text-black outline-none focus:border-black focus:ring-transparent"
         placeholder={t("Search Products")}
       />
       <div className="absolute inset-y-0 right-0 flex">
@@ -152,7 +152,7 @@ const DesktopSearch = () => {
         </button>
       </div>
       {searchResults.length > 0 && (
-        <div className="absolute left-0 right-0 z-10 mx-auto mt-12 max-w-screen-2xl rounded-xl border border-gray-300 bg-white text-black shadow-lg">
+        <div className="absolute right-0 left-0 z-10 mx-auto mt-12 max-w-screen-2xl rounded-xl border border-gray-300 bg-white text-black shadow-lg">
           <ul>
             {searchResults
               .filter(
@@ -237,7 +237,7 @@ const MobileSearch = () => {
         aria-label="Search bar input"
         type="text"
         onChange={handleSearchChange}
-        className="w-full rounded-2xl border-2 bg-white py-2 pl-4 pr-4 text-black outline-none focus:border-black focus:ring-transparent"
+        className="w-full rounded-2xl border-2 bg-white py-2 pr-4 pl-4 text-black outline-none focus:border-black focus:ring-transparent"
         placeholder={t("Search Products")}
       />
       <div className="absolute inset-y-0 right-0 flex">
@@ -250,7 +250,7 @@ const MobileSearch = () => {
         </button>
       </div>
       {searchResults.length > 0 && (
-        <div className="absolute left-0 right-0 z-10 mx-auto mt-12 max-w-screen-2xl rounded-xl border border-gray-300 bg-white text-black shadow-lg">
+        <div className="absolute right-0 left-0 z-10 mx-auto mt-12 max-w-screen-2xl rounded-xl border border-gray-300 bg-white text-black shadow-lg">
           <ul>
             {searchResults
               .filter(
@@ -297,7 +297,7 @@ const TopBar = () => {
 
   useEffect(() => {
     if (rating == null) {
-      fetch("/api/external/public/googlerating").then((res) => {
+      fetch("/api/public/external/googlerating").then((res) => {
         res.json().then((res) => {
           setRating(res);
         });
@@ -411,7 +411,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen, allCategories }) => {
             <>
               <a
                 href={`/${lang}/shop/${encodeURIComponent(category.localized_name[lang])}?page=1`}
-                className="h-full whitespace-nowrap px-4 py-2"
+                className="h-full px-4 py-2 whitespace-nowrap"
               >
                 {category.localized_name[lang]}
               </a>
@@ -432,7 +432,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen, allCategories }) => {
           ) : (
             <a
               href={`/${lang}/shop/${encodeURIComponent(category.localized_name[lang])}?page=1`}
-              className="h-full w-full whitespace-nowrap px-4 py-2"
+              className="h-full w-full px-4 py-2 whitespace-nowrap"
             >
               {category.localized_name[lang]}
             </a>
@@ -506,7 +506,7 @@ const HeaderDrawer = ({ onClickOutside, isOpen, allCategories }) => {
 
             <div
               onMouseLeave={() => setShowLanguages(false)}
-              className={`absolute -right-[6px] top-full mt-2 flex w-[78px] flex-col items-center bg-black shadow-md duration-300 ${
+              className={`absolute top-full -right-[6px] mt-2 flex w-[78px] flex-col items-center bg-black shadow-md duration-300 ${
                 showLanguages ? `visible opacity-100` : `invisible opacity-0`
               }`}
             >
@@ -692,7 +692,7 @@ const HeaderButtons = ({ cartItems }) => {
         href="/wishlist"
       >
         <FiHeart size={24} />
-        <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-red-600 px-1 py-0.5 text-xs font-bold leading-none text-white">
+        <span className="absolute top-3 right-3 inline-flex translate-x-1/2 -translate-y-1/2 transform items-center justify-center bg-red-600 px-1 py-0.5 text-xs leading-none font-bold text-white">
           {wishlist.length}
         </span>
       </Link>
@@ -703,7 +703,7 @@ const HeaderButtons = ({ cartItems }) => {
         onClick={openDrawer}
       >
         <FiShoppingBag size={24} />
-        <span className="absolute right-3 top-3 inline-flex -translate-y-1/2 translate-x-1/2 transform items-center justify-center bg-red-600 px-1 py-0.5 text-xs font-bold leading-none">
+        <span className="absolute top-3 right-3 inline-flex translate-x-1/2 -translate-y-1/2 transform items-center justify-center bg-red-600 px-1 py-0.5 text-xs leading-none font-bold">
           {cartItems}
         </span>
       </button>
@@ -720,7 +720,7 @@ const CategoryDrawerMobile = ({ isOpen, categoriesToShow, closeDrawer }) => {
     >
       <div className="flex-shrink-0 flex-col rounded-r-xl bg-white p-4">
         <div className="flex w-full min-w-[300px] flex-row items-center justify-between">
-          <h3 className="pl-2 pr-6 text-xl font-semibold">{t("Categories")}</h3>
+          <h3 className="pr-6 pl-2 text-xl font-semibold">{t("Categories")}</h3>
           <button
             name="closeCategories"
             aria-label="Close Categoires"
@@ -729,7 +729,7 @@ const CategoryDrawerMobile = ({ isOpen, categoriesToShow, closeDrawer }) => {
             <FiX />
           </button>
         </div>
-        <div className="my-4 flex w-full flex-col border-b border-t bg-white py-2 text-gray-500 duration-300">
+        <div className="my-4 flex w-full flex-col border-t border-b bg-white py-2 text-gray-500 duration-300">
           {categoriesToShow.map((category) => (
             <CategoryItem
               key={category.id}
@@ -756,7 +756,7 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
     >
       <div className="z-[98] mx-auto w-full max-w-[1000px] flex-shrink-0 rounded-xl bg-white p-4">
         <div className="flex w-full flex-row items-center justify-between">
-          <h3 className="pl-2 pr-6 text-xl font-semibold">{t("Categories")}</h3>
+          <h3 className="pr-6 pl-2 text-xl font-semibold">{t("Categories")}</h3>
           <button
             name="closeCategories"
             aria-label="Close Categoires"
@@ -909,7 +909,7 @@ const Header = () => {
 
         <TopBar />
 
-        <div className="w-full   px-5">
+        <div className="w-full px-5">
           <div className="flex w-full flex-row items-center justify-between gap-4">
             <button
               name="Mobile Navigation Menu"
@@ -950,7 +950,7 @@ const Header = () => {
               <button
                 name="Show Categories"
                 aria-label="Show Categories"
-                className="hidden flex-row items-center gap-2 rounded-lg border-2 py-2 pl-3.5 pr-5 lg:flex"
+                className="hidden flex-row items-center gap-2 rounded-lg border-2 py-2 pr-5 pl-3.5 lg:flex"
                 onClick={() => setShowCategories(true)}
               >
                 <FiMenu size={20} className="mb-[1px]" />

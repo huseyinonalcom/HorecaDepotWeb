@@ -1,6 +1,6 @@
 import { ClientContext } from "../../api/providers/clientProvider";
 import { FiPackage, FiHeart, FiUser } from "react-icons/fi";
-import useTranslation from "next-translate/useTranslation"; 
+import useTranslation from "next-translate/useTranslation";
 import { useContext, useEffect, useState } from "react";
 import CustomTheme from "../componentThemes";
 import { useRouter } from "next/router";
