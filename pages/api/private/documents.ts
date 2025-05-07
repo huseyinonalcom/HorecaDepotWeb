@@ -152,10 +152,5 @@ export default apiRoute({
         });
       },
     },
-    DELETE: {
-      func: async (req, res) => {
-        return await updateDocument({});
-      },
-    },
   },
 });
