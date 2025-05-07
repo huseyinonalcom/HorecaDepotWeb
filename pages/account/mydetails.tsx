@@ -5,10 +5,10 @@ import CustomTheme from "../../components/componentThemes";
 import { ClientUser } from "../../api/interfaces/client";
 import Layout from "../../components/public/layout";
 import Meta from "../../components/public/meta";
+import { FiChevronLeft } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { FiChevronLeft } from "react-icons/fi";
 
 export default function MyDetails() {
   const { t, lang } = useTranslation("common");
@@ -19,7 +19,7 @@ export default function MyDetails() {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const request = await fetch(`/api/client/client/getclientdetails`);
+      const request = await fetch(`/api/public/customers/getselfcustomer`);
       const response = await request.json();
       if (request.ok) {
         return response;
@@ -54,7 +54,7 @@ export default function MyDetails() {
     <Layout>
       <Head>
         <Meta />
-        <title>Horeca Depot</title>
+        <title>{t("my-details")} - Horeca Depot</title>
         <meta name="description" content={t("main_description")} />
         <meta name="language" content={lang} />
       </Head>
@@ -64,7 +64,7 @@ export default function MyDetails() {
             <FiChevronLeft className="group-hover:animate-bounceHorizontal" />
             <p>{t("Back to Account")}</p>
           </Link>
-          <h2 className="text-xl font-semibold">{t("My Details")}</h2>
+          <h2 className="text-xl font-semibold">{t("my-details")}</h2>
         </div>
         <div className="flex w-full flex-col gap-4">
           {isLoading ? (
