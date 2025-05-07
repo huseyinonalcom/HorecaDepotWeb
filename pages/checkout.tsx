@@ -45,7 +45,7 @@ export default function Checkout() {
 
   useEffect(() => {
     setTimeout(async () => {
-      const data = await fetch("/api/client/client/checkloggedinuser");
+      const data = await fetch("/api/public/customers/checksession");
       if (data.status != 200) {
         clearClient();
       }
