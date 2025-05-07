@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from "react";
 import { ClientContext } from "../../api/providers/clientProvider";
-import useTranslation from "next-translate/useTranslation"; 
-import Link from "next/link";
-import { useRouter } from "next/router";
-import CustomTheme from "../componentThemes";
 import { FiPackage, FiHeart, FiUser } from "react-icons/fi";
+import useTranslation from "next-translate/useTranslation"; 
+import { useContext, useEffect, useState } from "react";
+import CustomTheme from "../componentThemes";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function MyAccountDash() {
   const { t } = useTranslation("common");
