@@ -19,7 +19,7 @@ export const requestHandler = <T = any, R = any>({
     if (!handlers[method]) {
       return res
         .status(405)
-        .json({ error: { type: "method", message: "Method not allowed" } });
+        .json({ error: { type: "method", message: statusText[405] } });
     }
 
     try {
@@ -44,14 +44,14 @@ export const adminHandler = <T = any, R = any>({
       if (!adminCheck) {
         return res
           .status(401)
-          .json({ error: { type: "auth", message: "Unauthorized" } });
+          .json({ error: { type: "auth", message: statusText[401] } });
       }
       requestHandler({ handlers })(req, res);
     } catch (error) {
       console.error("Admin check failed:", error);
       return res
         .status(401)
-        .json({ error: { type: "auth", message: "Unauthorized" } });
+        .json({ error: { type: "auth", message: statusText[401] } });
     }
   };
 };
@@ -69,14 +69,14 @@ export const customerHandler = <T = any, R = any>({
       if (!adminCheck) {
         return res
           .status(401)
-          .json({ error: { type: "auth", message: "Unauthorized" } });
+          .json({ error: { type: "auth", message: statusText[401] } });
       }
       requestHandler({ handlers })(req, res);
     } catch (error) {
       console.error("Admin check failed:", error);
       return res
         .status(401)
-        .json({ error: { type: "auth", message: "Unauthorized" } });
+        .json({ error: { type: "auth", message: statusText[401] } });
     }
   };
 };
