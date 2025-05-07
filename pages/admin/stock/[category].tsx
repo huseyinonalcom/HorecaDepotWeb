@@ -19,9 +19,23 @@ import {
   FiArrowUp,
   FiDownload,
   FiPlusCircle,
-  FiChevronLeft,
-  FiChevronRight,
 } from "react-icons/fi";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../../../components/styled/table";
+import {
+  Pagination,
+  PaginationPrevious,
+  PaginationList,
+  PaginationPage,
+  PaginationGap,
+  PaginationNext,
+} from "../../../components/styled/pagination";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");
@@ -484,34 +498,28 @@ export default function Products(props) {
               <span className={textClass}>{t("Create New Product")}</span>
             </Link>
           </div>
-          <div className="flex w-full flex-col items-center overflow-x-auto rounded-md bg-white p-4 shadow-sm">
-            <table className="w-full gap-2">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>{t("Name")}</th>
-                  <th>{t("Code")}</th>
-                  <th>{t("EAN")}</th>
-                  <th>{t("Price")}</th>
-                  <th>{t("Stock")}</th>
-                  <th>{t("Active")}</th>
-                </tr>
-              </thead>
-              <tbody>
+          <div className="w-full rounded-md bg-white p-4 shadow-sm">
+            <Table striped>
+              <TableHead>
+                <TableRow>
+                  <TableHeader></TableHeader>
+                  <TableHeader>{t("Name")}</TableHeader>
+                  <TableHeader>{t("Code")}</TableHeader>
+                  <TableHeader>{t("EAN")}</TableHeader>
+                  <TableHeader>{t("Price")}</TableHeader>
+                  <TableHeader>{t("Stock")}</TableHeader>
+                  <TableHeader>{t("Active")}</TableHeader>
+                </TableRow>
+              </TableHead>
+              <TableBody>
                 {allProducts?.map((product) => (
-                  <tr
+                  <TableRow
+                    href={`/admin/products/${product.id}?return=${encodeURIComponent(
+                      router.asPath,
+                    )}`}
                     key={product.id}
-                    onClick={() =>
-                      router.push(
-                        "/admin/products/" +
-                          product.id +
-                          "?return=" +
-                          encodeURIComponent(router.asPath),
-                      )
-                    }
-                    className="relative cursor-pointer odd:bg-blue-50 hover:bg-blue-100"
                   >
-                    <td className="relative">
+                    <TableCell className="relative">
                       <ImageWithURL
                         height={80}
                         width={80}
@@ -523,79 +531,104 @@ export default function Products(props) {
                         alt={product.name}
                         className="aspect-square h-[80px] flex-shrink-0 object-cover"
                       />
-                    </td>
-                    <td>
+                    </TableCell>
+                    <TableCell>
                       {product.localized_name
                         ? product.localized_name[lang]
                         : product.name}
-                    </td>
-                    <td>{product.internalCode}</td>
-                    <td>{product.supplierCode}</td>
-                    <td>{formatCurrency(product.value)}</td>
-                    <td>
+                    </TableCell>
+                    <TableCell>{product.internalCode}</TableCell>
+                    <TableCell>{product.supplierCode}</TableCell>
+                    <TableCell>{formatCurrency(product.value)}</TableCell>
+                    <TableCell>
                       {product.shelves.reduce(
                         (acc, shelf) => acc + shelf.stock,
                         0,
                       )}
-                    </td>
-                    <td>
+                    </TableCell>
+                    <TableCell>
                       <LuDot
                         size={80}
                         color={product.active ? "green" : "red"}
                       />
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
-
-            <>
-              {allProducts.length > 0 ? (
-                <div className="mt-2 mb-2 flex flex-row justify-center px-6">
-                  <div className="flex items-center justify-center space-x-1">
-                    <Link
-                      href={
-                        currentPage == 1
-                          ? "#"
-                          : createLink({ page: currentPage - 1 })
+              </TableBody>
+            </Table>
+            <Pagination className="sticky bottom-0 -mt-1 flex w-full rounded-lg rounded-t-none border-1 border-zinc-950/10 bg-white p-4">
+              <PaginationPrevious
+                onClick={
+                  currentPage > 1
+                    ? () => {
+                        router.push(createLink({ page: currentPage - 1 }));
                       }
-                      className="border p-2 hover:bg-gray-200"
+                    : undefined
+                }
+              >
+                <p className="text-black">{t("previous")}</p>
+              </PaginationPrevious>
+              <PaginationList>
+                <PaginationPage
+                  onClick={() => {
+                    router.push(createLink({ page: 1 }));
+                  }}
+                  current={currentPage === 1}
+                >
+                  1
+                </PaginationPage>
+                {currentPage > 4 && <PaginationGap />}
+                {[currentPage - 2, currentPage - 1]
+                  .filter((page) => page > 1)
+                  .map((page) => (
+                    <PaginationPage
+                      key={page}
+                      onClick={() => {
+                        router.push(createLink({ page }));
+                      }}
                     >
-                      <FiChevronLeft />
-                    </Link>
-                    {getPageNumbers().map((page, index) =>
-                      page === "..." ? (
-                        <span key={index} className="p-2">
-                          ...
-                        </span>
-                      ) : (
-                        <Link
-                          key={index}
-                          className={`border p-2 hover:bg-gray-200 ${
-                            currentPage === page ? "bg-gray-300" : ""
-                          }`}
-                          href={createLink({ page: page })}
-                        >
-                          {page}
-                        </Link>
-                      ),
-                    )}
-                    <Link
-                      href={
-                        currentPage == totalPages
-                          ? "#"
-                          : createLink({ page: currentPage + 1 })
+                      {page}
+                    </PaginationPage>
+                  ))}
+                {currentPage !== 1 && currentPage !== totalPages && (
+                  <PaginationPage current>{currentPage}</PaginationPage>
+                )}
+                {[currentPage + 1, currentPage + 2]
+                  .filter((page) => page < totalPages)
+                  .map((page) => (
+                    <PaginationPage
+                      key={page}
+                      onClick={() => {
+                        router.push(createLink({ page }));
+                      }}
+                    >
+                      {page}
+                    </PaginationPage>
+                  ))}
+                {currentPage < totalPages - 3 && <PaginationGap />}
+                {totalPages > 1 && (
+                  <PaginationPage
+                    onClick={() => {
+                      router.push(createLink({ page: totalPages }));
+                    }}
+                    current={currentPage === totalPages}
+                  >
+                    {totalPages}
+                  </PaginationPage>
+                )}
+              </PaginationList>
+              <PaginationNext
+                onClick={
+                  currentPage < totalPages
+                    ? () => {
+                        router.push(createLink({ page: currentPage + 1 }));
                       }
-                      className="border p-2 hover:bg-gray-200"
-                    >
-                      <FiChevronRight />
-                    </Link>
-                  </div>
-                </div>
-              ) : (
-                <p></p>
-              )}
-            </>
+                    : undefined
+                }
+              >
+                <p className="text-black">{t("next")}</p>
+              </PaginationNext>
+            </Pagination>
           </div>
         </div>
       </div>

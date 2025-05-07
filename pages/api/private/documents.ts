@@ -1,7 +1,5 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import statusText from "../../../api/statustexts";
-import { ClientUser } from "../../../api/interfaces/client";
-import { DocumentProduct } from "../../../api/interfaces/documentProduct";
+import { Document } from "../../../api/interfaces/document";
+import apiRoute from "../../../api/api/apiRoute";
 
 const fetchUrl = `${process.env.API_URL}/api/documents`;
 
@@ -68,13 +66,11 @@ export const getDocuments = async ({
 };
 
 export const createDocument = async ({
-  customer,
   authToken,
-  documentProducts,
+  data,
 }: {
   authToken: string;
-  customer: ClientUser;
-  documentProducts: DocumentProduct[];
+  data: Document;
 }) => {
   const request = await fetch(fetchUrl + "?" + fetchParams, {
     method: "POST",
@@ -82,7 +78,7 @@ export const createDocument = async ({
       "Content-Type": "application/json",
       Authorization: `Bearer ${authToken}`,
     },
-    body: JSON.stringify(customer),
+    body: JSON.stringify(data),
   });
 
   if (!request.ok) {
@@ -95,14 +91,12 @@ export const createDocument = async ({
 
 export const updateDocument = async ({
   id,
-  customer,
   authToken,
-  documentProducts,
+  data,
 }: {
   id: number;
   authToken: string;
-  customer: ClientUser;
-  documentProducts: DocumentProduct[];
+  data: Document;
 }) => {
   const request = await fetch(fetchUrl + "/" + id + "?" + fetchParams, {
     method: "PUT",
@@ -110,7 +104,7 @@ export const updateDocument = async ({
       "Content-Type": "application/json",
       Authorization: `Bearer ${authToken}`,
     },
-    body: JSON.stringify(customer),
+    body: JSON.stringify(data),
   });
 
   if (!request.ok) {
@@ -121,51 +115,47 @@ export const updateDocument = async ({
   }
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  try {
-    if (!req.cookies.j) {
-      return res.status(401).json(statusText[401]);
+export default apiRoute({
+  authChallenge: async (req) => {
+    if (!req.cookies.cj) {
+      return false;
+    } else {
+      return true;
     }
-    const authToken = req.cookies.j;
-    let response;
-    switch (req.method) {
-      case "GET":
-        response = await getDocuments({
+  },
+  endpoints: {
+    GET: {
+      func: async (req, res) => {
+        return await getDocuments({
           page: Number(req.query.page as string),
+          id: Number(req.query.id as string),
           search: req.query.search as string,
-          id: Number(req.query.id as string),
           type: req.query.type as string,
-          authToken,
+          authToken: req.cookies.cj,
         });
-        break;
-      case "POST":
-        response = await createDocument({
-          customer: req.body.customer,
-          documentProducts: req.body.documentProducts,
-          authToken,
+      },
+    },
+    POST: {
+      func: async (req, res) => {
+        return await createDocument({
+          authToken: req.cookies.cj,
+          data: req.body,
         });
-        break;
-      case "PUT":
-        response = await updateDocument({
+      },
+    },
+    PUT: {
+      func: async (req, res) => {
+        return await updateDocument({
           id: Number(req.query.id as string),
-          customer: req.body.customer,
-          documentProducts: req.body.documentProducts,
-          authToken,
+          authToken: req.cookies.cj,
+          data: req.body,
         });
-        break;
-    }
-
-
-    if (!response) {
-      return res.status(500).json(statusText[500]);
-    }
-
-    return res.status(200).json(response);
-  } catch (e) {
-    console.error(e);
-    return res.status(500).json(statusText[500]);
-  }
-}
+      },
+    },
+    DELETE: {
+      func: async (req, res) => {
+        return await updateDocument({});
+      },
+    },
+  },
+});
