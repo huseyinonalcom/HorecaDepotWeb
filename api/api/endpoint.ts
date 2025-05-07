@@ -20,11 +20,22 @@ export const endpoint = <T = any, R = any>({
   handler: (input: EndpointInput<T>) => Promise<R>;
 }) => {
   return async (input: EndpointInput<T>): Promise<EndpointOutput<R>> => {
-    if (!methods.includes(input.method)) {
+    try {
+      if (!methods.includes(input.method)) {
+        return {
+          error: {
+            type: "method",
+            message: `Method ${input.method} not allowed`,
+          },
+          result: null,
+        };
+      }
+    } catch (error) {
+      console.error("Error in endpoint:", error);
       return {
         error: {
           type: "method",
-          message: `Method ${input.method} not allowed`,
+          message: `Unknown method error`,
         },
         result: null,
       };

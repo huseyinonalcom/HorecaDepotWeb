@@ -1,6 +1,6 @@
 import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
 import isValidDecimal from "../../../api/utils/input_validators/validate_decimal";
-import { getAllSuppliers } from "../../api/suppliers/admin/getallsuppliers";
+import { getSuppliers } from "../../api/private/suppliers";
 import { LocalizedInput } from "../../../components/inputs/localized_input";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import parseDecimal from "../../../api/utils/input_parsers/parseDecimal";
@@ -1056,7 +1056,7 @@ ProductPage.getLayout = function getLayout(page) {
 export async function getServerSideProps(context) {
   const req = context.req;
   const allCategories = await getAllCategoriesFlattened();
-  const allSuppliers = await getAllSuppliers(req);
+  const allSuppliers = await getSuppliers(req);
   let currentProduct: Product = {
     id: 0,
     supplier: allSuppliers.at(0),

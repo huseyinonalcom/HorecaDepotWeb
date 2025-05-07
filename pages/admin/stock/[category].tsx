@@ -1,6 +1,6 @@
 import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
 import { formatCurrency } from "../../../api/utils/formatters/formatcurrency";
-import { getAllSuppliers } from "../../api/suppliers/admin/getallsuppliers";
+import { getSuppliers } from "../../api/private/suppliers";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import { getAllCategories } from "../../api/categories/getallcategories";
 import { getAllProducts } from "../../api/products/admin/getallproducts";
@@ -619,7 +619,7 @@ export async function getServerSideProps(context) {
     req.query.sort = "id";
   }
   const allCategories = await getAllCategoriesFlattened();
-  const allSuppliers = await getAllSuppliers(req);
+  const allSuppliers = await getSuppliers(req);
   const allCategoriesHierarchy = await getAllCategories();
   const currentSearch = req.query.search ?? null;
   const currentSort = req.query.sort.split(":").at(0) ?? "id";
