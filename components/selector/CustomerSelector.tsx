@@ -81,6 +81,12 @@ export const CustomerSelector = ({
                     </th>
                     <th
                       scope="col"
+                      className="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                    >
+                      {t("company")}
+                    </th>
+                    <th
+                      scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
                       {t("e-mail")}
@@ -98,6 +104,9 @@ export const CustomerSelector = ({
                     <tr key={customer.login?.role?.name + "-" + customer.id}>
                       <td className="py-4 pr-3 pl-4 text-sm whitespace-nowrap sm:pl-6">
                         {customer.firstName} {customer.lastName}
+                      </td>
+                      <td className="py-4 pr-3 pl-4 text-sm whitespace-nowrap sm:pl-6">
+                        {customer.company}
                       </td>
                       <td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
                         {customer.email ?? customer.login?.email}

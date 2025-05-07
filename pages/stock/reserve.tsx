@@ -79,7 +79,7 @@ export default function Reserve() {
       lastName: "",
       email: "",
       phone: "",
-      category: "",
+      category: "Particulier",
       company: "",
       taxID: "",
       addresses: [],
@@ -102,7 +102,6 @@ export default function Reserve() {
     });
   };
 
-  const [customerType, setCustomerType] = useState("individual");
   const [sameAsInvoice, setSameAsInvoice] = useState(true);
 
   return (
@@ -226,7 +225,7 @@ export default function Reserve() {
               <DialogBody>
                 <CustomerSelector
                   onCustomerSelected={(customer) => {
-                    setCustomer(customer);
+                    setCustomer({ ...customer.login, client_info: customer });
                   }}
                 />
               </DialogBody>
@@ -235,32 +234,121 @@ export default function Reserve() {
               <Legend>{t("customer-type")}</Legend>
               <RadioGroup
                 name="customerType"
-                defaultValue="individual"
-                onChange={(value) => setCustomerType(value)}
+                value={customer.client_info.category}
+                onChange={(value) =>
+                  setCustomer((prev) => ({
+                    ...prev,
+                    client_info: { ...prev.client_info, category: value },
+                  }))
+                }
               >
                 <RadioField>
-                  <Radio value="individual" />
+                  <Radio value="Particulier" />
                   <Label>{t("individual")}</Label>
                 </RadioField>
                 <RadioField>
-                  <Radio value="business" />
+                  <Radio value="Entreprise" />
                   <Label>{t("business")}</Label>
                 </RadioField>
               </RadioGroup>
             </Fieldset>
-            {customerType === "business" && (
+            {customer.client_info.category === "Entreprise" && (
               <Fieldset>
                 <Legend>{t("business-information")}</Legend>
-                <Input name="company" label={t("company")} required />
-                <Input name="taxID" label={t("taxID")} required />
+                <Input
+                  name="company"
+                  label={t("company")}
+                  required
+                  value={customer.client_info.company}
+                  onChange={(e) =>
+                    setCustomer((prev) => ({
+                      ...prev,
+                      client_info: {
+                        ...prev.client_info,
+                        company: e.target.value,
+                      },
+                    }))
+                  }
+                />
+                <Input
+                  name="taxID"
+                  label={t("taxID")}
+                  required
+                  value={customer.client_info.taxID}
+                  onChange={(e) =>
+                    setCustomer((prev) => ({
+                      ...prev,
+                      client_info: {
+                        ...prev.client_info,
+                        taxID: e.target.value,
+                      },
+                    }))
+                  }
+                />
               </Fieldset>
             )}
             <Fieldset>
               <Legend>{t("customer-information")}</Legend>
-              <Input name="firstName" label={t("firstname")} required />
-              <Input name="lastName" label={t("lastname")} required />
-              <Input name="email" label={t("email")} required />
-              <Input name="phone" label={t("phone")} />
+              <Input
+                name="firstName"
+                label={t("firstname")}
+                required
+                value={customer.client_info.firstName}
+                onChange={(e) =>
+                  setCustomer((prev) => ({
+                    ...prev,
+                    client_info: {
+                      ...prev.client_info,
+                      firstName: e.target.value,
+                    },
+                  }))
+                }
+              />
+              <Input
+                name="lastName"
+                label={t("lastname")}
+                required
+                value={customer.client_info.lastName}
+                onChange={(e) =>
+                  setCustomer((prev) => ({
+                    ...prev,
+                    client_info: {
+                      ...prev.client_info,
+                      lastName: e.target.value,
+                    },
+                  }))
+                }
+              />
+              <Input
+                name="email"
+                label={t("email")}
+                required
+                value={customer.email}
+                onChange={(e) =>
+                  setCustomer((prev) => ({
+                    ...prev,
+                    email: e.target.value,
+                    username: e.target.value,
+                    client_info: {
+                      email: e.target.value,
+                    },
+                  }))
+                }
+              />
+              <Input
+                name="phone"
+                label={t("phone")}
+                value={customer.client_info.phone}
+                onChange={(e) =>
+                  setCustomer((prev) => ({
+                    ...prev,
+                    client_info: {
+                      ...prev.client_info,
+                      phone: e.target.value,
+                    },
+                  }))
+                }
+              />
             </Fieldset>
             {/*   <Fieldset>
               <Legend>{t("invoice-address")}</Legend>

@@ -30,7 +30,7 @@ export const getCustomers = async ({
     let searchString = "";
 
     if (search) {
-      searchString = `&filters[$or][0][firstName][$containsi]=${search}&filters[$or][1][lastName][$containsi]=${search}&filters[$or][2][login][email][$containsi]=${search}`;
+      searchString = `&filters[$or][0][firstName][$containsi]=${search}&filters[$or][1][lastName][$containsi]=${search}&filters[$or][2][login][email][$containsi]=${search}&filters[$or][3][company][$containsi]=${search}`;
     }
 
     request = await fetch(
@@ -63,7 +63,6 @@ export const createCustomer = async ({
   authToken: string;
   customer: Client;
 }) => {
-
   const request = await fetch(fetchUrl + "?" + fetchParams, {
     method: "POST",
     headers: {
@@ -140,7 +139,6 @@ export default async function handler(
         });
         break;
     }
-
 
     if (!response) {
       return res.status(500).json(statusText[500]);
