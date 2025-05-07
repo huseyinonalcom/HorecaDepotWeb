@@ -1,6 +1,4 @@
-import { adminHandler } from "../../../../api/api/requestHandlers";
-import { NextApiRequest, NextApiResponse } from "next";
-import statusText from "../../../../api/statustexts";
+import apiRoute from "../../../../api/api/apiRoute";
 
 const fetchUrl = `${process.env.API_URL}/api/products`;
 
@@ -25,10 +23,6 @@ export const getProducts = async ({
   id?: number;
 }) => {
   try {
-    if (!authToken) {
-      return null;
-    }
-
     if (id) {
       const request = await fetch(fetchUrl + "/" + id + "?" + fetchParams, {
         headers: {
@@ -75,95 +69,55 @@ export const getProducts = async ({
       categoryString = `&filters[categories][id][$eq]=${category}`;
     }
 
-    try {
-      const request = await fetch(
-        fetchUrl +
-          "?filters[deleted][$eq]=false&" +
-          fetchParams +
-          categoryString +
-          pageString +
-          sort +
-          searchString +
-          pageSize,
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
+    const request = await fetch(
+      fetchUrl +
+        "?filters[deleted][$eq]=false&" +
+        fetchParams +
+        categoryString +
+        pageString +
+        sort +
+        searchString +
+        pageSize,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
         },
-      );
+      },
+    );
 
-      const response = await request.json();
+    const response = await request.json();
 
-      if (!request.ok) {
-        return null;
-      }
-
-      return response;
-    } catch (error) {
-      console.error(error);
-      return null;
+    if (!request.ok) {
+      throw "Failed to fetch products";
     }
+
+    return response;
   } catch (error) {
     console.error(error);
-    return null;
+    throw "Failed to fetch products";
   }
 };
 
-/* export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  try {
-    const response = await getProducts({
-      authToken: req.cookies.j,
-      ean: req.query.ean as string,
-      id: Number(req.query.id as string),
-      page: Number(req.query.page as string),
-      category: req.query.category as string,
-      search: req.query.search as string,
-      count: req.query.count as string,
-    });
-
-    if (!response) {
-      return res.status(500).json(statusText[500]);
+export default apiRoute({
+  authChallenge: async (req) => {
+    if (!req.cookies.j) {
+      return false;
     }
-
-    return res.status(200).json(response);
-  } catch (e) {
-    return res.status(500).json(statusText[500]);
-  }
-} */
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  try {
-    adminHandler({
-      handlers: {
-        GET: async (req, res) => {
-          const response = await getProducts({
-            authToken: req.cookies.j,
-            ean: req.query.ean as string,
-            id: Number(req.query.id as string),
-            page: Number(req.query.page as string),
-            category: req.query.category as string,
-            search: req.query.search as string,
-            count: req.query.count as string,
-          });
-
-          if (!response) {
-            return res.status(500).json(statusText[500]);
-          }
-
-          return res.status(200).json(response);
-        },
-        POST: async (req, res) => res.status(501).json(statusText[501]),
-        PUT: async (req, res) => res.status(501).json(statusText[501]),
-        DELETE: async (req, res) => res.status(501).json(statusText[501]),
+    return true;
+  },
+  endpoints: {
+    GET: {
+      func: async (req, res) => {
+        return await getProducts({
+          authToken: req.cookies.j,
+          ean: req.query.ean as string,
+          id: Number(req.query.id as string),
+          page: Number(req.query.page as string),
+          category: req.query.category as string,
+          search: req.query.search as string,
+          count: req.query.count as string,
+        });
       },
-    })(req, res);
-  } catch (e) {
-    return res.status(500).json(statusText[500]);
-  }
-}
+    },
+  },
+});

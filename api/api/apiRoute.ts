@@ -2,11 +2,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../statustexts";
 
 export type AuthChallenge = (req: NextApiRequest) => Promise<boolean>;
-type HttpMethod = "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
+
+export type HttpMethod = "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
 
 type EndpointOutput<R = any> = {
-  error: null | { type: string; message: string | Error };
-  result: null | R;
+  error?: undefined | null | { type: string; message: string | Error };
+  result: undefined | null | R;
 };
 
 type Endpoint<R = any> = {
@@ -35,9 +36,7 @@ export default function apiRoute({
 }) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     if (authChallenge && !(await authChallenge(req))) {
-      return res
-        .status(401)
-        .json({});
+      return res.status(401).json({});
     }
 
     const method = req.method as HttpMethod;

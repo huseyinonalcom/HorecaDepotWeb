@@ -44,7 +44,7 @@ export default function Admin() {
   const validateSession = async () => {
     const req = await fetch("/api/private/auth/checkloggedinuser");
     if (req.ok) {
-      const answer = await req.json();
+      const answer = (await req.json()).result;
       navigateToDashboard(answer.role, router.query.destination);
     }
   };
@@ -92,7 +92,7 @@ export default function Admin() {
       const formData = new FormData(e.currentTarget);
       const username = formData.get("username-forgot");
 
-      fetch("/api/auth/forgotpass", {
+      fetch("/api/public/auth/forgotpass", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

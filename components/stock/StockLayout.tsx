@@ -27,7 +27,7 @@ export default function StockLayout({ children }: Props) {
         `/admin?destination=${encodeURIComponent(window.location.pathname)}`,
       );
     } else {
-      const answer = await data.json();
+      const answer = (await data.json()).result;
       if (answer.role == "Tier 9") {
         setUserType("admin");
       }

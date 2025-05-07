@@ -38,7 +38,11 @@ const navigation = [
   { name: "stock", href: "/admin/stock/all", icon: ArchiveBoxIcon },
   { name: "stock-dash", href: "/stock", icon: Squares2X2Icon },
   { name: "orders", href: "/admin/orders", icon: ClipboardDocumentCheckIcon },
-  { name: "reservations", href: "/admin/reservations", icon: ClipboardDocumentListIcon },
+  {
+    name: "reservations",
+    href: "/admin/reservations",
+    icon: ClipboardDocumentListIcon,
+  },
   { name: "homepage", href: "/admin/website/homepage", icon: HomeIcon },
   {
     name: "categories",
@@ -92,7 +96,7 @@ export default function AdminPanelLayout({
 
   const validateSession = async () => {
     const data = await fetch("/api/private/auth/checkloggedinuser");
-    const answer = await data.json();
+    const answer = (await data.json()).result;
     if (data.status == 200) {
       if (answer.role != "Tier 9" && answer.role != "Tier 8") {
         router.push("/stock/list/all");
@@ -125,16 +129,16 @@ export default function AdminPanelLayout({
         >
           <DialogBackdrop
             transition
-            className="data-closed:opacity-0 fixed inset-0 bg-gray-900/80 transition-opacity duration-300 ease-linear"
+            className="fixed inset-0 bg-gray-900/80 transition-opacity duration-300 ease-linear data-closed:opacity-0"
           />
 
           <div className="fixed inset-0 flex">
             <DialogPanel
               transition
-              className="data-closed:-translate-x-full relative mr-16 flex w-full max-w-xs flex-1 transform transition duration-300 ease-in-out"
+              className="relative mr-16 flex w-full max-w-xs flex-1 transform transition duration-300 ease-in-out data-closed:-translate-x-full"
             >
               <TransitionChild>
-                <div className="data-closed:opacity-0 absolute left-full top-0 flex w-16 justify-center pt-5 duration-300 ease-in-out">
+                <div className="absolute top-0 left-full flex w-16 justify-center pt-5 duration-300 ease-in-out data-closed:opacity-0">
                   <button
                     type="button"
                     onClick={() => setSidebarOpen(false)}
@@ -275,7 +279,7 @@ export default function AdminPanelLayout({
           </div>
         </div>
 
-        <div className="shadow-xs sticky top-0 z-40 flex items-center gap-x-6 bg-white px-4 py-4 sm:px-6 lg:hidden">
+        <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-white px-4 py-4 shadow-xs sm:px-6 lg:hidden">
           <button
             type="button"
             onClick={() => setSidebarOpen(true)}

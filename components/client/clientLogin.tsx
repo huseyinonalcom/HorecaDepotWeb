@@ -54,7 +54,7 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
   const [resetText, setResetText] = useState("");
   const forgotPassword = async (e) => {
     e.preventDefault();
-    await fetch("/api/auth/forgotpass", {
+    await fetch("/api/public/auth/forgotpass", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
