@@ -1,10 +1,9 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { endpoint } from "../../../api/api/endpoint";
-import statusText from "../../../api/statustexts";
+import apiRoute from "../../../api/api/apiRoute";
 
 const fetchUrl = `${process.env.API_URL}/api/suppliers?fields[0]=name`;
 
 export async function getSuppliers({ authToken }: { authToken: string }) {
+  console.log("get suppliers");
   if (!authToken) {
     throw new Error("Missing auth token");
   }
@@ -23,45 +22,19 @@ export async function getSuppliers({ authToken }: { authToken: string }) {
   return data["data"];
 }
 
-const suppliersEndpoint = endpoint<{ authToken: string }>({
-  methods: ["GET"],
-  handler: async (input) => {
-    return await getSuppliers({ authToken: input.data.authToken });
+export default apiRoute({
+  authChallenge: async (req) => {
+    if (!req.cookies.j) {
+      return false;
+    }
+    return true;
+  },
+  endpoints: {
+    GET: {
+      func: async (req, res) => {
+        console.log("cookies", req.cookies);
+        return await getSuppliers({ authToken: req.cookies.j });
+      },
+    },
   },
 });
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  let response = null;
-  try {
-    response = await suppliersEndpoint({
-      method: "GET",
-      data: {
-        authToken: req.cookies.j,
-      },
-    });
-
-    if (response.error) {
-      console.error("Error in suppliersEndpoint", response.error);
-      switch (response.error.type) {
-        case "handler":
-          return res.status(500).json({ error: statusText[500] });
-        case "method":
-          return res.status(405).json({ error: statusText[405] });
-        case "auth":
-          return res.status(401).json({ error: statusText[401] });
-        default:
-          return res.status(500).json({ error: statusText[500] });
-      }
-    }
-
-    return res.status(200).json(response.result);
-  } catch (e) {
-    console.error("Error in suppliersEndpoint handler", response.error);
-    return res.status(500).json({
-      error: statusText[500],
-    });
-  }
-}

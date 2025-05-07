@@ -1056,7 +1056,7 @@ ProductPage.getLayout = function getLayout(page) {
 export async function getServerSideProps(context) {
   const req = context.req;
   const allCategories = await getAllCategoriesFlattened();
-  const allSuppliers = await getSuppliers(req);
+  const allSuppliers = await getSuppliers({ authToken: req.cookies.j });
   let currentProduct: Product = {
     id: 0,
     supplier: allSuppliers.at(0),

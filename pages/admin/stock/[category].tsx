@@ -619,7 +619,7 @@ export async function getServerSideProps(context) {
     req.query.sort = "id";
   }
   const allCategories = await getAllCategoriesFlattened();
-  const allSuppliers = await getSuppliers(req);
+  const allSuppliers = await getSuppliers({ authToken: req.cookies.j });
   const allCategoriesHierarchy = await getAllCategories();
   const currentSearch = req.query.search ?? null;
   const currentSort = req.query.sort.split(":").at(0) ?? "id";
