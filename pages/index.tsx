@@ -100,7 +100,7 @@ export default function Index({
               setShownPromoBannerModal(null);
             }}
             type="button"
-            className="absolute left-4 top-4"
+            className="absolute top-4 left-4"
           >
             <FiX color="red" size={64} />
           </button>
@@ -229,7 +229,7 @@ export default function Index({
           </div>
           <button
             type="button"
-            className="absolute bottom-4 right-4"
+            className="absolute right-4 bottom-4"
             onClick={() => {
               if (!newBanner.images.find((img) => img?.image)) {
                 alert("Please add an image");
@@ -500,7 +500,7 @@ export default function Index({
               </>
             )}
           </div>
-          <div className="ml-4 mt-2 flex w-[90vw] max-w-screen-2xl flex-row justify-start gap-2 2xl:hidden">
+          <div className="mt-2 ml-4 flex w-[90vw] max-w-screen-2xl flex-row justify-start gap-2 2xl:hidden">
             <FiChevronLeft
               onClick={() => handleScrollSlider("left")}
               className="h-8 w-8"
@@ -546,12 +546,12 @@ export default function Index({
                 }}
               />
               <div
-                className={`fixed inset-0 z-50 m-12 flex items-center justify-center bg-white bg-opacity-80 backdrop-blur-sm ${showAddCategoryModal ? "" : "hidden"}`}
+                className={`bg-opacity-80 fixed inset-0 z-50 m-12 flex items-center justify-center bg-white backdrop-blur-sm ${showAddCategoryModal ? "" : "hidden"}`}
               >
                 <button
                   onClick={() => setShowAddCategoryModal(false)}
                   type="button"
-                  className="absolute left-4 top-4"
+                  className="absolute top-4 left-4"
                 >
                   <FiX color="red" size={64} />
                 </button>
