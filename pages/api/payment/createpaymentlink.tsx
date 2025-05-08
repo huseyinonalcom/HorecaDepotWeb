@@ -1,5 +1,5 @@
 import statusText from "../../../api/statustexts";
-import { getConfig } from "../config/private/getconfig";
+import { getConfig } from "../private/config";
 
 const postPaymentUrl = `${process.env.API_URL}/api/payments?fields=id`;
 
@@ -191,7 +191,7 @@ export default async function createPaymentLink(req, res) {
     let config;
 
     try {
-      config = await getConfig();
+      config = (await getConfig({ authToken: req.cookies.j })).result;
       paymentProvider = config.activeProvider ?? `ogone`;
       if (!config[paymentProvider]) {
         return res.status(400).json(statusText[400]);

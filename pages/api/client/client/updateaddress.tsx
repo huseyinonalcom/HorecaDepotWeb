@@ -1,7 +1,7 @@
 import { getShippingCostFromAddress } from "../../public/address/getshippingcostfromaddress";
-import { getConfig } from "../../config/private/getconfig";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
+import { getConfig } from "../../private/config";
 
 export default async function postNewAddress(
   req: NextApiRequest,
@@ -11,7 +11,7 @@ export default async function postNewAddress(
     const id = req.query.id;
     let config;
     try {
-      config = await getConfig();
+      config = (await getConfig({ authToken: req.cookies.j })).result;
     } catch (e) {
       console.error(e);
     }

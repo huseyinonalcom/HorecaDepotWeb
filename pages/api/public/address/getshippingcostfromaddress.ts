@@ -1,12 +1,12 @@
 import { Address } from "../../../../api/interfaces/address";
 import { countries } from "../../../../api/utils/countries";
-import { getConfig } from "../../config/private/getconfig";
 import statusText from "../../../../api/statustexts";
+import { getConfig } from "../../private/config";
 
 export async function getShippingDistance({ address }: { address: Address }) {
   let config;
   try {
-    config = await getConfig();
+    config = (await getConfig({ authToken: process.env.API_KEY })).result;
   } catch (e) {
     console.error(e);
   }
@@ -52,7 +52,7 @@ export async function getShippingCostFromAddress({
 }) {
   let config;
   try {
-    config = await getConfig();
+    config = (await getConfig({ authToken: process.env.API_KEY })).result;
   } catch (e) {
     console.error(e);
   }

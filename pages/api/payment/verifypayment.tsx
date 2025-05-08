@@ -1,5 +1,5 @@
 import statusText from "../../../api/statustexts";
-import { getConfig } from "../config/private/getconfig";
+import { getConfig } from "../private/config";
 
 const fetchDocument = async (documentID) => {
   try {
@@ -120,16 +120,22 @@ const updatePaymentStatus = async (paymentID, status) => {
   }
 };
 
-export async function verifyPayments(id) {
+export async function verifyPayments({
+  paymentId,
+  authToken,
+}: {
+  paymentId: number;
+  authToken: string;
+}) {
   let config;
 
   try {
-    config = await getConfig();
+    config = await getConfig({ authToken });
   } catch (e) {
     console.error(e);
   }
   try {
-    let document = await fetchDocument(id);
+    let document = await fetchDocument(paymentId);
 
     for (let payment of document.document.payments) {
       if (!payment.verified) {
@@ -200,7 +206,10 @@ export default async function handler(req, res) {
 
     let success = false;
 
-    success = await verifyPayments(documentID);
+    success = await verifyPayments({
+      paymentId: documentID,
+      authToken: process.env.API_KEY,
+    });
 
     if (!success) {
       return res.status(400).json(statusText[400]);

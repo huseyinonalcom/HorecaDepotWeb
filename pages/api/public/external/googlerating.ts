@@ -1,5 +1,5 @@
-import { getConfig } from "../../config/private/getconfig";
 import statusText from "../../../../api/statustexts";
+import { getConfig } from "../../private/config";
 
 let cachedRating = null;
 
@@ -11,7 +11,7 @@ export async function fetchRating() {
 
     let config;
     try {
-      config = await getConfig();
+      config = (await getConfig({ authToken: process.env.API_KEY })).result;
     } catch (e) {
       console.error("Failed to load config:", e);
       return cachedRating ? cachedRating.answer : null;
