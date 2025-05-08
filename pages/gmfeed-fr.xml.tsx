@@ -1,4 +1,4 @@
-import { calculateProductStock } from "../api/calls/productCalls";
+import { calculateProductStock } from "../api/utils/calculations/product";
 import { getCoverImageUrl } from "../api/utils/getprodcoverimage";
 import { getProducts } from "./api/products/public/getproducts";
 import { sanitizeXml } from "../api/utils/sanitizexml";

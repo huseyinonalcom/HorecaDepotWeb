@@ -15,8 +15,6 @@ export async function getAllProductIDs() {
 
   let allIDs: number[] = [];
 
-  console.log(data);
-
   data["data"].forEach((element) => {
     allIDs.push(element.id);
   });

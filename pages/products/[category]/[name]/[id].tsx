@@ -380,6 +380,7 @@ type Params = {
 export const getStaticProps = async ({ params, locale }: Params) => {
   const product = (await getProductByID({ id: Number.parseInt(params.id) }))
     .result;
+  console.log("fetched products:", product);
   const result = (
     await getProducts({
       query: {
