@@ -1,5 +1,5 @@
-import apiRoute from "../../../api/api/apiRoute";
 import { apiUrl } from "../../../api/api/constants";
+import apiRoute from "../../../api/api/apiRoute";
 
 const fetchUrl = `${apiUrl}/api/config`;
 
