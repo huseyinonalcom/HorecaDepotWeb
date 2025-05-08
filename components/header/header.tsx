@@ -110,9 +110,9 @@ const DesktopSearch = () => {
     }
 
     debounceTimeout.current = setTimeout(async () => {
-      const answer = await fetch(`/api/search/public/search?search=${value}`);
+      const answer = await fetch(`/api/public/search?search=${value}`);
       const data = await answer.json();
-      setSearchResults(data);
+      setSearchResults(data.result);
     }, 300);
   };
 
@@ -209,9 +209,9 @@ const MobileSearch = () => {
     }
 
     debounceTimeout.current = setTimeout(async () => {
-      const answer = await fetch(`/api/search/public/search?search=${value}`);
+      const answer = await fetch(`/api/public/search?search=${value}`);
       const data = await answer.json();
-      setSearchResults(data);
+      setSearchResults(data.result);
     }, 300);
   };
 

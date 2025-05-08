@@ -1,8 +1,9 @@
-import { getAllCategoriesFlattened } from "../../categories/public/getallcategoriesflattened";
-import { getCollections } from "../../collections/public/getcollections";
-import { getProducts } from "../../products/public/getproducts";
-import statusText from "../../../../api/statustexts";
+import { getAllCategoriesFlattened } from "../categories/public/getallcategoriesflattened";
+import { getCollections } from "../collections/public/getcollections";
+import { getProducts } from "../products/public/getproducts";
+import statusText from "../../../api/statustexts";
 import Fuse from "fuse.js";
+import apiRoute from "../../../api/api/apiRoute";
 
 const cache = {
   data: null,
@@ -114,24 +115,20 @@ export async function fuzzySearch({ search }: { search: string }) {
       .search(search)
       .slice(0, 5)
       .map((result) => result.item);
-    return [...resultsProducts, ...resultsCategories, ...resultsCollections];
+    return {
+      result: [...resultsProducts, ...resultsCategories, ...resultsCollections],
+    };
   } catch (error) {
     console.error("Error while searching:", error);
     throw error;
   }
 }
 
-export default async function handler(req, res) {
-  if (req.method !== "GET") {
-    return res.status(405).json(statusText[405]);
-  }
-  if (req.query.search === undefined) {
-    return res.status(400).json(statusText[400]);
-  }
-  try {
-    const searchResults = await fuzzySearch({ search: req.query.search });
-    return res.status(200).json(searchResults);
-  } catch (error) {
-    return res.status(500).json(statusText[500]);
-  }
-}
+export default apiRoute({
+  endpoints: {
+    GET: {
+      func: async (req, res) =>
+        await fuzzySearch({ search: req.query.search as string }),
+    },
+  },
+});

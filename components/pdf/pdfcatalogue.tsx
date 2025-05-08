@@ -1,15 +1,5 @@
-import { useEffect, useState } from "react";
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
-import componentThemes from "../componentThemes";
-import {
-  Page,
-  Text,
-  View,
-  Image,
-  Document,
-  PDFDownloadLink,
-} from "@react-pdf/renderer";
-import search from "../../pages/api/search/public/search";
+import { Page, Text, View, Image, Document } from "@react-pdf/renderer";
 
 export const PDFCatalogue = ({ products }) => {
   return (

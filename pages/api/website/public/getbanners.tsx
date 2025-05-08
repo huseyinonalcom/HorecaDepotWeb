@@ -1,8 +1,12 @@
+import { apiUrl } from "../../../../api/api/constants";
 import statusText from "../../../../api/statustexts";
+
+const fetchUrl = `${apiUrl}/api/banners`;
+const fetchQuery = `?populate[images][populate]=image&count=10000`;
 
 export async function getBanners({ id }: { id?: string }) {
   const response = await fetch(
-    `${process.env.API_URL}/api/banners${id ? `/${id}` : ""}?populate[images][populate]=image&count=10000`,
+    `${fetchUrl}${id ? `/${id}` : ""}${fetchQuery}`,
     {
       headers: {
         Authorization: `Bearer ${process.env.API_KEY}`,
