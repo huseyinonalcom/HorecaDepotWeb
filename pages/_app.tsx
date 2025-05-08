@@ -5,7 +5,7 @@ import { BannerProvider } from "../api/providers/bannerProdiver";
 import { ClientProvider } from "../api/providers/clientProvider";
 import { CartProvider } from "../api/providers/cartProvider";
 import "yet-another-react-lightbox-lite/styles.css";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, StrictMode } from "react";
 import { AppProps } from "next/app";
 import { NextPage } from "next";
 import "../global.css";
@@ -22,19 +22,21 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   return getLayout(
     <>
-      <GoogleAnalytics gaId="G-3R8DQVPZVD" />
-      <GoogleTagManager gtmId="GTM-5DMMM9F" />
-      <CategoryProvider>
-        <BannerProvider>
-          <ClientProvider>
-            <CartProvider>
-              <WishlistProvider>
-                <Component {...pageProps} />
-              </WishlistProvider>
-            </CartProvider>
-          </ClientProvider>
-        </BannerProvider>
-      </CategoryProvider>
+      <StrictMode>
+        <GoogleAnalytics gaId="G-3R8DQVPZVD" />
+        <GoogleTagManager gtmId="GTM-5DMMM9F" />
+        <CategoryProvider>
+          <BannerProvider>
+            <ClientProvider>
+              <CartProvider>
+                <WishlistProvider>
+                  <Component {...pageProps} />
+                </WishlistProvider>
+              </CartProvider>
+            </ClientProvider>
+          </BannerProvider>
+        </CategoryProvider>
+      </StrictMode>
     </>,
   );
 }

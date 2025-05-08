@@ -1,13 +1,13 @@
 import { LocalizedInput } from "../../../components/inputs/localized_input";
 import componentThemes from "../../../components/componentThemes";
 import InputOutlined from "../../../components/inputs/outlined";
-import { uploadFileToAPI } from "../../api/files/uploadfile";
 import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
+import { uploadFileToAPI } from "../../api/private/files/uploadfile";
 
 function compareArrays(arr1, arr2) {
   const isEqual = (obj1, obj2) => JSON.stringify(obj1) === JSON.stringify(obj2);
@@ -243,5 +243,7 @@ export default function CategoriesAdmin() {
 
 CategoriesAdmin.getLayout = function getLayout(children) {
   const { t } = useTranslation("common");
-  return <AdminPanelLayout title={t("categories")}>{children}</AdminPanelLayout>;
+  return (
+    <AdminPanelLayout title={t("categories")}>{children}</AdminPanelLayout>
+  );
 };

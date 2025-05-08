@@ -4,7 +4,7 @@ export const uploadFileToAPI = async ({ file }): Promise<any> => {
   formData.append("file", file);
 
   try {
-    const request = await fetch("/api/files/admin/sendfile", {
+    const request = await fetch("/api/private/files/sendfile", {
       method: "POST",
       body: formData,
     });

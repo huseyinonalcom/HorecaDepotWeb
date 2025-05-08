@@ -51,7 +51,7 @@ export default function PopupAdmin(props) {
       const formData = new FormData();
       formData.append("file", files[i]);
       try {
-        const request = await fetch("/api/files/admin/sendfile", {
+        const request = await fetch("/api/private/files/sendfile", {
           method: "POST",
           body: formData,
         });

@@ -39,7 +39,7 @@ export default async function sendfile(
         return res.status(500).send("Error processing the request");
       }
 
-      const file = files.file; // Adjust based on the name attribute in your form
+      const file = files.file;
 
       const reader = createReadStream(file[0].filepath);
 

@@ -2,13 +2,13 @@ import TextareaOutlined from "../../../../components/inputs/textarea_outlined";
 import AdminPanelLayout from "../../../../components/admin/AdminPanelLayout";
 import { getBanners } from "../../../api/website/public/getbanners";
 import InputOutlined from "../../../../components/inputs/outlined";
-import { uploadFileToAPI } from "../../../api/files/uploadfile";
 import ImageWithURL from "../../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
 import { FiCheck } from "react-icons/fi";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Head from "next/head";
+import { uploadFileToAPI } from "../../../api/private/files/uploadfile";
 
 export default function BannerEdit(props) {
   const { t, lang } = useTranslation("common");
@@ -103,7 +103,7 @@ export default function BannerEdit(props) {
         </div>
         <button
           type="button"
-          className="absolute bottom-4 right-4"
+          className="absolute right-4 bottom-4"
           onClick={() => {
             if (!editedBanner.images.find((img) => img?.image)) {
               alert("Please add an image");

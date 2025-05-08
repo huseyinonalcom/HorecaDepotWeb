@@ -1,6 +1,5 @@
 import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
 import isValidDecimal from "../../../api/utils/input_validators/validate_decimal";
-import { getSuppliers } from "../../api/private/suppliers";
 import { LocalizedInput } from "../../../components/inputs/localized_input";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import parseDecimal from "../../../api/utils/input_parsers/parseDecimal";
@@ -14,6 +13,7 @@ import { CurrencyEuroIcon } from "@heroicons/react/24/outline";
 import { Textarea } from "../../../components/styled/textarea";
 import { Divider } from "../../../components/styled/divider";
 import StyledForm from "../../../components/form/StyledForm";
+import { getSuppliers } from "../../api/private/suppliers";
 import { Select } from "../../../components/styled/select";
 import useTranslation from "next-translate/useTranslation";
 import { Button } from "../../../components/styled/button";
@@ -41,6 +41,7 @@ import {
   FiArrowRight,
   FiTrash,
 } from "react-icons/fi";
+import { uploadFileToAPI } from "../../api/private/files/uploadfile";
 
 export default function ProductPage(props) {
   const { t, lang } = useTranslation("common");
@@ -92,19 +93,9 @@ export default function ProductPage(props) {
     let uploadedFiles = [];
 
     for (let i = 0; i < files.length; i++) {
-      const formData = new FormData();
-      formData.append("file", files[i]);
-      try {
-        const request = await fetch("/api/files/admin/sendfile", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (request.status == 201) {
-          const result = await request.json();
-          uploadedFiles.push(result);
-        }
-      } catch (error) {}
+      await uploadFileToAPI({ file: files[i] }).then((res) => {
+        uploadedFiles.push(res);
+      });
     }
 
     setCurrentProduct((pr) => ({
