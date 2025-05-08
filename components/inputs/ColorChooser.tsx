@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Color } from "../../api/interfaces/color"; 
+import { Color } from "../../api/interfaces/color";
 import useTranslation from "next-translate/useTranslation";
 import { FiPlusCircle } from "react-icons/fi";
 
@@ -19,10 +19,10 @@ export const ColorChooser = ({
 
   const getColors = async () => {
     let colors: Color[] = [];
-    await fetch("/api/colors/getcolors", {
+    await fetch("/api/private/colors", {
       method: "GET",
     }).then(async (data) => {
-      colors = await data.json();
+      colors = (await data.json()).result;
     });
     return colors;
   };
@@ -37,7 +37,7 @@ export const ColorChooser = ({
     let res = {
       error: "",
     };
-    await fetch("/api/colors/postcolor", {
+    await fetch("/api/private/colors", {
       method: "POST",
       body: JSON.stringify(color),
     })
@@ -57,7 +57,7 @@ export const ColorChooser = ({
   };
 
   const putColor = async (color: Color) => {
-    await fetch(`/api/colors/putcolor?id=${color.id}`, {
+    await fetch(`/api/private/colors?id=${color.id}`, {
       method: "PUT",
       body: JSON.stringify(color),
     })
@@ -106,7 +106,7 @@ export const ColorChooser = ({
           onChange={(e) =>
             setNewColor((nc) => ({ ...nc, name: e.target.value }))
           }
-          className={`m-1 w-full border-2 ${error ? "border-red-500" : "border-black "}`}
+          className={`m-1 w-full border-2 ${error ? "border-red-500" : "border-black"}`}
         />
         <input
           type="text"
@@ -119,7 +119,7 @@ export const ColorChooser = ({
           onChange={(e) =>
             setNewColor((nc) => ({ ...nc, code: e.target.value }))
           }
-          className={`m-1 w-full border-2 ${error ? "border-red-500" : "border-black "}`}
+          className={`m-1 w-full border-2 ${error ? "border-red-500" : "border-black"}`}
         />
         <button
           type="button"
