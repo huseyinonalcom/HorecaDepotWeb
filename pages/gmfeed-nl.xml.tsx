@@ -1,6 +1,7 @@
-import { calculateProductStock, getProducts } from "../api/calls/productCalls";
+import { calculateProductStock } from "../api/calls/productCalls";
 import { getCoverImageUrl } from "../api/utils/getprodcoverimage";
 import { sanitizeXml } from "../api/utils/sanitizexml";
+import { getProducts } from "./api/products/public/getproducts";
 
 function generateFeed(products) {
   return `<?xml version="1.0"?>
@@ -66,7 +67,8 @@ ${products
 }
 
 export async function getServerSideProps({ res }) {
-  var products = (await getProducts({ page: 1, count: 100000 }))[0];
+  var products = (await getProducts({ query: { page: 1, count: 100000 } }))
+    .sortedData;
   const Feed = generateFeed(products);
   res.setHeader("Content-Type", "text/xml");
   res.write(Feed);

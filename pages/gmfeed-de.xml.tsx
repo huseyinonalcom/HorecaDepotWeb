@@ -69,7 +69,6 @@ ${products
 export async function getServerSideProps({ res }) {
   var products = (await getProducts({ query: { page: 1, count: 100000 } }))
     .sortedData;
-  console.log(products);
   const Feed = generateFeed(products);
   res.setHeader("Content-Type", "text/xml");
   res.write(Feed);

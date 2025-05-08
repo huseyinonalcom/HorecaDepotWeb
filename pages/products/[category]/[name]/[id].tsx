@@ -13,15 +13,15 @@ import Meta from "../../../../components/public/meta";
 import { GoCircleSlash } from "react-icons/go";
 import { AutoTextSize } from "auto-text-size";
 import {
-  getAllProductIDs,
   getProductByID,
   getProducts,
-} from "../../../../api/calls/productCalls"; 
+} from "../../../../api/calls/productCalls";
 import { TiTick } from "react-icons/ti";
 import Head from "next/head";
 import Link from "next/link";
 import { formatCurrency } from "../../../../api/utils/formatters/formatcurrency";
 import { FiFacebook } from "react-icons/fi";
+import { getAllProductIDs } from "../../../api/public/products/getallproductids";
 
 type Props = {
   relatedProducts: Product[];

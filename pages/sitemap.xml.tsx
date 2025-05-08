@@ -1,5 +1,6 @@
-import { getAllCategoriesFlattened } from "./api/categories/public/getallcategoriesflattened";
-import { getProducts } from "../api/calls/productCalls";
+import { getAllCategories } from "./api/public/categories/getallcategories";
+import { getProducts } from "./api/products/public/getproducts";
+import { sanitizeXml } from "../api/utils/sanitizexml";
 
 const URL = "horecadepot.be";
 
@@ -17,16 +18,17 @@ function generateSiteMap(products, allCategoriesRaw) {
         .map((cat) => {
           return `
       <url>
-          <loc>https://${URL}/shop/${cat.Name}?page=1</loc>
+          <loc>https://${URL}/shop/${sanitizeXml(cat.localized_name.en ?? "")}?page=1</loc>
       </url>
     `;
         })
         .join("")}
      ${products
        .map((prd) => {
+         console.log(prd);
          return `
       <url>
-          <loc>https://${URL}/products/${prd.categories.at(0).Name}/${prd.name}/${prd.id}</loc>
+          <loc>https://${URL}/products/${sanitizeXml(prd.categories.at(0)?.localized_name?.en ?? "")}/${sanitizeXml(prd.name)}/${prd.id}</loc>
       </url>
     `;
        })
@@ -37,8 +39,9 @@ function generateSiteMap(products, allCategoriesRaw) {
 }
 
 export async function getServerSideProps({ res }) {
-  var products = (await getProducts({ page: 1, count: 100000 }))[0];
-  const allCategoriesRaw = await getAllCategoriesFlattened();
+  var products = (await getProducts({ query: { page: 1, count: 100000 } }))
+    .sortedData;
+  const allCategoriesRaw = await getAllCategories({ flat: true });
   const sitemap = generateSiteMap(products, allCategoriesRaw);
   res.setHeader("Content-Type", "text/xml");
   res.write(sitemap);
