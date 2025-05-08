@@ -87,7 +87,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     for (const product of cart) {
       try {
         const response = await fetch(
-          "/api/products/public/getproductbyid?id=" + product.id,
+          "/api/public/products/getproductbyid?id=" + product.id,
         );
         if (response.ok) {
           const answer = await response.json();

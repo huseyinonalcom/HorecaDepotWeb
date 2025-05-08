@@ -1,9 +1,13 @@
 import { getAllCategoriesFlattened } from "../../../api/categories/public/getallcategoriesflattened";
+import { formatCurrency } from "../../../../api/utils/formatters/formatcurrency";
+import { getAllProductIDs } from "../../../api/public/products/getallproductids";
 import { useDragScroll } from "../../../../components/common/use-drag-scroll";
+import { getProductByID } from "../../../api/public/products/getproductbyid";
 import ProductPreview from "../../../../components/products/product-preview";
 import ProductButtons from "../../../../components/products/product-buttons";
 import { getCoverImageUrl } from "../../../../api/utils/getprodcoverimage";
 import ProductImages from "../../../../components/products/product-images";
+import { getProducts } from "../../../api/products/public/getproducts";
 import { MdHeight, MdOutlineChair, MdWhatsapp } from "react-icons/md";
 import { Product } from "../../../../api/interfaces/product";
 import useTranslation from "next-translate/useTranslation";
@@ -12,16 +16,10 @@ import { Fragment, useEffect, useState } from "react";
 import Meta from "../../../../components/public/meta";
 import { GoCircleSlash } from "react-icons/go";
 import { AutoTextSize } from "auto-text-size";
-import {
-  getProductByID,
-  getProducts,
-} from "../../../../api/calls/productCalls";
+import { FiFacebook } from "react-icons/fi";
 import { TiTick } from "react-icons/ti";
 import Head from "next/head";
 import Link from "next/link";
-import { formatCurrency } from "../../../../api/utils/formatters/formatcurrency";
-import { FiFacebook } from "react-icons/fi";
-import { getAllProductIDs } from "../../../api/public/products/getallproductids";
 
 type Props = {
   relatedProducts: Product[];
@@ -380,14 +378,19 @@ type Params = {
 };
 
 export const getStaticProps = async ({ params, locale }: Params) => {
-  const product = await getProductByID(Number.parseInt(params.id));
-  const result = await getProducts({
-    page: 1,
-    category: product.categories[0].id,
-    count: 10,
-    inStock: true,
-  });
-  const relatedProducts: Product[] = result[0]
+  const product = (await getProductByID({ id: Number.parseInt(params.id) }))
+    .result;
+  const result = (
+    await getProducts({
+      query: {
+        page: 1,
+        category: product.categories[0].id,
+        count: 10,
+        inStock: true,
+      },
+    })
+  ).sortedData;
+  const relatedProducts: Product[] = result
     .filter((prd) => prd.id != product.id)
     .sort((a, b) => {
       // First, prioritize products with the same name as the main product
@@ -431,7 +434,7 @@ export const getStaticProps = async ({ params, locale }: Params) => {
 };
 
 export async function getStaticPaths({}) {
-  const result = await getAllProductIDs();
+  const result = (await getAllProductIDs()).result;
   const allProductIDs: number[] = result;
   return {
     paths: allProductIDs.map((ID) => {
