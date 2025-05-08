@@ -3,12 +3,11 @@ import { orderMailClient } from "../../../../api/utils/mail/order/orderMailClien
 import { DocumentProduct } from "../../../../api/interfaces/documentProduct";
 import { Product } from "../../../../api/interfaces/product";
 import { countries } from "../../../../api/utils/countries";
-import { getConfig } from "../../config/private/getconfig";
 import { sendMail } from "../../../../api/utils/sendmail";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
 import { getShippingCostFromAddress } from "../address/getshippingcostfromaddress";
-import { renderToBuffer, renderToStream } from "@react-pdf/renderer";
+import { renderToStream } from "@react-pdf/renderer";
 import { PDFInvoice } from "../../../../components/pdf/pdfinvoice";
 
 const calculateTotalWithPromo = (promoDetails, cart) => {
@@ -380,6 +379,7 @@ export default async function postOrder(
 
             let mailOptionsCompany = {
               to: ["info@horecadepot.be", "horecadepothoreca@gmail.com"],
+              authToken: req.cookies.j,
               subject: "Nouvelle Commande sur horecadepot.be",
               html: orderMailEstablishment({ document: doc }),
             };
@@ -388,6 +388,7 @@ export default async function postOrder(
 
             let mailOptionsClient = {
               to: [clientEmail],
+              authToken: req.cookies.j,
               subject: "Votre Commande Chez Nous - Horeca Depot",
               html: orderMailClient({ document: doc }),
               attachments: [

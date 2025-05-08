@@ -1,4 +1,4 @@
-import { getConfig } from "../../pages/api/config/private/getconfig";
+import { getConfig } from "../../pages/api/private/config";
 
 type mailProps = {
   to: string[];
@@ -6,6 +6,7 @@ type mailProps = {
   html: string;
   attachments?: string[];
   replyTo?: string;
+  authToken: string;
   mailParams?: {
     mailUser: string;
     mailHost: string;
@@ -35,7 +36,8 @@ export const sendMail = async (mailOptions: mailProps) => {
   if (mailOptions.mailParams) {
     mailConfig = mailOptions.mailParams;
   } else {
-    mailConfig = (await getConfig()).mail;
+    mailConfig = (await getConfig({ authToken: mailOptions.authToken })).result
+      .mail;
   }
 
   try {

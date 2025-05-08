@@ -62,6 +62,7 @@ export default async function postClient(
               let mailOptionsClient = {
                 to: userData.email, // List of recipients
                 subject: "Bienvenue dans la famille Horecadepot", // Subject line
+                authToken: req.cookies.j,
                 html: `
             <!DOCTYPE html>
             <html lang="en">
@@ -472,8 +473,7 @@ export default async function postClient(
               };
 
               sendMail(mailOptionsClient);
-            } catch (e) {
-            }
+            } catch (e) {}
             return res.status(200).json(statusText[200]);
           } else if (answerUser.error.message == "Email already taken") {
             return res.status(409).json(statusText[400]);

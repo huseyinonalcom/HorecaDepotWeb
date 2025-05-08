@@ -1,11 +1,11 @@
 import StyledFormSection from "../../components/form/StyledFormSection";
 import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
 import StyledRadioGroup from "../../components/form/StyledRadioGroup";
-import { getConfig } from "../api/config/private/getconfig";
 import useTranslation from "next-translate/useTranslation";
 import InputField from "../../components/form/InputField";
 import StyledForm from "../../components/form/StyledForm";
 import Head from "next/head";
+import { getConfig } from "../api/private/config";
 
 export default function Settings(props) {
   const { t } = useTranslation("common");
@@ -22,7 +22,7 @@ export default function Settings(props) {
           e.preventDefault();
           const formData = new FormData(e.currentTarget);
 
-          fetch("/api/config/admin/updateconfig", {
+          fetch("/api/private/config", {
             method: "PUT",
             body: JSON.stringify({
               activeProvider: formData.get("activeProvider"),
@@ -115,8 +115,8 @@ Settings.getLayout = function (page) {
   return <AdminPanelLayout title={t("settings")}>{page}</AdminPanelLayout>;
 };
 
-export async function getServerSideProps() {
-  const config = await getConfig();
+export async function getServerSideProps(context) {
+  const config = (await getConfig({ authToken: context.req.cookies.j })).result;
   return {
     props: {
       config,
