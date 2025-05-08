@@ -95,7 +95,7 @@ export default function AdminPanelLayout({
   }, [router.pathname]);
 
   const validateSession = async () => {
-    const data = await fetch("/api/private/auth/checkloggedinuser");
+    const data = await fetch("/api/public/auth/checkloggedinuser");
     const answer = (await data.json()).result;
     if (data.status == 200) {
       if (answer.role != "Tier 9" && answer.role != "Tier 8") {
@@ -198,7 +198,7 @@ export default function AdminPanelLayout({
                     name="logout"
                     aria-label="Logout"
                     onClick={async () => {
-                      await fetch("/api/private/auth/logout").then(() => {
+                      await fetch("/api/public/auth/adminlogout").then(() => {
                         router.push(`/`);
                       });
                     }}
@@ -263,7 +263,7 @@ export default function AdminPanelLayout({
                 name="logout"
                 aria-label="Logout"
                 onClick={async () => {
-                  await fetch("/api/private/auth/logout").then(() => {
+                  await fetch("/api/public/auth/adminlogout").then(() => {
                     router.push(`/`);
                   });
                 }}

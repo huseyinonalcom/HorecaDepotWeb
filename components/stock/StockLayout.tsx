@@ -21,7 +21,7 @@ export default function StockLayout({ children }: Props) {
   const [userType, setUserType] = useState("regular");
 
   const validateSession = async () => {
-    const data = await fetch("/api/private/auth/checkloggedinuser");
+    const data = await fetch("/api/public/auth/checkloggedinuser");
     if (data.status != 200) {
       router.push(
         `/admin?destination=${encodeURIComponent(window.location.pathname)}`,
@@ -146,7 +146,7 @@ export default function StockLayout({ children }: Props) {
               aria-label="Logout"
               className={`mt-2 flex w-full flex-row items-center gap-3 rounded-md border-2 border-gray-400 p-1 whitespace-nowrap text-white shadow-sm hover:bg-blue-800`}
               onClick={async () => {
-                await fetch("/api/private/auth/logout").then(() => {
+                await fetch("/api/public/auth/adminlogout").then(() => {
                   router.push(`/`);
                 });
               }}

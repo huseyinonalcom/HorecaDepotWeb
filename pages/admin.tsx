@@ -42,7 +42,7 @@ export default function Admin() {
   };
 
   const validateSession = async () => {
-    const req = await fetch("/api/private/auth/checkloggedinuser");
+    const req = await fetch("/api/public/auth/checkloggedinuser");
     if (req.ok) {
       const answer = (await req.json()).result;
       navigateToDashboard(answer.role, router.query.destination);
@@ -57,7 +57,7 @@ export default function Admin() {
       const username = formData.get("username");
       const password = formData.get("password");
 
-      const response = await fetch("/api/auth/postloginadmin", {
+      const response = await fetch("/api/public/auth/postloginadmin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

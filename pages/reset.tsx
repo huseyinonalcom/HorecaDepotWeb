@@ -1,10 +1,10 @@
-import  { useState } from "react";
-import Head from "next/head";
 import useTranslation from "next-translate/useTranslation";
-import Layout from "../components/public/layout";
-import { useRouter } from "next/router";
 import InputOutlined from "../components/inputs/outlined";
 import CustomTheme from "../components/componentThemes";
+import Layout from "../components/public/layout";
+import { useRouter } from "next/router";
+import  { useState } from "react";
+import Head from "next/head";
 
 export default function Reset() {
   const { t, lang } = useTranslation("common");
@@ -22,7 +22,7 @@ export default function Reset() {
 
     setError("");
     try {
-      const response = await fetch("/api/auth/resetpass", {
+      const response = await fetch("/api/public/auth/resetpass", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

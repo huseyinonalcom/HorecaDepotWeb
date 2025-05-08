@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import statusText from "../../../api/statustexts";
+import statusText from "../../../../api/statustexts";
 
-const fetchUrl = `${process.env.API_URL}/api/auth/local`;
 const fetchUrl2 = `${process.env.API_URL}/api/users/me?populate=role`;
+const fetchUrl = `${process.env.API_URL}/api/public/auth/local`;
 
 const validRoles = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 

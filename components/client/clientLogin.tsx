@@ -28,7 +28,7 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
   }) => {
     setError("");
     try {
-      const response = await fetch("/api/auth/postlogin", {
+      const response = await fetch("/api/public/auth/postlogin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

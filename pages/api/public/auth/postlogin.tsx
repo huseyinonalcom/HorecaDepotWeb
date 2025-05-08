@@ -1,9 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import statusText from "../../../api/statustexts";
+import { apiUrl } from "../../../../api/api/constants";
+import statusText from "../../../../api/statustexts";
 
-const fetchUrl = `${process.env.API_URL}/api/auth/local`;
-const fetchUrl2 = `${process.env.API_URL}/api/users/me?populate[0]=role`;
-const fetchUrl3 = `${process.env.API_URL}/api/users/me?populate[0]=client_info&populate[client_info][populate][0]=addresses`;
+const fetchUrl3 = `${apiUrl}/api/users/me?populate[0]=client_info&populate[client_info][populate][0]=addresses`;
+const fetchUrl2 = `${apiUrl}/api/users/me?populate[0]=role`;
+const fetchUrl = `${apiUrl}/api/public/auth/local`;
 
 const validRoles = ["Client"];
 
