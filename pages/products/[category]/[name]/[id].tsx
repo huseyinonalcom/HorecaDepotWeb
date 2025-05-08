@@ -77,7 +77,7 @@ const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
         <meta
           name="description"
           content={
-            product.name + " " + t(product.categories[0].localized_name[lang])
+            product.name + " " + product.categories[0].localized_name[lang]
           }
         />
         <meta name="subject" content={"" + product.name + ""} />

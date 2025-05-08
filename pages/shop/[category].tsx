@@ -125,7 +125,7 @@ export default function Products(props) {
   const createLink = (props) => {
     let link = "/shop/";
     if (props.currentCategory) {
-      link += t(props.currentCategory.localized_name[t("locale")]) + "?";
+      link += props.currentCategory.localized_name[t("locale")] + "?";
     } else {
       link += "tous?";
     }
@@ -174,12 +174,12 @@ export default function Products(props) {
                                 : "/uploads/placeholder_9db455d1f1.webp"
                             }
                             alt={
-                              t(category.localized_name[t("locale")]) + " image"
+                              category.localized_name[t("locale")] + " image"
                             }
                           />
                         </div>
                         <p className="font-semibold">
-                          {t(category.localized_name[t("locale")])}
+                          {category.localized_name[t("locale")]}
                         </p>
                       </Link>
                     </div>
