@@ -1,6 +1,7 @@
 import { CategoryConversion, Category } from "../interfaces/category";
+import { apiUrl } from "../api/constants";
 
-const API_URL = process.env.API_URL + "/api/";
+const API_URL = apiUrl + "/api/";
 const API_KEY = process.env.API_KEY;
 
 export async function getCategories(): Promise<Category[]> {

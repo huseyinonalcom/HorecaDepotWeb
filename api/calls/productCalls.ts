@@ -1,8 +1,9 @@
 import { Category } from "../interfaces/category";
 import { Product } from "../interfaces/product";
-import { getCategories } from "./categoryCalls";
+import { apiUrl } from "../api/constants";
+import { getAllCategories } from "../../pages/api/public/categories/getallcategories";
 
-const API_URL = `${process.env.API_URL}/api/`;
+const API_URL = `${apiUrl}/api/`;
 const API_KEY = process.env.API_KEY;
 
 export async function getProductByID(id: number): Promise<Product> {
@@ -115,7 +116,7 @@ export async function getProducts({
   minvalue,
   maxvalue,
 }: GetProductsParams): Promise<[Product[], number, number, number]> {
-  let categories: Category[] = await getCategories();
+  let categories: Category[] = await getAllCategories({});
 
   let categoriesToSearch: number[] = getAllSubcategoryIds(categories, category);
 

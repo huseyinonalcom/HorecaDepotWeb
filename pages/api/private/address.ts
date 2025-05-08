@@ -1,8 +1,9 @@
 import { Address } from "../../../api/interfaces/address";
 import { NextApiRequest, NextApiResponse } from "next";
+import { apiUrl } from "../../../api/api/constants";
 import statusText from "../../../api/statustexts";
 
-const fetchUrl = `${process.env.API_URL}/api/addresses`;
+const fetchUrl = `${apiUrl}/api/addresses`;
 
 export const getAddress = async ({
   id,

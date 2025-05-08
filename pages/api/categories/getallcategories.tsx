@@ -1,4 +1,4 @@
-import { Category, CategoryConversion } from "../../../api/interfaces/category";
+import { Category } from "../../../api/interfaces/category";
 import statusText from "../../../api/statustexts";
 
 let cache = {
