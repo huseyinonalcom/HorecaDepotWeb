@@ -98,7 +98,7 @@ export default function AdminPanelLayout({
     const data = await fetch("/api/public/auth/checkloggedinuser");
     const answer = (await data.json()).result;
     if (data.status == 200) {
-      if (answer.role != "Tier 9" && answer.role != "Tier 8") {
+      if (answer.role != "Tier 9") {
         router.push("/stock/list/all");
       } else {
         setUserTier(Number(answer.role.replaceAll("Tier ", "")));

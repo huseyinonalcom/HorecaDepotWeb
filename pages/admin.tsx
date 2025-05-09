@@ -79,7 +79,7 @@ export default function Admin() {
   const navigateToDashboard = (role, destination) => {
     if (destination) {
       router.push(decodeURIComponent(destination as string));
-    } else if (role == "Tier 9" || role == "Tier 8") {
+    } else if (role == "Tier 9") {
       router.push("/admin/dashboard");
     } else {
       router.push("/stock/list/all");
