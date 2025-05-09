@@ -90,15 +90,17 @@ export default function Reserve() {
 
   const submitReservation = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
     const body = {
-      customer: data,
-      documentProducts: cart,
+      document: {
+        type: "Reservation",
+        date: new Date(),
+        customer: customer,
+        documentProducts: cart,
+      },
     };
     const request = await fetch("/api/private/documents", {
       method: "POST",
-      body: JSON.stringify(data),
+      body: JSON.stringify(body),
     });
   };
 
