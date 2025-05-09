@@ -24,7 +24,7 @@ export default function Reservations() {
     try {
       const reservations = await (
         await fetch(
-          `/api/private/documents?type=reservation&page=${page}&search=${search}`,
+          `/api/private/documents/universal?type=reservation&page=${page}&search=${search}`,
         )
       ).json();
 

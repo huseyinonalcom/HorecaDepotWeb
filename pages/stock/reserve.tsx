@@ -101,18 +101,18 @@ export default function Reserve() {
         documentProducts: cart,
       },
     };
-    const request = await fetch("/api/private/documents", {
+    const request = await fetch("/api/private/documents/reservations", {
       method: "POST",
       body: JSON.stringify(body),
     });
 
     if (request.ok) {
-      alert(t("reservation-created"));
+   /*    alert(t("reservation-created"));
       cart.forEach((product) => {
         removeFromCart(product.id);
-      });
+      }); */
       const answer = await request.json();
-      router.push(`/stock/reservation/${answer.result.id}`);
+     /*  router.push(`/stock/reservation/${answer.result.id}`); */
     } else {
       alert(t("reservation-failed"));
     }

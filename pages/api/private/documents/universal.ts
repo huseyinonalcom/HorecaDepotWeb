@@ -1,5 +1,4 @@
-import { Document } from "../../../api/interfaces/document";
-import apiRoute from "../../../api/api/apiRoute";
+import apiRoute from "../../../../api/api/apiRoute";
 
 const fetchUrl = `${process.env.API_URL}/api/documents`;
 
@@ -65,56 +64,6 @@ export const getDocuments = async ({
   }
 };
 
-export const createDocument = async ({
-  authToken,
-  data,
-}: {
-  authToken: string;
-  data: Document;
-}) => {
-  const request = await fetch(fetchUrl + "?" + fetchParams, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${authToken}`,
-    },
-    body: JSON.stringify(data),
-  });
-
-  if (!request.ok) {
-    console.error(await request.text());
-    return null;
-  } else {
-    return await request.json();
-  }
-};
-
-export const updateDocument = async ({
-  id,
-  authToken,
-  data,
-}: {
-  id: number;
-  authToken: string;
-  data: Document;
-}) => {
-  const request = await fetch(fetchUrl + "/" + id + "?" + fetchParams, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${authToken}`,
-    },
-    body: JSON.stringify(data),
-  });
-
-  if (!request.ok) {
-    console.error(await request.text());
-    return null;
-  } else {
-    return await request.json();
-  }
-};
-
 export default apiRoute({
   authChallenge: async (req) => {
     if (!req.cookies.cj) {
@@ -132,23 +81,6 @@ export default apiRoute({
           search: req.query.search as string,
           type: req.query.type as string,
           authToken: req.cookies.cj,
-        });
-      },
-    },
-    POST: {
-      func: async (req, res) => {
-        return await createDocument({
-          authToken: req.cookies.cj,
-          data: req.body,
-        });
-      },
-    },
-    PUT: {
-      func: async (req, res) => {
-        return await updateDocument({
-          id: Number(req.query.id as string),
-          authToken: req.cookies.cj,
-          data: req.body,
         });
       },
     },
