@@ -124,7 +124,7 @@ export default function ShopLayout({ children }: Props) {
         <div className="flex w-full items-center justify-between text-left hover:bg-gray-200">
           <Link
             href={`/${router.locale}/shop/${encodeURIComponent(category.localized_name[lang])}?page=1`}
-            className="h-full whitespace-nowrap px-4 py-2"
+            className={`h-full px-4 py-2 whitespace-nowrap ${!hasSubCategories && "w-full"}`}
           >
             {category.localized_name[lang]}
           </Link>
@@ -173,7 +173,7 @@ export default function ShopLayout({ children }: Props) {
                 >
                   <FiX />
                 </button>
-                <div className="flex h-full w-full flex-col justify-end bg-white ">
+                <div className="flex h-full w-full flex-col justify-end bg-white">
                   <div>
                     {currentSearch ? (
                       <div
