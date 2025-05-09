@@ -1,5 +1,6 @@
 import apiRoute from "../../../../api/api/apiRoute";
 import { apiUrl } from "../../../../api/api/constants";
+import { createCustomer } from "../customers";
 import { getUser } from "../user";
 
 const fetchUrl = `${apiUrl}/api/documents`;
@@ -25,6 +26,17 @@ export const createReservation = async ({
   }
 
   document.user = (await getUser({ self: true, authToken: authToken })).id;
+
+  if (!document.customer.id || document.customer.id == 0) {
+    document.customer = (
+      await createCustomer({
+        authToken,
+        customer: document.customer,
+      })
+    ).id;
+  } else {
+    document.customer = document.customer.id;
+  }
 
   console.log(document);
 
