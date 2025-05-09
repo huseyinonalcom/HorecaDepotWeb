@@ -26,6 +26,7 @@ import {
   DialogBody,
   DialogTitle,
 } from "../../components/styled/dialog";
+import { useRouter } from "next/router";
 
 const emptyAddress = {
   country: "",
@@ -38,6 +39,8 @@ const emptyAddress = {
 
 export default function Reserve() {
   const { t } = useTranslation("common");
+
+  const router = useRouter();
 
   const [cart, setCart] = useState<any[]>([]);
 
@@ -90,16 +93,10 @@ export default function Reserve() {
 
   const submitReservation = async (e) => {
     e.preventDefault();
-    alert("Reservation created");
-    cart.forEach((product) => {
-      removeFromCart(product.id);
-    });
 
-    return;
     const body = {
       document: {
         type: "Reservation",
-        date: new Date(),
         customer: customer,
         documentProducts: cart,
       },
@@ -110,10 +107,14 @@ export default function Reserve() {
     });
 
     if (request.ok) {
-      alert("Reservation created");
+      alert(t("reservation-created"));
       cart.forEach((product) => {
         removeFromCart(product.id);
       });
+      const answer = await request.json();
+      router.push(`/stock/reservation/${answer.result.id}`);
+    } else {
+      alert(t("reservation-failed"));
     }
   };
 
