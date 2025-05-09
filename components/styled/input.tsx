@@ -14,7 +14,7 @@ export function InputGroup({
         "has-[[data-slot=icon]:first-child]:[&_input]:pl-10 has-[[data-slot=icon]:last-child]:[&_input]:pr-10 sm:has-[[data-slot=icon]:first-child]:[&_input]:pl-8 sm:has-[[data-slot=icon]:last-child]:[&_input]:pr-8",
         "*:data-[slot=icon]:pointer-events-none *:data-[slot=icon]:absolute *:data-[slot=icon]:top-3 *:data-[slot=icon]:z-10 *:data-[slot=icon]:size-5 sm:*:data-[slot=icon]:top-2.5 sm:*:data-[slot=icon]:size-4",
         "[&>[data-slot=icon]:first-child]:left-3 sm:[&>[data-slot=icon]:first-child]:left-2.5 [&>[data-slot=icon]:last-child]:right-3 sm:[&>[data-slot=icon]:last-child]:right-2.5",
-        "*:data-[slot=icon]:text-zinc-500 ",
+        "*:data-[slot=icon]:text-zinc-500",
       )}
     >
       {children}
@@ -65,7 +65,7 @@ export const Input = forwardRef(function Input(
             // Background color is moved to control and shadow is removed in dark mode so hide `before` pseudo
             "",
             // Focus ring
-            "after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-inset after:ring-transparent sm:focus-within:after:ring-2 sm:focus-within:after:ring-blue-500",
+            "after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-transparent after:ring-inset sm:focus-within:after:ring-2 sm:focus-within:after:ring-blue-500",
             // Disabled state
             "has-data-disabled:opacity-50 has-data-disabled:before:bg-zinc-950/5 has-data-disabled:before:shadow-none",
             // Invalid state
@@ -76,6 +76,9 @@ export const Input = forwardRef(function Input(
             invalid={!!error}
             ref={ref}
             {...props}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") e.preventDefault();
+            }}
             className={clsx([
               // Date classes
               props.type &&
@@ -96,17 +99,17 @@ export const Input = forwardRef(function Input(
               // Basic layout
               "relative block w-full appearance-none rounded-lg px-[calc(--spacing(3.5)-1px)] py-[calc(--spacing(2.5)-1px)] sm:px-[calc(--spacing(3)-1px)] sm:py-[calc(--spacing(1.5)-1px)]",
               // Typography
-              "text-base/6 text-zinc-950 placeholder:text-zinc-500 sm:text-sm/6 ",
+              "text-base/6 text-zinc-950 placeholder:text-zinc-500 sm:text-sm/6",
               // Border
-              "data-hover:border-zinc-950/20  border border-zinc-950/10 ",
+              "border border-zinc-950/10 data-hover:border-zinc-950/20",
               // Background color
-              "bg-transparent ",
+              "bg-transparent",
               // Hide default focus styles
               "focus:outline-hidden",
               // Invalid state
-              "data-invalid:border-red-500 data-invalid:data-hover:border-red-500  ",
+              "data-invalid:border-red-500 data-invalid:data-hover:border-red-500",
               // Disabled state
-              "data-disabled:border-zinc-950/20   ",
+              "data-disabled:border-zinc-950/20",
               // System icons
               "",
             ])}

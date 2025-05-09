@@ -90,6 +90,12 @@ export default function Reserve() {
 
   const submitReservation = async (e) => {
     e.preventDefault();
+    alert("Reservation created");
+    cart.forEach((product) => {
+      removeFromCart(product.id);
+    });
+
+    return;
     const body = {
       document: {
         type: "Reservation",
@@ -102,6 +108,13 @@ export default function Reserve() {
       method: "POST",
       body: JSON.stringify(body),
     });
+
+    if (request.ok) {
+      alert("Reservation created");
+      cart.forEach((product) => {
+        removeFromCart(product.id);
+      });
+    }
   };
 
   const [sameAsInvoice, setSameAsInvoice] = useState(true);
