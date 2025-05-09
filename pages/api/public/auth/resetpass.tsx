@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { apiUrl } from "../../../../api/api/constants";
 import statusText from "../../../../api/statustexts";
 
-const fetchUrl = `${apiUrl}/api/public/auth/reset-password`;
+const fetchUrl = `${apiUrl}/api/auth/reset-password`;
 
 export default async function logInClient(
   req: NextApiRequest,

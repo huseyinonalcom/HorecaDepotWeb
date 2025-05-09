@@ -4,7 +4,7 @@ import statusText from "../../../../api/statustexts";
 
 const fetchUrl3 = `${apiUrl}/api/users/me?populate[0]=client_info&populate[client_info][populate][0]=addresses`;
 const fetchUrl2 = `${apiUrl}/api/users/me?populate[0]=role`;
-const fetchUrl = `${apiUrl}/api/public/auth/local`;
+const fetchUrl = `${apiUrl}/api/auth/local`;
 
 const validRoles = ["Client"];
 

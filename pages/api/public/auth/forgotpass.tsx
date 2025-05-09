@@ -1,7 +1,7 @@
 import { apiUrl } from "../../../../api/api/constants";
 import apiRoute from "../../../../api/api/apiRoute";
 
-const fetchUrl = `${apiUrl}/api/public/auth/forgot-password`;
+const fetchUrl = `${apiUrl}/api/auth/forgot-password`;
 
 export async function forgotPassword({ email }: { email: string }) {
   const request = await fetch(fetchUrl, {

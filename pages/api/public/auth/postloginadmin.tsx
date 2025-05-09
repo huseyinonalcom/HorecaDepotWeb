@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
+import { apiUrl } from "../../../../api/api/constants";
 
-const fetchUrl2 = `${process.env.API_URL}/api/users/me?populate=role`;
-const fetchUrl = `${process.env.API_URL}/api/public/auth/local`;
+const fetchUrl2 = `${apiUrl}/api/users/me?populate=role`;
+const fetchUrl = `${apiUrl}/api/auth/local`;
 
 const validRoles = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -28,6 +29,8 @@ export default async function logInAdmin(
       });
 
       if (!request.ok) {
+        const answer = await request.text();
+        console.log(answer);
         return res.status(401).json(statusText[401]);
       }
 
@@ -51,7 +54,7 @@ export default async function logInAdmin(
           "Set-Cookie",
           `j=${answer.jwt}; HttpOnly; Path=/; Max-Age=36000; SameSite=Strict${isProduction ? "; Secure" : ""}`,
         );
-        
+
         return res.status(200).json(answer2.role.name);
       } else {
         return res.status(500).json(statusText[500]);
