@@ -6,7 +6,6 @@ import TextareaOutlined from "../components/inputs/textarea_outlined";
 import { CategoryBanner } from "../components/banners/CategoryBanner";
 import { PromoBanner } from "../components/banners/PromoBanner";
 import { getHomePage } from "./api/website/public/gethomepage";
-import { getBanners } from "./api/website/public/getbanners";
 import useTranslation from "next-translate/useTranslation";
 import InputOutlined from "../components/inputs/outlined";
 import ImageWithURL from "../components/common/image";
@@ -29,6 +28,7 @@ import {
   useSensor,
 } from "@dnd-kit/core";
 import { uploadFileToAPI } from "./api/private/files/uploadfile";
+import { getBanners } from "./api/private/banners";
 
 export default function Index({
   homePage,

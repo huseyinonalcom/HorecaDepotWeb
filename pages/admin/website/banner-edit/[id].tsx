@@ -1,6 +1,6 @@
 import TextareaOutlined from "../../../../components/inputs/textarea_outlined";
 import AdminPanelLayout from "../../../../components/admin/AdminPanelLayout";
-import { getBanners } from "../../../api/website/public/getbanners";
+import { uploadFileToAPI } from "../../../api/private/files/uploadfile";
 import InputOutlined from "../../../../components/inputs/outlined";
 import ImageWithURL from "../../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
@@ -8,7 +8,7 @@ import { FiCheck } from "react-icons/fi";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Head from "next/head";
-import { uploadFileToAPI } from "../../../api/private/files/uploadfile";
+import { getBanners } from "../../../api/private/banners";
 
 export default function BannerEdit(props) {
   const { t, lang } = useTranslation("common");
@@ -168,7 +168,7 @@ export default function BannerEdit(props) {
 
             if (editedBanner.id == "new") {
               delete editedBanner.id;
-              fetch(`/api/universal/admin/posttoapi?collection=banners`, {
+              fetch(`/api/private/banners`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -181,16 +181,13 @@ export default function BannerEdit(props) {
             } else {
               let idtoput = `${editedBanner.id}`;
               delete editedBanner.id;
-              fetch(
-                `/api/universal/admin/puttoapi?collectiontoput=banners&idtoput=${idtoput}`,
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify(editedBanner),
+              fetch(`/api/private/banners?id=${idtoput}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
                 },
-              ).then((res) => {
+                body: JSON.stringify(editedBanner),
+              }).then((res) => {
                 window.location.reload();
               });
             }
