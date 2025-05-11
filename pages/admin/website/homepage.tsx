@@ -1,13 +1,13 @@
 import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
 import { getCollections } from "../../api/collections/public/getcollections";
 import { getHomePage } from "../../api/website/public/gethomepage";
-import { getBanners } from "../../api/website/public/getbanners";
 import useTranslation from "next-translate/useTranslation"; 
 import { useState } from "react";
 import Head from "next/head";
 import Index from "../..";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import { FiCheck } from "react-icons/fi";
+import { getBanners } from "../../api/private/banners";
 
 export default function HomePageAdmin({
   homePageFromAPI,

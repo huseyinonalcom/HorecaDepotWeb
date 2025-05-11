@@ -60,7 +60,6 @@ export async function putBanner({
   if (!id) {
     throw "No id provided.";
   }
-  console.log(data);
 
   try {
     const reqBanner = await fetch(fetchUrl + "/" + id, {
