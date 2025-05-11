@@ -459,5 +459,6 @@
   "search": "Zoeken",
   "select": "Selecteren",
   "package-details": "Pakketdetails",
-  "my-details": "Mijn Gebruikersdetails"
+  "my-details": "Mijn Gebruikersdetails",
+  "delete-banner-confirm": "Bevestig dat u deze banner wilt verwijderen."
 }

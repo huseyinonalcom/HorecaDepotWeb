@@ -81,6 +81,34 @@ export async function putBanner({
   }
 }
 
+export async function deletetBanner({
+  id,
+  authToken,
+}: {
+  id: number;
+  authToken: string;
+}) {
+  if (!id) {
+    throw "No id provided.";
+  }
+
+  try {
+    await fetch(fetchUrl + "/" + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+
+    return { result: true };
+  } catch (error) {
+    console.log(error);
+    return { error: error, result: null };
+  }
+}
+
 export default apiRoute({
   authChallenge: async (req) => {
     return !!req.cookies.j;
@@ -107,6 +135,14 @@ export default apiRoute({
         return await putBanner({
           id: Number(req.query.id),
           data: req.body,
+          authToken: req.cookies.j,
+        });
+      },
+    },
+    DELETE: {
+      func: async (req, res) => {
+        return await deletetBanner({
+          id: Number(req.query.id),
           authToken: req.cookies.j,
         });
       },

@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Head from "next/head";
 import { getBanners } from "../../../api/private/banners";
+import { Button } from "../../../../components/styled/button";
+import { TrashIcon } from "@heroicons/react/24/outline";
 
 export default function BannerEdit(props) {
   const { t, lang } = useTranslation("common");
@@ -20,6 +22,23 @@ export default function BannerEdit(props) {
       <Head>
         <title>{t("banner")}</title>
       </Head>
+      <div className="flex w-full flex-row justify-end">
+        <Button
+          onClick={() => {
+            confirm(t("delte-banner-confirm")) &&
+              fetch(`/api/private/banners?id=${banner.id}`, {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }).then((res) => {
+                router.push("/admin/website/banners");
+              });
+          }}
+        >
+          <TrashIcon style={{ color: "red" }} />
+        </Button>
+      </div>
       <div className={`flex items-center justify-center bg-white`}>
         <div className="flex flex-wrap items-center justify-center gap-12 p-4">
           {["en", "nl", "fr", "de"].map((lang) => (

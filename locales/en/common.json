@@ -459,5 +459,6 @@
   "search": "Search",
   "select": "Select",
   "package-details": "Package Details",
-  "my-details": "My Account Details"
+  "my-details": "My Account Details",
+  "delete-banner-confirm": "Confirm that you wish to delete this banner."
 }

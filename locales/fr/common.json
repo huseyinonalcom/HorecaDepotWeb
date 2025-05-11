@@ -459,5 +459,6 @@
   "search": "Rechercher",
   "select": "Sélectionner",
   "package-details": "Détails du colis",
-  "my-details": "Mon Compte"
+  "my-details": "Mon Compte",
+  "delete-banner-confirm": "Confirmez que vous souhaitez supprimer cette bannière."
 }
