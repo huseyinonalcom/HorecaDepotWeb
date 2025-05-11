@@ -441,7 +441,7 @@ export default function Index({
         <div className="flex w-full flex-col items-center">
           <div
             id="slider-1"
-            className={`no-scrollbar flex w-full snap-x snap-mandatory flex-row overflow-x-scroll z-0`}
+            className={`no-scrollbar z-0 flex w-full snap-x snap-mandatory flex-row overflow-x-scroll`}
           >
             <DndContext
               sensors={[
