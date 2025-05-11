@@ -7,9 +7,11 @@ const fetchUrl = `${apiUrl}/api/document-products`;
 export const createDocumentProduct = async ({
   authToken,
   data,
+  documentType,
 }: {
   authToken: string;
   data: any;
+  documentType: "Commande" | "Reservation";
 }) => {
   const docProd = JSON.parse(data);
 
@@ -17,6 +19,11 @@ export const createDocumentProduct = async ({
 
   if (docProd.product) {
     product = (await getProducts({ authToken, id: docProd.product })).data;
+    if (documentType == "Commande") {
+      // reduce product stock by amount
+    } else if (documentType == "Reservation") {
+      // increase product reserved stock by amount
+    }
   }
 
   const documentProduct = {
@@ -49,6 +56,24 @@ export const createDocumentProduct = async ({
   }
 };
 
+export const deleteDocumentProduct = async ({
+  authToken,
+  id,
+}: {
+  authToken: string;
+  id: number;
+}) => {
+  /** 
+   * fetch document
+   * find related product
+   * if document is reservation
+   *   decrease product reserved stock by amount
+   * if document is commande
+   *   increase product stock by amount
+   * delete document product
+   */
+};
+
 export default apiRoute({
   authChallenge: async (req) => {
     if (!req.cookies.j) {
@@ -63,6 +88,7 @@ export default apiRoute({
         return await createDocumentProduct({
           authToken: req.cookies.j,
           data: req.body,
+          documentType: req.query.documentType as "Commande" | "Reservation",
         });
       },
     },
@@ -71,6 +97,7 @@ export default apiRoute({
         return await createDocumentProduct({
           authToken: req.cookies.j,
           data: req.body,
+          documentType: req.query.documentType as "Commande" | "Reservation",
         });
       },
     },

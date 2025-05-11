@@ -64,6 +64,20 @@ export const getDocuments = async ({
   }
 };
 
+export const deleteDocument = async ({
+  authToken,
+  id,
+}: {
+  authToken: string;
+  id: number;
+}) => {
+  /** 
+   * fetch document
+   * delete related document products
+   * delete document
+   */
+};
+
 export default apiRoute({
   authChallenge: async (req) => {
     if (!req.cookies.cj) {

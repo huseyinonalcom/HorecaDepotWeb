@@ -45,6 +45,7 @@ export const createReservation = async ({
   const createPromises = document.documentProducts.map((dp) =>
     createDocumentProduct({
       authToken,
+      documentType: "Reservation",
       data: JSON.stringify({
         id: `new`,
         amount: dp.amount,
