@@ -97,22 +97,23 @@ export default function Reserve() {
     const body = {
       document: {
         type: "Reservation",
-        customer: customer,
+        customer: customer.client_info,
         documentProducts: cart,
       },
     };
+
     const request = await fetch("/api/private/documents/reservations", {
       method: "POST",
       body: JSON.stringify(body),
     });
 
     if (request.ok) {
-   /*    alert(t("reservation-created"));
       cart.forEach((product) => {
         removeFromCart(product.id);
-      }); */
+      });
       const answer = await request.json();
-     /*  router.push(`/stock/reservation/${answer.result.id}`); */
+      console.log(answer);
+      router.push(`/stock/reservation/${answer.result.id}`);
     } else {
       alert(t("reservation-failed"));
     }
@@ -242,6 +243,7 @@ export default function Reserve() {
                 <CustomerSelector
                   onCustomerSelected={(customer) => {
                     setCustomer({ ...customer.login, client_info: customer });
+                    setShowCustomerSelector(false);
                   }}
                 />
               </DialogBody>

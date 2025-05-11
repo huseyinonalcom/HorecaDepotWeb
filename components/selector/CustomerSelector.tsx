@@ -48,7 +48,6 @@ export const CustomerSelector = ({
       setFilter((currFilter) => ({
         ...currFilter,
         totalPages: ans.meta.pagination.pageCount,
-        page: 1,
       }));
     });
   }, [filter.page, filter.search]);

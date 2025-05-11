@@ -1,5 +1,7 @@
-import apiRoute from "../../../../api/api/apiRoute";
+import { getLastDocumentNumber as getNewDocumentNumber } from "./getlastdocumentnumber";
+import { createDocumentProduct } from "./documentproducts";
 import { apiUrl } from "../../../../api/api/constants";
+import apiRoute from "../../../../api/api/apiRoute";
 import { createCustomer } from "../customers";
 import { getUser } from "../user";
 
@@ -12,7 +14,7 @@ export const createReservation = async ({
   authToken: string;
   data: any;
 }) => {
-  const { document } = JSON.parse(data);
+  let { document } = JSON.parse(data);
   if (document.type != "Reservation") {
     throw new Error("Invalid document type");
   }
@@ -25,37 +27,63 @@ export const createReservation = async ({
     throw new Error("No customer");
   }
 
-  document.user = (await getUser({ self: true, authToken: authToken })).id;
+  document.user = (
+    await getUser({ self: true, authToken: authToken })
+  ).user_info.id;
 
   if (!document.customer.id || document.customer.id == 0) {
-    document.customer = (
+    document.client = (
       await createCustomer({
         authToken,
         customer: document.customer,
       })
     ).id;
   } else {
-    document.customer = document.customer.id;
+    document.client = document.customer.id;
   }
 
-  console.log(document);
+  const createPromises = document.documentProducts.map((dp) =>
+    createDocumentProduct({
+      authToken,
+      data: JSON.stringify({
+        id: `new`,
+        amount: dp.amount,
+        tax: 21,
+        discount: 0,
+        product: dp.id,
+      }),
+    }).then((res) => res.result.data.id),
+  );
 
-  /*   const request = await fetch(fetchUrl, {
+  const postedDocumentProducts = await Promise.all(createPromises);
+  document = {
+    ...document,
+    document_products: postedDocumentProducts,
+    prefix: "RES-",
+    number: (await getNewDocumentNumber({ authToken, type: "Reservation" }))
+      .result,
+    date: new Date().toISOString().split("T")[0],
+    phase: 1,
+  };
+
+  delete document.customer;
+  delete document.documentProducts;
+
+  const request = await fetch(fetchUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${authToken}`,
     },
-    body: JSON.stringify(document),
+    body: JSON.stringify({ data: document }),
   });
 
   if (!request.ok) {
+    console.error(await request.text());
     throw new Error("Failed to create reservation");
   } else {
-    return await { result: request.json() };
-  } */
-
-  return { result: "a" };
+    return { result: await request.json() };
+  }
 };
 
 export default apiRoute({
