@@ -8,6 +8,7 @@ import Index from "../..";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import { FiCheck } from "react-icons/fi";
 import { getBanners } from "../../api/private/banners";
+import { getHomepage } from "../../api/private/homepage";
 
 export default function HomePageAdmin({
   homePageFromAPI,
@@ -23,7 +24,7 @@ export default function HomePageAdmin({
       <Head>
         <title>{t("homepage")}</title>
       </Head>
-      <div className="max-w-full absolute">
+      <div className="max-w-full">
         {bannersFromAPI && (
           <Index
             banners={bannersFromAPI}
@@ -42,7 +43,7 @@ export default function HomePageAdmin({
       <button
         type="button"
         onClick={() => {
-          fetch(`/api/universal/admin/puttoapi?collectiontoput=home-page`, {
+          fetch(`/api/private/homepage`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -65,7 +66,7 @@ HomePageAdmin.getLayout = function getLayout(children) {
 };
 
 export const getServerSideProps = async ({ locale }) => {
-  const homePageFromAPI = await getHomePage();
+  const homePageFromAPI = await getHomepage({});
 
   const allCategories = await getAllCategoriesFlattened();
 

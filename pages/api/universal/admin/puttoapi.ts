@@ -15,29 +15,22 @@ export async function putToAPI({
     const id = req.query.id;
     const bodyToPut = req.body;
 
-    let reqBody = bodyToPut;
-
-    reqBody = JSON.stringify({
-      data: JSON.parse(bodyToPut),
-    });
+    console.log(`PUTTING TO ${collection}`);
+    console.log(bodyToPut);
 
     const request = await fetch(
       `${process.env.API_URL}/api/${collection}${id ? `/${id}` : ""}`,
       {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${authToken}`,
         },
-        body: reqBody,
+        body: JSON.stringify({ data: bodyToPut }),
       },
     );
 
     if (request.ok) {
       let ans = await request.json();
-      if (req.query.nodata) {
-        return ans.id;
-      }
       return ans.data.id ?? true;
     } else {
       let ans = await request.text();
