@@ -29,6 +29,7 @@ import {
   DialogBackdrop,
   TransitionChild,
 } from "@headlessui/react";
+import { Button } from "../styled/button";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -115,6 +116,8 @@ export default function AdminPanelLayout({
   if (userTier == 9) {
     activeNav = [...navigation, ...adminNavigation];
   }
+
+  const [panelOpen, setPanelOpen] = useState(true);
 
   return (
     <>
@@ -216,16 +219,35 @@ export default function AdminPanelLayout({
           </div>
         </Dialog>
 
-        <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+        {!panelOpen && (
+          <div className="fixed top-2 left-2 hidden lg:block">
+            <Button type="button" onClick={() => setPanelOpen(true)}>
+              <span className="sr-only">{t("open-menu")}</span>
+              <Bars3Icon aria-hidden="true" />
+            </Button>
+          </div>
+        )}
+
+        <div
+          className={`hidden ${panelOpen ? "lg:fixed" : "lg:hidden"} lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col`}
+        >
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
-            <div className="flex h-16 shrink-0 items-center">
-              <Image
-                alt="Horeca Depot Logo"
-                src="/assets/header/logob.png"
-                priority
-                height={32}
-                width={179}
-              />
+            <div className="flex w-full flex-row items-center justify-between">
+              <div className="flex h-16 shrink-0 items-center">
+                <Image
+                  alt="Horeca Depot Logo"
+                  src="/assets/header/logob.png"
+                  priority
+                  height={32}
+                  width={179}
+                />
+              </div>
+              <div>
+                <Button type="button" onClick={() => setPanelOpen(false)}>
+                  <span className="sr-only">{t("close-menu")}</span>
+                  <XMarkIcon aria-hidden="true" />
+                </Button>
+              </div>
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -293,7 +315,7 @@ export default function AdminPanelLayout({
           </div>
         </div>
 
-        <main className="py-10 lg:pl-72">
+        <main className={`py-10 ${panelOpen ? "lg:pl-72" : "pl-4"}`}>
           <div className="px-4 sm:px-6 lg:px-8">{children}</div>
         </main>
       </div>

@@ -29,6 +29,7 @@ import {
 } from "@dnd-kit/core";
 import { uploadFileToAPI } from "./api/private/files/uploadfile";
 import { getBanners } from "./api/private/banners";
+import { Portal } from "@headlessui/react";
 
 export default function Index({
   homePage,
@@ -92,223 +93,232 @@ export default function Index({
             }}
           />
         )}
-        <div
-          className={`fixed inset-0 z-50 m-12 flex items-center justify-center bg-white ${shownPromoBannerModal == order ? "" : "hidden"}`}
-        >
-          <button
-            onClick={() => {
-              setShownPromoBannerModal(null);
-            }}
-            type="button"
-            className="absolute top-4 left-4"
+        <Portal>
+          <div
+            className={`fixed inset-0 z-50 m-12 flex items-center justify-center bg-gray-200 ${shownPromoBannerModal == order ? "" : "hidden"}`}
           >
-            <FiX color="red" size={64} />
-          </button>
-          <div className="flex flex-wrap items-center justify-center gap-12 p-4">
-            <div className="flex h-[50vh] w-[420px] flex-col gap-2 overflow-y-auto">
-              {banners
-                .filter((banner) => {
-                  if (typeof homePage.layout[order].content == "number") {
-                    return homePage.layout[order].content != banner.id;
-                  } else {
-                    return !homePage.layout[order].content.includes(banner.id);
-                  }
-                })
-                .map((banner) => (
-                  <button
-                    type="button"
-                    key={banner.id}
-                    onClick={() => {
-                      if (order == "1") {
-                        onEdit({
-                          ...homePage,
-                          layout: {
-                            ...homePage.layout,
-                            [order]: {
-                              ...homePage.layout[order],
-                              content: [
-                                ...homePage.layout[order].content,
-                                banner.id,
-                              ],
+            <button
+              onClick={() => {
+                setShownPromoBannerModal(null);
+              }}
+              type="button"
+              className="absolute top-4 left-4"
+            >
+              <FiX color="red" size={64} />
+            </button>
+            <div className="flex flex-wrap items-center justify-center gap-12 p-4">
+              <div className="flex h-[50vh] w-[420px] flex-col gap-2 overflow-y-auto">
+                {banners
+                  .filter((banner) => {
+                    if (typeof homePage.layout[order].content == "number") {
+                      return homePage.layout[order].content != banner.id;
+                    } else {
+                      return !homePage.layout[order].content.includes(
+                        banner.id,
+                      );
+                    }
+                  })
+                  .map((banner) => (
+                    <button
+                      type="button"
+                      key={banner.id}
+                      onClick={() => {
+                        if (order == "1") {
+                          onEdit({
+                            ...homePage,
+                            layout: {
+                              ...homePage.layout,
+                              [order]: {
+                                ...homePage.layout[order],
+                                content: [
+                                  ...homePage.layout[order].content,
+                                  banner.id,
+                                ],
+                              },
                             },
-                          },
-                        });
+                          });
+                        } else {
+                          onEdit({
+                            ...homePage,
+                            layout: {
+                              ...homePage.layout,
+                              [order]: {
+                                ...homePage.layout[order],
+                                content: banner.id,
+                              },
+                            },
+                          });
+                        }
+                        setShownPromoBannerModal(null);
+                      }}
+                    >
+                      <PromoBanner
+                        disabled
+                        banner={banner}
+                        homePage={homePage}
+                      />
+                    </button>
+                  ))}
+              </div>
+              {["en", "nl", "fr", "de"].map((lang) => (
+                <div className="flex flex-col gap-2" key={lang}>
+                  <InputOutlined
+                    label={t("image") + " " + lang}
+                    type="file"
+                    name="image"
+                    onChange={async (e) => {
+                      if (!e.target.files.item(0)) {
+                        return;
                       } else {
-                        onEdit({
-                          ...homePage,
-                          layout: {
-                            ...homePage.layout,
-                            [order]: {
-                              ...homePage.layout[order],
-                              content: banner.id,
-                            },
-                          },
+                        uploadFileToAPI({
+                          file: e.target.files.item(0),
+                        }).then((res) => {
+                          let tBanner = { ...newBanner };
+                          tBanner.images.find(
+                            (img) => img.locale == lang,
+                          ).image = res;
+                          newBanner = tBanner;
                         });
                       }
-                      setShownPromoBannerModal(null);
                     }}
-                  >
-                    <PromoBanner disabled banner={banner} homePage={homePage} />
-                  </button>
-                ))}
-            </div>
-            {["en", "nl", "fr", "de"].map((lang) => (
-              <div className="flex flex-col gap-2" key={lang}>
-                <InputOutlined
-                  label={t("image") + " " + lang}
-                  type="file"
-                  name="image"
-                  onChange={async (e) => {
-                    if (!e.target.files.item(0)) {
-                      return;
-                    } else {
-                      uploadFileToAPI({
-                        file: e.target.files.item(0),
-                      }).then((res) => {
-                        let tBanner = { ...newBanner };
-                        tBanner.images.find((img) => img.locale == lang).image =
-                          res;
-                        newBanner = tBanner;
-                      });
-                    }
-                  }}
-                />
-                {newBanner.images.find((img) => img.locale == lang).image
-                  ?.url && (
-                  <ImageWithURL
-                    width={350}
-                    height={350}
-                    style={{ objectFit: "contain" }}
-                    src={
-                      newBanner.images.find((img) => img.locale == lang).image
-                        .url
-                    }
-                    alt={newBanner.localized_title[lang]}
                   />
-                )}
-                <InputOutlined
-                  key={`title-${lang}`}
-                  label={t("title") + " " + lang}
-                  type="text"
-                  name="title"
-                  onChange={(e) => {
-                    let tBanner = { ...newBanner };
-                    tBanner.localized_title[lang] = e.target.value;
-                    tBanner.images.find((img) => img.locale == lang).name =
-                      e.target.value;
-                    newBanner = tBanner;
-                  }}
-                />
-                <TextareaOutlined
-                  label={t("description") + " " + lang}
-                  type="text"
-                  name="description"
-                  onChange={(e) => {
-                    let tBanner = { ...newBanner };
-                    tBanner.localized_description[lang] = e.target.value;
-                    tBanner.images.find(
-                      (img) => img.locale == lang,
-                    ).description = e.target.value;
-                    newBanner = tBanner;
-                  }}
-                />
-                <InputOutlined
-                  label={t("url") + " " + lang}
-                  type="text"
-                  name="url"
-                  onChange={(e) => {
-                    let tBanner = { ...newBanner };
-                    tBanner.images.find(
-                      (img) => img.locale == lang,
-                    ).linked_url = e.target.value;
-                    newBanner = tBanner;
-                  }}
-                />
-              </div>
-            ))}
-          </div>
-          <button
-            type="button"
-            className="absolute right-4 bottom-4"
-            onClick={() => {
-              if (!newBanner.images.find((img) => img?.image)) {
-                alert("Please add an image");
-                return;
-              }
-              if (newBanner.images.find((img) => !img?.image)) {
-                const firstImageWithImage = newBanner.images.find(
-                  (img) => img.image,
-                );
+                  {newBanner.images.find((img) => img.locale == lang).image
+                    ?.url && (
+                    <ImageWithURL
+                      width={350}
+                      height={350}
+                      style={{ objectFit: "contain" }}
+                      src={
+                        newBanner.images.find((img) => img.locale == lang).image
+                          .url
+                      }
+                      alt={newBanner.localized_title[lang]}
+                    />
+                  )}
+                  <InputOutlined
+                    key={`title-${lang}`}
+                    label={t("title") + " " + lang}
+                    type="text"
+                    name="title"
+                    onChange={(e) => {
+                      let tBanner = { ...newBanner };
+                      tBanner.localized_title[lang] = e.target.value;
+                      tBanner.images.find((img) => img.locale == lang).name =
+                        e.target.value;
+                      newBanner = tBanner;
+                    }}
+                  />
+                  <TextareaOutlined
+                    label={t("description") + " " + lang}
+                    type="text"
+                    name="description"
+                    onChange={(e) => {
+                      let tBanner = { ...newBanner };
+                      tBanner.localized_description[lang] = e.target.value;
+                      tBanner.images.find(
+                        (img) => img.locale == lang,
+                      ).description = e.target.value;
+                      newBanner = tBanner;
+                    }}
+                  />
+                  <InputOutlined
+                    label={t("url") + " " + lang}
+                    type="text"
+                    name="url"
+                    onChange={(e) => {
+                      let tBanner = { ...newBanner };
+                      tBanner.images.find(
+                        (img) => img.locale == lang,
+                      ).linked_url = e.target.value;
+                      newBanner = tBanner;
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+            <button
+              type="button"
+              className="absolute right-4 bottom-4"
+              onClick={() => {
+                if (!newBanner.images.find((img) => img?.image)) {
+                  alert("Please add an image");
+                  return;
+                }
+                if (newBanner.images.find((img) => !img?.image)) {
+                  const firstImageWithImage = newBanner.images.find(
+                    (img) => img.image,
+                  );
 
-                newBanner.images = newBanner.images.map((img) =>
-                  img.image
-                    ? img
-                    : { ...img, image: firstImageWithImage.image },
-                );
-              }
-              if (newBanner.images.find((img) => !img.name)) {
-                newBanner.images.forEach((img) => {
-                  if (!img.name) {
-                    img.name =
-                      newBanner.images.find((img) => img.name)?.name ?? "";
-                  }
-                });
-              }
-              if (newBanner.images.find((img) => !img.alt)) {
-                newBanner.images.forEach((img) => {
-                  if (!img.alt) {
-                    img.alt =
-                      newBanner.images.find((img) => img.alt)?.alt ?? "";
-                  }
-                });
-              }
-              if (newBanner.images.find((img) => !img.description)) {
-                newBanner.images.forEach((img) => {
-                  if (!img.description) {
-                    img.description =
-                      newBanner.images.find((img) => img.description)
-                        ?.description ?? "";
-                  }
-                });
-              }
-
-              const fillEmptyFields = (field) => {
-                let firstFilledValue = null;
-                for (const locale in field) {
-                  if (field[locale]) {
-                    firstFilledValue = field[locale];
-                    break;
-                  }
+                  newBanner.images = newBanner.images.map((img) =>
+                    img.image
+                      ? img
+                      : { ...img, image: firstImageWithImage.image },
+                  );
+                }
+                if (newBanner.images.find((img) => !img.name)) {
+                  newBanner.images.forEach((img) => {
+                    if (!img.name) {
+                      img.name =
+                        newBanner.images.find((img) => img.name)?.name ?? "";
+                    }
+                  });
+                }
+                if (newBanner.images.find((img) => !img.alt)) {
+                  newBanner.images.forEach((img) => {
+                    if (!img.alt) {
+                      img.alt =
+                        newBanner.images.find((img) => img.alt)?.alt ?? "";
+                    }
+                  });
+                }
+                if (newBanner.images.find((img) => !img.description)) {
+                  newBanner.images.forEach((img) => {
+                    if (!img.description) {
+                      img.description =
+                        newBanner.images.find((img) => img.description)
+                          ?.description ?? "";
+                    }
+                  });
                 }
 
-                if (firstFilledValue) {
+                const fillEmptyFields = (field) => {
+                  let firstFilledValue = null;
                   for (const locale in field) {
-                    if (!field[locale]) {
-                      field[locale] = firstFilledValue;
+                    if (field[locale]) {
+                      firstFilledValue = field[locale];
+                      break;
                     }
                   }
-                }
-              };
 
-              fillEmptyFields(newBanner.localized_title);
+                  if (firstFilledValue) {
+                    for (const locale in field) {
+                      if (!field[locale]) {
+                        field[locale] = firstFilledValue;
+                      }
+                    }
+                  }
+                };
 
-              fillEmptyFields(newBanner.localized_description);
+                fillEmptyFields(newBanner.localized_title);
 
-              delete newBanner.id;
-              fetch(`/api/universal/admin/posttoapi?collection=banners`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(newBanner),
-              }).then((res) => {
-                window.location.reload();
-              });
-            }}
-          >
-            <FiCheck color="green" size={64} />
-          </button>
-        </div>
+                fillEmptyFields(newBanner.localized_description);
+
+                delete newBanner.id;
+                fetch(`/api/universal/admin/posttoapi?collection=banners`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(newBanner),
+                }).then((res) => {
+                  window.location.reload();
+                });
+              }}
+            >
+              <FiCheck color="green" size={64} />
+            </button>
+          </div>
+        </Portal>
       </>
     );
   };

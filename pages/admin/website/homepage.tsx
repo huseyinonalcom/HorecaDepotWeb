@@ -1,7 +1,7 @@
 import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
 import { getCollections } from "../../api/collections/public/getcollections";
 import { getHomePage } from "../../api/website/public/gethomepage";
-import useTranslation from "next-translate/useTranslation"; 
+import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
 import Head from "next/head";
 import Index from "../..";
@@ -23,7 +23,7 @@ export default function HomePageAdmin({
       <Head>
         <title>{t("homepage")}</title>
       </Head>
-      <div className="flex w-full flex-col items-center">
+      <div className="max-w-full absolute">
         {bannersFromAPI && (
           <Index
             banners={bannersFromAPI}
