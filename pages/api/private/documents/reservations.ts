@@ -83,7 +83,8 @@ export const createReservation = async ({
     console.error(await request.text());
     throw new Error("Failed to create reservation");
   } else {
-    return { result: await request.json() };
+    const answer = await request.json();
+    return { result: answer };
   }
 };
 

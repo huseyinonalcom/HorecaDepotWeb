@@ -1,8 +1,11 @@
 import apiRoute from "../../../../api/api/apiRoute";
+import { apiUrl } from "../../../../api/api/constants";
+import { deleteDocumentProduct } from "./documentproducts";
 
-const fetchUrl = `${process.env.API_URL}/api/documents`;
+const fetchUrl = `${apiUrl}/api/documents`;
 
-const fetchParams = "populate=*";
+const fetchParams =
+  "populate[document_products][fields]=*&populate[client][fields]=*&populate[establishment][fields]=*&populate[delAddress][fields]=*&populate[docAddress][fields]=*&populate[docAddress][fields]=*&populate[payments][fields]=*&populate[document_products][populate][0]=product&populate[document_products][populate][product][populate][0]=product_extra";
 
 export const getDocuments = async ({
   id,
@@ -20,6 +23,7 @@ export const getDocuments = async ({
   if (id) {
     const request = await fetch(fetchUrl + "/" + id + "?" + fetchParams, {
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${authToken}`,
       },
     });
@@ -38,12 +42,12 @@ export const getDocuments = async ({
     }
 
     if (type) {
-      filterString += `&filters[type][$eq]=${type}`;
+      filterString += `&filters[type][$eqi]=${type}`;
     }
 
     const request = await fetch(
       fetchUrl +
-        "?filters[deleted][$eq]=false&sort=number&" +
+        "?sort=number:DESC&filters[deleted][$eq]=false&sort=number&" +
         fetchParams +
         pageString +
         filterString,
@@ -59,7 +63,8 @@ export const getDocuments = async ({
       console.error(await request.text());
       return null;
     } else {
-      return await request.json();
+      const data = await request.json();
+      return data;
     }
   }
 };
@@ -71,16 +76,40 @@ export const deleteDocument = async ({
   authToken: string;
   id: number;
 }) => {
-  /** 
-   * fetch document
-   * delete related document products
-   * delete document
-   */
+  if (!id) {
+    throw "No id provided.";
+  }
+  const documentToDelete = (await getDocuments({ authToken, id: id })).data;
+  if (!documentToDelete) {
+    throw "No document found";
+  }
+
+  try {
+    await documentToDelete.document_products.forEach(async (docProd) => {
+      await deleteDocumentProduct({ authToken, id: docProd.id });
+    });
+    const request = await fetch(`${fetchUrl}/${documentToDelete.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+
+    if (!request.ok) {
+      throw "Failed to delete document";
+    }
+
+    return { result: true };
+  } catch (error) {
+    return { error: error, result: null };
+  }
 };
 
 export default apiRoute({
   authChallenge: async (req) => {
-    if (!req.cookies.cj) {
+    if (!req.cookies.j) {
       return false;
     } else {
       return true;
@@ -94,7 +123,15 @@ export default apiRoute({
           id: Number(req.query.id as string),
           search: req.query.search as string,
           type: req.query.type as string,
-          authToken: req.cookies.cj,
+          authToken: req.cookies.j,
+        });
+      },
+    },
+    DELETE: {
+      func: async (req, res) => {
+        return await deleteDocument({
+          authToken: req.cookies.j,
+          id: Number(req.query.id as string),
         });
       },
     },

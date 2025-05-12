@@ -33,9 +33,10 @@ export default function Orders({ href }: { href: string }) {
 
   const fetchOrders = async () => {
     const answer = await fetch(
-      `/api/documents/admin/getalldocuments?page=${currentPage}&type=order&sort=createdAt:DESC`,
+        `/api/private/documents/universal?type=commande&page=${currentPage}`,
     );
     const data = await answer.json();
+    console.log(data);
     setAllOrders(data["data"]);
     setTotalPages(data["meta"]["pagination"]["pageCount"]);
   };

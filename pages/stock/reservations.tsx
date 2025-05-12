@@ -12,8 +12,9 @@ import {
   PaginationPage,
   PaginationPrevious,
 } from "../../components/styled/pagination";
+import Reservations from "../admin/reservations";
 
-export default function Reservations() {
+export default function ReservationsStock() {
   const { t, lang } = useTranslation("common");
   const [allReservations, setAllReservations] = useState<any[]>([]);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -40,53 +41,12 @@ export default function Reservations() {
   }, [search, page]);
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
-      <Head>
-        <title>{t("reservations")}</title>
-        <meta name="language" content={lang} />
-      </Head>
-      <div className="flex w-full flex-col items-center gap-1 p-2"></div>
-      <Pagination className="sticky bottom-0 -mt-1 flex w-full rounded-lg rounded-t-none border-1 border-zinc-950/10 bg-white p-4">
-        <PaginationPrevious
-          onClick={
-            page > 1
-              ? () => {
-                  scroll({
-                    top: 0,
-                    behavior: "smooth",
-                  });
-                  setPage(page - 1);
-                }
-              : undefined
-          }
-        >
-          <p className="text-black">{t("previous")}</p>
-        </PaginationPrevious>
-        <PaginationList>
-          <PaginationPage className="data-disabled:opacity-100">
-            {page}
-          </PaginationPage>
-        </PaginationList>
-        <PaginationNext
-          onClick={
-            page < totalPages
-              ? () => {
-                  scroll({
-                    top: 0,
-                    behavior: "smooth",
-                  });
-                  setPage(page + 1);
-                }
-              : undefined
-          }
-        >
-          <p className="text-black">{t("next")}</p>
-        </PaginationNext>
-      </Pagination>
+    <div className="p-4">
+      <Reservations href="/stock/reservation/" />
     </div>
   );
 }
 
-Reservations.getLayout = function getLayout(page: React.ReactNode) {
+ReservationsStock.getLayout = function getLayout(page: React.ReactNode) {
   return <StockLayout>{page}</StockLayout>;
 };

@@ -460,5 +460,8 @@
   "select": "Sélectionner",
   "package-details": "Détails du colis",
   "my-details": "Mon Compte",
-  "delete-banner-confirm": "Confirmez que vous souhaitez supprimer cette bannière."
+  "delete-banner-confirm": "Confirmez que vous souhaitez supprimer cette bannière.",
+  "reservation": "Réservation",
+  "date": "Date",
+  "total": "Total"
 }

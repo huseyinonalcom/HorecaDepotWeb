@@ -1,10 +1,10 @@
 import { formatDateAPIToBe } from "../../../api/utils/formatters/formatdateapibe";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import useTranslation from "next-translate/useTranslation";
+import { FiChevronLeft } from "react-icons/fi";
 import { useState, useEffect } from "react"; 
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { FiChevronLeft } from "react-icons/fi";
 
 export default function Reservations() {
   const router = useRouter();

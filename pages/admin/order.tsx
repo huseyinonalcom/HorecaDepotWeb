@@ -28,7 +28,7 @@ export default function Order({ id }: { id?: number }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if ((router.isReady && router.query.id )|| id) {
+    if ((router.isReady && router.query.id) || id) {
       const idParam = router.query.id || id;
       let orderID = Number(idParam);
       if (!Number.isInteger(orderID) || orderID <= 0) {
@@ -37,11 +37,11 @@ export default function Order({ id }: { id?: number }) {
 
       const fetchOrder = async (orderID: number) => {
         const request = await fetch(
-          `/api/documents/admin/getorderdetails?order=${orderID}`,
+          `/api/private/documents/universal?id=${orderID}`,
         );
         const response = await request.json();
         if (request.ok) {
-          return response;
+          return response.data;
         } else {
           throw "Failed to fetch order";
         }

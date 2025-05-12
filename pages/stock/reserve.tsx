@@ -112,8 +112,7 @@ export default function Reserve() {
         removeFromCart(product.id);
       });
       const answer = await request.json();
-      console.log(answer);
-      router.push(`/stock/reservation/${answer.result.id}`);
+      router.push(`/stock/reservation/${answer.result.data.id}`);
     } else {
       alert(t("reservation-failed"));
     }
