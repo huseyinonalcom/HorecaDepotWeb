@@ -1,7 +1,14 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
 import getAuthCookie from "../../cookies";
 
-export async function putToAPI({ req, res }) {
+export async function putToAPI({
+  req,
+  res,
+}: {
+  req: NextApiRequest;
+  res: NextApiResponse;
+}) {
   try {
     const authToken = getAuthCookie({ type: "admin", req });
     const collection = req.query.collection;
@@ -10,11 +17,9 @@ export async function putToAPI({ req, res }) {
 
     let reqBody = bodyToPut;
 
-    if (!req.query.nodata) {
-      reqBody = JSON.stringify({
-        data: JSON.parse(bodyToPut),
-      });
-    }
+    reqBody = JSON.stringify({
+      data: JSON.parse(bodyToPut),
+    });
 
     const request = await fetch(
       `${process.env.API_URL}/api/${collection}${id ? `/${id}` : ""}`,
