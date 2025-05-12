@@ -1,19 +1,18 @@
 import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
 import { getCollections } from "../../api/collections/public/getcollections";
-import { getHomePage } from "../../api/website/public/gethomepage";
+import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import useTranslation from "next-translate/useTranslation";
+import { getHomepage } from "../../api/private/homepage";
+import { getBanners } from "../../api/private/banners";
+import { FiCheck } from "react-icons/fi";
 import { useState } from "react";
 import Head from "next/head";
 import Index from "../..";
-import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
-import { FiCheck } from "react-icons/fi";
-import { getBanners } from "../../api/private/banners";
-import { getHomepage } from "../../api/private/homepage";
 
 export default function HomePageAdmin({
   homePageFromAPI,
   collectionsFromAPI,
-  bannersFromAPI,
+  bannersFromAPI, 
   allCategories,
 }) {
   const [homePage, setHomePage] = useState(homePageFromAPI);
