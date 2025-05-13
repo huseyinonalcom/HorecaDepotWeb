@@ -69,14 +69,15 @@ export const createCustomer = async ({
       "Content-Type": "application/json",
       Authorization: `Bearer ${authToken}`,
     },
-    body: JSON.stringify(customer),
+    body: JSON.stringify({ data: customer }),
   });
 
   if (!request.ok) {
     console.error(await request.text());
     return null;
   } else {
-    return await request.json();
+    const answer = await request.json();
+    return { result: answer };
   }
 };
 

@@ -97,7 +97,7 @@ export default function Reserve() {
     const body = {
       document: {
         type: "Reservation",
-        customer: customer.client_info,
+        customer: customer,
         documentProducts: cart,
       },
     };
@@ -347,6 +347,7 @@ export default function Reserve() {
                     email: e.target.value,
                     username: e.target.value,
                     client_info: {
+                      ...prev.client_info,
                       email: e.target.value,
                     },
                   }))
