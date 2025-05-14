@@ -57,14 +57,16 @@ export default function StockLayout({ children }: Props) {
           className={`sticky top-0 max-h-[100dvh] w-full flex-shrink-0 flex-col items-center gap-2 border-gray-300 bg-black shadow-sm lg:w-[270px] ${showMenu ? "flex" : "hidden lg:flex"} lg:border-r-0`}
         >
           <div className="flex w-full flex-row items-center justify-between px-2 py-2 text-white">
-            <Image
-              width={200}
-              height={42.19}
-              priority
-              className="flex"
-              src="/assets/header/logo.svg"
-              alt="Horeca Depot Logo"
-            />
+            <Link href={"/stock"}>
+              <Image
+                width={200}
+                height={42.19}
+                priority
+                className="flex"
+                src="/assets/header/logo.svg"
+                alt="Horeca Depot Logo"
+              />
+            </Link>
             <div className="flex flex-row gap-2">
               <LocaleSwitcher />
               <button

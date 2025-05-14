@@ -156,7 +156,10 @@ export default function AdminPanelLayout({
                 </div>
               </TransitionChild>
               <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-2">
-                <div className="flex h-16 shrink-0 items-center">
+                <Link
+                  href={`/admin/dashboard`}
+                  className="flex h-16 shrink-0 items-center"
+                >
                   <Image
                     alt="Horeca Depot Logo"
                     src="/assets/header/logob.png"
@@ -164,7 +167,7 @@ export default function AdminPanelLayout({
                     height={32}
                     width={179}
                   />
-                </div>
+                </Link>
                 <nav className="flex flex-1 flex-col">
                   <ul role="list" className="flex flex-1 flex-col gap-y-7">
                     <li>
@@ -233,7 +236,10 @@ export default function AdminPanelLayout({
         >
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
             <div className="flex w-full flex-row items-center justify-between">
-              <div className="flex h-16 shrink-0 items-center">
+              <Link
+                href={`/admin/dashboard`}
+                className="flex h-16 shrink-0 items-center"
+              >
                 <Image
                   alt="Horeca Depot Logo"
                   src="/assets/header/logob.png"
@@ -241,7 +247,7 @@ export default function AdminPanelLayout({
                   height={32}
                   width={179}
                 />
-              </div>
+              </Link>
               <div>
                 <Button type="button" onClick={() => setPanelOpen(false)}>
                   <span className="sr-only">{t("close-menu")}</span>
