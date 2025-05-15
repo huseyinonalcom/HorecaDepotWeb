@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import statusText from "../../../../api/statustexts";
 import { apiUrl } from "../../../../api/api/constants";
+import statusText from "../../../../api/statustexts";
 
 const fetchUrl2 = `${apiUrl}/api/users/me?populate=role`;
 const fetchUrl = `${apiUrl}/api/auth/local`;
