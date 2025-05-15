@@ -87,6 +87,7 @@ export const createCustomer = async ({
           client_info: answer.data.id,
           username: customer.email,
           password: randomBytes(16).toString("hex"),
+          // @ts-expect-error
           role: 14,
         },
         authToken,
