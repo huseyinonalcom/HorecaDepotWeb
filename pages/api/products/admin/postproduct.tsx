@@ -62,7 +62,8 @@ export default async function postProduct(
       });
 
       if (!reqProd.ok) {
-        return res.status(500).json("error posting prod");
+        const answer = await reqProd.text();
+        return res.status(500).json(`Error posting product: ${answer}`);
       } else {
         const answer = await reqProd.json();
         prodToPost.id = answer.data.id;

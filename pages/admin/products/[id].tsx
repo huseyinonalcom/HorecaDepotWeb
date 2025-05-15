@@ -168,8 +168,9 @@ export default function ProductPage(props) {
             body: JSON.stringify(currentProduct),
           });
           if (!request.ok) {
+            const answer = await request.text();
             setInProgress(false);
-            setSubmitError(t("An error occurred during the product creation!"));
+            setSubmitError(answer);
           } else {
             router.push(returnUrl);
           }
