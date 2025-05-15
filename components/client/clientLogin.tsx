@@ -238,7 +238,7 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
     );
   } else if (registerMode) {
     return (
-      <div className="flex w-full min-w-[350px] max-w-[1000px] flex-col gap-2">
+      <div className="flex w-full min-w-[350px] max-w-[1000px] pt-8 flex-col gap-2">
         <h2 className="text-xl font-bold">{t("Register an account")}</h2>
         <div className="flex flex-col">
           <h3 className="mt-1">{t("Already have an account?")}</h3>
