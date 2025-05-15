@@ -1,6 +1,8 @@
 import { Client } from "../../../api/interfaces/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../api/statustexts";
+import { createUser } from "./user";
+import { randomBytes } from "crypto";
 
 const fetchUrl = `${process.env.API_URL}/api/clients`;
 
@@ -77,6 +79,27 @@ export const createCustomer = async ({
     return null;
   } else {
     const answer = await request.json();
+
+    try {
+      const reqUser = await createUser({
+        user: {
+          email: customer.email,
+          client_info: answer.data.id,
+          username: customer.email,
+          password: randomBytes(16).toString("hex"),
+          role: 14,
+        },
+        authToken,
+      });
+
+      if (!reqUser) {
+        const answer = await request.json();
+        console.log(answer);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+
     return { result: answer };
   }
 };

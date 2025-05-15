@@ -5,7 +5,7 @@ import componentThemes from "../../../components/componentThemes";
 import InputOutlined from "../../../components/inputs/outlined";
 import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
-import { useEffect, useState } from "react"; 
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import ButtonShadow1 from "../../../components/buttons/shadow_1";
@@ -256,7 +256,7 @@ export default function Collection() {
               <div>
                 <label
                   htmlFor="uploadimg"
-                  className="flex cursor-pointer flex-row items-center  justify-start overflow-hidden py-2 shadow-lg duration-500 hover:bg-orange-400"
+                  className="flex cursor-pointer flex-row items-center justify-start overflow-hidden py-2 shadow-lg duration-500 hover:bg-orange-400"
                 >
                   <div className={navIconDivClass}>
                     <FiUpload className={iconClass} />
@@ -289,7 +289,7 @@ export default function Collection() {
                       image: null,
                     }))
                   }
-                  className="absolute right-2 top-2 text-red-500"
+                  className="absolute top-2 right-2 text-red-500"
                 >
                   <FiX />
                 </button>
@@ -429,5 +429,7 @@ export default function Collection() {
 
 Collection.getLayout = function getLayout(children) {
   const { t } = useTranslation("common");
-  return <AdminPanelLayout title={t("collections")}>{children}</AdminPanelLayout>;
+  return (
+    <AdminPanelLayout title={t("collections")}>{children}</AdminPanelLayout>
+  );
 };

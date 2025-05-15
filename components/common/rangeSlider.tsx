@@ -1,6 +1,6 @@
-import useTranslation from "next-translate/useTranslation";
-import { useState, useCallback, useRef, useEffect } from "react";
 import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
+import { useState, useCallback, useRef, useEffect } from "react";
+import useTranslation from "next-translate/useTranslation";
 
 interface RangeSliderProps {
   initialMin: number;

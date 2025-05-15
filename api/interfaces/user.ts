@@ -1,6 +1,8 @@
 //   import { UserConversion, User } from "/api/interfaces/User.ts";
 //   const User = UserConversion.fromJson(json);
 
+import { Client } from "./client";
+
 export interface User {
   id?: number;
   email?: string;
@@ -9,6 +11,7 @@ export interface User {
   password?: string;
   user_info?: UserInfo;
   role?: Role;
+  client_info?: Client;
 }
 
 export interface UserInfo {
