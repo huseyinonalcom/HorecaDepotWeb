@@ -150,7 +150,7 @@ export default function ProductPage(props) {
           const ans = await request.text();
           if (!request.ok) {
             setInProgress(false);
-            setSubmitError(t("An error occurred while modifying the product!"));
+            setSubmitError(ans);
           } else {
             router.push(returnUrl);
           }
