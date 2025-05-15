@@ -52,7 +52,7 @@ export default async function logInAdmin(
 
         res.setHeader(
           "Set-Cookie",
-          `j=${answer.jwt}; HttpOnly; Path=/; Max-Age=36000; SameSite=Strict${isProduction ? "; Secure" : ""}`,
+          `j=${answer.jwt}; HttpOnly; Path=/; Max-Age=2592000; SameSite=Strict${isProduction ? "; Secure" : ""}`,
         );
 
         return res.status(200).json(answer2.role.name);

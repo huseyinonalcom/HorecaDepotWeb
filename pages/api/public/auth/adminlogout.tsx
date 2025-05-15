@@ -7,7 +7,7 @@ export default async function logOutAdmin(
 ) {
   res.setHeader(
     "Set-Cookie",
-    `j="3e8uduj8923d"; HttpOnly; Path=/; Max-Age=1; SameSite=Strict`,
+    `j="3e8uduj8923d"; HttpOnly; Path=/; Max-Age=-1; SameSite=Strict`,
   );
   return res.status(200).json(statusText[200]);
 }

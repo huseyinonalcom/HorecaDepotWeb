@@ -51,7 +51,7 @@ export default async function logInClient(
 
         res.setHeader(
           "Set-Cookie",
-          `cj=${answer.jwt}; HttpOnly; Path=/; Max-Age=36000; SameSite=Strict${isProduction ? "; Secure" : ""}`,
+          `cj=${answer.jwt}; HttpOnly; Path=/; Max-Age=2592000; SameSite=Strict${isProduction ? "; Secure" : ""}`,
         );
 
         const request3 = await fetch(fetchUrl3, {

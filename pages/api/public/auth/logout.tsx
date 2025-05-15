@@ -7,7 +7,7 @@ export default async function logOutClient(
 ) {
   res.setHeader(
     "Set-Cookie",
-    `cj="3e8uduj8923d"; HttpOnly; Path=/; Max-Age=1; SameSite=Strict`,
+    `cj="3e8uduj8923d"; HttpOnly; Path=/; Max-Age=-1; SameSite=Strict`,
   );
   return res.status(200).json(statusText[200]);
 }
