@@ -9,36 +9,46 @@ export async function putToAPI({
   req: NextApiRequest;
   res: NextApiResponse;
 }) {
+  console.log("api/universal/admin/puttoapi", "query", req.query);
+  const query = req.query;
   try {
     const authToken = getAuthCookie({ type: "admin", req });
-    const collection = req.query.collection;
-    const id = req.query.id;
+    const collection = query.collection;
+    const id = query.id;
     const bodyToPut = req.body;
+    const nodata = query.nodata;
 
-    console.log(`PUTTING TO ${collection}`);
-    console.log(bodyToPut);
+    let body;
+
+    if (!nodata) {
+      body = JSON.stringify({ data: JSON.parse(bodyToPut) });
+    } else {
+      body = JSON.stringify(JSON.parse(bodyToPut));
+    }
 
     const request = await fetch(
       `${process.env.API_URL}/api/${collection}${id ? `/${id}` : ""}`,
       {
         method: "PUT",
         headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
           Authorization: `Bearer ${authToken}`,
         },
-        body: JSON.stringify({ data: bodyToPut }),
+        body: body,
       },
     );
 
     if (request.ok) {
       let ans = await request.json();
-      return ans.data.id ?? true;
+      return ans.id ?? true;
     } else {
       let ans = await request.text();
-      console.error(ans);
+      console.error("api/universal/admin/puttoapi", ans);
       return false;
     }
   } catch (e) {
-    console.error(e);
+    console.error("api/universal/admin/puttoapi", e);
     return false;
   }
 }
