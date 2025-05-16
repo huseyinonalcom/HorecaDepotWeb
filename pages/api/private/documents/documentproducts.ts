@@ -1,8 +1,29 @@
 import { apiUrl } from "../../../../api/api/constants";
 import apiRoute from "../../../../api/api/apiRoute";
 import { getProducts } from "../products/fetchproducts";
+import { getDocuments } from "./universal";
 
 const fetchUrl = `${apiUrl}/api/document-products`;
+
+const getDocumentProduct = async ({
+  authToken,
+  id,
+}: {
+  authToken: string;
+  id: number;
+}) => {
+  const request = await fetch(fetchUrl + "/" + id + "?populate=*", {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  });
+
+  if (!request.ok) {
+    throw new Error("Failed to fetch document product");
+  } else {
+    return await request.json();
+  }
+};
 
 export const createDocumentProduct = async ({
   authToken,
@@ -63,8 +84,8 @@ export const deleteDocumentProduct = async ({
   authToken: string;
   id: number;
 }) => {
-  /** 
-   * fetch document
+  /**
+   * fetch related document
    * find related product
    * if document is reservation
    *   decrease product reserved stock by amount
@@ -72,6 +93,32 @@ export const deleteDocumentProduct = async ({
    *   increase product stock by amount
    * delete document product
    */
+  const documentProduct = await getDocumentProduct({ authToken, id: id });
+  const document = getDocuments({ authToken, id: documentProduct.document.id });
+  const product = await getProducts({
+    authToken,
+    id: documentProduct.product.id,
+  });
+  console.log(
+    "/api/private/documents/documentproducts",
+    documentProduct,
+    document,
+    product,
+  );
+  /*   const request = await fetch(fetchUrl + "/" + id, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${authToken}`,
+    },
+  });
+
+  if (!request.ok) {
+    throw new Error("Failed to delete document product");
+  } else {
+    return { result: true };
+  } */
+  return { result: true };
 };
 
 export default apiRoute({

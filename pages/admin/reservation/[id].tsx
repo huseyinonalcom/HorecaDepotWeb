@@ -4,7 +4,7 @@ import LoadingIndicator from "../../../components/common/loadingIndicator";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import { Button } from "../../../components/styled/button";
 import useTranslation from "next-translate/useTranslation";
-import { TrashIcon } from "@heroicons/react/24/outline";
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import {
   Table,
@@ -16,73 +16,35 @@ import {
 } from "../../../components/styled/table";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { getDocuments } from "../../api/private/documents/universal";
 
 export default function Reservation({
   id,
   backUrl,
+  reservation,
 }: {
   id?: number;
   backUrl?: string;
+  reservation?: any;
 }) {
+  console.log(reservation);
   const { t } = useTranslation("common");
   const router = useRouter();
-  const [currentReservation, setCurrentReservation] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [currentReservation, setCurrentReservation] = useState(
+    reservation.data,
+  );
+  const [originalReservation, setOriginalReservation] = useState(
+    reservation.data,
+  );
+  const [editMode, setEditMode] = useState(false);
 
-  useEffect(() => {
-    if ((router.isReady && router.query.id) || id) {
-      const idParam = router.query.id || id;
-      let reservationId = Number(idParam);
-      if (!Number.isInteger(reservationId) || reservationId <= 0) {
-        reservationId = null;
-      }
-
-      const fetchReservation = async (orderID: number) => {
-        const request = await fetch(
-          `/api/private/documents/universal?id=${orderID}`,
-        );
-        const response = await request.json();
-        if (request.ok) {
-          console.log(response);
-          return response;
-        } else {
-          throw "Failed to fetch reservation";
-        }
-      };
-
-      if (reservationId) {
-        fetchReservation(reservationId)
-          .then((reservation) => {
-            setCurrentReservation(reservation.data);
-          })
-          .catch((_) => {})
-          .finally(() => setIsLoading(false));
-      } else {
-        setIsLoading(false);
-      }
-    }
-  }, [router.isReady, router.query.id]);
-
-  if (isLoading) {
+  if (!currentReservation) {
     return (
       <>
         <Head>
           <title>{t("reservation")}</title>
         </Head>
-        <div className="mx-auto w-[90vw] py-2">
-          <LoadingIndicator />
-        </div>
-      </>
-    );
-  } else if (!currentReservation) {
-    return (
-      <>
-        <Head>
-          <title>{t("reservation")}</title>
-        </Head>
-        <div className="mx-auto w-[90vw] py-2">
-          {t("An error has occurred.")}
-        </div>
+        <div className="mx-auto w-full py-2">{t("An error has occurred.")}</div>
       </>
     );
   } else {
@@ -99,25 +61,34 @@ export default function Reservation({
                   <h1 className="text-2xl font-bold">
                     {currentReservation.type}
                   </h1>
-                  <Button
-                    onClick={() => {
-                      fetch(
-                        `/api/private/documents/universal?id=${currentReservation.id}`,
-                        {
-                          method: "DELETE",
-                          headers: {
-                            "Content-Type": "application/json",
-                            Accept: "application/json",
-                            Authorization: `Bearer ${process.env.API_KEY}`,
+                  <div className="flex flex-row gap-2">
+                    <Button
+                      onClick={() => {
+                        setEditMode(true);
+                      }}
+                    >
+                      <PencilIcon />
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        fetch(
+                          `/api/private/documents/universal?id=${currentReservation.id}`,
+                          {
+                            method: "DELETE",
+                            headers: {
+                              "Content-Type": "application/json",
+                              Accept: "application/json",
+                              Authorization: `Bearer ${process.env.API_KEY}`,
+                            },
                           },
-                        },
-                      ).then((res) => {
-                        router.push(backUrl ?? "/admin/reservations");
-                      });
-                    }}
-                  >
-                    <TrashIcon style={{ color: "red" }} />
-                  </Button>
+                        ).then((res) => {
+                          router.push(backUrl ?? "/admin/reservations");
+                        });
+                      }}
+                    >
+                      <TrashIcon style={{ color: "red" }} />
+                    </Button>
+                  </div>
                 </div>
                 <h2 className="text-xl font-bold">
                   {currentReservation.prefix + currentReservation.number}
@@ -270,3 +241,37 @@ Reservation.getLayout = function getLayout(children) {
     <AdminPanelLayout title={t("reservations")}>{children}</AdminPanelLayout>
   );
 };
+
+export async function getServerSideProps(context) {
+  const req = context.req;
+  const query = context.query;
+  let reservation = {
+    id: 0,
+    prefix: "",
+    number: "",
+    date: "",
+    type: "Reservation",
+    client: {
+      id: 0,
+      firstName: "",
+      lastName: "",
+      phone: "",
+      email: "",
+      company: "",
+      taxID: "",
+    },
+    document_products: [],
+  };
+  if (query.id && query.id != "0") {
+    reservation = await getDocuments({
+      authToken: req.cookies.j,
+      id: query.id,
+    });
+  }
+
+  return {
+    props: {
+      reservation,
+    },
+  };
+}
