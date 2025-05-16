@@ -1,11 +1,11 @@
-import useTranslation from "next-translate/useTranslation";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import Head from "next/head";
-import LoadingIndicator from "../../../components/common/loadingIndicator";
 import { formatDateAPIToBe } from "../../../api/utils/formatters/formatdateapibe";
 import { formatCurrency } from "../../../api/utils/formatters/formatcurrency";
+import LoadingIndicator from "../../../components/common/loadingIndicator";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
+import { Button } from "../../../components/styled/button";
+import useTranslation from "next-translate/useTranslation";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import { useEffect, useState } from "react";
 import {
   Table,
   TableHead,
@@ -14,10 +14,16 @@ import {
   TableBody,
   TableCell,
 } from "../../../components/styled/table";
-import { Button } from "../../../components/styled/button";
-import { TrashIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/router";
+import Head from "next/head";
 
-export default function Reservation({ id, backUrl }: { id?: number, backUrl?: string }) {
+export default function Reservation({
+  id,
+  backUrl,
+}: {
+  id?: number;
+  backUrl?: string;
+}) {
   const { t } = useTranslation("common");
   const router = useRouter();
   const [currentReservation, setCurrentReservation] = useState(null);
