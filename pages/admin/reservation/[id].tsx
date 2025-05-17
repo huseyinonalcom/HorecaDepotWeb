@@ -4,7 +4,13 @@ import LoadingIndicator from "../../../components/common/loadingIndicator";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import { Button } from "../../../components/styled/button";
 import useTranslation from "next-translate/useTranslation";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  CheckIcon,
+  MinusIcon,
+  PencilIcon,
+  PlusIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import {
   Table,
@@ -17,6 +23,7 @@ import {
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { getDocuments } from "../../api/private/documents/universal";
+import { Input } from "../../../components/styled/input";
 
 export default function Reservation({
   id,
@@ -27,7 +34,6 @@ export default function Reservation({
   backUrl?: string;
   reservation?: any;
 }) {
-  console.log(reservation);
   const { t } = useTranslation("common");
   const router = useRouter();
   const [currentReservation, setCurrentReservation] = useState(
@@ -62,31 +68,37 @@ export default function Reservation({
                     {currentReservation.type}
                   </h1>
                   <div className="flex flex-row gap-2">
-                    <Button
-                      onClick={() => {
-                        setEditMode(true);
-                      }}
-                    >
-                      <PencilIcon />
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        fetch(
-                          `/api/private/documents/universal?id=${currentReservation.id}`,
-                          {
-                            method: "DELETE",
-                            headers: {
-                              "Content-Type": "application/json",
-                              Accept: "application/json",
-                              Authorization: `Bearer ${process.env.API_KEY}`,
+                    {editMode && (
+                      <Button
+                        onClick={() => {
+                          fetch(
+                            `/api/private/documents/universal?id=${currentReservation.id}`,
+                            {
+                              method: "DELETE",
+                              headers: {
+                                "Content-Type": "application/json",
+                                Accept: "application/json",
+                                Authorization: `Bearer ${process.env.API_KEY}`,
+                              },
                             },
-                          },
-                        ).then((res) => {
-                          router.push(backUrl ?? "/admin/reservations");
-                        });
+                          ).then((res) => {
+                            router.push(backUrl ?? "/admin/reservations");
+                          });
+                        }}
+                      >
+                        <TrashIcon style={{ color: "red" }} />
+                      </Button>
+                    )}
+                    <Button
+                      onClick={() => {
+                        setEditMode((prev) => !prev);
                       }}
                     >
-                      <TrashIcon style={{ color: "red" }} />
+                      {editMode ? (
+                        <CheckIcon style={{ color: "#00FF00" }} />
+                      ) : (
+                        <PencilIcon style={{ color: "white" }} />
+                      )}
                     </Button>
                   </div>
                 </div>
@@ -157,6 +169,7 @@ export default function Reservation({
                   <TableHeader>{t("Price")}</TableHeader>
                   <TableHeader>{t("Discount")}</TableHeader>
                   <TableHeader>{t("Subtotal")}</TableHeader>
+                  {editMode && <TableHeader></TableHeader>}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -169,8 +182,35 @@ export default function Reservation({
                     <TableCell>
                       {documentProduct.product?.color ?? ""}
                     </TableCell>
-                    <TableCell align="center">
-                      {documentProduct.amount}
+                    <TableCell
+                      align="center"
+                      className="flex flex-row items-center gap-2"
+                    >
+                      {!editMode ? (
+                        <>{documentProduct.amount}</>
+                      ) : (
+                        <>
+                          <Input
+                            type="number"
+                            min="1"
+                            max="100"
+                            value={documentProduct.amount}
+                            onChange={(e) => {
+                              setCurrentReservation((prev) => {
+                                const docProds = prev.document_products;
+                                const adjustedProduct = docProds.find(
+                                  (docProd) => docProd.id == documentProduct.id,
+                                );
+                                adjustedProduct.amount = e.target.value;
+                                return {
+                                  ...prev,
+                                  document_products: docProds,
+                                };
+                              });
+                            }}
+                          />
+                        </>
+                      )}
                     </TableCell>
                     <TableCell align="right">
                       {formatCurrency(documentProduct.value)}
@@ -181,6 +221,25 @@ export default function Reservation({
                     <TableCell align="right">
                       {formatCurrency(documentProduct.subTotal)}
                     </TableCell>
+                    {editMode && (
+                      <TableCell className="flex flex-row gap-2">
+                        <Button
+                          onClick={() =>
+                            setCurrentReservation((prev) => {
+                              const docProds = prev.document_products.filter(
+                                (docProd) => docProd.id != documentProduct.id,
+                              );
+                              return {
+                                ...prev,
+                                document_products: docProds,
+                              };
+                            })
+                          }
+                        >
+                          <TrashIcon style={{ color: "red" }} />
+                        </Button>
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))}
               </TableBody>
