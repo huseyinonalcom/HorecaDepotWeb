@@ -10,7 +10,7 @@ export default function ScannerPage({}: {}) {
   const [product, setProduct] = useState<any>();
 
   const fetchProduct = async (code: string) => {
-    const req = await fetch(`/api/private/products/fetchproducts?ean=${code}`);
+    const req = await fetch(`/api/private/products/products?ean=${code}`);
     const res = await req.json();
     if (!req.ok) {
       setProduct(null);

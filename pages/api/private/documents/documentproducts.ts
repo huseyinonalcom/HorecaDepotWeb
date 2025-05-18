@@ -1,6 +1,6 @@
 import { apiUrl } from "../../../../api/api/constants";
 import apiRoute from "../../../../api/api/apiRoute";
-import { getProducts } from "../products/fetchproducts";
+import { getProducts } from "../products/products";
 import { getDocuments } from "./universal";
 
 const fetchUrl = `${apiUrl}/api/document-products`;
@@ -44,6 +44,7 @@ export const createDocumentProduct = async ({
       // reduce product stock by amount
     } else if (documentType == "Reservation") {
       // increase product reserved stock by amount
+
     }
   }
 

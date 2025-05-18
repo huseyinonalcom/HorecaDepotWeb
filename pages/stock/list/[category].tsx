@@ -34,7 +34,7 @@ export default function Stock() {
           ).json(),
           (
             await fetch(
-              `/api/private/products/fetchproducts?page=${page}&category=${category !== "all" ? category : null}&search=${search}`,
+              `/api/private/products/products?page=${page}&category=${category !== "all" ? category : null}&search=${search}`,
             )
           ).json(),
         ]);

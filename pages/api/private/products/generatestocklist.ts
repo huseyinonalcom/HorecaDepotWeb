@@ -1,7 +1,7 @@
 import { PDFCatalogue } from "../../../../components/pdf/pdfcatalogue";
 import { renderToStream } from "@react-pdf/renderer";
 import statusText from "../../../../api/statustexts";
-import { getProducts } from "./fetchproducts";
+import { getProducts } from "./products";
 
 export async function generateStockList({ authToken }: { authToken: string }) {
   try {

@@ -57,7 +57,7 @@ export default function ProductPage(props) {
     const deleteProd = async () => {
       try {
         const request = await fetch(
-          `/api/products/admin/deleteproduct?id=` + currentProduct.id,
+          `/api/private/products/products?id=` + currentProduct.id,
           {
             method: "DELETE",
             headers: {
