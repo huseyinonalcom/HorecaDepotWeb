@@ -31,8 +31,6 @@ export const createReservation = async ({
     await getUser({ self: true, authToken: authToken })
   ).user_info.id;
 
-  console.log(document.customer);
-
   if (!document.customer.id || document.customer.id == 0) {
     document.client = (
       await createCustomer({

@@ -99,12 +99,6 @@ export const deleteDocumentProduct = async ({
     authToken,
     id: documentProduct.product.id,
   });
-  console.log(
-    "/api/private/documents/documentproducts",
-    documentProduct,
-    document,
-    product,
-  );
   /*   const request = await fetch(fetchUrl + "/" + id, {
     method: "DELETE",
     headers: {

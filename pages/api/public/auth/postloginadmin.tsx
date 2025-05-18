@@ -30,7 +30,6 @@ export default async function logInAdmin(
 
       if (!request.ok) {
         const answer = await request.text();
-        console.log(answer);
         return res.status(401).json(statusText[401]);
       }
 

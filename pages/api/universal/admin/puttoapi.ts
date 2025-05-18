@@ -9,7 +9,6 @@ export async function putToAPI({
   req: NextApiRequest;
   res: NextApiResponse;
 }) {
-  console.log("api/universal/admin/puttoapi", "query", req.query);
   const query = req.query;
   try {
     const authToken = getAuthCookie({ type: "admin", req });

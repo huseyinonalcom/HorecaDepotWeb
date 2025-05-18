@@ -28,7 +28,6 @@ export default apiRoute({
   endpoints: {
     GET: {
       func: async (req, res) => {
-        console.log("cookies", req.cookies);
         return await getSuppliers({ authToken: req.cookies.j });
       },
     },

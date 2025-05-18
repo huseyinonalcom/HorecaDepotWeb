@@ -25,7 +25,6 @@ function generateSiteMap(products, allCategoriesRaw) {
         .join("")}
      ${products
        .map((prd) => {
-         console.log(prd);
          return `
       <url>
           <loc>https://${URL}/products/${sanitizeXml(prd.categories.at(0)?.localized_name?.en ?? "")}/${sanitizeXml(prd.name)}/${prd.id}</loc>

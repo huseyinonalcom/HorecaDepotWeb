@@ -95,7 +95,6 @@ export const createCustomer = async ({
 
       if (!reqUser) {
         const answer = await request.json();
-        console.log(answer);
       }
     } catch (e) {
       console.error(e);

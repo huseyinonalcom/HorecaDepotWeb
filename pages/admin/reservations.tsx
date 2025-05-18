@@ -35,7 +35,6 @@ export default function Orders({ href }: { href: string }) {
       `/api/private/documents/universal?type=reservation&page=${currentPage}`,
     );
     const data = await answer.json();
-    console.log(data);
     setAllOrders(data["data"]);
     setTotalPages(data["meta"]["pagination"]["pageCount"]);
   };

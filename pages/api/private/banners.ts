@@ -76,7 +76,7 @@ export async function putBanner({
 
     return { result: { id: reqBanner } };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return { error: error, result: null };
   }
 }
@@ -104,7 +104,7 @@ export async function deletetBanner({
 
     return { result: true };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return { error: error, result: null };
   }
 }

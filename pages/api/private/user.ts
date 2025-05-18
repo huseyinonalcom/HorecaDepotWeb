@@ -72,8 +72,6 @@ export const updateUser = async ({
   user: User;
   authToken: string;
 }) => {
-  console.log("api/private/user", fetchUrl + "/" + id);
-  console.log("api/private/user", user);
   const request = await fetch(fetchUrl + "/" + id, {
     method: "PUT",
     headers: {
@@ -89,7 +87,6 @@ export const updateUser = async ({
     throw new Error(`api/private/user: ${ans}`);
   } else {
     const ans = await request.json();
-    console.log("api/private/user", ans);
     return await ans;
   }
 };
