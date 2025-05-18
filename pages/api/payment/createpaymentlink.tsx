@@ -50,6 +50,7 @@ const createMollieLink = async (
   } catch (e) {
     console.error(e);
   }
+  console.info(answer);
   return answer;
 };
 

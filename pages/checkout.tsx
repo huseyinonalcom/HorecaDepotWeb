@@ -283,10 +283,17 @@ export default function Checkout() {
         } else {
           router.push(`/account/order?id=${orderID}`);
         }
+      } else {
+        const response = await paymentReq.text();
+        console.error(response);
+        setSubmitErrorDocument(
+          "Une erreur s'est produite lors de la création de votre commande! Veuillez réessayer plus tard.",
+        );
+        setSubmitting(false);
       }
     } else {
       setSubmitErrorDocument(
-        "Une erreur s'est produite lors de la création de votre commande!",
+        "Une erreur s'est produite lors de la création de votre commande! Veuillez réessayer plus tard.",
       );
       setSubmitting(false);
     }
