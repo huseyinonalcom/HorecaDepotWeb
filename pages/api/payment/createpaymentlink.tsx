@@ -192,7 +192,7 @@ export default async function createPaymentLink(req, res) {
     let config;
 
     try {
-      config = (await getConfig({ authToken: req.cookies.j })).result;
+      config = (await getConfig({ authToken: process.env.API_KEY })).result;
       console.log("config", config);
       paymentProvider = config.activeProvider ?? `ogone`;
       if (!config[paymentProvider]) {
