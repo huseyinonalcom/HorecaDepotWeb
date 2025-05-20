@@ -17,7 +17,7 @@ export const getProductStock = async ({
   }
 
   const request = await fetch(
-    `${fetchUrl}/${id}?populate[shelves][fields][0]=stock&fields[0]=reserved`,
+    `${fetchUrl}/${id}?populate[shelves][fields][0]=stock&populate[shelves][populate][establishment][fields][0]=id&fields[0]=reserved`,
     {
       headers: {
         Authorization: `Bearer ${authToken}`,
@@ -25,11 +25,11 @@ export const getProductStock = async ({
     },
   );
 
-  const response = await request.json();
-
   if (!request.ok) {
     throw "Failed to fetch products";
   }
+
+  const response = await request.json();
 
   return {
     result: {
@@ -78,7 +78,7 @@ export async function updateProductStock({
     throw "Failed to fetch products";
   }
 
-  const product = await productRequest.json();
+  const product = (await productRequest.json()).data;
 
   let errors = [];
 

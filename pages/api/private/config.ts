@@ -11,11 +11,9 @@ export async function getConfig({ authToken }: { authToken: string }) {
       Authorization: `Bearer ${authToken}`,
     },
   });
-  
-  
+
   if (!response.ok) {
     const ans = await response.text();
-    console.log("api/private/config", ans);
     throw new Error("Error fetching config");
   }
   const ans = await response.json();

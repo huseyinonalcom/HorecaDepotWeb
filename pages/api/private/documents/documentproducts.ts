@@ -47,7 +47,7 @@ export const createDocumentProduct = async ({
     const productStock = (
       await getProductStock({
         authToken,
-        id: docProd.product.id,
+        id: product.id,
       })
     ).result;
     if (documentType == "Commande") {
@@ -60,7 +60,7 @@ export const createDocumentProduct = async ({
             warehouse: productStock.stock.warehouse - docProd.amount,
           },
         },
-        id: docProd.product,
+        id: product.id,
       });
     } else if (documentType == "Reservation") {
       await updateProductStock({
@@ -72,7 +72,7 @@ export const createDocumentProduct = async ({
             warehouse: productStock.stock.warehouse - docProd.amount,
           },
         },
-        id: docProd.product,
+        id: product.id,
       });
     }
   }
@@ -141,7 +141,7 @@ export const updateDocumentProduct = async ({
     const productStock = (
       await getProductStock({
         authToken,
-        id: docProd.product.id,
+        id: product.id,
       })
     ).result;
     if (relatedDocument.type == "Commande") {
@@ -157,7 +157,7 @@ export const updateDocumentProduct = async ({
               originalDocumentProduct.amount,
           },
         },
-        id: docProd.product,
+        id: product.id,
       });
     } else if (relatedDocument.type == "Reservation") {
       await updateProductStock({
@@ -175,7 +175,7 @@ export const updateDocumentProduct = async ({
               originalDocumentProduct.amount,
           },
         },
-        id: docProd.product,
+        id: product.id,
       });
     }
   }
