@@ -1,4 +1,4 @@
-import { ProductSelector } from "../../../components/selector/Product-Selector";
+import { ProductSelector } from "../../../components/selector/ProductSelector";
 import TextareaOutlined from "../../../components/inputs/textarea_outlined";
 import LoadingIndicator from "../../../components/common/loadingIndicator";
 import componentThemes from "../../../components/componentThemes";

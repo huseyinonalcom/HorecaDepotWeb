@@ -24,7 +24,7 @@ import { useState } from "react";
 import Head from "next/head";
 import { Dialog } from "../../../components/styled/dialog";
 import { Portal } from "@headlessui/react";
-import { ProductSelector } from "../../../components/selector/Product-Selector";
+import { ProductSelector } from "../../../components/selector/ProductSelector";
 
 export default function Reservation({
   id,
