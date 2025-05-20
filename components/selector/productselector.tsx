@@ -3,6 +3,8 @@ import useTranslation from "next-translate/useTranslation";
 import { Product } from "../../api/interfaces/product";
 import { useEffect, useState } from "react";
 import { Paging } from "../paging";
+import { Input } from "../styled/input";
+import { FieldGroup } from "../styled/fieldset";
 
 const fetchProducts = async ({
   search,
@@ -47,6 +49,13 @@ export const ProductSelector = ({
   return (
     <div className="flex w-full flex-col items-center gap-2">
       <h3 className="text-lg font-semibold">{t("add-product")}</h3>
+      ssssssss
+      <FieldGroup>
+        <Input
+          value={where.search}
+          onChange={(e) => setWhere({ ...where, search: e.target.value })}
+        />
+      </FieldGroup>
       <div className="flex w-full flex-wrap items-center justify-center gap-2">
         {products.length > 0 &&
           products.map((product) => (

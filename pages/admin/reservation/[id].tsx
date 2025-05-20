@@ -1,5 +1,10 @@
 import { formatDateAPIToBe } from "../../../api/utils/formatters/formatdateapibe";
-import { CheckIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  CheckIcon,
+  PencilIcon,
+  PlusIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { formatCurrency } from "../../../api/utils/formatters/formatcurrency";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import { getDocuments } from "../../api/private/documents/universal";
@@ -17,6 +22,9 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Head from "next/head";
+import { Dialog } from "../../../components/styled/dialog";
+import { ProductSelector } from "../../../components/selector/productselector";
+import { Portal } from "@headlessui/react";
 
 export default function Reservation({
   id,
@@ -33,6 +41,7 @@ export default function Reservation({
     reservation.data,
   );
   const [editMode, setEditMode] = useState(false);
+  const [showProductSelector, setShowProductSelector] = useState(false);
 
   const submitEditedReservation = async () => {
     await fetch(
@@ -69,6 +78,18 @@ export default function Reservation({
         <Head>
           <title>{t("reservation")}</title>
         </Head>
+        <Portal>
+          <Dialog
+            open={showProductSelector && editMode}
+            onClose={setShowProductSelector}
+          >
+            <ProductSelector
+              onProductSelected={() => {
+                setShowProductSelector(false);
+              }}
+            />
+          </Dialog>
+        </Portal>
         <div className="w-full px-2 py-2">
           <div className="w-full rounded-md bg-white p-4 shadow-lg">
             <div className="flex flex-row justify-between">
@@ -79,25 +100,34 @@ export default function Reservation({
                   </h1>
                   <div className="flex flex-row gap-2">
                     {editMode && (
-                      <Button
-                        onClick={() => {
-                          fetch(
-                            `/api/private/documents/universal?id=${currentReservation.id}`,
-                            {
-                              method: "DELETE",
-                              headers: {
-                                "Content-Type": "application/json",
-                                Accept: "application/json",
-                                Authorization: `Bearer ${process.env.API_KEY}`,
+                      <>
+                        <Button
+                          onClick={() => {
+                            fetch(
+                              `/api/private/documents/universal?id=${currentReservation.id}`,
+                              {
+                                method: "DELETE",
+                                headers: {
+                                  "Content-Type": "application/json",
+                                  Accept: "application/json",
+                                  Authorization: `Bearer ${process.env.API_KEY}`,
+                                },
                               },
-                            },
-                          ).then((res) => {
-                            router.push(backUrl ?? "/admin/reservations");
-                          });
-                        }}
-                      >
-                        <TrashIcon style={{ color: "red" }} />
-                      </Button>
+                            ).then((res) => {
+                              router.push(backUrl ?? "/admin/reservations");
+                            });
+                          }}
+                        >
+                          <TrashIcon style={{ color: "red" }} />
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            setShowProductSelector(true);
+                          }}
+                        >
+                          <PlusIcon style={{ color: "white" }} />
+                        </Button>
+                      </>
                     )}
                     <Button
                       onClick={() => {
