@@ -129,6 +129,32 @@ export async function deleteProduct({
   }
 }
 
+export async function updateProduct({
+  id,
+  authToken,
+  data,
+}: {
+  id: number;
+  authToken: string;
+  data: any;
+}) {
+  const response = await fetch(`${fetchUrl}/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${authToken}`,
+    },
+    body: JSON.stringify({ data: data }),
+    redirect: "follow",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to update product");
+  } else {
+    return { result: true };
+  }
+}
+
 export default apiRoute({
   authChallenge: async (req) => {
     if (!req.cookies.j) {
@@ -147,6 +173,23 @@ export default apiRoute({
           category: req.query.category as string,
           search: req.query.search as string,
           count: req.query.count as string,
+        });
+      },
+    },
+    PUT: {
+      func: async (req, res) => {
+        return await updateProduct({
+          authToken: req.cookies.j,
+          data: req.body,
+          id: Number(req.query.id as string),
+        });
+      },
+    },
+    DELETE: {
+      func: async (req, res) => {
+        return await deleteProduct({
+          authToken: req.cookies.j,
+          id: Number(req.query.id as string),
         });
       },
     },

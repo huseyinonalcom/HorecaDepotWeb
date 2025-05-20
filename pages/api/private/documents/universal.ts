@@ -1,6 +1,10 @@
 import apiRoute from "../../../../api/api/apiRoute";
 import { apiUrl } from "../../../../api/api/constants";
-import { deleteDocumentProduct } from "./documentproducts";
+import {
+  createDocumentProduct,
+  deleteDocumentProduct,
+  updateDocumentProduct,
+} from "./documentproducts";
 
 const fetchUrl = `${apiUrl}/api/documents`;
 
@@ -66,6 +70,67 @@ export const getDocuments = async ({
       const data = await request.json();
       return data;
     }
+  }
+};
+
+export const updateDocument = async ({
+  authToken,
+  id,
+  updatedDocument,
+}: {
+  authToken: string;
+  id: number;
+  updatedDocument: any;
+}) => {
+  if (!id) {
+    throw "No id provided.";
+  }
+  const documentToUpdate = (await getDocuments({ authToken, id: id })).data;
+  if (!documentToUpdate) {
+    throw "No document found";
+  }
+
+  try {
+    updatedDocument.document_products.forEach(async (docProd) => {
+      if (docProd.id) {
+        await updateDocumentProduct({
+          authToken,
+          id: docProd.id,
+          data: docProd,
+        });
+      } else {
+        await createDocumentProduct({
+          authToken,
+          data: docProd,
+          documentType: updatedDocument.type,
+        });
+      }
+    });
+
+    documentToUpdate.document_products.forEach(async (docProd) => {
+      if (
+        !updatedDocument.document_products.find((prod) => prod.id == docProd.id)
+      ) {
+        await deleteDocumentProduct({ authToken, id: docProd.id });
+      }
+    });
+
+    const request = await fetch(`${fetchUrl}/${documentToUpdate.id}`, {
+      method: "UPDATE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      body: JSON.stringify({ data: updatedDocument }),
+    });
+
+    if (!request.ok) {
+      throw "Failed to update document";
+    }
+
+    return { result: true };
+  } catch (error) {
+    return { error: error, result: null };
   }
 };
 
