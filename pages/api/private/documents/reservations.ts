@@ -31,6 +31,8 @@ export const createReservation = async ({
     await getUser({ self: true, authToken: authToken })
   ).user_info.id;
 
+  console.log(document);
+
   if (!document.customer.id || document.customer.id == 0) {
     document.client = (
       await createCustomer({
@@ -39,7 +41,7 @@ export const createReservation = async ({
       })
     ).result.data.id;
   } else {
-    document.client = document.customer.id;
+    document.client = document.customer.client_info.id;
   }
 
   const createPromises = document.documentProducts.map((dp) =>
