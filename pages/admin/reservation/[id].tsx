@@ -45,9 +45,13 @@ export default function Reservation({
         },
         body: JSON.stringify(currentReservation),
       },
-    ).then((res) => {
-      router.push(backUrl ?? "/admin/reservations");
-    });
+    )
+      .catch((e) => {
+        alert(e);
+      })
+      .then((res) => {
+        alert(t("reservation-updated"));
+      });
   };
 
   if (!currentReservation) {

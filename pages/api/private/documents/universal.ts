@@ -1,5 +1,5 @@
-import apiRoute from "../../../../api/api/apiRoute";
 import { apiUrl } from "../../../../api/api/constants";
+import apiRoute from "../../../../api/api/apiRoute";
 import {
   createDocumentProduct,
   deleteDocumentProduct,
@@ -116,7 +116,7 @@ export const updateDocument = async ({
     });
 
     const request = await fetch(`${fetchUrl}/${documentToUpdate.id}`, {
-      method: "UPDATE",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${authToken}`,
@@ -197,6 +197,15 @@ export default apiRoute({
         return await deleteDocument({
           authToken: req.cookies.j,
           id: Number(req.query.id as string),
+        });
+      },
+    },
+    PUT: {
+      func: async (req, res) => {
+        return await updateDocument({
+          authToken: req.cookies.j,
+          id: Number(req.query.id as string),
+          updatedDocument: req.body,
         });
       },
     },

@@ -561,6 +561,13 @@ export default function ProductPage(props) {
             }));
           }}
         />
+        <Input
+          label={t("reserved")}
+          type="number"
+          name="reserved"
+          value={currentProduct?.reserved}
+          readOnly
+        />
       </FieldGroup>
     </Fieldset>
   );

@@ -138,6 +138,9 @@ export async function updateProduct({
   authToken: string;
   data: any;
 }) {
+  if (!id) {
+    throw "No id provided.";
+  }
   const response = await fetch(`${fetchUrl}/${id}`, {
     method: "PUT",
     headers: {

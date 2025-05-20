@@ -1,6 +1,7 @@
-import { getProducts, updateProduct } from "../products/products";
+import { getProductStock, updateProductStock } from "../products/productStock";
 import { apiUrl } from "../../../../api/api/constants";
 import apiRoute from "../../../../api/api/apiRoute";
+import { getProducts } from "../products/products";
 import { getDocuments } from "./universal";
 
 const fetchUrl = `${apiUrl}/api/document-products`;
@@ -21,7 +22,7 @@ const getDocumentProduct = async ({
   if (!request.ok) {
     throw new Error("Failed to fetch document product");
   } else {
-    return await request.json();
+    return (await request.json()).data;
   }
 };
 
@@ -34,16 +35,45 @@ export const createDocumentProduct = async ({
   data: any;
   documentType: "Commande" | "Reservation";
 }) => {
-  const docProd = JSON.parse(data);
+  const docProd = data;
 
   let product;
 
   if (docProd.product) {
+    if (typeof docProd.product !== "number") {
+      docProd.product = docProd.product.id;
+    }
     product = (await getProducts({ authToken, id: docProd.product })).data;
+    const productStock = (
+      await getProductStock({
+        authToken,
+        id: docProd.product.id,
+      })
+    ).result;
     if (documentType == "Commande") {
-      // reduce product stock by amount
+      await updateProductStock({
+        authToken,
+        stock: {
+          reserved: productStock.reserved,
+          stock: {
+            store: productStock.stock.store,
+            warehouse: productStock.stock.warehouse - docProd.amount,
+          },
+        },
+        id: docProd.product,
+      });
     } else if (documentType == "Reservation") {
-      // increase product reserved stock by amount
+      await updateProductStock({
+        authToken,
+        stock: {
+          reserved: productStock.reserved + docProd.amount,
+          stock: {
+            store: productStock.stock.store,
+            warehouse: productStock.stock.warehouse - docProd.amount,
+          },
+        },
+        id: docProd.product,
+      });
     }
   }
 
@@ -86,32 +116,66 @@ export const updateDocumentProduct = async ({
   authToken: string;
   data: any;
 }) => {
-  const docProd = JSON.parse(data);
+  const docProd = data;
 
   const originalDocumentProduct = await getDocumentProduct({
     authToken,
     id: id,
   });
 
-  const relatedDocument = await getDocuments({ authToken, id: id });
+  const relatedDocument = (
+    await getDocuments({
+      authToken,
+      id: originalDocumentProduct.document.id,
+    })
+  ).data;
 
   let product;
 
   if (docProd.product) {
+    if (typeof docProd.product !== "number") {
+      docProd.product = docProd.product.id;
+    }
     product = (await getProducts({ authToken, id: docProd.product })).data;
-    if (relatedDocument.type == "Commande") {
-      // updated document product amount - original document product amount
-      // reduce product stock by amount
-    } else if (relatedDocument.type == "Reservation") {
-      // updated document product amount - original document product amount
-      // increase product reserved stock by amount
-      await updateProduct({
+
+    const productStock = (
+      await getProductStock({
         authToken,
-        data: {
-          reserved:
-            product.reserved + docProd.amount - originalDocumentProduct.amount,
+        id: docProd.product.id,
+      })
+    ).result;
+    if (relatedDocument.type == "Commande") {
+      await updateProductStock({
+        authToken,
+        stock: {
+          reserved: productStock.reserved,
+          stock: {
+            store: productStock.stock.store,
+            warehouse:
+              productStock.stock.warehouse -
+              docProd.amount +
+              originalDocumentProduct.amount,
+          },
         },
-        id: docProd.id,
+        id: docProd.product,
+      });
+    } else if (relatedDocument.type == "Reservation") {
+      await updateProductStock({
+        authToken,
+        stock: {
+          reserved:
+            productStock.reserved +
+            docProd.amount -
+            originalDocumentProduct.amount,
+          stock: {
+            store: productStock.stock.store,
+            warehouse:
+              productStock.stock.warehouse -
+              docProd.amount +
+              originalDocumentProduct.amount,
+          },
+        },
+        id: docProd.product,
       });
     }
   }
@@ -137,8 +201,8 @@ export const updateDocumentProduct = async ({
     };
   }
 
-  const request = await fetch(fetchUrl, {
-    method: "POST",
+  const request = await fetch(fetchUrl + "/" + id, {
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${authToken}`,
@@ -170,11 +234,20 @@ export const deleteDocumentProduct = async ({
    * delete document product
    */
   const documentProduct = await getDocumentProduct({ authToken, id: id });
-  const document = getDocuments({ authToken, id: documentProduct.document.id });
-  const product = await getProducts({
-    authToken,
-    id: documentProduct.product.id,
-  });
+
+  const relatedDocument = (
+    await getDocuments({
+      authToken,
+      id: documentProduct.document.id,
+    })
+  ).data;
+
+  const product = (
+    await getProducts({
+      authToken,
+      id: documentProduct.product.id,
+    })
+  ).data;
   /*   const request = await fetch(fetchUrl + "/" + id, {
     method: "DELETE",
     headers: {
@@ -204,7 +277,7 @@ export default apiRoute({
       func: async (req, res) => {
         return await createDocumentProduct({
           authToken: req.cookies.j,
-          data: req.body,
+          data: JSON.parse(req.body),
           documentType: req.query.documentType as "Commande" | "Reservation",
         });
       },
@@ -213,7 +286,7 @@ export default apiRoute({
       func: async (req, res) => {
         return await updateDocumentProduct({
           authToken: req.cookies.j,
-          data: req.body,
+          data: JSON.parse(req.body),
           id: Number(req.query.id as string),
         });
       },
