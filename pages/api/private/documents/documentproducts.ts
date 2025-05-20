@@ -37,7 +37,10 @@ export const createDocumentProduct = async ({
   documentType: "Commande" | "Reservation";
   documentId?: number;
 }) => {
-  const docProd = data;
+  const docProd = JSON.parse(data);
+
+  docProd.value = Number(docProd.value);
+  docProd.amount = Number(docProd.amount);
 
   let product;
 
@@ -46,6 +49,9 @@ export const createDocumentProduct = async ({
       docProd.product = docProd.product.id;
     }
     product = (await getProducts({ authToken, id: docProd.product })).data;
+
+    docProd.tax = product.tax;
+
     const productStock = (
       await getProductStock({
         authToken,
@@ -56,7 +62,7 @@ export const createDocumentProduct = async ({
       await updateProductStock({
         authToken,
         stock: {
-          reserved: productStock.reserved ?? 0,
+          reserved: Number(productStock.reserved),
           stock: {
             store: productStock.stock.store,
             warehouse: productStock.stock.warehouse - docProd.amount,
@@ -68,7 +74,7 @@ export const createDocumentProduct = async ({
       await updateProductStock({
         authToken,
         stock: {
-          reserved: productStock.reserved + docProd.amount,
+          reserved: Number(productStock.reserved) + docProd.amount,
           stock: {
             store: productStock.stock.store,
             warehouse: productStock.stock.warehouse - docProd.amount,
@@ -98,6 +104,8 @@ export const createDocumentProduct = async ({
     documentProduct.document = documentId;
   }
 
+  console.log(documentProduct);
+
   const request = await fetch(fetchUrl, {
     method: "POST",
     headers: {
@@ -108,6 +116,8 @@ export const createDocumentProduct = async ({
   });
 
   if (!request.ok) {
+    const ans = await request.text();
+    console.error("failed to create document product", ans);
     throw new Error("Failed to create document product");
   } else {
     return { result: await request.json() };
@@ -155,13 +165,13 @@ export const updateDocumentProduct = async ({
       await updateProductStock({
         authToken,
         stock: {
-          reserved: productStock.reserved ?? 0,
+          reserved: Number(productStock.reserved),
           stock: {
-            store: productStock.stock.store,
+            store: Number(productStock.stock.store),
             warehouse:
-              productStock.stock.warehouse -
-              docProd.amount +
-              originalDocumentProduct.amount,
+              Number(productStock.stock.warehouse) -
+              Number(docProd.amount) +
+              Number(originalDocumentProduct.amount),
           },
         },
         id: product.id,
@@ -171,15 +181,15 @@ export const updateDocumentProduct = async ({
         authToken,
         stock: {
           reserved:
-            productStock.reserved +
-            docProd.amount -
-            originalDocumentProduct.amount,
+            Number(productStock.reserved) +
+            Number(docProd.amount) -
+            Number(originalDocumentProduct.amount),
           stock: {
-            store: productStock.stock.store,
+            store: Number(productStock.stock.store),
             warehouse:
-              productStock.stock.warehouse -
-              docProd.amount +
-              originalDocumentProduct.amount,
+              Number(productStock.stock.warehouse) -
+              Number(docProd.amount) +
+              Number(originalDocumentProduct.amount),
           },
         },
         id: product.id,
@@ -188,11 +198,11 @@ export const updateDocumentProduct = async ({
   }
 
   let documentProduct = {
-    amount: docProd.amount,
+    amount: Number(docProd.amount),
     name: docProd.name,
-    value: docProd.value,
-    tax: docProd.tax,
-    discount: docProd.discount,
+    value: Number(docProd.value),
+    tax: Number(docProd.tax),
+    discount: Number(docProd.discount),
     delivered: docProd.delivered,
     subTotal: docProd.value * docProd.amount,
     taxSubTotal:
@@ -231,15 +241,6 @@ export const deleteDocumentProduct = async ({
   authToken: string;
   id: number;
 }) => {
-  /**
-   * fetch related document
-   * find related product
-   * if document is reservation
-   *   decrease product reserved stock by amount
-   * if document is commande
-   *   increase product stock by amount
-   * delete document product
-   */
   const documentProduct = await getDocumentProduct({ authToken, id: id });
 
   const relatedDocument = (
@@ -255,7 +256,47 @@ export const deleteDocumentProduct = async ({
       id: documentProduct.product.id,
     })
   ).data;
-  /*   const request = await fetch(fetchUrl + "/" + id, {
+
+  if (relatedDocument && product) {
+    const productStock = (
+      await getProductStock({
+        authToken,
+        id: product.id,
+      })
+    ).result;
+    if (relatedDocument.type == "Commande") {
+      await updateProductStock({
+        authToken,
+        stock: {
+          reserved: Number(productStock.reserved),
+          stock: {
+            store: Number(productStock.stock.store),
+            warehouse:
+              Number(productStock.stock.warehouse) +
+              Number(documentProduct.amount),
+          },
+        },
+        id: product.id,
+      });
+    } else if (relatedDocument.type == "Reservation") {
+      await updateProductStock({
+        authToken,
+        stock: {
+          reserved:
+            Number(productStock.reserved) - Number(documentProduct.amount),
+          stock: {
+            store: Number(productStock.stock.store),
+            warehouse:
+              Number(productStock.stock.warehouse) +
+              Number(documentProduct.amount),
+          },
+        },
+        id: product.id,
+      });
+    }
+  }
+
+  const request = await fetch(fetchUrl + "/" + id, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -267,8 +308,7 @@ export const deleteDocumentProduct = async ({
     throw new Error("Failed to delete document product");
   } else {
     return { result: true };
-  } */
-  return { result: true };
+  }
 };
 
 export default apiRoute({

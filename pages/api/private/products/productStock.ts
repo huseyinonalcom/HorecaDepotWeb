@@ -33,7 +33,7 @@ export const getProductStock = async ({
 
   return {
     result: {
-      reserved: response.data.reserved,
+      reserved: Number(response.data.reserved),
       stock: {
         store: response.data.shelves.find(
           (shelf) => shelf.establishment.id == 1,
@@ -86,9 +86,10 @@ export async function updateProductStock({
     authToken,
     id: product.id,
     data: {
-      reserved: stock.reserved,
+      reserved: Number(stock.reserved),
     },
   }).catch((error) => {
+    console.error(error);
     errors.push(error);
   });
 
@@ -117,6 +118,7 @@ export async function updateProductStock({
   });
 
   if (errors.length > 0) {
+    console.error(errors);
     throw new Error("Failed to update product");
   } else {
     return { result: true };

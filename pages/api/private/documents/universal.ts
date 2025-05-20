@@ -99,7 +99,6 @@ export const updateDocument = async ({
           data: docProd,
         });
       } else {
-        console.log("creating docprod on edited document:", docProd);
         await createDocumentProduct({
           authToken,
           data: docProd,

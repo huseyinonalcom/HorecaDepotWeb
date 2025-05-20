@@ -86,7 +86,6 @@ export default function Reservation({
             <ProductSelector
               onProductSelected={(prod) => {
                 setShowProductSelector(false);
-                console.log(currentReservation);
                 setCurrentReservation((prev) => ({
                   ...prev,
                   document_products: [
