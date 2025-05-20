@@ -32,10 +32,23 @@ export default function Reservation({
   const [currentReservation, setCurrentReservation] = useState(
     reservation.data,
   );
-  const [originalReservation, setOriginalReservation] = useState(
-    reservation.data,
-  );
   const [editMode, setEditMode] = useState(false);
+
+  const submitEditedReservation = async () => {
+    await fetch(
+      `/api/private/documents/universal?id=${currentReservation.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(currentReservation),
+      },
+    ).then((res) => {
+      router.push(backUrl ?? "/admin/reservations");
+    });
+  };
 
   if (!currentReservation) {
     return (
@@ -85,6 +98,7 @@ export default function Reservation({
                     <Button
                       onClick={() => {
                         setEditMode((prev) => !prev);
+                        editMode ? submitEditedReservation() : {};
                       }}
                     >
                       {editMode ? (
