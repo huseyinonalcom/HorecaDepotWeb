@@ -186,7 +186,7 @@ export const updateDocumentProduct = async ({
     value: docProd.value,
     tax: docProd.tax,
     discount: docProd.discount,
-    delivered: false,
+    delivered: docProd.delivered,
     subTotal: docProd.value * docProd.amount,
     taxSubTotal:
       docProd.value * docProd.amount -

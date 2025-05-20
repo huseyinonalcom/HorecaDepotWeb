@@ -23,8 +23,8 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Head from "next/head";
 import { Dialog } from "../../../components/styled/dialog";
-import { ProductSelector } from "../../../components/selector/productselector";
 import { Portal } from "@headlessui/react";
+import { ProductSelector } from "../../../components/selector/ProductSelector";
 
 export default function Reservation({
   id,
@@ -86,6 +86,7 @@ export default function Reservation({
             <ProductSelector
               onProductSelected={() => {
                 setShowProductSelector(false);
+                console.log(currentReservation);
               }}
             />
           </Dialog>
@@ -208,7 +209,6 @@ export default function Reservation({
                   <TableHeader>{t("Color")}</TableHeader>
                   <TableHeader>{t("Quantity")}</TableHeader>
                   <TableHeader>{t("Price")}</TableHeader>
-                  <TableHeader>{t("Discount")}</TableHeader>
                   <TableHeader>{t("Subtotal")}</TableHeader>
                   {editMode && <TableHeader></TableHeader>}
                 </TableRow>
@@ -257,10 +257,10 @@ export default function Reservation({
                       {formatCurrency(documentProduct.value)}
                     </TableCell>
                     <TableCell align="right">
-                      {formatCurrency(documentProduct.discount)}
-                    </TableCell>
-                    <TableCell align="right">
-                      {formatCurrency(documentProduct.subTotal)}
+                      {formatCurrency(
+                        documentProduct.value * documentProduct.amount -
+                          documentProduct.discount,
+                      )}
                     </TableCell>
                     {editMode && (
                       <TableCell className="flex flex-row gap-2">
@@ -296,7 +296,10 @@ export default function Reservation({
                       {formatCurrency(
                         currentReservation.document_products.reduce(
                           (accumulator, currentItem) => {
-                            return accumulator + currentItem.subTotal;
+                            return (
+                              accumulator +
+                              currentItem.value * currentItem.amount
+                            );
                           },
                           0,
                         ),
@@ -313,7 +316,10 @@ export default function Reservation({
                       {formatCurrency(
                         currentReservation.document_products.reduce(
                           (accumulator, currentItem) => {
-                            return accumulator + currentItem.subTotal;
+                            return (
+                              accumulator +
+                              currentItem.value * currentItem.amount
+                            );
                           },
                           0,
                         ) -
