@@ -1,7 +1,7 @@
 import { apiUrl } from "../../../../api/api/constants";
 import apiRoute from "../../../../api/api/apiRoute";
-import { udpateShelf } from "../shelves";
 import { updateProduct } from "./products";
+import { udpateShelf } from "../shelves";
 
 const fetchUrl = `${apiUrl}/api/products`;
 
