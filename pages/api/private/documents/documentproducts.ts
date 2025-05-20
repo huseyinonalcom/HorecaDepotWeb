@@ -37,7 +37,7 @@ export const createDocumentProduct = async ({
   documentType: "Commande" | "Reservation";
   documentId?: number;
 }) => {
-  const docProd = JSON.parse(data);
+  const docProd = data;
 
   docProd.value = Number(docProd.value);
   docProd.amount = Number(docProd.amount);
@@ -103,8 +103,6 @@ export const createDocumentProduct = async ({
   if (documentId) {
     documentProduct.document = documentId;
   }
-
-  console.log(documentProduct);
 
   const request = await fetch(fetchUrl, {
     method: "POST",

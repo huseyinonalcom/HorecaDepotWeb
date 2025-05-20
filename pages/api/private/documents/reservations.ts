@@ -14,7 +14,8 @@ export const createReservation = async ({
   authToken: string;
   data: any;
 }) => {
-  let { document } = JSON.parse(data);
+  let { document } = data;
+
   if (document.type != "Reservation") {
     throw new Error("Invalid document type");
   }
@@ -31,8 +32,6 @@ export const createReservation = async ({
     await getUser({ self: true, authToken: authToken })
   ).user_info.id;
 
-  console.log(document);
-
   if (!document.customer.id || document.customer.id == 0) {
     document.client = (
       await createCustomer({
@@ -48,13 +47,13 @@ export const createReservation = async ({
     createDocumentProduct({
       authToken,
       documentType: "Reservation",
-      data: JSON.stringify({
+      data: {
         id: `new`,
         amount: dp.amount,
         tax: 21,
         discount: 0,
         product: dp.id,
-      }),
+      },
     }).then((res) => res.result.data.id),
   );
 
@@ -103,7 +102,7 @@ export default apiRoute({
       func: async (req, res) => {
         return await createReservation({
           authToken: req.cookies.j,
-          data: req.body,
+          data: JSON.parse(req.body),
         });
       },
     },
