@@ -99,12 +99,14 @@ export default function StockLayout({ children }: Props) {
               {t("Cart")}
             </button>
             <Link
+              onClick={() => setShowMenu(false)}
               href={"/stock/orders"}
               className={`flex w-full flex-row items-center gap-3 rounded-md border-2 border-gray-400 p-1 whitespace-nowrap text-white shadow-sm hover:bg-blue-800`}
             >
               {t("orders")}
             </Link>
             <Link
+              onClick={() => setShowMenu(false)}
               href={"/stock/reservations"}
               className={`flex w-full flex-row items-center gap-3 rounded-md border-2 border-gray-400 p-1 whitespace-nowrap text-white shadow-sm hover:bg-blue-800`}
             >
@@ -112,6 +114,7 @@ export default function StockLayout({ children }: Props) {
             </Link>
             {userType == "admin" && (
               <Link
+                onClick={() => setShowMenu(false)}
                 href={"/admin"}
                 className={`flex w-full flex-row items-center gap-3 rounded-md border-2 border-gray-400 p-1 whitespace-nowrap text-white shadow-sm hover:bg-blue-800`}
               >
