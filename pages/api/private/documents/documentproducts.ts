@@ -30,10 +30,12 @@ export const createDocumentProduct = async ({
   authToken,
   data,
   documentType,
+  documentId,
 }: {
   authToken: string;
   data: any;
   documentType: "Commande" | "Reservation";
+  documentId?: number;
 }) => {
   const docProd = data;
 
@@ -54,7 +56,7 @@ export const createDocumentProduct = async ({
       await updateProductStock({
         authToken,
         stock: {
-          reserved: productStock.reserved,
+          reserved: productStock.reserved ?? 0,
           stock: {
             store: productStock.stock.store,
             warehouse: productStock.stock.warehouse - docProd.amount,
@@ -89,7 +91,12 @@ export const createDocumentProduct = async ({
       product.value * docProd.amount -
       (product.value * docProd.amount) / (1 + docProd.tax / 100),
     product: product.id,
+    document: null,
   };
+
+  if (documentId) {
+    documentProduct.document = documentId;
+  }
 
   const request = await fetch(fetchUrl, {
     method: "POST",
@@ -148,7 +155,7 @@ export const updateDocumentProduct = async ({
       await updateProductStock({
         authToken,
         stock: {
-          reserved: productStock.reserved,
+          reserved: productStock.reserved ?? 0,
           stock: {
             store: productStock.stock.store,
             warehouse:

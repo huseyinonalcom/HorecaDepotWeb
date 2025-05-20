@@ -84,9 +84,26 @@ export default function Reservation({
             onClose={setShowProductSelector}
           >
             <ProductSelector
-              onProductSelected={() => {
+              onProductSelected={(prod) => {
                 setShowProductSelector(false);
                 console.log(currentReservation);
+                setCurrentReservation((prev) => ({
+                  ...prev,
+                  document_products: [
+                    ...prev.document_products,
+                    {
+                      name: prod.name,
+                      value: prod.value,
+                      subTotal: prod.value,
+                      amount: 1,
+                      discount: 0,
+                      tax: prod.tax,
+                      taxSubTotal: (prod.value * prod.tax) / 100,
+                      delivered: false,
+                      product: prod,
+                    },
+                  ],
+                }));
               }}
             />
           </Dialog>
