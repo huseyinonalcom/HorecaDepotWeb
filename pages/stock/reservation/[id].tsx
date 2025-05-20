@@ -1,9 +1,9 @@
+import { getDocuments } from "../../api/private/documents/universal";
 import StockLayout from "../../../components/stock/StockLayout";
 import useTranslation from "next-translate/useTranslation";
-import Head from "next/head";
 import Reservation from "../../admin/reservation/[id]";
 import { useRouter } from "next/router";
-import { getDocuments } from "../../api/private/documents/universal";
+import Head from "next/head";
 
 export default function ReservationStock({
   reservation,
