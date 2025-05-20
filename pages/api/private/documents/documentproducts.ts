@@ -1,6 +1,6 @@
+import { getProducts, updateProduct } from "../products/products";
 import { apiUrl } from "../../../../api/api/constants";
 import apiRoute from "../../../../api/api/apiRoute";
-import products, { getProducts, updateProduct } from "../products/products";
 import { getDocuments } from "./universal";
 
 const fetchUrl = `${apiUrl}/api/document-products`;
