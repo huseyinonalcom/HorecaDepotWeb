@@ -1,16 +1,13 @@
 import { formatDateAPIToBe } from "../../../api/utils/formatters/formatdateapibe";
-import {
-  CheckIcon,
-  PencilIcon,
-  PlusIcon,
-  TrashIcon,
-} from "@heroicons/react/24/outline";
+import { ProductSelector } from "../../../components/selector/ProductSelector";
 import { formatCurrency } from "../../../api/utils/formatters/formatcurrency";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import { getDocuments } from "../../api/private/documents/universal";
 import { Button } from "../../../components/styled/button";
 import useTranslation from "next-translate/useTranslation";
+import { Dialog } from "../../../components/styled/dialog";
 import { Input } from "../../../components/styled/input";
+import { Portal } from "@headlessui/react";
 import {
   Table,
   TableHead,
@@ -20,11 +17,14 @@ import {
   TableCell,
 } from "../../../components/styled/table";
 import { useRouter } from "next/router";
+import {
+  CheckIcon,
+  PencilIcon,
+  PlusIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { useState } from "react";
 import Head from "next/head";
-import { Dialog } from "../../../components/styled/dialog";
-import { Portal } from "@headlessui/react";
-import { ProductSelector } from "../../../components/selector/ProductSelector";
 
 export default function Reservation({
   id,

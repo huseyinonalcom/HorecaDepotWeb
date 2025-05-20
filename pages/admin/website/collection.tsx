@@ -1,16 +1,16 @@
 import { ProductSelector } from "../../../components/selector/ProductSelector";
 import TextareaOutlined from "../../../components/inputs/textarea_outlined";
 import LoadingIndicator from "../../../components/common/loadingIndicator";
+import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import componentThemes from "../../../components/componentThemes";
+import ButtonShadow1 from "../../../components/buttons/shadow_1";
 import InputOutlined from "../../../components/inputs/outlined";
 import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
+import { FiUpload, FiX } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import ButtonShadow1 from "../../../components/buttons/shadow_1";
-import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
-import { FiUpload, FiX } from "react-icons/fi";
 
 const navIconDivClass = "flex flex-row justify-center flex-shrink-0 w-[35px]";
 const iconClass = "flex-shrink-0";
