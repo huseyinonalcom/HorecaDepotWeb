@@ -239,23 +239,24 @@ export const deleteDocumentProduct = async ({
   authToken: string;
   id: number;
 }) => {
-  const documentProduct = await getDocumentProduct({ authToken, id: id });
+  const docProd = await getDocumentProduct({ authToken, id: id });
 
   const relatedDocument = (
     await getDocuments({
       authToken,
-      id: documentProduct.document.id,
+      id: docProd.document.id,
     })
   ).data;
 
-  const product = (
-    await getProducts({
-      authToken,
-      id: documentProduct.product.id,
-    })
-  ).data;
+  if (relatedDocument && docProd.product) {
+    if (typeof docProd.product !== "number") {
+      docProd.product = docProd.product.id;
+    }
+    const product = (await getProducts({ authToken, id: docProd.product }))
+      .data;
 
-  if (relatedDocument && product) {
+    docProd.tax = product.tax;
+
     const productStock = (
       await getProductStock({
         authToken,
@@ -268,10 +269,8 @@ export const deleteDocumentProduct = async ({
         stock: {
           reserved: Number(productStock.reserved),
           stock: {
-            store: Number(productStock.stock.store),
-            warehouse:
-              Number(productStock.stock.warehouse) +
-              Number(documentProduct.amount),
+            store: productStock.stock.store,
+            warehouse: productStock.stock.warehouse + docProd.amount,
           },
         },
         id: product.id,
@@ -280,13 +279,10 @@ export const deleteDocumentProduct = async ({
       await updateProductStock({
         authToken,
         stock: {
-          reserved:
-            Number(productStock.reserved) - Number(documentProduct.amount),
+          reserved: Number(productStock.reserved) - docProd.amount,
           stock: {
-            store: Number(productStock.stock.store),
-            warehouse:
-              Number(productStock.stock.warehouse) +
-              Number(documentProduct.amount),
+            store: productStock.stock.store,
+            warehouse: productStock.stock.warehouse + docProd.amount,
           },
         },
         id: product.id,

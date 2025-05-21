@@ -154,6 +154,7 @@ export default function Index({
                     >
                       <PromoBanner
                         disabled
+                        key={`pb-${banner.id}`}
                         banner={banner}
                         homePage={homePage}
                       />
@@ -460,6 +461,7 @@ export default function Index({
                 }),
               ]}
               autoScroll={{ enabled: false }}
+              key="dnd-1"
               collisionDetection={closestCenter}
               onDragEnd={(e) => {
                 const { active, over } = e;
@@ -490,13 +492,14 @@ export default function Index({
               }}
             >
               <SortableContext
+                key="sortable-1"
                 disabled={!onEdit}
                 strategy={horizontalListSortingStrategy}
                 items={homePage.layout["1"].content}
               >
                 {homePage.layout["1"].content.map((banner) => (
                   <PromoBanner
-                    key={banner.id}
+                    key={banners.find((b) => b.id == banner).id}
                     onEdit={onEdit}
                     homePage={homePage}
                     banner={banners.find((b) => b.id == banner)}
@@ -504,11 +507,7 @@ export default function Index({
                 ))}
               </SortableContext>
             </DndContext>
-            {onEdit && (
-              <>
-                <BannerModal order={"1"} />
-              </>
-            )}
+            {onEdit && <BannerModal order={"1"} />}
           </div>
           <div className="mt-2 ml-4 flex w-[90vw] max-w-screen-2xl flex-row justify-start gap-2 2xl:hidden">
             <FiChevronLeft
@@ -599,11 +598,7 @@ export default function Index({
           )}
         </div>
 
-        {onEdit && (
-          <>
-            <BannerModal order={"3"} />
-          </>
-        )}
+        {onEdit && <BannerModal order={"3"} />}
         {banners.find(
           (banner) => banner.id == homePage.layout["3"].content,
         ) && (
@@ -641,11 +636,7 @@ export default function Index({
           )}
         </div>
 
-        {onEdit && (
-          <>
-            <BannerModal order={"4"} />
-          </>
-        )}
+        {onEdit && <BannerModal order={"4"} />}
         {banners.find(
           (banner) => banner.id == homePage.layout["4"].content,
         ) && (
@@ -683,11 +674,7 @@ export default function Index({
           )}
         </div>
 
-        {onEdit && (
-          <>
-            <BannerModal order={"5"} />
-          </>
-        )}
+        {onEdit && <BannerModal order={"5"} />}
         {banners.find(
           (banner) => banner.id == homePage.layout["5"].content,
         ) && (
