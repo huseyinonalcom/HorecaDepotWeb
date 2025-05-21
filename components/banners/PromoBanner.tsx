@@ -78,7 +78,7 @@ export const PromoBanner = ({
           </div>
         )}
         <div className="flex h-min flex-shrink-0 flex-col overflow-hidden rounded-xl border-1 border-black/30 bg-white">
-          <div className="relative z-20 aspect-[320/171] w-[85vw] bg-orange-400 md:w-[42vw] 2xl:w-full">
+          <div className="relative z-20 aspect-[320/171] w-[85vw] md:w-[42vw] 2xl:w-full">
             <ImageWithURL
               src={image.image.url}
               alt={banner.localized_title[lang] ?? "homepage decoration image"}
