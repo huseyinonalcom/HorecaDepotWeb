@@ -62,7 +62,7 @@ export const createDocumentProduct = async ({
       await updateProductStock({
         authToken,
         stock: {
-          reserved: Number(productStock.reserved),
+          reserved: Math.max(Number(productStock.reserved), 0),
           stock: {
             store: productStock.stock.store,
             warehouse: productStock.stock.warehouse - docProd.amount,
@@ -74,7 +74,7 @@ export const createDocumentProduct = async ({
       await updateProductStock({
         authToken,
         stock: {
-          reserved: Number(productStock.reserved) + docProd.amount,
+          reserved: Math.max(Number(productStock.reserved) + docProd.amount, 0),
           stock: {
             store: productStock.stock.store,
             warehouse: productStock.stock.warehouse - docProd.amount,
@@ -163,7 +163,7 @@ export const updateDocumentProduct = async ({
       await updateProductStock({
         authToken,
         stock: {
-          reserved: Number(productStock.reserved),
+          reserved: Math.max(Number(productStock.reserved), 0),
           stock: {
             store: Number(productStock.stock.store),
             warehouse:
@@ -178,10 +178,12 @@ export const updateDocumentProduct = async ({
       await updateProductStock({
         authToken,
         stock: {
-          reserved:
+          reserved: Math.max(
             Number(productStock.reserved) +
-            Number(docProd.amount) -
-            Number(originalDocumentProduct.amount),
+              Number(docProd.amount) -
+              Number(originalDocumentProduct.amount),
+            0,
+          ),
           stock: {
             store: Number(productStock.stock.store),
             warehouse:
@@ -267,7 +269,7 @@ export const deleteDocumentProduct = async ({
       await updateProductStock({
         authToken,
         stock: {
-          reserved: Number(productStock.reserved),
+          reserved: Math.max(Number(productStock.reserved), 0),
           stock: {
             store: productStock.stock.store,
             warehouse: productStock.stock.warehouse + docProd.amount,
@@ -279,7 +281,7 @@ export const deleteDocumentProduct = async ({
       await updateProductStock({
         authToken,
         stock: {
-          reserved: Number(productStock.reserved) - docProd.amount,
+          reserved: Math.max(Number(productStock.reserved) - docProd.amount, 0),
           stock: {
             store: productStock.stock.store,
             warehouse: productStock.stock.warehouse + docProd.amount,
