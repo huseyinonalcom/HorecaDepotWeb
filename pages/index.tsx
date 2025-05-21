@@ -608,7 +608,7 @@ export default function Index({
                 .find((banner) => banner.id == homePage.layout["3"].content)
                 .images.find((img) => img.locale == lang).linked_url
             }
-            className="relative aspect-[21/9] w-full overflow-hidden rounded-xl md:aspect-[205/78] lg:aspect-[205/78]"
+            className="w-full overflow-hidden rounded-xl"
           >
             <ImageWithURL
               src={
@@ -621,9 +621,8 @@ export default function Index({
                   (banner) => banner.id == homePage.layout["3"].content,
                 ).localized_title[lang]
               }
-              sizes="90vw, (max-width: 1536px) 1536px"
-              fill
-              style={{ objectFit: "cover" }}
+              height={100}
+              width={5000}
             />
           </Link>
         )}
@@ -646,7 +645,7 @@ export default function Index({
                 .find((banner) => banner.id == homePage.layout["4"].content)
                 .images.find((img) => img.locale == lang).linked_url
             }
-            className="relative aspect-[21/9] w-full overflow-hidden rounded-xl md:aspect-[205/78] lg:aspect-[205/78]"
+            className="w-full overflow-hidden rounded-xl"
           >
             <ImageWithURL
               src={
@@ -659,9 +658,8 @@ export default function Index({
                   (banner) => banner.id == homePage.layout["4"].content,
                 ).localized_title[lang]
               }
-              sizes="90vw, (max-width: 1536px) 1536px"
-              fill
-              style={{ objectFit: "cover" }}
+              height={100}
+              width={5000}
             />
           </Link>
         )}
@@ -684,7 +682,7 @@ export default function Index({
                 .find((banner) => banner.id == homePage.layout["5"].content)
                 .images.find((img) => img.locale == lang).linked_url
             }
-            className="relative aspect-[21/9] w-full overflow-hidden rounded-xl md:aspect-[205/78] lg:aspect-[205/78]"
+            className="w-full overflow-hidden rounded-xl"
           >
             <ImageWithURL
               src={
@@ -697,9 +695,8 @@ export default function Index({
                   (banner) => banner.id == homePage.layout["5"].content,
                 ).localized_title[lang]
               }
-              sizes="90vw, (max-width: 1536px) 1536px"
-              fill
-              style={{ objectFit: "cover" }}
+              height={100}
+              width={5000}
             />
           </Link>
         )}
