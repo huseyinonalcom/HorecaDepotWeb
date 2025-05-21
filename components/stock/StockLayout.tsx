@@ -165,14 +165,16 @@ export default function StockLayout({ children }: Props) {
           className={`flex w-full flex-col lg:max-w-[calc(100dvw-290px)] ${!showMenu ? "" : "hidden lg:flex"}`}
         >
           <div className="sticky top-0 left-0 z-99 mb-12 flex w-full items-center justify-between bg-black px-2 py-2 text-white lg:hidden">
-            <Image
-              width={200}
-              height={42.19}
-              priority
-              className="flex"
-              src="/assets/header/logo.svg"
-              alt="Horeca Depot Logo"
-            />
+            <Link href={"/stock"}>
+              <Image
+                width={200}
+                height={42.19}
+                priority
+                className="flex"
+                src="/assets/header/logo.svg"
+                alt="Horeca Depot Logo"
+              />
+            </Link>
             <button
               onClick={() => {
                 setShowMenu(true);
