@@ -23,11 +23,6 @@ const getDocumentProduct = async ({
     throw new Error("Failed to fetch document product");
   } else {
     const answer = await request.json();
-    console.log("---------------------------------");
-    console.log("---------------------------------");
-    console.log(`fetched document product ${JSON.stringify(answer)}`);
-    console.log("---------------------------------");
-    console.log("---------------------------------");
     return answer.data;
   }
 };
@@ -249,12 +244,6 @@ export const deleteDocumentProduct = async ({
 }) => {
   const docProd = await getDocumentProduct({ authToken, id: id });
 
-  console.log("---------------------------------");
-  console.log("---------------------------------");
-  console.log(`deleting document product ${JSON.stringify(docProd)}`);
-  console.log("---------------------------------");
-  console.log("---------------------------------");
-
   const relatedDocument = (
     await getDocuments({
       authToken,
@@ -275,12 +264,6 @@ export const deleteDocumentProduct = async ({
         id: product.id,
       })
     ).result;
-
-    console.log("---------------------------------");
-    console.log("---------------------------------");
-    console.log("adjusting stock for", product.name);
-    console.log("---------------------------------");
-    console.log("---------------------------------");
 
     if (relatedDocument.type == "Commande") {
       await updateProductStock({
