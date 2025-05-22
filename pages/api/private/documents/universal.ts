@@ -151,14 +151,16 @@ export const deleteDocument = async ({
   }
 
   try {
-    await documentToDelete.document_products.forEach(async (docProd) => {
-      await deleteDocumentProduct({ authToken, id: docProd.id });
-    });
+    await Promise.all(
+      documentToDelete.document_products.map((docProd) =>
+        deleteDocumentProduct({ authToken, id: docProd.id }),
+      ),
+    );
+
     const request = await fetch(`${fetchUrl}/${documentToDelete.id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
         Authorization: `Bearer ${authToken}`,
       },
     });
