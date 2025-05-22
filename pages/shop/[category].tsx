@@ -78,10 +78,10 @@ export default function Products(props) {
           {hasSubCategories ? (
             <>
               <Link
-                href={`/${t("locale")}/shop/${encodeURIComponent(t(category.localized_name[t("locale")]))}?page=1`}
+                href={`/${t("locale")}/shop/${encodeURIComponent(category.localized_name[t("locale")])}?page=1`}
                 className="h-full px-4 py-2 whitespace-nowrap"
               >
-                {t(category.localized_name[t("locale")])}
+                {category.localized_name[t("locale")]}
               </Link>
               <div
                 className="w-full py-3 pr-4"
@@ -99,10 +99,10 @@ export default function Products(props) {
             </>
           ) : (
             <Link
-              href={`/${t("locale")}/shop/${encodeURIComponent(t(category.localized_name[t("locale")]))}?page=1`}
+              href={`/${t("locale")}/shop/${encodeURIComponent(category.localized_name[t("locale")])}?page=1`}
               className="h-full w-full px-4 py-2 whitespace-nowrap"
             >
-              {t(category.localized_name[t("locale")])}
+              {category.localized_name[t("locale")]}
             </Link>
           )}
         </div>
@@ -160,7 +160,7 @@ export default function Products(props) {
                   {currentCategory.subCategories.map((category) => (
                     <div key={`grid1-${category.id}`} className={``}>
                       <Link
-                        href={`/shop/${t(category.localized_name[t("locale")])}?page=1`}
+                        href={`/shop/${category.localized_name[t("locale")]}?page=1`}
                         className="flex flex-col items-center gap-2"
                       >
                         <div className="relative aspect-[15/14] w-full overflow-hidden rounded-xl">
@@ -188,7 +188,7 @@ export default function Products(props) {
               )}
             <div className="flex flex-col md:flex-row">
               <h2 className="mt-2 flex w-full justify-center text-5xl font-bold">
-                {t(currentCategory?.localized_name[t("locale")] ?? "Shop")}
+                {currentCategory?.localized_name[t("locale")] ?? "Shop"}
               </h2>
               <div className="my-auto flex h-fit flex-row gap-2 pr-4 pl-4">
                 <Link
