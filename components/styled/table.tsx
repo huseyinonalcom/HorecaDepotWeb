@@ -67,7 +67,7 @@ export function TableHead({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"thead">) {
-  return <thead {...props} className={clsx(className, "text-zinc-500")} />;
+  return <thead {...props} className={clsx(className, "text-zinc-800")} />;
 }
 
 export function TableBody(props: React.ComponentPropsWithoutRef<"tbody">) {

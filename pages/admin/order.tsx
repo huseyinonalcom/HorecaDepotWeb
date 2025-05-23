@@ -10,7 +10,6 @@ import CustomTheme from "../../components/componentThemes";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import Head from "next/head";
 import {
   Table,
@@ -20,6 +19,7 @@ import {
   TableBody,
   TableCell,
 } from "../../components/styled/table";
+import Card from "../../components/universal/Card";
 
 export default function Order({ id }: { id?: number }) {
   const { t } = useTranslation("common");
@@ -85,7 +85,7 @@ export default function Order({ id }: { id?: number }) {
         <Head>
           <title>{t("order")}</title>
         </Head>
-        <div className="mx-auto w-[90vw] py-2">
+        <div className="mx-auto py-2">
           <LoadingIndicator />
         </div>
       </>
@@ -96,9 +96,7 @@ export default function Order({ id }: { id?: number }) {
         <Head>
           <title>{t("order")}</title>
         </Head>
-        <div className="mx-auto w-[90vw] py-2">
-          {t("An error has occurred.")}
-        </div>
+        <div className="mx-auto py-2">{t("An error has occurred.")}</div>
       </>
     );
   } else {
@@ -121,196 +119,175 @@ export default function Order({ id }: { id?: number }) {
         <Head>
           <title>{t("order")}</title>
         </Head>
-        <div className="w-full px-2 py-2">
-          <div className="w-full p-4 shadow-lg print:ml-0 print:p-0 print:shadow-none">
-            <div className="flex flex-row justify-between">
-              <div
-                className={`relative mt-2 hidden h-[64px] w-[358px] print:block`}
-              >
-                <Image
-                  src={"/assets/header/logo.png"}
-                  style={{ objectFit: "contain" }}
-                  fill
-                  alt="HorecaDepot Logo"
-                />
-              </div>
-              <div className="hidden flex-col pt-1 print:flex">
-                <h4 className="font-bold">Horeca Depot</h4>
-                <p className="">Rue de Ribaucourt 154</p>
-                <p className="">1080 Bruxelles, Belgique</p>
-              </div>
-              <div className="flex flex-col print:items-end">
-                <h1 className="text-2xl font-bold">{currentOrder.type}</h1>
-                <h2 className="text-xl font-bold">
-                  {currentOrder.prefix + currentOrder.number}
-                </h2>
-                <h3 className="text-lg font-bold">
-                  {formatDateAPIToBe(currentOrder.date)}
-                </h3>
-              </div>
-              <div className="flex flex-shrink-0 flex-row items-center gap-2 print:hidden">
-                {balance > 0 && (
-                  <>
-                    {verificationMessage && verificationMessage}
-
-                    {verificationRunning ? (
-                      <button
-                        className={`${CustomTheme.outlinedButton} text-xl whitespace-nowrap`}
-                      >
-                        <div className="flex w-[100px] flex-row justify-start">
-                          <TypeWriter textTypeWriter={["...."]} />
-                        </div>
-                      </button>
-                    ) : (
-                      <button
-                        className={`${CustomTheme.outlinedButton} text-xl whitespace-nowrap`}
-                        onClick={submitCheckPayment}
-                      >
-                        {t("Verify payment")}
-                      </button>
-                    )}
-                  </>
-                )}
-
-                {currentOrder && (
-                  <PDFDownloadLink
-                    fileName={currentOrder.prefix + currentOrder.number}
-                    document={<PDFInvoice invoiceDocument={currentOrder} />}
-                    className={`${componentThemes.outlinedButton} flex flex-row items-center text-xl whitespace-nowrap`}
-                  >
-                    📄 <p className="ml-1">{t("Download PDF")}</p>
-                  </PDFDownloadLink>
-                )}
-              </div>
+        <Card>
+          <div className="flex flex-row justify-between">
+            <div className="flex flex-col">
+              <h1 className="text-2xl font-bold">{currentOrder.type}</h1>
+              <h2 className="text-xl font-bold">
+                {currentOrder.prefix + currentOrder.number}
+              </h2>
+              <h3 className="text-lg font-bold">
+                {formatDateAPIToBe(currentOrder.date)}
+              </h3>
             </div>
-            <div className="flex flex-row gap-6 pt-2 print:justify-between">
-              <div className="flex flex-col">
-                {currentOrder.client.category == "Entreprise" ? (
-                  <>
-                    <h4 className="font-bold">Facturé à:</h4>
-                    <p className="">{currentOrder.client.company}</p>
-                    <p className="">{currentOrder.client.taxID}</p>
-                    <p className="">{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
-                    <p className="">{currentOrder.client.phone}</p>
-                  </>
-                ) : (
-                  <>
-                    <h4 className="font-bold">Facturé à:</h4>
-                    <p className="">{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
-                    <p className="">{currentOrder.client.phone}</p>
-                  </>
-                )}
-              </div>
-              <div className="flex flex-col">
-                <h4 className="font-bold">Addresse Facture:</h4>
-                <p className="">{`${currentOrder.docAddress.street} ${currentOrder.docAddress.doorNumber}`}</p>
-                <p className="">{`${currentOrder.docAddress.zipCode} ${currentOrder.docAddress.city}`}</p>
-                <p className="">{`${currentOrder.docAddress.province ?? ""} ${
-                  currentOrder.docAddress.country
-                }`}</p>
-                {currentOrder.docAddress.floor ? (
-                  <p className="">Étage: {currentOrder.docAddress.floor}</p>
-                ) : (
-                  <></>
-                )}
-              </div>
-              <div className="flex flex-col">
-                <h4 className="font-bold">Livraison:</h4>
-                <p className="">{`${currentOrder.delAddress.street} ${currentOrder.delAddress.doorNumber}`}</p>
-                <p className="">{`${currentOrder.delAddress.zipCode} ${currentOrder.delAddress.city}`}</p>
-                <p className="">{`${currentOrder.delAddress.province ?? ""} ${
-                  currentOrder.delAddress.country
-                }`}</p>
-                {currentOrder.delAddress.floor ? (
-                  <p className="">Étage: {currentOrder.delAddress.floor}</p>
-                ) : (
-                  <></>
-                )}
-              </div>
+            <div className="flex flex-shrink-0 flex-row items-center gap-2">
+              {balance > 0 && (
+                <>
+                  {!!verificationMessage && verificationMessage}
+
+                  {verificationRunning ? (
+                    <button
+                      className={`${CustomTheme.outlinedButton} text-xl whitespace-nowrap`}
+                    >
+                      <div className="flex w-[100px] flex-row justify-start">
+                        <TypeWriter textTypeWriter={["...."]} />
+                      </div>
+                    </button>
+                  ) : (
+                    <button
+                      className={`${CustomTheme.outlinedButton} text-xl whitespace-nowrap`}
+                      onClick={submitCheckPayment}
+                    >
+                      {t("Verify payment")}
+                    </button>
+                  )}
+                </>
+              )}
+
+              {currentOrder && (
+                <PDFDownloadLink
+                  fileName={currentOrder.prefix + currentOrder.number}
+                  document={<PDFInvoice invoiceDocument={currentOrder} />}
+                  className={`${componentThemes.outlinedButton} flex flex-row items-center text-xl whitespace-nowrap`}
+                >
+                  📄 <p className="ml-1">{t("Download PDF")}</p>
+                </PDFDownloadLink>
+              )}
             </div>
-            <Table striped>
-              <TableHead>
-                <TableRow>
-                  <TableHeader>{t("Internal Code")}</TableHeader>
-                  <TableHeader>{t("Name")}</TableHeader>
-                  <TableHeader>{t("Color")}</TableHeader>
-                  <TableHeader>{t("Quantity")}</TableHeader>
-                  <TableHeader>{t("Price")}</TableHeader>
-                  <TableHeader>{t("Discount")}</TableHeader>
-                  <TableHeader>{t("Subtotal")}</TableHeader>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {currentOrder.document_products.map((documentProduct) => (
-                  <TableRow key={documentProduct.id}>
-                    <TableCell>
-                      {documentProduct.product?.internalCode ?? ""}
-                    </TableCell>
-                    <TableCell>{documentProduct.name}</TableCell>
-                    <TableCell>
-                      {documentProduct.product?.color ?? ""}
-                    </TableCell>
-                    <TableCell align="center">
-                      {documentProduct.amount}
-                    </TableCell>
-                    <TableCell align="right">
-                      {formatCurrency(documentProduct.value)}
-                    </TableCell>
-                    <TableCell align="right">
-                      {formatCurrency(documentProduct.discount)}
-                    </TableCell>
-                    <TableCell align="right">
-                      {formatCurrency(documentProduct.subTotal)}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            <Table className="ml-auto w-fit">
-              <TableBody>
-                <TableRow>
-                  <TableCell>
-                    <b>{t("Total")}</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>
-                      {formatCurrency(
-                        currentOrder.document_products.reduce(
-                          (accumulator, currentItem) => {
-                            return accumulator + currentItem.subTotal;
-                          },
-                          0,
-                        ),
-                      )}
-                    </b>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <b>{t("To pay")}</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>
-                      {formatCurrency(
-                        currentOrder.document_products.reduce(
-                          (accumulator, currentItem) => {
-                            return accumulator + currentItem.subTotal;
-                          },
-                          0,
-                        ) -
-                          currentOrder.payments
-                            .filter((pay) => !pay.deleted && pay.verified)
-                            .reduce((accumulator, currentItem) => {
-                              return accumulator + currentItem.value;
-                            }, 0),
-                      )}
-                    </b>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
           </div>
-        </div>
+          <div className="flex flex-row gap-6 pt-2">
+            <div className="flex flex-col">
+              {currentOrder.client.category == "Entreprise" ? (
+                <>
+                  <h4 className="font-bold">Facturé à:</h4>
+                  <p className="">{currentOrder.client.company}</p>
+                  <p className="">{currentOrder.client.taxID}</p>
+                  <p className="">{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
+                  <p className="">{currentOrder.client.phone}</p>
+                </>
+              ) : (
+                <>
+                  <h4 className="font-bold">Facturé à:</h4>
+                  <p className="">{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
+                  <p className="">{currentOrder.client.phone}</p>
+                </>
+              )}
+            </div>
+            <div className="flex flex-col">
+              <h4 className="font-bold">Addresse Facture:</h4>
+              <p className="">{`${currentOrder.docAddress.street} ${currentOrder.docAddress.doorNumber}`}</p>
+              <p className="">{`${currentOrder.docAddress.zipCode} ${currentOrder.docAddress.city}`}</p>
+              <p className="">{`${currentOrder.docAddress.province ?? ""} ${
+                currentOrder.docAddress.country
+              }`}</p>
+              {currentOrder.docAddress.floor ? (
+                <p className="">Étage: {currentOrder.docAddress.floor}</p>
+              ) : (
+                <></>
+              )}
+            </div>
+            <div className="flex flex-col">
+              <h4 className="font-bold">Livraison:</h4>
+              <p className="">{`${currentOrder.delAddress.street} ${currentOrder.delAddress.doorNumber}`}</p>
+              <p className="">{`${currentOrder.delAddress.zipCode} ${currentOrder.delAddress.city}`}</p>
+              <p className="">{`${currentOrder.delAddress.province ?? ""} ${
+                currentOrder.delAddress.country
+              }`}</p>
+              {currentOrder.delAddress.floor ? (
+                <p className="">Étage: {currentOrder.delAddress.floor}</p>
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
+          <Table striped>
+            <TableHead>
+              <TableRow>
+                <TableHeader>{t("Internal Code")}</TableHeader>
+                <TableHeader>{t("Name")}</TableHeader>
+                <TableHeader>{t("Color")}</TableHeader>
+                <TableHeader>{t("Quantity")}</TableHeader>
+                <TableHeader>{t("Price")}</TableHeader>
+                <TableHeader>{t("Discount")}</TableHeader>
+                <TableHeader>{t("Subtotal")}</TableHeader>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {currentOrder.document_products.map((documentProduct) => (
+                <TableRow key={documentProduct.id}>
+                  <TableCell>
+                    {documentProduct.product?.internalCode ?? ""}
+                  </TableCell>
+                  <TableCell>{documentProduct.name}</TableCell>
+                  <TableCell>{documentProduct.product?.color ?? ""}</TableCell>
+                  <TableCell align="center">{documentProduct.amount}</TableCell>
+                  <TableCell align="right">
+                    {formatCurrency(documentProduct.value)}
+                  </TableCell>
+                  <TableCell align="right">
+                    {formatCurrency(documentProduct.discount)}
+                  </TableCell>
+                  <TableCell align="right">
+                    {formatCurrency(documentProduct.subTotal)}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <Table className="ml-auto w-fit">
+            <TableBody>
+              <TableRow>
+                <TableCell>
+                  <b>{t("Total")}</b>
+                </TableCell>
+                <TableCell>
+                  <b>
+                    {formatCurrency(
+                      currentOrder.document_products.reduce(
+                        (accumulator, currentItem) => {
+                          return accumulator + currentItem.subTotal;
+                        },
+                        0,
+                      ),
+                    )}
+                  </b>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <b>{t("To pay")}</b>
+                </TableCell>
+                <TableCell>
+                  <b>
+                    {formatCurrency(
+                      currentOrder.document_products.reduce(
+                        (accumulator, currentItem) => {
+                          return accumulator + currentItem.subTotal;
+                        },
+                        0,
+                      ) -
+                        currentOrder.payments
+                          .filter((pay) => !pay.deleted && pay.verified)
+                          .reduce((accumulator, currentItem) => {
+                            return accumulator + currentItem.value;
+                          }, 0),
+                    )}
+                  </b>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </Card>
       </>
     );
   }
