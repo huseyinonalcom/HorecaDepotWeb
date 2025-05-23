@@ -967,7 +967,7 @@ export default function Checkout() {
                   </p>
                 </div>
                 <div>
-                  <p className="">
+                  <p >
                     {t("wrong_user", {
                       userName: `${client.client_info.firstName} ${client.client_info.lastName}`,
                     })}

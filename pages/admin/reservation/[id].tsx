@@ -173,28 +173,28 @@ export default function Reservation({
                 {currentReservation.client.category == "Entreprise" ? (
                   <>
                     <h4 className="font-bold">Facturé à:</h4>
-                    <p className="">{currentReservation.client.company}</p>
-                    <p className="">{currentReservation.client.taxID}</p>
-                    <p className="">{`${currentReservation.client.firstName} ${currentReservation.client.lastName}`}</p>
-                    <p className="">{currentReservation.client.phone}</p>
+                    <p >{currentReservation.client.company}</p>
+                    <p >{currentReservation.client.taxID}</p>
+                    <p >{`${currentReservation.client.firstName} ${currentReservation.client.lastName}`}</p>
+                    <p >{currentReservation.client.phone}</p>
                   </>
                 ) : (
                   <>
                     <h4 className="font-bold">Facturé à:</h4>
-                    <p className="">{`${currentReservation.client.firstName} ${currentReservation.client.lastName}`}</p>
-                    <p className="">{currentReservation.client.phone}</p>
+                    <p >{`${currentReservation.client.firstName} ${currentReservation.client.lastName}`}</p>
+                    <p >{currentReservation.client.phone}</p>
                   </>
                 )}
               </div>
               {/*  <div className="flex flex-col">
                 <h4 className="font-bold">Addresse Facture:</h4>
-                <p className="">{`${currentReservation.docAddress.street} ${currentReservation.docAddress.doorNumber}`}</p>
-                <p className="">{`${currentReservation.docAddress.zipCode} ${currentReservation.docAddress.city}`}</p>
-                <p className="">{`${currentReservation.docAddress.province ?? ""} ${
+                <p >{`${currentReservation.docAddress.street} ${currentReservation.docAddress.doorNumber}`}</p>
+                <p >{`${currentReservation.docAddress.zipCode} ${currentReservation.docAddress.city}`}</p>
+                <p >{`${currentReservation.docAddress.province ?? ""} ${
                   currentReservation.docAddress.country
                 }`}</p>
                 {currentReservation.docAddress.floor ? (
-                  <p className="">
+                  <p >
                     Étage: {currentReservation.docAddress.floor}
                   </p>
                 ) : (
@@ -203,13 +203,13 @@ export default function Reservation({
               </div>
               <div className="flex flex-col">
                 <h4 className="font-bold">Livraison:</h4>
-                <p className="">{`${currentReservation.delAddress.street} ${currentReservation.delAddress.doorNumber}`}</p>
-                <p className="">{`${currentReservation.delAddress.zipCode} ${currentReservation.delAddress.city}`}</p>
-                <p className="">{`${currentReservation.delAddress.province ?? ""} ${
+                <p >{`${currentReservation.delAddress.street} ${currentReservation.delAddress.doorNumber}`}</p>
+                <p >{`${currentReservation.delAddress.zipCode} ${currentReservation.delAddress.city}`}</p>
+                <p >{`${currentReservation.delAddress.province ?? ""} ${
                   currentReservation.delAddress.country
                 }`}</p>
                 {currentReservation.delAddress.floor ? (
-                  <p className="">
+                  <p >
                     Étage: {currentReservation.delAddress.floor}
                   </p>
                 ) : (

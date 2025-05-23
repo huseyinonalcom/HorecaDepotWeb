@@ -214,28 +214,28 @@ export default function Order() {
                   {currentOrder.client.category == "Entreprise" ? (
                     <>
                       <h4 className=" font-bold">{t("invoiced_to")}:</h4>
-                      <p className="">{currentOrder.client.company}</p>
-                      <p className="">{currentOrder.client.taxID}</p>
-                      <p className="">{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
-                      <p className="">{currentOrder.client.phone}</p>
+                      <p >{currentOrder.client.company}</p>
+                      <p >{currentOrder.client.taxID}</p>
+                      <p >{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
+                      <p >{currentOrder.client.phone}</p>
                     </>
                   ) : (
                     <>
                       <h4 className=" font-bold">{t("invoiced_to")}:</h4>
-                      <p className="">{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
-                      <p className="">{currentOrder.client.phone}</p>
+                      <p >{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
+                      <p >{currentOrder.client.phone}</p>
                     </>
                   )}
                 </div>
                 <div className="flex flex-col">
                   <h4 className=" font-bold">{t("invoiced_address")}:</h4>
-                  <p className="">{`${currentOrder.docAddress.street} ${currentOrder.docAddress.doorNumber}`}</p>
-                  <p className="">{`${currentOrder.docAddress.zipCode} ${currentOrder.docAddress.city}`}</p>
-                  <p className="">{`${currentOrder.docAddress.province ?? ""} ${
+                  <p >{`${currentOrder.docAddress.street} ${currentOrder.docAddress.doorNumber}`}</p>
+                  <p >{`${currentOrder.docAddress.zipCode} ${currentOrder.docAddress.city}`}</p>
+                  <p >{`${currentOrder.docAddress.province ?? ""} ${
                     currentOrder.docAddress.country
                   }`}</p>
                   {currentOrder.docAddress.floor ? (
-                    <p className="">
+                    <p >
                       {t("floor")}: {currentOrder.docAddress.floor}
                     </p>
                   ) : (
@@ -244,13 +244,13 @@ export default function Order() {
                 </div>
                 <div className="flex flex-col">
                   <h4 className=" font-bold">{t("delivery")}:</h4>
-                  <p className="">{`${currentOrder.delAddress.street} ${currentOrder.delAddress.doorNumber}`}</p>
-                  <p className="">{`${currentOrder.delAddress.zipCode} ${currentOrder.delAddress.city}`}</p>
-                  <p className="">{`${currentOrder.delAddress.province ?? ""} ${
+                  <p >{`${currentOrder.delAddress.street} ${currentOrder.delAddress.doorNumber}`}</p>
+                  <p >{`${currentOrder.delAddress.zipCode} ${currentOrder.delAddress.city}`}</p>
+                  <p >{`${currentOrder.delAddress.province ?? ""} ${
                     currentOrder.delAddress.country
                   }`}</p>
                   {currentOrder.delAddress.floor ? (
-                    <p className="">
+                    <p >
                       {t("floor")}: {currentOrder.delAddress.floor}
                     </p>
                   ) : (

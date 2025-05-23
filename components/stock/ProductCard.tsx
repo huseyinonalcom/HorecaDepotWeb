@@ -123,7 +123,7 @@ export default function ProductCard({ product }: { product: any }) {
           <p className="peer-hover:bg-blue-200 peer-focus:bg-blue-400">
             {product.supplierCode}
           </p>
-          <p className="">{"EAN : "}</p>
+          <p >{"EAN : "}</p>
         </div>
         <PDFDownloadLink
           fileName={`${product.supplierCode}.pdf`}

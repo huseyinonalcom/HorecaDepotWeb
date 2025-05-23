@@ -95,7 +95,7 @@ const CollectionPreview = ({ collection }: Props) => {
         </div>
       </div>
       <div className="flex flex-col">
-        <p className="">{collection.description}</p>
+        <p >{collection.description}</p>
         <div className="flex flex-row">
           <div className="relative h-[130px] w-[130px]">
             {collectionImages.length > 0 ? (
