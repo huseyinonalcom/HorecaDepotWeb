@@ -60,47 +60,6 @@ export default function Products(props) {
   const iconClass = "flex-shrink-0";
   const textClass = "mx-2 font-bold text-left";
 
-  const getPageNumbers = () => {
-    let pages = [];
-    let startPage, endPage;
-
-    if (totalPages <= 6) {
-      startPage = 1;
-      endPage = totalPages;
-    } else {
-      if (currentPage <= 4) {
-        startPage = 1;
-        endPage = 5;
-      } else if (currentPage + 2 >= totalPages) {
-        startPage = totalPages - 4;
-        endPage = totalPages;
-      } else {
-        startPage = currentPage - 2;
-        endPage = currentPage + 2;
-      }
-    }
-
-    if (startPage > 1) {
-      pages.push(1);
-      if (startPage > 2) {
-        pages.push("...");
-      }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(i);
-    }
-
-    if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        pages.push("...");
-      }
-      pages.push(totalPages);
-    }
-
-    return pages;
-  };
-
   const CategoryItem = ({ category }) => {
     const [isHovered, setisHovered] = useState(false);
     const hasSubCategories =
@@ -458,9 +417,7 @@ export default function Products(props) {
                 }
               >
                 <FiArrowUp
-                  height={36}
-                  width={36}
-                  className={`border-2 border-blue-500 bg-white p-1 duration-500 ${
+                  className={`h-9 w-9 border-2 border-blue-500 bg-white p-1 duration-500 ${
                     currentSortDirection == "asc" ? "rotate-0" : "rotate-180"
                   }`}
                 />
