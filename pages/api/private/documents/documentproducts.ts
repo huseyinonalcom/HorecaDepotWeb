@@ -66,7 +66,7 @@ export const createDocumentProduct = async ({
           reserved: Math.max(Number(productStock.reserved), 0),
           stock: {
             store: productStock.stock.store,
-            warehouse: productStock.stock.warehouse - docProd.amount,
+            warehouse: productStock.stock.warehouse,
           },
         },
         id: product.id,
@@ -167,10 +167,7 @@ export const updateDocumentProduct = async ({
           reserved: Math.max(Number(productStock.reserved), 0),
           stock: {
             store: Number(productStock.stock.store),
-            warehouse:
-              Number(productStock.stock.warehouse) -
-              Number(docProd.amount) +
-              Number(originalDocumentProduct.amount),
+            warehouse: Number(productStock.stock.warehouse),
           },
         },
         id: product.id,
@@ -187,8 +184,7 @@ export const updateDocumentProduct = async ({
           ),
           stock: {
             store: Number(productStock.stock.store),
-            warehouse:
-              Number(productStock.stock.warehouse),
+            warehouse: Number(productStock.stock.warehouse),
           },
         },
         id: product.id,
@@ -270,7 +266,7 @@ export const deleteDocumentProduct = async ({
           reserved: Math.max(Number(productStock.reserved), 0),
           stock: {
             store: productStock.stock.store,
-            warehouse: productStock.stock.warehouse + docProd.amount,
+            warehouse: productStock.stock.warehouse,
           },
         },
         id: product.id,
