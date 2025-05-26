@@ -463,5 +463,6 @@
   "delete-banner-confirm": "Bestätigen Sie, dass Sie dieses Banner löschen möchten.",
   "reservation": "Reservierung",
   "date": "Datum",
-  "total": "Gesamt"
+  "total": "Gesamt",
+  "user-reservation": "Reserviert von"
 }

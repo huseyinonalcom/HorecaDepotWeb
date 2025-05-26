@@ -463,5 +463,6 @@
   "delete-banner-confirm": "Bevestig dat u deze banner wilt verwijderen.",
   "reservation": "Reservatie",
   "date": "Datum",
-  "total": "Totaal"
+  "total": "Totaal",
+  "user-reservation": "Gereserveerd door"
 }

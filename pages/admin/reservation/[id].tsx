@@ -306,55 +306,61 @@ export default function Reservation({
                 ))}
               </TableBody>
             </Table>
-            <Table className="ml-auto w-fit">
-              <TableBody>
-                <TableRow>
-                  <TableCell>
-                    <b>{t("Total")}</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>
-                      {formatCurrency(
-                        currentReservation.document_products.reduce(
-                          (accumulator, currentItem) => {
-                            return (
-                              accumulator +
-                              currentItem.value * currentItem.amount
-                            );
-                          },
-                          0,
-                        ),
-                      )}
-                    </b>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <b>{t("To pay")}</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>
-                      {formatCurrency(
-                        currentReservation.document_products.reduce(
-                          (accumulator, currentItem) => {
-                            return (
-                              accumulator +
-                              currentItem.value * currentItem.amount
-                            );
-                          },
-                          0,
-                        ) -
-                          currentReservation.payments
-                            .filter((pay) => !pay.deleted && pay.verified)
-                            .reduce((accumulator, currentItem) => {
-                              return accumulator + currentItem.value;
-                            }, 0),
-                      )}
-                    </b>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+            <div className="flex flex-row items-end justify-between">
+              <p>
+                {t("user-reservation")}:
+                {` ${currentReservation.user?.firstName ?? ""} ${currentReservation.user?.lastName ?? ""}`}
+              </p>
+              <Table className="w-fit">
+                <TableBody>
+                  <TableRow>
+                    <TableCell>
+                      <b>{t("Total")}</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>
+                        {formatCurrency(
+                          currentReservation.document_products.reduce(
+                            (accumulator, currentItem) => {
+                              return (
+                                accumulator +
+                                currentItem.value * currentItem.amount
+                              );
+                            },
+                            0,
+                          ),
+                        )}
+                      </b>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <b>{t("To pay")}</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>
+                        {formatCurrency(
+                          currentReservation.document_products.reduce(
+                            (accumulator, currentItem) => {
+                              return (
+                                accumulator +
+                                currentItem.value * currentItem.amount
+                              );
+                            },
+                            0,
+                          ) -
+                            currentReservation.payments
+                              .filter((pay) => !pay.deleted && pay.verified)
+                              .reduce((accumulator, currentItem) => {
+                                return accumulator + currentItem.value;
+                              }, 0),
+                        )}
+                      </b>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
           </div>
         </div>
       </>

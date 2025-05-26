@@ -9,7 +9,7 @@ import {
 const fetchUrl = `${apiUrl}/api/documents`;
 
 const fetchParams =
-  "populate[document_products][fields]=*&populate[client][fields]=*&populate[establishment][fields]=*&populate[delAddress][fields]=*&populate[docAddress][fields]=*&populate[docAddress][fields]=*&populate[payments][fields]=*&populate[document_products][populate][0]=product&populate[document_products][populate][product][populate][0]=product_extra";
+  "populate[user][fields]=*&populate[document_products][fields]=*&populate[client][fields]=*&populate[establishment][fields]=*&populate[delAddress][fields]=*&populate[docAddress][fields]=*&populate[docAddress][fields]=*&populate[payments][fields]=*&populate[document_products][populate][0]=product&populate[document_products][populate][product][populate][0]=product_extra";
 
 export const getDocuments = async ({
   id,

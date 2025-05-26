@@ -463,5 +463,6 @@
   "delete-banner-confirm": "Confirmez que vous souhaitez supprimer cette bannière.",
   "reservation": "Réservation",
   "date": "Date",
-  "total": "Total"
+  "total": "Total",
+  "user-reservation": "Réservé par"
 }

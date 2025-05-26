@@ -463,5 +463,6 @@
   "delete-banner-confirm": "Confirm that you wish to delete this banner.",
   "reservation": "Reservation",
   "date": "Date",
-  "total": "Total"
+  "total": "Total",
+  "user-reservation": "Reserved by"
 }
