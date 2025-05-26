@@ -175,21 +175,15 @@ export default function Reservation({
             </div>
             <div className="flex flex-row gap-6 pt-2">
               <div className="flex flex-col">
-                {currentReservation.client.category == "Entreprise" ? (
+                <h4 className="font-bold">{t("invoiced-to")}:</h4>
+                {currentReservation.client.category == "Entreprise" && (
                   <>
-                    <h4 className="font-bold">Facturé à:</h4>
                     <p>{currentReservation.client.company}</p>
                     <p>{currentReservation.client.taxID}</p>
-                    <p>{`${currentReservation.client.firstName} ${currentReservation.client.lastName}`}</p>
-                    <p>{currentReservation.client.phone}</p>
-                  </>
-                ) : (
-                  <>
-                    <h4 className="font-bold">Facturé à:</h4>
-                    <p>{`${currentReservation.client.firstName} ${currentReservation.client.lastName}`}</p>
-                    <p>{currentReservation.client.phone}</p>
                   </>
                 )}
+                <p>{`${currentReservation.client.firstName} ${currentReservation.client.lastName}`}</p>
+                <p>{currentReservation.client.phone}</p>
               </div>
               {/*  <div className="flex flex-col">
                 <h4 className="font-bold">Addresse Facture:</h4>
