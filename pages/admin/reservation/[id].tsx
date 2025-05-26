@@ -327,31 +327,6 @@ export default function Reservation({
                       </b>
                     </TableCell>
                   </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <b>{t("To pay")}</b>
-                    </TableCell>
-                    <TableCell>
-                      <b>
-                        {formatCurrency(
-                          currentReservation.document_products.reduce(
-                            (accumulator, currentItem) => {
-                              return (
-                                accumulator +
-                                currentItem.value * currentItem.amount
-                              );
-                            },
-                            0,
-                          ) -
-                            currentReservation.payments
-                              .filter((pay) => !pay.deleted && pay.verified)
-                              .reduce((accumulator, currentItem) => {
-                                return accumulator + currentItem.value;
-                              }, 0),
-                        )}
-                      </b>
-                    </TableCell>
-                  </TableRow>
                 </TableBody>
               </Table>
             </div>
