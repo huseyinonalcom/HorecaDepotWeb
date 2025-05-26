@@ -69,7 +69,7 @@ export default function Orders({ href }: { href: string }) {
                   </p>
                 </TableCell>
                 <TableCell>
-                  {`${order.client.firstName} ${order.client.lastName}`}
+                  {`${order.client?.firstName ?? ""} ${order.client?.lastName ?? ""}`}
                 </TableCell>
                 <TableCell>
                   €{" "}
@@ -174,5 +174,7 @@ export default function Orders({ href }: { href: string }) {
 
 Orders.getLayout = function getLayout(children) {
   const { t } = useTranslation("common");
-  return <AdminPanelLayout title={t("reservations")}>{children}</AdminPanelLayout>;
+  return (
+    <AdminPanelLayout title={t("reservations")}>{children}</AdminPanelLayout>
+  );
 };

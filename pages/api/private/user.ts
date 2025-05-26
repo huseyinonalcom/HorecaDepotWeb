@@ -3,7 +3,7 @@ import apiRoute from "../../../api/api/apiRoute";
 
 const fetchUrl = `${process.env.API_URL}/api/users`;
 
-const fetchParams = "populate=user_info,client_info";
+const fetchParams = "populate=user_info,client_info,role";
 
 export const getUser = async ({
   id,

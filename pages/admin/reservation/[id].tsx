@@ -25,15 +25,18 @@ import {
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import Head from "next/head";
+import { getUser } from "../../api/private/user";
 
 export default function Reservation({
   id,
   backUrl,
   reservation,
+  role,
 }: {
   id?: number;
   backUrl?: string;
   reservation?: any;
+  role?: string;
 }) {
   const { t } = useTranslation("common");
   const router = useRouter();
@@ -116,7 +119,7 @@ export default function Reservation({
                     {currentReservation.type}
                   </h1>
                   <div className="flex flex-row gap-2">
-                    {editMode && (
+                    {editMode && role == "admin" && (
                       <>
                         <Button
                           onClick={() => {
@@ -146,18 +149,20 @@ export default function Reservation({
                         </Button>
                       </>
                     )}
-                    <Button
-                      onClick={() => {
-                        setEditMode((prev) => !prev);
-                        editMode ? submitEditedReservation() : {};
-                      }}
-                    >
-                      {editMode ? (
-                        <CheckIcon style={{ color: "#00FF00" }} />
-                      ) : (
-                        <PencilIcon style={{ color: "white" }} />
-                      )}
-                    </Button>
+                    {role == "admin" && (
+                      <Button
+                        onClick={() => {
+                          setEditMode((prev) => !prev);
+                          editMode ? submitEditedReservation() : {};
+                        }}
+                      >
+                        {editMode ? (
+                          <CheckIcon style={{ color: "#00FF00" }} />
+                        ) : (
+                          <PencilIcon style={{ color: "white" }} />
+                        )}
+                      </Button>
+                    )}
                   </div>
                 </div>
                 <h2 className="text-xl font-bold">
@@ -173,16 +178,16 @@ export default function Reservation({
                 {currentReservation.client.category == "Entreprise" ? (
                   <>
                     <h4 className="font-bold">Facturé à:</h4>
-                    <p >{currentReservation.client.company}</p>
-                    <p >{currentReservation.client.taxID}</p>
-                    <p >{`${currentReservation.client.firstName} ${currentReservation.client.lastName}`}</p>
-                    <p >{currentReservation.client.phone}</p>
+                    <p>{currentReservation.client.company}</p>
+                    <p>{currentReservation.client.taxID}</p>
+                    <p>{`${currentReservation.client.firstName} ${currentReservation.client.lastName}`}</p>
+                    <p>{currentReservation.client.phone}</p>
                   </>
                 ) : (
                   <>
                     <h4 className="font-bold">Facturé à:</h4>
-                    <p >{`${currentReservation.client.firstName} ${currentReservation.client.lastName}`}</p>
-                    <p >{currentReservation.client.phone}</p>
+                    <p>{`${currentReservation.client.firstName} ${currentReservation.client.lastName}`}</p>
+                    <p>{currentReservation.client.phone}</p>
                   </>
                 )}
               </div>
@@ -391,9 +396,22 @@ export async function getServerSideProps(context) {
     });
   }
 
+  let role;
+
+  try {
+    const userRole = (await getUser({ authToken: req.cookies.j, self: true }))
+      .role.type;
+    if (userRole == "tier_9") {
+      role = "admin";
+    }
+  } catch (e) {
+    role = "unauthorized";
+  }
+
   return {
     props: {
       reservation,
+      role,
     },
   };
 }
