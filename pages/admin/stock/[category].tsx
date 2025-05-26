@@ -461,7 +461,7 @@ export default function Products(props) {
                 <TableRow>
                   <TableHeader></TableHeader>
                   <TableHeader>{t("Name")}</TableHeader>
-                  <TableHeader>{t("Code")}</TableHeader>
+                  <TableHeader>{t("code")}</TableHeader>
                   <TableHeader>{t("EAN")}</TableHeader>
                   <TableHeader>{t("Price")}</TableHeader>
                   <TableHeader>{t("Stock")}</TableHeader>

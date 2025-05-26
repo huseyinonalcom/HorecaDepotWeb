@@ -564,9 +564,15 @@ export default function ProductPage(props) {
         <Input
           label={t("reserved")}
           type="number"
+          required
           name="reserved"
-          value={currentProduct?.reserved}
-          readOnly
+          value={currentProduct?.reserved ?? "0"}
+          onChange={(e) => {
+            setCurrentProduct((pp) => ({
+              ...pp,
+              reserved: e.target.value,
+            }));
+          }}
         />
       </FieldGroup>
     </Fieldset>

@@ -197,6 +197,13 @@ const updateProductMain = async (
     };
   }
 
+  if (prodToPost.reserved != null && prodToPost.reserved != undefined) {
+    body.data = {
+      ...body.data,
+      reserved: prodToPost.reserved ?? 0,
+    };
+  }
+
   const response = await fetch(
     `${process.env.API_URL}/api/products/${prodID}`,
     {

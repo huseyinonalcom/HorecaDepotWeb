@@ -36,6 +36,7 @@ export interface Product {
   categories?: Category[];
   supplier?: any;
   imageDirections?: any;
+  reserved?: number;
 }
 
 export class ProductConversion {
