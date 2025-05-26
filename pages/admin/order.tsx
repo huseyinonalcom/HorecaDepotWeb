@@ -8,9 +8,9 @@ import TypeWriter from "../../components/common/typewriter";
 import useTranslation from "next-translate/useTranslation";
 import CustomTheme from "../../components/componentThemes";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import Card from "../../components/universal/Card";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Head from "next/head";
 import {
   Table,
   TableHead,
@@ -19,7 +19,7 @@ import {
   TableBody,
   TableCell,
 } from "../../components/styled/table";
-import Card from "../../components/universal/Card";
+import Head from "next/head";
 
 export default function Order({ id }: { id?: number }) {
   const { t } = useTranslation("common");
