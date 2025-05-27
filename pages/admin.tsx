@@ -35,7 +35,7 @@ export default function Admin() {
   }, []);
 
   const handleKeyPress = (event) => {
-    if (event.key === "Enter" && event.target.id === "username") {
+    if (event.key === "Enter") {
       event.preventDefault();
       goToPassword();
     }
@@ -136,6 +136,7 @@ export default function Admin() {
           <Field>
             <Label>{t("password")}</Label>
             <Input
+              onSubmit={handleSubmit}
               type="password"
               name="password"
               ref={passwordInput}

@@ -77,7 +77,13 @@ export const Input = forwardRef(function Input(
             ref={ref}
             {...props}
             onKeyDown={(e) => {
-              if (e.key === "Enter") e.preventDefault();
+              if (!props.onSubmit && !props.onKeyDown) {
+                if (e.key === "Enter") e.preventDefault();
+              } else {
+                if (props.onKeyDown) {
+                  props.onKeyDown(e);
+                }
+              }
             }}
             className={clsx([
               // Date classes
