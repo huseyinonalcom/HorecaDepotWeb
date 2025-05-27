@@ -1,19 +1,19 @@
-import { Strong, Text } from "../components/styled/text";
 import { AuthLayout } from "../components/styled/auth-layout";
 import { Field, Label } from "../components/styled/fieldset";
 import useTranslation from "next-translate/useTranslation";
+import { Strong, Text } from "../components/styled/text";
 import { Button } from "../components/styled/button";
 import { useState, useEffect, useRef } from "react";
 import { Input } from "../components/styled/input";
 import { useRouter } from "next/router";
-import Image from "next/image";
-import Head from "next/head";
 import {
   Dialog,
   DialogActions,
   DialogBody,
   DialogTitle,
 } from "../components/styled/dialog";
+import Image from "next/image";
+import Head from "next/head";
 
 export default function Admin() {
   const [error, setError] = useState("");
