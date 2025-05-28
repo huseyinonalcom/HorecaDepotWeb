@@ -203,7 +203,13 @@ export default function StockLayout({ children }: Props) {
           {children}
         </main>
       </div>
-      <StockCart showCart={showCart} onClose={() => setShowCart(false)} />
+      <StockCart
+        showCart={showCart}
+        onClose={() => {
+          setShowCart(false);
+          setShowMenu(false);
+        }}
+      />
     </main>
   );
 }
