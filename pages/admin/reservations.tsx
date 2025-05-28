@@ -19,6 +19,7 @@ import {
   TableRow,
 } from "../../components/styled/table";
 import Head from "next/head";
+import Card from "../../components/universal/Card";
 
 export default function Orders({ href }: { href: string }) {
   const { t } = useTranslation("common");
@@ -48,7 +49,7 @@ export default function Orders({ href }: { href: string }) {
       <Head>
         <title>{t("reservations")}</title>
       </Head>
-      <div className="rounded-md bg-white p-4 shadow-sm">
+      <Card>
         <Table striped>
           <TableHead>
             <TableRow>
@@ -167,7 +168,7 @@ export default function Orders({ href }: { href: string }) {
             <p className="text-black">{t("next")}</p>
           </PaginationNext>
         </Pagination>
-      </div>
+      </Card>
     </>
   );
 }
