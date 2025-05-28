@@ -6,7 +6,6 @@ import { ProductExtra } from "./productExtra";
 import { Shelf } from "./shelf";
 
 export interface Product {
-  reservations?: any;
   id?: number;
   name?: string;
   active?: boolean;

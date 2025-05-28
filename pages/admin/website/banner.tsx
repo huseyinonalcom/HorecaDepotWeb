@@ -1,52 +1,48 @@
+import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import componentThemes from "../../../components/componentThemes";
 import InputOutlined from "../../../components/inputs/outlined";
 import useTranslation from "next-translate/useTranslation";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Head from "next/head";
-import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
+
+const fetchBanners = async () => {
+  const fetchWebsiteRequest = await fetch(`/api/private/top-banners`, {
+    method: "GET",
+  });
+  if (fetchWebsiteRequest.ok) {
+    const fetchWebsiteRequestAnswer = await fetchWebsiteRequest.json();
+    return fetchWebsiteRequestAnswer;
+  } else {
+    return null;
+  }
+};
+
+const putBanners = async ({ banner }) => {
+  const putWebsiteRequest = await fetch("/api/private/top-banners", {
+    method: "PUT",
+    body: JSON.stringify({
+      url: banner.url,
+      content: banner.content,
+    }),
+  });
+  if (putWebsiteRequest.ok) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 export default function BannerAdmin() {
-  const router = useRouter();
-  const { t, lang } = useTranslation("common");
   const [banner, setBanner] = useState(null);
+  const { t } = useTranslation("common");
 
-  const fetchBanners = async () => {
-    const fetchWebsiteRequest = await fetch(
-      `/api/banners/getbanners?fresh=true`,
-      {
-        method: "GET",
-      },
-    );
-    if (fetchWebsiteRequest.ok) {
-      const fetchWebsiteRequestAnswer = await fetchWebsiteRequest.json();
-      return fetchWebsiteRequestAnswer;
-    } else {
-      return null;
-    }
-  };
-
-  const putBanners = async () => {
-    const putWebsiteRequest = await fetch("/api/banners/putbanners", {
-      method: "PUT",
-      body: JSON.stringify({
-        url: banner.url,
-        content: banner.content,
-      }),
-    });
-    if (putWebsiteRequest.ok) {
-      router.push("/admin/website");
-      return true;
-    } else {
-      return false;
-    }
-  };
   const fetchData = async () => {
     const response = await fetchBanners();
     if (response) {
       setBanner(response[0]);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -122,7 +118,11 @@ export default function BannerAdmin() {
 
               <button
                 onClick={() => {
-                  putBanners();
+                  putBanners({ banner }).then((res) => {
+                    if (res) {
+                      alert(t("banner-updated"));
+                    }
+                  });
                 }}
                 className={componentThemes.outlinedButton}
               >

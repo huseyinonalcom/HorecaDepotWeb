@@ -1,5 +1,4 @@
 import { WishlistContext } from "../../api/providers/wishlistProvider";
-import { BannerContext } from "../../api/providers/bannerProdiver";
 import { useContext, useEffect, useRef, useState } from "react";
 import { CartContext } from "../../api/providers/cartProvider";
 import ProductPreview3 from "../products/product-preview3";
@@ -839,7 +838,7 @@ const Header = () => {
   const [allCategories, setAllCategories] = useState([]);
   const { cart, calculateTotal } = useContext(CartContext);
   const [showCategories, setShowCategories] = useState(false);
-  const { banners } = useContext(BannerContext);
+  const [banners, setBanners] = useState([]);
 
   const { t, lang } = useTranslation("common");
 
@@ -872,8 +871,15 @@ const Header = () => {
     } catch (error) {}
   };
 
+  const fetchBanners = async () => {
+    const banners = await fetch("/api/private/top-banners");
+    const answer = await banners.json();
+    setBanners(answer.result);
+  };
+
   useEffect(() => {
     fetchCategories();
+    fetchBanners();
   }, []);
 
   useEffect(() => {

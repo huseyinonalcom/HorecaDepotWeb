@@ -100,8 +100,7 @@ export default function ProductCard({ product }: { product: any }) {
           {product.shelves.reduce((acc, shelf) => acc + shelf.stock, 0)}
         </p>
         <p>
-          <b>{t("reserved")}:</b>{" "}
-          {product.reservations.reduce((acc, res) => acc + res.amount, 0)}
+          <b>{t("reserved")}:</b> {product.reserved ?? 0}
         </p>
       </div>
       <div className="flex w-full flex-shrink-0 flex-col items-start lg:w-[314px] lg:items-end">
@@ -123,7 +122,7 @@ export default function ProductCard({ product }: { product: any }) {
           <p className="peer-hover:bg-blue-200 peer-focus:bg-blue-400">
             {product.supplierCode}
           </p>
-          <p >{"EAN : "}</p>
+          <p>{"EAN : "}</p>
         </div>
         <PDFDownloadLink
           fileName={`${product.supplierCode}.pdf`}

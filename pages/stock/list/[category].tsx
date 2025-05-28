@@ -114,8 +114,7 @@ export default function Stock() {
       <div className="flex w-full flex-col items-center gap-1 p-2">
         <div className="flex w-full flex-col items-start gap-2 rounded-md border-2 border-gray-300 bg-white p-4 shadow-sm">
           <div className="flex h-full flex-row items-center pl-4 font-bold text-black">
-            {t("Category")}:{" "}
-            {currentCategory?.localized_name?.[lang] ?? "All"}
+            {t("Category")}: {currentCategory?.localized_name?.[lang] ?? "All"}
           </div>
           <div className="flex flex-row items-center gap-2">
             <form
