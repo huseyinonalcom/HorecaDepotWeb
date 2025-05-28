@@ -465,5 +465,6 @@
   "date": "Datum",
   "total": "Totaal",
   "user-reservation": "Gereserveerd door",
-  "invoiced-to": "Gefactureerd aan"
+  "invoiced-to": "Gefactureerd aan",
+  "note": "Notitie"
 }

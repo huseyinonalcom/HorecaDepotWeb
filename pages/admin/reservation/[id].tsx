@@ -26,6 +26,7 @@ import {
 import { useState } from "react";
 import Head from "next/head";
 import { getUser } from "../../api/private/user";
+import { Textarea } from "../../../components/styled/textarea";
 
 export default function Reservation({
   id,
@@ -300,11 +301,24 @@ export default function Reservation({
                 ))}
               </TableBody>
             </Table>
-            <div className="flex flex-row items-end justify-between">
-              <p>
-                {t("user-reservation")}:
-                {` ${currentReservation.user?.firstName ?? ""} ${currentReservation.user?.lastName ?? ""}`}
-              </p>
+            <div className="flex w-full flex-col-reverse items-end justify-between lg:flex-row">
+              <div className="w-full">
+                <p>
+                  {t("user-reservation")}:
+                  {` ${currentReservation.user?.firstName ?? ""} ${currentReservation.user?.lastName ?? ""}`}
+                </p>
+                <Textarea
+                  className="w-full lg:w-[300px]"
+                  value={currentReservation.note}
+                  readOnly={!editMode}
+                  onChange={(e) =>
+                    setCurrentReservation((prev) => ({
+                      ...prev,
+                      note: e.target.value,
+                    }))
+                  }
+                />
+              </div>
               <Table className="w-fit">
                 <TableBody>
                   <TableRow>

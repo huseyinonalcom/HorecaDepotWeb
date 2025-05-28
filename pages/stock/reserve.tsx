@@ -27,6 +27,7 @@ import {
   DialogTitle,
 } from "../../components/styled/dialog";
 import { useRouter } from "next/router";
+import { Textarea } from "../../components/styled/textarea";
 
 const emptyAddress = {
   country: "",
@@ -89,6 +90,8 @@ export default function Reserve() {
     },
   });
 
+  const [note, setNote] = useState("");
+
   const [showCustomerSelector, setShowCustomerSelector] = useState(false);
 
   const submitReservation = async (e) => {
@@ -99,6 +102,7 @@ export default function Reserve() {
         type: "Reservation",
         customer: customer,
         documentProducts: cart,
+        note,
       },
     };
 
@@ -366,6 +370,13 @@ export default function Reserve() {
                     },
                   }))
                 }
+              />
+            </Fieldset>
+            <Fieldset>
+              <Legend>{t("note")}</Legend>
+              <Textarea
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
               />
             </Fieldset>
             {/*   <Fieldset>
