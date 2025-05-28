@@ -466,5 +466,6 @@
   "total": "Gesamt",
   "user-reservation": "Reserviert von",
   "invoiced-to": "Rechnung an",
-  "note": "Notiz"
+  "note": "Notiz",
+  "delivery-date": "Lieferdatum"
 }

@@ -28,6 +28,7 @@ import {
 } from "../../components/styled/dialog";
 import { useRouter } from "next/router";
 import { Textarea } from "../../components/styled/textarea";
+import { Divider } from "../../components/styled/divider";
 
 const emptyAddress = {
   country: "",
@@ -90,7 +91,10 @@ export default function Reserve() {
     },
   });
 
-  const [note, setNote] = useState("");
+  const [document, setDocument] = useState({
+    note: "",
+    deliveryDate: undefined,
+  });
 
   const [showCustomerSelector, setShowCustomerSelector] = useState(false);
 
@@ -102,7 +106,7 @@ export default function Reserve() {
         type: "Reservation",
         customer: customer,
         documentProducts: cart,
-        note,
+        ...document,
       },
     };
 
@@ -372,11 +376,22 @@ export default function Reserve() {
                 }
               />
             </Fieldset>
+            <Divider />
             <Fieldset>
               <Legend>{t("note")}</Legend>
               <Textarea
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
+                value={document.note}
+                onChange={(e) =>
+                  setDocument({ ...document, note: e.target.value })
+                }
+              />
+              <Input
+                type={"date"}
+                label={t("delivery-date")}
+                value={document.deliveryDate}
+                onChange={(e) =>
+                  setDocument({ ...document, deliveryDate: e.target.value })
+                }
               />
             </Fieldset>
             {/*   <Fieldset>

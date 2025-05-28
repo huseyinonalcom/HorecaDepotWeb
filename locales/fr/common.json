@@ -466,5 +466,6 @@
   "total": "Total",
   "user-reservation": "Réservé par",
   "invoiced-to": "Facturé à",
-  "note": "Note"
+  "note": "Note",
+  "delivery-date": "Date de livraison"
 }

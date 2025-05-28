@@ -307,6 +307,10 @@ export default function Reservation({
                   {t("user-reservation")}:
                   {` ${currentReservation.user?.firstName ?? ""} ${currentReservation.user?.lastName ?? ""}`}
                 </p>
+                <p>
+                  {t("delivery-date")}:
+                  {` ${formatDateAPIToBe(currentReservation.deliveryDate) ?? ""}`}
+                </p>
                 <Textarea
                   className="w-full lg:w-[300px]"
                   value={currentReservation.note}
