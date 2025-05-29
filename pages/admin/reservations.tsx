@@ -56,7 +56,7 @@ export default function Orders({ href }: { href: string }) {
               <TableHeader>{t("reservation")} #</TableHeader>
               <TableHeader>{t("date")}</TableHeader>
               <TableHeader>{t("customer")}</TableHeader>
-              <TableHeader>{t("total")}</TableHeader>
+              {/* <TableHeader>{t("total")}</TableHeader> */}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -72,13 +72,13 @@ export default function Orders({ href }: { href: string }) {
                 <TableCell>
                   {`${order.client?.firstName ?? ""} ${order.client?.lastName ?? ""}`}
                 </TableCell>
-                <TableCell>
+                {/** <TableCell>
                   €{" "}
                   {order.document_products
                     .reduce((total, product) => total + product.subTotal, 0)
                     .toFixed(2)
                     .replaceAll(".", ",")}
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>
