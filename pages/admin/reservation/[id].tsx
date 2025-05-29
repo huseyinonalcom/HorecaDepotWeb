@@ -224,7 +224,8 @@ export default function Reservation({
                   <TableHeader>{t("Name")}</TableHeader>
                   <TableHeader>{t("Color")}</TableHeader>
                   <TableHeader>{t("Quantity")}</TableHeader>
-               {/*    <TableHeader>{t("Price")}</TableHeader>
+                  <TableHeader>EAN</TableHeader>
+                  {/*    <TableHeader>{t("Price")}</TableHeader>
                   <TableHeader>{t("Subtotal")}</TableHeader> */}
                   {editMode && <TableHeader></TableHeader>}
                 </TableRow>
@@ -269,7 +270,10 @@ export default function Reservation({
                         </>
                       )}
                     </TableCell>
-                 {/*    <TableCell align="right">
+                    <TableCell>
+                      {documentProduct.product?.supplierCode ?? ""}
+                    </TableCell>
+                    {/*    <TableCell align="right">
                       {formatCurrency(documentProduct.value)}
                     </TableCell>
                     <TableCell align="right">
@@ -323,7 +327,7 @@ export default function Reservation({
                   }
                 />
               </div>
-           {/*    <Table className="w-fit">
+              {/*    <Table className="w-fit">
                 <TableBody>
                   <TableRow>
                     <TableCell>
