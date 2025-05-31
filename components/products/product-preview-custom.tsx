@@ -2,6 +2,7 @@ import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
 import useTranslation from "next-translate/useTranslation";
 import { Product } from "../../api/interfaces/product";
 import ImageWithURL from "../common/image";
+import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 
 type Props = {
   product: Product;
@@ -17,7 +18,7 @@ function calculatePercentageDifference(originalPrice, currentPrice) {
 }
 
 const ProductPreviewCustom = ({ product, onClick }: Props) => {
-  const { t, lang } = useTranslation("common");
+  const { lang } = useTranslation("common");
 
   const discountPercentage = calculatePercentageDifference(
     product.priceBeforeDiscount,
@@ -30,12 +31,12 @@ const ProductPreviewCustom = ({ product, onClick }: Props) => {
       onClick={() => onClick(product)}
       draggable={false}
       id={`${product.id}-preview`}
-      className={`border-1 group flex w-full flex-col items-center rounded-xl border-black/30 p-2 text-black`}
+      className="group flex w-full flex-col items-center rounded-xl border-1 border-black/30 p-2 text-black"
     >
       <div
         draggable={false}
         id={`${product.id}-image`}
-        className={`relative aspect-square w-full`}
+        className="relative aspect-square w-full"
       >
         <ImageWithURL
           draggable={false}
@@ -53,10 +54,14 @@ const ProductPreviewCustom = ({ product, onClick }: Props) => {
       <div
         draggable={false}
         id={`${product.id}-content`}
-        className={"mt-2 flex w-full flex-col items-start"}
+        className="mt-2 flex w-full flex-col items-start"
       >
         <div draggable={false} className="flex flex-col items-start">
-          <p className="font-bold">{product.localized_name ? product.localized_name[lang] : product.name}</p>
+          <p className="font-bold">
+            {product.localized_name
+              ? product.localized_name[lang]
+              : product.name}
+          </p>
           <p>{product.categories[0]?.localized_name[lang] ?? ""}</p>
           {product.internalCode && (
             <p className="text-sm">
@@ -65,15 +70,14 @@ const ProductPreviewCustom = ({ product, onClick }: Props) => {
           )}
           <div draggable={false} className="flex flex-row items-end gap-1">
             <p draggable={false} className="font-bold">
-              {"€ " + product.value.toFixed(2).replaceAll(".", ",")}
+              {formatCurrency(product.value)}
             </p>
             {product.priceBeforeDiscount > product.value && (
               <p
                 draggable={false}
                 className="mb-0.5 text-sm text-gray-700 line-through"
               >
-                {"€ " +
-                  product.priceBeforeDiscount.toFixed(2).replaceAll(".", ",")}
+                {formatCurrency(product.priceBeforeDiscount)}
               </p>
             )}
             {product.priceBeforeDiscount > product.value ? (
