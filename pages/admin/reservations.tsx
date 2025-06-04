@@ -1,5 +1,6 @@
 import { formatDateTimeAPIToBe } from "../../api/utils/formatters/formatdateapibe";
 import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
+import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import useTranslation from "next-translate/useTranslation";
 import Card from "../../components/universal/Card";
 import { useState, useEffect } from "react";
@@ -20,7 +21,6 @@ import {
   TableRow,
 } from "../../components/styled/table";
 import Head from "next/head";
-import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function Orders({ href }: { href: string }) {
   const { t } = useTranslation("common");
