@@ -86,35 +86,40 @@ export const updateDocument = async ({
     throw "No id provided.";
   }
   const documentToUpdate = (await getDocuments({ authToken, id: id })).data;
+
   if (!documentToUpdate) {
     throw "No document found";
   }
 
   try {
-    updatedDocument.document_products.forEach(async (docProd) => {
-      if (docProd.id) {
-        await updateDocumentProduct({
-          authToken,
-          id: docProd.id,
-          data: docProd,
-        });
-      } else {
-        await createDocumentProduct({
-          authToken,
-          data: docProd,
-          documentType: updatedDocument.type,
-          documentId: id,
-        });
-      }
-    });
+    if (updatedDocument.document_products) {
+      updatedDocument.document_products.forEach(async (docProd) => {
+        if (docProd.id) {
+          await updateDocumentProduct({
+            authToken,
+            id: docProd.id,
+            data: docProd,
+          });
+        } else {
+          await createDocumentProduct({
+            authToken,
+            data: docProd,
+            documentType: updatedDocument.type,
+            documentId: id,
+          });
+        }
+      });
 
-    documentToUpdate.document_products.forEach(async (docProd) => {
-      if (
-        !updatedDocument.document_products.find((prod) => prod.id == docProd.id)
-      ) {
-        await deleteDocumentProduct({ authToken, id: docProd.id });
-      }
-    });
+      documentToUpdate.document_products.forEach(async (docProd) => {
+        if (
+          !updatedDocument.document_products.find(
+            (prod) => prod.id == docProd.id,
+          )
+        ) {
+          await deleteDocumentProduct({ authToken, id: docProd.id });
+        }
+      });
+    }
 
     const request = await fetch(`${fetchUrl}/${documentToUpdate.id}`, {
       method: "PUT",
@@ -131,6 +136,7 @@ export const updateDocument = async ({
 
     return { result: true };
   } catch (error) {
+    console.error(error);
     return { error: error, result: null };
   }
 };

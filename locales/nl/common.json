@@ -467,5 +467,9 @@
   "user-reservation": "Gereserveerd door",
   "invoiced-to": "Gefactureerd aan",
   "note": "Notitie",
-  "delivery-date": "Leverdatum"
+  "delivery-date": "Leverdatum",
+  "reservation-updated": "Reservering bijgewerkt",
+  "approve": "Goedkeuren",
+  "disapprove": "Afkeuren",
+  "approved": "Goedgekeurd"
 }

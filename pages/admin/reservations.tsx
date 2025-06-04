@@ -20,6 +20,7 @@ import {
   TableRow,
 } from "../../components/styled/table";
 import Head from "next/head";
+import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function Orders({ href }: { href: string }) {
   const { t } = useTranslation("common");
@@ -56,6 +57,7 @@ export default function Orders({ href }: { href: string }) {
               <TableHeader>{t("reservation")} #</TableHeader>
               <TableHeader>{t("date")}</TableHeader>
               <TableHeader>{t("customer")}</TableHeader>
+              <TableHeader>{t("approved")}</TableHeader>
               {/* <TableHeader>{t("total")}</TableHeader> */}
             </TableRow>
           </TableHead>
@@ -71,6 +73,13 @@ export default function Orders({ href }: { href: string }) {
                 </TableCell>
                 <TableCell>
                   {`${order.client?.firstName ?? ""} ${order.client?.lastName ?? ""}`}
+                </TableCell>
+                <TableCell>
+                  {order.approved ? (
+                    <CheckIcon height={32} style={{ color: "green" }} />
+                  ) : (
+                    <XMarkIcon height={32} style={{ color: "red" }} />
+                  )}
                 </TableCell>
                 {/** <TableCell>
                   €{" "}

@@ -467,5 +467,9 @@
   "user-reservation": "Réservé par",
   "invoiced-to": "Facturé à",
   "note": "Note",
-  "delivery-date": "Date de livraison"
+  "delivery-date": "Date de livraison",
+  "reservation-updated": "Réservation mise à jour",
+  "approve": "Approuver",
+  "disapprove": "Désapprouver",
+  "approved": "Approuvé"
 }

@@ -22,6 +22,7 @@ import {
   PencilIcon,
   PlusIcon,
   TrashIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import Head from "next/head";
@@ -119,51 +120,91 @@ export default function Reservation({
                   <h1 className="text-2xl font-bold">
                     {currentReservation.type}
                   </h1>
-                  <div className="flex flex-row gap-2">
-                    {editMode && role == "admin" && (
-                      <>
-                        <Button
-                          onClick={() => {
-                            fetch(
-                              `/api/private/documents/universal?id=${currentReservation.id}`,
-                              {
-                                method: "DELETE",
-                                headers: {
-                                  "Content-Type": "application/json",
-                                  Accept: "application/json",
-                                  Authorization: `Bearer ${process.env.API_KEY}`,
+                  <div>
+                    <div className="flex flex-row justify-end gap-2">
+                      {editMode && role == "admin" && (
+                        <>
+                          <Button
+                            onClick={() => {
+                              fetch(
+                                `/api/private/documents/universal?id=${currentReservation.id}`,
+                                {
+                                  method: "DELETE",
+                                  headers: {
+                                    "Content-Type": "application/json",
+                                    Accept: "application/json",
+                                    Authorization: `Bearer ${process.env.API_KEY}`,
+                                  },
                                 },
-                              },
-                            ).then((res) => {
-                              router.push(backUrl ?? "/admin/reservations");
-                            });
-                          }}
-                        >
-                          <TrashIcon style={{ color: "red" }} />
-                        </Button>
-                        <Button
-                          onClick={() => {
-                            setShowProductSelector(true);
-                          }}
-                        >
-                          <PlusIcon style={{ color: "white" }} />
-                        </Button>
-                      </>
-                    )}
-                    {role == "admin" && (
-                      <Button
-                        onClick={() => {
-                          setEditMode((prev) => !prev);
-                          editMode ? submitEditedReservation() : {};
-                        }}
-                      >
-                        {editMode ? (
-                          <CheckIcon style={{ color: "#00FF00" }} />
-                        ) : (
-                          <PencilIcon style={{ color: "white" }} />
-                        )}
-                      </Button>
-                    )}
+                              ).then((res) => {
+                                router.push(backUrl ?? "/admin/reservations");
+                              });
+                            }}
+                          >
+                            <TrashIcon style={{ color: "red" }} />
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              setShowProductSelector(true);
+                            }}
+                          >
+                            <PlusIcon style={{ color: "white" }} />
+                          </Button>
+                        </>
+                      )}
+                      {role == "admin" && currentReservation.id != 0 && (
+                        <>
+                          <Button
+                            onClick={() => {
+                              fetch(
+                                `/api/private/documents/universal?id=${currentReservation.id}`,
+                                {
+                                  method: "PUT",
+                                  headers: {
+                                    "Content-Type": "application/json",
+                                  },
+                                  body: JSON.stringify({
+                                    approved: !currentReservation.approved,
+                                  }),
+                                },
+                              ).then(async (res) => {
+                                const ans = await res.json();
+                                if (ans.result) {
+                                  alert(t("reservation-updated"));
+                                  setCurrentReservation((prev) => ({
+                                    ...prev,
+                                    approved: !prev.approved,
+                                  }));
+                                }
+                              });
+                            }}
+                          >
+                            {currentReservation.approved
+                              ? t("disapprove")
+                              : t("approve")}
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              setEditMode((prev) => !prev);
+                              editMode ? submitEditedReservation() : {};
+                            }}
+                          >
+                            {editMode ? (
+                              <CheckIcon style={{ color: "#00FF00" }} />
+                            ) : (
+                              <PencilIcon style={{ color: "white" }} />
+                            )}
+                          </Button>
+                        </>
+                      )}
+                    </div>
+                    <div className="flex flex-row justify-end gap-2">
+                      {currentReservation.approved ? (
+                        <CheckIcon height={32} style={{ color: "green" }} />
+                      ) : (
+                        <XMarkIcon height={32} style={{ color: "red" }} />
+                      )}
+                    </div>
                   </div>
                 </div>
                 <h2 className="text-xl font-bold">
@@ -375,6 +416,7 @@ export async function getServerSideProps(context) {
     number: "",
     date: "",
     type: "Reservation",
+    approved: false,
     client: {
       id: 0,
       firstName: "",
