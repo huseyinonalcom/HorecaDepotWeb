@@ -1,8 +1,8 @@
+import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
 import useTranslation from "next-translate/useTranslation";
 import { Product } from "../../api/interfaces/product";
 import ImageWithURL from "../common/image";
-import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 
 type Props = {
   product: Product;
