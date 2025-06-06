@@ -17,7 +17,7 @@ function calculatePercentageDifference(originalPrice, currentPrice) {
   return percentageDifference.toFixed(0);
 }
 
-const ProductPreviewCustom = ({ product, onClick }: Props) => {
+export function ProductPreviewCustom({ product, onClick }: Props) {
   const { lang } = useTranslation("common");
 
   const discountPercentage = calculatePercentageDifference(
@@ -93,6 +93,4 @@ const ProductPreviewCustom = ({ product, onClick }: Props) => {
       </div>
     </button>
   );
-};
-
-export default ProductPreviewCustom;
+}
