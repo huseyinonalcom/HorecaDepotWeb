@@ -1,6 +1,14 @@
-rezervasyon veya siparis silince stok duzelecek
+payments do not get confirmed
 
-odeme girilebilecek (satici user)
+e-mails might not be arriving
+
+after reservastion is confirmed, no more editing
+
+otomatik stok giriş/çıkış
+
+odeme girilebilecek (admin panelinden)
+
+
 
 dugmeler siyah beyaz (renkli olmasin)
 
