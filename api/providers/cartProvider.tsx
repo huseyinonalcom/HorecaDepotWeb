@@ -47,13 +47,18 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [needsValidation, setNeedsValidation] = useState(false);
 
-  // Safely update cart and localStorage
-  const updateCart = (newCart: CartProduct[]) => {
-    setCart(newCart);
-    localStorage.setItem("cart", JSON.stringify(newCart));
+  // Functional update to cart and localStorage
+  const updateCart = (
+    updater: CartProduct[] | ((prev: CartProduct[]) => CartProduct[]),
+  ) => {
+    setCart((prev) => {
+      const newCart = typeof updater === "function" ? updater(prev) : updater;
+      localStorage.setItem("cart", JSON.stringify(newCart));
+      return newCart;
+    });
   };
 
-  // Load from localStorage on first mount
+  // Load cart from localStorage on mount
   useEffect(() => {
     try {
       const saved = localStorage.getItem("cart");
@@ -69,7 +74,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     }
   }, []);
 
-  // Validate cart items with debounce
+  // Debounced cart validation
   useEffect(() => {
     if (!needsValidation || cart.length === 0) return;
 
@@ -110,57 +115,64 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     return checkedCart;
   };
 
-  // ---------------------
-  // Cart operations
-  // ---------------------
+  // ----------------------
+  // Cart Operations
+  // ----------------------
 
   const addToCart = (newItem: CartProduct) => {
-    const existingIndex = cart.findIndex((item) => item.id === newItem.id);
-    const updatedCart = [...cart];
+    updateCart((prevCart) => {
+      const existingIndex = prevCart.findIndex(
+        (item) => item.id === newItem.id,
+      );
+      const updatedCart = [...prevCart];
 
-    if (existingIndex !== -1) {
-      updatedCart[existingIndex] = {
-        ...updatedCart[existingIndex],
-        amount: updatedCart[existingIndex].amount + newItem.amount,
-      };
-    } else {
-      updatedCart.push({ ...newItem });
-    }
+      if (existingIndex !== -1) {
+        updatedCart[existingIndex] = {
+          ...updatedCart[existingIndex],
+          amount: updatedCart[existingIndex].amount + newItem.amount,
+        };
+      } else {
+        updatedCart.push({ ...newItem });
+      }
 
-    updateCart(updatedCart);
+      return updatedCart;
+    });
+
     setNeedsValidation(true);
     openDrawer();
   };
 
   const increaseQuantity = (itemId: number) => {
-    const updatedCart = cart.map((item) =>
-      item.id === itemId ? { ...item, amount: item.amount + 1 } : item,
+    updateCart((prevCart) =>
+      prevCart.map((item) =>
+        item.id === itemId ? { ...item, amount: item.amount + 1 } : item,
+      ),
     );
-    updateCart(updatedCart);
     setNeedsValidation(true);
   };
 
   const decreaseQuantity = (itemId: number) => {
-    const updatedCart = cart.map((item) =>
-      item.id === itemId
-        ? { ...item, amount: Math.max(1, item.amount - 1) }
-        : item,
+    updateCart((prevCart) =>
+      prevCart.map((item) =>
+        item.id === itemId
+          ? { ...item, amount: Math.max(1, item.amount - 1) }
+          : item,
+      ),
     );
-    updateCart(updatedCart);
     setNeedsValidation(true);
   };
 
   const removeFromCart = (itemId: number) => {
-    const updatedCart = cart.filter((item) => item.id !== itemId);
-    updateCart(updatedCart);
+    updateCart((prevCart) => prevCart.filter((item) => item.id !== itemId));
     setNeedsValidation(true);
   };
 
   const setQuantity = (itemId: number, quantity: number) => {
-    const updatedCart = cart.map((item) =>
-      item.id === itemId ? { ...item, amount: quantity } : item,
+    updateCart((prevCart) =>
+      prevCart.map((item) =>
+        item.id === itemId ? { ...item, amount: quantity } : item,
+      ),
     );
-    updateCart(updatedCart);
     setNeedsValidation(true);
   };
 

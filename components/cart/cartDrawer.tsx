@@ -21,8 +21,6 @@ const CartDrawer = () => {
     calculateTotal,
   } = useContext(CartContext);
 
-  isDrawerOpen && console.log(cart);
-
   return (
     <>
       <div
