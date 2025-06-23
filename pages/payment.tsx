@@ -4,12 +4,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 export default function PaymentVerification() {
+  const [paymentID, setPaymentID] = useState(null);
+  const [status, setStatus] = useState("loading");
   const { t } = useTranslation("common");
   const router = useRouter();
-
-  const [paymentSuccessful, setPaymentSuccessful] = useState(false);
-  const [paymentCheckDone, setPaymentCheckDone] = useState(false);
-  const [paymentID, setPaymentID] = useState(null);
 
   useEffect(() => {
     if (router.isReady) {
@@ -30,14 +28,12 @@ export default function PaymentVerification() {
           if (request.ok) {
             const answer = await request.json();
             if (answer.paymentSuccess) {
-              setPaymentCheckDone(true);
-              setPaymentSuccessful(true);
+              setStatus("success");
             } else {
-              setPaymentCheckDone(true);
-              setPaymentSuccessful(false);
+              setStatus("fail");
             }
           } else {
-            setPaymentCheckDone(true);
+            setStatus("error");
           }
           setTimeout(() => {
             router.push(`/account/order?id=${docID}`);
@@ -46,18 +42,18 @@ export default function PaymentVerification() {
 
         verifyRequest();
       } catch (_) {
-        setPaymentCheckDone(true);
+        setStatus("error");
       }
     }
   }, [router.isReady]);
 
-  if (!paymentCheckDone) {
+  if (status === "loading") {
     return (
       <div className="flex h-[90vh] w-[90vw] flex-col items-center justify-center">
         <LoadingIndicator label={t("Payment being checked")} />
       </div>
     );
-  } else if (!paymentSuccessful) {
+  } else if (status === "fail" || status === "error") {
     return (
       <div className="flex h-[90vh] w-[90vw] flex-col items-center justify-center">
         <h2>{t("payment_fail")}</h2>
