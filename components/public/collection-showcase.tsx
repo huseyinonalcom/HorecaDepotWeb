@@ -52,15 +52,17 @@ const CollectionShowcase = ({ collection, id }: Props) => {
         id={id}
         className="no-scrollbar flex snap-x snap-mandatory flex-row gap-4 overflow-x-scroll py-2"
       >
-        {collection.products.map((prod) => (
-          <div
-            key={collection.id + "-" + prod.id}
-            draggable={false}
-            className="flex w-[220px] flex-shrink-0 snap-start md:w-[300px]"
-          >
-            <ProductPreview product={prod} />
-          </div>
-        ))}
+        {collection.products
+          .filter((prod) => prod.active)
+          .map((prod) => (
+            <div
+              key={collection.id + "-" + prod.id}
+              draggable={false}
+              className="flex w-[220px] flex-shrink-0 snap-start md:w-[300px]"
+            >
+              <ProductPreview product={prod} />
+            </div>
+          ))}
       </div>
     </div>
   );
