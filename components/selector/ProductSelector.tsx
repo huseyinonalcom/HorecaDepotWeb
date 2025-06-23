@@ -1,4 +1,3 @@
-import ProductPreviewCustom from "../products/product-preview-custom";
 import useTranslation from "next-translate/useTranslation";
 import { Product } from "../../api/interfaces/product";
 import { useEffect, useState, useMemo } from "react";
@@ -6,6 +5,7 @@ import { FieldGroup } from "../styled/fieldset";
 import debounce from "../../api/utils/debounce";
 import { Input } from "../styled/input";
 import { Paging } from "../paging";
+import { ProductPreviewCustom } from "../products/product-preview-custom";
 
 const fetchProducts = async ({
   search,
