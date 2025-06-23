@@ -130,10 +130,11 @@ export async function verifyPayments({
   let config;
 
   try {
-    config = await getConfig({ authToken });
+    config = (await getConfig({ authToken })).result;
   } catch (e) {
     console.error(e);
   }
+
   try {
     let document = await fetchDocument(paymentId);
 
