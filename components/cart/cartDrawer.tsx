@@ -1,12 +1,13 @@
+import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
 import { CartContext } from "../../api/providers/cartProvider";
 import useTranslation from "next-translate/useTranslation";
+import { FiX, FiMinus, FiPlus } from "react-icons/fi";
 import { AutoTextSize } from "auto-text-size";
 import CustomTheme from "../componentThemes";
 import ImageWithURL from "../common/image";
 import { useContext } from "react";
 import Link from "next/link";
-import { FiX, FiMinus, FiPlus } from "react-icons/fi";
 
 const CartDrawer = () => {
   const { t } = useTranslation("common");
@@ -20,19 +21,20 @@ const CartDrawer = () => {
     calculateTotal,
   } = useContext(CartContext);
 
-  const drawerClass = isDrawerOpen ? "fixed right-0" : "fixed right-[-100%]";
-  const overlayClass = isDrawerOpen
-    ? "fixed inset-0 bg-black bg-opacity-50 z-50"
-    : "fixed right-[-100%]";
+  isDrawerOpen && console.log(cart);
 
   return (
     <>
       <div
-        className={`${overlayClass} duration-700`}
+        className={`${
+          isDrawerOpen
+            ? "bg-opacity-50 fixed inset-0 z-50 bg-black"
+            : "fixed right-[-100%]"
+        } duration-700`}
         onClick={closeDrawer}
       ></div>
       <div
-        className={`${drawerClass} top-0 z-50 h-screen min-w-[250px] max-w-[290px] overflow-y-auto bg-gray-100 p-5 duration-500`}
+        className={`${isDrawerOpen ? "fixed right-0" : "fixed right-[-100%]"} top-0 z-50 h-screen max-w-[290px] min-w-[250px] overflow-y-auto bg-gray-100 p-5 duration-500`}
       >
         <button
           name="closeCartDrawer"
@@ -40,7 +42,7 @@ const CartDrawer = () => {
           onClick={closeDrawer}
           className="mb-2 w-full duration-700"
         >
-          <div className="group flex w-full flex-row justify-between border-b border-gray-300 py-1 pl-2 pr-1">
+          <div className="group flex w-full flex-row justify-between border-b border-gray-300 py-1 pr-1 pl-2">
             <p className="font-bold">{t("Cart")}</p>
             <FiX className="-rotate-180 duration-700 group-hover:rotate-180" />
           </div>
@@ -72,25 +74,17 @@ const CartDrawer = () => {
                   <h5 className="mr-1 text-sm text-gray-400 line-through">
                     {product.priceBeforeDiscount &&
                     product.priceBeforeDiscount > product.value
-                      ? `€ ${(product.priceBeforeDiscount * product.amount)
-                          .toFixed(2)
-                          .replaceAll(".", ",")}`
+                      ? formatCurrency(
+                          product.priceBeforeDiscount * product.amount,
+                        )
                       : ""}
                   </h5>
                   {product.priceBeforeDiscount > product.value ? (
                     <h4 className="text-green-500">
-                      €{" "}
-                      {(product.value * product.amount)
-                        .toFixed(2)
-                        .replaceAll(".", ",")}
+                      {formatCurrency(product.value * product.amount)}
                     </h4>
                   ) : (
-                    <h4>
-                      €{" "}
-                      {(product.value * product.amount)
-                        .toFixed(2)
-                        .replaceAll(".", ",")}
-                    </h4>
+                    <h4>{formatCurrency(product.value * product.amount)}</h4>
                   )}
                 </div>
                 <div className="flex flex-row items-center justify-center">
@@ -115,7 +109,7 @@ const CartDrawer = () => {
                     <FiPlus
                       name="increaseQuantity"
                       aria-label="Increase Quantity"
-                      className="h-6 w-6 cursor-pointer rounded-md bg-white px-1 duration-300  hover:text-green-500"
+                      className="h-6 w-6 cursor-pointer rounded-md bg-white px-1 duration-300 hover:text-green-500"
                       onClick={() => increaseQuantity(product.id)}
                     />
                   </div>
@@ -136,10 +130,7 @@ const CartDrawer = () => {
                   "Subtotal",
                 )}:`}</h3>
                 <h3 className="font-extrabold text-red-600 line-through">
-                  €{" "}
-                  {calculateTotal()
-                    .totalBeforeDiscount.toFixed(2)
-                    .replace(".", ",")}
+                  {formatCurrency(calculateTotal().totalBeforeDiscount)}
                 </h3>
               </div>
             )}
@@ -148,13 +139,10 @@ const CartDrawer = () => {
               <div className="flex flex-row items-center justify-between">
                 <h3 className="text-lg font-extrabold">{`${t("Discount")}:`}</h3>
                 <h3 className="font-extrabold text-green-500">
-                  €{" "}
-                  {(
+                  {formatCurrency(
                     calculateTotal().totalBeforeDiscount -
-                    calculateTotal().totalAfterDiscount
-                  )
-                    .toFixed(2)
-                    .replace(".", ",")}
+                      calculateTotal().totalAfterDiscount,
+                  )}
                 </h3>
               </div>
             )}
@@ -165,19 +153,13 @@ const CartDrawer = () => {
             <div className="flex flex-row items-center justify-between">
               <h3 className="text-lg font-extrabold">{`${t("Total")}:`}</h3>
               <h3 className="text-lg font-extrabold">
-                €{" "}
-                {(calculateTotal().totalAfterDiscount / 1.21)
-                  .toFixed(2)
-                  .replace(".", ",")}
+                {formatCurrency(calculateTotal().totalAfterDiscount / 1.21)}
               </h3>
             </div>
             <div className="flex flex-row items-center justify-between">
               <h3 className="text-lg font-extrabold">{`${t("Total")} ${t("vat-incl")}:`}</h3>
               <h3 className="text-lg font-extrabold">
-                €{" "}
-                {calculateTotal()
-                  .totalAfterDiscount.toFixed(2)
-                  .replace(".", ",")}
+                {formatCurrency(calculateTotal().totalAfterDiscount)}
               </h3>
             </div>
           </div>

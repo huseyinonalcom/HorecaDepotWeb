@@ -47,124 +47,121 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [needsValidation, setNeedsValidation] = useState(false);
 
+  // Safely update cart and localStorage
   const updateCart = (newCart: CartProduct[]) => {
     setCart(newCart);
     localStorage.setItem("cart", JSON.stringify(newCart));
   };
 
+  // Load from localStorage on first mount
   useEffect(() => {
-    const savedCart = localStorage.getItem("cart");
-    let pulledCart: CartProduct[] = [];
-    if (
-      savedCart != "undefined" &&
-      savedCart != undefined &&
-      savedCart != "[]"
-    ) {
-      JSON.parse(savedCart).forEach((element) => {
-        pulledCart.push(element as CartProduct);
-      });
-      if (pulledCart) {
-        setCart(pulledCart);
+    try {
+      const saved = localStorage.getItem("cart");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          setCart(parsed);
+        }
       }
+    } catch (e) {
+      console.warn("Failed to parse cart from localStorage", e);
+      localStorage.removeItem("cart");
     }
   }, []);
 
+  // Validate cart items with debounce
   useEffect(() => {
-    const validateCartItems = async () => {
-      await checkCartItems(cart).then((vc) => updateCart(vc));
-      setNeedsValidation(false);
-    };
+    if (!needsValidation || cart.length === 0) return;
 
-    if (needsValidation && cart.length > 0) {
+    const timeout = setTimeout(() => {
       validateCartItems();
-    }
-  }, [needsValidation]);
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [needsValidation, cart]);
+
+  const validateCartItems = async () => {
+    const validated = await checkCartItems(cart);
+    updateCart(validated);
+    setNeedsValidation(false);
+  };
 
   const checkCartItems = async (
     cart: CartProduct[],
   ): Promise<CartProduct[]> => {
-    let checkedCart: CartProduct[] = [];
+    const checkedCart: CartProduct[] = [];
+
     for (const product of cart) {
       try {
         const response = await fetch(
-          "/api/public/products/getproductbyid?id=" + product.id,
+          `/api/public/products/getproductbyid?id=${product.id}`,
         );
         if (response.ok) {
-          const answer = await response.json();
-          const prodFromAPI = answer as Product;
+          const prodFromAPI = (await response.json()).result as Product;
           if (prodFromAPI.active) {
             checkedCart.push({ ...prodFromAPI, amount: product.amount });
           }
         }
-      } catch (e) {}
+      } catch (e) {
+        console.error("Failed to validate product", e);
+      }
     }
 
     return checkedCart;
   };
 
+  // ---------------------
+  // Cart operations
+  // ---------------------
+
   const addToCart = (newItem: CartProduct) => {
-    setCart((prevCart) => {
-      const existingItemIndex = prevCart.findIndex(
-        (item) => item.id === newItem.id,
-      );
-      let updatedCart = [...prevCart];
-      if (existingItemIndex !== -1) {
-        updatedCart[existingItemIndex] = {
-          ...updatedCart[existingItemIndex],
-          amount: updatedCart[existingItemIndex].amount + newItem.amount,
-        };
-      } else {
-        updatedCart = [...updatedCart, { ...newItem, amount: newItem.amount }];
-      }
-      updateCart(updatedCart);
-      setNeedsValidation(true);
-      openDrawer();
-      return updatedCart;
-    });
+    const existingIndex = cart.findIndex((item) => item.id === newItem.id);
+    const updatedCart = [...cart];
+
+    if (existingIndex !== -1) {
+      updatedCart[existingIndex] = {
+        ...updatedCart[existingIndex],
+        amount: updatedCart[existingIndex].amount + newItem.amount,
+      };
+    } else {
+      updatedCart.push({ ...newItem });
+    }
+
+    updateCart(updatedCart);
+    setNeedsValidation(true);
+    openDrawer();
   };
 
   const increaseQuantity = (itemId: number) => {
-    setCart((prevCart) => {
-      const updatedCart = prevCart.map((item) =>
-        item.id === itemId ? { ...item, amount: item.amount + 1 } : item,
-      );
-      updateCart(updatedCart);
-      setNeedsValidation(true);
-      return updatedCart;
-    });
+    const updatedCart = cart.map((item) =>
+      item.id === itemId ? { ...item, amount: item.amount + 1 } : item,
+    );
+    updateCart(updatedCart);
+    setNeedsValidation(true);
   };
 
   const decreaseQuantity = (itemId: number) => {
-    setCart((prevCart) => {
-      const updatedCart = prevCart.map((item) =>
-        item.id === itemId
-          ? { ...item, amount: Math.max(1, item.amount - 1) }
-          : item,
-      );
-      updateCart(updatedCart);
-      setNeedsValidation(true);
-      return updatedCart;
-    });
+    const updatedCart = cart.map((item) =>
+      item.id === itemId
+        ? { ...item, amount: Math.max(1, item.amount - 1) }
+        : item,
+    );
+    updateCart(updatedCart);
+    setNeedsValidation(true);
   };
 
   const removeFromCart = (itemId: number) => {
-    setCart((prevCart) => {
-      const updatedCart = prevCart.filter((item) => item.id !== itemId);
-      updateCart(updatedCart);
-      setNeedsValidation(true);
-      return updatedCart;
-    });
+    const updatedCart = cart.filter((item) => item.id !== itemId);
+    updateCart(updatedCart);
+    setNeedsValidation(true);
   };
 
   const setQuantity = (itemId: number, quantity: number) => {
-    setCart((prevCart) => {
-      const updatedCart = prevCart.map((item) =>
-        item.id === itemId ? { ...item, amount: quantity } : item,
-      );
-      updateCart(updatedCart);
-      setNeedsValidation(true);
-      return updatedCart;
-    });
+    const updatedCart = cart.map((item) =>
+      item.id === itemId ? { ...item, amount: quantity } : item,
+    );
+    updateCart(updatedCart);
+    setNeedsValidation(true);
   };
 
   const calculateTotal = () => {
@@ -176,21 +173,14 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       const effectivePrice = Math.max(item.priceBeforeDiscount, item.value);
       return total + item.amount * effectivePrice;
     }, 0);
+    const amount = cart.reduce((acc, item) => acc + item.amount, 0);
 
-    let amount = 0;
-    cart.forEach((product) => (amount += product.amount));
     return { totalAfterDiscount, totalBeforeDiscount, amount };
   };
 
-  const openDrawer = () => {
-    setDrawerOpen(true);
-    setNeedsValidation(true);
-  };
+  const openDrawer = () => setDrawerOpen(true);
   const closeDrawer = () => setDrawerOpen(false);
-
-  const clearCart = () => {
-    updateCart([]);
-  };
+  const clearCart = () => updateCart([]);
 
   return (
     <CartContext.Provider
