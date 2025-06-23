@@ -1,4 +1,4 @@
-payments do not get confirmed
+payments do not get confirmed // should be fixed
 
 e-mails might not be arriving
 
@@ -7,6 +7,8 @@ after reservastion is confirmed, no more editing
 otomatik stok giriş/çıkış
 
 odeme girilebilecek (admin panelinden)
+
+inactive products appear as part of collection
 
 
 
