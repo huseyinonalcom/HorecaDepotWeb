@@ -786,6 +786,7 @@ export default function ProductPage(props) {
           label={t("width")}
           name="width"
           value={currentProduct?.width ?? ""}
+          required
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
@@ -797,6 +798,7 @@ export default function ProductPage(props) {
           label={t("depth")}
           name="depth"
           value={currentProduct?.depth ?? ""}
+          required
           onChange={(e) => {
             setCurrentProduct((pp) => ({
               ...pp,
