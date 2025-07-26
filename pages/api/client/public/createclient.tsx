@@ -62,7 +62,7 @@ export default async function postClient(
               let mailOptionsClient = {
                 to: userData.email, // List of recipients
                 subject: "Bienvenue dans la famille Horecadepot", // Subject line
-                authToken: req.cookies.j,
+                authToken: process.env.API_KEY,
                 html: `
             <!DOCTYPE html>
             <html lang="en">

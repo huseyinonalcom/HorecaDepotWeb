@@ -4,15 +4,18 @@ import CollectionShowcase from "../components/public/collection-showcase";
 import { getCollections } from "./api/collections/public/getcollections";
 import TextareaOutlined from "../components/inputs/textarea_outlined";
 import { CategoryBanner } from "../components/banners/CategoryBanner";
+import { uploadFileToAPI } from "./api/private/files/uploadfile";
 import { PromoBanner } from "../components/banners/PromoBanner";
 import { getHomePage } from "./api/website/public/gethomepage";
 import useTranslation from "next-translate/useTranslation";
 import InputOutlined from "../components/inputs/outlined";
 import ImageWithURL from "../components/common/image";
 import { Category } from "../api/interfaces/category";
+import { getBanners } from "./api/private/banners";
 import Layout from "../components/public/layout";
 import Meta from "../components/public/meta";
 import { useEffect, useState } from "react";
+import { Portal } from "@headlessui/react";
 import { PiPencil } from "react-icons/pi";
 import Head from "next/head";
 import Link from "next/link";
@@ -27,9 +30,6 @@ import {
   DndContext,
   useSensor,
 } from "@dnd-kit/core";
-import { uploadFileToAPI } from "./api/private/files/uploadfile";
-import { getBanners } from "./api/private/banners";
-import { Portal } from "@headlessui/react";
 
 export default function Index({
   homePage,
@@ -66,7 +66,7 @@ export default function Index({
     });
   };
 
-  let debounceTimer;
+  let debounceTimer: NodeJS.Timeout;
 
   const [shownPromoBannerModal, setShownPromoBannerModal] = useState<
     "1" | "3" | "4" | "5" | null
@@ -446,13 +446,11 @@ export default function Index({
         <meta name="description" content={t("main_description")} />
         <meta name="language" content={lang} />
       </Head>
-      <div
-        className={`mx-auto flex w-full flex-col items-center justify-center gap-8 overflow-hidden py-8`}
-      >
+      <div className="mx-auto flex w-full flex-col items-center justify-center gap-8 overflow-hidden py-8">
         <div className="flex w-full flex-col items-center">
           <div
             id="slider-1"
-            className={`no-scrollbar z-0 flex w-full snap-x snap-mandatory flex-row overflow-x-scroll`}
+            className="no-scrollbar z-0 flex w-full snap-x snap-mandatory flex-row overflow-x-scroll"
           >
             <DndContext
               sensors={[
@@ -722,11 +720,11 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      homePage,
-      categories,
       collections,
+      categories,
+      homePage,
       banners,
     },
-    revalidate: 1800,
+    revalidate: 1200,
   };
 };

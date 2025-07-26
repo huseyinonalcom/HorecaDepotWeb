@@ -14,6 +14,7 @@ export async function getConfig({ authToken }: { authToken: string }) {
 
   if (!response.ok) {
     const ans = await response.text();
+    console.error("Error fetching config:", ans);
     throw new Error("Error fetching config");
   }
   const ans = await response.json();

@@ -52,7 +52,7 @@ export default async function sendOrderNotifications(req, res) {
     let mailOptionsClient = {
       to: [order.client.login.email], // List of recipients
       subject: "Confirmation Commande " + order.prefix + order.number, // Subject line
-      authToken: req.cookies.j,
+      authToken: process.env.API_KEY,
       html: `
       <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html
@@ -844,7 +844,7 @@ export default async function sendOrderNotifications(req, res) {
     let mailOptionsUser = {
       to: ["test@huseyinonal.com"], // List of recipients
       subject: "Test Email Vendeur", // Subject line
-      authToken: req.cookies.j,
+      authToken: process.env.API_KEY,
       html: `
       <html>
         <head></head>

@@ -318,7 +318,7 @@ export default async function postOrder(
             let mailOptionsCompany = {
               to: ["info@horecadepot.be", "horecadepothoreca@gmail.com"],
               subject: "Nouvelle Commande sur horecadepot.be",
-              authToken: req.cookies.j,
+              authToken: process.env.API_KEY,
               html: orderMailEstablishment({ document: doc }),
             };
 
@@ -329,7 +329,7 @@ export default async function postOrder(
               replyTo: "info@horecadepot.be",
               subject: "Votre Commande Chez Nous - Horeca Depot",
               html: orderMailClient({ document: doc }),
-              authToken: req.cookies.j,
+              authToken: process.env.API_KEY,
               attachments: [
                 {
                   filename: "facture.pdf",

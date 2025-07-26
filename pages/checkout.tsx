@@ -1,5 +1,6 @@
 import { calculateCartTotals } from "../api/utils/calculations/document";
 import { formatCurrency } from "../api/utils/formatters/formatcurrency";
+import { OutlinedButton } from "../components/buttons/outlinedButton";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { getCoverImageUrl } from "../api/utils/getprodcoverimage";
 import { ClientContext } from "../api/providers/clientProvider";
@@ -22,7 +23,6 @@ import { useRouter } from "next/router";
 import Select from "react-select";
 import Head from "next/head";
 import Link from "next/link";
-import React from "react";
 
 const emptyAddress = {
   country: "",
@@ -1145,7 +1145,7 @@ export default function Checkout() {
                         required
                         type="text"
                         name="ZipCode"
-                        label={"zip-code"}
+                        label="zip-code"
                         value={newAddressExistingClient.zipCode}
                         error={
                           newAddressExistingClient.zipCode == ""
@@ -1217,20 +1217,16 @@ export default function Checkout() {
             <p className="text-red-500">{submitErrorDocument}</p>
           )}
         </div>
-        <div className="order-1 my-2 grid grid-cols-1 p-4 shadow-lg sm:order-2">
+        <div className="order-1 my-2 p-4 shadow-lg sm:order-2">
           <div className="grid auto-rows-min grid-cols-2 gap-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
             {cart.length <= 0 && (
-              <div className="col-span-2 flex flex-col items-center p-4">
+              <div className="col-span-2 flex flex-col items-center gap-2 p-4">
                 <div className="flex w-full flex-row justify-center">
                   <p>{t("Your cart is empty")}</p>
                 </div>
-                <Link
-                  href={"/shop/tous?page=1"}
-                  className={CustomTheme.outlinedButton + " w-[60%]"}
-                >
-                  <p className="flex w-full flex-row justify-center">
-                    {t("Shop")}
-                  </p>
+
+                <Link href="/shop/tous?page=1" className="w-[60%]">
+                  <OutlinedButton>{t("Shop")}</OutlinedButton>
                 </Link>
               </div>
             )}
