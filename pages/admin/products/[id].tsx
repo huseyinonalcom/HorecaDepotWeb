@@ -128,7 +128,9 @@ export default function ProductPage(props) {
 
       try {
         currentProduct.description = currentProduct.localized_description["en"];
-      } catch (e) {}
+      } catch (e) {
+        currentProduct.description = "";
+      }
 
       currentProduct.supplierCode = currentProduct.product_extra.barcode;
 
