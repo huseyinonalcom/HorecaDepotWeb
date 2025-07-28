@@ -76,7 +76,13 @@ const productsUpdateCategories = (products, categories) => {
   });
 };
 
-export async function fuzzySearch({ search }: { search: string }) {
+export async function fuzzySearch({
+  search,
+  count,
+}: {
+  search: string;
+  count?: number;
+}) {
   const now = Date.now();
 
   let data = {
@@ -106,7 +112,7 @@ export async function fuzzySearch({ search }: { search: string }) {
     const fuseProducts = new Fuse(data.products, optionsProducts);
     const resultsProducts = fuseProducts
       .search(search)
-      .slice(0, 4)
+      .slice(0, count ?? 4)
       .map((result) => result.item);
     const fuseCategories = new Fuse(data.categories, optionsCategories);
     const resultsCategories = fuseCategories
@@ -131,7 +137,10 @@ export default apiRoute({
   endpoints: {
     GET: {
       func: async (req, res) =>
-        await fuzzySearch({ search: req.query.search as string }),
+        await fuzzySearch({
+          search: req.query.search as string,
+          count: Number(req.query.count as string),
+        }),
     },
   },
 });

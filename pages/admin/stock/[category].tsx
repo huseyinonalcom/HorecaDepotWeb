@@ -622,24 +622,29 @@ export async function getServerSideProps(context) {
   const currentSort = req.query.sort.split(":").at(0) ?? "id";
   const currentSortDirection = req.query.sort.split(":").at(1) ?? "desc";
   req.query.sort = currentSort + ":" + currentSortDirection;
-  let productsReq = await fuzzySearch({ search: currentSearch });
 
-  let productsData = productsReq.result.filter(
-    (result) => !!result.internalCode,
-  );
+  let productsReq;
+  let productsData;
+
+  if (currentSearch) {
+    productsReq = await fuzzySearch({ search: currentSearch, count: 50 });
+
+    productsData = productsReq.result.filter((result) => !!result.internalCode);
+  } else {
+    productsData = (await getAllProducts(req)).data;
+  }
 
   const allProducts = productsData;
+
+  console.log(productsData);
+
   let currentPage = 1;
   let totalPages = 1;
   try {
-    // @ts-expect-error
     if (productsData.meta.pagination.page) {
-      // @ts-expect-error
       currentPage = productsData.meta.pagination.page;
     }
-    // @ts-expect-error
     if (productsData.meta.pagination.pageCount) {
-      // @ts-expect-error
       totalPages = productsData.meta.pagination.pageCount;
     }
   } catch (error) {}

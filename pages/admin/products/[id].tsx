@@ -126,6 +126,9 @@ export default function ProductPage(props) {
 
       currentProduct.supplierCode = currentProduct.product_extra.barcode;
 
+      currentProduct.name = currentProduct.localized_name["en"];
+      currentProduct.description = currentProduct.localized_description["en"];
+
       if (!currentProduct.categories || currentProduct.categories.length == 0) {
         setSubmitError("validators_empty_invalid");
         setInProgress(false);
