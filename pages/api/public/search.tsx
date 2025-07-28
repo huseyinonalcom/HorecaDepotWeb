@@ -1,9 +1,8 @@
 import { getAllCategoriesFlattened } from "../categories/public/getallcategoriesflattened";
 import { getCollections } from "../collections/public/getcollections";
 import { getProducts } from "../products/public/getproducts";
-import statusText from "../../../api/statustexts";
-import Fuse from "fuse.js";
 import apiRoute from "../../../api/api/apiRoute";
+import Fuse from "fuse.js";
 
 const cache = {
   data: null,
@@ -14,7 +13,11 @@ const SEARCH_CACHE_TTL = 20000 * 60 * 30;
 
 const optionsProducts = {
   keys: [
-    { name: "name", weight: 0.3 },
+    { name: "localized_name.en", weight: 0.3 },
+    { name: "localized_name.fr", weight: 0.3 },
+    { name: "localized_name.de", weight: 0.3 },
+    { name: "localized_name.nl", weight: 0.3 },
+    { name: "name", weight: 0.2 },
     { name: "internalCode", weight: 0.3 },
     { name: "categories.translations.en", weight: 0.1 },
     { name: "categories.translations.fr", weight: 0.1 },

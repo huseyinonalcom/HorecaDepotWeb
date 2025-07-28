@@ -54,12 +54,30 @@ const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
     }
   };
 
+  console.log(product);
+
+  let localizedName = product.name;
+
+  if (product.localized_name) {
+    if (product.localized_name[lang]) {
+      localizedName = product.localized_name[lang];
+    }
+  }
+
+  let localizedDescription = product.description;
+
+  if (product.localized_description) {
+    if (product.localized_description[lang]) {
+      localizedDescription = product.localized_description[lang];
+    }
+  }
+
   return (
     <Layout>
       <Meta />
       <Head>
         <title>
-          {product.name +
+          {localizedName +
             " " +
             product.internalCode +
             " | Horeca Depot | Meubles pour Hotels, Restaurants ..."}
@@ -74,18 +92,13 @@ const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
           }
         />
         <meta name="language" content={lang} />
-        <meta
-          name="description"
-          content={
-            product.name + " " + product.categories[0].localized_name[lang]
-          }
-        />
-        <meta name="subject" content={"" + product.name + ""} />
+        <meta name="description" content={localizedDescription} />
+        <meta name="subject" content={"" + localizedName + ""} />
         <link
           rel="canonical"
           href={
             "https://horecadepot.be/products/" +
-            `${product.categories.at(0).localized_name[lang]}/${product.name}/${product.id}`
+            `${product.categories.at(0).localized_name[lang]}/${localizedName}/${product.id}`
           }
         />
       </Head>
@@ -117,7 +130,7 @@ const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
             <ProductImages product={product} />
           </div>
           <div className="col-span-2 flex h-full w-full flex-col items-start justify-start gap-2 px-1 md:px-4">
-            <h2 className="text-xl font-bold">{product.name}</h2>
+            <h2 className="text-xl font-bold">{localizedName}</h2>
             <h3 className="text-lg font-semibold">
               {product.internalCode != "0" ? product.internalCode : ""}
             </h3>
@@ -302,23 +315,18 @@ const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
                 </p>
               )}
 
-              {product.localized_description && (
+              {localizedDescription && (
                 <p className="mt-1 w-full border-t border-gray-400 pt-1">
-                  {product.localized_description[lang]}
+                  {localizedDescription}
                 </p>
               )}
 
-              {!product.localized_description && product.description && (
-                <p className="mt-1 w-full border-t border-gray-400 pt-1">
-                  {product.description}
-                </p>
-              )}
               <div className="flex flex-row items-center gap-2">
                 <b>{t("Share")}:</b>
                 <Link
                   target="_blank"
                   aria-label="Share via Facebook"
-                  href={`https://www.facebook.com/sharer/sharer.php?u=https://horecadepot.be/products/${product.categories.at(0).localized_name[lang]}/${product.name}/${product.id}`}
+                  href={`https://www.facebook.com/sharer/sharer.php?u=https://horecadepot.be/products/${product.categories.at(0).localized_name[lang]}/${localizedName}/${product.id}`}
                 >
                   <FiFacebook
                     width={60}
@@ -329,7 +337,7 @@ const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
                 <Link
                   target="_blank"
                   aria-label="Share via Whatsapp"
-                  href={`https://api.whatsapp.com/send?text=https://horecadepot.be/products/${product.categories.at(0).localized_name[lang]}/${product.name}/${product.id}`}
+                  href={`https://api.whatsapp.com/send?text=https://horecadepot.be/products/${product.categories.at(0).localized_name[lang]}/${localizedName}/${product.id}`}
                 >
                   <MdWhatsapp
                     width={60}

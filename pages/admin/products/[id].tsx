@@ -308,6 +308,7 @@ export default function ProductPage(props) {
         <Field>
           <Label>{t("name")}</Label>
           <LocalizedInput
+            required
             value={
               currentProduct?.localized_name ?? {
                 nl: currentProduct?.name,
@@ -726,6 +727,7 @@ export default function ProductPage(props) {
       <Legend>{t("description")}</Legend>
       <FieldGroup>
         <LocalizedInput
+          lines={2}
           value={
             currentProduct?.localized_description ?? {
               nl: currentProduct?.description,
@@ -977,6 +979,8 @@ export default function ProductPage(props) {
                         ...pr,
                         id: 0,
                         supplierCode: "",
+                        description: "",
+                        name: "",
                         product_extra: {
                           ...pr.product_extra,
                           barcode: "",

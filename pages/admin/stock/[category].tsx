@@ -36,6 +36,7 @@ import {
   PaginationGap,
   PaginationNext,
 } from "../../../components/styled/pagination";
+import { fuzzySearch } from "../../api/public/search";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");
@@ -469,48 +470,54 @@ export default function Products(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {allProducts?.map((product) => (
-                  <TableRow
-                    href={`/admin/products/${product.id}?return=${encodeURIComponent(
-                      router.asPath,
-                    )}`}
-                    key={product.id}
-                  >
-                    <TableCell className="relative">
-                      <ImageWithURL
-                        height={80}
-                        width={80}
-                        src={
-                          product.images != null
-                            ? getCoverImageUrl(product)
-                            : "/uploads/placeholder_9db455d1f1.webp"
-                        }
-                        alt={product.name}
-                        className="aspect-square h-[80px] flex-shrink-0 object-cover"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      {product.localized_name
-                        ? product.localized_name[lang]
-                        : product.name}
-                    </TableCell>
-                    <TableCell>{product.internalCode}</TableCell>
-                    <TableCell>{product.supplierCode}</TableCell>
-                    <TableCell>{formatCurrency(product.value)}</TableCell>
-                    <TableCell>
-                      {product.shelves.reduce(
-                        (acc, shelf) => acc + shelf.stock,
-                        0,
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <LuDot
-                        size={80}
-                        color={product.active ? "green" : "red"}
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {allProducts?.map((product) => {
+                  let stock = 0;
+
+                  try {
+                    stock = product.shelves.reduce(
+                      (acc, shelf) => acc + shelf.stock,
+                      0,
+                    );
+                  } catch (error) {}
+
+                  return (
+                    <TableRow
+                      href={`/admin/products/${product.id}?return=${encodeURIComponent(
+                        router.asPath,
+                      )}`}
+                      key={product.id}
+                    >
+                      <TableCell className="relative">
+                        <ImageWithURL
+                          height={80}
+                          width={80}
+                          src={
+                            product.images != null
+                              ? getCoverImageUrl(product)
+                              : "/uploads/placeholder_9db455d1f1.webp"
+                          }
+                          alt={product.name}
+                          className="aspect-square h-[80px] flex-shrink-0 object-cover"
+                        />
+                      </TableCell>
+                      <TableCell>
+                        {product.localized_name
+                          ? product.localized_name[lang]
+                          : product.name}
+                      </TableCell>
+                      <TableCell>{product.internalCode}</TableCell>
+                      <TableCell>{product.supplierCode}</TableCell>
+                      <TableCell>{formatCurrency(product.value)}</TableCell>
+                      <TableCell>{stock}</TableCell>
+                      <TableCell>
+                        <LuDot
+                          size={80}
+                          color={product.active ? "green" : "red"}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
             <Pagination className="sticky bottom-0 -mt-1 flex w-full rounded-lg rounded-t-none border-1 border-zinc-950/10 bg-white p-4">
@@ -615,10 +622,23 @@ export async function getServerSideProps(context) {
   const currentSort = req.query.sort.split(":").at(0) ?? "id";
   const currentSortDirection = req.query.sort.split(":").at(1) ?? "desc";
   req.query.sort = currentSort + ":" + currentSortDirection;
-  const productsData = await getAllProducts(req);
-  const allProducts = productsData.data;
-  const currentPage = productsData.meta.pagination.page;
-  const totalPages = productsData.meta.pagination.pageCount;
+  let productsReq = await fuzzySearch({ search: currentSearch });
+
+  let productsData = productsReq.result.filter(
+    (result) => !!result.internalCode, 
+  );
+
+  const allProducts = productsData;
+  let currentPage = 1;
+  let totalPages = 1;
+  try {
+    if (productsData.meta.pagination.page) {
+      currentPage = productsData.meta.pagination.page;
+    }
+    if (productsData.meta.pagination.pageCount) {
+      totalPages = productsData.meta.pagination.pageCount;
+    }
+  } catch (error) {}
   const currentSupplier = req.query.supplier ?? null;
 
   return {

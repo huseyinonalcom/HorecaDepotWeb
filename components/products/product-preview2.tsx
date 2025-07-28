@@ -49,9 +49,17 @@ const ProductPreview2 = ({ product }: Props) => {
     product.value,
   );
 
+  let localizedName = product.name;
+
+  if (product.localized_name) {
+    if (product.localized_name[lang]) {
+      localizedName = product.localized_name[lang];
+    }
+  }
+
   return (
     <Link
-      href={`/products/${product.categories.at(0).localized_name[lang]}/${product.name}/${product.id}`}
+      href={`/products/${product.categories.at(0).localized_name[lang]}/${localizedName}/${product.id}`}
       draggable={false}
       id={`${product.id}-preview`}
       className={`group flex w-full flex-col items-center rounded-xl border-1 border-black/30 p-2 text-black`}
@@ -71,7 +79,7 @@ const ProductPreview2 = ({ product }: Props) => {
           }
           fill
           style={{ objectFit: "contain", cursor: "pointer" }}
-          alt={product.name}
+          alt={localizedName}
         />
         <div
           draggable={false}
@@ -84,11 +92,7 @@ const ProductPreview2 = ({ product }: Props) => {
         className={"mt-2 flex w-full flex-col items-start"}
       >
         <div draggable={false} className="flex flex-col items-start">
-          <p>
-            {product.localized_name
-              ? product.localized_name[lang]
-              : product.name}
-          </p>
+          <p>{localizedName}</p>
           <p>{product.categories[0]?.localized_name[lang] ?? ""}</p>
           {product.internalCode && (
             <p className="text-sm">
@@ -129,8 +133,8 @@ const ProductPreview2 = ({ product }: Props) => {
           >
             <button
               draggable={false}
-              name={`Add ${product.name} to Cart`}
-              aria-label={`Add ${product.name} to Cart`}
+              name={`Add ${localizedName} to Cart`}
+              aria-label={`Add ${localizedName} to Cart`}
               className="flex flex-row items-center gap-2 rounded-lg bg-black px-3 py-2 text-white shadow-md duration-500 hover:text-green-500"
               onClick={(e) => {
                 e.preventDefault();
@@ -143,8 +147,8 @@ const ProductPreview2 = ({ product }: Props) => {
             </button>
             <button
               draggable={false}
-              name={`Add ${product.name} to Wishlist`}
-              aria-label={`Add ${product.name} to Wishlist`}
+              name={`Add ${localizedName} to Wishlist`}
+              aria-label={`Add ${localizedName} to Wishlist`}
               className="flex flex-row items-center gap-2 rounded-lg bg-white p-2 text-black shadow-md duration-500 hover:text-red-500"
               onClick={(e) => {
                 e.stopPropagation();
