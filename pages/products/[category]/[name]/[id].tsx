@@ -54,8 +54,6 @@ const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
     }
   };
 
-  console.log(product);
-
   let localizedName = product.name;
 
   if (product.localized_name) {

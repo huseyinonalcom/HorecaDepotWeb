@@ -636,8 +636,6 @@ export async function getServerSideProps(context) {
 
   const allProducts = productsData;
 
-  console.log(productsData);
-
   let currentPage = 1;
   let totalPages = 1;
   try {
