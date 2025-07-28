@@ -116,6 +116,7 @@ const DesktopSearch = () => {
   };
 
   const handleSearchSubmit = (e) => {
+    setSearchResults([]);
     e.preventDefault();
     if (searchQuery && searchQuery != "") {
       var url = "/shop/tous?page=1";
@@ -151,37 +152,45 @@ const DesktopSearch = () => {
         </button>
       </div>
       {searchResults.length > 0 && (
-        <div className="absolute right-0 left-0 z-10 mx-auto mt-12 max-w-screen-2xl rounded-xl border border-gray-300 bg-white text-black shadow-lg">
-          <ul>
-            {searchResults
-              .filter(
-                (results) =>
-                  !results.categories && results.localized_name[lang],
-              )
-              .map((result, index) => (
-                <li
-                  key={index}
-                  className="cursor-pointer rounded-xl px-4 py-2 hover:bg-gray-100"
-                  onClick={() => {
-                    if (result.localized_name[lang]) {
-                      router.push(
-                        `/shop/${encodeURIComponent(result.localized_name[lang])}?page=1`,
-                      );
-                    }
-                  }}
-                >
-                  {result.title || result.localized_name[lang]}
-                </li>
-              ))}
-          </ul>
-          <div className="grid grid-cols-4 gap-1">
-            {searchResults
-              .filter((results) => results.categories && results.name)
-              .map((result, index) => (
-                <ProductPreview3 key={index} product={result} />
-              ))}
+        <>
+          <div
+            onClick={() => setSearchResults([])}
+            className="fixed inset-0 z-0 cursor-default"
+          />
+
+          <div className="absolute right-0 left-0 z-10 mx-auto mt-12 max-w-screen-2xl rounded-xl border border-gray-300 bg-white text-black shadow-lg">
+            <ul>
+              {searchResults
+                .filter(
+                  (results) =>
+                    !results.categories && results.localized_name[lang],
+                )
+                .map((result, index) => (
+                  <li
+                    key={index}
+                    className="cursor-pointer rounded-xl px-4 py-2 hover:bg-gray-100"
+                    onClick={() => {
+                      if (result.localized_name[lang]) {
+                        router.push(
+                          `/shop/${encodeURIComponent(result.localized_name[lang])}?page=1`,
+                        );
+                        setSearchResults([]);
+                      }
+                    }}
+                  >
+                    {result.title || result.localized_name[lang]}
+                  </li>
+                ))}
+            </ul>
+            <div className="grid grid-cols-4 gap-1">
+              {searchResults
+                .filter((results) => results.categories && results.name)
+                .map((result, index) => (
+                  <ProductPreview3 key={index} product={result} />
+                ))}
+            </div>
           </div>
-        </div>
+        </>
       )}
     </form>
   );
