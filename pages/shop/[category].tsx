@@ -7,6 +7,7 @@ import ImageWithURL from "../../components/common/image";
 import { Product } from "../../api/interfaces/product";
 import ShopLayout from "../../components/shoplayout";
 import Layout from "../../components/public/layout";
+import { fuzzySearch } from "../api/public/search";
 import { useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
@@ -299,20 +300,7 @@ export default function Products(props) {
   );
 }
 
-// const ssrCache = new Map();
-
 export async function getServerSideProps({ res, query }) {
-  // res.setHeader(
-  //   "Cache-Control",
-  //   "public, s-maxage=1800, stale-while-revalidate=59",
-  // );
-
-  // const cached = ssrCache.get(query);
-
-  // if (cached) {
-  //   return cached;
-  // }
-
   const categoriesFlat = await getAllCategories({ flat: true });
 
   const currentSort = query?.sort?.split(":").at(0) ?? "value";
@@ -320,27 +308,34 @@ export async function getServerSideProps({ res, query }) {
 
   query.sort = currentSort + ":" + currentSortDirection;
 
-  const productsReq = await getProducts({
-    query: query,
-  });
+  let currentSearch;
 
-  const products = (productsReq?.sortedData as Product[]) ?? [];
-  const totalPages = (productsReq?.totalPages as number) ?? [];
-  const currentPage = query.page ?? 1;
+  if (query.search) {
+    currentSearch = query.search;
+  }
+
+  let productsReq;
+  let productsData;
+  let products;
+  let totalPages = 1;
+  let currentPage = 1;
+
+  if (currentSearch) {
+    productsReq = await fuzzySearch({ search: currentSearch, count: 30 });
+    productsData = productsReq.result.filter((result) => !!result.internalCode);
+    products = productsData;
+  } else {
+    productsData = await getProducts({
+      query: query,
+    });
+    products = (productsData?.sortedData as Product[]) ?? [];
+    totalPages = (productsData?.totalPages as number) ?? 1;
+  }
+
+  currentPage = query.page ?? 1;
   const currentCategory =
-    categoriesFlat.find((cat) => cat.id == productsReq?.currentCategoryID) ??
+    categoriesFlat.find((cat) => cat.id == productsData?.currentCategoryID) ??
     null;
-
-  // ssrCache.set(query, {
-  //   products,
-  //   totalPages,
-  //   currentPage,
-  //   currentCategory,
-  //   currentSort,
-  //   currentSortDirection,
-  // });
-
-  // setTimeout(() => ssrCache.delete(query), 1000 * 60 * 30);
 
   return {
     props: {
