@@ -118,16 +118,21 @@ export default function ProductPage(props) {
   const [submitError, setSubmitError] = useState(null);
 
   const handleFormSubmit = async (e) => {
+    console.log(currentProduct);
+
     e.preventDefault();
     if (inProgress) return;
     try {
       setInProgress(true);
       setSubmitError(null);
 
+      try {
+        currentProduct.description = currentProduct.localized_description["en"];
+      } catch (e) {}
+
       currentProduct.supplierCode = currentProduct.product_extra.barcode;
 
       currentProduct.name = currentProduct.localized_name["en"];
-      currentProduct.description = currentProduct.localized_description["en"];
 
       if (!currentProduct.categories || currentProduct.categories.length == 0) {
         setSubmitError("validators_empty_invalid");
@@ -152,6 +157,7 @@ export default function ProductPage(props) {
           );
           const ans = await request.text();
           if (!request.ok) {
+            console.error("Error updating product:", ans);
             setInProgress(false);
             setSubmitError(ans);
           } else {
