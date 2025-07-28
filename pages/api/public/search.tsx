@@ -139,7 +139,7 @@ export default apiRoute({
       func: async (req, res) =>
         await fuzzySearch({
           search: req.query.search as string,
-          count: Number(req.query.count as string),
+          count: Number((req.query.count ?? "4") as string),
         }),
     },
   },
