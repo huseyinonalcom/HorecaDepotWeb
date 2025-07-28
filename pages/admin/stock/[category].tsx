@@ -625,17 +625,21 @@ export async function getServerSideProps(context) {
   let productsReq = await fuzzySearch({ search: currentSearch });
 
   let productsData = productsReq.result.filter(
-    (result) => !!result.internalCode, 
+    (result) => !!result.internalCode,
   );
 
   const allProducts = productsData;
   let currentPage = 1;
   let totalPages = 1;
   try {
+    // @ts-expect-error
     if (productsData.meta.pagination.page) {
+      // @ts-expect-error
       currentPage = productsData.meta.pagination.page;
     }
+    // @ts-expect-error
     if (productsData.meta.pagination.pageCount) {
+      // @ts-expect-error
       totalPages = productsData.meta.pagination.pageCount;
     }
   } catch (error) {}
