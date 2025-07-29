@@ -18,7 +18,7 @@ export default function StyledForm({
         <Divider />
         <div className="flex w-full flex-row items-center justify-between gap-2 pb-6">
           {bottomBarChildren}
-          <Button color="green" type="submit">
+          <Button color="green" type="submit" className="ml-auto">
             <div className="p-2">
               <FiSave />
             </div>

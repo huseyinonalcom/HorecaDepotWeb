@@ -55,6 +55,7 @@ export const Paging = ({
       <div className="mt-2">
         <div className="flex items-center justify-center space-x-1">
           <button
+            type="button"
             onClick={() => onPageChange(currentPage - 1)}
             className="border p-2 hover:bg-gray-200"
             aria-label="Previous page"
@@ -68,6 +69,7 @@ export const Paging = ({
               </span>
             ) : (
               <button
+                type="button"
                 key={index}
                 className={`border p-2 hover:bg-gray-200 ${currentPage == page && "bg-gray-300"}`}
                 onClick={() => onPageChange(page)}
@@ -77,6 +79,7 @@ export const Paging = ({
             ),
           )}
           <button
+            type="button"
             onClick={() => onPageChange(currentPage + 1)}
             className="border p-2 hover:bg-gray-200"
             aria-label="Next page"

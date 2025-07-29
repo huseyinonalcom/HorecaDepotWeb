@@ -118,8 +118,6 @@ export default function ProductPage(props) {
   const [submitError, setSubmitError] = useState(null);
 
   const handleFormSubmit = async (e) => {
-    console.log(currentProduct);
-
     e.preventDefault();
     if (inProgress) return;
     try {

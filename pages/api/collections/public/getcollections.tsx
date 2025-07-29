@@ -28,7 +28,7 @@ export async function getCollections({
 
     if (fetchCollectionsRequest.ok) {
       const fetchCollectionsAnswer = ans;
-      // Sort collections by value (ascending)
+      // Sort collection products by value (ascending)
       for (let i = 0; i < fetchCollectionsAnswer.data.length; i++) {
         fetchCollectionsAnswer.data[i].products = fetchCollectionsAnswer.data[
           i

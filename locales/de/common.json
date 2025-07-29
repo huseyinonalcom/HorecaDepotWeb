@@ -471,5 +471,7 @@
   "reservation-updated": "Reservierung aktualisiert",
   "approve": "Genehmigen",
   "disapprove": "Ablehnen",
-  "approved": "Genehmigt"
+  "approved": "Genehmigt",
+  "remove-products": "Produkte entfernen",
+  "confirm_delete_collection": "Möchten Sie diese Sammlung wirklich löschen?"
 }

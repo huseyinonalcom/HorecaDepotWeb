@@ -1,39 +1,38 @@
+import { ProductPreviewCustom } from "../../../components/products/product-preview-custom";
 import { ProductSelector } from "../../../components/selector/ProductSelector";
 import LoadingIndicator from "../../../components/common/loadingIndicator";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
-import componentThemes from "../../../components/componentThemes";
-import ButtonShadow1 from "../../../components/buttons/shadow_1";
-import InputOutlined from "../../../components/inputs/outlined";
+import { Fieldset, Label, Legend } from "../../../components/styled/fieldset";
 import StyledForm from "../../../components/form/StyledForm";
 import { Divider } from "../../../components/styled/divider";
-import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
 import { Button } from "../../../components/styled/button";
+import { Input } from "../../../components/styled/input";
 import { FiCopy, FiTrash } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { features } from "process";
+import { Switch, SwitchField } from "../../../components/styled/switch";
 
 export default function Collection() {
   const router = useRouter();
-  const { t, lang } = useTranslation("common");
+  const { t } = useTranslation("common");
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [currentCollection, setCurrentCollection] = useState({
     id: 0,
     name: "",
     products: [],
+    featured: false,
   });
 
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const fetchCollection = async (orderID: number) => {
-    const request = await fetch(
-      `/api/collections/public/getcollections?id=${orderID}`,
-      {
-        method: "GET",
-      },
-    );
+  const fetchCollection = async (collectionID: number) => {
+    const request = await fetch(`/api/private/collections?id=${collectionID}`, {
+      method: "GET",
+    });
     const response = await request.json();
     if (request.ok) {
       return response;
@@ -70,35 +69,47 @@ export default function Collection() {
     } else setIsLoading(false);
   }, [router.isReady, router.query.id]);
 
-  const postCollection = async (e) => {
-    e.preventDefault();
-    const request = await fetch(`/api/collections/admin/submitcollection`, {
+  const postCollection = async ({ data }: { data: any }) => {
+    const request = await fetch(`/api/private/collections`, {
       method: "POST",
-      body: JSON.stringify({ name: currentCollection.name }),
+      body: JSON.stringify({
+        name: data.name,
+        products: data.products.map((pro) => pro.id),
+        featured: data.featured,
+      }),
     });
-    const answer = await request.json();
     if (request.ok) {
-      router.push(`/admin/website/collection?id=${answer.id}`);
+      const answer = await request.json();
+      if (!answer.result) {
+        setSubmitError(answer.error);
+        setIsLoading(false);
+        return;
+      }
+      setIsLoading(false);
+      console.log(answer);
+      router.push(`/admin/website/collection?id=${answer.result.data.id}`);
     } else {
+      const answer = await request.text();
+      setIsLoading(false);
       setSubmitError(t("collection_submit_error"));
     }
   };
 
-  const putCollection = async (e) => {
-    e.preventDefault();
-    const request = await fetch(
-      `/api/collections/admin/submitcollection?id=${currentCollection.id}`,
-      {
-        method: "PUT",
-        body: JSON.stringify({
-          name: currentCollection.name,
-          products: currentCollection.products.map((pro) => pro.id),
-        }),
-      },
-    );
+  const putCollection = async ({ data }: { data: any }) => {
+    const request = await fetch(`/api/private/collections?id=${data.id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        name: data.name,
+        products: data.products.map((pro) => pro.id),
+        featured: data.featured,
+      }),
+    });
     if (request.ok) {
+      const answer = await request.json();
       router.push("/admin/website/collections");
     } else {
+      const answer = await request.text();
+      console.error(answer);
       setSubmitError(t("collection_modify_error"));
     }
   };
@@ -107,7 +118,7 @@ export default function Collection() {
     const deleteColl = async () => {
       try {
         const request = await fetch(
-          `/api/private/collections/collections?id=` + currentCollection.id,
+          `/api/private/collections?id=` + currentCollection.id,
           {
             method: "DELETE",
             headers: {
@@ -122,7 +133,7 @@ export default function Collection() {
       } catch {}
     };
 
-    let confirmDelete = confirm(t("confirm_delete"));
+    let confirmDelete = confirm(t("confirm_delete_collection"));
 
     if (confirmDelete) {
       deleteColl();
@@ -130,73 +141,25 @@ export default function Collection() {
   };
 
   const handleFormSubmit = async (e) => {
-    console.log(currentCollection);
-
     e.preventDefault();
     if (isLoading) return;
-    try {
-      setIsLoading(true);
-      setSubmitError(null);
 
-      if (
-        !currentCollection.products ||
-        currentCollection.products.length == 0
-      ) {
-        setSubmitError("validators_empty_invalid");
+    setIsLoading(true);
+
+    if (currentCollection.id != 0) {
+      try {
+        await putCollection({ data: currentCollection });
+      } catch (error) {
         setIsLoading(false);
-        return;
+        setSubmitError(error);
       }
-
-      if (currentCollection.id != 0) {
-        try {
-          const request = await fetch(
-            `/api/collections/admin/putcollection?id=` + currentCollection.id,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(currentCollection),
-            },
-          );
-          const ans = await request.text();
-          if (!request.ok) {
-            console.error("Error updating collection:", ans);
-            setIsLoading(false);
-            setSubmitError(ans);
-          } else {
-          }
-        } catch (e) {
-          setIsLoading(false);
-          setSubmitError(
-            t("An error occurred while modifying the collection!"),
-          );
-        }
-      } else {
-        try {
-          const request = await fetch("/api/collections/admin/postcollection", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(currentCollection),
-          });
-          if (!request.ok) {
-            const answer = await request.text();
-            setIsLoading(false);
-            setSubmitError(answer);
-          } else {
-          }
-        } catch (e) {
-          setIsLoading(false);
-          setSubmitError(
-            t("An error occurred during the collection creation!"),
-          );
-        }
+    } else {
+      try {
+        await postCollection({ data: currentCollection });
+      } catch (error) {
+        setIsLoading(false);
+        setSubmitError(error);
       }
-    } catch (error) {
-      setIsLoading(false);
-      setSubmitError(error);
     }
   };
 
@@ -213,7 +176,7 @@ export default function Collection() {
         </div>
       </>
     );
-  } else if (!currentCollection) {
+  } else {
     return (
       <>
         <Head>
@@ -252,9 +215,7 @@ export default function Collection() {
                 </>
               )}
               {submitError && (
-                <p className="bg-white p-1 text-red-400">
-                  {submitError?.toString()}
-                </p>
+                <p className="bg-white p-1 text-red-400">{submitError}</p>
               )}
             </>
           }
@@ -262,81 +223,72 @@ export default function Collection() {
         >
           <div className="hidden flex-row space-x-6 lg:flex">
             <div className="flex w-full flex-col space-y-12 border-r border-zinc-950/10 pr-6">
+              <Input
+                label={t("name")}
+                required
+                name="name"
+                value={currentCollection.name}
+                onChange={(e) =>
+                  setCurrentCollection((pc) => ({
+                    ...pc,
+                    name: e.target.value,
+                  }))
+                }
+              />
+              <SwitchField className="flex flex-row items-start">
+                <Label>{t("active")}</Label>
+                <Switch
+                  defaultChecked={currentCollection.featured}
+                  color="green"
+                  onChange={(e) => {
+                    setCurrentCollection((pp) => ({
+                      ...pp,
+                      featured: e,
+                    }));
+                  }}
+                />
+              </SwitchField>
               <Divider />
+              <Fieldset>
+                <Legend>{t("remove-products")}</Legend>
+                <div className="flex w-full flex-wrap items-center justify-center gap-2">
+                  {currentCollection?.products?.map((product) => (
+                    <div
+                      key={product.id}
+                      className="w-[50vw] md:w-[33vw] lg:w-[250px]"
+                    >
+                      <ProductPreviewCustom
+                        onClick={() =>
+                          setCurrentCollection((pc) => ({
+                            ...pc,
+                            products: pc.products.filter(
+                              (p) => p.id !== product.id,
+                            ),
+                          }))
+                        }
+                        product={product}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </Fieldset>
+              <Divider />
+              <ProductSelector
+                onProductSelected={(prod) => {
+                  if (
+                    currentCollection.products.some((p) => p.id === prod.id)
+                  ) {
+                  } else {
+                    setCurrentCollection((pc) => ({
+                      ...pc,
+                      products: [...pc.products, prod],
+                    }));
+                  }
+                }}
+              />
             </div>
           </div>
         </StyledForm>
-        <div className="mx-auto flex w-full flex-col items-center justify-start">
-          <div className="w-full py-2 text-center text-xl font-semibold">
-            {currentCollection?.name} -
-            {` /collections/${currentCollection?.id}/${encodeURIComponent(currentCollection?.name)}`}
-          </div>
-          <form
-            onSubmit={putCollection}
-            className="grid w-full max-w-screen-xl grid-cols-2"
-          >
-            <InputOutlined
-              type="text"
-              id="name"
-              required
-              value={currentCollection.name}
-              onChange={(e) =>
-                setCurrentCollection((pc) => ({
-                  ...pc,
-                  name: e.target.value,
-                }))
-              }
-              label={t("Name")}
-            />
-            <div className="flex w-full flex-col overflow-y-auto">
-              {currentCollection?.products?.map((product) => (
-                <ButtonShadow1
-                  key={"remove-" + product.id}
-                  onClick={() =>
-                    setCurrentCollection((pc) => ({
-                      ...pc,
-                      products: pc.products.filter((p) => p.id !== product.id),
-                    }))
-                  }
-                >
-                  <div className="flex h-28 w-full flex-row items-center p-2">
-                    <ImageWithURL
-                      alt=""
-                      src={product.images != null ? product.images[0].url : ""}
-                      width={90}
-                      height={90}
-                    />
-                    <p>
-                      {product.name}
-                      {product.product_color?.name ?? product.color ?? ""}{" "}
-                      {product.internalCode}
-                    </p>
-                  </div>
-                </ButtonShadow1>
-              ))}
-            </div>
-
-            <button className={componentThemes.outlinedButton}>
-              {t("collection_modify")}
-            </button>
-            {submitError && (
-              <p className="text-center font-medium text-red-600">
-                {submitError}
-              </p>
-            )}
-          </form>
-          <ProductSelector
-            onProductSelected={(prod) => {
-              if (currentCollection.products.some((p) => p.id === prod.id)) {
-              } else {
-                setCurrentCollection((pc) => ({
-                  ...pc,
-                  products: [...pc.products, prod],
-                }));
-              }
-            }}
-          />
-        </div>
       </>
     );
   }

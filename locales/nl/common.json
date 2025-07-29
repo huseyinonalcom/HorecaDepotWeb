@@ -471,5 +471,7 @@
   "reservation-updated": "Reservering bijgewerkt",
   "approve": "Goedkeuren",
   "disapprove": "Afkeuren",
-  "approved": "Goedgekeurd"
+  "approved": "Goedgekeurd",
+  "remove-products": "Producten verwijderen",
+  "confirm_delete_collection": "Weet u zeker dat u deze collectie wilt verwijderen?"
 }

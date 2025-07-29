@@ -471,5 +471,7 @@
   "reservation-updated": "Reservation updated",
   "approve": "Approve",
   "disapprove": "Disapprove",
-  "approved": "Approved"
+  "approved": "Approved",
+  "remove-products": "Remove Products",
+  "confirm_delete_collection": "Are you sure you want to delete this collection?"
 }
