@@ -1,5 +1,4 @@
 import { ProductSelector } from "../../../components/selector/ProductSelector";
-import TextareaOutlined from "../../../components/inputs/textarea_outlined";
 import LoadingIndicator from "../../../components/common/loadingIndicator";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import componentThemes from "../../../components/componentThemes";
@@ -7,14 +6,9 @@ import ButtonShadow1 from "../../../components/buttons/shadow_1";
 import InputOutlined from "../../../components/inputs/outlined";
 import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
-import { FiUpload, FiX } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-
-const navIconDivClass = "flex flex-row justify-center flex-shrink-0 w-[35px]";
-const iconClass = "flex-shrink-0";
-const textClass = "mx-2 font-bold text-left";
 
 export default function Collection() {
   const router = useRouter();
@@ -24,7 +18,6 @@ export default function Collection() {
   const [currentCollection, setCurrentCollection] = useState({
     id: 0,
     name: "",
-    category: "",
     products: [],
   });
 
@@ -77,7 +70,7 @@ export default function Collection() {
     return (
       <>
         <Head>
-          <title>{t("collcetion")}</title>
+          <title>{t("collection")}</title>
         </Head>
         <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
           <div className="mx-auto py-2">
@@ -103,7 +96,7 @@ export default function Collection() {
     return (
       <>
         <Head>
-          <title>{t("collcetion")}</title>
+          <title>{t("collection")}</title>
         </Head>
         <div className="mx-auto flex w-[95vw] flex-col items-center justify-start">
           <div className="w-full py-2 text-center text-xl font-semibold">
@@ -116,9 +109,10 @@ export default function Collection() {
               required
               value={currentCollection?.name ?? ""}
               onChange={(e) =>
-                setCurrentCollection({
+                setCurrentCollection((pc) => ({
+                  ...pc,
                   name: e.target.value,
-                })
+                }))
               }
               label={t("Name")}
             />
@@ -143,13 +137,6 @@ export default function Collection() {
           method: "PUT",
           body: JSON.stringify({
             name: currentCollection.name,
-            category: currentCollection.category,
-            bgColor: currentCollection.bgColor,
-            description: currentCollection.description,
-            image: currentCollection.image,
-            right: currentCollection.right,
-            tags: currentCollection.tags,
-            textColor: currentCollection.textColor,
             products: currentCollection.products.map((pro) => pro.id),
           }),
         },
@@ -159,37 +146,6 @@ export default function Collection() {
       } else {
         setSubmitError(t("collection_modify_error"));
       }
-    };
-
-    const uploadFile = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      if (e.target.files && e.target.files[0]) {
-        const file = e.target.files[0];
-        sendFile(file);
-      }
-    };
-
-    const sendFile = async (file: File) => {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      try {
-        const request = await fetch("/api/private/files/sendfile", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (request.status == 201) {
-          const result = await request.json();
-          setCurrentCollection((pc) => ({
-            ...pc,
-            image: result,
-          }));
-        } else {
-        }
-      } catch (e) {}
     };
 
     return (
@@ -219,87 +175,6 @@ export default function Collection() {
               }
               label={t("Name")}
             />
-            <InputOutlined
-              type="text"
-              id="category"
-              required
-              value={currentCollection.category}
-              onChange={(e) =>
-                setCurrentCollection((pc) => ({
-                  ...pc,
-                  category: e.target.value,
-                }))
-              }
-              label={t("Category")}
-            />
-            <InputOutlined
-              type="text"
-              id="description"
-              required
-              value={currentCollection.description}
-              onChange={(e) =>
-                setCurrentCollection((pc) => ({
-                  ...pc,
-                  description: e.target.value,
-                }))
-              }
-              label={t("Description")}
-            />
-            <TextareaOutlined
-              id="tags"
-              required
-              value={currentCollection.tags}
-              onChange={(e) =>
-                setCurrentCollection((pc) => ({
-                  ...pc,
-                  tags: e.target.value,
-                }))
-              }
-              label={t("Tags")}
-            />
-            {!currentCollection.image ? (
-              <div>
-                <label
-                  htmlFor="uploadimg"
-                  className="flex cursor-pointer flex-row items-center justify-start overflow-hidden py-2 shadow-lg duration-500 hover:bg-orange-400"
-                >
-                  <div className={navIconDivClass}>
-                    <FiUpload className={iconClass} />
-                  </div>
-                  <span className={textClass}>{t("Upload Image")}</span>
-                </label>
-                <input
-                  title={t("Upload Image")}
-                  className="h-0 w-0 opacity-0"
-                  type="file"
-                  name="uploadimg"
-                  id="uploadimg"
-                  onChange={uploadFile}
-                />
-              </div>
-            ) : (
-              <div className="relative w-full">
-                <ImageWithURL
-                  alt=""
-                  src={currentCollection.image.url}
-                  width={400}
-                  height={400}
-                />
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    setCurrentCollection((pc) => ({
-                      ...pc,
-                      image: null,
-                    }))
-                  }
-                  className="absolute top-2 right-2 text-red-500"
-                >
-                  <FiX />
-                </button>
-              </div>
-            )}
             <div className="flex w-full flex-col overflow-y-auto">
               {currentCollection?.products?.map((product) => (
                 <ButtonShadow1
@@ -327,83 +202,6 @@ export default function Collection() {
                 </ButtonShadow1>
               ))}
             </div>
-            <div>
-              {/*  {products && (
-                <div className="flex max-h-[350px] flex-col gap-1 overflow-y-scroll p-2">
-                  <div className="flex flex-row border-b-2 border-black">
-                    <textarea
-                      className="h-[30px] w-full"
-                      value={productSearch}
-                      onChange={(e) => {
-                        setProductSearch(e.target.value.trim());
-                        if (e.target.value.trim() == "") {
-                          setProducts(allProducts);
-                        }
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key.toLowerCase() == "enter") {
-                          setProducts(
-                            allProducts.filter(
-                              (prod) =>
-                                prod.internalCode
-                                  .toLowerCase()
-                                  .includes(productSearch.toLowerCase()) ||
-                                prod.name
-                                  .toLowerCase()
-                                  .includes(productSearch.toLowerCase()) ||
-                                prod.color
-                                  .toLowerCase()
-                                  .includes(productSearch.toLowerCase()),
-                            ),
-                          );
-                        }
-                      }}
-                      label={t("Internal Code / Nom / Couleur")}
-                    />
-                    <Search
-                      onClick={() => {
-                        setProducts(
-                          allProducts.filter(
-                            (prod) =>
-                              prod.internalCode
-                                .toLowerCase()
-                                .includes(productSearch.toLowerCase()) ||
-                              prod.name
-                                .toLowerCase()
-                                .includes(productSearch.toLowerCase()) ||
-                              prod.color
-                                .toLowerCase()
-                                .includes(productSearch.toLowerCase()),
-                          ),
-                        );
-                      }}
-                    />
-                  </div>
-                  {products.map((prod) => (
-                    <div
-                      key={prod.id}
-                      className="flex cursor-pointer flex-row odd:bg-gray-300 hover:bg-orange-400"
-                      onClick={() => {
-                        if (chosenProducts.some((p) => p.id === prod.id)) {
-                          setChosenProducts(
-                            chosenProducts.filter((p) => p.id !== prod.id),
-                          );
-                        } else {
-                          setChosenProducts([...chosenProducts, prod]);
-                        }
-                      }}
-                    >
-                      {chosenProducts.some((p) => p.id === prod.id) ? (
-                        <Check color="green" />
-                      ) : (
-                        <X />
-                      )}
-                      {prod.internalCode} - {prod.name} - {prod.color}
-                    </div>
-                  ))}
-                </div>
-              )} */}
-            </div>
 
             <button className={componentThemes.outlinedButton}>
               {t("collection_modify")}
@@ -413,7 +211,6 @@ export default function Collection() {
                 {submitError}
               </p>
             )}
-            <div></div>
           </form>
           <ProductSelector
             onProductSelected={(prod) => {
