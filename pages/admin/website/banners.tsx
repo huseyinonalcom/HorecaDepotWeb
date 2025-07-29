@@ -1,10 +1,10 @@
+import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import { PromoBanner } from "../../../components/banners/PromoBanner";
 import componentThemes from "../../../components/componentThemes";
 import useTranslation from "next-translate/useTranslation";
-import Head from "next/head";
-import Link from "next/link";
-import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import { getBanners } from "../../api/private/banners";
+import Link from "next/link";
+import Head from "next/head";
 
 export default function Banners(props) {
   const { t, lang } = useTranslation("common");

@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
-import Head from "next/head";
-import useTranslation from "next-translate/useTranslation";
-import componentThemes from "../../../components/componentThemes";
 import CollectionPreview from "../../../components/admin/collection-preview";
-import Link from "next/link";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
+import componentThemes from "../../../components/componentThemes";
+import useTranslation from "next-translate/useTranslation";
+import Card from "../../../components/universal/Card";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import Head from "next/head";
+import { PlusIcon } from "@heroicons/react/24/outline";
 
 export default function Collections() {
   const { t, lang } = useTranslation("common");
@@ -41,28 +43,40 @@ export default function Collections() {
       <Head>
         <title>{t("collections")}</title>
       </Head>
-      <div className="mx-auto flex w-[95%] flex-col items-center p-2">
-        <div className="flex flex-row">
-          <Link
-            className={componentThemes.outlinedButton}
-            href={"/admin/website/collection"}
-          >
-            {t("New Collection")}
-          </Link>
-        </div>
-        {collections && (
-          <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
-            {collections.map((collection) => (
-              <CollectionPreview key={collection.id} collection={collection} />
-            ))}
+      <Card>
+        <h1 className="text-3xl font-bold">{t("collections")}</h1>
+        <div className="mx-auto flex w-[95%] flex-col items-center gap-3 p-2">
+          <div className="flex flex-row">
+            <Link
+              className={
+                "mt-2 flex w-full flex-row gap-2 border-1 border-black px-2 py-2 font-bold text-black duration-300 hover:bg-neutral-200"
+              }
+              href={"/admin/website/collection"}
+            >
+              {t("New Collection")} <PlusIcon height={24} width={24} />
+            </Link>
           </div>
-        )}
-      </div>
+          {collections && (
+            <div className="grid w-full grid-cols-1 flex-col gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {collections.map((collection) => (
+                <div
+                  key={collection.id}
+                  className="odd:bg-gray-100 even:bg-white"
+                >
+                  <CollectionPreview collection={collection} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </Card>
     </>
   );
 }
 
 Collections.getLayout = function getLayout(children) {
   const { t } = useTranslation("common");
-  return <AdminPanelLayout title={t("collections")}>{children}</AdminPanelLayout>;
+  return (
+    <AdminPanelLayout title={t("collections")}>{children}</AdminPanelLayout>
+  );
 };
