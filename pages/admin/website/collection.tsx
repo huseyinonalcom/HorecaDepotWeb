@@ -169,7 +169,7 @@ export default function Collection() {
         <Head>
           <title>{t("collection")}</title>
         </Head>
-        <div className="mx-auto flex w-[95vw] flex-row items-start justify-start">
+        <div className="w-full flex flex-col items-center justify-center">
           <div className="mx-auto py-2">
             <LoadingIndicator />
           </div>
