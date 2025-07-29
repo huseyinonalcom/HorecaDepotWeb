@@ -21,7 +21,12 @@ export default function Collection() {
   const { t, lang } = useTranslation("common");
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const [currentCollection, setCurrentCollection] = useState(null);
+  const [currentCollection, setCurrentCollection] = useState({
+    id: 0,
+    name: "",
+    category: "",
+    products: [],
+  });
 
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -296,7 +301,7 @@ export default function Collection() {
               </div>
             )}
             <div className="flex w-full flex-col overflow-y-auto">
-              {currentCollection.products.map((product) => (
+              {currentCollection?.products?.map((product) => (
                 <ButtonShadow1
                   key={"remove-" + product.id}
                   onClick={() =>
