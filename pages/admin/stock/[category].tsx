@@ -1,12 +1,29 @@
 import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
 import { formatCurrency } from "../../../api/utils/formatters/formatcurrency";
-import { getSuppliers } from "../../api/private/suppliers";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import { getAllCategories } from "../../api/categories/getallcategories";
 import { getAllProducts } from "../../api/products/admin/getallproducts";
 import { getCoverImageUrl } from "../../../api/utils/getprodcoverimage";
 import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
+import { getSuppliers } from "../../api/private/suppliers";
+import { fuzzySearch } from "../../api/public/search";
+import {
+  Pagination,
+  PaginationPrevious,
+  PaginationList,
+  PaginationPage,
+  PaginationGap,
+  PaginationNext,
+} from "../../../components/styled/pagination";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../../../components/styled/table";
 import { useRouter } from "next/router";
 import { LuDot } from "react-icons/lu";
 import { utils, write } from "xlsx";
@@ -20,23 +37,6 @@ import {
   FiDownload,
   FiPlusCircle,
 } from "react-icons/fi";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../../../components/styled/table";
-import {
-  Pagination,
-  PaginationPrevious,
-  PaginationList,
-  PaginationPage,
-  PaginationGap,
-  PaginationNext,
-} from "../../../components/styled/pagination";
-import { fuzzySearch } from "../../api/public/search";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");

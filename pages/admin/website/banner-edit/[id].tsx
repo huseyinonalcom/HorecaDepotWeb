@@ -3,14 +3,14 @@ import AdminPanelLayout from "../../../../components/admin/AdminPanelLayout";
 import { uploadFileToAPI } from "../../../api/private/files/uploadfile";
 import InputOutlined from "../../../../components/inputs/outlined";
 import ImageWithURL from "../../../../components/common/image";
+import { Button } from "../../../../components/styled/button";
 import useTranslation from "next-translate/useTranslation";
+import { getBanners } from "../../../api/private/banners";
+import { TrashIcon } from "@heroicons/react/24/outline";
 import { FiCheck } from "react-icons/fi";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Head from "next/head";
-import { getBanners } from "../../../api/private/banners";
-import { Button } from "../../../../components/styled/button";
-import { TrashIcon } from "@heroicons/react/24/outline";
 
 export default function BannerEdit(props) {
   const { t, lang } = useTranslation("common");

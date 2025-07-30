@@ -1,12 +1,13 @@
 import { formatDateAPIToBe } from "../../../api/utils/formatters/formatdateapibe";
 import { ProductSelector } from "../../../components/selector/ProductSelector";
-import { formatCurrency } from "../../../api/utils/formatters/formatcurrency";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import { getDocuments } from "../../api/private/documents/universal";
+import { Textarea } from "../../../components/styled/textarea";
 import { Button } from "../../../components/styled/button";
 import useTranslation from "next-translate/useTranslation";
 import { Dialog } from "../../../components/styled/dialog";
 import { Input } from "../../../components/styled/input";
+import { getUser } from "../../api/private/user";
 import { Portal } from "@headlessui/react";
 import {
   Table,
@@ -26,8 +27,6 @@ import {
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import Head from "next/head";
-import { getUser } from "../../api/private/user";
-import { Textarea } from "../../../components/styled/textarea";
 
 export default function Reservation({
   id,
