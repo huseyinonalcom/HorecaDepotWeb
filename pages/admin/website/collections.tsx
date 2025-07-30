@@ -1,12 +1,11 @@
 import CollectionPreview from "../../../components/admin/collection-preview";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
-import componentThemes from "../../../components/componentThemes";
 import useTranslation from "next-translate/useTranslation";
+import { PlusIcon } from "@heroicons/react/24/outline";
 import Card from "../../../components/universal/Card";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import { PlusIcon } from "@heroicons/react/24/outline";
 
 export default function Collections() {
   const { t, lang } = useTranslation("common");
@@ -14,15 +13,12 @@ export default function Collections() {
   const [collections, setCollections] = useState(null);
 
   const fetchCollections = async () => {
-    const fetchCollectionRequest = await fetch(
-      "/api/collections/public/getcollections",
-      {
-        method: "GET",
-      },
-    );
+    const fetchCollectionRequest = await fetch("/api/private/collections", {
+      method: "GET",
+    });
     if (fetchCollectionRequest.ok) {
       const fetchCollectionAnswer = await fetchCollectionRequest.json();
-      setCollections(fetchCollectionAnswer);
+      setCollections(fetchCollectionAnswer.data);
       return fetchCollectionAnswer;
     } else {
       return null;
@@ -48,10 +44,8 @@ export default function Collections() {
         <div className="mx-auto flex w-[95%] flex-col items-center gap-3 p-2">
           <div className="flex flex-row">
             <Link
-              className={
-                "mt-2 flex w-full flex-row gap-2 border-1 border-black px-2 py-2 font-bold text-black duration-300 hover:bg-neutral-200"
-              }
-              href={"/admin/website/collection"}
+              className="mt-2 flex w-full flex-row gap-2 border-1 border-black px-2 py-2 font-bold text-black duration-300 hover:bg-neutral-200"
+              href="/admin/website/collection"
             >
               {t("New Collection")} <PlusIcon height={24} width={24} />
             </Link>
