@@ -4,10 +4,10 @@ export const getCoverImageUrl = (prd: Product) => {
   if (prd.images == null || prd.images.length == 0) {
     return "/uploads/placeholder_9db455d1f1.png";
   }
-  if (prd.imageDirections && prd.imageDirections.fr != 0) {
+  if (prd.imageDirections && prd.imageDirections.fl != 0) {
     return (
       prd.images
-        .find((img) => img.id == prd.imageDirections.fr)
+        .find((img) => img.id == prd.imageDirections.fl)
         ?.url.replace("https://hdcdn.hocecomv1.com", "") ??
       prd.images.at(0)?.url.replace("https://hdcdn.hocecomv1.com", "") ??
       "/uploads/placeholder_9db455d1f1.png"

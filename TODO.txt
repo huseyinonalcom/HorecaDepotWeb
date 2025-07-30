@@ -1,21 +1,3 @@
-payments do not get confirmed // should be fixed
+can't create product from scratch (can clone to create one)
 
-e-mails might not be arriving
-
-after reservastion is confirmed, no more editing
-
-otomatik stok giriş/çıkış
-
-odeme girilebilecek (admin panelinden)
-
-inactive products appear as part of collection
-
-
-
-dugmeler siyah beyaz (renkli olmasin)
-
-istatisikler ekranı (hangi sayfalara kac kisi giriyor, sepette kalan urunler...)
-
-bazi yazi renkleri yanlis
-
-banners ekrani kaydet dugmesini daha belirgin, drawerda order secili gibi, daha kolay editleme
+collection does not update

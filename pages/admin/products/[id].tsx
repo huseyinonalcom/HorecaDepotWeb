@@ -6,6 +6,7 @@ import parseDecimal from "../../../api/utils/input_parsers/parseDecimal";
 import { getProductByID } from "../../api/products/admin/getproductbyid";
 import { Switch, SwitchField } from "../../../components/styled/switch";
 import { ColorChooser } from "../../../components/inputs/ColorChooser";
+import { uploadFileToAPI } from "../../api/private/files/uploadfile";
 import BarcodeToPng from "../../../components/common/barcodepng";
 import { InputImage } from "../../../components/form/InputImage";
 import { BadgeButton } from "../../../components/styled/badge";
@@ -20,9 +21,6 @@ import { Button } from "../../../components/styled/button";
 import { Product } from "../../../api/interfaces/product";
 import { Input } from "../../../components/styled/input";
 import { RxMagnifyingGlass } from "react-icons/rx";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import Head from "next/head";
 import {
   Field,
   FieldGroup,
@@ -30,6 +28,9 @@ import {
   Label,
   Legend,
 } from "../../../components/styled/fieldset";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import Head from "next/head";
 import {
   FiCopy,
   FiX,
@@ -41,7 +42,6 @@ import {
   FiArrowRight,
   FiTrash,
 } from "react-icons/fi";
-import { uploadFileToAPI } from "../../api/private/files/uploadfile";
 
 export default function ProductPage(props) {
   const { t, lang } = useTranslation("common");
