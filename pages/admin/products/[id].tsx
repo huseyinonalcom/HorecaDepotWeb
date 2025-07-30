@@ -1080,7 +1080,17 @@ export async function getServerSideProps(context) {
   let currentProduct: Product = {
     id: 0,
     supplier: allSuppliers.at(0),
-    product_extra: {},
+    width: 0,
+    depth: 0,
+    height: 0,
+    product_extra: {
+      diameter: 0,
+      armrest_height: 0,
+      seat_height: 0,
+      packaged_weight: 0,
+      packaged_weight_net: 0,
+      per_box: 0,
+    },
   };
   if (context.query.id != 0) {
     context.req.query = context.query;
