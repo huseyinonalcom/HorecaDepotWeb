@@ -1,7 +1,6 @@
 import { getAllCategoriesFlattened } from "./api/categories/public/getallcategoriesflattened";
 import { FiPlusSquare, FiX, FiCheck, FiChevronLeft } from "react-icons/fi";
 import CollectionShowcase from "../components/public/collection-showcase";
-import { getCollections } from "./api/collections/public/getcollections";
 import TextareaOutlined from "../components/inputs/textarea_outlined";
 import { CategoryBanner } from "../components/banners/CategoryBanner";
 import { uploadFileToAPI } from "./api/private/files/uploadfile";
@@ -30,6 +29,7 @@ import {
   DndContext,
   useSensor,
 } from "@dnd-kit/core";
+import { getCollections } from "./api/private/collections";
 
 export default function Index({
   homePage,

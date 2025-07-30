@@ -1,6 +1,6 @@
 import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
-import { getCollections } from "../../api/collections/public/getcollections";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
+import { getCollections } from "../../api/private/collections";
 import useTranslation from "next-translate/useTranslation";
 import { getHomepage } from "../../api/private/homepage";
 import { getBanners } from "../../api/private/banners";
@@ -12,7 +12,7 @@ import Index from "../..";
 export default function HomePageAdmin({
   homePageFromAPI,
   collectionsFromAPI,
-  bannersFromAPI, 
+  bannersFromAPI,
   allCategories,
 }) {
   const [homePage, setHomePage] = useState(homePageFromAPI);

@@ -1,8 +1,8 @@
-import { getCollections } from "../../api/collections/public/getcollections";
 import ProductPreview2 from "../../../components/products/product-preview2";
 import useTranslation from "next-translate/useTranslation";
 import Layout from "../../../components/public/layout";
 import Head from "next/head";
+import { getCollections } from "../../api/public/collections";
 
 export default function Collection(props) {
   const { t, lang } = useTranslation("common");
@@ -29,7 +29,7 @@ export default function Collection(props) {
           ) : (
             <div className="grid w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
               {props.collection.products.map((product) => (
-                <div key={product.id} className="mb-2 mt-2 w-full px-4">
+                <div key={product.id} className="mt-2 mb-2 w-full px-4">
                   <ProductPreview2 product={product} />
                 </div>
               ))}
@@ -42,7 +42,7 @@ export default function Collection(props) {
 }
 
 export async function getServerSideProps(context) {
-  const collection = await getCollections({ collectionID: context.params.id });
+  const collection = await getCollections({ id: context.params.id });
 
   if (context.params.name != collection.name) {
     return {
