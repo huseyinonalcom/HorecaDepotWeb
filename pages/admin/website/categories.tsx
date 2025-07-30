@@ -8,7 +8,7 @@ import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
 import Card from "../../../components/universal/Card";
 import { FiChevronLeft } from "react-icons/fi";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
@@ -239,9 +239,8 @@ export default function CategoriesAdmin() {
         {categories && (
           <div className="flex w-full flex-col gap-2">
             {categories.map((category, i) => (
-              <>
+              <Fragment key={category.id}>
                 <div
-                  key={category.id}
                   className={`flex w-full flex-row gap-3 rounded-md py-1 ${i % 2 == 0 ? "bg-gray-50" : ""}`}
                 >
                   <div className="flex flex-shrink-0 flex-row gap-2 p-2">
@@ -375,7 +374,7 @@ export default function CategoriesAdmin() {
                   </div>
                 </div>
                 <Divider />
-              </>
+              </Fragment>
             ))}
             <button
               onClick={async () => {
