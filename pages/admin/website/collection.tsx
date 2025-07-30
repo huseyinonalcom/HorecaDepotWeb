@@ -7,33 +7,38 @@ import { Switch, SwitchField } from "../../../components/styled/switch";
 import StyledForm from "../../../components/form/StyledForm";
 import { Divider } from "../../../components/styled/divider";
 import useTranslation from "next-translate/useTranslation";
+import { CSSProperties, useEffect, useState } from "react";
 import { Button } from "../../../components/styled/button";
 import { Input } from "../../../components/styled/input";
-import { FiCopy, FiTrash } from "react-icons/fi";
-import { CSSProperties, useEffect, useState } from "react";
-import { useRouter } from "next/router";
-
+import { FiCopy, FiTrash, FiX } from "react-icons/fi";
 import { CSS } from "@dnd-kit/utilities";
+import { useRouter } from "next/router";
 import Head from "next/head";
-import {
-  closestCenter,
-  DndContext,
-  PointerSensor,
-  useSensor,
-} from "@dnd-kit/core";
 import {
   arrayMove,
   rectSortingStrategy,
   SortableContext,
   useSortable,
 } from "@dnd-kit/sortable";
+import {
+  closestCenter,
+  DndContext,
+  PointerSensor,
+  useSensor,
+} from "@dnd-kit/core";
 
-const DraggableProduct = ({ product, onClick }) => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({
-      id: product.id,
-      animateLayoutChanges: () => false,
-    });
+const DraggableProduct = ({ product, onClick: onDeleteClick }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: product.id,
+    animateLayoutChanges: () => false,
+  });
 
   const style: CSSProperties = {
     transform: CSS.Transform.toString(transform),
@@ -48,9 +53,16 @@ const DraggableProduct = ({ product, onClick }) => {
       {...attributes}
       {...listeners}
       style={style}
-      className={`w-[50vw] bg-white md:w-[33vw] lg:w-[250px] ${isDragging ? "z-[99]" : ""}`}
+      className={`relative w-[50vw] bg-white md:w-[33vw] lg:w-[250px] ${isDragging ? "z-[99]" : ""}`}
     >
-      <ProductPreviewCustom onClick={onClick} product={product} />
+      <button
+        type="button"
+        onClick={onDeleteClick}
+        className="absolute bottom-3 right-3"
+      >
+        <FiTrash color="red" />
+      </button>
+      <ProductPreviewCustom onClick={() => {}} product={product} />
     </div>
   );
 };
