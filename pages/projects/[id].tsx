@@ -3,8 +3,8 @@ import Layout from "../../components/public/layout";
 import Head from "next/head";
 import Link from "next/link";
 import { getProjectByID } from "../api/projects/public/getprojectbyid";
-import { getAllProjectIDs } from "../api/projects/public/getallprojectids";
 import ImageWithURL from "../../components/common/image";
+import { getAllProjectIDs } from "../api/projects/public/getallprojectids";
 
 type Props = {
   project;
