@@ -76,6 +76,8 @@ export async function putCollection({
   }
 
   try {
+    const body = JSON.stringify({ data: JSON.parse(data) });
+
     const reqBanner = await fetch(fetchUrl + "/" + id, {
       method: "PUT",
       headers: {
@@ -83,9 +85,7 @@ export async function putCollection({
         Accept: "application/json",
         Authorization: `Bearer ${authToken}`,
       },
-      body: JSON.stringify({
-        data,
-      }),
+      body: body,
     });
 
     return { result: { id: reqBanner } };
