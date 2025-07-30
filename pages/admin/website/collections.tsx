@@ -55,7 +55,7 @@ export default function Collections() {
               {collections.map((collection) => (
                 <div
                   key={collection.id}
-                  className="odd:bg-gray-100 even:bg-white"
+                  className="rounded-md border-2 border-gray-500 bg-white"
                 >
                   <CollectionPreview collection={collection} />
                 </div>

@@ -71,28 +71,32 @@ const CollectionPreview = ({ collection }) => {
         )}
         {collectionImages.length > 1 && (
           <>
-            <button
-              type="button"
-              className="absolute left-0 z-40 flex h-full flex-col justify-center opacity-70"
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                slidePrevious();
-              }}
-            >
-              <FiArrowLeft size={24} />
-            </button>
-            <button
-              type="button"
-              className="absolute right-0 z-40 flex h-full flex-col justify-center opacity-70"
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                slideNext();
-              }}
-            >
-              <FiArrowLeft size={24} className="rotate-180" />
-            </button>
+            <div className="absolute left-0 z-40 flex h-full flex-col justify-center">
+              <button
+                className="rounded-lg bg-black p-0.5 duration-200 hover:opacity-80"
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  slidePrevious();
+                }}
+              >
+                <FiArrowLeft size={24} color="white" />
+              </button>
+            </div>
+            <div className="absolute right-0 z-40 flex h-full flex-col justify-center">
+              <button
+                type="button"
+                className="rounded-lg bg-black p-0.5 duration-200 hover:opacity-80"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  slideNext();
+                }}
+              >
+                <FiArrowLeft size={24} className="rotate-180" color="white" />
+              </button>
+            </div>
           </>
         )}
       </div>
