@@ -28,12 +28,6 @@ export async function getCollections({
 
     if (fetchCollectionsRequest.ok) {
       const fetchCollectionsAnswer = ans;
-      // Sort collection products by value (ascending)
-      for (let i = 0; i < fetchCollectionsAnswer.data.length; i++) {
-        fetchCollectionsAnswer.data[i].products = fetchCollectionsAnswer.data[
-          i
-        ].products.sort((a, b) => a.value - b.value);
-      }
 
       return fetchCollectionsAnswer.data;
     } else {

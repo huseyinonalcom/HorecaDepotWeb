@@ -20,16 +20,23 @@ export const PromoBanner = ({
   const { lang } = useTranslation("common");
   const image = banner.images.find((img) => img.locale == lang);
 
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({
-      id: banner.id,
-      animateLayoutChanges: () => false,
-      disabled: disabled,
-    });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: banner.id,
+    animateLayoutChanges: () => false,
+    disabled: disabled,
+  });
 
   const style: CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
+    zIndex: isDragging ? 99 : undefined,
   };
 
   const Wrapper = ({ children }) =>

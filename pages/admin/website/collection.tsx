@@ -29,7 +29,7 @@ import {
 } from "@dnd-kit/sortable";
 
 const DraggableProduct = ({ product, onClick }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({
       id: product.id,
       animateLayoutChanges: () => false,
@@ -48,7 +48,7 @@ const DraggableProduct = ({ product, onClick }) => {
       {...attributes}
       {...listeners}
       style={style}
-      className="w-[50vw] bg-white md:w-[33vw] lg:w-[250px]"
+      className={`w-[50vw] bg-white md:w-[33vw] lg:w-[250px] ${isDragging ? "z-[99]" : ""}`}
     >
       <ProductPreviewCustom onClick={onClick} product={product} />
     </div>
