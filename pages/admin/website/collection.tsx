@@ -58,7 +58,7 @@ const DraggableProduct = ({ product, onClick: onDeleteClick }) => {
       <button
         type="button"
         onClick={onDeleteClick}
-        className="absolute bottom-3 right-3"
+        className="absolute right-3 bottom-3"
       >
         <FiTrash color="red" />
       </button>
@@ -157,7 +157,6 @@ export default function Collection() {
     });
     if (request.ok) {
       const answer = await request.json();
-      console.log(answer);
       router.push("/admin/website/collections");
     } else {
       const answer = await request.text();
@@ -277,7 +276,7 @@ export default function Collection() {
             <SwitchField className="flex flex-row items-start">
               <Label>{t("active")}</Label>
               <Switch
-                defaultChecked={currentCollection.featured}
+                checked={currentCollection.featured}
                 color="green"
                 onChange={(e) => {
                   setCurrentCollection((pp) => ({
