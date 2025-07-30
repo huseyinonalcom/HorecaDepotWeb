@@ -1,8 +1,9 @@
 import { ProductPreviewCustom } from "../../../components/products/product-preview-custom";
 import { ProductSelector } from "../../../components/selector/ProductSelector";
+import { Fieldset, Label, Legend } from "../../../components/styled/fieldset";
 import LoadingIndicator from "../../../components/common/loadingIndicator";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
-import { Fieldset, Label, Legend } from "../../../components/styled/fieldset";
+import { Switch, SwitchField } from "../../../components/styled/switch";
 import StyledForm from "../../../components/form/StyledForm";
 import { Divider } from "../../../components/styled/divider";
 import useTranslation from "next-translate/useTranslation";
@@ -12,8 +13,6 @@ import { FiCopy, FiTrash } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { features } from "process";
-import { Switch, SwitchField } from "../../../components/styled/switch";
 
 export default function Collection() {
   const router = useRouter();

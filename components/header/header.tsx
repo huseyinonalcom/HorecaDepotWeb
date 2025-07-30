@@ -773,7 +773,7 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
             <FiX />
           </button>
         </div>
-        <div className="my-4 grid grid-cols-4 gap-4 border-t bg-white py-2 text-gray-500 duration-300">
+        <div className="my-4 grid grid-cols-4 gap-4 border-t bg-white py-2 duration-300">
           {categories
             .filter((cat) => cat.subCategories.length > 0)
             .map((category) => (
