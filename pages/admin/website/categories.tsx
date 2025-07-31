@@ -5,6 +5,7 @@ import componentThemes from "../../../components/componentThemes";
 import InputOutlined from "../../../components/inputs/outlined";
 import { Divider } from "../../../components/styled/divider";
 import ImageWithURL from "../../../components/common/image";
+import { Category } from "../../../api/interfaces/category";
 import useTranslation from "next-translate/useTranslation";
 import { Fragment, useEffect, useState } from "react";
 import Card from "../../../components/universal/Card";
@@ -71,20 +72,60 @@ const CategoryItem = ({ category, onClick }) => {
   );
 };
 
+const hierarchizeCategories = (categories) => {
+  const isCategoryActive = (category) => {
+    const products = category.products_multi_categories;
+    return Array.isArray(products) && products.some((p) => p.active);
+  };
+
+  const categoriesToHandle = structuredClone(
+    categories.map((cat) => ({ ...cat, subCategories: [] })),
+  );
+
+  const categoryMap = new Map(categoriesToHandle.map((cat) => [cat.id, cat]));
+
+  categoriesToHandle.forEach((category) => {
+    if (category.headCategory) {
+      const parent = categoryMap.get(category.headCategory.id) as Category;
+      if (parent) {
+        parent.subCategories.push(category);
+      }
+    }
+  });
+
+  const hasActiveProductsOrChildren = (category) => {
+    if (isCategoryActive(category)) return true;
+    return category.subCategories.some(hasActiveProductsOrChildren);
+  };
+
+  const filterCategoryTree = (category) => {
+    category.subCategories = category.subCategories
+      .map(filterCategoryTree)
+      .filter(Boolean);
+    return hasActiveProductsOrChildren(category) ? category : null;
+  };
+
+  const rootCategories = categoriesToHandle.filter((cat) => !cat.headCategory);
+
+  return rootCategories.map(filterCategoryTree).filter(Boolean);
+};
+
 export default function CategoriesAdmin() {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
   const [categories, setCategories] = useState(null);
-  const [previewCategories, setPreviewCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
+  let previewCategories = [];
+
+  if (categories) {
+    previewCategories = hierarchizeCategories(categories);
+  }
+
   const fetchCategories = async () => {
-    const fetchWebsiteRequest = await fetch(
-      "/api/categories/public/getallcategoriesflattened",
-      {
-        method: "GET",
-      },
-    );
+    const fetchWebsiteRequest = await fetch("/api/private/categories", {
+      method: "GET",
+    });
     if (fetchWebsiteRequest.ok) {
       const fetchWebsiteRequestAnswer = await fetchWebsiteRequest.json();
       return fetchWebsiteRequestAnswer;
@@ -93,20 +134,9 @@ export default function CategoriesAdmin() {
     }
   };
 
-  const fetchPreviewCategories = async () => {
-    const fetchWebsiteRequest = await fetch(
-      "/api/categories/getallcategories?flat=false",
-      {
-        method: "GET",
-      },
-    );
-    if (fetchWebsiteRequest.ok) {
-      const fetchWebsiteRequestAnswer = await fetchWebsiteRequest.json();
-      return fetchWebsiteRequestAnswer;
-    } else {
-      return null;
-    }
-  };
+  useEffect(() => {
+    fetchAndSetCategories();
+  }, [selectedCategory.id]);
 
   const putCategory = async () => {
     const putWebsiteRequest = await fetch("/api/private/categories", {
@@ -120,37 +150,14 @@ export default function CategoriesAdmin() {
     }
   };
 
+  const fetchAndSetCategories = async () => {
+    await fetchCategories().then((res) => {
+      setCategories(res);
+    });
+  };
+
   useEffect(() => {
     if (!categories) {
-      const fetchAndSetCategories = async () => {
-        await fetchCategories().then((res) => {
-          setCategories(res);
-          return res;
-        });
-
-        await fetchPreviewCategories().then((res) => {
-          const validCategories = [];
-          res?.forEach((category) => {
-            if (category.products_multi_categories.length > 0) {
-              validCategories.push(category);
-            } else if (category.subCategories) {
-              category.subCategories.forEach((subCategory) => {
-                if (subCategory.products_multi_categories.length > 0) {
-                  validCategories.push(category);
-                } else if (subCategory.subCategories) {
-                  subCategory.subCategories.forEach((subSubCategory) => {
-                    if (subSubCategory.products_multi_categories.length > 0) {
-                      validCategories.push(category);
-                    }
-                  });
-                }
-              });
-            }
-          });
-          let dedupedCategories = new Set(validCategories);
-          setPreviewCategories(Array.from(dedupedCategories));
-        });
-      };
       fetchAndSetCategories();
     }
   }, []);
@@ -383,12 +390,16 @@ export default function CategoriesAdmin() {
                         }
                       }
                       onChange={(value) => {
-                        setSelectedCategory((prev) => {
-                          const newMediaGroups = [...prev];
-                          newMediaGroups.find(
-                            (mg) => mg.id == selectedCategory.id,
+                        setSelectedCategory((prev) => ({
+                          ...prev,
+                          localized_name: value,
+                        }));
+                        setCategories((prev) => {
+                          const categories = [...prev];
+                          categories.find(
+                            (cat) => cat.id == selectedCategory.id,
                           ).localized_name = value;
-                          return newMediaGroups;
+                          return categories;
                         });
                       }}
                     />
