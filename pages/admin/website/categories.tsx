@@ -1,16 +1,14 @@
 import { LocalizedInput } from "../../../components/inputs/localized_input";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
+import { FiChevronLeft, FiCopy, FiPlus, FiTrash } from "react-icons/fi";
 import { uploadFileToAPI } from "../../api/private/files/uploadfile";
-import componentThemes from "../../../components/componentThemes";
 import InputOutlined from "../../../components/inputs/outlined";
-import { Divider } from "../../../components/styled/divider";
+import StyledForm from "../../../components/form/StyledForm";
 import ImageWithURL from "../../../components/common/image";
 import { Category } from "../../../api/interfaces/category";
 import useTranslation from "next-translate/useTranslation";
-import { Fragment, useEffect, useState } from "react";
-import Card from "../../../components/universal/Card";
-import { FiChevronLeft } from "react-icons/fi";
-import { useRouter } from "next/router";
+import { Button } from "../../../components/styled/button";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 
 const CategoryItem = ({ category, onClick }) => {
@@ -72,7 +70,7 @@ const CategoryItem = ({ category, onClick }) => {
   );
 };
 
-export const hierarchizeCategories = (categories) => {
+export const hierarchizeCategories = (categories, preserveEmpty = false) => {
   const isCategoryActive = (category) => {
     const products = category.products_multi_categories;
     return Array.isArray(products) && products.some((p) => p.active);
@@ -93,25 +91,37 @@ export const hierarchizeCategories = (categories) => {
     }
   });
 
-  const hasActiveProductsOrChildren = (category) => {
-    if (isCategoryActive(category)) return true;
-    return category.subCategories.some(hasActiveProductsOrChildren);
-  };
-
-  const filterCategoryTree = (category) => {
-    category.subCategories = category.subCategories
-      .map(filterCategoryTree)
-      .filter(Boolean);
-    return hasActiveProductsOrChildren(category) ? category : null;
-  };
-
   const rootCategories = categoriesToHandle.filter((cat) => !cat.headCategory);
 
-  return rootCategories.map(filterCategoryTree).filter(Boolean);
+  if (preserveEmpty) {
+    return rootCategories;
+  }
+
+  const stack = [...categoriesToHandle];
+  const visited = new Set();
+
+  while (stack.length > 0) {
+    const current = stack.pop();
+
+    if (!current) continue;
+
+    if (visited.has(current.id)) {
+      current.subCategories = current.subCategories.filter((sub) => sub._keep);
+      current._keep =
+        isCategoryActive(current) || current.subCategories.length > 0;
+    } else {
+      stack.push(current);
+      visited.add(current.id);
+      for (const sub of current.subCategories) {
+        stack.push(sub);
+      }
+    }
+  }
+
+  return rootCategories.filter((cat) => cat._keep);
 };
 
 export default function CategoriesAdmin() {
-  const router = useRouter();
   const { t, lang } = useTranslation("common");
   const [categories, setCategories] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -119,7 +129,9 @@ export default function CategoriesAdmin() {
   let previewCategories = [];
 
   if (categories) {
-    previewCategories = hierarchizeCategories(categories);
+    console.log(categories);
+    previewCategories = hierarchizeCategories(categories, true);
+    console.log(previewCategories);
   }
 
   const fetchCategories = async () => {
@@ -139,11 +151,21 @@ export default function CategoriesAdmin() {
   }, [selectedCategory?.id]);
 
   const postCategory = async () => {
+    if (!selectedCategory.Name) {
+      selectedCategory.Name = selectedCategory.localized_name["en"];
+    }
+
     const postWebsiteRequest = await fetch("/api/private/categories", {
       method: "POST",
       body: JSON.stringify(selectedCategory),
     });
     if (postWebsiteRequest.ok) {
+      const answer = await postWebsiteRequest.json();
+      if (answer.error) {
+        alert(answer.error);
+        return false;
+      }
+
       setSelectedCategory(null);
       return true;
     } else {
@@ -160,6 +182,12 @@ export default function CategoriesAdmin() {
       },
     );
     if (putWebsiteRequest.ok) {
+      const answer = await putWebsiteRequest.json();
+      if (answer.error) {
+        alert(answer.error);
+        return false;
+      }
+
       setSelectedCategory(null);
       return true;
     } else {
@@ -168,13 +196,17 @@ export default function CategoriesAdmin() {
   };
 
   const deleteCategory = async () => {
-    const deleteWebsiteRequest = await fetch(
+    if (!confirm(t("confirm_delete"))) {
+      return;
+    }
+
+    const deleteCategoryRequest = await fetch(
       "/api/private/categories?id=" + selectedCategory.id,
       {
         method: "DELETE",
       },
     );
-    if (deleteWebsiteRequest.ok) {
+    if (deleteCategoryRequest.ok) {
       setSelectedCategory(null);
       return true;
     } else {
@@ -193,6 +225,31 @@ export default function CategoriesAdmin() {
       fetchAndSetCategories();
     }
   }, []);
+
+  useEffect(() => {
+    if (
+      selectedCategory &&
+      selectedCategory?.id != 0 &&
+      categories &&
+      categories.length > 0
+    ) {
+      setCategories((prev) => {
+        let newCategories = prev;
+        newCategories[
+          newCategories.findIndex((cat) => cat.id == selectedCategory.id)
+        ] = selectedCategory;
+        return newCategories;
+      });
+    }
+  }, [selectedCategory]);
+
+  const handleSubmit = () => {
+    if (selectedCategory.id != 0) {
+      putCategory();
+    } else {
+      postCategory();
+    }
+  };
 
   return (
     <>
@@ -215,22 +272,15 @@ export default function CategoriesAdmin() {
                     >
                       {category.localized_name[lang]}
                     </button>
-                    {category.subCategories
-                      .filter(
-                        (subCategory) =>
-                          subCategory.products_multi_categories.filter(
-                            (prod) => prod.active,
-                          ).length > 0 || subCategory.subCategories.length > 0,
-                      )
-                      .map((subCategory) => (
-                        <CategoryItem
-                          key={subCategory.id}
-                          category={subCategory}
-                          onClick={(sc) => {
-                            setSelectedCategory(sc);
-                          }}
-                        />
-                      ))}
+                    {category.subCategories.map((subCategory) => (
+                      <CategoryItem
+                        key={subCategory.id}
+                        category={subCategory}
+                        onClick={(sc) => {
+                          setSelectedCategory(sc);
+                        }}
+                      />
+                    ))}
                   </div>
                 ))}
             {previewCategories &&
@@ -263,301 +313,169 @@ export default function CategoriesAdmin() {
           </div>
         </div>
       </div>
-      <Card>
-        {false && categories && (
-          <div className="flex w-full flex-col gap-2">
-            {categories.map((category, i) => (
-              <Fragment key={category.id}>
-                <div
-                  className={`flex w-full flex-row gap-3 rounded-md py-1 ${i % 2 == 0 ? "bg-gray-50" : ""}`}
+      <Button
+        type="button"
+        className="mb-4"
+        onClick={() =>
+          setSelectedCategory({
+            id: 0,
+          })
+        }
+      >
+        <div className="p-2">
+          <FiPlus />
+        </div>
+      </Button>
+      {selectedCategory && (
+        <StyledForm
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+          bottomBarChildren={
+            selectedCategory.id != 0 && (
+              <>
+                <Button type="button" color="red" onClick={deleteCategory}>
+                  <div className="p-2">
+                    <FiTrash />
+                  </div>
+                </Button>
+                <Button
+                  type="button"
+                  color="white"
+                  onClick={() =>
+                    setSelectedCategory((sc) => ({
+                      ...sc,
+                      id: 0,
+                    }))
+                  }
                 >
-                  <div className="flex flex-shrink-0 flex-row gap-2 p-2">
-                    <div className="flex w-[250px] flex-shrink-0 flex-col gap-2">
-                      <div className="w-full">
-                        <LocalizedInput
-                          value={
-                            category.localized_name ?? {
-                              nl: category?.Name,
-                              en: category?.Name,
-                              fr: category?.Name,
-                              de: category?.Name,
-                            }
-                          }
-                          onChange={(value) => {
-                            setCategories((prev) => {
-                              const newMediaGroups = [...prev];
-                              newMediaGroups.find(
-                                (mg) => mg.id == category.id,
-                              ).localized_name = value;
-                              return newMediaGroups;
-                            });
-                          }}
-                        />
-                      </div>
-                      <InputOutlined
-                        label="order"
-                        value={category.priority}
-                        onChange={(e) => {
-                          setCategories((prev) => {
-                            const newCategories = [...prev];
-                            newCategories.find(
-                              (cat) => cat.id == category.id,
-                            ).priority = e.target.value;
-                            return newCategories;
-                          });
-                        }}
-                        name="priority"
-                        min={1}
-                        type="number"
-                      />
-                      <div className="flex flex-col gap-1 border bg-slate-100 p-1">
-                        <p>{t("parent_category")}</p>
-                        <select
-                          value={category.headCategory?.id ?? null}
-                          name="headCategory"
-                          id={`${category.id}-headCategory`}
-                          onChange={(e) => {
-                            setCategories((prev) => {
-                              const newCategories = [...prev];
-                              newCategories.find(
-                                (cat) => cat.id == category.id,
-                              ).headCategory = newCategories.find(
-                                (cat) => cat.id == e.target.value,
-                              );
-                              return newCategories;
-                            });
-                          }}
-                        >
-                          <option value={null}>
-                            {t("no_parent_category")}
-                          </option>
-                          {categories
-                            .filter((cat) => cat.id != category.id)
-                            .map((cat) => (
-                              <option
-                                key={
-                                  cat.id + "-" + category.id + "-headCategory"
-                                }
-                                value={cat.id}
-                              >
-                                {cat.localized_name[lang]}
-                              </option>
-                            ))}
-                        </select>
-                      </div>
-                    </div>
-
-                    <InputOutlined
-                      label="add image"
-                      type="file"
-                      name="image"
-                      onChange={async (e) => {
-                        if (!e.target.files.item(0)) {
-                          return;
-                        } else {
-                          uploadFileToAPI({
-                            file: e.target.files.item(0),
-                          })
-                            .then((res) => {
-                              setCategories((prev) => {
-                                const newMediaGroups = [...prev];
-                                newMediaGroups.find(
-                                  (mg) => mg.id == category.id,
-                                ).image = {
-                                  id: res.id,
-                                  url: res.url,
-                                  alt: "",
-                                };
-                                return newMediaGroups;
-                              });
-                            })
-                            .then(() => {
-                              e.target.value = "";
-                            });
-                        }
-                      }}
-                    />
-                    <button
-                      onClick={() => {
-                        setCategories((prev) => {
-                          const newMediaGroups = [...prev];
-                          newMediaGroups.find(
-                            (mg) => mg.id == category.id,
-                          ).image = null;
-                          return newMediaGroups;
-                        });
-                      }}
-                    >
-                      {t("delete_image")}
-                    </button>
-                    {category.image && (
-                      <ImageWithURL
-                        src={category.image.url}
-                        alt={category.image.alt}
-                        height={500}
-                        width={500}
-                        className="h-[250px] w-auto"
-                      />
-                    )}
+                  <div className="p-2">
+                    <FiCopy />
                   </div>
-                </div>
-                <Divider />
-              </Fragment>
-            ))}
-          </div>
-        )}
-        {selectedCategory && (
-          <div className="flex w-full flex-col gap-2" key={selectedCategory.id}>
-            <div className="flex w-full flex-row gap-3 rounded-md py-1">
-              <div className="flex flex-shrink-0 flex-row gap-2 p-2">
-                <div className="flex w-[250px] flex-shrink-0 flex-col gap-2">
-                  <div className="w-full">
-                    <LocalizedInput
-                      value={
-                        selectedCategory.localized_name ?? {
-                          nl: selectedCategory?.Name,
-                          en: selectedCategory?.Name,
-                          fr: selectedCategory?.Name,
-                          de: selectedCategory?.Name,
-                        }
+                </Button>
+              </>
+            )
+          }
+          key={selectedCategory.id}
+        >
+          <div className="flex w-full flex-row gap-3 rounded-md py-1">
+            <div className="flex flex-shrink-0 flex-row gap-2 p-2">
+              <div className="flex w-[250px] flex-shrink-0 flex-col gap-2">
+                <div className="w-full">
+                  <LocalizedInput
+                    value={
+                      selectedCategory.localized_name ?? {
+                        nl: selectedCategory?.Name,
+                        en: selectedCategory?.Name,
+                        fr: selectedCategory?.Name,
+                        de: selectedCategory?.Name,
                       }
-                      onChange={(value) => {
-                        setSelectedCategory((prev) => ({
-                          ...prev,
-                          localized_name: value,
-                        }));
-                        setCategories((prev) => {
-                          const categories = [...prev];
-                          categories.find(
-                            (cat) => cat.id == selectedCategory.id,
-                          ).localized_name = value;
-                          return categories;
-                        });
-                      }}
-                    />
-                  </div>
-                  <InputOutlined
-                    label="order"
-                    value={selectedCategory.priority}
-                    onChange={(e) => {
-                      setCategories((prev) => {
-                        const newCategories = [...prev];
-                        newCategories.find(
-                          (cat) => cat.id == selectedCategory.id,
-                        ).priority = e.target.value;
-                        return newCategories;
-                      });
-                    }}
-                    name="priority"
-                    min={1}
-                    type="number"
-                  />
-                  <div className="flex flex-col gap-1 border bg-slate-100 p-1">
-                    <p>{t("parent_category")}</p>
-                    <select
-                      value={selectedCategory.headCategory?.id ?? null}
-                      name="headCategory"
-                      id={`${selectedCategory.id}-headCategory`}
-                      onChange={(e) => {
-                        setCategories((prev) => {
-                          const newCategories = [...prev];
-                          newCategories.find(
-                            (cat) => cat.id == selectedCategory.id,
-                          ).headCategory = newCategories.find(
-                            (cat) => cat.id == e.target.value,
-                          );
-                          return newCategories;
-                        });
-                      }}
-                    >
-                      <option value={null}>{t("no_parent_category")}</option>
-                      {categories
-                        .filter((cat) => cat.id != selectedCategory.id)
-                        .map((cat) => (
-                          <option
-                            key={
-                              cat.id +
-                              "-" +
-                              selectedCategory.id +
-                              "-headCategory"
-                            }
-                            value={cat.id}
-                          >
-                            {cat.localized_name[lang]}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-                </div>
-
-                <InputOutlined
-                  label="add image"
-                  type="file"
-                  name="image"
-                  onChange={async (e) => {
-                    if (!e.target.files.item(0)) {
-                      return;
-                    } else {
-                      uploadFileToAPI({
-                        file: e.target.files.item(0),
-                      })
-                        .then((res) => {
-                          setCategories((prev) => {
-                            const newMediaGroups = [...prev];
-                            newMediaGroups.find(
-                              (mg) => mg.id == selectedCategory.id,
-                            ).image = {
-                              id: res.id,
-                              url: res.url,
-                              alt: "",
-                            };
-                            return newMediaGroups;
-                          });
-                        })
-                        .then(() => {
-                          e.target.value = "";
-                        });
                     }
-                  }}
-                />
-                <button
-                  onClick={() => {
-                    setCategories((prev) => {
-                      const newMediaGroups = [...prev];
-                      newMediaGroups.find(
-                        (mg) => mg.id == selectedCategory.id,
-                      ).image = null;
-                      return newMediaGroups;
+                    onChange={(value) => {
+                      setSelectedCategory((prev) => ({
+                        ...prev,
+                        localized_name: value,
+                      }));
+                    }}
+                  />
+                </div>
+                <InputOutlined
+                  label="order"
+                  value={selectedCategory.priority}
+                  onChange={(e) => {
+                    setSelectedCategory((sc) => {
+                      const newCategory = { ...sc };
+                      newCategory.priority = e.target.value;
+                      return newCategory;
                     });
                   }}
-                >
-                  {t("delete_image")}
-                </button>
-                {selectedCategory.image && (
-                  <ImageWithURL
-                    src={selectedCategory.image.url}
-                    alt={selectedCategory.image.alt}
-                    height={500}
-                    width={500}
-                    className="h-[250px] w-auto"
-                  />
-                )}
+                  name="priority"
+                  min={1}
+                  type="number"
+                />
+                <div className="flex flex-col gap-1 border bg-slate-100 p-1">
+                  <p>{t("parent_category")}</p>
+                  <select
+                    value={selectedCategory.headCategory?.id ?? null}
+                    name="headCategory"
+                    id={`${selectedCategory.id}-headCategory`}
+                    onChange={(e) => {
+                      setSelectedCategory((sc) => ({
+                        ...sc,
+                        headCategory: categories.find(
+                          (cat) => cat.id == e.target.value,
+                        ),
+                      }));
+                    }}
+                  >
+                    <option value={null}>{t("no_parent_category")}</option>
+                    {categories
+                      .filter((cat) => cat.id != selectedCategory.id)
+                      .map((cat) => (
+                        <option
+                          key={
+                            cat.id + "-" + selectedCategory.id + "-headCategory"
+                          }
+                          value={cat.id}
+                        >
+                          {cat.localized_name[lang]}
+                        </option>
+                      ))}
+                  </select>
+                </div>
               </div>
+
+              <InputOutlined
+                label="add image"
+                type="file"
+                name="image"
+                onChange={async (e) => {
+                  if (!e.target.files.item(0)) {
+                    return;
+                  } else {
+                    uploadFileToAPI({
+                      file: e.target.files.item(0),
+                    })
+                      .then((res) => {
+                        setSelectedCategory((sc) => ({
+                          ...sc,
+                          image: {
+                            id: res.id,
+                            url: res.url,
+                            alt: "",
+                          },
+                        }));
+                      })
+                      .then(() => {
+                        e.target.value = "";
+                      });
+                  }
+                }}
+              />
+              <button
+                onClick={() => {
+                  setSelectedCategory((sc) => ({
+                    ...sc,
+                    image: null,
+                  }));
+                }}
+              >
+                {t("delete_image")}
+              </button>
+              {selectedCategory.image && (
+                <ImageWithURL
+                  src={selectedCategory.image.url}
+                  alt={selectedCategory.image.alt}
+                  height={500}
+                  width={500}
+                  className="h-[250px] w-auto"
+                />
+              )}
             </div>
-            <button
-              onClick={async () => {
-                const response = await putCategory();
-                if (response == true) {
-                  router.reload();
-                }
-              }}
-              className={componentThemes.outlinedButton}
-            >
-              {t("save")}
-            </button>
           </div>
-        )}
-      </Card>
+        </StyledForm>
+      )}
     </>
   );
 }
