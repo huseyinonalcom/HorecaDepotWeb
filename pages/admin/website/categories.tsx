@@ -129,9 +129,7 @@ export default function CategoriesAdmin() {
   let previewCategories = [];
 
   if (categories) {
-    console.log(categories);
     previewCategories = hierarchizeCategories(categories, true);
-    console.log(previewCategories);
   }
 
   const fetchCategories = async () => {
