@@ -6,23 +6,11 @@ import InputOutlined from "../../../components/inputs/outlined";
 import { Divider } from "../../../components/styled/divider";
 import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
+import { Fragment, useEffect, useState } from "react";
 import Card from "../../../components/universal/Card";
 import { FiChevronLeft } from "react-icons/fi";
-import { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-
-function compareArrays(arr1, arr2) {
-  const isEqual = (obj1, obj2) => JSON.stringify(obj1) === JSON.stringify(obj2);
-
-  const onlyInArr1 = arr1.filter(
-    (obj1) => !arr2.some((obj2) => isEqual(obj1, obj2)),
-  );
-
-  const differences = [...onlyInArr1];
-
-  return differences;
-}
 
 const CategoryItem = ({ category, onClick }) => {
   const { lang } = useTranslation("common");
@@ -34,7 +22,6 @@ const CategoryItem = ({ category, onClick }) => {
     <div
       key={category.localized_name[lang]}
       className="relative cursor-pointer hover:bg-gray-200"
-      onClick={() => onClick()}
       onMouseEnter={() => {
         setisHovered(true);
       }}
@@ -42,14 +29,18 @@ const CategoryItem = ({ category, onClick }) => {
         setisHovered(false);
       }}
     >
-      <div className="flex w-full flex-row items-center justify-between px-3 py-2 text-left">
+      <button
+        className="flex w-full flex-row items-center justify-between px-3 py-2 text-left"
+        onClick={() => onClick(category)}
+        type="button"
+      >
         {category.localized_name[lang]}
         {hasSubCategories && (
           <FiChevronLeft
             className={`h-4 w-4 duration-300 ${isHovered ? "rotate-180" : ""}`}
           />
         )}
-      </div>
+      </button>
       {hasSubCategories && isHovered && (
         <div
           onMouseEnter={() => {
@@ -71,7 +62,7 @@ const CategoryItem = ({ category, onClick }) => {
               <CategoryItem
                 key={subCategory.id}
                 category={subCategory}
-                onClick={() => onClick()}
+                onClick={onClick}
               />
             ))}
         </div>
@@ -84,8 +75,8 @@ export default function CategoriesAdmin() {
   const router = useRouter();
   const { t, lang } = useTranslation("common");
   const [categories, setCategories] = useState(null);
-  const [categoriesOriginal, setCategoriesOriginal] = useState(null);
   const [previewCategories, setPreviewCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const fetchCategories = async () => {
     const fetchWebsiteRequest = await fetch(
@@ -117,16 +108,11 @@ export default function CategoriesAdmin() {
     }
   };
 
-  const putCategories = async () => {
-    const changedCategories = compareArrays(categories, categoriesOriginal);
-
-    const putWebsiteRequest = await fetch(
-      "/api/categories/admin/putcategories",
-      {
-        method: "PUT",
-        body: JSON.stringify(changedCategories),
-      },
-    );
+  const putCategory = async () => {
+    const putWebsiteRequest = await fetch("/api/private/categories", {
+      method: "PUT",
+      body: JSON.stringify(selectedCategory),
+    });
     if (putWebsiteRequest.ok) {
       return true;
     } else {
@@ -137,14 +123,10 @@ export default function CategoriesAdmin() {
   useEffect(() => {
     if (!categories) {
       const fetchAndSetCategories = async () => {
-        await fetchCategories()
-          .then((res) => {
-            setCategories(res);
-            return res;
-          })
-          .then((res) => {
-            setCategoriesOriginal(structuredClone(res));
-          });
+        await fetchCategories().then((res) => {
+          setCategories(res);
+          return res;
+        });
 
         await fetchPreviewCategories().then((res) => {
           const validCategories = [];
@@ -187,9 +169,13 @@ export default function CategoriesAdmin() {
                 .filter((cat) => cat.subCategories.length > 0)
                 .map((category) => (
                   <div key={category.id + "-column"}>
-                    <div className="font-semibold">
+                    <button
+                      type="button"
+                      className="font-semibold"
+                      onClick={() => setSelectedCategory(category)}
+                    >
                       {category.localized_name[lang]}
-                    </div>
+                    </button>
                     {category.subCategories
                       .filter(
                         (subCategory) =>
@@ -201,7 +187,9 @@ export default function CategoriesAdmin() {
                         <CategoryItem
                           key={subCategory.id}
                           category={subCategory}
-                          onClick={() => {}}
+                          onClick={(sc) => {
+                            setSelectedCategory(sc);
+                          }}
                         />
                       ))}
                   </div>
@@ -215,9 +203,13 @@ export default function CategoriesAdmin() {
                     .filter((cat) => cat.subCategories.length == 0)
                     .map((category) => (
                       <div key={category.id + "-column"}>
-                        <div className="font-semibold">
+                        <button
+                          type="button"
+                          className="font-semibold"
+                          onClick={() => setSelectedCategory}
+                        >
                           {category.localized_name[lang]}
-                        </div>
+                        </button>
                         <div className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200">
                           {category.localized_name[lang]}
                         </div>
@@ -225,7 +217,7 @@ export default function CategoriesAdmin() {
                           <CategoryItem
                             key={subCategory.id}
                             category={subCategory}
-                            onClick={() => {}}
+                            onClick={() => setSelectedCategory}
                           />
                         ))}
                       </div>
@@ -236,7 +228,7 @@ export default function CategoriesAdmin() {
         </div>
       </div>
       <Card>
-        {categories && (
+        {false && categories && (
           <div className="flex w-full flex-col gap-2">
             {categories.map((category, i) => (
               <Fragment key={category.id}>
@@ -376,9 +368,145 @@ export default function CategoriesAdmin() {
                 <Divider />
               </Fragment>
             ))}
+          </div>
+        )}
+        {selectedCategory && (
+          <div className="flex w-full flex-col gap-2" key={selectedCategory.id}>
+            <div className="flex w-full flex-row gap-3 rounded-md py-1">
+              <div className="flex flex-shrink-0 flex-row gap-2 p-2">
+                <div className="flex w-[250px] flex-shrink-0 flex-col gap-2">
+                  <div className="w-full">
+                    <LocalizedInput
+                      value={
+                        selectedCategory.localized_name ?? {
+                          nl: selectedCategory?.Name,
+                          en: selectedCategory?.Name,
+                          fr: selectedCategory?.Name,
+                          de: selectedCategory?.Name,
+                        }
+                      }
+                      onChange={(value) => {
+                        setSelectedCategory((prev) => {
+                          const newMediaGroups = [...prev];
+                          newMediaGroups.find(
+                            (mg) => mg.id == selectedCategory.id,
+                          ).localized_name = value;
+                          return newMediaGroups;
+                        });
+                      }}
+                    />
+                  </div>
+                  <InputOutlined
+                    label="order"
+                    value={selectedCategory.priority}
+                    onChange={(e) => {
+                      setCategories((prev) => {
+                        const newCategories = [...prev];
+                        newCategories.find(
+                          (cat) => cat.id == selectedCategory.id,
+                        ).priority = e.target.value;
+                        return newCategories;
+                      });
+                    }}
+                    name="priority"
+                    min={1}
+                    type="number"
+                  />
+                  <div className="flex flex-col gap-1 border bg-slate-100 p-1">
+                    <p>{t("parent_category")}</p>
+                    <select
+                      value={selectedCategory.headCategory?.id ?? null}
+                      name="headCategory"
+                      id={`${selectedCategory.id}-headCategory`}
+                      onChange={(e) => {
+                        setCategories((prev) => {
+                          const newCategories = [...prev];
+                          newCategories.find(
+                            (cat) => cat.id == selectedCategory.id,
+                          ).headCategory = newCategories.find(
+                            (cat) => cat.id == e.target.value,
+                          );
+                          return newCategories;
+                        });
+                      }}
+                    >
+                      <option value={null}>{t("no_parent_category")}</option>
+                      {categories
+                        .filter((cat) => cat.id != selectedCategory.id)
+                        .map((cat) => (
+                          <option
+                            key={
+                              cat.id +
+                              "-" +
+                              selectedCategory.id +
+                              "-headCategory"
+                            }
+                            value={cat.id}
+                          >
+                            {cat.localized_name[lang]}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                </div>
+
+                <InputOutlined
+                  label="add image"
+                  type="file"
+                  name="image"
+                  onChange={async (e) => {
+                    if (!e.target.files.item(0)) {
+                      return;
+                    } else {
+                      uploadFileToAPI({
+                        file: e.target.files.item(0),
+                      })
+                        .then((res) => {
+                          setCategories((prev) => {
+                            const newMediaGroups = [...prev];
+                            newMediaGroups.find(
+                              (mg) => mg.id == selectedCategory.id,
+                            ).image = {
+                              id: res.id,
+                              url: res.url,
+                              alt: "",
+                            };
+                            return newMediaGroups;
+                          });
+                        })
+                        .then(() => {
+                          e.target.value = "";
+                        });
+                    }
+                  }}
+                />
+                <button
+                  onClick={() => {
+                    setCategories((prev) => {
+                      const newMediaGroups = [...prev];
+                      newMediaGroups.find(
+                        (mg) => mg.id == selectedCategory.id,
+                      ).image = null;
+                      return newMediaGroups;
+                    });
+                  }}
+                >
+                  {t("delete_image")}
+                </button>
+                {selectedCategory.image && (
+                  <ImageWithURL
+                    src={selectedCategory.image.url}
+                    alt={selectedCategory.image.alt}
+                    height={500}
+                    width={500}
+                    className="h-[250px] w-auto"
+                  />
+                )}
+              </div>
+            </div>
             <button
               onClick={async () => {
-                const response = await putCategories();
+                const response = await putCategory();
                 if (response == true) {
                   router.reload();
                 }
