@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { useState, useEffect } from "react"; 
 import { FiArrowLeft, FiX } from "react-icons/fi";
+import { useState, useEffect } from "react";
+import Image from "next/image";
 
 const ProductImages = ({ product }) => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -60,7 +60,7 @@ const ProductImages = ({ product }) => {
   };
 
   return (
-    <div className="aspect-1/1 relative flex h-[90vw] w-[90vw] flex-shrink-0 flex-row items-center justify-center md:h-[45vw] md:w-[45vw]">
+    <div className="relative flex aspect-1/1 h-[90vw] w-[90vw] flex-shrink-0 flex-row items-center justify-center md:h-[45vw] md:w-[45vw]">
       {product.images && product.images.length > 0 ? (
         product.images.map((img, index) => (
           <Image
@@ -103,7 +103,7 @@ const ProductImages = ({ product }) => {
         </div>
       ) : null}
       {selectedImageIndex !== null && (
-        <div className="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-white/90">
+        <div className="fixed top-0 right-0 bottom-0 left-0 z-50 flex h-full w-full flex-col items-center justify-center bg-white/90">
           <div className="flex w-full flex-row justify-end">
             <FiX
               size={38}

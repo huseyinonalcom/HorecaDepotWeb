@@ -1,18 +1,18 @@
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
+import { InputImage } from "../../../components/form/InputImage";
 import StyledForm from "../../../components/form/StyledForm";
 import useTranslation from "next-translate/useTranslation";
-import { FiCheck, FiX } from "react-icons/fi";
-import { useState } from "react";
-import { useRouter } from "next/router";
-import Head from "next/head";
 import InputField from "../../../components/form/InputField";
 import { getPopup } from "../../api/popup/getpopup";
+import { FiCheck, FiX } from "react-icons/fi";
 import {
   Description,
   Field,
   Fieldset,
 } from "../../../components/styled/fieldset";
-import { InputImage } from "../../../components/form/InputImage";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import Head from "next/head";
 
 export default function PopupAdmin(props) {
   const router = useRouter();

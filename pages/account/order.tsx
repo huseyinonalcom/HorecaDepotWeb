@@ -1,18 +1,16 @@
-import Head from "next/head";
+import { formatDateAPIToBe } from "../../api/utils/formatters/formatdateapibe";
+import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
+import LoadingIndicator from "../../components/common/loadingIndicator";
+import componentThemes from "../../components/componentThemes";
+import ClientLogin from "../../components/client/clientLogin";
+import { PDFInvoice } from "../../components/pdf/pdfinvoice";
+import TypeWriter from "../../components/common/typewriter";
 import useTranslation from "next-translate/useTranslation";
+import CustomTheme from "../../components/componentThemes";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import Layout from "../../components/public/layout";
 import { useEffect, useState } from "react";
-import LoadingIndicator from "../../components/common/loadingIndicator";
 import { useRouter } from "next/router";
-import CustomTheme from "../../components/componentThemes";
-import { formatDateAPIToBe } from "../../api/utils/formatters/formatdateapibe";
-import componentThemes from "../../components/componentThemes";
-import Image from "next/image";
-import TypeWriter from "../../components/common/typewriter";
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import { PDFInvoice } from "../../components/pdf/pdfinvoice";
-import ClientLogin from "../../components/client/clientLogin";
-import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 import {
   Table,
   TableHead,
@@ -21,6 +19,8 @@ import {
   TableBody,
   TableCell,
 } from "../../components/styled/table";
+import Image from "next/image";
+import Head from "next/head";
 
 export default function Order() {
   const { t, lang } = useTranslation("common");
@@ -73,7 +73,7 @@ export default function Order() {
             <meta name="language" content={lang} />
           </Head>
           <div className="mx-auto flex w-full flex-row items-start justify-start">
-            <div className=" mx-auto py-2">
+            <div className="mx-auto py-2">
               <LoadingIndicator />
             </div>
           </div>
@@ -176,7 +176,7 @@ export default function Order() {
 
                       {verificationRunning ? (
                         <button
-                          className={`${CustomTheme.outlinedButton} whitespace-nowrap text-xl`}
+                          className={`${CustomTheme.outlinedButton} text-xl whitespace-nowrap`}
                         >
                           <div className="flex w-[100px] flex-row justify-start">
                             <TypeWriter textTypeWriter={["...."]} />
@@ -184,14 +184,14 @@ export default function Order() {
                         </button>
                       ) : (
                         <button
-                          className={`${CustomTheme.outlinedButton} whitespace-nowrap text-xl`}
+                          className={`${CustomTheme.outlinedButton} text-xl whitespace-nowrap`}
                           onClick={submitCheckPayment}
                         >
                           {t("Verify payment")}
                         </button>
                       )}
                       <button
-                        className={`${CustomTheme.outlinedButton} whitespace-nowrap text-xl`}
+                        className={`${CustomTheme.outlinedButton} text-xl whitespace-nowrap`}
                         onClick={submitPayment}
                       >
                         {t("Proceed to payment")}
@@ -202,7 +202,7 @@ export default function Order() {
                     <PDFDownloadLink
                       fileName={currentOrder.prefix + currentOrder.number}
                       document={<PDFInvoice invoiceDocument={currentOrder} />}
-                      className={`${componentThemes.outlinedButton} flex flex-row items-center justify-center whitespace-nowrap text-xl`}
+                      className={`${componentThemes.outlinedButton} flex flex-row items-center justify-center text-xl whitespace-nowrap`}
                     >
                       📄 <p className="ml-1">{t("Download PDF")}</p>
                     </PDFDownloadLink>
@@ -213,29 +213,29 @@ export default function Order() {
                 <div className="flex flex-col">
                   {currentOrder.client.category == "Entreprise" ? (
                     <>
-                      <h4 className=" font-bold">{t("invoiced_to")}:</h4>
-                      <p >{currentOrder.client.company}</p>
-                      <p >{currentOrder.client.taxID}</p>
-                      <p >{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
-                      <p >{currentOrder.client.phone}</p>
+                      <h4 className="font-bold">{t("invoiced_to")}:</h4>
+                      <p>{currentOrder.client.company}</p>
+                      <p>{currentOrder.client.taxID}</p>
+                      <p>{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
+                      <p>{currentOrder.client.phone}</p>
                     </>
                   ) : (
                     <>
-                      <h4 className=" font-bold">{t("invoiced_to")}:</h4>
-                      <p >{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
-                      <p >{currentOrder.client.phone}</p>
+                      <h4 className="font-bold">{t("invoiced_to")}:</h4>
+                      <p>{`${currentOrder.client.firstName} ${currentOrder.client.lastName}`}</p>
+                      <p>{currentOrder.client.phone}</p>
                     </>
                   )}
                 </div>
                 <div className="flex flex-col">
-                  <h4 className=" font-bold">{t("invoiced_address")}:</h4>
-                  <p >{`${currentOrder.docAddress.street} ${currentOrder.docAddress.doorNumber}`}</p>
-                  <p >{`${currentOrder.docAddress.zipCode} ${currentOrder.docAddress.city}`}</p>
-                  <p >{`${currentOrder.docAddress.province ?? ""} ${
+                  <h4 className="font-bold">{t("invoiced_address")}:</h4>
+                  <p>{`${currentOrder.docAddress.street} ${currentOrder.docAddress.doorNumber}`}</p>
+                  <p>{`${currentOrder.docAddress.zipCode} ${currentOrder.docAddress.city}`}</p>
+                  <p>{`${currentOrder.docAddress.province ?? ""} ${
                     currentOrder.docAddress.country
                   }`}</p>
                   {currentOrder.docAddress.floor ? (
-                    <p >
+                    <p>
                       {t("floor")}: {currentOrder.docAddress.floor}
                     </p>
                   ) : (
@@ -243,14 +243,14 @@ export default function Order() {
                   )}
                 </div>
                 <div className="flex flex-col">
-                  <h4 className=" font-bold">{t("delivery")}:</h4>
-                  <p >{`${currentOrder.delAddress.street} ${currentOrder.delAddress.doorNumber}`}</p>
-                  <p >{`${currentOrder.delAddress.zipCode} ${currentOrder.delAddress.city}`}</p>
-                  <p >{`${currentOrder.delAddress.province ?? ""} ${
+                  <h4 className="font-bold">{t("delivery")}:</h4>
+                  <p>{`${currentOrder.delAddress.street} ${currentOrder.delAddress.doorNumber}`}</p>
+                  <p>{`${currentOrder.delAddress.zipCode} ${currentOrder.delAddress.city}`}</p>
+                  <p>{`${currentOrder.delAddress.province ?? ""} ${
                     currentOrder.delAddress.country
                   }`}</p>
                   {currentOrder.delAddress.floor ? (
-                    <p >
+                    <p>
                       {t("floor")}: {currentOrder.delAddress.floor}
                     </p>
                   ) : (
@@ -339,7 +339,7 @@ export default function Order() {
                 <div className="flex flex-row">
                   <div className="ml-auto">
                     <button
-                      className={`${CustomTheme.outlinedButton} whitespace-nowrap text-xl`}
+                      className={`${CustomTheme.outlinedButton} text-xl whitespace-nowrap`}
                       onClick={submitPayment}
                     >
                       {t("Proceed to payment")}

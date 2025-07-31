@@ -1,8 +1,8 @@
 import ProductPreview2 from "../../../components/products/product-preview2";
+import { getCollections } from "../../api/public/collections";
 import useTranslation from "next-translate/useTranslation";
 import Layout from "../../../components/public/layout";
 import Head from "next/head";
-import { getCollections } from "../../api/public/collections";
 
 export default function Collection(props) {
   const { t, lang } = useTranslation("common");

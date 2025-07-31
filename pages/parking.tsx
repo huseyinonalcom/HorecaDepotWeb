@@ -1,11 +1,11 @@
 import useTranslation from "next-translate/useTranslation";
+import parking2 from "../public/assets/img/parking2.jpg";
+import parking from "../public/assets/img/parking.jpg";
+import Letext from "../components/liveEditable/letext";
 import Layout from "../components/public/layout";
+import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
-import Image from "next/image";
-import parking from "../public/assets/img/parking.jpg";
-import parking2 from "../public/assets/img/parking2.jpg";
-import Letext from "../components/liveEditable/letext";
 
 export default function Contact({ parkingText }) {
   const { t, lang } = useTranslation("common");
@@ -31,7 +31,7 @@ export default function Contact({ parkingText }) {
             </p>
           </div>
         </div>
-        <div className="mx-auto mb-6 mt-2 flex flex-col items-center justify-center gap-6">
+        <div className="mx-auto mt-2 mb-6 flex flex-col items-center justify-center gap-6">
           <iframe
             className="w-full"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d882.1783439556756!2d4.342801144335436!3d50.86582509938612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3c36b49d67a1f%3A0xf95cd1024157cd44!2sT%26T%20Parklane%20Parking!5e0!3m2!1sen!2str!4v1730747984629!5m2!1sen!2str"

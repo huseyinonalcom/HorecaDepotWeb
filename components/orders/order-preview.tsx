@@ -1,10 +1,10 @@
-import Link from "next/link";
-import Image from "next/image";
-import useTranslation from "next-translate/useTranslation"; 
-import { useEffect, useState } from "react";
 import { formatDateAPIToBe } from "../../api/utils/formatters/formatdateapibe";
+import useTranslation from "next-translate/useTranslation";
 import componentThemes from "../componentThemes";
 import { FiArrowLeft } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 const OrderPreview = ({ order }) => {
   const { t } = useTranslation("common");

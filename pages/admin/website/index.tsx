@@ -1,5 +1,5 @@
-import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
-import componentThemes from "../../components/componentThemes";
+import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
+import componentThemes from "../../../components/componentThemes";
 import useTranslation from "next-translate/useTranslation";
 import Head from "next/head";
 import Link from "next/link";

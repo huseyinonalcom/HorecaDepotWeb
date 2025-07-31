@@ -1,10 +1,8 @@
 import useTranslation from "next-translate/useTranslation";
 import LocaleSwitcher from "../LocaleSwitcher";
 import { useEffect, useState } from "react";
+import { Button } from "../styled/button";
 import { useRouter } from "next/router";
-import Image from "next/image";
-import Head from "next/head";
-import Link from "next/link";
 import {
   TagIcon,
   HomeIcon,
@@ -23,13 +21,15 @@ import {
   Squares2X2Icon,
   ClipboardDocumentCheckIcon,
 } from "@heroicons/react/24/outline";
+import Image from "next/image";
+import Head from "next/head";
+import Link from "next/link";
 import {
   Dialog,
   DialogPanel,
   DialogBackdrop,
   TransitionChild,
 } from "@headlessui/react";
-import { Button } from "../styled/button";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");

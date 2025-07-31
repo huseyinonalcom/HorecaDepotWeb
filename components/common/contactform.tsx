@@ -1,7 +1,7 @@
 import TextareaOutlined from "../inputs/textarea_outlined";
 import useTranslation from "next-translate/useTranslation";
-import InputOutlined from "../inputs/outlined"; 
 import { FiMessageSquare } from "react-icons/fi";
+import InputOutlined from "../inputs/outlined"; 
 
 const ContactForm = () => {
   const { t } = useTranslation("common");

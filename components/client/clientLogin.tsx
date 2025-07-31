@@ -1,14 +1,14 @@
-import useTranslation from "next-translate/useTranslation";
-import { useRouter } from "next/router";
-import { useState, useContext } from "react";
-import { ClientUser, ClientConversion } from "../../api/interfaces/client";
-import { ClientContext } from "../../api/providers/clientProvider";
-import InputOutlined from "../inputs/outlined";
-import CustomTheme from "../componentThemes";
+import areAllPropertiesEmpty from "../../api/utils/input_validators/are_all_properties_empty";
+import areAllPropertiesNull from "../../api/utils/input_validators/are_all_properties_null";
 import validateEmpty from "../../api/utils/input_validators/validate_empty";
 import validateEmail from "../../api/utils/input_validators/validate_email";
-import areAllPropertiesNull from "../../api/utils/input_validators/are_all_properties_null";
-import areAllPropertiesEmpty from "../../api/utils/input_validators/are_all_properties_empty";
+import { ClientUser, ClientConversion } from "../../api/interfaces/client";
+import { ClientContext } from "../../api/providers/clientProvider";
+import useTranslation from "next-translate/useTranslation";
+import InputOutlined from "../inputs/outlined";
+import { useState, useContext } from "react";
+import CustomTheme from "../componentThemes";
+import { useRouter } from "next/router";
 
 const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
   const { t } = useTranslation("common");
@@ -197,7 +197,7 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
         <div className="flex min-w-[350px] flex-col">
           <form
             onSubmit={forgotPassword}
-            className="mb-6 mt-4 w-full max-w-md space-y-4"
+            className="mt-4 mb-6 w-full max-w-md space-y-4"
           >
             {resetText && <div className="p-2 text-center">{resetText}</div>}
             {!resetText && (
@@ -238,7 +238,7 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
     );
   } else if (registerMode) {
     return (
-      <div className="flex w-full min-w-[350px] max-w-[1000px] pt-8 flex-col gap-2">
+      <div className="flex w-full max-w-[1000px] min-w-[350px] flex-col gap-2 pt-8">
         <h2 className="text-xl font-bold">{t("Register an account")}</h2>
         <div className="flex flex-col">
           <h3 className="mt-1">{t("Already have an account?")}</h3>
@@ -255,9 +255,7 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
           </button>
         </div>
         {error && (
-          <div className="bg-red-100 p-2 text-center text-red-700 ">
-            {error}
-          </div>
+          <div className="bg-red-100 p-2 text-center text-red-700">{error}</div>
         )}
         <form onSubmit={handleClientSubmit} className="flex flex-col gap-2">
           <h3 className="mt-3">{t("Business or Individual")}?</h3>
@@ -452,7 +450,7 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
     );
   } else {
     return (
-      <div className="mx-auto flex w-full min-w-[350px] max-w-xl flex-col">
+      <div className="mx-auto flex w-full max-w-xl min-w-[350px] flex-col">
         <p className="text-2xl font-bold">
           {t("Login to your HorecaDepot account")}
         </p>
@@ -464,10 +462,10 @@ const ClientLogin = ({ onLogin }: { onLogin?: VoidFunction }) => {
               password,
             });
           }}
-          className="mb-6 mt-4 w-full max-w-xl space-y-4"
+          className="mt-4 mb-6 w-full max-w-xl space-y-4"
         >
           {error && (
-            <div className="bg-red-100 p-2 text-center text-red-700 ">
+            <div className="bg-red-100 p-2 text-center text-red-700">
               {error}
             </div>
           )}

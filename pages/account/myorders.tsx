@@ -1,12 +1,12 @@
-import Head from "next/head";
+import LoadingIndicator from "../../components/common/loadingIndicator";
+import OrderPreview from "../../components/orders/order-preview";
 import useTranslation from "next-translate/useTranslation";
 import Layout from "../../components/public/layout";
 import Meta from "../../components/public/meta";
-import { useEffect, useState } from "react";
-import LoadingIndicator from "../../components/common/loadingIndicator";
-import OrderPreview from "../../components/orders/order-preview";
-import Link from "next/link"; 
 import { FiChevronLeft } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import Head from "next/head";
+import Link from "next/link";
 
 export default function MyOrders() {
   const { t, lang } = useTranslation("common");

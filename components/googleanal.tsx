@@ -1,9 +1,9 @@
 "use client";
 
-import useTranslation from "next-translate/useTranslation";
 import { usePathname, useSearchParams } from "next/navigation";
-import Script from "next/script";
+import useTranslation from "next-translate/useTranslation";
 import { useEffect, useState } from "react";
+import Script from "next/script";
 
 export default function GoogleAnalytics({
   GA_MEASUREMENT_ID,

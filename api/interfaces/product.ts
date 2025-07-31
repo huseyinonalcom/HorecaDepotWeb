@@ -1,8 +1,8 @@
+import { DocumentProduct } from "./documentProduct";
+import { ProductExtra } from "./productExtra";
 import { Category } from "./category";
 import { CFile } from "./cfile";
 import { Color } from "./color";
-import { DocumentProduct } from "./documentProduct";
-import { ProductExtra } from "./productExtra";
 import { Shelf } from "./shelf";
 
 export interface Product {

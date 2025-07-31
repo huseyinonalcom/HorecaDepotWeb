@@ -1,10 +1,10 @@
 import { AuthLayout } from "../../components/styled/auth-layout";
 import { Field, Label } from "../../components/styled/fieldset";
-import useTranslation from "next-translate/useTranslation";
 import { Strong, Text } from "../../components/styled/text";
+import useTranslation from "next-translate/useTranslation";
 import { Button } from "../../components/styled/button";
-import { useState, useEffect, useRef } from "react";
 import { Input } from "../../components/styled/input";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import {
   Dialog,

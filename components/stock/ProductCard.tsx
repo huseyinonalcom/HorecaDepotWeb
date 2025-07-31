@@ -10,8 +10,8 @@ import BarcodeToPng from "../common/barcodepng";
 import { LuClipboard } from "react-icons/lu";
 import ImageWithURL from "../common/image";
 import PDFBarcode from "../pdf/barcodepdf";
-import { useState } from "react";
 import { StockCart } from "./Cart";
+import { useState } from "react";
 
 export default function ProductCard({ product }: { product: any }) {
   const { t, lang } = useTranslation("common");

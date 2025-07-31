@@ -1,9 +1,9 @@
 "use client";
 
-import clsx from "clsx";
-import type React from "react";
 import { createContext, useContext, useState } from "react";
+import type React from "react";
 import { Link } from "./link";
+import clsx from "clsx";
 
 const TableContext = createContext<{
   bleed: boolean;
@@ -129,7 +129,7 @@ export function TableHeader({
       {...props}
       className={clsx(
         className,
-        "first:pl-(--gutter,--spacing(2)) last:pr-(--gutter,--spacing(2)) border-b border-b-zinc-950/10 px-4 py-2 font-medium",
+        "border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-(--gutter,--spacing(2)) last:pr-(--gutter,--spacing(2))",
         grid && "border-l border-l-zinc-950/5 first:border-l-0",
         !bleed && "sm:first:pl-1 sm:last:pr-1",
       )}
@@ -152,7 +152,7 @@ export function TableCell({
       {...props}
       className={clsx(
         className,
-        "first:pl-(--gutter,--spacing(2)) last:pr-(--gutter,--spacing(2)) relative px-4",
+        "relative px-4 first:pl-(--gutter,--spacing(2)) last:pr-(--gutter,--spacing(2))",
         !striped && "border-b border-zinc-950/5",
         grid && "border-l border-l-zinc-950/5 first:border-l-0",
         dense ? "py-2.5" : "py-4",
@@ -166,7 +166,7 @@ export function TableCell({
           target={target}
           aria-label={title}
           tabIndex={cellRef?.previousElementSibling === null ? 0 : -1}
-          className="focus:outline-hidden absolute inset-0"
+          className="absolute inset-0 focus:outline-hidden"
         />
       )}
       {children}

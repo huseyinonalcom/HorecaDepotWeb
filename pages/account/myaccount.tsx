@@ -1,8 +1,8 @@
-import Head from "next/head";
+import MyAccountDash from "../../components/client/myAccountDash";
 import useTranslation from "next-translate/useTranslation";
 import Layout from "../../components/public/layout";
 import Meta from "../../components/public/meta";
-import MyAccountDash from "../../components/client/myAccountDash";
+import Head from "next/head";
 
 export default function MyAccount() {
   const { t, lang } = useTranslation("common");

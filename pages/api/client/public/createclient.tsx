@@ -1,6 +1,6 @@
+import { sendMail } from "../../../../api/utils/sendmail";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
-import { sendMail } from "../../../../api/utils/sendmail";
 
 export default async function postClient(
   req: NextApiRequest,

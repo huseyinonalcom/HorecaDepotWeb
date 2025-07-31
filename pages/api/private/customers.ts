@@ -1,8 +1,8 @@
 import { Client } from "../../../api/interfaces/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../api/statustexts";
-import { createUser } from "./user";
 import { randomBytes } from "crypto";
+import { createUser } from "./user";
 
 const fetchUrl = `${process.env.API_URL}/api/clients`;
 

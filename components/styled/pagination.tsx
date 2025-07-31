@@ -1,6 +1,6 @@
-import clsx from "clsx";
-import type React from "react";
 import { Button } from "./button";
+import type React from "react";
+import clsx from "clsx";
 
 export function Pagination({
   "aria-label": ariaLabel = "Page navigation",
@@ -112,7 +112,7 @@ export function PaginationPage({
       className={clsx(
         className,
         "min-w-[2.25rem] before:absolute before:-inset-px before:rounded-lg",
-        current && "before:bg-zinc-950/5 ",
+        current && "before:bg-zinc-950/5",
       )}
     >
       <span className="-mx-0.5">{children}</span>
@@ -131,7 +131,7 @@ export function PaginationGap({
       {...props}
       className={clsx(
         className,
-        "w-[2.25rem] select-none text-center text-sm/6 font-semibold text-zinc-950 ",
+        "w-[2.25rem] text-center text-sm/6 font-semibold text-zinc-950 select-none",
       )}
     >
       {children}

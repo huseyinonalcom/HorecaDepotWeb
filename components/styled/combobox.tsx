@@ -1,8 +1,8 @@
 "use client";
 
 import * as Headless from "@headlessui/react";
-import clsx from "clsx";
 import { useState } from "react";
+import clsx from "clsx";
 
 export function Combobox<T>({
   options,

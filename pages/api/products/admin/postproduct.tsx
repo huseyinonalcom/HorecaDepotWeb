@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { Product } from "../../../../api/interfaces/product";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function postProduct(
   req: NextApiRequest,

@@ -1,5 +1,5 @@
-import { CFile } from "./cfile";
 import { Product } from "./product";
+import { CFile } from "./cfile";
 
 export interface Color {
   id?: number;

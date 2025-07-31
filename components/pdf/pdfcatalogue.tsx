@@ -1,5 +1,5 @@
-import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
 import { Page, Text, View, Image, Document } from "@react-pdf/renderer";
+import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
 
 export const PDFCatalogue = ({ products }) => {
   return (

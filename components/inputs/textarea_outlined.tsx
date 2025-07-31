@@ -1,5 +1,5 @@
-import useTranslation from "next-translate/useTranslation";
 import { DetailedHTMLProps, InputHTMLAttributes } from "react";
+import useTranslation from "next-translate/useTranslation";
 
 interface Props
   extends DetailedHTMLProps<

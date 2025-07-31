@@ -1,5 +1,5 @@
-import statusText from "../../../../api/statustexts";
 import { sendMail } from "../../../../api/utils/sendmail";
+import statusText from "../../../../api/statustexts";
 
 export default async function sendOrderNotifications(req, res) {
   try {

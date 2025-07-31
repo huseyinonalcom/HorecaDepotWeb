@@ -1,7 +1,7 @@
-import * as Headless from "@headlessui/react";
-import clsx from "clsx";
-import React, { forwardRef } from "react";
 import { ErrorMessage, Field, Label } from "./fieldset";
+import * as Headless from "@headlessui/react";
+import React, { forwardRef } from "react";
+import clsx from "clsx";
 
 export function InputGroup({
   children,

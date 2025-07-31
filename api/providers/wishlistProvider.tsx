@@ -1,3 +1,5 @@
+import { WishlistProduct } from "../interfaces/wishlistProduct";
+import { CartContext } from "./cartProvider";
 import {
   createContext,
   useState,
@@ -5,8 +7,6 @@ import {
   useContext,
   useEffect,
 } from "react";
-import { WishlistProduct } from "../interfaces/wishlistProduct";
-import { CartContext } from "./cartProvider";
 
 type WishlistContextType = {
   wishlist: WishlistProduct[];

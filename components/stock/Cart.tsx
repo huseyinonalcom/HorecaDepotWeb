@@ -1,17 +1,17 @@
+import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
+import useTranslation from "next-translate/useTranslation";
+import { FiMinus, FiPlus, FiX } from "react-icons/fi";
+import { AutoTextSize } from "auto-text-size";
+import { useEffect, useState } from "react";
+import ImageWithURL from "../common/image";
+import { Button } from "../styled/button";
+import { Link } from "../styled/link";
 import {
   Dialog,
   DialogActions,
   DialogBody,
   DialogTitle,
 } from "../styled/dialog";
-import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
-import { AutoTextSize } from "auto-text-size";
-import { FiMinus, FiPlus, FiX } from "react-icons/fi";
-import { Button } from "../styled/button";
-import { Link } from "../styled/link";
-import { useEffect, useState } from "react";
-import useTranslation from "next-translate/useTranslation";
-import ImageWithURL from "../common/image";
 
 export const StockCart = ({
   showCart,
@@ -63,7 +63,7 @@ export const StockCart = ({
   return (
     <Dialog open={showCart} onClose={onClose} size="xl">
       <DialogTitle>{t("Cart")}</DialogTitle>
-      <DialogBody className="text-sm/6 text-zinc-900 ">
+      <DialogBody className="text-sm/6 text-zinc-900">
         {cart.map((product) => (
           <div key={product.id} className="my-1 mb-2 w-full border-b pb-2">
             <div className="flex flex-row items-center">

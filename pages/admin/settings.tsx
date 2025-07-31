@@ -4,8 +4,8 @@ import StyledRadioGroup from "../../components/form/StyledRadioGroup";
 import useTranslation from "next-translate/useTranslation";
 import InputField from "../../components/form/InputField";
 import StyledForm from "../../components/form/StyledForm";
-import Head from "next/head";
 import { getConfig } from "../api/private/config";
+import Head from "next/head";
 
 export default function Settings(props) {
   const { t } = useTranslation("common");

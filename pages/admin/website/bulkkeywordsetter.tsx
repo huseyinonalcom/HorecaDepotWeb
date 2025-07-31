@@ -1,11 +1,11 @@
 import LoadingIndicator from "../../../components/common/loadingIndicator";
+import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
+import componentThemes from "../../../components/componentThemes";
 import useTranslation from "next-translate/useTranslation";
+import { FiSearch, FiCheck, FiX } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import componentThemes from "../../../components/componentThemes";
-import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
-import { FiSearch, FiCheck, FiX } from "react-icons/fi";
 
 export default function Keywords() {
   const router = useRouter();

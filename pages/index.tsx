@@ -7,6 +7,7 @@ import { uploadFileToAPI } from "./api/private/files/uploadfile";
 import { PromoBanner } from "../components/banners/PromoBanner";
 import { getHomePage } from "./api/website/public/gethomepage";
 import useTranslation from "next-translate/useTranslation";
+import { getCollections } from "./api/private/collections";
 import InputOutlined from "../components/inputs/outlined";
 import ImageWithURL from "../components/common/image";
 import { Category } from "../api/interfaces/category";
@@ -29,7 +30,6 @@ import {
   DndContext,
   useSensor,
 } from "@dnd-kit/core";
-import { getCollections } from "./api/private/collections";
 
 export default function Index({
   homePage,

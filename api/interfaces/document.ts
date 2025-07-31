@@ -6,11 +6,11 @@
 }
 */
 
-import { Address } from "./address";
-import { CFile } from "./cfile";
-import { Client } from "./client";
 import { DocumentProduct } from "./documentProduct";
+import { Address } from "./address";
 import { Payment } from "./payment";
+import { Client } from "./client";
+import { CFile } from "./cfile";
 
 //   import { DocumentConversion, Document } from "/api/interfaces/Document.ts";
 //   const Document = DocumentConversion.fromJson(json);

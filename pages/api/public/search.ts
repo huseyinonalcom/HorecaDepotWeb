@@ -1,8 +1,8 @@
 import { getAllCategoriesFlattened } from "../categories/public/getallcategoriesflattened";
 import { getProducts } from "../products/public/getproducts";
 import apiRoute from "../../../api/api/apiRoute";
-import Fuse from "fuse.js";
 import { getCollections } from "./collections";
+import Fuse from "fuse.js";
 
 const cache = {
   data: null,

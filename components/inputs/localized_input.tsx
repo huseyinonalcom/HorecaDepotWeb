@@ -1,6 +1,6 @@
 import { Field, Label } from "../styled/fieldset";
-import { Input } from "../styled/input";
 import { Textarea } from "../styled/textarea";
+import { Input } from "../styled/input";
 
 export type LocalizedInputProps = {
   onChange: (arg0: { [x: string]: string }) => void;

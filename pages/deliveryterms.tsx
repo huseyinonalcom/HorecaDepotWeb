@@ -1,6 +1,6 @@
+import useTranslation from "next-translate/useTranslation";
 import Layout from "../components/public/layout";
 import Head from "next/head";
-import useTranslation from "next-translate/useTranslation";
 
 export default function Legal() {
   const { lang } = useTranslation("common");

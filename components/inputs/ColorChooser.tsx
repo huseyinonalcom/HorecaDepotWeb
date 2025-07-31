@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { Color } from "../../api/interfaces/color";
 import useTranslation from "next-translate/useTranslation";
+import { Color } from "../../api/interfaces/color";
 import { FiPlusCircle } from "react-icons/fi";
+import { useEffect, useState } from "react";
 
 export const ColorChooser = ({
   onSelect,

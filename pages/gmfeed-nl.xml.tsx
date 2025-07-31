@@ -1,7 +1,7 @@
 import { calculateProductStock } from "../api/utils/calculations/product";
 import { getCoverImageUrl } from "../api/utils/getprodcoverimage";
-import { sanitizeXml } from "../api/utils/sanitizexml";
 import { getProducts } from "./api/products/public/getproducts";
+import { sanitizeXml } from "../api/utils/sanitizexml";
 
 function generateFeed(products) {
   return `<?xml version="1.0"?>

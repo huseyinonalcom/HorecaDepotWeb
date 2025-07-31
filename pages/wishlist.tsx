@@ -1,6 +1,6 @@
-import Layout from "../components/public/layout";
 import WishListComponent from "../components/products/wishlistComponent";
 import useTranslation from "next-translate/useTranslation";
+import Layout from "../components/public/layout";
 
 const WishList = () => {
   const { t } = useTranslation("common");

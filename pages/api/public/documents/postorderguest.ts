@@ -1,14 +1,14 @@
 import { orderMailEstablishment } from "../../../../api/utils/mail/order/orderMailEstablishment";
+import { getShippingCostFromAddress } from "../address/getshippingcostfromaddress";
 import { orderMailClient } from "../../../../api/utils/mail/order/orderMailClient";
 import { DocumentProduct } from "../../../../api/interfaces/documentProduct";
+import { PDFInvoice } from "../../../../components/pdf/pdfinvoice";
 import { Product } from "../../../../api/interfaces/product";
 import { countries } from "../../../../api/utils/countries";
 import { sendMail } from "../../../../api/utils/sendmail";
 import { NextApiRequest, NextApiResponse } from "next";
 import statusText from "../../../../api/statustexts";
-import { getShippingCostFromAddress } from "../address/getshippingcostfromaddress";
 import { renderToStream } from "@react-pdf/renderer";
-import { PDFInvoice } from "../../../../components/pdf/pdfinvoice";
 
 const calculateTotalWithPromo = (promoDetails, cart) => {
   const cartAfterPromo = JSON.parse(JSON.stringify(cart));

@@ -1,6 +1,6 @@
-import apiRoute from "../../../api/api/apiRoute";
-import { apiUrl } from "../../../api/api/constants";
 import { Color } from "../../../api/interfaces/color";
+import { apiUrl } from "../../../api/api/constants";
+import apiRoute from "../../../api/api/apiRoute";
 
 export async function getColor({
   id,

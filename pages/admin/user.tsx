@@ -6,10 +6,10 @@ import useTranslation from "next-translate/useTranslation";
 import InputField from "../../components/form/InputField";
 import StyledForm from "../../components/form/StyledForm";
 import { Field, Label, Switch } from "@headlessui/react";
+import { rankFromRole } from "../../api/utils/ranks";
 import { useRouter } from "next/router";
 import { randomBytes } from "crypto";
 import Head from "next/head";
-import { rankFromRole } from "../../api/utils/ranks";
 
 const handleSubmit = async (e) => {
   e.preventDefault();

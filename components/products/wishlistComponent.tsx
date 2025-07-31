@@ -1,10 +1,10 @@
-import Link from "next/link";
-import useTranslation from "next-translate/useTranslation"; 
-import { useContext } from "react";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
-import ImageWithURL from "../common/image";
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
+import useTranslation from "next-translate/useTranslation";
 import { FiShoppingCart, FiX } from "react-icons/fi";
+import ImageWithURL from "../common/image";
+import { useContext } from "react";
+import Link from "next/link";
 
 const WishListComponent = () => {
   const { wishlist, moveItemToCart, removeFromWishlist } =
@@ -60,7 +60,7 @@ const WishListComponent = () => {
                   {t("+ View Details")}
                 </Link>
                 <div className="flex flex-row items-end justify-center">
-                  <h5 className="mb-0.5 mr-1 text-sm text-gray-400 line-through">
+                  <h5 className="mr-1 mb-0.5 text-sm text-gray-400 line-through">
                     {product.priceBeforeDiscount > product.value
                       ? "€ " +
                         product.priceBeforeDiscount

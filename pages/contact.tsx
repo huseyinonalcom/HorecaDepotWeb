@@ -1,10 +1,11 @@
+import { LuClock2, LuMail, LuMapPin, LuPhone } from "react-icons/lu";
 import ContactForm from "../components/common/contactform";
 import useTranslation from "next-translate/useTranslation";
 import Layout from "../components/public/layout";
+import { FiCompass } from "react-icons/fi";
 import Link from "next/link";
 import Head from "next/head";
-import { LuClock2, LuMail, LuMapPin, LuPhone } from "react-icons/lu";
-import { FiCompass } from "react-icons/fi";
+
 export default function Contact() {
   const { t, lang } = useTranslation("common");
   return (
