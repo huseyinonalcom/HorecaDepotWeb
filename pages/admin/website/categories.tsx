@@ -72,7 +72,7 @@ const CategoryItem = ({ category, onClick }) => {
   );
 };
 
-const hierarchizeCategories = (categories) => {
+export const hierarchizeCategories = (categories) => {
   const isCategoryActive = (category) => {
     const products = category.products_multi_categories;
     return Array.isArray(products) && products.some((p) => p.active);
@@ -136,7 +136,7 @@ export default function CategoriesAdmin() {
 
   useEffect(() => {
     fetchAndSetCategories();
-  }, [selectedCategory.id]);
+  }, [selectedCategory?.id]);
 
   const postCategory = async () => {
     const postWebsiteRequest = await fetch("/api/private/categories", {
@@ -144,6 +144,7 @@ export default function CategoriesAdmin() {
       body: JSON.stringify(selectedCategory),
     });
     if (postWebsiteRequest.ok) {
+      setSelectedCategory(null);
       return true;
     } else {
       return false;
@@ -159,6 +160,7 @@ export default function CategoriesAdmin() {
       },
     );
     if (putWebsiteRequest.ok) {
+      setSelectedCategory(null);
       return true;
     } else {
       return false;
@@ -173,6 +175,7 @@ export default function CategoriesAdmin() {
       },
     );
     if (deleteWebsiteRequest.ok) {
+      setSelectedCategory(null);
       return true;
     } else {
       return false;
