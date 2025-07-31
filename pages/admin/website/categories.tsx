@@ -1,10 +1,12 @@
 import { LocalizedInput } from "../../../components/inputs/localized_input";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import { FiChevronLeft, FiCopy, FiPlus, FiTrash } from "react-icons/fi";
+import { Switch, SwitchField } from "../../../components/styled/switch";
 import { uploadFileToAPI } from "../../api/private/files/uploadfile";
 import InputOutlined from "../../../components/inputs/outlined";
 import StyledForm from "../../../components/form/StyledForm";
 import ImageWithURL from "../../../components/common/image";
+import { Label } from "../../../components/styled/fieldset";
 import { Category } from "../../../api/interfaces/category";
 import useTranslation from "next-translate/useTranslation";
 import { Button } from "../../../components/styled/button";
@@ -125,11 +127,12 @@ export default function CategoriesAdmin() {
   const { t, lang } = useTranslation("common");
   const [categories, setCategories] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [hideEmptyCategories, setHideEmptyCategories] = useState(true);
 
   let previewCategories = [];
 
   if (categories) {
-    previewCategories = hierarchizeCategories(categories, true);
+    previewCategories = hierarchizeCategories(categories, hideEmptyCategories);
   }
 
   const fetchCategories = async () => {
@@ -256,7 +259,19 @@ export default function CategoriesAdmin() {
       </Head>
       <div className="mx-auto mb-6 flex h-fit max-w-screen-2xl flex-col items-center justify-center overflow-hidden text-black duration-300 ease-in-out">
         <div className="mx-auto w-full max-w-[1000px] flex-shrink-0 rounded-xl bg-white p-4">
-          <h3 className="pl-2 text-xl font-semibold">{t("Categories")}</h3>
+          <div className="flex flex-row justify-between">
+            <h3 className="pl-2 text-xl font-semibold">{t("Categories")}</h3>
+            <SwitchField className="flex flex-row items-start">
+              <Label>{t("show_empty_categories")}</Label>
+              <Switch
+                checked={hideEmptyCategories}
+                color="green"
+                onChange={(e) => {
+                  setHideEmptyCategories(e);
+                }}
+              />
+            </SwitchField>
+          </div>
           <div className="my-4 grid grid-cols-4 gap-4 border-t py-2 duration-300">
             {previewCategories &&
               previewCategories
