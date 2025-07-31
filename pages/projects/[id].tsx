@@ -75,9 +75,9 @@ export const getStaticProps = async ({ params }: Params) => {
 
 export async function getStaticPaths({}) {
   const result = await getAllProjectIDs();
-  const allProductIDs: number[] = result;
+  const allProjectsIDs: number[] = result;
   return {
-    paths: allProductIDs.map((ID) => {
+    paths: allProjectsIDs.map((ID) => {
       return {
         params: {
           id: ID.toString(),
