@@ -1,8 +1,8 @@
 import useTranslation from "next-translate/useTranslation";
-import Layout from "../components/public/layout";
+import { getProjects } from "../api/public/projects";
+import Layout from "../../components/public/layout";
 import Link from "next/link";
 import Head from "next/head";
-import { getProjects } from "./api/projects/public/getprojects";
 
 type Props = {
   projects;

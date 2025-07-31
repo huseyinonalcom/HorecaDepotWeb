@@ -1,8 +1,8 @@
-import Head from "next/head";
 import useTranslation from "next-translate/useTranslation";
-import Layout from "../components/public/layout";
 import ClientLogin from "../components/client/clientLogin";
+import Layout from "../components/public/layout";
 import { ReactElement } from "react";
+import Head from "next/head";
 
 export default function Login() {
   const { lang } = useTranslation("common");
