@@ -138,12 +138,41 @@ export default function CategoriesAdmin() {
     fetchAndSetCategories();
   }, [selectedCategory.id]);
 
-  const putCategory = async () => {
-    const putWebsiteRequest = await fetch("/api/private/categories", {
-      method: "PUT",
+  const postCategory = async () => {
+    const postWebsiteRequest = await fetch("/api/private/categories", {
+      method: "POST",
       body: JSON.stringify(selectedCategory),
     });
+    if (postWebsiteRequest.ok) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const putCategory = async () => {
+    const putWebsiteRequest = await fetch(
+      "/api/private/categories?id=" + selectedCategory.id,
+      {
+        method: "PUT",
+        body: JSON.stringify(selectedCategory),
+      },
+    );
     if (putWebsiteRequest.ok) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const deleteCategory = async () => {
+    const deleteWebsiteRequest = await fetch(
+      "/api/private/categories?id=" + selectedCategory.id,
+      {
+        method: "DELETE",
+      },
+    );
+    if (deleteWebsiteRequest.ok) {
       return true;
     } else {
       return false;
