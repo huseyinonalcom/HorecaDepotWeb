@@ -162,8 +162,8 @@ export default function CategoriesAdmin() {
       </Head>
       <div className="mx-auto mb-6 flex h-fit max-w-screen-2xl flex-col items-center justify-center overflow-hidden text-black duration-300 ease-in-out">
         <div className="mx-auto w-full max-w-[1000px] flex-shrink-0 rounded-xl bg-white p-4">
-          <h3 className="pr-6 pl-2 text-xl font-semibold">{t("Categories")}</h3>
-          <div className="my-4 grid grid-cols-4 gap-4 border-t bg-white py-2 duration-300">
+          <h3 className="pl-2 text-xl font-semibold">{t("Categories")}</h3>
+          <div className="my-4 grid grid-cols-4 gap-4 border-t py-2 duration-300">
             {previewCategories &&
               previewCategories
                 .filter((cat) => cat.subCategories.length > 0)
@@ -206,20 +206,17 @@ export default function CategoriesAdmin() {
                         <button
                           type="button"
                           className="font-semibold"
-                          onClick={() => setSelectedCategory}
+                          onClick={() => setSelectedCategory(category)}
                         >
                           {category.localized_name[lang]}
                         </button>
-                        <div className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200">
+                        <button
+                          type="button"
+                          onClick={() => setSelectedCategory(category)}
+                          className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-200"
+                        >
                           {category.localized_name[lang]}
-                        </div>
-                        {category.subCategories.map((subCategory) => (
-                          <CategoryItem
-                            key={subCategory.id}
-                            category={subCategory}
-                            onClick={() => setSelectedCategory}
-                          />
-                        ))}
+                        </button>
                       </div>
                     ))}
                 </div>
