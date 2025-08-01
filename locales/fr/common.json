@@ -473,5 +473,6 @@
   "disapprove": "Désapprouver",
   "approved": "Approuvé",
   "remove-products": "Supprimer des produits",
-  "confirm_delete_collection": "Voulez-vous vraiment supprimer cette collection?"
+  "confirm_delete_collection": "Voulez-vous vraiment supprimer cette collection?",
+  "show-empty-categories": "Afficher les catégories vides"
 }

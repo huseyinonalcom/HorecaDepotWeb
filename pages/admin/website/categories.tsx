@@ -262,7 +262,7 @@ export default function CategoriesAdmin() {
           <div className="flex flex-row justify-between">
             <h3 className="pl-2 text-xl font-semibold">{t("Categories")}</h3>
             <SwitchField className="flex flex-row items-start">
-              <Label>{t("show_empty_categories")}</Label>
+              <Label>{t("show-empty-categories")}</Label>
               <Switch
                 checked={hideEmptyCategories}
                 color="green"

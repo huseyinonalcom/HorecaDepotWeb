@@ -473,5 +473,6 @@
   "disapprove": "Afkeuren",
   "approved": "Goedgekeurd",
   "remove-products": "Producten verwijderen",
-  "confirm_delete_collection": "Weet u zeker dat u deze collectie wilt verwijderen?"
+  "confirm_delete_collection": "Weet u zeker dat u deze collectie wilt verwijderen?",
+  "show-empty-categories": "Toon lege categorieën"
 }

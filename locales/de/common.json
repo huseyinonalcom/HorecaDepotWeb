@@ -473,5 +473,6 @@
   "disapprove": "Ablehnen",
   "approved": "Genehmigt",
   "remove-products": "Produkte entfernen",
-  "confirm_delete_collection": "Möchten Sie diese Sammlung wirklich löschen?"
+  "confirm_delete_collection": "Möchten Sie diese Sammlung wirklich löschen?",
+  "show-empty-categories": "Zeige leere Kategorien"
 }
