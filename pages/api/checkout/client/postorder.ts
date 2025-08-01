@@ -283,8 +283,8 @@ export default async function postOrder(
             });
 
             if (
-              productsFromRequest.documentToPost.docAddress.country ==
-              "test123test123"
+              productsFromRequest.documentToPost.docAddress.floor ==
+              "9999"
             ) {
               shippingCost = 0;
             }
