@@ -407,19 +407,6 @@ export default function Products(props) {
             </div>
             <div className="flex flex-row gap-2 bg-gray-100 p-2 shadow-lg">
               <Link
-                href={
-                  currentSortDirection == "desc"
-                    ? createLink({ sortDirection: "asc", page: 1 })
-                    : createLink({ sortDirection: "desc", page: 1 })
-                }
-              >
-                <FiArrowUp
-                  className={`h-9 w-9 border-2 border-blue-500 bg-white p-1 duration-500 ${
-                    currentSortDirection == "asc" ? "rotate-0" : "rotate-180"
-                  }`}
-                />
-              </Link>
-              <Link
                 className={`border-2 bg-white px-2 py-1 ${
                   currentSort == "id" ? "border-blue-500" : ""
                 }`}
@@ -427,20 +414,12 @@ export default function Products(props) {
               >
                 {t("Date")}
               </Link>
-              <Link
-                className={`border-2 bg-white px-2 py-1 ${
-                  currentSort == "value" ? "border-blue-500" : ""
-                }`}
-                href={createLink({ sort: "value", page: 1 })}
-              >
-                {t("Price")}
-              </Link>
             </div>
             <Button onClick={() => generateXlsx()}>
               <FiDownload />
               <span>{t("Download Excel")}</span>
             </Button>
-            <Link href={"/admin/products/0"}>
+            <Link href="/admin/products/0">
               <Button color="white">
                 <FiPlusCircle />
                 <span>{t("Create New Product")}</span>
@@ -452,10 +431,106 @@ export default function Products(props) {
               <TableHead>
                 <TableRow>
                   <TableHeader></TableHeader>
-                  <TableHeader>{t("Name")}</TableHeader>
-                  <TableHeader>{t("code")}</TableHeader>
-                  <TableHeader>{t("EAN")}</TableHeader>
-                  <TableHeader>{t("Price")}</TableHeader>
+                  <TableHeader>
+                    <div className="flex flex-row items-center gap-2">
+                      <Link href={createLink({ sort: "name", page: 1 })}>
+                        {t("Name")}
+                      </Link>
+                      {currentSort == "name" && (
+                        <Link
+                          href={
+                            currentSortDirection == "desc"
+                              ? createLink({ sortDirection: "asc", page: 1 })
+                              : createLink({ sortDirection: "desc", page: 1 })
+                          }
+                        >
+                          <FiArrowUp
+                            className={`duration-500 ${
+                              currentSortDirection == "asc"
+                                ? "rotate-0"
+                                : "rotate-180"
+                            }`}
+                          />
+                        </Link>
+                      )}
+                    </div>
+                  </TableHeader>
+                  <TableHeader>
+                    <div className="flex flex-row items-center gap-2">
+                      <Link
+                        href={createLink({ sort: "internalCode", page: 1 })}
+                      >
+                        {t("code")}
+                      </Link>
+                      {currentSort == "internalCode" && (
+                        <Link
+                          href={
+                            currentSortDirection == "desc"
+                              ? createLink({ sortDirection: "asc", page: 1 })
+                              : createLink({ sortDirection: "desc", page: 1 })
+                          }
+                        >
+                          <FiArrowUp
+                            className={`duration-500 ${
+                              currentSortDirection == "asc"
+                                ? "rotate-0"
+                                : "rotate-180"
+                            }`}
+                          />
+                        </Link>
+                      )}
+                    </div>
+                  </TableHeader>
+                  <TableHeader>
+                    <div className="flex flex-row items-center gap-2">
+                      <Link
+                        href={createLink({ sort: "supplierCode", page: 1 })}
+                      >
+                        {t("EAN")}
+                      </Link>
+                      {currentSort == "supplierCode" && (
+                        <Link
+                          href={
+                            currentSortDirection == "desc"
+                              ? createLink({ sortDirection: "asc", page: 1 })
+                              : createLink({ sortDirection: "desc", page: 1 })
+                          }
+                        >
+                          <FiArrowUp
+                            className={`duration-500 ${
+                              currentSortDirection == "asc"
+                                ? "rotate-0"
+                                : "rotate-180"
+                            }`}
+                          />
+                        </Link>
+                      )}
+                    </div>
+                  </TableHeader>
+                  <TableHeader>
+                    <div className="flex flex-row items-center gap-2">
+                      <Link href={createLink({ sort: "value", page: 1 })}>
+                        {t("Price")}
+                      </Link>
+                      {currentSort == "value" && (
+                        <Link
+                          href={
+                            currentSortDirection == "desc"
+                              ? createLink({ sortDirection: "asc", page: 1 })
+                              : createLink({ sortDirection: "desc", page: 1 })
+                          }
+                        >
+                          <FiArrowUp
+                            className={`duration-500 ${
+                              currentSortDirection == "asc"
+                                ? "rotate-0"
+                                : "rotate-180"
+                            }`}
+                          />
+                        </Link>
+                      )}
+                    </div>
+                  </TableHeader>
                   <TableHeader>{t("Stock")}</TableHeader>
                   <TableHeader>{t("Active")}</TableHeader>
                 </TableRow>
