@@ -474,5 +474,7 @@
   "your-phone": "Your Phone",
   "your-vat-number": "VAT number",
   "zip-code": "Zip Code",
-  "zipCode": "Zip Code"
+  "zipCode": "Zip Code",
+  "parent-category": "Parent Category",
+  "no-parent-category": "No Parent Category"
 }

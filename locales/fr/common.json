@@ -242,6 +242,8 @@
   "No orders found": "Aucune commande trouvée",
   "No products matching": "Il n'y a pas encore de produits ici, revenez plus tard ou essayez une autre catégorie.",
   "No products selected": "Aucun produit sélectionné",
+  "parent-category": "Catégorie parente",
+  "no-parent-category": "Pas de catégorie parente",
   "no_parent_category": "Pas de catégorie parent",
   "No_payment_admin": "Aucun paiement n'a été trouvé.",
   "No_payment_part1": "Aucun paiement n'a été trouvé, si cela persiste",

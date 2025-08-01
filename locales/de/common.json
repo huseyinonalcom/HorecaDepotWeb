@@ -474,5 +474,7 @@
   "your-phone": "Ihre Telefonnummer",
   "your-vat-number": "Umsatzsteuer-Identifikationsnummer",
   "zip-code": "Postleitzahl",
-  "zipCode": "Postleitzahl"
+  "zipCode": "Postleitzahl",
+  "parent-category": "Übergeordnete Kategorie",
+  "no-parent-category": "Keine übergeordnete Kategorie"
 }

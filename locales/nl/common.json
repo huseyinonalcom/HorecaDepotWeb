@@ -474,5 +474,7 @@
   "your-phone": "Uw telefoonnummer",
   "your-vat-number": "BTW-nummer",
   "zip-code": "Postcode",
-  "zipCode": "Postcode"
+  "zipCode": "Postcode",
+  "parent-category": "Hoofdcategorie",
+  "no-parent-category": "Geen hoofdcategorie"
 }

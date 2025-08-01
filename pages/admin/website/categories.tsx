@@ -3,13 +3,15 @@ import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import { FiChevronLeft, FiCopy, FiPlus, FiTrash } from "react-icons/fi";
 import { Switch, SwitchField } from "../../../components/styled/switch";
 import { uploadFileToAPI } from "../../api/private/files/uploadfile";
+import { Field, Label } from "../../../components/styled/fieldset";
 import InputOutlined from "../../../components/inputs/outlined";
 import StyledForm from "../../../components/form/StyledForm";
 import ImageWithURL from "../../../components/common/image";
-import { Label } from "../../../components/styled/fieldset";
 import { Category } from "../../../api/interfaces/category";
 import useTranslation from "next-translate/useTranslation";
 import { Button } from "../../../components/styled/button";
+import { Select } from "../../../components/styled/select";
+import { Input } from "../../../components/styled/input";
 import { useEffect, useState } from "react";
 import Head from "next/head";
 
@@ -393,8 +395,8 @@ export default function CategoriesAdmin() {
                     }}
                   />
                 </div>
-                <InputOutlined
-                  label="order"
+                <Input
+                  label={t("order")}
                   value={selectedCategory.priority}
                   onChange={(e) => {
                     setSelectedCategory((sc) => {
@@ -437,6 +439,46 @@ export default function CategoriesAdmin() {
                       ))}
                   </select>
                 </div>
+                <Field>
+                  <Label>{t("parent-category")}</Label>
+                  <Select
+                    name="categories"
+                    value={selectedCategory.headCategory?.id ?? null}
+                    onChange={(e) => {
+                      setSelectedCategory({
+                        ...selectedCategory,
+                        headCategory: categories.find(
+                          (cat) => cat.id == e.target.value,
+                        ),
+                      });
+                    }}
+                  >
+                    <option>{t("no-parent-category")}</option>
+                    {categories
+                      .filter((cat) => cat.id != selectedCategory.id)
+                      .map((cat) => {
+                        const isSubcategory = !!cat.headCategory;
+                        const hasHeadParent =
+                          isSubcategory &&
+                          !!categories.find(
+                            (parent) => parent.id === cat.headCategory?.id,
+                          )?.headCategory;
+
+                        const prefix = isSubcategory
+                          ? hasHeadParent
+                            ? "--"
+                            : "-"
+                          : "";
+
+                        return (
+                          <option key={`${cat.id}-cat`} value={cat.id}>
+                            {prefix}
+                            {cat.localized_name[lang]}
+                          </option>
+                        );
+                      })}
+                  </Select>
+                </Field>
               </div>
 
               <InputOutlined
