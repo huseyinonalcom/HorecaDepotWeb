@@ -7,6 +7,8 @@ import { getCoverImageUrl } from "../../../api/utils/getprodcoverimage";
 import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
 import { getSuppliers } from "../../api/private/suppliers";
+import { Button } from "../../../components/styled/button";
+import { Link } from "../../../components/styled/link";
 import { fuzzySearch } from "../../api/public/search";
 import {
   Pagination,
@@ -28,7 +30,6 @@ import { useRouter } from "next/router";
 import { LuDot } from "react-icons/lu";
 import { utils, write } from "xlsx";
 import { useState } from "react";
-import Link from "next/link";
 import Head from "next/head";
 import {
   FiChevronUp,
@@ -55,11 +56,6 @@ export default function Products(props) {
   const allCategories = props.allCategories;
   const allSuppliers = props.allSuppliers;
   const allCategoriesHierarchy = props.allCategoriesHierarchy;
-  const buttonClass =
-    "flex flex-row items-center justify-start py-2 shadow-lg hover:bg-orange-400 overflow-hidden duration-500 cursor-pointer";
-  const navIconDivClass = "flex flex-row justify-center flex-shrink-0 w-[35px]";
-  const iconClass = "flex-shrink-0";
-  const textClass = "mx-2 font-bold text-left";
 
   const CategoryItem = ({ category }) => {
     const [isHovered, setisHovered] = useState(false);
@@ -440,20 +436,15 @@ export default function Products(props) {
                 {t("Price")}
               </Link>
             </div>
-            <button
-              className={buttonClass + " flex-shrink-0 bg-green-400"}
-              onClick={() => generateXlsx()}
-            >
-              <div className={navIconDivClass}>
-                <FiDownload className={iconClass} />
-              </div>
-              <span className={textClass}>{t("Download Excel")}</span>
-            </button>
-            <Link className={buttonClass} href={"/admin/products/0"}>
-              <div className={navIconDivClass}>
-                <FiPlusCircle className={iconClass} />
-              </div>
-              <span className={textClass}>{t("Create New Product")}</span>
+            <Button onClick={() => generateXlsx()}>
+              <FiDownload />
+              <span>{t("Download Excel")}</span>
+            </Button>
+            <Link href={"/admin/products/0"}>
+              <Button color="white">
+                <FiPlusCircle />
+                <span>{t("Create New Product")}</span>
+              </Button>
             </Link>
           </div>
           <div className="w-full rounded-md bg-white p-4 shadow-sm">
@@ -638,6 +629,9 @@ export async function getServerSideProps(context) {
 
   let currentPage = 1;
   let totalPages = 1;
+
+  console.log(productsData);
+
   try {
     if (productsData.meta.pagination.page) {
       currentPage = productsData.meta.pagination.page;
