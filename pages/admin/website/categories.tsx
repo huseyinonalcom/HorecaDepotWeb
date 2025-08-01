@@ -260,7 +260,7 @@ export default function CategoriesAdmin() {
       <div className="mx-auto mb-6 flex h-fit max-w-screen-2xl flex-col items-center justify-center overflow-hidden text-black duration-300 ease-in-out">
         <div className="mx-auto w-full max-w-[1000px] flex-shrink-0 rounded-xl bg-white p-4">
           <div className="flex flex-row justify-between">
-            <h3 className="pl-2 text-xl font-semibold">{t("Categories")}</h3>
+            <h3 className="pl-2 text-xl font-semibold">{t("categories")}</h3>
             <SwitchField className="flex flex-row items-start">
               <Label>{t("show-empty-categories")}</Label>
               <Switch
