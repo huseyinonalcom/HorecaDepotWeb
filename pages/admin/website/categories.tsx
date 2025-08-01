@@ -14,6 +14,7 @@ import { Select } from "../../../components/styled/select";
 import { Input } from "../../../components/styled/input";
 import { useEffect, useState } from "react";
 import Head from "next/head";
+import { InputImage } from "../../../components/form/InputImage";
 
 const CategoryItem = ({ category, onClick }) => {
   const { lang } = useTranslation("common");
@@ -374,117 +375,85 @@ export default function CategoriesAdmin() {
           }
           key={selectedCategory.id}
         >
-          <div className="flex w-full flex-row gap-3 rounded-md py-1">
-            <div className="flex flex-shrink-0 flex-row gap-2 p-2">
-              <div className="flex w-[250px] flex-shrink-0 flex-col gap-2">
-                <div className="w-full">
-                  <LocalizedInput
-                    value={
-                      selectedCategory.localized_name ?? {
-                        nl: selectedCategory?.Name,
-                        en: selectedCategory?.Name,
-                        fr: selectedCategory?.Name,
-                        de: selectedCategory?.Name,
-                      }
-                    }
-                    onChange={(value) => {
-                      setSelectedCategory((prev) => ({
-                        ...prev,
-                        localized_name: value,
-                      }));
-                    }}
-                  />
-                </div>
-                <Input
-                  label={t("order")}
-                  value={selectedCategory.priority}
+          <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
+            <div className="flex flex-col">
+              <LocalizedInput
+                value={
+                  selectedCategory.localized_name ?? {
+                    nl: selectedCategory?.Name,
+                    en: selectedCategory?.Name,
+                    fr: selectedCategory?.Name,
+                    de: selectedCategory?.Name,
+                  }
+                }
+                onChange={(value) => {
+                  setSelectedCategory((prev) => ({
+                    ...prev,
+                    localized_name: value,
+                  }));
+                }}
+              />
+            </div>
+            <div className="flex flex-col">
+              <Input
+                label={t("order")}
+                value={selectedCategory.priority}
+                onChange={(e) => {
+                  setSelectedCategory((sc) => {
+                    const newCategory = { ...sc };
+                    newCategory.priority = e.target.value;
+                    return newCategory;
+                  });
+                }}
+                name="priority"
+                min={1}
+                type="number"
+              />
+              <Field>
+                <Label>{t("parent-category")}</Label>
+                <Select
+                  name="categories"
+                  value={selectedCategory.headCategory?.id ?? null}
                   onChange={(e) => {
-                    setSelectedCategory((sc) => {
-                      const newCategory = { ...sc };
-                      newCategory.priority = e.target.value;
-                      return newCategory;
+                    setSelectedCategory({
+                      ...selectedCategory,
+                      headCategory: categories.find(
+                        (cat) => cat.id == e.target.value,
+                      ),
                     });
                   }}
-                  name="priority"
-                  min={1}
-                  type="number"
-                />
-                <div className="flex flex-col gap-1 border bg-slate-100 p-1">
-                  <p>{t("parent_category")}</p>
-                  <select
-                    value={selectedCategory.headCategory?.id ?? null}
-                    name="headCategory"
-                    id={`${selectedCategory.id}-headCategory`}
-                    onChange={(e) => {
-                      setSelectedCategory((sc) => ({
-                        ...sc,
-                        headCategory: categories.find(
-                          (cat) => cat.id == e.target.value,
-                        ),
-                      }));
-                    }}
-                  >
-                    <option value={null}>{t("no_parent_category")}</option>
-                    {categories
-                      .filter((cat) => cat.id != selectedCategory.id)
-                      .map((cat) => (
-                        <option
-                          key={
-                            cat.id + "-" + selectedCategory.id + "-headCategory"
-                          }
-                          value={cat.id}
-                        >
+                >
+                  <option>{t("no-parent-category")}</option>
+                  {categories
+                    .filter((cat) => cat.id != selectedCategory.id)
+                    .map((cat) => {
+                      const isSubcategory = !!cat.headCategory;
+                      const hasHeadParent =
+                        isSubcategory &&
+                        !!categories.find(
+                          (parent) => parent.id === cat.headCategory?.id,
+                        )?.headCategory;
+
+                      const prefix = isSubcategory
+                        ? hasHeadParent
+                          ? "--"
+                          : "-"
+                        : "";
+
+                      return (
+                        <option key={`${cat.id}-cat`} value={cat.id}>
+                          {prefix}
                           {cat.localized_name[lang]}
                         </option>
-                      ))}
-                  </select>
-                </div>
-                <Field>
-                  <Label>{t("parent-category")}</Label>
-                  <Select
-                    name="categories"
-                    value={selectedCategory.headCategory?.id ?? null}
-                    onChange={(e) => {
-                      setSelectedCategory({
-                        ...selectedCategory,
-                        headCategory: categories.find(
-                          (cat) => cat.id == e.target.value,
-                        ),
-                      });
-                    }}
-                  >
-                    <option>{t("no-parent-category")}</option>
-                    {categories
-                      .filter((cat) => cat.id != selectedCategory.id)
-                      .map((cat) => {
-                        const isSubcategory = !!cat.headCategory;
-                        const hasHeadParent =
-                          isSubcategory &&
-                          !!categories.find(
-                            (parent) => parent.id === cat.headCategory?.id,
-                          )?.headCategory;
+                      );
+                    })}
+                </Select>
+              </Field>
 
-                        const prefix = isSubcategory
-                          ? hasHeadParent
-                            ? "--"
-                            : "-"
-                          : "";
-
-                        return (
-                          <option key={`${cat.id}-cat`} value={cat.id}>
-                            {prefix}
-                            {cat.localized_name[lang]}
-                          </option>
-                        );
-                      })}
-                  </Select>
-                </Field>
-              </div>
-
-              <InputOutlined
-                label="add image"
-                type="file"
-                name="image"
+              <InputImage
+                height={160}
+                width={160}
+                url={selectedCategory.image?.url}
                 onChange={async (e) => {
                   if (!e.target.files.item(0)) {
                     return;
@@ -507,26 +476,13 @@ export default function CategoriesAdmin() {
                       });
                   }
                 }}
-              />
-              <button
-                onClick={() => {
+                onDelete={() => {
                   setSelectedCategory((sc) => ({
                     ...sc,
                     image: null,
                   }));
                 }}
-              >
-                {t("delete_image")}
-              </button>
-              {selectedCategory.image && (
-                <ImageWithURL
-                  src={selectedCategory.image.url}
-                  alt={selectedCategory.image.alt}
-                  height={500}
-                  width={500}
-                  className="h-[250px] w-auto"
-                />
-              )}
+              ></InputImage>
             </div>
           </div>
         </StyledForm>
