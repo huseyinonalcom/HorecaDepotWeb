@@ -4,9 +4,8 @@ import { FiChevronLeft, FiCopy, FiPlus, FiTrash } from "react-icons/fi";
 import { Switch, SwitchField } from "../../../components/styled/switch";
 import { uploadFileToAPI } from "../../api/private/files/uploadfile";
 import { Field, Label } from "../../../components/styled/fieldset";
-import InputOutlined from "../../../components/inputs/outlined";
+import { InputImage } from "../../../components/form/InputImage";
 import StyledForm from "../../../components/form/StyledForm";
-import ImageWithURL from "../../../components/common/image";
 import { Category } from "../../../api/interfaces/category";
 import useTranslation from "next-translate/useTranslation";
 import { Button } from "../../../components/styled/button";
@@ -14,7 +13,6 @@ import { Select } from "../../../components/styled/select";
 import { Input } from "../../../components/styled/input";
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import { InputImage } from "../../../components/form/InputImage";
 
 const CategoryItem = ({ category, onClick }) => {
   const { lang } = useTranslation("common");

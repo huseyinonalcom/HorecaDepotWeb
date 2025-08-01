@@ -1,1 +1,3 @@
-add, reorder, etc on categories
+sorting on stock list
+
+unguessable link to access order summary without user account
