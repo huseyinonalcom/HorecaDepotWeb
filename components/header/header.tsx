@@ -1,3 +1,4 @@
+import { hierarchizeCategories } from "../../pages/admin/website/categories";
 import { WishlistContext } from "../../api/providers/wishlistProvider";
 import { useContext, useEffect, useRef, useState } from "react";
 import { CartContext } from "../../api/providers/cartProvider";
@@ -690,7 +691,7 @@ const HeaderButtons = ({ cartItems }) => {
       <Link
         aria-label="Link to User Account Dashboard"
         className={`${navButtonsClass} hidden lg:flex`}
-        href={"/account/myaccount"}
+        href="/account/myaccount"
       >
         <FiUser size={24} />
       </Link>
@@ -853,30 +854,9 @@ const Header = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch(
-        "/api/categories/getallcategories?flat=false",
-      );
+      const response = await fetch("/api/private/categories");
       const categories = await response.json();
-      const validCategories = [];
-      categories.forEach((category) => {
-        if (category.products_multi_categories.length > 0) {
-          validCategories.push(category);
-        } else if (category.subCategories) {
-          category.subCategories.forEach((subCategory) => {
-            if (subCategory.products_multi_categories.length > 0) {
-              validCategories.push(category);
-            } else if (subCategory.subCategories) {
-              subCategory.subCategories.forEach((subSubCategory) => {
-                if (subSubCategory.products_multi_categories.length > 0) {
-                  validCategories.push(category);
-                }
-              });
-            }
-          });
-        }
-      });
-      let dedupedCategories = new Set(validCategories);
-      setAllCategories(Array.from(dedupedCategories));
+      setAllCategories(hierarchizeCategories(categories));
     } catch (error) {}
   };
 
@@ -898,9 +878,7 @@ const Header = () => {
   const [isHeaderDrawerOpen, setIsHeaderDrawerOpen] = useState(false);
 
   return (
-    <div
-      className={`sticky top-0 z-40 mx-auto flex w-[90vw] flex-col items-center pt-2 text-white duration-300 print:hidden`}
-    >
+    <div className="sticky top-0 z-40 mx-auto flex w-[90vw] flex-col items-center pt-2 text-white duration-300 print:hidden">
       <div className="flex lg:hidden">
         <CategoryDrawerMobile
           isOpen={showCategories}
@@ -921,9 +899,7 @@ const Header = () => {
           isOpen={isHeaderDrawerOpen}
           onClickOutside={() => setIsHeaderDrawerOpen(false)}
         />
-
         <TopBar />
-
         <div className="w-full px-5">
           <div className="flex w-full flex-row items-center justify-between gap-4">
             <button
@@ -937,7 +913,7 @@ const Header = () => {
             </button>
             <div className="flex flex-row items-center gap-8 text-sm text-white">
               <Link
-                href={"/"}
+                href="/"
                 className="flex-shrink-0"
                 onClick={() => setIsHeaderDrawerOpen(false)}
                 style={{
