@@ -480,10 +480,10 @@ export default function Products(props) {
                   <TableHeader>{t("Stock")}</TableHeader>
                   <TableHeader>
                     <div className="flex flex-row items-center gap-2">
-                      <Link href={createLink({ sort: "viewed", page: 1 })}>
-                        {t("viewed")}
+                      <Link href={createLink({ sort: "views", page: 1 })}>
+                        {t("views")}
                       </Link>
-                      {currentSort == "viewed" && <OrderArrow />}
+                      {currentSort == "views" && <OrderArrow />}
                     </div>
                   </TableHeader>
                   <TableHeader>{t("Active")}</TableHeader>
@@ -529,7 +529,7 @@ export default function Products(props) {
                       <TableCell>{product.supplierCode}</TableCell>
                       <TableCell>{formatCurrency(product.value)}</TableCell>
                       <TableCell>{stock}</TableCell>
-                      <TableCell>{product.viewed}</TableCell>
+                      <TableCell>{product.views}</TableCell>
                       <TableCell>
                         <LuDot
                           size={80}

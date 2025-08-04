@@ -87,7 +87,7 @@ export default function ProductPage({
     // Mark as viewed in this session
     sessionStorage.setItem(viewedKey, "true");
 
-    fetch(`/api/public/products/stats?id=${product.id}&action=viewed`, {
+    fetch(`/api/public/products/stats?id=${product.id}&action=views`, {
       method: "POST",
     }).catch();
   }, [product.id]);
