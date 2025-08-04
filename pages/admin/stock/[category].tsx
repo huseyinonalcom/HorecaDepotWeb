@@ -283,6 +283,26 @@ export default function Products(props) {
       document.body.removeChild(a);
     }, 0);
   };
+
+  const OrderArrow = () => {
+    return (
+      <Link
+        href={
+          currentSortDirection == "desc"
+            ? createLink({ sortDirection: "asc", page: 1 })
+            : createLink({ sortDirection: "desc", page: 1 })
+        }
+      >
+        <FiArrowUp
+          color="black"
+          className={`duration-200 ${
+            currentSortDirection == "asc" ? "rotate-0" : "rotate-180"
+          }`}
+        />
+      </Link>
+    );
+  };
+
   return (
     <>
       <Head>
@@ -426,23 +446,7 @@ export default function Products(props) {
                       <Link href={createLink({ sort: "name", page: 1 })}>
                         {t("Name")}
                       </Link>
-                      {currentSort == "name" && (
-                        <Link
-                          href={
-                            currentSortDirection == "desc"
-                              ? createLink({ sortDirection: "asc", page: 1 })
-                              : createLink({ sortDirection: "desc", page: 1 })
-                          }
-                        >
-                          <FiArrowUp
-                            className={`duration-500 ${
-                              currentSortDirection == "asc"
-                                ? "rotate-0"
-                                : "rotate-180"
-                            }`}
-                          />
-                        </Link>
-                      )}
+                      {currentSort == "name" && <OrderArrow />}
                     </div>
                   </TableHeader>
                   <TableHeader>
@@ -452,23 +456,7 @@ export default function Products(props) {
                       >
                         {t("code")}
                       </Link>
-                      {currentSort == "internalCode" && (
-                        <Link
-                          href={
-                            currentSortDirection == "desc"
-                              ? createLink({ sortDirection: "asc", page: 1 })
-                              : createLink({ sortDirection: "desc", page: 1 })
-                          }
-                        >
-                          <FiArrowUp
-                            className={`duration-500 ${
-                              currentSortDirection == "asc"
-                                ? "rotate-0"
-                                : "rotate-180"
-                            }`}
-                          />
-                        </Link>
-                      )}
+                      {currentSort == "internalCode" && <OrderArrow />}
                     </div>
                   </TableHeader>
                   <TableHeader>
@@ -478,23 +466,7 @@ export default function Products(props) {
                       >
                         {t("EAN")}
                       </Link>
-                      {currentSort == "supplierCode" && (
-                        <Link
-                          href={
-                            currentSortDirection == "desc"
-                              ? createLink({ sortDirection: "asc", page: 1 })
-                              : createLink({ sortDirection: "desc", page: 1 })
-                          }
-                        >
-                          <FiArrowUp
-                            className={`duration-500 ${
-                              currentSortDirection == "asc"
-                                ? "rotate-0"
-                                : "rotate-180"
-                            }`}
-                          />
-                        </Link>
-                      )}
+                      {currentSort == "supplierCode" && <OrderArrow />}
                     </div>
                   </TableHeader>
                   <TableHeader>
@@ -502,23 +474,7 @@ export default function Products(props) {
                       <Link href={createLink({ sort: "value", page: 1 })}>
                         {t("Price")}
                       </Link>
-                      {currentSort == "value" && (
-                        <Link
-                          href={
-                            currentSortDirection == "desc"
-                              ? createLink({ sortDirection: "asc", page: 1 })
-                              : createLink({ sortDirection: "desc", page: 1 })
-                          }
-                        >
-                          <FiArrowUp
-                            className={`duration-500 ${
-                              currentSortDirection == "asc"
-                                ? "rotate-0"
-                                : "rotate-180"
-                            }`}
-                          />
-                        </Link>
-                      )}
+                      {currentSort == "value" && <OrderArrow />}
                     </div>
                   </TableHeader>
                   <TableHeader>{t("Stock")}</TableHeader>
@@ -527,23 +483,7 @@ export default function Products(props) {
                       <Link href={createLink({ sort: "viewed", page: 1 })}>
                         {t("viewed")}
                       </Link>
-                      {currentSort == "viewed" && (
-                        <Link
-                          href={
-                            currentSortDirection == "desc"
-                              ? createLink({ sortDirection: "asc", page: 1 })
-                              : createLink({ sortDirection: "desc", page: 1 })
-                          }
-                        >
-                          <FiArrowUp
-                            className={`duration-500 ${
-                              currentSortDirection == "asc"
-                                ? "rotate-0"
-                                : "rotate-180"
-                            }`}
-                          />
-                        </Link>
-                      )}
+                      {currentSort == "viewed" && <OrderArrow />}
                     </div>
                   </TableHeader>
                   <TableHeader>{t("Active")}</TableHeader>
@@ -694,14 +634,14 @@ export async function getServerSideProps(context) {
     delete req.query.category;
   }
   if (!req.query.sort) {
-    req.query.sort = "id";
+    req.query.sort = "name";
   }
   const allCategories = await getAllCategoriesFlattened();
   const allSuppliers = await getSuppliers({ authToken: req.cookies.j });
   const allCategoriesHierarchy = await getAllCategories();
   const currentSearch = req.query.search ?? null;
-  const currentSort = req.query.sort.split(":").at(0) ?? "id";
-  const currentSortDirection = req.query.sort.split(":").at(1) ?? "desc";
+  const currentSort = req.query.sort.split(":").at(0) ?? "name";
+  const currentSortDirection = req.query.sort.split(":").at(1) ?? "asc";
   req.query.sort = currentSort + ":" + currentSortDirection;
 
   let productsReq;

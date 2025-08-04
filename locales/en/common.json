@@ -476,5 +476,6 @@
   "zip-code": "Zip Code",
   "zipCode": "Zip Code",
   "parent-category": "Parent Category",
-  "no-parent-category": "No Parent Category"
+  "no-parent-category": "No Parent Category",
+  "viewed": "Viewed"
 }

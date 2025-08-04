@@ -476,5 +476,6 @@
   "zip-code": "Postcode",
   "zipCode": "Postcode",
   "parent-category": "Hoofdcategorie",
-  "no-parent-category": "Geen hoofdcategorie"
+  "no-parent-category": "Geen hoofdcategorie",
+  "viewed": "Bekeken"
 }
