@@ -77,15 +77,15 @@ export default function ProductPage({
   useEffect(() => {
     if (!product?.id) return;
 
-    const viewedKey = `viewed_${product.id}`;
+    const viewsKey = `views_${product.id}`;
 
-    // Check if this product was already viewed in this session
-    if (sessionStorage.getItem(viewedKey)) {
+    // Check if this product was already views in this session
+    if (sessionStorage.getItem(viewsKey)) {
       return;
     }
 
-    // Mark as viewed in this session
-    sessionStorage.setItem(viewedKey, "true");
+    // Mark as views in this session
+    sessionStorage.setItem(viewsKey, "true");
 
     fetch(`/api/public/products/stats?id=${product.id}&action=views`, {
       method: "POST",

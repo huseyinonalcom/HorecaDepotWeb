@@ -6,7 +6,7 @@ export async function logProductView({
   action,
 }: {
   productId: number;
-  action: "viewed";
+  action: "views";
 }) {
   try {
     const product = await getProducts({
@@ -17,21 +17,21 @@ export async function logProductView({
 
     const fetchedProduct = product.data;
 
-    const currentViewed = fetchedProduct.viewed;
+    const currentviews = fetchedProduct.views;
 
-    let newViewed = 0;
+    let newviews = 0;
 
-    if (!currentViewed) {
-      newViewed = 1;
+    if (!currentviews) {
+      newviews = 1;
     } else {
-      newViewed = Number(currentViewed) + 1;
+      newviews = Number(currentviews) + 1;
     }
 
     updateProduct({
       id: productId,
       authToken: process.env.API_KEY,
       data: {
-        viewed: newViewed,
+        views: newviews,
       },
     });
   } catch (error) {
@@ -46,7 +46,7 @@ export default apiRoute({
       func: async (req, res) => {
         logProductView({
           productId: Number(req.query.id),
-          action: req.query.action as "viewed",
+          action: req.query.action as "views",
         });
         return { result: "ok" };
       },
