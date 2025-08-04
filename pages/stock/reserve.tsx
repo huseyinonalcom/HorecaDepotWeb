@@ -1,43 +1,28 @@
 import { Radio, RadioField, RadioGroup } from "../../components/styled/radio";
 import { CustomerSelector } from "../../components/selector/CustomerSelector";
 import { calculateCartTotals } from "../../api/utils/calculations/document";
+import { Fieldset, Label, Legend } from "../../components/styled/fieldset";
 import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
-import { Switch, SwitchField } from "../../components/styled/switch";
 import { getCoverImageUrl } from "../../api/utils/getprodcoverimage";
 import StockLayout from "../../components/stock/StockLayout";
+import { Textarea } from "../../components/styled/textarea";
 import useTranslation from "next-translate/useTranslation";
+import { Divider } from "../../components/styled/divider";
 import StyledForm from "../../components/form/StyledForm";
 import ImageWithURL from "../../components/common/image";
 import { ClientUser } from "../../api/interfaces/client";
-import { Select } from "../../components/styled/select";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Button } from "../../components/styled/button";
 import { FiMinus, FiPlus, FiX } from "react-icons/fi";
 import { Input } from "../../components/styled/input";
-import { countries } from "../../api/utils/countries";
+import { CloseButton } from "@headlessui/react";
 import { useEffect, useState } from "react";
-import {
-  Field,
-  Fieldset,
-  Label,
-  Legend,
-} from "../../components/styled/fieldset";
 import {
   Dialog,
   DialogBody,
   DialogTitle,
 } from "../../components/styled/dialog";
 import { useRouter } from "next/router";
-import { Textarea } from "../../components/styled/textarea";
-import { Divider } from "../../components/styled/divider";
-
-const emptyAddress = {
-  country: "",
-  city: "",
-  zipCode: "",
-  doorNumber: "",
-  street: "",
-  floor: "",
-};
 
 export default function Reserve() {
   const { t } = useTranslation("common");
@@ -241,11 +226,18 @@ export default function Reserve() {
               {t("existing-customer")}
             </Button>
             <Dialog
+              className="mt-24"
               size="5xl"
               open={showCustomerSelector}
               onClose={setShowCustomerSelector}
             >
-              <DialogTitle>{t("choose-customer")}</DialogTitle>
+              <div className="flex flex-row justify-between">
+                <DialogTitle>{t("choose-customer")}</DialogTitle>
+                <CloseButton>
+                  <XMarkIcon height={24} width={24} />
+                </CloseButton>
+              </div>
+
               <DialogBody>
                 <CustomerSelector
                   onCustomerSelected={(customer) => {

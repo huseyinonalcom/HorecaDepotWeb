@@ -65,7 +65,7 @@ export const CustomerSelector = ({
         label={t("search")}
         onChange={(e) => debouncedSetSearch(e.target.value)}
       />
-      <div className="mt-8 flow-root w-full px-[1px]">
+      <div className="mt-8 hidden w-full px-[1px] sm:flow-root">
         <div className="no-scrollbar -mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
             <div className="overflow-hidden shadow-sm ring-1 ring-black/5 sm:rounded-lg sm:rounded-b-none">
@@ -126,6 +126,46 @@ export const CustomerSelector = ({
           </div>
         </div>
       </div>
+      <div className="w-full space-y-4 sm:hidden">
+        {customers.map((customer) => (
+          <div
+            key={customer.login?.role?.name + "-" + customer.id}
+            className="rounded-md border border-gray-300 p-4 shadow-sm"
+          >
+            <div className="mb-2">
+              <span className="block text-xs font-semibold text-gray-500">
+                {t("name")}
+              </span>
+              <span className="text-sm">
+                {customer.firstName} {customer.lastName}
+              </span>
+            </div>
+            <div className="mb-2">
+              <span className="block text-xs font-semibold text-gray-500">
+                {t("company")}
+              </span>
+              <span className="text-sm">{customer.company}</span>
+            </div>
+            <div className="mb-2">
+              <span className="block text-xs font-semibold text-gray-500">
+                {t("e-mail")}
+              </span>
+              <span className="text-sm">
+                {customer.email ?? customer.login?.email}
+              </span>
+            </div>
+            <div className="text-right">
+              <Button
+                type="button"
+                onClick={() => onCustomerSelected(customer)}
+              >
+                {t("select")}
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div>
+
       <Pagination className="sticky bottom-0 -mt-1 flex w-full rounded-lg rounded-t-none border-1 border-zinc-950/10 bg-white p-4">
         <PaginationPrevious
           onClick={
