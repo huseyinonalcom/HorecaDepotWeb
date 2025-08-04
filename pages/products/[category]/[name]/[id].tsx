@@ -28,7 +28,11 @@ type Props = {
   categories;
 };
 
-const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
+export default function ProductPage({
+  product,
+  relatedProducts,
+  breadCrumbs,
+}: Props) {
   const { t, lang } = useTranslation("common");
 
   const [ref] = useDragScroll();
@@ -69,6 +73,24 @@ const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
       localizedDescription = product.localized_description[lang];
     }
   }
+
+  useEffect(() => {
+    if (!product?.id) return;
+
+    const viewedKey = `viewed_${product.id}`;
+
+    // Check if this product was already viewed in this session
+    if (sessionStorage.getItem(viewedKey)) {
+      return;
+    }
+
+    // Mark as viewed in this session
+    sessionStorage.setItem(viewedKey, "true");
+
+    fetch(`/api/public/products/stats?id=${product.id}&action=viewed`, {
+      method: "POST",
+    }).catch();
+  }, [product.id]);
 
   return (
     <Layout>
@@ -374,7 +396,7 @@ const ProductPage = ({ product, relatedProducts, breadCrumbs }: Props) => {
       </div>
     </Layout>
   );
-};
+}
 
 type Params = {
   params: {
@@ -455,5 +477,3 @@ export async function getStaticPaths({}) {
     fallback: "blocking",
   };
 }
-
-export default ProductPage;

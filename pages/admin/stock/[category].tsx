@@ -705,8 +705,6 @@ export async function getServerSideProps(context) {
   let currentPage = 1;
   let totalPages = 1;
 
-  console.log(productsData);
-
   try {
     if (productsData.meta.pagination.page) {
       currentPage = productsData.meta.pagination.page;
