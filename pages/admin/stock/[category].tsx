@@ -405,16 +405,6 @@ export default function Products(props) {
                 </Link>
               </form>
             </div>
-            <div className="flex flex-row gap-2 bg-gray-100 p-2 shadow-lg">
-              <Link
-                className={`border-2 bg-white px-2 py-1 ${
-                  currentSort == "id" ? "border-blue-500" : ""
-                }`}
-                href={createLink({ sort: "id", page: 1 })}
-              >
-                {t("Date")}
-              </Link>
-            </div>
             <Button onClick={() => generateXlsx()}>
               <FiDownload />
               <span>{t("Download Excel")}</span>
@@ -532,6 +522,30 @@ export default function Products(props) {
                     </div>
                   </TableHeader>
                   <TableHeader>{t("Stock")}</TableHeader>
+                  <TableHeader>
+                    <div className="flex flex-row items-center gap-2">
+                      <Link href={createLink({ sort: "viewed", page: 1 })}>
+                        {t("viewed")}
+                      </Link>
+                      {currentSort == "viewed" && (
+                        <Link
+                          href={
+                            currentSortDirection == "desc"
+                              ? createLink({ sortDirection: "asc", page: 1 })
+                              : createLink({ sortDirection: "desc", page: 1 })
+                          }
+                        >
+                          <FiArrowUp
+                            className={`duration-500 ${
+                              currentSortDirection == "asc"
+                                ? "rotate-0"
+                                : "rotate-180"
+                            }`}
+                          />
+                        </Link>
+                      )}
+                    </div>
+                  </TableHeader>
                   <TableHeader>{t("Active")}</TableHeader>
                 </TableRow>
               </TableHead>
@@ -575,6 +589,7 @@ export default function Products(props) {
                       <TableCell>{product.supplierCode}</TableCell>
                       <TableCell>{formatCurrency(product.value)}</TableCell>
                       <TableCell>{stock}</TableCell>
+                      <TableCell>{product.viewed}</TableCell>
                       <TableCell>
                         <LuDot
                           size={80}
@@ -691,6 +706,7 @@ export async function getServerSideProps(context) {
 
   let productsReq;
   let productsData;
+  let metaData;
 
   if (currentSearch) {
     productsReq = await fuzzySearch({ search: currentSearch, count: 50 });
@@ -698,6 +714,7 @@ export async function getServerSideProps(context) {
     productsData = productsReq.result.filter((result) => !!result.internalCode);
   } else {
     productsData = (await getAllProducts(req)).data;
+    metaData = (await getAllProducts(req)).meta;
   }
 
   const allProducts = productsData;
@@ -706,11 +723,11 @@ export async function getServerSideProps(context) {
   let totalPages = 1;
 
   try {
-    if (productsData.meta.pagination.page) {
-      currentPage = productsData.meta.pagination.page;
+    if (metaData.pagination.page) {
+      currentPage = metaData.pagination.page;
     }
-    if (productsData.meta.pagination.pageCount) {
-      totalPages = productsData.meta.pagination.pageCount;
+    if (metaData.pagination.pageCount) {
+      totalPages = metaData.pagination.pageCount;
     }
   } catch (error) {}
   const currentSupplier = req.query.supplier ?? null;
