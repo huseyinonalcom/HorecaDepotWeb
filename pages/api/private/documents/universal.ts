@@ -182,13 +182,7 @@ export const deleteDocument = async ({
 };
 
 export default apiRoute({
-  authChallenge: async (req) => {
-    if (!req.cookies.j) {
-      return false;
-    } else {
-      return true;
-    }
-  },
+
   endpoints: {
     GET: {
       func: async (req, res) => {

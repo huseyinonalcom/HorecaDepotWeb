@@ -161,12 +161,7 @@ export async function updateProduct({
 }
 
 export default apiRoute({
-  authChallenge: async (req) => {
-    if (!req.cookies.j) {
-      return false;
-    }
-    return true;
-  },
+ 
   endpoints: {
     GET: {
       func: async (req, res) => {

@@ -302,13 +302,7 @@ export const deleteDocumentProduct = async ({
 };
 
 export default apiRoute({
-  authChallenge: async (req) => {
-    if (!req.cookies.j) {
-      return false;
-    } else {
-      return true;
-    }
-  },
+ 
   endpoints: {
     POST: {
       func: async (req, res) => {

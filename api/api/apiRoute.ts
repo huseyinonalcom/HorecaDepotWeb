@@ -27,18 +27,8 @@ type EndpointMap = RequireAtLeastOne<Partial<Record<HttpMethod, Endpoint>>>;
  * undefined endpoints will return a 501 not implemented
  */
 
-export default function apiRoute({
-  authChallenge,
-  endpoints,
-}: {
-  authChallenge?: AuthChallenge;
-  endpoints: EndpointMap;
-}) {
+export default function apiRoute({ endpoints }: { endpoints: EndpointMap }) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
-    if (authChallenge && !(await authChallenge(req))) {
-      return res.status(401).json({});
-    }
-
     const method = req.method as HttpMethod;
     const endpoint = endpoints[method];
 

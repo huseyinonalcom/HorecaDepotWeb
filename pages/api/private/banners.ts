@@ -110,9 +110,7 @@ export async function deletetBanner({
 }
 
 export default apiRoute({
-  authChallenge: async (req) => {
-    return !!req.cookies.j;
-  },
+
   endpoints: {
     GET: {
       func: async (req, res) => {

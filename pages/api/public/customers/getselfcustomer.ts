@@ -22,13 +22,6 @@ export async function getSelfCustomer({ authToken }: { authToken: string }) {
 }
 
 export default apiRoute({
-  authChallenge: async (req) => {
-    if (!req.cookies.cj) {
-      return false;
-    } else {
-      return true;
-    }
-  },
   endpoints: {
     GET: {
       func: async (req, res) => {
