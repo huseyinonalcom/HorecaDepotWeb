@@ -9,7 +9,7 @@ const cache = {
   lastFetch: 0,
 };
 
-const SEARCH_CACHE_TTL = 20000 * 60 * 30;
+const SEARCH_CACHE_TTL = 20000 * 60 * 30 * 0;
 
 const optionsProducts = {
   keys: [
