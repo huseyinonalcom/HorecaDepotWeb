@@ -9,7 +9,7 @@ const cache = {
   lastFetch: 0,
 };
 
-const SEARCH_CACHE_TTL = 20000 * 60 * 30 * 0;
+const SEARCH_CACHE_TTL = 40 * 60 * 1000; // 40 minutes in milliseconds
 
 const optionsProducts = {
   keys: [
@@ -80,9 +80,11 @@ const productsUpdateCategories = (products, categories) => {
 export async function fuzzySearch({
   search,
   count,
+  noCache,
 }: {
   search: string;
   count?: number;
+  noCache?: boolean;
 }) {
   const now = Date.now();
 
@@ -92,13 +94,13 @@ export async function fuzzySearch({
     collections: [],
   };
 
-  if (cache.data && now - cache.lastFetch < SEARCH_CACHE_TTL) {
+  if (cache.data && now - cache.lastFetch < SEARCH_CACHE_TTL && !noCache) {
     data = cache.data;
   } else {
     try {
       const allCategories = await getAllCategoriesFlattened();
       data.categories = mergeTranslations(allCategories);
-      let prods = (await getProducts({ query: { page: 1, count: 5000 } }))
+      let prods = (await getProducts({ query: { page: 1, count: 5000, showinactive: true } }))
         .sortedData;
       data.products = productsUpdateCategories(prods, data.categories);
       data.collections = await getCollections({});
@@ -141,6 +143,7 @@ export default apiRoute({
         await fuzzySearch({
           search: req.query.search as string,
           count: Number((req.query.count ?? "4") as string),
+          noCache: req.query.nocache === "true",
         }),
     },
   },

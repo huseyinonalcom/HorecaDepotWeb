@@ -24,6 +24,7 @@ export async function getProducts(req) {
   const sortParam = req.query.sort ?? null;
   const countParam = req.query.count ?? null;
   const getLimitsParam = req.query.getlimits ?? null;
+  const showInactiveParam = req.query.showinactive ?? null;
 
   try {
     categoryParam ? (categoryParam = decodeURIComponent(categoryParam)) : null;
@@ -79,7 +80,11 @@ export async function getProducts(req) {
       }
     }
 
-    fetchUrl += `filters[active][$eq]=true&filters[deleted][$eq]=false&`;
+    if (showInactiveParam) {
+      fetchUrl += "filters[deleted][$eq]=false&";
+    } else {
+      fetchUrl += "filters[active][$eq]=true&filters[deleted][$eq]=false&";
+    }
 
     const fetchUrlForValues = fetchUrl + "fields[0]=value&sort[0]=value:";
 
@@ -87,7 +92,7 @@ export async function getProducts(req) {
       fetchUrl += `filters[$and][0][value][$gte]=${minValueParam}&filters[$and][1][value][$lte]=${maxValueParam}&`;
     }
 
-    fetchUrl += `populate[document_products][fields][0]=amount&populate[shelves][fields][0]=stock&populate[shelves][populate][supplier_order_products][fields][0]=amount&fields[0]=name&populate[categories][fields][0]=localized_name&fields[1]=internalCode&fields[2]=value&fields[3]=priceBeforeDiscount&fields[4]=color&fields[5]=imageDirections&fields[6]=localized_name&fields[7]=stock&fields[8]=views&fields[9]=supplierCode&populate[images][fields][0]=url&populate[product_extra][fields][0]=new&populate[product_extra][fields][1]=tags&pagination[page]=${pageParam}${
+    fetchUrl += `populate[document_products][fields][0]=amount&populate[shelves][fields][0]=stock&populate[shelves][populate][supplier_order_products][fields][0]=amount&fields[0]=name&populate[categories][fields][0]=localized_name&fields[1]=internalCode&fields[2]=value&fields[3]=priceBeforeDiscount&fields[4]=color&fields[5]=imageDirections&fields[6]=localized_name&fields[7]=stock&fields[8]=views&fields[9]=supplierCode&fields[10]=active&populate[images][fields][0]=url&populate[product_extra][fields][0]=new&populate[product_extra][fields][1]=tags&pagination[page]=${pageParam}${
       sortParam ? `&sort[0]=${sortParam}` : ""
     }${countParam ? `&pagination[pageSize]=${countParam}` : ""}`;
 

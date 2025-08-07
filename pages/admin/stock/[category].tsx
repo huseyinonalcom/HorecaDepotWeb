@@ -170,7 +170,7 @@ export default function Products(props) {
     }
 
     if (search) {
-      link += `&search=${search}`;
+      link += `&search=${search}&nocache=true`;
     }
 
     if (supplier == 0) {
