@@ -30,7 +30,6 @@ export async function getCollections({
 }
 
 export default apiRoute({
-
   endpoints: {
     GET: {
       func: async (req, res) => {
