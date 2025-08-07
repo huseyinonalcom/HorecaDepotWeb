@@ -440,7 +440,14 @@ export default function Products(props) {
             <Table striped>
               <TableHead>
                 <TableRow>
-                  <TableHeader></TableHeader>
+                  <TableHeader>
+                    <div className="flex flex-row items-center gap-2">
+                      <Link href={createLink({ sort: "id", page: 1 })}>
+                        {t("creation-date")}
+                      </Link>
+                      {currentSort == "id" && <OrderArrow />}
+                    </div>
+                  </TableHeader>
                   <TableHeader>
                     <div className="flex flex-row items-center gap-2">
                       <Link href={createLink({ sort: "name", page: 1 })}>

@@ -1,8 +1,12 @@
 export const formatDateAPIToBe = (date) => {
-  const splitString: string[] = date.split("-");
-  const reversedSplitString: string[] = splitString.reverse();
-  const formattedDate: string = reversedSplitString.join("-");
-  return formattedDate;
+  try {
+    const splitString: string[] = date.split("-");
+    const reversedSplitString: string[] = splitString.reverse();
+    const formattedDate: string = reversedSplitString.join("-");
+    return formattedDate;
+  } catch (error) {
+    return date;
+  }
 };
 
 export const formatDateTimeAPIToBe = (dateString) => {
