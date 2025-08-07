@@ -23,6 +23,7 @@ const optionsProducts = {
     { name: "categories.translations.fr", weight: 0.1 },
     { name: "categories.translations.de", weight: 0.1 },
     { name: "categories.translations.nl", weight: 0.1 },
+    { name: "supplierCode", weight: 0.3 },
   ],
   threshold: 0.5,
 };

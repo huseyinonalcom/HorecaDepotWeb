@@ -87,7 +87,7 @@ export async function getProducts(req) {
       fetchUrl += `filters[$and][0][value][$gte]=${minValueParam}&filters[$and][1][value][$lte]=${maxValueParam}&`;
     }
 
-    fetchUrl += `populate[document_products][fields][0]=amount&populate[shelves][fields][0]=stock&populate[shelves][populate][supplier_order_products][fields][0]=amount&fields[0]=name&populate[categories][fields][0]=localized_name&fields[1]=internalCode&fields[2]=value&fields[3]=priceBeforeDiscount&fields[4]=color&fields[5]=imageDirections&fields[6]=localized_name&fields[7]=stock&fields[8]=views&populate[images][fields][0]=url&populate[product_extra][fields][0]=new&populate[product_extra][fields][1]=tags&pagination[page]=${pageParam}${
+    fetchUrl += `populate[document_products][fields][0]=amount&populate[shelves][fields][0]=stock&populate[shelves][populate][supplier_order_products][fields][0]=amount&fields[0]=name&populate[categories][fields][0]=localized_name&fields[1]=internalCode&fields[2]=value&fields[3]=priceBeforeDiscount&fields[4]=color&fields[5]=imageDirections&fields[6]=localized_name&fields[7]=stock&fields[8]=views&fields[9]=supplierCode&populate[images][fields][0]=url&populate[product_extra][fields][0]=new&populate[product_extra][fields][1]=tags&pagination[page]=${pageParam}${
       sortParam ? `&sort[0]=${sortParam}` : ""
     }${countParam ? `&pagination[pageSize]=${countParam}` : ""}`;
 
