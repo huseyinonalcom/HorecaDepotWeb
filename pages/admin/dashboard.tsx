@@ -1,12 +1,10 @@
 import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
-import Head from "next/head";
+import { getTopProductsDay } from "../api/private/products/stats";
 
-export default function Dashboard() {
+export default function Dashboard({ topProductsDay }) {
   return (
     <>
-      <Head>
-        <title>Dashboard</title>
-      </Head>
+      <p>{JSON.stringify(topProductsDay)}</p>
     </>
   );
 }
@@ -14,3 +12,13 @@ export default function Dashboard() {
 Dashboard.getLayout = function getLayout(page) {
   return <AdminPanelLayout title="Dashboard">{page}</AdminPanelLayout>;
 };
+
+export async function getServerSideProps() {
+  const topProductsDay = await getTopProductsDay({});
+
+  return {
+    props: {
+      topProductsDay,
+    },
+  };
+}
