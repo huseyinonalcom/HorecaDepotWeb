@@ -1,10 +1,11 @@
 import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
+import TopViewedTodayChart from "../../components/charts/topviewedtoday";
 import { getTopProductsDay } from "../api/private/products/stats";
 
 export default function Dashboard({ topProductsDay }) {
   return (
     <>
-      <p>{JSON.stringify(topProductsDay)}</p>
+      <TopViewedTodayChart data={topProductsDay} />
     </>
   );
 }

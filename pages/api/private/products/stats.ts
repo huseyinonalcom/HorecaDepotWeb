@@ -14,7 +14,7 @@ export const getTopProductsDay = async ({
     }
 
     const request = await fetch(
-      `${apiUrl}/api/product-view-stats?sort=times_viewed:desc&pagination[count]=${count}&filters[statistic][date][$eq]=${date}&populate[product][populate][0]=categories&populate[product][populate][1]=images`,
+      `${apiUrl}/api/product-view-stats?sort=times_viewed:desc&pagination[pageSize]=${count}&filters[statistic][date][$eq]=${date}&populate[product][populate][0]=categories&populate[product][populate][1]=images`,
       {
         headers: {
           Authorization: `Bearer ${process.env.API_KEY}`,
@@ -36,25 +36,14 @@ export const getTopProductsDay = async ({
       id: viewStat.id,
       times_viewed: viewStat.times_viewed,
       product: {
-        localized_name: viewStat.product.localized_name ?? {
-          nl: viewStat.product.name,
-          en: viewStat.product.name,
-          fr: viewStat.product.name,
-          de: viewStat.product.name,
-        },
-        images:
-          viewStat.product.images?.map((image) => ({
-            id: image.id,
-            url: image.url,
-          })) ?? [],
-        categories: viewStat.product.categories?.map((category) => ({
-          id: category.id,
-          localized_name: category.localized_name,
-        })),
+        localized_name:
+          viewStat.product.localized_name?.en ?? viewStat.product.name,
       },
+      images: viewStat.product.images.map((image) => ({
+        url: image.url,
+        id: image.id,
+      })),
     }));
-
-    console.log(data);
 
     return { result };
   } catch (error) {
