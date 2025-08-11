@@ -1,4 +1,3 @@
-import { getProducts, updateProduct } from "../../private/products/products";
 import { apiUrl } from "../../../../api/api/constants";
 import apiRoute from "../../../../api/api/apiRoute";
 
@@ -62,7 +61,6 @@ async function createStatisticsDay() {
       throw error;
     } else {
       const answer = await request.json();
-      console.log("Created statistics for today", answer);
       return answer.data;
     }
   } catch (error) {
@@ -97,8 +95,6 @@ async function createProductView({
 
     const fetchedStatisticsDay = (await statisticsDay.json()).data
       .product_view_stats;
-
-    console.log(fetchedStatisticsDay);
 
     const existingProductViewStat = fetchedStatisticsDay.find(
       (stat) => stat.product.id === productId,
@@ -173,33 +169,6 @@ export async function logProductView({
   action: "views";
 }) {
   try {
-    const product = await getProducts({
-      id: productId,
-      authToken: process.env.API_KEY,
-    });
-
-    if (!product) throw "Failed to fetch product";
-
-    const fetchedProduct = product.data;
-
-    const currentviews = fetchedProduct.views;
-
-    let newviews = 0;
-
-    if (!currentviews) {
-      newviews = 1;
-    } else {
-      newviews = Number(currentviews) + 1;
-    }
-
-    updateProduct({
-      id: productId,
-      authToken: process.env.API_KEY,
-      data: {
-        views: newviews,
-      },
-    });
-
     let statisticsId;
 
     const existingStatisticsDay = await fetchStatisticsDay({
