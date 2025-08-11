@@ -647,8 +647,8 @@ export async function getServerSideProps(context) {
   const allSuppliers = await getSuppliers({ authToken: req.cookies.j });
   const allCategoriesHierarchy = await getAllCategories();
   const currentSearch = req.query.search ?? null;
-  const currentSort = req.query.sort.split(":").at(0) ?? "name";
-  const currentSortDirection = req.query.sort.split(":").at(1) ?? "asc";
+  const currentSort = req.query.sort.split(":").at(0) ?? "id";
+  const currentSortDirection = req.query.sort.split(":").at(1) ?? "desc";
   req.query.sort = currentSort + ":" + currentSortDirection;
 
   let productsReq;
