@@ -641,13 +641,13 @@ export async function getServerSideProps(context) {
     delete req.query.category;
   }
   if (!req.query.sort) {
-    req.query.sort = "name";
+    req.query.sort = "id";
   }
   const allCategories = await getAllCategoriesFlattened();
   const allSuppliers = await getSuppliers({ authToken: req.cookies.j });
   const allCategoriesHierarchy = await getAllCategories();
   const currentSearch = req.query.search ?? null;
-  const currentSort = req.query.sort.split(":").at(0) ?? "id";
+  const currentSort = req.query.sort.split(":").at(0);
   const currentSortDirection = req.query.sort.split(":").at(1) ?? "desc";
   req.query.sort = currentSort + ":" + currentSortDirection;
 
