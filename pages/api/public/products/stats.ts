@@ -9,7 +9,7 @@ async function fetchStatisticsDay({ date }: { date: Date }) {
     const dateStringAPI = date.toISOString().split("T")[0];
 
     const request = await fetch(
-      `${fetchUrlStatistics}?filter[date][$eq]=${dateStringAPI}`,
+      `${fetchUrlStatistics}?filters[date][$eq]=${dateStringAPI}&populate=*`,
       {
         method: "GET",
         headers: {
@@ -30,7 +30,6 @@ async function fetchStatisticsDay({ date }: { date: Date }) {
         throw `No statistics found for date ${dateStringAPI}`;
       }
 
-      console.log("Fetched statistics for date", dateStringAPI, answer);
       return answer.data[0];
     }
   } catch (error) {
@@ -77,68 +76,11 @@ async function createProductView({
   statisticId,
 }: {
   productId: number;
-  statisticId?: number;
-}) {
-  let existingTimesViewed = 0;
-  try {
-    if (statisticId) {
-      const existingProductViewStat = await fetch(
-        `${fetchUrlStatistics}/${statisticId}?populate=*`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${process.env.API_KEY}`,
-          },
-        },
-      );
-
-      if (!existingProductViewStat.ok) {
-        throw "Failed to fetch product view";
-      }
-      const fetchedProductViewStat = await existingProductViewStat.json();
-
-      console.log(fetchedProductViewStat);
-    }
-  } catch (error) {
-    console.error(error);
-  }
-
-  try {
-    const request = await fetch(`${apiUrl}/api/product-view-stats`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${process.env.API_KEY}`,
-      },
-      body: JSON.stringify({
-        data: {
-          product: productId,
-          statistic: statisticId,
-          times_viewed: 1,
-        },
-      }),
-    });
-
-    if (!request.ok) {
-      throw "Failed to create product view";
-    }
-  } catch (error) {
-    console.error(error);
-    throw "Failed to create product view";
-  }
-}
-
-async function incrementProductView({
-  productViewStatId,
-}: {
-  productViewStatId: number;
+  statisticId: number;
 }) {
   try {
-    const existingProductViewStat = await fetch(
-      `${apiUrl}/api/product-view-stats/${productViewStatId}`,
+    const statisticsDay = await fetch(
+      `${fetchUrlStatistics}/${statisticId}?populate[product_view_stats][populate][product][populate][fields][0]=name`,
       {
         method: "GET",
         headers: {
@@ -149,22 +91,55 @@ async function incrementProductView({
       },
     );
 
-    if (!existingProductViewStat.ok) {
+    if (!statisticsDay.ok) {
       throw "Failed to fetch product view";
     }
 
-    const fetchedProductViewStat = await existingProductViewStat.json();
+    const fetchedStatisticsDay = (await statisticsDay.json()).data
+      .product_view_stats;
 
-    const currentviews = fetchedProductViewStat.data.times_viewed;
+    console.log(fetchedStatisticsDay);
 
-    let newviews = 0;
+    const existingProductViewStat = fetchedStatisticsDay.find(
+      (stat) => stat.product.id === productId,
+    );
 
-    if (!currentviews) {
-      newviews = 1;
+    if (existingProductViewStat) {
+      incrementProductView({
+        productViewStatId: existingProductViewStat.id,
+        viewed: Number(existingProductViewStat.times_viewed) + 1,
+      });
     } else {
-      newviews = Number(currentviews) + 1;
+      const request = await fetch(`${apiUrl}/api/product-view-stats`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${process.env.API_KEY}`,
+        },
+        body: JSON.stringify({
+          data: {
+            product: productId,
+            statistic: statisticId,
+            times_viewed: 1,
+          },
+        }),
+      });
     }
+  } catch (error) {
+    console.error(error);
+    throw "Failed to create product view";
+  }
+}
 
+async function incrementProductView({
+  productViewStatId,
+  viewed,
+}: {
+  productViewStatId: number;
+  viewed: number;
+}) {
+  try {
     const request = await fetch(
       `${apiUrl}/api/product-view-stats/${productViewStatId}`,
       {
@@ -176,7 +151,7 @@ async function incrementProductView({
         },
         body: JSON.stringify({
           data: {
-            times_viewed: newviews,
+            times_viewed: viewed,
           },
         }),
       },
@@ -187,7 +162,6 @@ async function incrementProductView({
     }
   } catch (error) {
     console.error(error);
-    throw "Failed to increment product view stat";
   }
 }
 
@@ -225,11 +199,7 @@ export async function logProductView({
         views: newviews,
       },
     });
-  } catch (error) {
-    console.error(error);
-  }
 
-  try {
     let statisticsId;
 
     const existingStatisticsDay = await fetchStatisticsDay({
@@ -243,12 +213,13 @@ export async function logProductView({
       statisticsId = createdStatisticsDay.id;
     }
 
-    const createProductViewStat = await createProductView({
+    await createProductView({
       productId: productId,
       statisticId: statisticsId,
     });
   } catch (error) {
     console.error(error);
+    return false;
   }
 
   return true;
