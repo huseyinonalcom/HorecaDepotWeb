@@ -12,6 +12,7 @@ import {
   Bar,
 } from "recharts";
 import Card from "../universal/Card";
+import { Link } from "../styled/link";
 
 type Raw = {
   result: {
@@ -56,6 +57,7 @@ function makeYAxisTick(
     y: number;
     payload: { value: number };
   }) {
+    const id = Number(payload.value);
     const name = nameMap[payload.value];
     const url = imageMap[payload.value];
     const SIZE = 18;
@@ -65,21 +67,24 @@ function makeYAxisTick(
     const imgY = y - SIZE / 2 + 1;
     const textX = imgX - GAP;
 
+    // payload.value is not product id, but it should be
     return (
-      <g>
-        {url ? (
-          <image
-            href={imageUrl(url)}
-            x={imgX}
-            y={imgY}
-            width={SIZE}
-            height={SIZE}
-          />
-        ) : null}
-        <text x={textX} y={y} dy={4} textAnchor="end" fontSize={12}>
-          {name}
-        </text>
-      </g>
+      <Link href={"/admin/products/" + id}>
+        <g>
+          {url ? (
+            <image
+              href={imageUrl(url)}
+              x={imgX}
+              y={imgY}
+              width={SIZE}
+              height={SIZE}
+            />
+          ) : null}
+          <text x={textX} y={y} dy={4} textAnchor="end" fontSize={12}>
+            {name} {id}
+          </text>
+        </g>
+      </Link>
     );
   };
 }
@@ -168,6 +173,7 @@ export default function TopViewedChart({
             <YAxis
               type="category"
               dataKey="id"
+              tickFormatter={(value) => String(value)}
               tick={makeYAxisTick(nameMap, imageMap)}
               width={140}
               interval={0}
