@@ -36,8 +36,13 @@ export const getTopProductsDay = async ({
       id: viewStat.id,
       times_viewed: viewStat.times_viewed,
       product: {
-        localized_name:
-          viewStat.product.localized_name?.en ?? viewStat.product.name,
+        id: viewStat.product.id,
+        localized_name: viewStat.product.localized_name ?? {
+          en: viewStat.product.name,
+          fr: viewStat.product.name,
+          de: viewStat.product.name,
+          nl: viewStat.product.name,
+        },
       },
       images: viewStat.product.images.map((image) => ({
         url: image.url,

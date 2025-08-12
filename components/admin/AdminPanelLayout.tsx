@@ -14,12 +14,13 @@ import {
   BookOpenIcon,
   Cog8ToothIcon,
   ArchiveBoxIcon,
+  Squares2X2Icon,
   RectangleGroupIcon,
   ClipboardDocumentListIcon,
+  ClipboardDocumentCheckIcon,
   ChatBubbleBottomCenterIcon,
   ArrowRightStartOnRectangleIcon,
-  Squares2X2Icon,
-  ClipboardDocumentCheckIcon,
+  TableCellsIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Head from "next/head";
@@ -36,6 +37,7 @@ function classNames(...classes) {
 }
 
 const navigation = [
+  { name: "dashboard", href: "/admin/dashboard", icon: TableCellsIcon },
   { name: "stock", href: "/admin/stock/all", icon: ArchiveBoxIcon },
   { name: "stock-dash", href: "/stock", icon: Squares2X2Icon },
   { name: "orders", href: "/admin/orders", icon: ClipboardDocumentCheckIcon },

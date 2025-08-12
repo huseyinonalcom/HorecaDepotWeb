@@ -1,44 +1,52 @@
-
+import useTranslation from "next-translate/useTranslation";
+import { imageUrl } from "../common/image";
+import React from "react";
 import {
+  ResponsiveContainer,
+  CartesianGrid,
   BarChart,
-  Bar,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
   Cell,
+  Bar,
 } from "recharts";
-import React from "react";
-import { imageUrl } from "../common/image";
+import Card from "../universal/Card";
 
 type Raw = {
   result: {
     id: number;
     times_viewed: string;
-    product: { localized_name: string };
+    product: {
+      localized_name: {
+        en: string;
+        fr: string;
+        de: string;
+        nl: string;
+      };
+    };
     images: { url: string; id: number }[];
   }[];
 };
 
 type Row = {
-  name: string;
+  id: number;
   views: number;
-  imageUrl: string | null;
 };
 
 function toRows(raw: Raw["result"]): Row[] {
   return raw
     .map((r) => ({
-      name: r.product?.localized_name ?? `#${r.id}`,
+      id: r.id,
       views: Number(r.times_viewed ?? 0),
-      imageUrl: r.images?.[0]?.url ?? null,
     }))
     .sort((a, b) => b.views - a.views);
 }
 
-// Custom Y-axis tick: thumbnail + text placed to the LEFT of the axis line
-function makeYAxisTick(thumbnailByName: Record<string, string | null>) {
+function makeYAxisTick(
+  nameMap: Record<number, string>,
+  imageMap: Record<number, string | null>,
+) {
   return function CustomYAxisTick({
     x,
     y,
@@ -46,13 +54,13 @@ function makeYAxisTick(thumbnailByName: Record<string, string | null>) {
   }: {
     x: number;
     y: number;
-    payload: { value: string };
+    payload: { value: number };
   }) {
-    const url = thumbnailByName[payload.value] ?? null;
-    const SIZE = 18; // thumbnail size
-    const GAP = 6; // spacing between elements
+    const name = nameMap[payload.value];
+    const url = imageMap[payload.value];
+    const SIZE = 18;
+    const GAP = 6;
 
-    // Position image just left of the axis x; text further left of the image
     const imgX = x - SIZE - GAP;
     const imgY = y - SIZE / 2 + 1;
     const textX = imgX - GAP;
@@ -60,28 +68,36 @@ function makeYAxisTick(thumbnailByName: Record<string, string | null>) {
     return (
       <g>
         {url ? (
-          <image href={url} x={imgX} y={imgY} width={SIZE} height={SIZE} />
+          <image
+            href={imageUrl(url)}
+            x={imgX}
+            y={imgY}
+            width={SIZE}
+            height={SIZE}
+          />
         ) : null}
         <text x={textX} y={y} dy={4} textAnchor="end" fontSize={12}>
-          {payload.value}
+          {name}
         </text>
       </g>
     );
   };
 }
 
-// Tooltip with larger thumbnail
 const CustomTooltip = ({
   active,
   payload,
-  label,
 }: {
   active?: boolean;
   payload?: any[];
-  label?: string;
 }) => {
   if (!active || !payload || !payload.length) return null;
   const datum: Row | undefined = payload[0]?.payload;
+  if (!datum) return null;
+
+  const name = nameMap[datum.id];
+  const url = imageMap[datum.id];
+
   return (
     <div
       style={{
@@ -93,39 +109,38 @@ const CustomTooltip = ({
       }}
     >
       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-        {datum?.imageUrl ? (
+        {url ? (
           <img
-            src={imageUrl(datum.imageUrl)}
-            alt={label}
+            src={imageUrl(url)}
+            alt={name}
             width={40}
             height={40}
             style={{ objectFit: "cover", borderRadius: 4 }}
           />
         ) : null}
         <div>
-          <div style={{ fontWeight: 600 }}>{label}</div>
-          <div>{datum?.views} views</div>
+          <div style={{ fontWeight: 600 }}>{name}</div>
+          <div>{datum.views} views</div>
         </div>
       </div>
     </div>
   );
 };
 
-export default function TopViewedTodayChart({
-  data,
-  title = "Most Viewed Today",
-}: {
-  data: Raw;
-  title?: string;
-}) {
+let nameMap: Record<number, string> = {};
+let imageMap: Record<number, string | null> = {};
+
+export default function TopViewedTodayChart({ data }: { data: Raw }) {
+  const { t, lang } = useTranslation("common");
   const rows = toRows(data.result);
 
-  // Map product name -> resolved thumbnail URL for the custom ticks
-  const thumbMap: Record<string, string | null> = Object.fromEntries(
-    rows.map((r) => [r.name, r.imageUrl ? imageUrl(r.imageUrl) : null]),
-  );
+  nameMap = {};
+  imageMap = {};
+  data.result.forEach((item) => {
+    nameMap[item.id] = item.product?.localized_name[lang] ?? `#${item.id}`;
+    imageMap[item.id] = item.images?.[0]?.url ?? null;
+  });
 
-  // Palette for per-bar colors (tweak as you like)
   const palette = [
     "#8884d8",
     "#82ca9d",
@@ -137,27 +152,29 @@ export default function TopViewedTodayChart({
   ];
 
   return (
-    <div className="flex h-[420px] w-full flex-col">
-      <div className="mb-2 font-bold">{title}</div>
-      <ResponsiveContainer>
-        <BarChart data={rows} layout="vertical">
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis type="number" />
-          <YAxis
-            type="category"
-            dataKey="name"
-            tick={makeYAxisTick(thumbMap)}
-            width={120}
-            interval={0}
-          />
-          <Tooltip content={<CustomTooltip />} />
-          <Bar dataKey="views" radius={[4, 4, 4, 4]}>
-            {rows.map((_, i) => (
-              <Cell key={`cell-${i}`} fill={palette[i % palette.length]} />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
+    <Card>
+      <div className="flex h-[420px] w-full flex-col">
+        <div className="mb-2 font-bold">{t("most-viewed-today")}</div>
+        <ResponsiveContainer>
+          <BarChart data={rows} layout="vertical">
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis type="number" />
+            <YAxis
+              type="category"
+              dataKey="id"
+              tick={makeYAxisTick(nameMap, imageMap)}
+              width={140}
+              interval={0}
+            />
+            <Tooltip content={<CustomTooltip />} />
+            <Bar dataKey="views" radius={[4, 4, 4, 4]}>
+              {rows.map((_, i) => (
+                <Cell key={`cell-${i}`} fill={palette[i % palette.length]} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </Card>
   );
 }

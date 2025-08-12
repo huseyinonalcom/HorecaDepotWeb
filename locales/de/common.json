@@ -477,5 +477,8 @@
   "zipCode": "Postleitzahl",
   "parent-category": "Übergeordnete Kategorie",
   "no-parent-category": "Keine übergeordnete Kategorie",
-  "views": "Gesehen"
+  "views": "Gesehen",
+  "most-viewed-today": "Meist gesehen heute",
+  "creation-date": "Erstellungsdatum",
+  "dashboard": "Dashboard"
 }

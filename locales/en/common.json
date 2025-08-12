@@ -477,5 +477,8 @@
   "zipCode": "Zip Code",
   "parent-category": "Parent Category",
   "no-parent-category": "No Parent Category",
-  "views": "Views"
+  "views": "Views",
+  "most-viewed-today": "Most Viewed Today",
+  "creation-date": "Creation Date",
+  "dashboard": "Dashboard"
 }

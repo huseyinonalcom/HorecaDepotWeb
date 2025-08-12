@@ -477,5 +477,8 @@
   "your-vat-number": "Numéro de TVA",
   "zip-code": "Code postal",
   "zipCode": "Code postal",
-  "views": "Vu"
+  "views": "Vu",
+  "most-viewed-today": "Les plus vus aujourd'hui",
+  "creation-date": "Date de création",
+  "dashboard": "Tableau de bord"
 }

@@ -477,5 +477,8 @@
   "zipCode": "Postcode",
   "parent-category": "Hoofdcategorie",
   "no-parent-category": "Geen hoofdcategorie",
-  "views": "Bekeken"
+  "views": "Bekeken",
+  "most-viewed-today": "Meest bekeken vandaag",
+  "creation-date": "Aanmaakdatum",
+  "dashboard": "Dashboard"
 }
