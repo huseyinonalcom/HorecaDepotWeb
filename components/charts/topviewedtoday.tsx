@@ -130,7 +130,13 @@ const CustomTooltip = ({
 let nameMap: Record<number, string> = {};
 let imageMap: Record<number, string | null> = {};
 
-export default function TopViewedTodayChart({ data }: { data: Raw }) {
+export default function TopViewedChart({
+  data,
+  title,
+}: {
+  data: Raw;
+  title?: string;
+}) {
   const { t, lang } = useTranslation("common");
   const rows = toRows(data.result);
 
@@ -154,7 +160,7 @@ export default function TopViewedTodayChart({ data }: { data: Raw }) {
   return (
     <Card>
       <div className="flex h-[420px] w-full flex-col">
-        <div className="mb-2 font-bold">{t("most-viewed-today")}</div>
+        <div className="mb-2 font-bold">{title ?? t("most-viewed-today")}</div>
         <ResponsiveContainer>
           <BarChart data={rows} layout="vertical">
             <CartesianGrid strokeDasharray="3 3" />

@@ -480,5 +480,6 @@
   "views": "Vu",
   "most-viewed-today": "Les plus vus aujourd'hui",
   "creation-date": "Date de création",
-  "dashboard": "Tableau de bord"
+  "dashboard": "Tableau de bord",
+  "most-viewed-week": "Les plus vus cette semaine"
 }
