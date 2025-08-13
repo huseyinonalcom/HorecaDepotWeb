@@ -81,7 +81,7 @@ function makeYAxisTick(
             />
           ) : null}
           <text x={textX} y={y} dy={4} textAnchor="end" fontSize={12}>
-            {name} {id}
+            {name}
           </text>
         </g>
       </Link>

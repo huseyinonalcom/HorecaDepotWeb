@@ -42,6 +42,8 @@ import {
   FiArrowRight,
   FiTrash,
 } from "react-icons/fi";
+import { Link } from "../../../components/styled/link";
+import { MdStorefront } from "react-icons/md";
 
 export default function ProductPage(props) {
   const { t, lang } = useTranslation("common");
@@ -1002,6 +1004,21 @@ export default function ProductPage(props) {
                       <FiCopy />
                     </div>
                   </Button>
+                  <Link
+                    href={`/products/${
+                      currentProduct.categories?.at(0)?.localized_name[lang] ??
+                      currentProduct.categories?.at(0)?.Name
+                    }/${
+                      currentProduct.localized_name?.[lang] ??
+                      currentProduct.name
+                    }/${currentProduct.id}`}
+                  >
+                    <Button type="button" color="white">
+                      <div className="p-2">
+                        <MdStorefront />
+                      </div>
+                    </Button>
+                  </Link>
                 </div>
               </>
             )}
