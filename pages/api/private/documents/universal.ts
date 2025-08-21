@@ -42,7 +42,7 @@ export const getDocuments = async ({
     let filterString = "";
 
     if (search) {
-      filterString += ``;
+      filterString += `&filters[$or][0][client][firstName][$containsi]=${search}&filters[$or][1][client][lastName][$containsi]=${search}&filters[$or][2][number][$containsi]=${search}`;
     }
 
     if (type) {
@@ -182,7 +182,6 @@ export const deleteDocument = async ({
 };
 
 export default apiRoute({
-
   endpoints: {
     GET: {
       func: async (req, res) => {

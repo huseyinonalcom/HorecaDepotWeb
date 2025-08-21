@@ -3,7 +3,7 @@ import AdminPanelLayout from "../../components/admin/AdminPanelLayout";
 import useTranslation from "next-translate/useTranslation";
 import Card from "../../components/universal/Card";
 import { FiX, FiCheck } from "react-icons/fi";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Pagination,
   PaginationGap,
@@ -21,12 +21,15 @@ import {
   TableRow,
 } from "../../components/styled/table";
 import Head from "next/head";
+import { Input } from "../../components/styled/input";
+import debounce from "../../api/utils/debounce";
 
 export default function Orders({ href }: { href: string }) {
   const { t } = useTranslation("common");
   const [allOrders, setAllOrders] = useState([]);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [search, setSearch] = useState<string>("");
 
   if (!href) {
     href = "/admin/order?id=";
@@ -34,7 +37,7 @@ export default function Orders({ href }: { href: string }) {
 
   const fetchOrders = async () => {
     const answer = await fetch(
-      `/api/private/documents/universal?type=commande&page=${currentPage}`,
+      `/api/private/documents/universal?type=commande&page=${currentPage}&search=${search}`,
     );
     const data = await answer.json();
     setAllOrders(data["data"]);
@@ -43,13 +46,27 @@ export default function Orders({ href }: { href: string }) {
 
   useEffect(() => {
     fetchOrders();
-  }, [currentPage]);
+  }, [currentPage, search]);
+
+  const debouncedSetSearch = useRef(
+    debounce((value: string) => {
+      setSearch(() => value);
+    }, 300),
+  ).current;
 
   return (
     <>
       <Head>
         <title>{t("orders")}</title>
       </Head>
+      <div className="flex gap-2 sm:flex-auto">
+        <Input
+          label={t("search")}
+          type="text"
+          placeholder={t("search")}
+          onChange={(e) => debouncedSetSearch(e.target.value)}
+        />
+      </div>
       <Card>
         <Table striped>
           <TableHead>

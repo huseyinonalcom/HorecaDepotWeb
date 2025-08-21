@@ -625,10 +625,12 @@ export default function Checkout() {
                   }
                 />
                 <InputOutlined
+                  required
                   type="text"
                   name="Phone"
                   label="your-phone"
                   value={guestData.phone}
+                  error={guestData.phone == "" ? "required" : ""}
                   onChange={(e) =>
                     setGuestData({
                       ...guestData,
