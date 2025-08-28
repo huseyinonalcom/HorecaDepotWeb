@@ -1112,6 +1112,17 @@ export async function getServerSideProps(context) {
   if (context.query.id != 0) {
     context.req.query = context.query;
     currentProduct = await getProductByID(req.cookies.j, context.query.id);
+    if (
+      currentProduct.localized_name == null ||
+      currentProduct.localized_name == undefined
+    ) {
+      currentProduct.localized_name = {
+        nl: currentProduct.name,
+        en: currentProduct.name,
+        fr: currentProduct.name,
+        de: currentProduct.name,
+      };
+    }
   }
   return {
     props: {
