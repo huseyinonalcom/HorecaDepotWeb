@@ -1,73 +1,11 @@
 import { apiUrl } from "../../../../api/api/constants";
 import apiRoute from "../../../../api/api/apiRoute";
+import {
+  createStatisticsDay,
+  fetchStatisticsDay,
+} from "../statistics/universal";
 
 const fetchUrlStatistics = `${apiUrl}/api/statistics`;
-
-async function fetchStatisticsDay({ date }: { date: Date }) {
-  try {
-    const dateStringAPI = date.toISOString().split("T")[0];
-
-    const request = await fetch(
-      `${fetchUrlStatistics}?filters[date][$eq]=${dateStringAPI}&populate=*`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.API_KEY}`,
-        },
-      },
-    );
-
-    if (!request.ok) {
-      const error = `Failed to fetch statistics for date ${dateStringAPI}`;
-      console.error(error);
-      throw error;
-    } else {
-      const answer = await request.json();
-
-      if (answer.data.length == 0) {
-        throw `No statistics found for date ${dateStringAPI}`;
-      }
-
-      return answer.data[0];
-    }
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
-
-async function createStatisticsDay() {
-  try {
-    const today = new Date();
-    const dateStringAPI = today.toISOString().split("T")[0];
-
-    const request = await fetch(`${fetchUrlStatistics}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.API_KEY}`,
-      },
-      body: JSON.stringify({
-        data: {
-          date: dateStringAPI,
-        },
-      }),
-    });
-
-    if (!request.ok) {
-      const error = "Failed to create statistics for today";
-      console.error(error);
-      throw error;
-    } else {
-      const answer = await request.json();
-      return answer.data;
-    }
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
 
 async function createProductView({
   productId,

@@ -26,6 +26,7 @@ import {
   FiShoppingBag,
   FiMenu,
 } from "react-icons/fi";
+import { detectDevice } from "../../api/utils/devicetype";
 
 const CategoryItem = ({ category, onClick }) => {
   const { lang } = useTranslation("common");
@@ -843,6 +844,20 @@ const CategoryDrawerDesktop = ({ isOpen, categories, closeDrawer }) => {
   );
 };
 
+const pingVisit = async () => {
+  if (
+    localStorage.getItem("lastPingedDate") ==
+    new Date().toISOString().split("T")[0]
+  )
+    return;
+  localStorage.setItem(
+    "lastPingedDate",
+    new Date().toISOString().split("T")[0],
+  );
+
+  fetch("/api/public/visit?device=" + detectDevice(), { method: "POST" });
+};
+
 const Header = () => {
   const [cartItems, setCartItems] = useState(0);
   const [allCategories, setAllCategories] = useState([]);
@@ -876,6 +891,10 @@ const Header = () => {
   }, [cart]);
 
   const [isHeaderDrawerOpen, setIsHeaderDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    pingVisit();
+  }, []);
 
   return (
     <div className="sticky top-0 z-40 mx-auto flex w-[90vw] flex-col items-center pt-2 text-white duration-300 print:hidden">

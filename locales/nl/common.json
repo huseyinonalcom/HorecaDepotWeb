@@ -481,5 +481,6 @@
   "most-viewed-today": "Meest bekeken vandaag",
   "creation-date": "Aanmaakdatum",
   "dashboard": "Dashboard",
-  "most-viewed-week": "Meest bekeken deze week"
+  "most-viewed-week": "Meest bekeken deze week",
+  "total-views-per-day": "Totaal aantal keer bekeken per dag"
 }

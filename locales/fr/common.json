@@ -481,5 +481,6 @@
   "most-viewed-today": "Les plus vus aujourd'hui",
   "creation-date": "Date de création",
   "dashboard": "Tableau de bord",
-  "most-viewed-week": "Les plus vus cette semaine"
+  "most-viewed-week": "Les plus vus cette semaine",
+  "total-views-per-day": "Total des vues par jour"
 }

@@ -13,6 +13,7 @@ import {
 } from "recharts";
 import Card from "../universal/Card";
 import { Link } from "../styled/link";
+import { palette } from "./universal";
 
 type Raw = {
   result: {
@@ -151,16 +152,6 @@ export default function TopViewedChart({
     nameMap[item.id] = item.product?.localized_name[lang] ?? `#${item.id}`;
     imageMap[item.id] = item.images?.[0]?.url ?? null;
   });
-
-  const palette = [
-    "#8884d8",
-    "#82ca9d",
-    "#ffc658",
-    "#8dd1e1",
-    "#a4de6c",
-    "#d0ed57",
-    "#d88584",
-  ];
 
   return (
     <Card>
