@@ -118,6 +118,7 @@ export default function Index({
                       );
                     }
                   })
+                  .sort((a, b) => b.id - a.id)
                   .map((banner) => (
                     <button
                       type="button"

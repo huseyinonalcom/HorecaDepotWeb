@@ -27,7 +27,7 @@ export default function Banners(props) {
         </div>
         {banners && (
           <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
-            {banners.map((banner) => (
+            {banners.sort((a, b) => b.id - a.id).map((banner) => (
               <Link
                 key={banner.id}
                 href={`/admin/website/banner-edit/${banner.id}`}
