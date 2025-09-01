@@ -610,7 +610,7 @@ export default function ProductPage(props) {
                 url={img.url}
                 onChange={() => {}}
                 onDelete={() => {
-                  handleImageDelete(currentProduct.imageDirections?.l);
+                  handleImageDelete(img.id);
                 }}
               >
                 <FiArrowLeft />

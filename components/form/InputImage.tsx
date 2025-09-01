@@ -91,10 +91,16 @@ export const InputImage = ({
 
   // After cropping, synthesize a ChangeEvent<HTMLInputElement> with the new File
   const handleCroppedFile = (cropped: File) => {
-    if (!inputRef.current) return;
+    // Always add a fresh ISO timestamp to the filename
+    const ts = new Date().toISOString().replace(/[:.]/g, "-");
+    const base = cropped.name.replace(/\.[^/.]+$/, ""); // strip extension
+    const ext = cropped.name.split(".").pop() || "jpg";
+    const filename = `${base}-${ts}.${ext}`;
+
+    const renamed = new File([cropped], filename, { type: cropped.type });
 
     const dt = new DataTransfer();
-    dt.items.add(cropped);
+    dt.items.add(renamed);
     inputRef.current.files = dt.files;
 
     const synthetic = {
@@ -163,18 +169,18 @@ export const InputImage = ({
               />
               <div className="mt-4 flex text-sm/6 text-gray-600">
                 <span>{t("upload-file")}</span>
-                <input
-                  ref={inputRef}
-                  id={id}
-                  name="img"
-                  type="file"
-                  className="sr-only"
-                  onChange={handlePick}
-                  accept="image/*"
-                />
               </div>
             </div>
           )}
+          <input
+            ref={inputRef}
+            id={id}
+            name="img"
+            type="file"
+            className="sr-only"
+            onChange={handlePick}
+            accept="image/*"
+          />
           {children}
         </div>
       </label>
