@@ -20,30 +20,30 @@ import useTranslation from "next-translate/useTranslation";
 import { Button } from "../../../components/styled/button";
 import { Product } from "../../../api/interfaces/product";
 import { Input } from "../../../components/styled/input";
+import { Link } from "../../../components/styled/link";
 import { RxMagnifyingGlass } from "react-icons/rx";
+import { MdStorefront } from "react-icons/md";
 import {
-  Field,
   FieldGroup,
   Fieldset,
-  Label,
   Legend,
+  Field,
+  Label,
 } from "../../../components/styled/fieldset";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Head from "next/head";
 import {
+  FiArrowDownRight,
+  FiArrowDownLeft,
+  FiArrowRight,
+  FiArrowLeft,
+  FiArrowDown,
+  FiArrowUp,
+  FiTrash,
   FiCopy,
   FiX,
-  FiArrowLeft,
-  FiArrowDownLeft,
-  FiArrowUp,
-  FiArrowDown,
-  FiArrowDownRight,
-  FiArrowRight,
-  FiTrash,
 } from "react-icons/fi";
-import { Link } from "../../../components/styled/link";
-import { MdStorefront } from "react-icons/md";
 
 export default function ProductPage(props) {
   const { t, lang } = useTranslation("common");
