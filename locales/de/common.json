@@ -482,5 +482,6 @@
   "creation-date": "Erstellungsdatum",
   "dashboard": "Dashboard",
   "most-viewed-week": "Meist gesehen diese Woche",
-  "total-views-per-day": "Gesamtanzahl der Aufrufe pro Tag"
+  "total-views-per-day": "Gesamtanzahl der Aufrufe pro Tag",
+  "top-products-week": "Beliebteste diese Woche"
 }

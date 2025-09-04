@@ -89,6 +89,7 @@ export const getTopProductsWeek = async ({
         `&pagination[pageSize]=${pageSize}` +
         `&filters[statistic][date][$gte]=${startDate}` +
         `&populate[product][populate][0]=categories` +
+        `&populate[product][populate][2]=shelves` +
         `&populate[product][populate][1]=images`,
       {
         headers: {
@@ -131,6 +132,7 @@ export const getTopProductsWeek = async ({
       id: product.id,
       times_viewed,
       product: {
+        ...product,
         id: product.id,
         localized_name: product?.localized_name ?? {
           en: product?.name,

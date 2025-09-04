@@ -3,6 +3,7 @@ import { FiPlusSquare, FiX, FiCheck, FiChevronLeft } from "react-icons/fi";
 import CollectionShowcase from "../components/public/collection-showcase";
 import TextareaOutlined from "../components/inputs/textarea_outlined";
 import { CategoryBanner } from "../components/banners/CategoryBanner";
+import { getTopProductsWeek } from "./api/private/products/stats";
 import { uploadFileToAPI } from "./api/private/files/uploadfile";
 import { PromoBanner } from "../components/banners/PromoBanner";
 import { getHomePage } from "./api/website/public/gethomepage";
@@ -38,6 +39,7 @@ export default function Index({
   categories,
   banners,
   allCategories,
+  topProductsWeek,
 }: {
   homePage;
   collections;
@@ -45,6 +47,7 @@ export default function Index({
   categories: Category[];
   allCategories?: Category[];
   banners;
+  topProductsWeek;
 }) {
   const { t, lang } = useTranslation("common");
 
@@ -597,6 +600,21 @@ export default function Index({
           )}
         </div>
 
+        <div className="flex w-full flex-col items-center">
+          {collections && (
+            <div key={"top-products-week"} className="w-full">
+              <CollectionShowcase
+                collection={{
+                  id: 0,
+                  name: t("top-products-week"),
+                  products: topProductsWeek.products,
+                }}
+                id="top"
+              />
+            </div>
+          )}
+        </div>
+
         {onEdit && <BannerModal order={"3"} />}
         {banners.find(
           (banner) => banner.id == homePage.layout["3"].content,
@@ -719,12 +737,22 @@ export const getStaticProps = async () => {
   const allBanners = await getBanners({});
   const banners = allBanners;
 
+  const topProductsWeekData = await getTopProductsWeek({});
+
+  const topProductsWeek = {
+    id: 0,
+    products: topProductsWeekData.result.map((prod) => ({
+      ...prod.product,
+    })),
+  };
+
   return {
     props: {
       collections,
       categories,
       homePage,
       banners,
+      topProductsWeek,
     },
     revalidate: 1200,
   };

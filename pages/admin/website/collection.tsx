@@ -273,6 +273,10 @@ export default function Collection() {
                 }))
               }
             />
+            <div className="text-xl">
+              {currentCollection?.name} -
+              {` /collections/${currentCollection?.id}/${encodeURIComponent(currentCollection?.name)}`}
+            </div>
             <SwitchField className="flex flex-row items-start">
               <Label>{t("active")}</Label>
               <Switch
