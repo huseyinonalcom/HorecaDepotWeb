@@ -8,12 +8,14 @@ import { FiCheck } from "react-icons/fi";
 import { useState } from "react";
 import Head from "next/head";
 import Index from "../..";
+import { getTopProductsWeek } from "../../api/private/products/stats";
 
 export default function HomePageAdmin({
   homePageFromAPI,
   collectionsFromAPI,
   bannersFromAPI,
   allCategories,
+  topProductsWeek,
 }) {
   const [homePage, setHomePage] = useState(homePageFromAPI);
   const { t, lang } = useTranslation("common");
@@ -26,6 +28,7 @@ export default function HomePageAdmin({
       <div className="max-w-full">
         {bannersFromAPI && (
           <Index
+            topProductsWeek={topProductsWeek}
             banners={bannersFromAPI}
             homePage={homePage}
             collections={collectionsFromAPI}
@@ -73,12 +76,22 @@ export const getServerSideProps = async ({ locale }) => {
 
   const bannersFromAPI = await getBanners({});
 
+  const topProductsWeekData = await getTopProductsWeek({});
+
+  const topProductsWeek = {
+    id: 0,
+    products: topProductsWeekData.result.map((prod) => ({
+      ...prod.product,
+    })),
+  };
+
   return {
     props: {
       homePageFromAPI,
       collectionsFromAPI,
       allCategories,
       bannersFromAPI,
+      topProductsWeek,
     },
   };
 };
