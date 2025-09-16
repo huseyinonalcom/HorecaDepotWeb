@@ -1,3 +1,15 @@
-sorting on stock list
+magic link to access order summary without user account
 
-unguessable link to access order summary without user account
+sorting on amount in stock list
+
+Filter active/inactive products in admin product list
+
+Add images to excel export of products
+
+Filter head and subcategory in admin product list
+
+Filtered fuzzy search
+
+allow admin to update password of other users
+
+Add filter and sort option to stock section search
