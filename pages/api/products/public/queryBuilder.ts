@@ -27,9 +27,11 @@ export function setQueryParams(
     }
 
     if (typeof value === "object") {
-      Object.entries(value as QueryValueObject).forEach(([childKey, childValue]) => {
-        assignValue(`${key}[${childKey}]`, childValue ?? null);
-      });
+      Object.entries(value as QueryValueObject).forEach(
+        ([childKey, childValue]) => {
+          assignValue(`${key}[${childKey}]`, childValue ?? null);
+        },
+      );
       return;
     }
 
@@ -53,7 +55,10 @@ function isValidValueRange(minValue: number | null, maxValue: number | null) {
   return isMinValueValid && isMaxValueValid && isMinLessThanMax;
 }
 
-export function applyStatusFilters(params: URLSearchParams, showInactive: boolean) {
+export function applyStatusFilters(
+  params: URLSearchParams,
+  showInactive: boolean,
+) {
   if (showInactive) {
     setQueryParams(params, {
       "filters[deleted][$eq]": "false",
@@ -72,7 +77,11 @@ export function applyPriceFilters(
   minValue: number | null,
   maxValue: number | null,
 ) {
-  if (!isValidValueRange(minValue, maxValue) || minValue == null || maxValue == null) {
+  if (
+    !isValidValueRange(minValue, maxValue) ||
+    minValue == null ||
+    maxValue == null
+  ) {
     return;
   }
 
@@ -82,7 +91,10 @@ export function applyPriceFilters(
   });
 }
 
-export function applySearchFilter(params: URLSearchParams, searchTerm: string | null) {
+export function applySearchFilter(
+  params: URLSearchParams,
+  searchTerm: string | null,
+) {
   if (!searchTerm) {
     return;
   }
