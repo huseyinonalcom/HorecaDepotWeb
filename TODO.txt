@@ -4,8 +4,6 @@ sorting on amount in stock list
 
 Filter active/inactive products in admin product list
 
-Add images to excel export of products
-
 Filter head and subcategory in admin product list
 
 Filtered fuzzy search

@@ -231,38 +231,82 @@ export default function Products(props) {
     for (const category of sortedCategories) {
       const products = productsToWrite[category];
 
-      const customProducts = products.map((product) => ({
-        EAN: product.supplierCode,
-        "Code Model": product.internalCode,
-        Nom: product.name,
-        Couleur: product.color,
-        Matériel: product.material,
-        "Stock Depot":
-          product.shelves.find((shelf) => shelf.establishment.id == 3)?.stock ||
-          0,
-        "Stock Magasin":
-          product.shelves.find((shelf) => shelf.establishment.id == 1)?.stock ||
-          0,
-        Réservé: 0,
-        "Prix Avant Remise": product.priceBeforeDiscount,
-        "Prix de vente": product.value,
-        Poids: product.product_extra.weight,
-        "Poids Colis Net": product.product_extra.packaged_weight_net,
-        "Poids Colis Brut": product.product_extra.packaged_weight,
-        "Dimensions Du Colis": product.product_extra.packaged_dimensions,
-        "Par Boîte": product.product_extra.per_box,
-        "Hauteur d'assise": product.product_extra.seat_height,
-        Hauteur: product.height,
-        Largeur: product.width,
-        Longueur: product.depth,
-        "Hauteur Accoudoir": product.product_extra.armrest_height,
-        Diamètre: product.product_extra.diameter,
-        Image: product.images != null && product.images.length > 0 ? "V" : "X",
-      }));
+      const customProducts = products.map((product) => {
+        const coverPath = getCoverImageUrl(product);
+        const imageUrl = coverPath.startsWith("http")
+          ? coverPath
+          : `https://hdcdn.hocecomv1.com${coverPath}`;
 
-      const worksheet = utils.json_to_sheet(
-        customProducts.sort((a, b) => a.Nom.localeCompare(b.Nom)),
+        return {
+          Image: imageUrl,
+          EAN: product.supplierCode,
+          "Code Model": product.internalCode,
+          Nom: product.name,
+          Couleur: product.color,
+          Matériel: product.material,
+          "Stock Depot":
+            product.shelves.find((shelf) => shelf.establishment.id == 3)?.stock ||
+            0,
+          "Stock Magasin":
+            product.shelves.find((shelf) => shelf.establishment.id == 1)?.stock ||
+            0,
+          Réservé: 0,
+          "Prix Avant Remise": product.priceBeforeDiscount,
+          "Prix de vente": product.value,
+          Poids: product.product_extra.weight,
+          "Poids Colis Net": product.product_extra.packaged_weight_net,
+          "Poids Colis Brut": product.product_extra.packaged_weight,
+          "Dimensions Du Colis": product.product_extra.packaged_dimensions,
+          "Par Boîte": product.product_extra.per_box,
+          "Hauteur d'assise": product.product_extra.seat_height,
+          Hauteur: product.height,
+          Largeur: product.width,
+          Longueur: product.depth,
+          "Hauteur Accoudoir": product.product_extra.armrest_height,
+          Diamètre: product.product_extra.diameter,
+        };
+      });
+
+      const sortedProducts = customProducts.sort((a, b) =>
+        a.Nom.localeCompare(b.Nom),
       );
+
+      const worksheet = utils.json_to_sheet(sortedProducts);
+
+      const rangeRef = worksheet["!ref"];
+      if (rangeRef) {
+        const range = utils.decode_range(rangeRef);
+        for (let row = range.s.r + 1; row <= range.e.r; row++) {
+          const cellAddress = utils.encode_cell({ r: row, c: 0 });
+          const cell = worksheet[cellAddress];
+
+          if (!cell || typeof cell.v !== "string" || cell.v.length === 0) {
+            continue;
+          }
+
+          const escapedUrl = cell.v.replace(/"/g, '""');
+
+          worksheet[cellAddress] = {
+            f: `_xlfn.IMAGE("${escapedUrl}")`,
+          };
+        }
+
+        worksheet["!rows"] = Array.from({ length: range.e.r + 1 }, (_, idx) => {
+          if (idx < range.s.r) {
+            return undefined;
+          }
+
+          if (idx === range.s.r) {
+            return { hpt: 24 };
+          }
+
+          return { hpx: 120 };
+        });
+
+        const columnWidths = worksheet["!cols"] ?? [];
+        columnWidths[0] = { wpx: 120 };
+        worksheet["!cols"] = columnWidths;
+      }
 
       utils.book_append_sheet(wb, worksheet, category);
     }

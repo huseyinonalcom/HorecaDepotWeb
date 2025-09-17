@@ -1,5 +1,6 @@
 import { getAllCategoriesFlattened } from "../../api/categories/public/getallcategoriesflattened";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
+import { getTopProductsWeek } from "../../api/private/products/stats";
 import { getCollections } from "../../api/private/collections";
 import useTranslation from "next-translate/useTranslation";
 import { getHomepage } from "../../api/private/homepage";
@@ -8,7 +9,6 @@ import { FiCheck } from "react-icons/fi";
 import { useState } from "react";
 import Head from "next/head";
 import Index from "../..";
-import { getTopProductsWeek } from "../../api/private/products/stats";
 
 export default function HomePageAdmin({
   homePageFromAPI,
