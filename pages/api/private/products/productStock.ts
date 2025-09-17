@@ -87,6 +87,7 @@ export async function updateProductStock({
     id: product.id,
     data: {
       reserved: Number(stock.reserved),
+      currentstock: Number(stock.stock.store) + Number(stock.stock.warehouse),
     },
   }).catch((error) => {
     console.error(error);

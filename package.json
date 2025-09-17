@@ -4,7 +4,8 @@
     "dev": "next dev -p 3066",
     "build": "next build --debug",
     "start": "next start -p 3066",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "test": "node --require ./scripts/register-ts.js --test tests/queryBuilder.test.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "6.3.1",

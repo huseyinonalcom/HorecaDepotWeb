@@ -1,100 +1,132 @@
+import type { NextApiRequest, NextApiResponse } from "next";
 import { getAllSubcategoriesOfCategory } from "../../public/categories/getallsubcategoriesofcategory";
 import { getCategoryFromString } from "../../public/categories/getcategoryfromstring";
 import { Product } from "../../../../api/interfaces/product";
 import statusText from "../../../../api/statustexts";
+import {
+  applyCommonProductFields,
+  applyPriceFilters,
+  applySearchFilter,
+  applyStatusFilters,
+  buildApiUrl,
+  setQueryParams,
+} from "./queryBuilder";
 
-function checkValues(minValue, maxValue) {
-  if (minValue === null || maxValue === null) {
+function getQueryValue(value: unknown): string | null {
+  if (value == null) {
     return null;
   }
 
-  const isMinValueValid = Number.isInteger(minValue) && minValue > 0;
-  const isMaxValueValid = Number.isInteger(maxValue) && maxValue > 0;
-  const isMinLessThanMax = minValue < maxValue;
+  if (Array.isArray(value)) {
+    return value.length > 0 && value[0] != null ? String(value[0]) : null;
+  }
 
-  return isMinValueValid && isMaxValueValid && isMinLessThanMax;
+  if (typeof value === "string") {
+    return value;
+  }
+
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+
+  return null;
 }
 
-export async function getProducts(req) {
-  const pageParam = req.query.page ?? 1;
-  let categoryParam = req.query.category ?? null;
-  const minValueParam = Number(req.query.minprice) ?? null;
-  const maxValueParam = Number(req.query.maxprice) ?? null;
-  const searchParam = req.query.search ?? null;
-  const sortParam = req.query.sort ?? null;
-  const countParam = req.query.count ?? null;
-  const getLimitsParam = req.query.getlimits ?? null;
-  const showInactiveParam = req.query.showinactive ?? null;
+function parseNumberParam(value: unknown): number | null {
+  const queryValue = getQueryValue(value);
+  if (queryValue == null) {
+    return null;
+  }
+
+  const parsed = Number(queryValue);
+  return Number.isNaN(parsed) ? null : parsed;
+}
+
+function isTruthyQueryParam(value: unknown): boolean {
+  return getQueryValue(value) != null;
+}
+
+async function resolveCategoryId(rawCategory: unknown): Promise<number | null> {
+  const categoryValue = getQueryValue(rawCategory);
+
+  if (!categoryValue) {
+    return null;
+  }
+
+  const decodedCategory = decodeURIComponent(categoryValue);
+
+  if (decodedCategory === "tous") {
+    return null;
+  }
+
+  const numericCategory = Number(decodedCategory);
+
+  if (!Number.isNaN(numericCategory)) {
+    return numericCategory;
+  }
+
+  const category = await getCategoryFromString({ category: decodedCategory });
+  return category.id;
+}
+
+async function applyCategoryFilters(
+  params: URLSearchParams,
+  categoryId: number | null,
+) {
+  if (!categoryId) {
+    return;
+  }
+
+  const categoriesToSearch = await getAllSubcategoriesOfCategory({
+    id: categoryId,
+  });
+
+  if (categoriesToSearch.length > 1) {
+    categoriesToSearch.forEach((category, index) => {
+      params.append(
+        `filters[$or][${index}][categories][id][$eq]`,
+        category.toString(),
+      );
+    });
+    return;
+  }
+
+  params.set("filters[categories][id][$eq]", categoryId.toString());
+}
+
+type RequestWithQuery = { query: Record<string, unknown> };
+
+export async function getProducts(req: RequestWithQuery) {
+  const pageParam = getQueryValue(req.query.page) ?? "1";
+  const minValueParam = parseNumberParam(req.query.minprice);
+  const maxValueParam = parseNumberParam(req.query.maxprice);
+  const searchParam = getQueryValue(req.query.search);
+  const sortParam = getQueryValue(req.query.sort);
+  const countParam = getQueryValue(req.query.count);
+  const getLimitsParam = isTruthyQueryParam(req.query.getlimits);
+  const showInactive = isTruthyQueryParam(req.query.showinactive);
 
   try {
-    categoryParam ? (categoryParam = decodeURIComponent(categoryParam)) : null;
+    const categoryId = await resolveCategoryId(req.query.category);
 
-    if (categoryParam == "tous") {
-      categoryParam = null;
-    }
+    const baseFilterParams = new URLSearchParams();
+    applySearchFilter(baseFilterParams, searchParam);
+    await applyCategoryFilters(baseFilterParams, categoryId);
+    applyStatusFilters(baseFilterParams, showInactive);
 
-    if (typeof categoryParam === "string") {
-      const parsedCategoryParam = parseInt(categoryParam, 10);
+    const filtersForValues = new URLSearchParams(baseFilterParams);
 
-      if (isNaN(parsedCategoryParam)) {
-        categoryParam = (
-          await getCategoryFromString({ category: categoryParam })
-        ).id;
-      } else {
-        categoryParam = parsedCategoryParam;
-      }
-    }
+    applyPriceFilters(baseFilterParams, minValueParam, maxValueParam);
 
-    let categoriesToSearch: number[] = [];
+    const productParams = new URLSearchParams(baseFilterParams);
+    applyCommonProductFields(productParams);
+    setQueryParams(productParams, {
+      "pagination[page]": pageParam.toString(),
+      "sort[0]": sortParam ?? null,
+      "pagination[pageSize]": countParam ?? null,
+    });
 
-    if (categoryParam) {
-      categoriesToSearch = await getAllSubcategoriesOfCategory({
-        id: categoryParam,
-      });
-    }
-
-    let fetchUrl: string =
-      `${process.env.API_URL}/api/products?` +
-      (searchParam ? "filters[name][$containsi]=" + searchParam + "&" : "");
-
-    var valuesValid: boolean = false;
-
-    if (minValueParam != null && maxValueParam != null) {
-      valuesValid = checkValues(minValueParam, maxValueParam);
-    }
-
-    if (categoryParam) {
-      if (categoriesToSearch.length > 1) {
-        let index = 0;
-        categoriesToSearch.forEach((catS) => {
-          fetchUrl +=
-            "filters[$or][" +
-            index +
-            "][categories][id][$eq]=" +
-            catS.toString() +
-            "&";
-          index++;
-        });
-      } else {
-        fetchUrl += "filters[categories][id][$eq]=" + categoryParam + "&";
-      }
-    }
-
-    if (showInactiveParam) {
-      fetchUrl += "filters[deleted][$eq]=false&";
-    } else {
-      fetchUrl += "filters[active][$eq]=true&filters[deleted][$eq]=false&";
-    }
-
-    const fetchUrlForValues = fetchUrl + "fields[0]=value&sort[0]=value:";
-
-    if (valuesValid) {
-      fetchUrl += `filters[$and][0][value][$gte]=${minValueParam}&filters[$and][1][value][$lte]=${maxValueParam}&`;
-    }
-
-    fetchUrl += `populate[document_products][fields][0]=amount&populate[shelves][fields][0]=stock&populate[shelves][populate][supplier_order_products][fields][0]=amount&fields[0]=name&populate[categories][fields][0]=localized_name&fields[1]=internalCode&fields[2]=value&fields[3]=priceBeforeDiscount&fields[4]=color&fields[5]=imageDirections&fields[6]=localized_name&fields[7]=stock&fields[8]=views&fields[9]=supplierCode&fields[10]=active&populate[images][fields][0]=url&populate[product_extra][fields][0]=new&populate[product_extra][fields][1]=tags&pagination[page]=${pageParam}${
-      sortParam ? `&sort[0]=${sortParam}` : ""
-    }${countParam ? `&pagination[pageSize]=${countParam}` : ""}`;
+    const fetchUrl = buildApiUrl(productParams);
 
     const response = await fetch(fetchUrl, {
       headers: {
@@ -103,25 +135,31 @@ export async function getProducts(req) {
     });
 
     const data = await response.json();
-
-    // sort productData array on product.product_extra.new from true to false
     const sortedData: Product[] = data["data"];
-
     const totalPages = data["meta"]["pagination"]["pageCount"];
 
-    var minValueFromAPI = 1;
-    var maxValueFromAPI = 9999;
+    let minValueFromAPI = 1;
+    let maxValueFromAPI = 9999;
 
     if (sortedData.length > 0 && getLimitsParam) {
+      const valuesParamsBase = new URLSearchParams(filtersForValues);
+      valuesParamsBase.set("fields[0]", "value");
+      valuesParamsBase.set("pagination[page]", "1");
+      valuesParamsBase.set("pagination[pageSize]", "1");
+
       const [answerMaxValue, answerMinValue] = await Promise.all([
         fetch(
-          fetchUrlForValues + "desc&pagination[page]=1&pagination[pageSize]=1",
+          buildApiUrl(valuesParamsBase, (params) => {
+            params.set("sort[0]", "value:desc");
+          }),
           {
             headers: { Authorization: `Bearer ${process.env.API_KEY}` },
           },
         ).then((res) => res.json()),
         fetch(
-          fetchUrlForValues + "asc&pagination[page]=1&pagination[pageSize]=1",
+          buildApiUrl(valuesParamsBase, (params) => {
+            params.set("sort[0]", "value:asc");
+          }),
           {
             headers: { Authorization: `Bearer ${process.env.API_KEY}` },
           },
@@ -131,7 +169,9 @@ export async function getProducts(req) {
       maxValueFromAPI = answerMaxValue.data[0].value;
       minValueFromAPI = answerMinValue.data[0].value;
     }
-    const currentCategoryID = categoryParam;
+
+    const currentCategoryID = categoryId;
+
     return {
       sortedData,
       totalPages,
@@ -145,7 +185,10 @@ export async function getProducts(req) {
   }
 }
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   try {
     const response = await getProducts(req);
 

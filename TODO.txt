@@ -1,13 +1,13 @@
 magic link to access order summary without user account
 
-sorting on amount in stock list
-
 Filter active/inactive products in admin product list
 
 Filter head and subcategory in admin product list
 
 Filtered fuzzy search
 
+Add filter and sort option to stock section search
+
 allow admin to update password of other users
 
-Add filter and sort option to stock section search
+sorting on amount in stock list
