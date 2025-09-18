@@ -43,7 +43,18 @@ function parseNumberParam(value: unknown): number | null {
 }
 
 function isTruthyQueryParam(value: unknown): boolean {
-  return getQueryValue(value) != null;
+  const queryValue = getQueryValue(value);
+  if (queryValue == null) {
+    return false;
+  }
+  const normalized = queryValue.trim().toLowerCase();
+  if (["true", "1", "yes", "on"].includes(normalized)) {
+    return true;
+  }
+  if (["false", "0", "no", "off"].includes(normalized)) {
+    return false;
+  }
+  return false;
 }
 
 async function resolveCategoryId(rawCategory: unknown): Promise<number | null> {
