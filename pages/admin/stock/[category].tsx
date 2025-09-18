@@ -2,7 +2,6 @@ import { getAllCategoriesFlattened } from "../../api/categories/public/getallcat
 import { formatCurrency } from "../../../api/utils/formatters/formatcurrency";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import { getAllCategories } from "../../api/categories/getallcategories";
-import { getAllProducts } from "../../api/products/admin/getallproducts";
 import { getCoverImageUrl } from "../../../api/utils/getprodcoverimage";
 import ImageWithURL from "../../../components/common/image";
 import useTranslation from "next-translate/useTranslation";
@@ -38,6 +37,7 @@ import {
   FiDownload,
   FiPlusCircle,
 } from "react-icons/fi";
+import { getProducts } from "../../api/products/public/getproducts";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");
@@ -56,6 +56,7 @@ export default function Products(props) {
   const allCategories = props.allCategories;
   const allSuppliers = props.allSuppliers;
   const allCategoriesHierarchy = props.allCategoriesHierarchy;
+  const inactiveFilter = props.showinactive === true;
 
   const CategoryItem = ({ category }) => {
     const [isHovered, setisHovered] = useState(false);
@@ -67,25 +68,17 @@ export default function Products(props) {
         <div className="flex w-full items-center justify-between text-left hover:bg-gray-200">
           {hasSubCategories ? (
             <>
-              <div
-                className="h-full px-4 py-2 whitespace-nowrap"
-                // onClick={() => {
-                //   setCurrentCategory(category.id);
-                // }}
-                onClick={() => {
-                  setisHovered(!isHovered);
-                }}
+              <Link
+                href={createLink({ category: category.id, page: 1 })}
+                className="h-full px-4 py-2 whitespace-nowrap hover:text-blue-400"
               >
                 {category?.localized_name[lang]}
-              </div>
+              </Link>
               <div
                 onClick={() => {
                   setisHovered(!isHovered);
                 }}
                 className="w-full py-3 pr-4"
-                // onClick={() => {
-                //   setisHovered(!isHovered);
-                // }}
               >
                 <FiChevronUp
                   className={
@@ -97,7 +90,7 @@ export default function Products(props) {
             </>
           ) : (
             <Link
-              className="h-full w-full px-4 py-2 whitespace-nowrap"
+              className="h-full w-full px-4 py-2 whitespace-nowrap hover:text-blue-400"
               href={createLink({ category: category.id, page: 1 })}
             >
               {category?.localized_name[lang]}
@@ -127,6 +120,7 @@ export default function Products(props) {
     sort,
     sortDirection,
     search,
+    showinactive,
   }: {
     page?: number;
     category?: string;
@@ -134,6 +128,7 @@ export default function Products(props) {
     sort?: string;
     sortDirection?: string;
     search?: string;
+    showinactive?: boolean;
   }) => {
     let link = "/admin/stock/";
 
@@ -179,6 +174,14 @@ export default function Products(props) {
     } else if (currentSupplier) {
       link += `&supplier=${currentSupplier}`;
     }
+
+    const shouldShowInactive =
+      typeof showinactive === "boolean" ? showinactive : inactiveFilter;
+
+    if (shouldShowInactive) {
+      link += "&showinactive=true";
+    }
+
     return link;
   };
 
@@ -245,11 +248,11 @@ export default function Products(props) {
           Couleur: product.color,
           Matériel: product.material,
           "Stock Depot":
-            product.shelves.find((shelf) => shelf.establishment.id == 3)?.stock ||
-            0,
+            product.shelves.find((shelf) => shelf.establishment.id == 3)
+              ?.stock || 0,
           "Stock Magasin":
-            product.shelves.find((shelf) => shelf.establishment.id == 1)?.stock ||
-            0,
+            product.shelves.find((shelf) => shelf.establishment.id == 1)
+              ?.stock || 0,
           Réservé: 0,
           "Prix Avant Remise": product.priceBeforeDiscount,
           "Prix de vente": product.value,
@@ -404,6 +407,27 @@ export default function Products(props) {
                 ))}
               </div>
             </div>
+            <Link
+              href={createLink({ showinactive: !inactiveFilter })}
+              className="flex items-center gap-2 rounded-full border border-gray-300 bg-white px-3 py-2 shadow-sm"
+            >
+              <div
+                role="switch"
+                aria-checked={!inactiveFilter}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ${
+                  !inactiveFilter ? "bg-green-500" : "bg-gray-300"
+                }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
+                    !inactiveFilter ? "translate-x-5" : "translate-x-1"
+                  }`}
+                />
+              </div>
+              <span className="text-sm font-medium text-gray-700">
+                {!inactiveFilter ? t("Active") : t("Inactive")}
+              </span>
+            </Link>
             <div
               style={{
                 borderRadius: "0.25rem",
@@ -542,15 +566,6 @@ export default function Products(props) {
               </TableHead>
               <TableBody>
                 {allProducts?.map((product) => {
-                  let stock = 0;
-
-                  try {
-                    stock = product.shelves.reduce(
-                      (acc, shelf) => acc + shelf.stock,
-                      0,
-                    );
-                  } catch (error) {}
-
                   return (
                     <TableRow
                       href={`/admin/products/${product.id}?return=${encodeURIComponent(
@@ -579,7 +594,7 @@ export default function Products(props) {
                       <TableCell>{product.internalCode}</TableCell>
                       <TableCell>{product.supplierCode}</TableCell>
                       <TableCell>{formatCurrency(product.value)}</TableCell>
-                      <TableCell>{stock}</TableCell>
+                      <TableCell>{product.currentstock}</TableCell>
                       <TableCell>{product.views}</TableCell>
                       <TableCell>
                         <LuDot
@@ -695,33 +710,47 @@ export async function getServerSideProps(context) {
   const currentSortDirection = req.query.sort.split(":").at(1) ?? "desc";
   req.query.sort = currentSort + ":" + currentSortDirection;
 
+  const rawShowInactiveParam = Array.isArray(req.query.showinactive)
+    ? req.query.showinactive[0]
+    : req.query.showinactive;
+  const showinactive =
+    rawShowInactiveParam === "true" || rawShowInactiveParam === true;
+
+  if (showinactive) {
+    req.query.showinactive = "true";
+  } else {
+    delete req.query.showinactive;
+  }
+
   let productsReq;
   let productsData;
-  let metaData;
+  let totalPages = 1;
 
   if (currentSearch) {
-    productsReq = await fuzzySearch({ search: currentSearch, count: 50 });
+    productsReq = await fuzzySearch({
+      search: currentSearch,
+      count: 50,
+      filter: [
+        {
+          on: "category",
+          value: req.query.category,
+        },
+        { on: "active", value: !showinactive },
+      ],
+      sort: "",
+    });
 
     productsData = productsReq.result.filter((result) => !!result.internalCode);
   } else {
-    productsData = (await getAllProducts(req)).data;
-    metaData = (await getAllProducts(req)).meta;
+    productsData = (await getProducts(req)).sortedData;
+    totalPages = (await getProducts(req)).totalPages;
   }
 
   const allProducts = productsData;
 
-  let currentPage = 1;
-  let totalPages = 1;
-
-  try {
-    if (metaData.pagination.page) {
-      currentPage = metaData.pagination.page;
-    }
-    if (metaData.pagination.pageCount) {
-      totalPages = metaData.pagination.pageCount;
-    }
-  } catch (error) {}
   const currentSupplier = req.query.supplier ?? null;
+
+  const currentPage = Number(req.query.page ?? "1");
 
   return {
     props: {
@@ -730,12 +759,13 @@ export async function getServerSideProps(context) {
       allCategoriesHierarchy,
       currentSearch,
       allProducts,
-      currentPage,
       totalPages,
+      currentPage,
       currentSortDirection,
       currentSort,
       currentCategory,
       currentSupplier,
+      showinactive: showinactive,
     },
   };
 }

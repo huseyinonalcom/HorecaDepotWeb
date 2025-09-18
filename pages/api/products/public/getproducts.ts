@@ -81,17 +81,17 @@ async function applyCategoryFilters(
     id: categoryId,
   });
 
-  if (categoriesToSearch.length > 1) {
-    categoriesToSearch.forEach((category, index) => {
-      params.append(
-        `filters[$or][${index}][categories][id][$eq]`,
-        category.toString(),
-      );
-    });
-    return;
-  }
+  const categoryIds =
+    Array.isArray(categoriesToSearch) && categoriesToSearch.length > 0
+      ? categoriesToSearch
+      : [categoryId];
 
-  params.set("filters[categories][id][$eq]", categoryId.toString());
+  categoryIds.forEach((categoryIdValue, index) => {
+    params.append(
+      `filters[categories][id][$in][${index}]`,
+      categoryIdValue.toString(),
+    );
+  });
 }
 
 type RequestWithQuery = { query: Record<string, unknown> };
@@ -128,6 +128,7 @@ export async function getProducts(req: RequestWithQuery) {
 
     const fetchUrl = buildApiUrl(productParams);
 
+    console.log({ productParams });
     const response = await fetch(fetchUrl, {
       headers: {
         Authorization: `Bearer ${process.env.API_KEY}`,

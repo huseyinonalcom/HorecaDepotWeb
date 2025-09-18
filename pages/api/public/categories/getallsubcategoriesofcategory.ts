@@ -3,7 +3,7 @@ import statusText from "../../../../api/statustexts";
 
 let cache = {
   0: {
-    timeStamp: Date.now(),
+    timestamp: Date.now(),
     data: null,
   },
 };
@@ -16,7 +16,7 @@ export async function getAllSubcategoriesOfCategory({ id }: { id: number }) {
   }
   try {
     const response = await fetch(
-      `${process.env.API_URL}/api/categories/${id}?populate[subCategories][fields][0]=localized_name&populate[subCategories][populate][subCategories][fields][0]=localized_name&fields[0]=localized_name&populate[products_multi_categories][fields][0]=id&populate[products_multi_categories][fields][1]=active&sort=priority&pagination[pageSize]=100`,
+      `${process.env.API_URL}/api/categories/${id}?populate[subCategories][fields][0]=localized_name&populate[subCategories][populate][subCategories][fields][0]=localized_name&populate[subCategories][populate][subCategories][populate][subCategories][fields][0]=localized_name&fields[0]=localized_name&populate[products_multi_categories][fields][0]=id&populate[products_multi_categories][fields][1]=active&sort=priority&pagination[pageSize]=100`,
       {
         headers: {
           Authorization: `Bearer ${process.env.API_KEY}`,
@@ -32,16 +32,35 @@ export async function getAllSubcategoriesOfCategory({ id }: { id: number }) {
 
     const fetchedCategory: Category = data["data"];
 
-    let answer = [];
+    const seen = new Set<number>();
+    const collectedIds: number[] = [];
 
-    answer.push(fetchedCategory.id);
-    answer = answer.concat(fetchedCategory.subCategories.map((cat) => cat.id));
+    const collectCategoryIds = (category?: Category) => {
+      if (!category || typeof category.id !== "number") {
+        return;
+      }
+
+      if (seen.has(category.id)) {
+        return;
+      }
+
+      seen.add(category.id);
+      collectedIds.push(category.id);
+
+      if (Array.isArray(category.subCategories)) {
+        category.subCategories.forEach((subCategory) => {
+          collectCategoryIds(subCategory);
+        });
+      }
+    };
+
+    collectCategoryIds(fetchedCategory);
 
     cache[id] = {
-      data: answer,
+      data: collectedIds,
       timestamp: Date.now(),
     };
-    return answer;
+    return collectedIds;
   } catch (error) {
     return null;
   }

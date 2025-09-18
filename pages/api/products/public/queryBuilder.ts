@@ -61,6 +61,7 @@ export function applyStatusFilters(
 ) {
   if (showInactive) {
     setQueryParams(params, {
+      "filters[active][$eq]": "false",
       "filters[deleted][$eq]": "false",
     });
     return;

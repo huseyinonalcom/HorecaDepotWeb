@@ -81,10 +81,14 @@ export async function fuzzySearch({
   search,
   count,
   noCache,
+  filter,
+  sort,
 }: {
   search: string;
-  count?: number;
   noCache?: boolean;
+  count?: number;
+  filter?: { on: string; value: number }[];
+  sort?: string;
 }) {
   const now = Date.now();
 
@@ -100,8 +104,21 @@ export async function fuzzySearch({
     try {
       const allCategories = await getAllCategoriesFlattened();
       data.categories = mergeTranslations(allCategories);
-      let prods = (await getProducts({ query: { page: 1, count: 5000, showinactive: true } }))
-        .sortedData;
+      let filterQuery = {};
+      for (let filterRule of filter) {
+        if (filterRule.on == "category" && filterRule.value) {
+          filterQuery = { category: filterRule.value, ...filterQuery };
+        }
+        if (filterRule.on == "active") {
+          filterQuery = { showinactive: !filterRule.value, ...filterQuery };
+        }
+      }
+
+      let prods = (
+        await getProducts({
+          query: { page: 1, count: 5000, ...filterQuery },
+        })
+      ).sortedData;
       data.products = productsUpdateCategories(prods, data.categories);
       data.collections = await getCollections({});
       cache.lastFetch = now;
