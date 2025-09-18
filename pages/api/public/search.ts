@@ -105,12 +105,14 @@ export async function fuzzySearch({
       const allCategories = await getAllCategoriesFlattened();
       data.categories = mergeTranslations(allCategories);
       let filterQuery = {};
-      for (let filterRule of filter) {
-        if (filterRule.on == "category" && filterRule.value) {
-          filterQuery = { category: filterRule.value, ...filterQuery };
-        }
-        if (filterRule.on == "active") {
-          filterQuery = { showinactive: !filterRule.value, ...filterQuery };
+      if (Array.isArray(filter)) {
+        for (let filterRule of filter) {
+          if (filterRule.on == "category" && filterRule.value) {
+            filterQuery = { category: filterRule.value, ...filterQuery };
+          }
+          if (filterRule.on == "active") {
+            filterQuery = { showinactive: !filterRule.value, ...filterQuery };
+          }
         }
       }
 
