@@ -139,7 +139,6 @@ export async function getProducts(req: RequestWithQuery) {
 
     const fetchUrl = buildApiUrl(productParams);
 
-    console.log({ productParams });
     const response = await fetch(fetchUrl, {
       headers: {
         Authorization: `Bearer ${process.env.API_KEY}`,
