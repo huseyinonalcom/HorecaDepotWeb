@@ -85,6 +85,7 @@ export async function updateProductStock({
   await updateProduct({
     authToken,
     id: product.id,
+    extraid: product.product_extra.id,
     data: {
       reserved: Number(stock.reserved),
       currentstock: Number(stock.stock.store) + Number(stock.stock.warehouse),

@@ -500,6 +500,8 @@ const updateStock = async (
 
   const prod = await getProducts({ authToken, id: prodID });
 
+  console.log(prod);
+
   let shelves = prod.shelves;
 
   shelves.at(0).stock = stock;
