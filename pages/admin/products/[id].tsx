@@ -145,7 +145,7 @@ export default function ProductPage(props) {
       if (currentProduct.id != "0") {
         try {
           const request = await fetch(
-            `/api/products/admin/putproduct?id=` +
+            `/api/private/products/products?id=` +
               currentProduct.id +
               "&extraid=" +
               currentProduct.product_extra.id,
@@ -171,7 +171,7 @@ export default function ProductPage(props) {
         }
       } else {
         try {
-          const request = await fetch("/api/products/admin/postproduct", {
+          const request = await fetch("/api/private/products/products", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
