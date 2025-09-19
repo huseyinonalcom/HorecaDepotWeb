@@ -196,64 +196,6 @@ export default function ProductPage(props) {
     }
   };
 
-  const autoCode = async () => {
-    if (currentProduct.internalCode && currentProduct.internalCode != "") {
-      alert(t("internalCode_not_empty"));
-      return;
-    }
-
-    if (
-      !currentProduct.name ||
-      currentProduct.name == "" ||
-      !currentProduct.categories ||
-      currentProduct.categories.length < 1 ||
-      !currentProduct.product_color
-    ) {
-      alert(t("fill_fields"));
-      return;
-    }
-    const prods = await fetch(
-      `/api/products/admin/getallproducts?search=${currentProduct.name}&sort=id&category=${currentProduct.categories.at(0).id}`,
-    );
-    let fetchedProds: Product[] = (await prods.json()).data;
-    let ic = fetchedProds.find(
-      (prd) => prd.name.toLowerCase() == currentProduct.name.toLowerCase(),
-    )?.internalCode;
-
-    if (ic && ic.split(".").length > 1) {
-      let newCode = `HD.${ic.split(".")[1]}.${ic.split(".")[2]}.${currentProduct.product_color.code}`;
-      setCurrentProduct((pr) => ({
-        ...pr,
-        internalCode: newCode,
-      }));
-    } else {
-      const prodsFromCat = await fetch(
-        `/api/products/admin/getallproducts?category=${currentProduct.categories.at(0).id}&sort=id`,
-      );
-
-      const prodsFromCatData = (await prodsFromCat.json()).data;
-
-      const result = prodsFromCatData
-        .map((product) => product.internalCode) // Get the internalCode
-        .map((code) => code.split(".")) // Split by "."
-        .filter((parts) => parts.length === 4) // Keep only the ones with 4 parts
-        .map((parts) => parseInt(parts[2])) // Extract the 3rd part (and convert it to a number)
-        .sort((a, b) => a - b); // Sort numerically
-
-      let nextValue = 1;
-
-      if (result.length > 0) {
-        nextValue = result[result.length - 1] + 1;
-      }
-
-      let newCode = `HD.${currentProduct.categories.at(0).code}.${nextValue}.${currentProduct.product_color.code}`;
-      setCurrentProduct((pr) => ({
-        ...pr,
-        internalCode: newCode,
-      }));
-    }
-  };
-
   const isValidPriceBeforeDiscount = () => {
     if (!isValidDecimal(currentProduct.priceBeforeDiscount)) {
       return false;

@@ -112,12 +112,27 @@ export function applyCommonProductFields(params: URLSearchParams) {
       shelves: {
         fields: ["stock"],
         populate: {
-          supplier_order_products: { fields: ["amount"] },
+          establishment: { fields: ["id"] },
         },
       },
-      categories: { fields: ["localized_name"] },
+      categories: { fields: ["localized_name", "code", "priority"] },
       images: { fields: ["url"] },
-      product_extra: { fields: ["new", "tags"] },
+      product_extra: {
+        fields: [
+          "new",
+          "tags",
+          "weight",
+          "per_box",
+          "packaged_weight",
+          "packaged_dimensions",
+          "seat_height",
+          "diameter",
+          "surface_area",
+          "packaged_weight_net",
+          "barcode",
+          "armrest_height",
+        ],
+      },
     },
     fields: [
       "name",
@@ -130,6 +145,10 @@ export function applyCommonProductFields(params: URLSearchParams) {
       "stock",
       "views",
       "supplierCode",
+      "depth",
+      "width",
+      "height",
+      "material",
       "active",
     ],
   });
