@@ -78,12 +78,12 @@ export default function ProductPage({
 
     const viewsKey = `views_${product.id}`;
 
-    // Check if this product was already views in this session
+    // Check if this product was already viewws this session
     if (sessionStorage.getItem(viewsKey)) {
       return;
     }
 
-    // Mark as views in this session
+    // Mark as viewed this session
     sessionStorage.setItem(viewsKey, "true");
 
     fetch(`/api/public/products/stats?id=${product.id}&action=views`, {
