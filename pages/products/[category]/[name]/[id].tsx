@@ -2,13 +2,12 @@ import { getAllCategoriesFlattened } from "../../../api/categories/public/getall
 import { formatCurrency } from "../../../../api/utils/formatters/formatcurrency";
 import { getAllProductIDs } from "../../../api/public/products/getallproductids";
 import { useDragScroll } from "../../../../components/common/use-drag-scroll";
-import { getProductByID } from "../../../api/public/products/getproductbyid";
 import ProductPreview from "../../../../components/products/product-preview";
 import ProductButtons from "../../../../components/products/product-buttons";
 import { getCoverImageUrl } from "../../../../api/utils/getprodcoverimage";
 import ProductImages from "../../../../components/products/product-images";
-import { getProducts } from "../../../api/products/public/getproducts";
 import { MdHeight, MdOutlineChair, MdWhatsapp } from "react-icons/md";
+import { getProducts } from "../../../api/private/products/products";
 import { Product } from "../../../../api/interfaces/product";
 import useTranslation from "next-translate/useTranslation";
 import Layout from "../../../../components/public/layout";
@@ -406,18 +405,21 @@ type Params = {
 };
 
 export const getStaticProps = async ({ params, locale }: Params) => {
-  const product = (await getProductByID({ id: Number.parseInt(params.id) }))
-    .result;
+  const product = await getProducts({
+    authToken: null,
+    id: Number.parseInt(params.id),
+  });
   const result = (
     await getProducts({
-      query: {
-        page: 1,
-        category: product.categories[0].id,
-        count: 10,
-        inStock: true,
-      },
+      page: 1,
+      category: product.categories[0].id,
+      count: "10",
+      authToken: null,
     })
-  ).sortedData;
+  ).data;
+
+  console.log(result);
+
   const relatedProducts: Product[] = result
     .filter((prd) => prd.id != product.id)
     .sort((a, b) => {
