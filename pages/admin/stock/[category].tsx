@@ -566,6 +566,9 @@ export default function Products(props) {
               </TableHead>
               <TableBody>
                 {allProducts?.map((product) => {
+                  const stock = product.shelves.reduce(
+                    (acc, shelf) => acc + shelf.stock, 0
+                  );
                   return (
                     <TableRow
                       href={`/admin/products/${product.id}?return=${encodeURIComponent(
@@ -594,7 +597,7 @@ export default function Products(props) {
                       <TableCell>{product.internalCode}</TableCell>
                       <TableCell>{product.supplierCode}</TableCell>
                       <TableCell>{formatCurrency(product.value)}</TableCell>
-                      <TableCell>{product.currentstock}</TableCell>
+                      <TableCell>{stock}</TableCell>
                       <TableCell>{product.views}</TableCell>
                       <TableCell>
                         <LuDot
