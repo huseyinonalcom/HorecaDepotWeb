@@ -75,7 +75,7 @@ export default function Keywords() {
   } else {
     const putTags = async (e) => {
       e.preventDefault();
-      fetch("/api/products/admin/puttagsbulk", {
+      fetch("/api/private/products/puttagsbulk", {
         method: "PUT",
         body: JSON.stringify({ products: chosenProducts, tags: inputTags }),
       });

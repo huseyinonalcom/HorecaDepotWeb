@@ -10,7 +10,7 @@ import {
   applyStatusFilters,
   buildApiUrl,
   setQueryParams,
-} from "../../products/public/queryBuilder";
+} from "./queryBuilder";
 
 function getQueryValue(value: unknown): string | null {
   if (value == null) {

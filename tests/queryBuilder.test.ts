@@ -7,7 +7,7 @@ import {
   applySearchFilter,
   applyCommonProductFields,
   buildApiUrl,
-} from "../pages/api/products/public/queryBuilder";
+} from "../pages/api/public/products/queryBuilder";
 
 process.env.API_URL = process.env.API_URL ?? "https://example.com";
 

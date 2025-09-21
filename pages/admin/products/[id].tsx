@@ -3,7 +3,6 @@ import isValidDecimal from "../../../api/utils/input_validators/validate_decimal
 import { LocalizedInput } from "../../../components/inputs/localized_input";
 import AdminPanelLayout from "../../../components/admin/AdminPanelLayout";
 import parseDecimal from "../../../api/utils/input_parsers/parseDecimal";
-import { getProductByID } from "../../api/products/admin/getproductbyid";
 import { Switch, SwitchField } from "../../../components/styled/switch";
 import { ColorChooser } from "../../../components/inputs/ColorChooser";
 import { uploadFileToAPI } from "../../api/private/files/uploadfile";
@@ -44,6 +43,7 @@ import {
   FiCopy,
   FiX,
 } from "react-icons/fi";
+import { getProducts } from "../../api/private/products/products";
 
 export default function ProductPage(props) {
   const { t, lang } = useTranslation("common");
@@ -1053,7 +1053,10 @@ export async function getServerSideProps(context) {
   };
   if (context.query.id != 0) {
     context.req.query = context.query;
-    currentProduct = await getProductByID(req.cookies.j, context.query.id);
+    currentProduct = await getProducts({
+      authToken: req.cookies.j,
+      id: context.query.id,
+    });
     if (
       currentProduct.localized_name == null ||
       currentProduct.localized_name == undefined
