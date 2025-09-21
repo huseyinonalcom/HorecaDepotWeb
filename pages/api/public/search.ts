@@ -1,5 +1,5 @@
 import { getAllCategoriesFlattened } from "../categories/public/getallcategoriesflattened";
-import { getProducts } from "../products/public/getproducts";
+import { getProducts } from "./products/getproducts";
 import apiRoute from "../../../api/api/apiRoute";
 import { getCollections } from "./collections";
 import Fuse from "fuse.js";

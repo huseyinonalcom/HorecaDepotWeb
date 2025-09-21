@@ -1,6 +1,6 @@
 import { getAllCategories } from "../api/public/categories/getallcategories";
 import ProductPreview2 from "../../components/products/product-preview2";
-import { getProducts } from "../api/products/public/getproducts";
+import { getProducts } from "../api/public/products/getproducts";
 import useTranslation from "next-translate/useTranslation";
 import { FiChevronLeft, FiArrowUp } from "react-icons/fi";
 import ImageWithURL from "../../components/common/image";

@@ -6,7 +6,7 @@ import { CategoryBanner } from "../components/banners/CategoryBanner";
 import { getTopProductsWeek } from "./api/private/products/stats";
 import { uploadFileToAPI } from "./api/private/files/uploadfile";
 import { PromoBanner } from "../components/banners/PromoBanner";
-import { getHomePage } from "./api/website/public/gethomepage";
+import { getHomePage } from "./api/public/website";
 import useTranslation from "next-translate/useTranslation";
 import { getCollections } from "./api/private/collections";
 import InputOutlined from "../components/inputs/outlined";

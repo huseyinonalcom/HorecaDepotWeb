@@ -48,7 +48,7 @@ const Layout = ({ children }: Props) => {
   const [popup, setPopup] = useState(null);
 
   const fetchPopup = async () => {
-    const fetchWebsiteRequest = await fetch(`/api/popup/getpopup`, {
+    const fetchWebsiteRequest = await fetch(`/api/public/popup`, {
       method: "GET",
     });
     if (fetchWebsiteRequest.ok) {

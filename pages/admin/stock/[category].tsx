@@ -37,7 +37,7 @@ import {
   FiDownload,
   FiPlusCircle,
 } from "react-icons/fi";
-import { getProducts } from "../../api/products/public/getproducts";
+import { getProducts } from "../../api/public/products/getproducts";
 
 export default function Products(props) {
   const { t, lang } = useTranslation("common");
@@ -187,7 +187,7 @@ export default function Products(props) {
 
   const getAllProductsByCategories = async () => {
     const answer = await fetch(
-      `/api/products/public/getproducts?page=1&count=19999&sort=${currentSort}:${
+      `/api/public/products/getproducts?page=1&count=19999&sort=${currentSort}:${
         !currentSortDirection ? "desc" : "asc"
       }`,
     );

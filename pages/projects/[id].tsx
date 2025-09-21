@@ -1,10 +1,10 @@
 import { getAllProjectIDs } from "../api/public/projects/getallprojectids";
-import { getProjectByID } from "../api/projects/public/getprojectbyid";
 import useTranslation from "next-translate/useTranslation";
 import ImageWithURL from "../../components/common/image";
 import Layout from "../../components/public/layout";
 import Head from "next/head";
 import Link from "next/link";
+import { getProjects } from "../api/public/projects";
 
 type Props = {
   project;
@@ -65,7 +65,7 @@ type Params = {
 };
 
 export const getStaticProps = async ({ params }: Params) => {
-  const project = await getProjectByID(Number.parseInt(params.id));
+  const project = await getProjects({ id: Number.parseInt(params.id) });
 
   return {
     props: { project },

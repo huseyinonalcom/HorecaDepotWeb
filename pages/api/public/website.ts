@@ -1,4 +1,4 @@
-import statusText from "../../../../api/statustexts";
+import statusText from "../../../api/statustexts";
 
 export async function getHomePage() {
   const response = await fetch(`${process.env.API_URL}/api/home-page`, {

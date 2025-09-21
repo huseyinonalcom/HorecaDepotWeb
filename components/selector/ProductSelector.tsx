@@ -18,7 +18,7 @@ const fetchProducts = async ({
   category: number | null;
 }) => {
   const request = await fetch(
-    `/api/products/public/getproducts?page=${page}${search !== "" ? "&search=" + search : ""}${category ? "&category=" + category : ""}`,
+    `/api/public/products/getproducts?page=${page}${search !== "" ? "&search=" + search : ""}${category ? "&category=" + category : ""}`,
   );
   const data = await request.json();
   return data;

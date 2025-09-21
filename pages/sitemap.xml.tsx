@@ -1,5 +1,5 @@
 import { getAllCategories } from "./api/public/categories/getallcategories";
-import { getProducts } from "./api/products/public/getproducts";
+import { getProducts } from "./api/public/products/getproducts";
 import { sanitizeXml } from "../api/utils/sanitizexml";
 
 const URL = "horecadepot.be";

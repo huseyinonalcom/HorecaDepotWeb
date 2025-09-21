@@ -23,7 +23,7 @@ export default function Keywords() {
 
   const fetchProducts = async () => {
     const request = await fetch(
-      `/api/products/public/getproducts?count=19000`,
+      `/api/public/products/getproducts?count=19000`,
       {
         method: "GET",
       },

@@ -1,9 +1,9 @@
 import { apiUrl } from "../../../../api/api/constants";
 import apiRoute from "../../../../api/api/apiRoute";
 
-const fetchUrl = `${apiUrl}/api/projects`;
+const endpointUrl = `${apiUrl}/api/projects`;
 
-export async function getProjects() {
+export async function getProjects({ id }: { id?: number } = {}) {
   try {
     const qs = require("qs");
     const query = qs.stringify({
@@ -22,9 +22,11 @@ export async function getProjects() {
       },
     });
 
-    const fetchImagesUrl = `${fetchUrl}?${query}`;
+    const requestUrl = id
+      ? `${endpointUrl}/${id}?${query}`
+      : `${endpointUrl}?${query}`;
 
-    const fetchImagesRequest = await fetch(fetchImagesUrl, {
+    const request = await fetch(requestUrl, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -33,9 +35,9 @@ export async function getProjects() {
       },
     });
 
-    if (fetchImagesRequest.ok) {
-      const fetchImagesAnswer = await fetchImagesRequest.json();
-      return fetchImagesAnswer.data;
+    if (request.ok) {
+      const response = await request.json();
+      return response.data;
     } else {
       throw new Error("Failed to fetch projects data");
     }
@@ -49,7 +51,7 @@ export default apiRoute({
   endpoints: {
     GET: {
       func: async (req, res) => {
-        return { result: await getProjects() };
+        return { result: await getProjects({ id: Number(req.query.id) }) };
       },
     },
   },

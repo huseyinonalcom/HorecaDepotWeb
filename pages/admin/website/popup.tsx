@@ -3,7 +3,7 @@ import { InputImage } from "../../../components/form/InputImage";
 import StyledForm from "../../../components/form/StyledForm";
 import useTranslation from "next-translate/useTranslation";
 import InputField from "../../../components/form/InputField";
-import { getPopup } from "../../api/popup/getpopup";
+import { getPopup } from "../../api/public/popups";
 import { FiCheck, FiX } from "react-icons/fi";
 import {
   Description,
@@ -20,7 +20,7 @@ export default function PopupAdmin(props) {
   const [popup, setPopup] = useState(props.popup);
 
   const putPopup = async (updatedPopup) => {
-    const putWebsiteRequest = await fetch("/api/popup/putpopup", {
+    const putWebsiteRequest = await fetch("/api/private/popup", {
       method: "PUT",
       body: JSON.stringify({
         url: updatedPopup.url,

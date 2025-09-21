@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getAllSubcategoriesOfCategory } from "../../public/categories/getallsubcategoriesofcategory";
-import { getCategoryFromString } from "../../public/categories/getcategoryfromstring";
+import { getAllSubcategoriesOfCategory } from "../categories/getallsubcategoriesofcategory";
+import { getCategoryFromString } from "../categories/getcategoryfromstring";
 import { Product } from "../../../../api/interfaces/product";
 import statusText from "../../../../api/statustexts";
 import {
@@ -10,7 +10,7 @@ import {
   applyStatusFilters,
   buildApiUrl,
   setQueryParams,
-} from "./queryBuilder";
+} from "../../products/public/queryBuilder";
 
 function getQueryValue(value: unknown): string | null {
   if (value == null) {

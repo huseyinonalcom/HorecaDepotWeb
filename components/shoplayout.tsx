@@ -66,7 +66,7 @@ export default function ShopLayout({ children }: Props) {
     });
 
     fetch(
-      `/api/products/public/getproducts?${queryParams.toString()}&getlimits=true`,
+      `/api/public/products/getproducts?${queryParams.toString()}&getlimits=true`,
     )
       .then((res) => res.json())
       .then((res) => {
