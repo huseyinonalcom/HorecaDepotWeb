@@ -224,7 +224,7 @@ export default function Stock(props: StockPageProps) {
       <div className="flex w-full flex-col items-center gap-2 p-2">
         <div className="flex w-full flex-col gap-3 rounded-md border-2 border-gray-300 bg-white p-4 shadow-sm">
           <div className="flex flex-wrap items-center gap-3">
-            <div className="group relative h-full">
+            <div className="group relative">
               <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-3 pr-2 pl-3 font-bold text-black">
                 {activeCategoryId && activeCategoryId !== "all"
                   ? (allCategories.find((cat) => cat.id == activeCategoryId)
@@ -246,7 +246,7 @@ export default function Stock(props: StockPageProps) {
                 ))}
               </div>
             </div>
-            <div className="group relative h-full">
+            <div className="group relative">
               <div className="mr-1 flex h-full flex-row items-center bg-gray-100 py-3 pr-2 pl-3 font-bold text-black">
                 {currentSupplier
                   ? allSuppliers.find((sup) => sup.id == currentSupplier)?.name
@@ -332,7 +332,7 @@ export default function Stock(props: StockPageProps) {
               Stock List
             </Link>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-row items-center gap-3">
             <span className="font-semibold text-gray-700">{t("Sort by")}:</span>
             {sortOptions.map((option) => (
               <div key={option.key} className="flex items-center gap-1">
