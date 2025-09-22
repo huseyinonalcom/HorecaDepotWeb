@@ -78,7 +78,7 @@ export default function ProductPage({
 
     const viewsKey = `views_${product.id}`;
 
-    // Check if this product was already viewws this session
+    // Check if this product was already viewed this session
     if (sessionStorage.getItem(viewsKey)) {
       return;
     }
