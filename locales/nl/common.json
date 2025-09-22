@@ -483,5 +483,13 @@
   "dashboard": "Dashboard",
   "most-viewed-week": "Meest bekeken deze week",
   "total-views-per-day": "Totaal aantal keer bekeken per dag",
-  "top-products-week": "Populair deze week"
+  "top-products-week": "Populair deze week",
+  "Cancel": "Annuleren",
+  "Close": "Sluiten",
+  "Crop image": "Afbeelding bijsnijden",
+  "Processing…": "Bezig…",
+  "Use crop": "Bijsnede gebruiken",
+  "Use original": "Origineel gebruiken",
+  "Zoom": "Zoom",
+  "Sort By": "Sorteren op"
 }

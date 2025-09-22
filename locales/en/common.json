@@ -483,5 +483,12 @@
   "dashboard": "Dashboard",
   "most-viewed-week": "Most Viewed This Week",
   "total-views-per-day": "Total Views Per Day",
-  "top-products-week": "Popular This Week"
+  "top-products-week": "Popular This Week",
+  "Cancel": "Cancel",
+  "Close": "Close",
+  "Crop image": "Crop image",
+  "Processing…": "Processing…",
+  "Use crop": "Use crop",
+  "Use original": "Use original",
+  "Zoom": "Zoom"
 }

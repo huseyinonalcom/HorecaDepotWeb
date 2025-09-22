@@ -483,5 +483,13 @@
   "dashboard": "Dashboard",
   "most-viewed-week": "Meist gesehen diese Woche",
   "total-views-per-day": "Gesamtanzahl der Aufrufe pro Tag",
-  "top-products-week": "Beliebteste diese Woche"
+  "top-products-week": "Beliebteste diese Woche",
+  "Cancel": "Abbrechen",
+  "Close": "Schließen",
+  "Crop image": "Bild zuschneiden",
+  "Processing…": "Verarbeitung…",
+  "Use crop": "Zugeschnittene Version verwenden",
+  "Use original": "Original verwenden",
+  "Zoom": "Zoom",
+  "Sort By": "Sort On"
 }

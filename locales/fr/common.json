@@ -483,5 +483,13 @@
   "dashboard": "Tableau de bord",
   "most-viewed-week": "Les plus vus cette semaine",
   "total-views-per-day": "Total des vues par jour",
-  "top-products-week": "Les plus vus de la semaine"
+  "top-products-week": "Les plus vus de la semaine",
+  "Cancel": "Annuler",
+  "Close": "Fermer",
+  "Crop image": "Rogner l'image",
+  "Processing…": "Traitement…",
+  "Use crop": "Utiliser le recadrage",
+  "Use original": "Utiliser l'original",
+  "Zoom": "Zoom",
+  "Sort By": "Trier par"
 }

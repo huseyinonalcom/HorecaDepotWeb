@@ -1,5 +1,6 @@
 "use client";
 
+import useTranslation from "next-translate/useTranslation";
 import { useCallback, useEffect, useState } from "react";
 import Cropper from "react-easy-crop";
 
@@ -27,6 +28,7 @@ export default function CropModal({
   mime?: "image/jpeg" | "image/png" | string;
   quality?: number;
 }) {
+  const { t } = useTranslation("common");
   const [src, setSrc] = useState<string | null>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -110,12 +112,12 @@ export default function CropModal({
       />
       <div className="absolute inset-0 m-auto flex max-h-[90vh] w-full max-w-3xl flex-col rounded-2xl bg-white shadow-xl">
         <div className="flex items-center justify-between border-b p-4">
-          <h2 className="text-lg font-semibold">Crop image</h2>
+          <h2 className="text-lg font-semibold">{t("Crop image")}</h2>
           <button
             className="rounded px-2 py-1 text-sm hover:bg-gray-100"
             onClick={onClose}
           >
-            Close
+            {t("Close")}
           </button>
         </div>
 
@@ -140,7 +142,7 @@ export default function CropModal({
 
         <div className="flex items-center justify-between gap-4 border-t p-4">
           <label className="flex items-center gap-2">
-            <span className="text-sm">Zoom</span>
+            <span className="text-sm">{t("Zoom")}</span>
             <input
               type="range"
               min={MIN_ZOOM}
@@ -160,21 +162,21 @@ export default function CropModal({
 
           <div className="flex items-center gap-2">
             <button className="rounded-lg border px-4 py-2" onClick={onClose}>
-              Cancel
+              {t("Cancel")}
             </button>
             <button
               className="rounded-lg border px-4 py-2"
               disabled={!file || !imageSize || busy}
               onClick={handleUseOriginal}
             >
-              Use original
+              {t("Use original")}
             </button>
             <button
               className="rounded-lg border px-4 py-2 disabled:opacity-60"
               disabled={!src || !croppedPixels || busy}
               onClick={handleConfirm}
             >
-              {busy ? "Processing…" : "Use crop"}
+              {busy ? t("Processing…") : t("Use crop")}
             </button>
           </div>
         </div>
