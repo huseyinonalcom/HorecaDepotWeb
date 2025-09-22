@@ -4,7 +4,7 @@ import { formatCurrency } from "../../api/utils/formatters/formatcurrency";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import useTranslation from "next-translate/useTranslation";
 import Lightbox from "yet-another-react-lightbox-lite";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import dynamic from "next/dynamic";
 import componentThemes from "../componentThemes";
 import BarcodeToPng from "../common/barcodepng";
 import { LuClipboard } from "react-icons/lu";
@@ -12,6 +12,11 @@ import ImageWithURL from "../common/image";
 import PDFBarcode from "../pdf/barcodepdf";
 import { StockCart } from "./Cart";
 import { useState } from "react";
+
+const PDFDownloadLink = dynamic(
+  () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
+  { ssr: false },
+) as unknown as typeof import("@react-pdf/renderer").PDFDownloadLink;
 
 export default function ProductCard({ product }: { product: any }) {
   const { t, lang } = useTranslation("common");
@@ -183,3 +188,4 @@ export default function ProductCard({ product }: { product: any }) {
     </div>
   );
 }
+
