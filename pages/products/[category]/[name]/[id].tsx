@@ -418,8 +418,6 @@ export const getStaticProps = async ({ params, locale }: Params) => {
     })
   ).data;
 
-  console.log(result);
-
   const relatedProducts: Product[] = result
     .filter((prd) => prd.id != product.id)
     .sort((a, b) => {

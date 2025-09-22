@@ -97,8 +97,6 @@ export const getProducts = async ({
 
     const response = await request.json();
 
-    console.log("Products", response);
-
     return response;
   } catch (error) {
     console.error(error);
@@ -505,8 +503,6 @@ const updateStock = async (
   let result = "Not Updated";
 
   const prod = await getProducts({ authToken, id: prodID });
-
-  console.log(prod);
 
   let shelves = prod.shelves;
 
