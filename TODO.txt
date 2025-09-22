@@ -1,5 +1,3 @@
-Copy filter and sort options from admin section stock search to stock section stock search
-
 Automatically updated stock field on products
     Sorting on stock amount in stock lists
 
