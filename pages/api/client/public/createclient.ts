@@ -19,13 +19,23 @@ export default async function postClient(
   }
 
   if (req.method === "POST") {
-    const userData = JSON.parse(req.body as string)["clientToSend"];
-    userData.role = 14;
-
-    let [clientData, addressData] = splitObject(userData);
-    clientData = clientData.client_info;
+    let userData: any;
+    try {
+      userData = JSON.parse(req.body as string)["clientToSend"];
+    } catch (parseError) {
+      console.error("postClient: failed to parse request body", parseError);
+      return res.status(400).json(statusText[400]);
+    }
 
     if (userData) {
+      userData.role = 14;
+
+      console.log(userData);
+
+      let [clientData, addressData] = splitObject(userData);
+      clientData.client_info.email = userData.email;
+      clientData = clientData.client_info;
+
       try {
         const fetchUrlClient = `${process.env.API_URL}/api/clients?fields=id`;
         const requestClient = await fetch(fetchUrlClient, {
@@ -473,20 +483,41 @@ export default async function postClient(
               };
 
               sendMail(mailOptionsClient);
-            } catch (e) {}
+            } catch (e) {
+              console.error("postClient: failed to send welcome email", e);
+            }
             return res.status(200).json(statusText[200]);
           } else if (answerUser.error.message == "Email already taken") {
+            console.error("postClient: email already taken", {
+              email: userData.email,
+              response: answerUser,
+            });
             return res.status(409).json(statusText[400]);
           } else {
+            console.error("postClient: user creation failed", {
+              status: requestUser.status,
+              statusText: requestUser.statusText,
+              response: answerUser,
+            });
             return res.status(500).json(statusText[500]);
           }
         } else {
+          console.error("postClient: client creation failed", {
+            status: requestClient.status,
+            statusText: requestClient.statusText,
+            response: answer,
+          });
           return res.status(500).json(statusText[500]);
         }
-      } catch {
+      } catch (error) {
+        console.error(
+          "postClient: unexpected error during client creation",
+          error,
+        );
         return res.status(500).json(statusText[500]);
       }
     } else {
+      console.error("postClient: missing clientToSend data in request body");
       return res.status(400).json(statusText[400]);
     }
   } else {
