@@ -57,7 +57,7 @@ export async function getShippingCostFromAddress({
     console.error(e);
   }
 
-  if ((address.doorNumber = "999aaa999")) {
+  if (address.doorNumber == "999aaa999") {
     return 0;
   }
 
