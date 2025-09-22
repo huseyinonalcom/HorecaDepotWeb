@@ -4,7 +4,16 @@ import apiRoute from "../../../api/api/apiRoute";
 import { getCollections } from "./collections";
 import Fuse from "fuse.js";
 
-const cache = {
+type SearchCache = {
+  data: {
+    products: unknown[];
+    categories: unknown[];
+    collections: unknown[];
+  } | null;
+  lastFetch: number;
+};
+
+const cache: SearchCache = {
   data: null,
   lastFetch: 0,
 };
@@ -77,6 +86,27 @@ const productsUpdateCategories = (products, categories) => {
   });
 };
 
+type FilterRule = { on: string; value: number | string | boolean };
+
+const toBoolean = (value: unknown): boolean => {
+  if (typeof value === "boolean") {
+    return value;
+  }
+  if (typeof value === "number") {
+    return value !== 0;
+  }
+  if (typeof value === "string") {
+    const normalized = value.trim().toLowerCase();
+    if (["true", "1", "yes", "on"].includes(normalized)) {
+      return true;
+    }
+    if (["false", "0", "no", "off"].includes(normalized)) {
+      return false;
+    }
+  }
+  return Boolean(value);
+};
+
 export async function fuzzySearch({
   search,
   count,
@@ -87,7 +117,7 @@ export async function fuzzySearch({
   search: string;
   noCache?: boolean;
   count?: number;
-  filter?: { on: string; value: number }[];
+  filter?: FilterRule[];
   sort?: string;
 }) {
   const now = Date.now();
@@ -98,7 +128,17 @@ export async function fuzzySearch({
     collections: [],
   };
 
-  if (cache.data && now - cache.lastFetch < SEARCH_CACHE_TTL && !noCache) {
+  const shouldForceNoCache =
+    Array.isArray(filter) &&
+    filter.some(
+      (filterRule) =>
+        filterRule.on === "active" && toBoolean(filterRule.value) === false,
+    );
+  const skipCache = Boolean(noCache || shouldForceNoCache);
+  const cacheIsValid =
+    cache.data && now - cache.lastFetch < SEARCH_CACHE_TTL && !skipCache;
+
+  if (cacheIsValid) {
     data = cache.data;
   } else {
     try {
@@ -111,7 +151,8 @@ export async function fuzzySearch({
             filterQuery = { category: filterRule.value, ...filterQuery };
           }
           if (filterRule.on == "active") {
-            filterQuery = { showinactive: !filterRule.value, ...filterQuery };
+            const isActive = toBoolean(filterRule.value);
+            filterQuery = { showinactive: !isActive, ...filterQuery };
           }
         }
       }
@@ -123,8 +164,10 @@ export async function fuzzySearch({
       ).sortedData;
       data.products = productsUpdateCategories(prods, data.categories);
       data.collections = await getCollections({});
-      cache.lastFetch = now;
-      cache.data = data;
+      if (!skipCache) {
+        cache.lastFetch = now;
+        cache.data = data;
+      }
     } catch (error) {
       console.error("Error while fetching data:", error);
     }
