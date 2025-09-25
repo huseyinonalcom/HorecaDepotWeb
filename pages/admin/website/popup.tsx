@@ -13,6 +13,7 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Head from "next/head";
+import { syncAllProductsCurrentStock } from "../../api/private/products/products";
 
 export default function PopupAdmin(props) {
   const router = useRouter();
@@ -138,8 +139,11 @@ PopupAdmin.getLayout = function getLayout(children) {
   return <AdminPanelLayout title={t("popup")}>{children}</AdminPanelLayout>;
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req }) {
   const popup = (await getPopup()).data;
+
+  // syncAllProductsCurrentStock({ authToken: req.cookies.j }).then((res) => console.log(res));
+
   return {
     props: {
       popup,

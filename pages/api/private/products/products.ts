@@ -22,6 +22,29 @@ const calculateCurrentStock = (shelves: Product["shelves"]) => {
   }, 0);
 };
 
+const hasBearerPrefix = (token: string) => /^Bearer\s+/i.test(token);
+
+const stripBearerPrefix = (token: string) =>
+  hasBearerPrefix(token) ? token.replace(/^Bearer\s+/i, "") : token;
+
+const buildAuthHeader = (token: string) =>
+  hasBearerPrefix(token) ? token : `Bearer ${token}`;
+
+const normalizeAuthToken = (token?: string) => {
+  const providedToken = token ?? process.env.API_KEY;
+
+  if (!providedToken) {
+    throw new Error("Missing authorization token");
+  }
+
+  const raw = stripBearerPrefix(providedToken);
+
+  return {
+    raw,
+    header: buildAuthHeader(raw),
+  };
+};
+
 export const getProducts = async ({
   authToken,
   category,
@@ -736,6 +759,149 @@ export async function postProduct({
   }
 
   return { result: { id: postedID } };
+}
+
+type SyncProductsResult = {
+  processed: number;
+  updated: number;
+  failures: Array<{
+    id: number;
+    reason: string;
+  }>;
+};
+
+export async function syncAllProductsCurrentStock({
+  authToken,
+  pageSize = 1000,
+}: {
+  authToken?: string;
+  pageSize?: number;
+}): Promise<SyncProductsResult> {
+  const { header } = normalizeAuthToken(authToken);
+  console.log("syncAllProductsCurrentStock:start", {
+    pageSize,
+  });
+
+  let page = 1;
+  let processed = 0;
+  let updated = 0;
+  const failures: SyncProductsResult["failures"] = [];
+  const seenProductIds = new Set<number>();
+
+  while (true) {
+    const pagedParams =
+      `${fetchParams}&pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
+
+    console.log("syncAllProductsCurrentStock:fetchPage", { page });
+
+    const response = await fetch(`${fetchUrl}?${pagedParams}`, {
+      headers: {
+        Authorization: header,
+      },
+    });
+
+    if (!response.ok) {
+      const details = await response.text();
+      console.error("syncAllProductsCurrentStock:fetchError", {
+        page,
+        details,
+      });
+      throw new Error(`Failed to fetch products: ${details}`);
+    }
+
+    const payload = await response.json();
+    const products: Product[] = Array.isArray(payload?.data)
+      ? payload.data
+      : [];
+
+    if (products.length === 0) {
+      console.log("syncAllProductsCurrentStock:noMoreProducts", { page });
+      break;
+    }
+
+    for (const product of products) {
+      const productId = toSafeNumber(product?.id);
+
+      if (!productId || seenProductIds.has(productId)) {
+        continue;
+      }
+
+      seenProductIds.add(productId);
+      processed += 1;
+
+      const shelvesTotal = calculateCurrentStock(product?.shelves) ?? 0;
+      const currentValue = toSafeNumber(product?.currentstock);
+
+      if (currentValue === shelvesTotal) {
+        continue;
+      }
+
+      console.log("syncAllProductsCurrentStock:updateProduct", {
+        productId,
+        currentValue,
+        shelvesTotal,
+      });
+
+      const updateResponse = await fetch(
+        `${process.env.API_URL}/api/products/${productId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: header,
+          },
+          body: JSON.stringify({
+            data: {
+              currentstock: shelvesTotal,
+            },
+          }),
+        },
+      );
+
+      if (updateResponse.ok) {
+        console.log("syncAllProductsCurrentStock:updateSuccess", {
+          productId,
+        });
+        updated += 1;
+      } else {
+        let reason = "Failed to update product current stock";
+
+        try {
+          reason = await updateResponse.text();
+        } catch (error) {
+          console.error(error);
+        }
+
+        console.error("syncAllProductsCurrentStock:updateFailure", {
+          productId,
+          reason,
+        });
+        failures.push({ id: productId, reason });
+      }
+    }
+
+    const pagination = payload?.meta?.pagination;
+
+    if (!pagination || page >= toSafeNumber(pagination?.pageCount)) {
+      break;
+    }
+
+    console.log("syncAllProductsCurrentStock:nextPage", {
+      currentPage: page,
+      pageCount: pagination?.pageCount,
+    });
+    page += 1;
+  }
+
+  const summary = {
+    processed,
+    updated,
+    failures,
+  };
+
+  console.log("syncAllProductsCurrentStock:complete", summary);
+
+  return summary;
 }
 
 export default apiRoute({
