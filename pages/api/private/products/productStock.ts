@@ -102,6 +102,7 @@ export async function updateProductStock({
         authToken,
         shelf: {
           stock: stock.stock.store,
+          product: product.id,
         },
       }).catch((error) => {
         errors.push(error);
@@ -112,6 +113,7 @@ export async function updateProductStock({
         authToken,
         shelf: {
           stock: stock.stock.warehouse,
+          product: product.id,
         },
       }).catch((error) => {
         errors.push(error);

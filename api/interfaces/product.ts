@@ -15,6 +15,7 @@ export interface Product {
   depth?: number;
   width?: number;
   stock?: number;
+  currentstock?: number;
   minStock?: number;
   minOrder?: number;
   height?: number;

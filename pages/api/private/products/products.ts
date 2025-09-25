@@ -7,6 +7,21 @@ const fetchUrl = `${apiUrl}/api/products`;
 const fetchParams =
   "fields[0]=name&fields[1]=supplierCode&fields[2]=internalCode&fields[3]=value&fields[4]=depth&fields[5]=width&fields[6]=height&fields[7]=material&fields[8]=color&fields[9]=priceBeforeDiscount&fields[10]=active&fields[11]=imageDirections&fields[12]=localized_name&fields[13]=tax&fields[14]=reserved&fields[15]=views&fields[16]=currentstock&populate[product_extra][fields][0]=weight&populate[product_extra][fields][1]=per_box&populate[product_extra][fields][2]=packaged_weight&populate[product_extra][fields][3]=packaged_dimensions&populate[product_extra][fields][4]=seat_height&populate[product_extra][fields][5]=diameter&populate[product_extra][fields][6]=surface_area&populate[product_extra][fields][7]=packaged_weight_net&populate[product_extra][fields][8]=barcode&populate[product_extra][fields][9]=armrest_height&populate[categories][fields][0]=localized_name&populate[categories][fields][1]=code&populate[shelves][fields][0]=stock&populate[shelves][populate][establishment][fields][0]=id&populate[images][fields][0]=url&populate[product_color][fields][0]=name";
 
+const toSafeNumber = (value: unknown) => {
+  const parsed = Number(value ?? 0);
+  return Number.isNaN(parsed) ? 0 : parsed;
+};
+
+const calculateCurrentStock = (shelves: Product["shelves"]) => {
+  if (!Array.isArray(shelves)) {
+    return undefined;
+  }
+
+  return shelves.reduce((total, shelf) => {
+    return total + toSafeNumber(shelf?.stock);
+  }, 0);
+};
+
 export const getProducts = async ({
   authToken,
   category,
@@ -335,6 +350,13 @@ const updateProductMain = async (
     };
   }
 
+  if (prodToPost.currentstock != null && prodToPost.currentstock != undefined) {
+    body.data = {
+      ...body.data,
+      currentstock: toSafeNumber(prodToPost.currentstock),
+    };
+  }
+
   const response = await fetch(
     `${process.env.API_URL}/api/products/${prodID}`,
     {
@@ -540,6 +562,14 @@ export async function updateProduct({
   const prodID = Number(id);
 
   const prodToPost = body as Product;
+
+  const shelvesCurrentStock = calculateCurrentStock(prodToPost.shelves);
+
+  if (shelvesCurrentStock !== undefined) {
+    prodToPost.currentstock = shelvesCurrentStock;
+  } else if (prodToPost.stock == 0 || prodToPost.stock) {
+    prodToPost.currentstock = toSafeNumber(prodToPost.stock);
+  }
 
   let prodExtraID = Number(extraid);
 
