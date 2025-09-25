@@ -101,8 +101,7 @@ export default function ProductCard({ product }: { product: any }) {
           <b>{t("product-pdf")}:</b> Voir le PDF
         </p> */}
         <p>
-          <b>{t("Stock")}:</b>{" "}
-          {product.shelves.reduce((acc, shelf) => acc + shelf.stock, 0)}
+          <b>{t("Stock")}:</b> {product.currentstock}
         </p>
         <p>
           <b>{t("reserved")}:</b> {product.reserved ?? 0}
@@ -188,4 +187,3 @@ export default function ProductCard({ product }: { product: any }) {
     </div>
   );
 }
-

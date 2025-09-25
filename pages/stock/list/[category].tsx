@@ -212,6 +212,7 @@ export default function Stock(props: StockPageProps) {
     { key: "internalCode", label: t("code") },
     { key: "supplierCode", label: t("EAN") },
     { key: "value", label: t("Price") },
+    { key: "currentstock", label: t("Stock") },
     { key: "views", label: t("views") },
   ];
 

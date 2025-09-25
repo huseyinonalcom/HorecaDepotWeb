@@ -535,7 +535,16 @@ export default function Products(props) {
                       {currentSort == "value" && <OrderArrow />}
                     </div>
                   </TableHeader>
-                  <TableHeader>{t("Stock")}</TableHeader>
+                  <TableHeader>
+                    <div className="flex flex-row items-center gap-2">
+                      <Link
+                        href={createLink({ sort: "currentstock", page: 1 })}
+                      >
+                        {t("Stock")}
+                      </Link>
+                      {currentSort == "currentstock" && <OrderArrow />}
+                    </div>
+                  </TableHeader>
                   <TableHeader>
                     <div className="flex flex-row items-center gap-2">
                       <Link href={createLink({ sort: "views", page: 1 })}>
@@ -549,10 +558,6 @@ export default function Products(props) {
               </TableHead>
               <TableBody>
                 {allProducts?.map((product) => {
-                  const stock = product.shelves.reduce(
-                    (acc, shelf) => acc + shelf.stock,
-                    0,
-                  );
                   return (
                     <TableRow
                       href={`/admin/products/${product.id}?return=${encodeURIComponent(
@@ -581,7 +586,7 @@ export default function Products(props) {
                       <TableCell>{product.internalCode}</TableCell>
                       <TableCell>{product.supplierCode}</TableCell>
                       <TableCell>{formatCurrency(product.value)}</TableCell>
-                      <TableCell>{stock}</TableCell>
+                      <TableCell>{product.currentstock ?? 0}</TableCell>
                       <TableCell>{product.views}</TableCell>
                       <TableCell>
                         <LuDot

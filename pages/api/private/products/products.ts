@@ -829,10 +829,100 @@ export async function syncAllProductsCurrentStock({
       seenProductIds.add(productId);
       processed += 1;
 
-      const shelvesTotal = calculateCurrentStock(product?.shelves) ?? 0;
-      const currentValue = toSafeNumber(product?.currentstock);
+      const shelvesArray = Array.isArray(product?.shelves)
+        ? product.shelves
+        : [];
 
-      if (currentValue === shelvesTotal) {
+      const sanitizedShelves = shelvesArray.map((shelf: any) => {
+        const sanitizedStock = toSafeNumber(shelf?.stock);
+        const shelfIdRaw = shelf?.id;
+        const numericShelfId =
+          typeof shelfIdRaw === "number" ? shelfIdRaw : Number(shelfIdRaw);
+        const shelfId = Number.isFinite(numericShelfId)
+          ? numericShelfId
+          : undefined;
+
+        return {
+          id: shelfId,
+          sanitizedStock,
+          needsUpdate: shelf?.stock == null,
+        };
+      });
+
+      const shelvesTotal = sanitizedShelves.reduce((total, shelf) => {
+        return total + toSafeNumber(shelf?.sanitizedStock);
+      }, 0);
+
+      const shelvesNeedingUpdate = sanitizedShelves.filter(
+        (shelf) => shelf.needsUpdate && shelf.id,
+      );
+
+      if (shelvesNeedingUpdate.length > 0) {
+        console.log("syncAllProductsCurrentStock:updateShelves", {
+          productId,
+          shelves: shelvesNeedingUpdate.map((shelf) => shelf.id),
+        });
+
+        let shelfUpdateFailed = false;
+
+        for (const shelf of shelvesNeedingUpdate) {
+          try {
+            const shelfResponse = await fetch(
+              `${process.env.API_URL}/api/shelves/${shelf.id}`,
+              {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: header,
+                },
+                body: JSON.stringify({
+                  data: {
+                    stock: shelf.sanitizedStock,
+                  },
+                }),
+              },
+            );
+
+            if (!shelfResponse.ok) {
+              const reason = await shelfResponse
+                .text()
+                .catch(() => "Failed to update shelf");
+              console.error("syncAllProductsCurrentStock:updateShelfFailure", {
+                productId,
+                shelfId: shelf.id,
+                reason,
+              });
+              failures.push({
+                id: productId,
+                reason: `Shelf ${shelf.id}: ${reason}`,
+              });
+              shelfUpdateFailed = true;
+              break;
+            }
+          } catch (error) {
+            console.error("syncAllProductsCurrentStock:updateShelfError", {
+              productId,
+              shelfId: shelf.id,
+              error,
+            });
+            failures.push({
+              id: productId,
+              reason: `Shelf ${shelf.id}: ${String(error)}`,
+            });
+            shelfUpdateFailed = true;
+            break;
+          }
+        }
+
+        if (shelfUpdateFailed) {
+          continue;
+        }
+      }
+
+      const currentValue = toSafeNumber(product?.currentstock);
+      const isCurrentStockMissing = product?.currentstock == null;
+
+      if (!isCurrentStockMissing && currentValue === shelvesTotal) {
         continue;
       }
 
@@ -840,6 +930,7 @@ export async function syncAllProductsCurrentStock({
         productId,
         currentValue,
         shelvesTotal,
+        isCurrentStockMissing,
       });
 
       const updateResponse = await fetch(
