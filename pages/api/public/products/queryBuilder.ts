@@ -145,6 +145,7 @@ export function applyCommonProductFields(params: URLSearchParams) {
       "stock",
       "views",
       "supplierCode",
+      "currentstock",
       "depth",
       "width",
       "height",
