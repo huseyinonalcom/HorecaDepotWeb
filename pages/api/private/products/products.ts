@@ -5,7 +5,7 @@ import { Product } from "../../../../api/interfaces/product";
 const fetchUrl = `${apiUrl}/api/products`;
 
 const fetchParams =
-  "fields[0]=name&fields[1]=supplierCode&fields[2]=internalCode&fields[3]=value&fields[4]=depth&fields[5]=width&fields[6]=height&fields[7]=material&fields[8]=color&fields[9]=priceBeforeDiscount&fields[10]=active&fields[11]=imageDirections&fields[12]=localized_name&fields[13]=tax&fields[14]=reserved&fields[15]=views&fields[16]=currentstock&populate[product_extra][fields][0]=weight&populate[product_extra][fields][1]=per_box&populate[product_extra][fields][2]=packaged_weight&populate[product_extra][fields][3]=packaged_dimensions&populate[product_extra][fields][4]=seat_height&populate[product_extra][fields][5]=diameter&populate[product_extra][fields][6]=surface_area&populate[product_extra][fields][7]=packaged_weight_net&populate[product_extra][fields][8]=barcode&populate[product_extra][fields][9]=armrest_height&populate[categories][fields][0]=localized_name&populate[categories][fields][1]=code&populate[shelves][fields][0]=stock&populate[shelves][populate][establishment][fields][0]=id&populate[images][fields][0]=url&populate[product_color][fields][0]=name";
+  "fields[0]=name&fields[1]=supplierCode&fields[2]=internalCode&fields[3]=value&fields[4]=depth&fields[5]=width&fields[6]=height&fields[7]=material&fields[8]=color&fields[9]=priceBeforeDiscount&fields[10]=active&fields[11]=imageDirections&fields[12]=localized_name&fields[13]=tax&fields[14]=reserved&fields[15]=views&fields[16]=currentstock&populate[product_extra][fields][0]=weight&populate[product_extra][fields][1]=per_box&populate[product_extra][fields][2]=packaged_weight&populate[product_extra][fields][3]=packaged_dimensions&populate[product_extra][fields][4]=seat_height&populate[product_extra][fields][5]=diameter&populate[product_extra][fields][6]=surface_area&populate[product_extra][fields][7]=packaged_weight_net&populate[product_extra][fields][8]=barcode&populate[product_extra][fields][9]=armrest_height&populate[categories][fields][0]=localized_name&populate[categories][fields][1]=code&populate[shelves][fields][0]=stock&populate[shelves][populate][establishment][fields][0]=id&populate[images][fields][0]=url&populate[product_color][fields][0]=name&populate[supplier][fields][0]=name";
 
 const toSafeNumber = (value: unknown) => {
   const parsed = Number(value ?? 0);
@@ -635,8 +635,7 @@ export async function postProduct({
   let postedID = 0;
   const prodToPost = data;
 
-  const fetchUrl = `${process.env.API_URL}/api/products`;
-  const reqProd = await fetch(fetchUrl, {
+  const reqProd = await fetch(`${process.env.API_URL}/api/products`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -686,7 +685,7 @@ export async function postProduct({
 
   if (!reqProd.ok) {
     const answer = await reqProd.text();
-    throw new Error("failed to create product");
+    throw new Error(`failed to create product, ${answer}`);
   } else {
     const answer = await reqProd.json();
     prodToPost.id = answer.data.id;
@@ -719,7 +718,8 @@ export async function postProduct({
     });
 
     if (!response2.ok) {
-      throw new Error("failed to create product-extras");
+      const answer = await reqProd.text();
+      throw new Error(`failed to create product-extras, ${answer}`);
     } else {
       const fetchUrlShelves = `${process.env.API_URL}/api/shelves`;
       const reqShelf1 = await fetch(fetchUrlShelves, {
@@ -789,8 +789,7 @@ export async function syncAllProductsCurrentStock({
   const seenProductIds = new Set<number>();
 
   while (true) {
-    const pagedParams =
-      `${fetchParams}&pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
+    const pagedParams = `${fetchParams}&pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
 
     console.log("syncAllProductsCurrentStock:fetchPage", { page });
 

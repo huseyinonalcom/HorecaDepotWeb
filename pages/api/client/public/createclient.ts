@@ -30,8 +30,6 @@ export default async function postClient(
     if (userData) {
       userData.role = 14;
 
-      console.log(userData);
-
       let [clientData, addressData] = splitObject(userData);
       clientData.client_info.email = userData.email;
       clientData = clientData.client_info;

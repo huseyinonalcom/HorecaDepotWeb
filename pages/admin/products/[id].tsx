@@ -934,8 +934,10 @@ export default function ProductPage(props) {
                         supplierCode: "",
                         description: "",
                         name: "",
+                        supplier: pr.supplier,
                         product_extra: {
                           ...pr.product_extra,
+                          id: undefined,
                           barcode: "",
                         },
                       }));
@@ -972,6 +974,7 @@ export default function ProductPage(props) {
           </>
         }
         onSubmit={handleFormSubmit}
+        inProgress={inProgress}
       >
         <div className="hidden flex-row space-x-6 lg:flex">
           <div className="flex w-1/2 flex-col space-y-12 border-r border-zinc-950/10 pr-6">
