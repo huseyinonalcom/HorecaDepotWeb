@@ -13,19 +13,24 @@ export const getCustomers = async ({
   page,
   search,
   authToken,
+  populate,
 }: {
   id?: number;
   page?: number;
   search?: string;
   authToken: string;
+  populate?: string;
 }) => {
   let request;
   if (id) {
-    request = await fetch(fetchUrl + "/" + id + "?" + fetchParams, {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
+    request = await fetch(
+      fetchUrl + "/" + id + "?" + fetchParams + (populate ?? ""),
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
       },
-    });
+    );
   } else {
     const pageString =
       "&pagination[pageSize]=30&pagination[page]=" + (page ?? 1);
@@ -40,7 +45,10 @@ export const getCustomers = async ({
         "?filters[deleted][$eq]=false&sort=firstName&" +
         fetchParams +
         pageString +
-        searchString,
+        searchString +
+        populate
+        ? `${populate}`
+        : "",
       {
         headers: {
           "Content-Type": "application/json",

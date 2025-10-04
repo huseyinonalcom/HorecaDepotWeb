@@ -150,7 +150,7 @@ export default function Users(props) {
                             )
                           ) : (
                             <Link
-                              href={`/admin/client?id=${user.id}`}
+                              href={`/admin/client/${user.id}`}
                               className="text-indigo-600 hover:text-indigo-900"
                             >
                               {t("details")}
