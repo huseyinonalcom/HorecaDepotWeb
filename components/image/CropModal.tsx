@@ -1,10 +1,19 @@
 "use client";
 
 import useTranslation from "next-translate/useTranslation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Cropper from "react-easy-crop";
+import {
+  ArrowPathIcon,
+  ArrowUturnLeftIcon,
+  ArrowUturnRightIcon,
+  ArrowsRightLeftIcon,
+  ArrowsUpDownIcon,
+} from "@heroicons/react/24/outline";
 
 type Area = { x: number; y: number; width: number; height: number };
+type FlipState = { horizontal: boolean; vertical: boolean };
+type Point = { x: number; y: number };
 
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 3;
@@ -30,7 +39,7 @@ export default function CropModal({
 }) {
   const { t } = useTranslation("common");
   const [src, setSrc] = useState<string | null>(null);
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedPixels, setCroppedPixels] = useState<Area | null>(null);
   const [imageSize, setImageSize] = useState<{
@@ -38,6 +47,11 @@ export default function CropModal({
     height: number;
   } | null>(null);
   const [busy, setBusy] = useState(false);
+  const [rotation, setRotation] = useState(0);
+  const [flip, setFlip] = useState<FlipState>({
+    horizontal: false,
+    vertical: false,
+  });
 
   useEffect(() => {
     if (!file) return setSrc(null);
@@ -45,6 +59,13 @@ export default function CropModal({
     reader.onload = () => setSrc(reader.result as string);
     reader.readAsDataURL(file);
   }, [file]);
+
+  useEffect(() => {
+    setRotation(0);
+    setFlip({ horizontal: false, vertical: false });
+    setCrop({ x: 0, y: 0 });
+    setZoom(1);
+  }, [src]);
 
   useEffect(() => {
     if (!src) {
@@ -67,6 +88,35 @@ export default function CropModal({
     setCroppedPixels(px);
   }, []);
 
+  const rotateLeft = useCallback(() => {
+    setRotation((value) => (value - 90 + 360) % 360);
+  }, []);
+
+  const rotateRight = useCallback(() => {
+    setRotation((value) => (value + 90) % 360);
+  }, []);
+
+  const toggleHorizontalFlip = useCallback(() => {
+    setFlip((state) => ({
+      ...state,
+      horizontal: !state.horizontal,
+    }));
+  }, []);
+
+  const toggleVerticalFlip = useCallback(() => {
+    setFlip((state) => ({
+      ...state,
+      vertical: !state.vertical,
+    }));
+  }, []);
+
+  const resetAdjustments = useCallback(() => {
+    setRotation(0);
+    setFlip({ horizontal: false, vertical: false });
+    setCrop({ x: 0, y: 0 });
+    setZoom(1);
+  }, []);
+
   const handleConfirm = useCallback(async () => {
     if (!src || !croppedPixels) return;
     setBusy(true);
@@ -75,12 +125,14 @@ export default function CropModal({
         filename,
         mime,
         quality,
+        rotation,
+        flip,
       });
       onDone(out);
     } finally {
       setBusy(false);
     }
-  }, [src, croppedPixels, filename, mime, quality, onDone]);
+  }, [src, croppedPixels, filename, mime, quality, onDone, rotation, flip]);
 
   const handleUseOriginal = useCallback(async () => {
     if (!src || !imageSize) return;
@@ -93,15 +145,25 @@ export default function CropModal({
           filename,
           mime,
           quality,
+          rotation,
+          flip,
         },
       );
       onDone(out);
     } finally {
       setBusy(false);
     }
-  }, [src, imageSize, filename, mime, quality, onDone]);
+  }, [src, imageSize, filename, mime, quality, onDone, rotation, flip]);
+
+  const mediaTransform = useMemo(
+    () => getMediaTransform(crop, rotation, zoom, flip),
+    [crop, rotation, zoom, flip],
+  );
 
   if (!open) return null;
+
+  const isAdjusted =
+    rotation !== 0 || flip.horizontal || flip.vertical || zoom !== 1;
 
   return (
     <div className="fixed inset-0 z-[1000]">
@@ -129,10 +191,11 @@ export default function CropModal({
               zoom={zoom}
               aspect={aspect}
               onCropChange={setCrop}
-              onZoomChange={(value) =>
-                setZoom(Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, value)))
-              }
+              onZoomChange={setZoom}
               onCropComplete={onCropComplete}
+              rotation={rotation}
+              onRotationChange={setRotation}
+              transform={mediaTransform}
               restrictPosition={false}
               minZoom={MIN_ZOOM}
               maxZoom={MAX_ZOOM}
@@ -140,25 +203,67 @@ export default function CropModal({
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-4 border-t p-4">
-          <label className="flex items-center gap-2">
-            <span className="text-sm">{t("Zoom")}</span>
-            <input
-              type="range"
-              min={MIN_ZOOM}
-              max={MAX_ZOOM}
-              step={0.01}
-              value={zoom}
-              onChange={(e) =>
-                setZoom(
-                  Math.min(
-                    MAX_ZOOM,
-                    Math.max(MIN_ZOOM, parseFloat(e.target.value)),
-                  ),
-                )
-              }
-            />
-          </label>
+        <div className="flex flex-wrap items-center justify-between gap-4 border-t p-4">
+          <div className="flex flex-wrap items-center gap-3">
+            <label className="flex items-center gap-2">
+              <span className="text-sm">{t("Zoom")}</span>
+              <input
+                type="range"
+                min={MIN_ZOOM}
+                max={MAX_ZOOM}
+                step={0.01}
+                value={zoom}
+                onChange={(e) =>
+                  setZoom(
+                    Math.min(
+                      MAX_ZOOM,
+                      Math.max(MIN_ZOOM, parseFloat(e.target.value)),
+                    ),
+                  )
+                }
+              />
+            </label>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                className="flex items-center gap-2 rounded-lg border px-3 py-1.5 text-sm hover:bg-gray-100"
+                onClick={rotateLeft}
+              >
+                <ArrowUturnLeftIcon className="h-4 w-4" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                className="flex items-center gap-2 rounded-lg border px-3 py-1.5 text-sm hover:bg-gray-100"
+                onClick={rotateRight}
+              >
+                <ArrowUturnRightIcon className="h-4 w-4" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                className="flex items-center gap-2 rounded-lg border px-3 py-1.5 text-sm hover:bg-gray-100"
+                onClick={toggleHorizontalFlip}
+              >
+                <ArrowsRightLeftIcon className="h-4 w-4" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                className="flex items-center gap-2 rounded-lg border px-3 py-1.5 text-sm hover:bg-gray-100"
+                onClick={toggleVerticalFlip}
+              >
+                <ArrowsUpDownIcon className="h-4 w-4" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                className="flex items-center gap-2 rounded-lg border px-3 py-1.5 text-sm hover:bg-gray-100 disabled:opacity-60"
+                onClick={resetAdjustments}
+                disabled={!isAdjusted}
+              >
+                <ArrowPathIcon className="h-4 w-4" aria-hidden="true" />
+                {t("Reset")}
+              </button>
+            </div>
+          </div>
 
           <div className="flex items-center gap-2">
             <button className="rounded-lg border px-4 py-2" onClick={onClose}>
@@ -176,7 +281,7 @@ export default function CropModal({
               disabled={!src || !croppedPixels || busy}
               onClick={handleConfirm}
             >
-              {busy ? t("Processing…") : t("Use crop")}
+              {busy ? t("Processing") : t("Use crop")}
             </button>
           </div>
         </div>
@@ -192,64 +297,96 @@ async function cropToFile(
     filename,
     mime,
     quality,
-  }: { filename: string; mime: string; quality: number },
+    rotation = 0,
+    flip = { horizontal: false, vertical: false },
+  }: {
+    filename: string;
+    mime: string;
+    quality: number;
+    rotation?: number;
+    flip?: FlipState;
+  },
 ): Promise<File> {
   const img = await loadImage(src);
+  const rotRad = getRadianAngle(rotation);
+  const { width: bBoxWidth, height: bBoxHeight } = rotateSize(
+    img.width,
+    img.height,
+    rotation,
+  );
+
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("No 2D context");
 
-  const { x, y, width, height } = area;
+  canvas.width = Math.max(1, Math.round(bBoxWidth));
+  canvas.height = Math.max(1, Math.round(bBoxHeight));
 
-  canvas.width = Math.round(width);
-  canvas.height = Math.round(height);
+  ctx.translate(canvas.width / 2, canvas.height / 2);
+  ctx.rotate(rotRad);
+  ctx.scale(flip.horizontal ? -1 : 1, flip.vertical ? -1 : 1);
+  ctx.translate(-img.width / 2, -img.height / 2);
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(img, 0, 0);
+
+  const cropCanvas = document.createElement("canvas");
+  const cropCtx = cropCanvas.getContext("2d");
+  if (!cropCtx) throw new Error("No 2D context");
 
   const dpr = window.devicePixelRatio || 1;
-  canvas.width = Math.round(width * dpr);
-  canvas.height = Math.round(height * dpr);
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const outputWidth = Math.max(1, Math.round(area.width * dpr));
+  const outputHeight = Math.max(1, Math.round(area.height * dpr));
 
-  ctx.fillStyle = "#fff";
-  ctx.fillRect(0, 0, width, height);
+  cropCanvas.width = outputWidth;
+  cropCanvas.height = outputHeight;
 
-  const offsetX = Math.max(-x, 0);
-  const offsetY = Math.max(-y, 0);
-  const sourceX = Math.max(x, 0);
-  const sourceY = Math.max(y, 0);
+  cropCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  cropCtx.imageSmoothingQuality = "high";
+  cropCtx.fillStyle = "#fff";
+  cropCtx.fillRect(0, 0, area.width, area.height);
 
-  const availableWidth = width - offsetX;
-  const availableHeight = height - offsetY;
-
-  const sourceWidth = Math.max(
+  cropCtx.drawImage(
+    canvas,
+    area.x,
+    area.y,
+    area.width,
+    area.height,
     0,
-    Math.min(img.width - sourceX, availableWidth),
-  );
-  const sourceHeight = Math.max(
     0,
-    Math.min(img.height - sourceY, availableHeight),
+    area.width,
+    area.height,
   );
-
-  ctx.imageSmoothingQuality = "high";
-
-  if (sourceWidth > 0 && sourceHeight > 0) {
-    ctx.drawImage(
-      img,
-      sourceX,
-      sourceY,
-      sourceWidth,
-      sourceHeight,
-      offsetX,
-      offsetY,
-      sourceWidth,
-      sourceHeight,
-    );
-  }
 
   const blob = await new Promise<Blob>((resolve) =>
-    canvas.toBlob((b) => resolve(b as Blob), mime, quality),
+    cropCanvas.toBlob((b) => resolve(b as Blob), mime, quality),
   );
 
   return new File([blob], filename, { type: mime });
+}
+
+function getMediaTransform(
+  crop: Point,
+  rotation: number,
+  zoom: number,
+  flip: FlipState,
+): string {
+  const scaleX = (flip.horizontal ? -1 : 1) * zoom;
+  const scaleY = (flip.vertical ? -1 : 1) * zoom;
+  return `translate(${crop.x}px, ${crop.y}px) rotate(${rotation}deg) scale(${scaleX}, ${scaleY})`;
+}
+
+function getRadianAngle(degree: number): number {
+  return (degree * Math.PI) / 180;
+}
+
+function rotateSize(width: number, height: number, rotation: number) {
+  const rotRad = getRadianAngle(rotation);
+  return {
+    width:
+      Math.abs(Math.cos(rotRad)) * width + Math.abs(Math.sin(rotRad)) * height,
+    height:
+      Math.abs(Math.sin(rotRad)) * width + Math.abs(Math.cos(rotRad)) * height,
+  };
 }
 
 function loadImage(src: string): Promise<HTMLImageElement> {
