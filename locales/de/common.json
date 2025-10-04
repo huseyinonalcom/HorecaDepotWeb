@@ -491,5 +491,14 @@
   "Use crop": "Zugeschnittene Version verwenden",
   "Use original": "Original verwenden",
   "Zoom": "Zoom",
-  "Sort By": "Sort On"
+  "Sort By": "Sort On",
+  "yes": "Ja",
+  "not-available": "Nicht verfügbar",
+  "addresses": "Adressen",
+  "shipping-distance": "Lieferentfernung",
+  "documents": "Dokumente",
+  "number": "Nummer",
+  "no-customer-data": "Keine Kundendaten verfügbar.",
+  "type": "Typ",
+  "no": "Nein"
 }

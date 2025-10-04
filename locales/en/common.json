@@ -490,5 +490,14 @@
   "Processing…": "Processing…",
   "Use crop": "Use crop",
   "Use original": "Use original",
-  "Zoom": "Zoom"
+  "Zoom": "Zoom",
+  "yes": "Yes",
+  "not-available": "N/A",
+  "addresses": "Addresses",
+  "shipping-distance": "Shipping distance",
+  "documents": "Documents",
+  "number": "Number",
+  "no-customer-data": "No customer data available.",
+  "type": "Type",
+  "no": "No"
 }

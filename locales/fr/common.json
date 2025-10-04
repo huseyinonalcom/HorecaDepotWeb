@@ -491,5 +491,14 @@
   "Use crop": "Utiliser le recadrage",
   "Use original": "Utiliser l'original",
   "Zoom": "Zoom",
-  "Sort By": "Trier par"
+  "Sort By": "Trier par",
+  "yes": "Oui",
+  "not-available": "N/A",
+  "addresses": "Adresses",
+  "shipping-distance": "Distance de livraison",
+  "documents": "Documents",
+  "number": "Numéro",
+  "no-customer-data": "Aucune donnée client disponible.",
+  "type": "Type",
+  "no": "Non"
 }

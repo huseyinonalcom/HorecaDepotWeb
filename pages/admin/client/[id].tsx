@@ -7,6 +7,13 @@ import Head from "next/head";
 export default function Client(props) {
   const { t } = useTranslation("common");
 
+  const notAvailableLabel = t("not-available");
+  const yesLabel = t("yes");
+  const noLabel = t("no");
+  const addressesTitle = t("addresses");
+  const documentsTitle = t("documents");
+  const shippingDistanceLabel = t("shipping-distance");
+
   const [customer, setCustomer] = useState(props.customer);
 
   const hasValue = (value) => {
@@ -21,7 +28,7 @@ export default function Client(props) {
 
   const displayText = (value) => {
     if (!hasValue(value)) {
-      return "N/A";
+      return notAvailableLabel;
     }
     if (typeof value === "string") {
       return value.trim();
@@ -31,7 +38,7 @@ export default function Client(props) {
 
   const formatDateTime = (value) => {
     if (!hasValue(value)) {
-      return "N/A";
+      return notAvailableLabel;
     }
 
     const date = new Date(value);
@@ -45,17 +52,11 @@ export default function Client(props) {
   const generalDetails = customer
     ? [
         { label: t("phone"), value: displayText(customer.phone) },
-        { label: "Category", value: displayText(customer.category) },
+        { label: t("Category"), value: displayText(customer.category) },
         { label: t("company"), value: displayText(customer.company) },
         { label: t("taxID"), value: displayText(customer.taxID) },
-        {
-          label: t("email"),
-          value: displayText(customer.login.email),
-        },
-        {
-          label: t("phone"),
-          value: displayText(customer.phone),
-        },
+        { label: t("email"), value: displayText(customer?.login?.email) },
+        { label: t("phone"), value: displayText(customer.phone) },
       ]
     : [];
 
@@ -114,7 +115,7 @@ export default function Client(props) {
             {addresses.length > 0 && (
               <section className="rounded-lg bg-white p-6 shadow-sm ring-1 ring-black/5">
                 <h3 className="text-base font-semibold text-gray-900">
-                  Addresses
+                  {addressesTitle}
                 </h3>
                 <ul className="mt-4 space-y-4">
                   {addresses.map((address, index) => {
@@ -130,7 +131,7 @@ export default function Client(props) {
                         className="rounded-lg border border-gray-100 p-4"
                       >
                         <div className="text-sm font-semibold text-gray-900">
-                          {displayText(address.name || "Address")}
+                          {displayText(address.name || t("address"))}
                         </div>
                         <div className="mt-2 space-y-1 text-sm text-gray-600">
                           {hasValue(streetLine) && <p>{streetLine}</p>}
@@ -142,12 +143,13 @@ export default function Client(props) {
                             <p>{displayText(address.country)}</p>
                           )}
                           {hasValue(address.floor) && (
-                            <p>Floor: {displayText(address.floor)}</p>
+                            <p>
+                              {t("floor")}: {displayText(address.floor)}
+                            </p>
                           )}
                           {hasValue(address.shippingDistance) && (
                             <p>
-                              Shipping distance:{" "}
-                              {displayText(address.shippingDistance)}
+                              {shippingDistanceLabel}: {displayText(address.shippingDistance)}
                             </p>
                           )}
                         </div>
@@ -161,7 +163,7 @@ export default function Client(props) {
             {documents.length > 0 && (
               <section className="rounded-lg bg-white p-6 shadow-sm ring-1 ring-black/5">
                 <h3 className="text-base font-semibold text-gray-900">
-                  Documents
+                  {documentsTitle}
                 </h3>
                 <div className="mt-4 overflow-hidden rounded-lg ring-1 ring-black/5">
                   <div className="overflow-x-auto">
@@ -169,19 +171,19 @@ export default function Client(props) {
                       <thead className="bg-gray-50">
                         <tr>
                           <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-500 uppercase">
-                            Number
+                            {t("number")}
                           </th>
                           <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-500 uppercase">
-                            Type
+                            {t("type")}
                           </th>
                           <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-500 uppercase">
-                            Date
+                            {t("date")}
                           </th>
                           <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-500 uppercase">
-                            Delivery Date
+                            {t("delivery-date")}
                           </th>
                           <th className="px-4 py-3 text-left text-xs font-semibold tracking-wide text-gray-500 uppercase">
-                            Approved
+                            {t("approved")}
                           </th>
                         </tr>
                       </thead>
@@ -203,15 +205,15 @@ export default function Client(props) {
                             <td className="px-4 py-3">
                               {hasValue(document.deliveryDate)
                                 ? displayText(document.deliveryDate)
-                                : "N/A"}
+                                : notAvailableLabel}
                             </td>
                             <td className="px-4 py-3">
                               {document.approved === null ||
                               document.approved === undefined
-                                ? "N/A"
+                                ? notAvailableLabel
                                 : document.approved
-                                  ? "Yes"
-                                  : "No"}
+                                  ? yesLabel
+                                  : noLabel}
                             </td>
                           </tr>
                         ))}
@@ -224,7 +226,7 @@ export default function Client(props) {
           </div>
         ) : (
           <div className="rounded-lg bg-white p-6 text-sm text-gray-500 shadow-sm ring-1 ring-black/5">
-            No customer data available.
+            {t("no-customer-data")}
           </div>
         )}
       </div>

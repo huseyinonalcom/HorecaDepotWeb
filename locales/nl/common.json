@@ -491,5 +491,14 @@
   "Use crop": "Bijsnede gebruiken",
   "Use original": "Origineel gebruiken",
   "Zoom": "Zoom",
-  "Sort By": "Sorteren op"
+  "Sort By": "Sorteren op",
+  "yes": "Ja",
+  "not-available": "Niet beschikbaar",
+  "addresses": "Adressen",
+  "shipping-distance": "Leveringsafstand",
+  "documents": "Documenten",
+  "number": "Nummer",
+  "no-customer-data": "Geen klantgegevens beschikbaar.",
+  "type": "Type",
+  "no": "Nee"
 }
