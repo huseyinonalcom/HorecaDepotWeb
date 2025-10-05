@@ -499,5 +499,6 @@
   "number": "Number",
   "no-customer-data": "No customer data available.",
   "type": "Type",
-  "no": "No"
+  "no": "No",
+  "export-customers": "Export Customers"
 }

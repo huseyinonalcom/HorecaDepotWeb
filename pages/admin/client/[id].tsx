@@ -149,7 +149,8 @@ export default function Client(props) {
                           )}
                           {hasValue(address.shippingDistance) && (
                             <p>
-                              {shippingDistanceLabel}: {displayText(address.shippingDistance)}
+                              {shippingDistanceLabel}:{" "}
+                              {displayText(address.shippingDistance)}
                             </p>
                           )}
                         </div>

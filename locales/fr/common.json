@@ -500,5 +500,6 @@
   "number": "Numéro",
   "no-customer-data": "Aucune donnée client disponible.",
   "type": "Type",
-  "no": "Non"
+  "no": "Non",
+  "export-customers": "Exporter les clients"
 }

@@ -14,12 +14,14 @@ export const getCustomers = async ({
   search,
   authToken,
   populate,
+  count,
 }: {
   id?: number;
   page?: number;
   search?: string;
   authToken: string;
   populate?: string;
+  count?: number;
 }) => {
   let request;
   if (id) {
@@ -32,8 +34,7 @@ export const getCustomers = async ({
       },
     );
   } else {
-    const pageString =
-      "&pagination[pageSize]=30&pagination[page]=" + (page ?? 1);
+    const pageString = `&pagination[pageSize]=${count ?? 30}&pagination[page]=${page ?? 1}`;
     let searchString = "";
 
     if (search) {
@@ -46,9 +47,7 @@ export const getCustomers = async ({
         fetchParams +
         pageString +
         searchString +
-        populate
-        ? `${populate}`
-        : "",
+        (populate ? populate : ""),
       {
         headers: {
           "Content-Type": "application/json",
