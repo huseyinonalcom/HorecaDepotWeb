@@ -472,7 +472,7 @@ export default function ProductPage(props) {
           value={
             currentProduct?.shelves?.find(
               (shelf) => shelf.establishment.id == 3,
-            ).stock
+            )?.stock ?? 0
           }
           onChange={(e) => {
             setCurrentProduct((pp) => ({
@@ -497,7 +497,7 @@ export default function ProductPage(props) {
           value={
             currentProduct?.shelves?.find(
               (shelf) => shelf.establishment.id == 1,
-            ).stock
+            )?.stock ?? 0
           }
           onChange={(e) => {
             setCurrentProduct((pp) => ({
@@ -935,6 +935,8 @@ export default function ProductPage(props) {
                         description: "",
                         name: "",
                         supplier: pr.supplier,
+                        images: [],
+                        imageDirections: {},
                         product_extra: {
                           ...pr.product_extra,
                           id: undefined,
